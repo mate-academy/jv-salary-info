@@ -1,5 +1,13 @@
 package core.basesyntax;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Locale;
+
 public class SalaryInfo {
     /**
      * Реализуйте метод getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
@@ -36,6 +44,38 @@ public class SalaryInfo {
      * София - 900
      */
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        return null;
+        DateFormat format = new SimpleDateFormat("dd.MM.yyyy", Locale.ENGLISH);
+        Date beginOfPeriod = null;
+        Date endOfPeriod = null;
+        try {
+            beginOfPeriod = format.parse(dateFrom);
+            endOfPeriod = format.parse(dateTo);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        String stringResult = String.format("Отчёт за период %s - %s\n", dateFrom, dateTo);
+        for (String name: names) {
+            int personSalary = 0;
+            for (String daraRow: data) {
+                String[] arrayOfPersonReport = daraRow.split(" ");
+                Date dateToCheck = null;
+                try {
+                    dateToCheck = format.parse(arrayOfPersonReport[0]);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                if (name.equals(arrayOfPersonReport[1])
+                        && !beginOfPeriod.after(dateToCheck)
+                        && !endOfPeriod.before(dateToCheck)) {
+                    personSalary += Integer.valueOf(arrayOfPersonReport[2])
+                            * Integer.valueOf(arrayOfPersonReport[3]);
+                }
+            }
+            stringResult += String.format("%s - %d\n", name, personSalary);
+        }
+        if (beginOfPeriod.after(endOfPeriod)) {
+            return null;
+        }
+        return stringResult;
     }
 }
