@@ -49,6 +49,7 @@ public class SalaryInfo {
         for (int i = 0; i < names.length; i++) {
             int salary = 0;
             LocalDate currentDate = LocalDate.parse(dateFrom, dateFormat);
+
             while(currentDate.isBefore(finalDate.plusDays(1))) {
                 salary += calculateSalary(names[i], data, currentDate.format(dateFormat));
                 currentDate = currentDate.plusDays(1);
