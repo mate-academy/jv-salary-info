@@ -1,41 +1,40 @@
 package core.basesyntax;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class SalaryInfo {
-    /**
-     * Реализуйте метод getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
-     * вычисляющий зарплату сотрудников. На вход методу подаётся 2 массива и 2 даты,
-     * определяющие период за который надо вычислить зарплату, первый массив содержит имена
-     * сотрудников организации, второй массив информацию о рабочих часах и ставке. Формат данных
-     * второго массива следующий: дата, имя сотрудника, количество отработанных часов,
-     * ставка за 1 час. Метод должен вернуть отчёт за период, который передали в метод
-     * (обе даты включительно) составленный по следующей форме: Отчёт за период
-     * #дата_1# - #дата_2# Имя сотрудника - сумма заработанных средств за этот период
-     *
-     * Пример ввода: date from = 01.04.2019 date to = 30.04.2019
-     *
-     * names:
-     * Сергей
-     * Андрей
-     * София
-     *
-     * data:
-     * 26.04.2019 Сергей 60 50
-     * 26.04.2019 Андрей 3 200
-     * 26.04.2019 Сергей 7 100
-     * 26.04.2019 София 9 100
-     * 26.04.2019 Сергей 11 50
-     * 26.04.2019 Андрей 3 200
-     * 26.04.2019 Сергей 7 100
-     * 26.04.2019 София 9 100
-     * 26.04.2019 Сергей 11 50
-     *
-     * Пример вывода:
-     * Отчёт за период 01.04.2019  - 30.04.2019
-     * Сергей - 1550
-     * Андрей - 600
-     * София - 900
-     */
-    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        return null;
+
+    static String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
+        List<String[]> nameAndMoney = new ArrayList<>();
+        int dateF = Integer.parseInt(dateFrom.replace(".", ""));
+        int dateT = Integer.parseInt(dateTo.replace(".", ""));
+        if (dateT < dateF) {
+            return null;
+        }
+        for (int i = 0; i < data.length; i++) {
+            String[] splitData = data[i].split(" ");
+            if (dateF <= Integer.parseInt(splitData[0].replace(".", ""))
+                    && dateT >= Integer.parseInt(splitData[0].replace(".", ""))) {
+                splitData[0] = splitData[1];
+                splitData[1] = String.valueOf(Integer.parseInt(splitData[2]) * Integer.parseInt(splitData[3]));
+                splitData = Arrays.copyOf(splitData, splitData.length - 2);
+                nameAndMoney.add(splitData);
+            }
+        }
+        int[] salaries = new int[names.length];
+        for (int i = 0; i < names.length; i++) {
+            for (String[] s : nameAndMoney) {
+                if (names[i].equals(s[0])) {
+                    salaries[i] += Integer.parseInt(s[1]);
+                }
+            }
+        }
+        StringBuilder stringBuilder = new StringBuilder("Отчёт за период " + dateFrom + " - " + dateTo + '\n');
+        for (int i = 0; i < names.length; i++) {
+            stringBuilder.append(names[i] + " - " + salaries[i] + '\n');
+        }
+        return new String(stringBuilder);
     }
 }
