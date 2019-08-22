@@ -36,6 +36,39 @@ public class SalaryInfo {
      * София - 900
      */
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        return null;
+        if (dateTo.compareTo(dateFrom) < 0) {
+            return null;
+        }
+        int[] salaries = new int[names.length];
+        for (String datum : data) {
+            String[] arguments = datum.split(" ");
+            if (arguments.length > 1) {
+                if (arguments[0].compareTo(dateFrom) >= 0 && dateTo.compareTo(arguments[0]) >= 0) {
+                    int nameIndex = findName(names, arguments[1]);
+                    if (nameIndex > -1) {
+                        salaries[nameIndex] += Integer.parseInt(arguments[2])
+                                * Integer.parseInt(arguments[3]);
+                    }
+                }
+            }
+        }
+        StringBuilder sb = new StringBuilder("Отчёт за период ");
+        sb.append(dateFrom).append(" - ").append(dateTo).append("\n");
+        for (int i = 0; i < names.length; i++) {
+            sb.append(names[i]).append(" - ").append(salaries[i]).append("\n");
+        }
+        return sb.toString();
+    }
+
+    private static int findName(String[] arr, String key) {
+        if (arr.length == 0) {
+            return -1;
+        }
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i].equals(key)) {
+                return i;
+            }
+        }
+        return -1;
     }
 }
