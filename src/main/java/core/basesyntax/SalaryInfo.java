@@ -3,8 +3,6 @@ package core.basesyntax;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-import static java.time.LocalDate.parse;
-
 public class SalaryInfo {
     /**
      * Реализуйте метод getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
@@ -42,15 +40,15 @@ public class SalaryInfo {
      */
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        LocalDate finalDate = parse(dateTo, dateFormat);
-        if (finalDate.isBefore(parse(dateFrom, dateFormat))) {
+        LocalDate finalDate = LocalDate.parse(dateTo, dateFormat);
+        if (finalDate.isBefore(LocalDate.parse(dateFrom, dateFormat))) {
             return null;
         }
 
         String salaryInfo = "Отчёт за период " + dateFrom + " - " + dateTo + "\n";
         for (int i = 0; i < names.length; i++) {
             int salary = 0;
-            LocalDate currentDate = parse(dateFrom, dateFormat);
+            LocalDate currentDate = LocalDate.parse(dateFrom, dateFormat);
             while(currentDate.isBefore(finalDate.plusDays(1))) {
                 salary += calculateSalary(names[i], data, currentDate.format(dateFormat));
                 currentDate = currentDate.plusDays(1);
