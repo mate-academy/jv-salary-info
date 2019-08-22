@@ -1,5 +1,10 @@
 package core.basesyntax;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
+import static java.time.LocalDate.parse;
+
 public class SalaryInfo {
     /**
      * Реализуйте метод getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
@@ -36,6 +41,33 @@ public class SalaryInfo {
      * София - 900
      */
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        return null;
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        LocalDate finalDate = parse(dateTo, dateFormat);
+        if (finalDate.isBefore(parse(dateFrom, dateFormat))) {
+            return null;
+        }
+
+        String salaryInfo = "Отчёт за период " + dateFrom + " - " + dateTo + "\n";
+        for (int i = 0; i < names.length; i++) {
+            int salary = 0;
+            LocalDate currentDate = parse(dateFrom, dateFormat);
+            while(currentDate.isBefore(finalDate.plusDays(1))) {
+                salary += calculateSalary(names[i], data, currentDate.format(dateFormat));
+                currentDate = currentDate.plusDays(1);
+            }
+            salaryInfo += names[i] + " - " + salary + "\n";
+        }
+        return salaryInfo;
+    }
+
+    private int calculateSalary(String name, String[] data, String currentDate) {
+        int salary = 0;
+        for (String i: data) {
+            String[] tmp = i.split(" ");
+            if (tmp[0].equals(currentDate) && tmp[1].equals(name)) {
+                salary += Integer.parseInt(tmp[2]) * Integer.parseInt(tmp[3]);
+            }
+        }
+        return salary;
     }
 }
