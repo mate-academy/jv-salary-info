@@ -37,38 +37,34 @@ public class SalaryInfo {
      */
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder allSalary = new StringBuilder();
+        int minData = Integer.parseInt(dateFrom.replaceAll("[^0-9]", ""));
+        int maxData = Integer.parseInt(dateTo.replaceAll("[^0-9]", ""));
         int salary1 = 0;
         int salary2 = 0;
         int salary3 = 0;
-        int minData = Integer.parseInt(dateFrom.replaceAll("[^0-9]", ""));
-        int maxData = Integer.parseInt(dateTo.replaceAll("[^0-9]", ""));
 
         if (minData > maxData) {
             return null;
         }
 
-        for (String s: data) {
+        for (String s : data) {
             String[] buffer = s.split(" ");
-            if (Integer.parseInt(buffer[0].replaceAll("[^0-9]","")) >= minData
-                    && Integer.parseInt(buffer[0].replaceAll("[^0-9]","")) <= maxData) {
-
-                if (buffer[1].equals(names[0])) {
-                    salary1 += (Integer.parseInt(buffer[buffer.length - 2]))
-                            * (Integer.parseInt(buffer[buffer.length - 1]));
-                }
-                if (buffer[1].equals(names[1])) {
-                    salary2 += (Integer.parseInt(buffer[buffer.length - 2]))
-                            * (Integer.parseInt(buffer[buffer.length - 1]));
-                }
-                if (buffer[1].equals(names[2])) {
-                    salary3 += (Integer.parseInt(buffer[buffer.length - 2]))
-                            * (Integer.parseInt(buffer[buffer.length - 1]));
-                }
+            if (Integer.parseInt(buffer[0].replaceAll("[^0-9]", "")) >= minData
+                    && Integer.parseInt(buffer[0].replaceAll("[^0-9]", "")) <= maxData) {
+                salary1 += buffer[1].equals(names[0])
+                        ? (Integer.parseInt(buffer[buffer.length - 2]))
+                        * (Integer.parseInt(buffer[buffer.length - 1])) : 0;
+                salary2 += buffer[1].equals(names[1])
+                        ? (Integer.parseInt(buffer[buffer.length - 2])
+                        * Integer.parseInt(buffer[buffer.length - 1])) : 0;
+                salary3 += buffer[1].equals(names[2])
+                        ? (Integer.parseInt(buffer[buffer.length - 2])
+                        * Integer.parseInt(buffer[buffer.length - 1])) : 0;
             }
         }
 
         return allSalary.append("Отчёт за период " + dateFrom + " - " + dateTo + "\n")
-                .append("Сергей - " + salary1 + "\n").append("Андрей - " + salary2 + "\n")
-                .append("София - " + salary3 + "\n").toString();
+                .append(names[0] + " - " + salary1 + "\n").append(names[1] + " - " + salary2 + "\n")
+                .append(names[2] + " - " + salary3 + "\n").toString();
     }
 }
