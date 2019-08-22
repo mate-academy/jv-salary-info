@@ -36,6 +36,29 @@ public class SalaryInfo {
      * София - 900
      */
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        return null;
+        String inform = "";
+        String[] string;
+
+        if (Integer.parseInt(dateFrom.replaceAll("[^0-9]",""))
+                > Integer.parseInt(dateTo.replaceAll("[^0-9]",""))) {
+            return null;
+        }
+
+        for (int x = 0; x < names.length; x++) {
+            int salary = 0;
+            for (int i = 0; i < data.length; i++) {
+                string = data[i].split(" ");
+                if (Integer.parseInt(string[0].replaceAll("[^0-9]",""))
+                        > Integer.parseInt(dateTo.replaceAll("[^0-9]",""))) {
+                    break;
+                }
+                if (names[x].equals(string[1])) {
+                    salary += Integer.parseInt(string[2]) * Integer.parseInt(string[3]);
+                }
+            }
+            inform += names[x] + " - " + salary + "\n";
+        }
+
+        return  "Отчёт за период " + dateFrom + " - " + dateTo + "\n" + inform;
     }
 }
