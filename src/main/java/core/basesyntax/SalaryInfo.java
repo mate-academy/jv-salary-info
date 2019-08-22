@@ -1,7 +1,7 @@
 package core.basesyntax;
 
-import java.text.ParseException;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -38,7 +38,8 @@ public class SalaryInfo {
      * София - 900
      */
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        StringBuilder report = new StringBuilder("Отчёт за период " + dateFrom + " - " + dateTo + "\n");
+        StringBuilder report = new StringBuilder();
+        report.append("Отчёт за период " + dateFrom + " - " + dateTo + "\n");
         DateFormat date = new SimpleDateFormat("dd.MM.yyyy", Locale.ENGLISH);
         try {
             Date start = date.parse(dateFrom);
