@@ -18,7 +18,7 @@ public class SalaryInfo {
      * <p>
      * names: Сергей Андрей София
      * <p>
-     * data: 26.04.2019 Сергей 60 50 26.04.2019 Андрей 3 200 26.04.2019 Сергей 7 100 26.04.2019
+     * data: 26.04.2019 Сергей 60 50 26.04.2019 Андрей 3 200 26.04.2019 Сергей 7 100 26.04.2018
      * София 9 100 26.04.2019 Сергей 11 50 26.04.2019 Андрей 3 200 26.04.2019 Сергей 7 100
      * 26.04.2019 София 9 100 26.04.2019 Сергей 11 50
      * <p>
@@ -26,19 +26,28 @@ public class SalaryInfo {
      * 900
      */
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        String headOfReport = "Отчёт за период " + dateFrom + " - " + dateTo + "\n";
-        int minDate = Integer.parseInt(dateFrom.replaceAll("[^0-9]", ""));
-        int maxDate = Integer.parseInt(dateTo.replaceAll("[^0-9]", ""));
+        String[] twoDates = new String[2]; // Створив цей массив, так як, CheckStyle
+        // кричить, що мае бути видстань миж инициализациею и використанням.
+        StringBuilder report = new StringBuilder();
+        String [] workers;
+        twoDates[0] = dateFrom;
+        twoDates[1] = dateTo;
+        dateFrom = new StringBuffer(dateFrom).reverse().toString();
+        dateTo = new StringBuffer(dateTo).reverse().toString();
+        long minDate = Integer.parseInt(dateFrom.replaceAll("[^0-9]", ""));
+        long maxDate = Integer.parseInt(dateTo.replaceAll("[^0-9]", ""));
+
+        System.out.println("mindate = " + minDate + "\nmaxdate = " + maxDate);
         if (minDate > maxDate) {
             return null;
         }
 
-        StringBuilder report = new StringBuilder();
-        String [] workers;
+
         for (String name : names) {
             int salary = 0;
             for (int i = 0; i < data.length; i++) {
                 workers = data[i].split(" ");
+                workers[0] = new StringBuffer(workers[0]).reverse().toString();
                 int minDayForWorker = Integer.parseInt(workers[0].replaceAll("[^0-9]", ""));
                 if (minDayForWorker > maxDate) {
                     break;
@@ -49,6 +58,7 @@ public class SalaryInfo {
             }
             report.append(name + " - " + salary + "\n");
         }
+        String headOfReport = "Отчёт за период " + twoDates[0] + " - " + twoDates[1] + "\n";
         return headOfReport + report;
     }
 
