@@ -46,15 +46,15 @@ public class SalaryInfo {
         }
 
         String salaryInfo = "Отчёт за период " + dateFrom + " - " + dateTo + "\n";
-        for (int i = 0; i < names.length; i++) {
+        for (String i : names) {
             int salary = 0;
             LocalDate currentDate = LocalDate.parse(dateFrom, dateFormat);
 
-            while(currentDate.isBefore(finalDate.plusDays(1))) {
-                salary += calculateSalary(names[i], data, currentDate.format(dateFormat));
+            while (currentDate.isBefore(finalDate.plusDays(1))) {
+                salary += calculateSalary(i, data, currentDate.format(dateFormat));
                 currentDate = currentDate.plusDays(1);
             }
-            salaryInfo += names[i] + " - " + salary + "\n";
+            salaryInfo += i + " - " + salary + "\n";
         }
         return salaryInfo;
     }
