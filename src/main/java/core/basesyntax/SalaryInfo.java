@@ -6,10 +6,10 @@ import java.time.format.DateTimeFormatter;
 public class SalaryInfo {
 
 
-    private static final int NAME_POSITION = 0;
-    private static final int REPORTING_DATE_POSITION = 1;
-    private static final int HOURLY_RATE_POSITION = 2;
-    private static final int WORKED_HOURS_POSITION = 3;
+    private static final int REPORTING_DATE_POSITION = 0;
+    private static final int NAME_POSITION = 1;
+    private static final int WORKED_HOURS_POSITION = 2;
+    private static final int HOURLY_RATE_POSITION = 3;
 
     /**
      * Реализуйте метод getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
@@ -48,9 +48,9 @@ public class SalaryInfo {
             int amount = 0;
             for (String s : data) {
                 String[] parsedData = s.split(" ");
-                if (name.equals(parsedData[REPORTING_DATE_POSITION])) {
+                if (name.equals(parsedData[NAME_POSITION])) {
                     LocalDate reportingDate = LocalDate
-                            .parse(parsedData[NAME_POSITION], formatter);
+                            .parse(parsedData[REPORTING_DATE_POSITION], formatter);
                     if (reportingDate.isAfter(from.minusDays(1)) && reportingDate
                             .isBefore(to.plusDays(1))) {
                         int hours = Integer.parseInt(parsedData[HOURLY_RATE_POSITION]);
