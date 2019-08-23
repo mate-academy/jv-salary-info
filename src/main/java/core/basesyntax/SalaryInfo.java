@@ -40,9 +40,9 @@ public class SalaryInfo {
      * София - 900
      */
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        FormatStyle fs = FormatStyle.SHORT;
-        LocalDate dayFrom = LocalDate.parse(dateFrom, DateTimeFormatter.ofLocalizedDate(fs));
-        LocalDate dayTo = LocalDate.parse(dateTo, DateTimeFormatter.ofLocalizedDate(fs));
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        LocalDate dayFrom = LocalDate.parse(dateFrom, formatter);
+        LocalDate dayTo = LocalDate.parse(dateTo, formatter);
         if (dayTo.compareTo(dayFrom) < 0) {
             return null;
         }
