@@ -1,5 +1,7 @@
 package core.basesyntax;
 
+import java.time.LocalDate;
+
 public class SalaryInfo {
     /**
      * Реализуйте метод getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
@@ -42,15 +44,16 @@ public class SalaryInfo {
         int[] numDateFrom = new int[strDateFrom.length];
         int[] numDateTo = new int[strDateTo.length];
         int[] numDateCheck = new int[strDateTo.length];
+
         for (int i = 0; i < strDateFrom.length; i++) {
             numDateFrom[i] = Integer.parseInt(strDateFrom[i]);
             numDateTo[i] = Integer.parseInt(strDateTo[i]);
         }
-        if (numDateFrom[2] > numDateTo[2] || numDateFrom[1] > numDateTo[1]
-                && numDateFrom[2] == numDateTo[2] || numDateFrom[0] > numDateTo[0]
-                && numDateFrom[1] == numDateTo[1] && numDateFrom[2] == numDateTo[2]) {
+        if (LocalDate.of(numDateFrom[2], numDateFrom[1], numDateFrom[0])
+                .isAfter(LocalDate.of(numDateTo[2], numDateTo[1], numDateTo[0]))) {
             return null;
         }
+
         String[][] dataName = new String[data.length][];
         int[] salary = new int[names.length];
         for (int i = 0; i < data.length; i++) {
@@ -61,16 +64,19 @@ public class SalaryInfo {
             for (int j = 0; j < strDateFrom.length; j++) {
                 numDateCheck[j] = Integer.parseInt(strDateCheck[j]);
             }
-            if (numDateCheck[0] >= numDateFrom[0] && numDateCheck[0] <= numDateTo[0]
-                    && numDateCheck[1] >= numDateFrom[1] && numDateCheck[1] <= numDateTo[1]
-                    && numDateCheck[2] >= numDateFrom[2] && numDateCheck[2] <= numDateTo[2]) {
-                for (int j = 0; j < names.length; j++) {
-                    if (names[j].equals(dataName[i][1])) {
-                        salary[j] += Integer.parseInt(dataName[i][2])
-                                * Integer.parseInt(dataName[i][3]);
-                    }
+            if (LocalDate.of(numDateCheck[2], numDateCheck[1], numDateCheck[0])
+                    .isBefore(LocalDate.of(numDateFrom[2], numDateFrom[1], numDateFrom[0]))
+                    || LocalDate.of(numDateTo[2], numDateTo[1], numDateTo[0])
+                    .isBefore(LocalDate.of(numDateCheck[2], numDateCheck[1], numDateCheck[0]))) {
+                break;
+            }
+            for (int j = 0; j < names.length; j++) {
+                if (names[j].equals(dataName[i][1])) {
+                    salary[j] += Integer.parseInt(dataName[i][2])
+                            * Integer.parseInt(dataName[i][3]);
                 }
             }
+
         }
         String result = "Отчёт за период " + dateFrom + " - " + dateTo + "\n";
         for (int i = 0; i < names.length; i++) {
