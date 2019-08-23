@@ -7,10 +7,11 @@ import java.util.Date;
 import java.util.Locale;
 
 public class SalaryInfo {
-    final int DATE_POSITION = 0;
-    final int NAME_POSITION = 1;
-    final int WORKED_HOURS_POS = 2;
-    final int SALARY_PER_HOUR = 3;
+    static final int DATE_POSITION = 0;
+    static final int NAME_POSITION = 1;
+    static final int WORKED_HOURS_POS = 2;
+    static final int SALARY_PER_HOUR = 3;
+
     /**
      * Реализуйте метод getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
      * вычисляющий зарплату сотрудников. На вход методу подаётся 2 массива и 2 даты,
@@ -20,14 +21,14 @@ public class SalaryInfo {
      * ставка за 1 час. Метод должен вернуть отчёт за период, который передали в метод
      * (обе даты включительно) составленный по следующей форме: Отчёт за период
      * #дата_1# - #дата_2# Имя сотрудника - сумма заработанных средств за этот период
-     *
+     * <p>
      * Пример ввода: date from = 01.04.2019 date to = 30.04.2019
-     *
+     * <p>
      * names:
      * Сергей
      * Андрей
      * София
-     *
+     * <p>
      * data:
      * 26.04.2019 Сергей 60 50
      * 26.04.2019 Андрей 3 200
@@ -38,13 +39,14 @@ public class SalaryInfo {
      * 26.04.2019 Сергей 7 100
      * 26.04.2019 София 9 100
      * 26.04.2019 Сергей 11 50
-     *
+     * <p>
      * Пример вывода:
      * Отчёт за период 01.04.2019  - 30.04.2019
      * Сергей - 1550
      * Андрей - 600
      * София - 900
      */
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         DateFormat format = new SimpleDateFormat("dd.MM.yyyy", Locale.ENGLISH);
         Date beginOfPeriod = null;
@@ -56,9 +58,9 @@ public class SalaryInfo {
             e.printStackTrace();
         }
         String stringResult = String.format("Отчёт за период %s - %s\n", dateFrom, dateTo);
-        for (String name: names) {
+        for (String name : names) {
             int personSalary = 0;
-            for (String daraRow: data) {
+            for (String daraRow : data) {
                 String[] arrayOfPersonReport = daraRow.split(" ");
                 Date dateToCheck = null;
                 try {
