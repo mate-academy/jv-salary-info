@@ -42,9 +42,9 @@ public class SalaryInfo {
      * София - 900
      */
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        Hashtable<String, Integer> listOfEmployees = new Hashtable<>();
+        Hashtable<String, Integer> employees = new Hashtable<>();
         for (String value : names) {
-            listOfEmployees.put(value, 0);
+            employees.put(value, 0);
         }
 
         try {
@@ -61,7 +61,7 @@ public class SalaryInfo {
                 int salary = Integer.parseInt(dateNameIntInt.split(" ")[3]);
                 if (currentDate.after(beginsFrom) && (currentDate.before(endsOn)
                         || currentDate.equals(endsOn))) {
-                    listOfEmployees.put(name, listOfEmployees.get(name) + bet * salary);
+                    employees.put(name, employees.get(name) + bet * salary);
                 }
             }
         } catch (ParseException e) {
@@ -71,7 +71,7 @@ public class SalaryInfo {
         StringBuilder result =
                 new StringBuilder("Отчёт за период " + dateFrom + " - " + dateTo + '\n');
         for (String value : names) {
-            result.append(value + " - " + listOfEmployees.get(value) + '\n');
+            result.append(value + " - " + employees.get(value) + '\n');
         }
         return result.toString();
     }
