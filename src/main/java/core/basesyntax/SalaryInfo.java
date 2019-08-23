@@ -39,12 +39,14 @@ public class SalaryInfo {
         String header = "Отчёт за период " + dateFrom + " - " + dateTo + "\n";
         String list = "";
         String[] stringData;
+        String builderDateTo = new StringBuilder(dateTo).reverse().toString();
         for (String n : names) {
             int salary = 0;
             for (int i = 0; i < data.length; i++) {
                 stringData = data[i].split(" ");
-                if (Integer.valueOf(stringData[0].replaceAll("[^0-9]",""))
-                        > Integer.valueOf(dateTo.replaceAll("[^0-9]",""))) {
+                String builderDate = new StringBuilder(stringData[0]).reverse().toString();
+                if (Integer.valueOf(builderDate.replaceAll("[^0-9]",""))
+                        > Integer.valueOf(builderDateTo.replaceAll("[^0-9]",""))) {
                     break;
                 }
                 if (n.equals(stringData[1])) {
