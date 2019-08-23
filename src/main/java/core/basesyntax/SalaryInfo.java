@@ -4,11 +4,13 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Locale;
 
 public class SalaryInfo {
+    final int DATE_POSITION = 0;
+    final int NAME_POSITION = 1;
+    final int WORKED_HOURS_POS = 2;
+    final int SALARY_PER_HOUR = 3;
     /**
      * Реализуйте метод getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
      * вычисляющий зарплату сотрудников. На вход методу подаётся 2 массива и 2 даты,
@@ -60,15 +62,15 @@ public class SalaryInfo {
                 String[] arrayOfPersonReport = daraRow.split(" ");
                 Date dateToCheck = null;
                 try {
-                    dateToCheck = format.parse(arrayOfPersonReport[0]);
+                    dateToCheck = format.parse(arrayOfPersonReport[DATE_POSITION]);
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                if (name.equals(arrayOfPersonReport[1])
+                if (name.equals(arrayOfPersonReport[NAME_POSITION])
                         && !beginOfPeriod.after(dateToCheck)
                         && !endOfPeriod.before(dateToCheck)) {
-                    personSalary += Integer.valueOf(arrayOfPersonReport[2])
-                            * Integer.valueOf(arrayOfPersonReport[3]);
+                    personSalary += Integer.valueOf(arrayOfPersonReport[WORKED_HOURS_POS])
+                            * Integer.valueOf(arrayOfPersonReport[SALARY_PER_HOUR]);
                 }
             }
             stringResult += String.format("%s - %d\n", name, personSalary);
