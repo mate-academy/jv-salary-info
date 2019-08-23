@@ -1,13 +1,16 @@
 package core.basesyntax;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class SalaryInfo {
 
-    protected String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        int dateF = Integer.parseInt(dateFrom.replace(".", ""));
-        int dateT = Integer.parseInt(dateTo.replace(".", ""));
+    protected static String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
+        LocalDate dateF = LocalDate.parse(dateFrom, DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+        LocalDate dateT = LocalDate.parse(dateTo, DateTimeFormatter.ofPattern("dd.MM.yyyy"));
         StringBuilder stringBuilder =
                 new StringBuilder("Отчёт за период " + dateFrom + " - " + dateTo + '\n');
-        if (dateT < dateF) {
+        if (dateF.isAfter(dateT)) {
             return null;
         }
         for (String s : names) {
@@ -15,9 +18,8 @@ public class SalaryInfo {
             int salary;
             int salaryCounter = 0;
             for (String string : data) {
-                String day = string.split(" ")[0];
-                if (dateF <= Integer.parseInt(day.replace(".", ""))
-                        && dateT >= Integer.parseInt(day.replace(".", ""))) {
+                LocalDate day = LocalDate.parse(string.split(" ")[0], DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+                if (day.isBefore(dateT) || day.isEqual(dateT) && day.isAfter(dateF) || day.isEqual(dateF)) {
                     name = string.split(" ")[1];
                     salary = Integer.parseInt(string.split(" ")[2])
                             * Integer.parseInt(string.split(" ")[3]);
