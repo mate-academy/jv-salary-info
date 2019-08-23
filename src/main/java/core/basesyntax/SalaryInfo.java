@@ -28,8 +28,9 @@ public class SalaryInfo {
      */
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder result = new StringBuilder();
-        LocalDate from = LocalDate.parse(dateFrom, DateTimeFormatter.ofPattern("dd.MM.yyyy"));
-        LocalDate to = LocalDate.parse(dateTo, DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        LocalDate from = LocalDate.parse(dateFrom, formatter);
+        LocalDate to = LocalDate.parse(dateTo, formatter);
         LocalDate reportingDate;
         int amount;
         int rate;
@@ -48,7 +49,7 @@ public class SalaryInfo {
                 parsedData = s.split(" ");
                 if (name.equals(parsedData[1])) {
                     reportingDate = LocalDate
-                        .parse(parsedData[0], DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+                        .parse(parsedData[0], formatter);
                     if (reportingDate.isAfter(from.minusDays(1)) && reportingDate
                             .isBefore(to.plusDays(1))) {
                         hours = Integer.parseInt(parsedData[2]);
