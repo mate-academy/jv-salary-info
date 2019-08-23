@@ -38,8 +38,7 @@ public class SalaryInfo {
      * София - 900
      */
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        if (Integer.parseInt(dateTo.substring(0, 2))
-                < Integer.parseInt(dateFrom.substring(0, 2))) {
+        if (isLess(dateTo, dateFrom)) {
             return null;
         }
         String infoString = "";
@@ -48,8 +47,7 @@ public class SalaryInfo {
             int currentWorkerSalary = 0;
             for (String nextData : data) {
                 String[] parsedData = nextData.split(" ");
-                if (Integer.parseInt(dateTo.substring(0, 2))
-                        < Integer.parseInt(parsedData[0].substring(0, 2))) {
+                if (isLess(dateTo, parsedData[0])) {
                     break;
                 }
                 if (names[i].equals(parsedData[1])) {
@@ -64,5 +62,24 @@ public class SalaryInfo {
             }
         }
         return infoString;
+    }
+
+    /*returns true if date1 < date2
+    dates are strings like DD.MM.YYYY
+    where DD, MM, YYYY are integers
+     */
+    private boolean isLess(String date1, String date2) {
+        String[] splitDate1 = date1.split("\\.");
+        String[] splitDate2 = date2.split("\\.");
+        if (Integer.parseInt(splitDate1[2]) < Integer.parseInt(splitDate2[2])) {
+            return true;
+        }
+        if (Integer.parseInt(splitDate1[1]) < Integer.parseInt(splitDate2[1])) {
+            return true;
+        }
+        if (Integer.parseInt(splitDate1[0]) < Integer.parseInt(splitDate2[0])) {
+            return true;
+        }
+        return false;
     }
 }
