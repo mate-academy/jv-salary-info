@@ -1,5 +1,11 @@
 package core.basesyntax;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Hashtable;
+
 public class SalaryInfo {
     /**
      * Реализуйте метод getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
@@ -9,14 +15,14 @@ public class SalaryInfo {
      * второго массива следующий: дата, имя сотрудника, количество отработанных часов,
      * ставка за 1 час. Метод должен вернуть отчёт за период, который передали в метод
      * (обе даты включительно) составленный по следующей форме: Отчёт за период
-     * #дата_1# - #дата_2# Имя сотрудника - сумма заработанных средств за этот период
+     * #дата_1# - #дата_2# Имя сотрудника - сумма заработанных средств за этот период<p>
      *
-     * Пример ввода: date from = 01.04.2019 date to = 30.04.2019
+     * Пример ввода: date from = 01.04.2019 date to = 30.04.2019<p>
      *
      * names:
      * Сергей
      * Андрей
-     * София
+     * София<p>
      *
      * data:
      * 26.04.2019 Сергей 60 50
@@ -27,7 +33,7 @@ public class SalaryInfo {
      * 26.04.2019 Андрей 3 200
      * 26.04.2019 Сергей 7 100
      * 26.04.2019 София 9 100
-     * 26.04.2019 Сергей 11 50
+     * 26.04.2019 Сергей 11 50<p>
      *
      * Пример вывода:
      * Отчёт за период 01.04.2019  - 30.04.2019
@@ -36,6 +42,37 @@ public class SalaryInfo {
      * София - 900
      */
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        return null;
+        Hashtable<String, Integer> listOfEmployees = new Hashtable<>();
+        for (String value : names) {
+            listOfEmployees.put(value, 0);
+        }
+
+        try {
+            DateFormat formatOfDate = new SimpleDateFormat("dd.mm.yyyy");
+            Date beginsFrom = formatOfDate.parse(dateFrom);
+            Date endsOn = formatOfDate.parse(dateTo);
+            if (beginsFrom.after(endsOn)) {
+                return null;
+            }
+            for (String dateNameIntInt : data) {
+                Date currentDate = formatOfDate.parse(dateNameIntInt.split(" ")[0]);
+                String name = dateNameIntInt.split(" ")[1];
+                int bet = Integer.parseInt(dateNameIntInt.split(" ")[2]);
+                int salary = Integer.parseInt(dateNameIntInt.split(" ")[3]);
+                if (currentDate.after(beginsFrom) && (currentDate.before(endsOn)
+                        || currentDate.equals(endsOn))) {
+                    listOfEmployees.put(name, listOfEmployees.get(name) + bet * salary);
+                }
+            }
+        } catch (ParseException e) {
+            System.out.print(e.getMessage());
+        }
+
+        StringBuilder result =
+                new StringBuilder("Отчёт за период " + dateFrom + " - " + dateTo + '\n');
+        for (String value : names) {
+            result.append(value + " - " + listOfEmployees.get(value) + '\n');
+        }
+        return result.toString();
     }
 }
