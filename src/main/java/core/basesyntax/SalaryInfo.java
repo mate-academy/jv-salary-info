@@ -1,5 +1,11 @@
 package core.basesyntax;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 public class SalaryInfo {
     /**
      * Реализуйте метод getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
@@ -37,34 +43,40 @@ public class SalaryInfo {
      */
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder allSalary = new StringBuilder();
-        int minData = Integer.parseInt(dateFrom.replaceAll("[^0-9]", ""));
-        int maxData = Integer.parseInt(dateTo.replaceAll("[^0-9]", ""));
+        allSalary.append("Отчёт за период " + dateFrom + " - " + dateTo + "\n");
+        DateFormat format = new SimpleDateFormat("dd.MM.yyyy", Locale.ENGLISH);
         int salary1 = 0;
         int salary2 = 0;
         int salary3 = 0;
 
-        if (minData > maxData) {
-            return null;
-        }
-
-        for (String s : data) {
-            String[] buffer = s.split(" ");
-            if (Integer.parseInt(buffer[0].replaceAll("[^0-9]", "")) >= minData
-                    && Integer.parseInt(buffer[0].replaceAll("[^0-9]", "")) <= maxData) {
-                salary1 += buffer[1].equals(names[0])
-                        ? (Integer.parseInt(buffer[buffer.length - 2]))
-                        * (Integer.parseInt(buffer[buffer.length - 1])) : 0;
-                salary2 += buffer[1].equals(names[1])
-                        ? (Integer.parseInt(buffer[buffer.length - 2])
-                        * Integer.parseInt(buffer[buffer.length - 1])) : 0;
-                salary3 += buffer[1].equals(names[2])
-                        ? (Integer.parseInt(buffer[buffer.length - 2])
-                        * Integer.parseInt(buffer[buffer.length - 1])) : 0;
+        try {
+            Date minDate = format.parse(dateFrom);
+            Date maxDate = format.parse(dateTo);
+            if (minDate.compareTo(maxDate) > 0) {
+                return null;
             }
+
+            for (String s : data) {
+                String[] workInfo = s.split(" ");
+                Date workDate = format.parse(workInfo[0]);
+                if (workDate.compareTo(minDate) >= 0 && workDate.compareTo(maxDate) <= 0) {
+                    salary1 += workInfo[1].equals(names[0])
+                            ? (Integer.parseInt(workInfo[workInfo.length - 2]))
+                            * (Integer.parseInt(workInfo[workInfo.length - 1])) : 0;
+                    salary2 += workInfo[1].equals(names[1])
+                            ? (Integer.parseInt(workInfo[workInfo.length - 2])
+                            * Integer.parseInt(workInfo[workInfo.length - 1])) : 0;
+                    salary3 += workInfo[1].equals(names[2])
+                            ? (Integer.parseInt(workInfo[workInfo.length - 2])
+                            * Integer.parseInt(workInfo[workInfo.length - 1])) : 0;
+                }
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
 
-        return allSalary.append("Отчёт за период " + dateFrom + " - " + dateTo + "\n")
-                .append(names[0] + " - " + salary1 + "\n").append(names[1] + " - " + salary2 + "\n")
-                .append(names[2] + " - " + salary3 + "\n").toString();
+        return allSalary.append(names[0] + " - " + salary1 + "\n")
+                        .append(names[1] + " - " + salary2 + "\n")
+                        .append(names[2] + " - " + salary3 + "\n").toString();
     }
 }
