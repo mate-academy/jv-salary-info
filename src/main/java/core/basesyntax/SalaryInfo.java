@@ -68,29 +68,3 @@ public class SalaryInfo {
     }
 
 }
-
-//        long minDate = Integer.parseInt(dateFrom.replaceAll("[^0-9]", ""));
-//        long maxDate = Integer.parseInt(dateTo.replaceAll("[^0-9]", ""));
-//
-//        System.out.println("mindate = " + minDate + "\nmaxdate = " + maxDate);
-//        if (minDate > maxDate) {
-//            return null;
-//        }
-//
-//
-//        for (String name : names) {
-//            int salary = 0;
-//            for (int i = 0; i < data.length; i++) {
-//                workers = data[i].split(" ");
-//                workers[0] = new StringBuffer(workers[0]).reverse().toString();
-//                int minDayForWorker = Integer.parseInt(workers[0].replaceAll("[^0-9]", ""));
-//                if (minDayForWorker > maxDate) {
-//                    break;
-//                }
-//                if (name.equals(workers[1])) {
-//                    salary += Integer.parseInt(workers[2]) * Integer.parseInt(workers[3]);
-//                }
-//            }
-//            report.append(name + " - " + salary + "\n");
-//        }
-
