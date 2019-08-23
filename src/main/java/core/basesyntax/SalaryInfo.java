@@ -5,6 +5,12 @@ import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
 
+
+    private static final int NAME_POSITION = 0;
+    private static final int REPORTING_DATE_POSITION = 1;
+    private static final int HOURLY_RATE_POSITION = 2;
+    private static final int WORKED_HOURS_POSITION = 3;
+
     /**
      * Реализуйте метод getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
      * вычисляющий зарплату сотрудников. На вход методу подаётся 2 массива и 2 даты, определяющие
@@ -31,11 +37,6 @@ public class SalaryInfo {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         LocalDate from = LocalDate.parse(dateFrom, formatter);
         LocalDate to = LocalDate.parse(dateTo, formatter);
-        LocalDate reportingDate;
-        int amount;
-        int rate;
-        int hours;
-        String[] parsedData;
 
         if (to.isBefore(from)) {
             return null;
@@ -44,16 +45,16 @@ public class SalaryInfo {
             .append("\n");
 
         for (String name : names) {
-            amount = 0;
+            int amount = 0;
             for (String s : data) {
-                parsedData = s.split(" ");
-                if (name.equals(parsedData[1])) {
-                    reportingDate = LocalDate
-                        .parse(parsedData[0], formatter);
+                String[] parsedData = s.split(" ");
+                if (name.equals(parsedData[REPORTING_DATE_POSITION])) {
+                    LocalDate reportingDate = LocalDate
+                            .parse(parsedData[NAME_POSITION], formatter);
                     if (reportingDate.isAfter(from.minusDays(1)) && reportingDate
                             .isBefore(to.plusDays(1))) {
-                        hours = Integer.parseInt(parsedData[2]);
-                        rate = Integer.parseInt(parsedData[3]);
+                        int hours = Integer.parseInt(parsedData[HOURLY_RATE_POSITION]);
+                        int rate = Integer.parseInt(parsedData[WORKED_HOURS_POSITION]);
                         amount += rate * hours;
                     }
                 }
