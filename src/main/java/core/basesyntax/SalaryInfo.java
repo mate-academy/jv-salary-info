@@ -46,8 +46,9 @@ public class SalaryInfo {
             numDateFrom[i] = Integer.parseInt(strDateFrom[i]);
             numDateTo[i] = Integer.parseInt(strDateTo[i]);
         }
-        if (numDateFrom[0] > numDateTo[0] || numDateFrom[1] > numDateTo[1]
-                || numDateFrom[2] > numDateTo[2]) {
+        if (numDateFrom[2] > numDateTo[2] || numDateFrom[1] > numDateTo[1]
+                && numDateFrom[2] == numDateTo[2] || numDateFrom[0] > numDateTo[0]
+                && numDateFrom[1] == numDateTo[1] && numDateFrom[2] == numDateTo[2]) {
             return null;
         }
         String[][] dataName = new String[data.length][];
