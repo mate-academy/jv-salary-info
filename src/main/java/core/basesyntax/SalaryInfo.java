@@ -1,6 +1,9 @@
 package core.basesyntax;
 
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class SalaryInfo {
     /**
      * Реализуйте метод getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
@@ -35,26 +38,26 @@ public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder stringBuilder = new StringBuilder("Отчёт за период " + dateFrom
                 + " - " + dateTo + "\n");
-        String[] parsedDateFrom = dateFrom.split("\\D");
-        String[] parsedDateTo = dateTo.split("\\D");
-
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        LocalDate localDateFrom = LocalDate.parse(dateFrom, formatter);
+        LocalDate localDateTo = LocalDate.parse(dateTo, formatter);
         for (String name : names) {
             int salary = 0;
             for (int i = 0; i < data.length; i++) {
                 String[] parsedData = data[i].split("\\s");
-                String[] parsedDate = parsedData[0].split("\\D");
-                if (Integer.parseInt(parsedDateFrom[0]) >= Integer.parseInt(parsedDate[0])) {
+                LocalDate localDate = LocalDate.parse(parsedData[0].strip(), formatter);
+                if (localDateFrom.isAfter(localDateTo)) {
                     return null;
                 }
-                if (Integer.parseInt(parsedDateFrom[0]) <= Integer.parseInt(parsedDate[0])
-                        && Integer.parseInt(parsedDate[0]) <= Integer.parseInt(parsedDateTo[0])
+                if (localDateFrom.isBefore(localDateTo)
+                        && (localDate.isAfter(localDateFrom) || localDate.isEqual(localDateFrom))
+                        && (localDate.isBefore(localDateTo) || localDate.isEqual(localDateTo))
                         && name.equals(parsedData[1])) {
                     salary += (Integer.parseInt(parsedData[2]) * Integer.parseInt(parsedData[3]));
                 }
             }
             stringBuilder.append(name + " - " + salary + "\n");
         }
-
         return stringBuilder.toString();
     }
 }
