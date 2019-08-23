@@ -1,6 +1,7 @@
 package core.basesyntax;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     /**
@@ -37,40 +38,39 @@ public class SalaryInfo {
      * Андрей - 600
      * София - 900
      */
+    /*public static void main(String[] args) {
+        String date = "01.04.2019";
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        System.out.println(LocalDate.parse(date, formatter));
+    }*/
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        if (parseDate(dateFrom).isAfter(parseDate(dateTo))) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        if (LocalDate.parse(dateFrom, formatter).isAfter(LocalDate.parse(dateTo, formatter))) {
             return null;
         }
         StringBuilder resultText = new StringBuilder();
         resultText.append("Отчёт за период ").append(dateFrom)
                 .append(" - ").append(dateTo).append("\n");
         int salaryCounter = 0;
-        for (int i = 0; i < names.length; i++) {
-            for (int j = 0; j < data.length; j++) {
-                if (data[j].contains(names[i]) && checkDateRange(data[j], dateFrom, dateTo)) {
-                    int workedHours = Integer.parseInt(data[j].split(" ")[2]);
-                    int salaryPerHour = Integer.parseInt(data[j].split(" ")[3]);
+        for (String name : names) {
+            for (String dataRow : data) {
+                if (dataRow.contains(name) && checkDateRange(dataRow, dateFrom, dateTo)) {
+                    int workedHours = Integer.parseInt(dataRow.split(" ")[2]);
+                    int salaryPerHour = Integer.parseInt(dataRow.split(" ")[3]);
                     salaryCounter += workedHours * salaryPerHour;
                 }
             }
-            resultText.append(names[i]).append(" - ").append(salaryCounter).append("\n");
+            resultText.append(name).append(" - ").append(salaryCounter).append("\n");
             salaryCounter = 0;
         }
         return resultText.toString();
     }
 
-    private static LocalDate parseDate(String date) {
-        String[] splittedDate = date.split("\\.");
-        int year = Integer.parseInt(splittedDate[2]);
-        int month = Integer.parseInt(splittedDate[1]);
-        int day = Integer.parseInt(splittedDate[0]);
-        return LocalDate.of(year, month, day);
-    }
-
     private static boolean checkDateRange(String row, String dateFrom, String dateTo) {
-        LocalDate rowDate = parseDate(row.split(" ")[0]);
-        LocalDate start = parseDate(dateFrom);
-        LocalDate end = parseDate(dateTo);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        LocalDate rowDate = LocalDate.parse(row.split(" ")[0], formatter);
+        LocalDate start = LocalDate.parse(dateFrom, formatter);
+        LocalDate end = LocalDate.parse(dateTo, formatter);
         return (!rowDate.isBefore(start) && !rowDate.isAfter(end));
     }
 }
