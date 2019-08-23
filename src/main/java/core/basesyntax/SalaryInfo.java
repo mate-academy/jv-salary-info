@@ -1,6 +1,16 @@
 package core.basesyntax;
 
+import java.text.ParseException;
+
+import java.text.SimpleDateFormat;
+
+import java.util.Date;
+
 public class SalaryInfo {
+    private static final int ACCOUNT_DATE = 0;
+    private static final int NAME = 1;
+    private static final int HOURLY_WAGE = 2;
+    private static final int HOURS_WORKED = 3;
     /**
      * Реализуйте метод getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
      * вычисляющий зарплату сотрудников. На вход методу подаётся 2 массива и 2 даты,
@@ -35,7 +45,35 @@ public class SalaryInfo {
      * Андрей - 600
      * София - 900
      */
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        return null;
+        StringBuilder result = new StringBuilder("Отчёт за период " + dateFrom + " - "
+                + dateTo + "\n");
+        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+        try {
+            Date from = format.parse(dateFrom);
+            Date to = format.parse(dateTo);
+            if (to.before(from)) {
+                return null;
+            }
+            int[] totalSalaries = new int[names.length];
+            for (int i = 0; i < names.length; i++) {
+                for (String s : data) {
+                    if (names[i].equals(s.split(" ")[NAME])
+                            && format.parse(s.split(" ")[ACCOUNT_DATE]).compareTo(from) >= 0
+                            && format.parse(s.split(" ")[ACCOUNT_DATE]).compareTo(to) <= 0) {
+                        totalSalaries[i] += Integer.parseInt(s.split(" ")[HOURLY_WAGE])
+                                * Integer.parseInt(s.split(" ")[HOURS_WORKED]);
+                    }
+                }
+            }
+            for (int i = 0; i < names.length; i++) {
+                result.append(names[i] + " - " + totalSalaries[i] + "\n");
+            }
+        } catch (ParseException e) {
+            System.out.println("Wrong date input");
+            e.printStackTrace();
+        }
+        return result.toString();
     }
 }
