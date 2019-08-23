@@ -29,7 +29,6 @@ public class SalaryInfo {
 
         StringBuilder report = new StringBuilder("");
         String [] workers;
-
         String[] sminDate = dateFrom.replaceAll("[^0-9]", " ").split(" ");
         String[] smaxDate = dateTo.replaceAll("[^0-9]", " ").split(" ");
         int[] iminDate = new int[sminDate.length];
@@ -38,7 +37,6 @@ public class SalaryInfo {
             iminDate[i] = Integer.parseInt(sminDate[i]);
             imaxDate[i] = Integer.parseInt(smaxDate[i]);
         }
-
         if (LocalDate.of(iminDate[2], iminDate[1], iminDate[0])
                 .isAfter(LocalDate.of(imaxDate[2], imaxDate[1], imaxDate[0]))) {
             return null;
@@ -52,7 +50,6 @@ public class SalaryInfo {
                 for (int j = 0; j < sminWork.length; j++) {
                     iminWork[j] = Integer.parseInt(sminWork[j]);
                 }
-
                 if (LocalDate.of(imaxDate[2], imaxDate[1], imaxDate[0])
                         .isBefore(LocalDate.of(iminWork[2], iminWork[1], iminWork[0]))) {
                     break;
@@ -66,5 +63,4 @@ public class SalaryInfo {
         String headOfReport = "Отчёт за период " + dateFrom + " - " + dateTo + "\n";
         return headOfReport + report;
     }
-
 }
