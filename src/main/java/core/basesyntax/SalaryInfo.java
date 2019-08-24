@@ -46,8 +46,8 @@ public class SalaryInfo {
 
         for (String name : names) {
             int amount = 0;
-            for (String s : data) {
-                String[] parsedData = s.split(" ");
+            for (String infoAboutEmployee : data) {
+                String[] parsedData = infoAboutEmployee.split(" ");
                 if (name.equals(parsedData[NAME_POSITION])) {
                     LocalDate reportingDate = LocalDate
                             .parse(parsedData[REPORTING_DATE_POSITION], formatter);
