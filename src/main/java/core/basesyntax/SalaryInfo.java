@@ -4,8 +4,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-
-
+    
     private static final int REPORTING_DATE_POSITION = 0;
     private static final int NAME_POSITION = 1;
     private static final int WORKED_HOURS_POSITION = 2;
