@@ -41,27 +41,30 @@ public class SalaryInfo {
      * Андрей - 600
      * София - 900
      */
-    public String getSalaryInfo(String[] names, String[] data,
-                                String dateFrom, String dateTo) throws ParseException {
+    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         HashMap<String, Integer> salary = new HashMap<String, Integer>(names.length);
         DateFormat format = new SimpleDateFormat("dd.MM.yyyy", Locale.ENGLISH);
         for (String name : names) {
             salary.put(name, 0);
         }
-        Date end = format.parse(dateTo);
-        Date start = format.parse(dateFrom);
-        if (start.after(end)) {
-            return null;
-        }
-        for (int i = 0; i < data.length; i++) {
-            String[] splitString;
-            Date date;
-            splitString = data[i].split(" ");
-            date = format.parse(splitString[0]);
-            if (!date.after(end) && !date.before(start)) {
-                salary.put(splitString[1], salary.get(splitString[1])
-                        + Integer.parseInt(splitString[2]) * Integer.parseInt(splitString[3]));
+        try {
+            Date end = format.parse(dateTo);
+            Date start = format.parse(dateFrom);
+            if (start.after(end)) {
+                return null;
             }
+            for (int i = 0; i < data.length; i++) {
+                String[] splitString;
+                Date date;
+                splitString = data[i].split(" ");
+                date = format.parse(splitString[0]);
+                if (!date.after(end) && !date.before(start)) {
+                    salary.put(splitString[1], salary.get(splitString[1])
+                            + Integer.parseInt(splitString[2]) * Integer.parseInt(splitString[3]));
+                }
+            }
+        } catch (ParseException exception) {
+            exception.printStackTrace();
         }
         StringBuilder returnString = new StringBuilder("Отчёт за период "
                 .concat(dateFrom)
