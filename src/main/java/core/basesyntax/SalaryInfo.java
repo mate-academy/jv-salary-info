@@ -41,7 +41,8 @@ public class SalaryInfo {
      * Андрей - 600
      * София - 900
      */
-    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) throws ParseException {
+    public String getSalaryInfo(String[] names, String[] data,
+                                String dateFrom, String dateTo) throws ParseException {
         HashMap<String, Integer> salary = new HashMap<String, Integer>(names.length);
         DateFormat format = new SimpleDateFormat("dd.MM.yyyy", Locale.ENGLISH);
         for (String name : names) {
