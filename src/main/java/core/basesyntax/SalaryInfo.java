@@ -1,6 +1,9 @@
 package core.basesyntax;
 
-import java.time.LocalDate;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 public class SalaryInfo {
 
@@ -26,33 +29,28 @@ public class SalaryInfo {
      * 900
      */
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-
         StringBuilder report = new StringBuilder("");
-        String [] workers;
-        String[] sminDate = dateFrom.replaceAll("[^0-9]", " ").split(" ");
-        String[] smaxDate = dateTo.replaceAll("[^0-9]", " ").split(" ");
-        int[] iminDate = new int[sminDate.length];
-        int[] imaxDate = new int[smaxDate.length];
-        for (int i = 0; i < sminDate.length; i++) {
-            iminDate[i] = Integer.parseInt(sminDate[i]);
-            imaxDate[i] = Integer.parseInt(smaxDate[i]);
+        DateFormat format = new SimpleDateFormat("dd.mm.yyyy", Locale.ENGLISH);
+        try {
+            if (format.parse(dateFrom).after(format.parse(dateTo))) {
+                return null;
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
-        if (LocalDate.of(iminDate[2], iminDate[1], iminDate[0])
-                .isAfter(LocalDate.of(imaxDate[2], imaxDate[1], imaxDate[0]))) {
-            return null;
-        }
+
+        String[] workers;
+
         for (String name : names) {
             int salary = 0;
             for (int i = 0; i < data.length; i++) {
                 workers = data[i].split(" ");
-                String[] sminWork = workers[0].replaceAll("[^0-9]", " ").split(" ");
-                int[] iminWork = new int[sminWork.length];
-                for (int j = 0; j < sminWork.length; j++) {
-                    iminWork[j] = Integer.parseInt(sminWork[j]);
-                }
-                if (LocalDate.of(imaxDate[2], imaxDate[1], imaxDate[0])
-                        .isBefore(LocalDate.of(iminWork[2], iminWork[1], iminWork[0]))) {
-                    break;
+                try {
+                    if (format.parse(workers[0]).after(format.parse(dateTo))) {
+                        break;
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
                 }
                 if (name.equals(workers[1])) {
                     salary += Integer.parseInt(workers[2]) * Integer.parseInt(workers[3]);
