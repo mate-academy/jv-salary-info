@@ -39,11 +39,15 @@ public class SalaryInfo {
      * Андрей - 600
      * София - 900
      */
-    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
-            throws ParseException {
+    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.ENGLISH);
-        if (dateFormat.parse(dateFrom).after(dateFormat.parse(dateTo))) {
-            return null;
+
+        try {
+            if (dateFormat.parse(dateFrom).after(dateFormat.parse(dateTo))) {
+                return null;
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
         String infoString = "";
         infoString += "Отчёт за период " + dateFrom + " - " + dateTo + "\n";
@@ -51,8 +55,12 @@ public class SalaryInfo {
             int currentWorkerSalary = 0;
             for (String nextData : data) {
                 String[] parsedData = nextData.split(" ");
-                if (dateFormat.parse(parsedData[0]).after(dateFormat.parse(dateTo))) {
-                    break;
+                try {
+                    if (dateFormat.parse(parsedData[0]).after(dateFormat.parse(dateTo))) {
+                        break;
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
                 }
                 if (names[i].equals(parsedData[1])) {
                     currentWorkerSalary += Integer.parseInt(parsedData[2])
