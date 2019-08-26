@@ -3,8 +3,6 @@ package core.basesyntax;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.text.ParseException;
-
 public class SalaryInfoTest {
     private static final String[] ROLES = {"Сергей", "Андрей", "София"};
     private static final String[] SCRIPT_ARRAY = {
@@ -45,7 +43,7 @@ public class SalaryInfoTest {
     };
 
     @Test
-    public void getSalaryInfo() throws ParseException {
+    public void getSalaryInfo() {
         SalaryInfo salary = new SalaryInfo();
         for (int i = 0; i < DATES.length; i++) {
             String actualResult = salary.getSalaryInfo(ROLES, SCRIPT_ARRAY, DATES[0], DATES[i]);
