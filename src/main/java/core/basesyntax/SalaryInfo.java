@@ -41,7 +41,7 @@ public class SalaryInfo {
      * Андрей - 600
      * София - 900
      */
-    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) throws ParseException {
+    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
 
         DateFormat df = new SimpleDateFormat("dd.MM.yyyy", Locale.ENGLISH);
         Date dateFromSearch = null;
@@ -50,7 +50,12 @@ public class SalaryInfo {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        Date dateToSearch = df.parse(dateTo);
+        Date dateToSearch = null;
+        try {
+            dateToSearch = df.parse(dateTo);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         if (dateToSearch.compareTo(dateFromSearch) < 0) {
             return null;
         }
@@ -59,7 +64,12 @@ public class SalaryInfo {
             int personalSalary = 0;
             for (String personData : data) {
                 String[] dataArr = personData.split(" ");
-                Date tempDate = df.parse(dataArr[0]);
+                Date tempDate = null;
+                try {
+                    tempDate = df.parse(dataArr[0]);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
                 if (name.equals(dataArr[1])
                         && !dateToSearch.before(tempDate)
                         && !dateFromSearch.after(tempDate)) {
