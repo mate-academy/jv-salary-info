@@ -38,6 +38,11 @@ public class SalaryInfo {
      * Андрей - 600
      * София - 900
      */
+    private static final int DATE = 0;
+    private static final int NAME = 1;
+    private static final int HOURS = 2;
+    private static final int SALARY = 3;
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         LocalDate dayFrom = LocalDate.parse(dateFrom, formatter);
@@ -49,17 +54,18 @@ public class SalaryInfo {
         for (String datum : data) {
             String[] arguments = datum.split(" ");
             if (arguments.length > 1) {
-                if (arguments[0].compareTo(dateFrom) >= 0 && dateTo.compareTo(arguments[0]) >= 0) {
+                LocalDate date = LocalDate.parse(arguments[DATE], formatter);
+                if (dateIsBetween(dayFrom, dayTo, date)) {
                     int nameIndex = -1;
                     for (int i = 0; i < names.length; i++) {
-                        if (names[i].equals(arguments[1])) {
+                        if (names[i].equals(arguments[NAME])) {
                             nameIndex = i;
                             break;
                         }
                     }
                     if (nameIndex >= 0) {
-                        salaries[nameIndex] += Integer.parseInt(arguments[2])
-                                * Integer.parseInt(arguments[3]);
+                        salaries[nameIndex] += Integer.parseInt(arguments[HOURS])
+                                * Integer.parseInt(arguments[SALARY]);
                     }
                 }
             }
@@ -70,5 +76,9 @@ public class SalaryInfo {
             sb.append(names[i]).append(" - ").append(salaries[i]).append("\n");
         }
         return sb.toString();
+    }
+
+    private boolean dateIsBetween(LocalDate dateFrom, LocalDate dateTo, LocalDate date) {
+        return date.compareTo(dateFrom) >= 0 && dateTo.compareTo(date) >= 0;
     }
 }
