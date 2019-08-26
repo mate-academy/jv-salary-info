@@ -2,7 +2,6 @@ package core.basesyntax;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
 
 public class SalaryInfo {
     /**
@@ -58,7 +57,7 @@ public class SalaryInfo {
                             break;
                         }
                     }
-                    if (nameIndex > -1) {
+                    if (nameIndex >= 0) {
                         salaries[nameIndex] += Integer.parseInt(arguments[2])
                                 * Integer.parseInt(arguments[3]);
                     }
