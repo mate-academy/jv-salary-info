@@ -1,5 +1,10 @@
 package core.basesyntax;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+
 public class SalaryInfo {
     /**
      * Реализуйте метод getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
@@ -10,14 +15,11 @@ public class SalaryInfo {
      * ставка за 1 час. Метод должен вернуть отчёт за период, который передали в метод
      * (обе даты включительно) составленный по следующей форме: Отчёт за период
      * #дата_1# - #дата_2# Имя сотрудника - сумма заработанных средств за этот период
-     *
      * Пример ввода: date from = 01.04.2019 date to = 30.04.2019
-     *
      * names:
      * Сергей
      * Андрей
      * София
-     *
      * data:
      * 26.04.2019 Сергей 60 50
      * 26.04.2019 Андрей 3 200
@@ -28,7 +30,6 @@ public class SalaryInfo {
      * 26.04.2019 Сергей 7 100
      * 26.04.2019 София 9 100
      * 26.04.2019 Сергей 11 50
-     *
      * Пример вывода:
      * Отчёт за период 01.04.2019  - 30.04.2019
      * Сергей - 1550
@@ -36,6 +37,39 @@ public class SalaryInfo {
      * София - 900
      */
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        return null;
+        HashMap<String, Integer> map = new HashMap<>();
+        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+        String[] wage;
+        Date date;
+        StringBuilder result = new StringBuilder();
+        result = result.append("Отчёт за период ").append(dateFrom)
+                .append(" - ")
+                .append(dateTo + '\n');
+        for (String name : names) {
+            map.put(name, 0);
+        }
+
+        try {
+            Date from = format.parse(dateFrom);
+            Date to = format.parse(dateTo);
+            if (to.before(from)) {
+                return null;
+            }
+            for (int i = 0; i < data.length; i++) {
+                wage = data[i].split(" ", ' ');
+                if (!to.before(format.parse(wage[0])) && !from.after(format.parse(wage[0]))) {
+                    map.put(wage[1], map.get(wage[1]) +
+                            Integer.parseInt(wage[2]) * Integer.parseInt(wage[3]));
+                }
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        for (int i = 0; i < names.length; i++) {
+            result.append(names[i] + " - " + map.get(names[i]) + '\n');
+        }
+        return result.toString();
     }
 }
+
