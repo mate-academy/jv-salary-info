@@ -36,25 +36,24 @@ public class SalaryInfo {
                 > Integer.valueOf(dateTo.replaceAll("[^0-9]",""))) {
             return null;
         }
-        String header = "Отчёт за период " + dateFrom + " - " + dateTo + "\n";
-        String list = "";
-        String[] stringData;
+        String list = "Отчёт за период " + dateFrom + " - " + dateTo + "\n";
+
         String builderDateTo = new StringBuilder(dateTo).reverse().toString();
-        for (String n : names) {
+        for (String name : names) {
             int salary = 0;
             for (int i = 0; i < data.length; i++) {
-                stringData = data[i].split(" ");
+                String[] stringData = data[i].split(" ");
                 String builderDate = new StringBuilder(stringData[0]).reverse().toString();
                 if (Integer.valueOf(builderDate.replaceAll("[^0-9]",""))
                         > Integer.valueOf(builderDateTo.replaceAll("[^0-9]",""))) {
                     break;
                 }
-                if (n.equals(stringData[1])) {
+                if (name.equals(stringData[1])) {
                     salary += Integer.valueOf(stringData[2]) * Integer.valueOf(stringData[3]);
                 }
             }
-            list += n + " - " + salary + "\n";
+            list += String.format("%s - %d\n", name, salary);
         }
-        return header + list;
+        return list;
     }
 }
