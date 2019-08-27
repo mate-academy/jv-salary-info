@@ -2,6 +2,7 @@ package core.basesyntax;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 
 public class SalaryInfo {
@@ -40,14 +41,13 @@ public class SalaryInfo {
      * София - 900
      */
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.ENGLISH);
-
         try {
-            if (dateFormat.parse(dateFrom).after(dateFormat.parse(dateTo))) {
+            if (parseDate(dateFrom).after(parseDate(dateTo))) {
                 return null;
             }
         } catch (ParseException e) {
             e.printStackTrace();
+            return null;
         }
         String infoString = "";
         infoString += "Отчёт за период " + dateFrom + " - " + dateTo + "\n";
@@ -56,11 +56,12 @@ public class SalaryInfo {
             for (String nextData : data) {
                 String[] parsedData = nextData.split(" ");
                 try {
-                    if (dateFormat.parse(parsedData[0]).after(dateFormat.parse(dateTo))) {
+                    if (parseDate(parsedData[0]).after(parseDate(dateTo))) {
                         break;
                     }
                 } catch (ParseException e) {
                     e.printStackTrace();
+                    return null;
                 }
                 if (names[i].equals(parsedData[1])) {
                     currentWorkerSalary += Integer.parseInt(parsedData[2])
@@ -73,5 +74,10 @@ public class SalaryInfo {
             }
         }
         return infoString;
+    }
+
+    private Date parseDate(String date) throws ParseException {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.ENGLISH);
+        return dateFormat.parse(date);
     }
 }
