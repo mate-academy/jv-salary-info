@@ -41,7 +41,8 @@ public class SalaryInfo {
             return null;
         }
 
-        StringBuilder salaryInfo = new StringBuilder("Отчёт за период " + dateFrom + " - " + dateTo + "\n");
+        StringBuilder salaryInfo =
+                new StringBuilder("Отчёт за период " + dateFrom + " - " + dateTo + "\n");
         for (String name : names) {
             int salary = 0;
             LocalDate currentDate = LocalDate.parse(dateFrom, dateFormat);
