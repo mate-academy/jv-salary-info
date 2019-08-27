@@ -41,14 +41,15 @@ public class SalaryInfo {
      * Андрей - 600
      * София - 900
      */
+    public static final int WORK_HOURS_POS = 2;
+    public  static final int PER_HOUR_POS = 1;
+    public  static final int WORK_DATE_POS = 0;
+    public static final int NAME_POS = 1;
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder allSalary = new StringBuilder();
         allSalary.append("Отчёт за период " + dateFrom + " - " + dateTo + "\n");
         DateFormat format = new SimpleDateFormat("dd.MM.yyyy", Locale.ENGLISH);
-        final int workHoursPos = 2;
-        final int perHourPos = 1;
-        final int workDatePos = 0;
-        final int namePos = 1;
 
         try {
             Date minDate = format.parse(dateFrom);
@@ -61,11 +62,11 @@ public class SalaryInfo {
                 int [] salary = new int[names.length];
                 for (String s : data) {
                     String[] workInfo = s.split(" ");
-                    int workHours = Integer.parseInt(workInfo[workInfo.length - workHoursPos]);
-                    int perHour = Integer.parseInt(workInfo[workInfo.length - perHourPos]);
-                    Date workDate = format.parse(workInfo[workDatePos]);
+                    int workHours = Integer.parseInt(workInfo[workInfo.length - WORK_HOURS_POS]);
+                    int perHour = Integer.parseInt(workInfo[workInfo.length - PER_HOUR_POS]);
+                    Date workDate = format.parse(workInfo[WORK_DATE_POS]);
                     if (workDate.compareTo(minDate) >= 0 && workDate.compareTo(maxDate) <= 0) {
-                        salary[i] += workInfo[namePos].equals(names[i]) ? workHours * perHour : 0;
+                        salary[i] += workInfo[NAME_POS].equals(names[i]) ? workHours * perHour : 0;
                     }
                 }
                 allSalary.append(names[i] + " - " + salary[i] + "\n");
