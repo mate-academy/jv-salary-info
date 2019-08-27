@@ -3,6 +3,7 @@ package core.basesyntax;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 
 public class SalaryInfo {
@@ -30,35 +31,41 @@ public class SalaryInfo {
      */
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder report = new StringBuilder("");
-        DateFormat format = new SimpleDateFormat("dd.mm.yyyy", Locale.ENGLISH);
+
+
+        String[] workers;
+
         try {
-            if (format.parse(dateFrom).after(format.parse(dateTo))) {
+            if (inDate(dateFrom).after(inDate(dateTo))) {
                 return null;
+            }
+            for (String name : names) {
+                int salary = 0;
+                for (int i = 0; i < data.length; i++) {
+                    workers = data[i].split(" ");
+                    try {
+                        if (inDate(workers[0]).after(inDate(dateTo))) {
+                            break;
+                        }
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                        break;
+                    }
+                    if (name.equals(workers[1])) {
+                        salary += Integer.parseInt(workers[2]) * Integer.parseInt(workers[3]);
+                    }
+                }
+                report.append(name + " - " + salary + "\n");
             }
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
-        String[] workers;
-
-        for (String name : names) {
-            int salary = 0;
-            for (int i = 0; i < data.length; i++) {
-                workers = data[i].split(" ");
-                try {
-                    if (format.parse(workers[0]).after(format.parse(dateTo))) {
-                        break;
-                    }
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                if (name.equals(workers[1])) {
-                    salary += Integer.parseInt(workers[2]) * Integer.parseInt(workers[3]);
-                }
-            }
-            report.append(name + " - " + salary + "\n");
-        }
         String headOfReport = "Отчёт за период " + dateFrom + " - " + dateTo + "\n";
         return headOfReport + report;
+    }
+
+    private Date inDate(String string) throws ParseException {
+        DateFormat format = new SimpleDateFormat("dd.mm.yyyy", Locale.ENGLISH);
+        return format.parse(string);
     }
 }
