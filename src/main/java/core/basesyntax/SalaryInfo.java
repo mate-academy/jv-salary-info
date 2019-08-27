@@ -7,9 +7,9 @@ public class SalaryInfo {
 
     protected static String getSalaryInfo(String[] names,
                                           String[] data, String dateFrom, String dateTo) {
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        LocalDate firstDate = LocalDate.parse(dateFrom, dtf);
-        LocalDate secondDate = LocalDate.parse(dateTo, dtf);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        LocalDate firstDate = LocalDate.parse(dateFrom, formatter);
+        LocalDate secondDate = LocalDate.parse(dateTo, formatter);
         StringBuilder stringBuilder =
                 new StringBuilder("Отчёт за период " + dateFrom + " - " + dateTo + '\n');
         if (firstDate.isAfter(secondDate)) {
@@ -18,7 +18,7 @@ public class SalaryInfo {
         for (String nameInfo : names) {
             int salaryCounter = 0;
             for (String string : data) {
-                LocalDate day = LocalDate.parse(string.split(" ")[0], dtf);
+                LocalDate day = LocalDate.parse(string.split(" ")[0], formatter);
                 if (day.isBefore(secondDate) || day.isEqual(secondDate)
                         && day.isAfter(firstDate) || day.isEqual(firstDate)) {
                     String name = string.split(" ")[1];
