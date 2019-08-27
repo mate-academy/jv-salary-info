@@ -38,11 +38,7 @@ public class SalaryInfo {
      * Андрей - 600
      * София - 900
      */
-    /*public static void main(String[] args) {
-        String date = "01.04.2019";
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        System.out.println(LocalDate.parse(date, formatter));
-    }*/
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         if (LocalDate.parse(dateFrom, formatter).isAfter(LocalDate.parse(dateTo, formatter))) {
@@ -71,6 +67,6 @@ public class SalaryInfo {
         LocalDate rowDate = LocalDate.parse(row.split(" ")[0], formatter);
         LocalDate start = LocalDate.parse(dateFrom, formatter);
         LocalDate end = LocalDate.parse(dateTo, formatter);
-        return (!rowDate.isBefore(start) && !rowDate.isAfter(end));
+        return (rowDate.isAfter(start.minusDays(1)) && rowDate.isBefore(end.plusDays(1)));
     }
 }
