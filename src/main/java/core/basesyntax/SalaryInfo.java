@@ -45,26 +45,26 @@ public class SalaryInfo {
             return null;
         }
 
-        String salaryInfo = "Отчёт за период " + dateFrom + " - " + dateTo + "\n";
-        for (String i : names) {
+        StringBuilder salaryInfo = new StringBuilder("Отчёт за период " + dateFrom + " - " + dateTo + "\n");
+        for (String name : names) {
             int salary = 0;
             LocalDate currentDate = LocalDate.parse(dateFrom, dateFormat);
 
             while (currentDate.isBefore(finalDate.plusDays(1))) {
-                salary += calculateSalary(i, data, currentDate.format(dateFormat));
+                salary += calculateSalary(name, data, currentDate.format(dateFormat));
                 currentDate = currentDate.plusDays(1);
             }
-            salaryInfo += i + " - " + salary + "\n";
+            salaryInfo.append(name).append(" - ").append(salary).append("\n");
         }
-        return salaryInfo;
+        return salaryInfo.toString();
     }
 
     private int calculateSalary(String name, String[] data, String currentDate) {
         int salary = 0;
-        for (String i : data) {
-            String[] tmp = i.split(" ");
-            if (tmp[0].equals(currentDate) && tmp[1].equals(name)) {
-                salary += Integer.parseInt(tmp[2]) * Integer.parseInt(tmp[3]);
+        for (String nameOfData : data) {
+            String[] arrayData = nameOfData.split(" ");
+            if (arrayData[0].equals(currentDate) && arrayData[1].equals(name)) {
+                salary += Integer.parseInt(arrayData[2]) * Integer.parseInt(arrayData[3]);
             }
         }
         return salary;
