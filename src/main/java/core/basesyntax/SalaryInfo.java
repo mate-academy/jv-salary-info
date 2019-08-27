@@ -42,7 +42,7 @@ public class SalaryInfo {
      * София - 900
      */
     public static final int WORK_HOURS_POS = 2;
-    public  static final int PER_HOUR_POS = 1;
+    public  static final int PER_HOUR_POS = 3;
     public  static final int WORK_DATE_POS = 0;
     public static final int NAME_POS = 1;
 
@@ -62,8 +62,8 @@ public class SalaryInfo {
                 int [] salary = new int[names.length];
                 for (String s : data) {
                     String[] workInfo = s.split(" ");
-                    int workHours = Integer.parseInt(workInfo[workInfo.length - WORK_HOURS_POS]);
-                    int perHour = Integer.parseInt(workInfo[workInfo.length - PER_HOUR_POS]);
+                    int workHours = Integer.parseInt(workInfo[WORK_HOURS_POS]);
+                    int perHour = Integer.parseInt(workInfo[PER_HOUR_POS]);
                     Date workDate = format.parse(workInfo[WORK_DATE_POS]);
                     if (workDate.compareTo(minDate) >= 0 && workDate.compareTo(maxDate) <= 0) {
                         salary[i] += workInfo[NAME_POS].equals(names[i]) ? workHours * perHour : 0;
