@@ -23,7 +23,7 @@ public class SalaryInfo {
                         DateTimeFormatter.ofPattern("dd.MM.yyyy"));
                 if (day.isBefore(dateT) || day.isEqual(dateT)
                         && day.isAfter(dateF) || day.isEqual(dateF)) {
-                    name = string.split(" ")[1];
+                    String name = string.split(" ")[1];
                     int salary = Integer.parseInt(string.split(" ")[2])
                             * Integer.parseInt(string.split(" ")[3]);
                     if (s.equals(name)) {
