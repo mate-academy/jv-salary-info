@@ -1,5 +1,8 @@
 package core.basesyntax;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class SalaryInfo {
     /**
      * Реализуйте метод getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
@@ -32,20 +35,18 @@ public class SalaryInfo {
      * София - 900
      */
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        if (Integer.valueOf(dateFrom.replaceAll("[^0-9]",""))
-                > Integer.valueOf(dateTo.replaceAll("[^0-9]",""))) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        LocalDate localDateTo = LocalDate.parse(dateTo, formatter);
+        if (localDateTo.isBefore(LocalDate.parse(dateFrom, formatter))) {
             return null;
         }
         String list = "Отчёт за период " + dateFrom + " - " + dateTo + "\n";
-
-        String builderDateTo = new StringBuilder(dateTo).reverse().toString();
         for (String name : names) {
             int salary = 0;
             for (int i = 0; i < data.length; i++) {
                 String[] stringData = data[i].split(" ");
-                String builderDate = new StringBuilder(stringData[0]).reverse().toString();
-                if (Integer.valueOf(builderDate.replaceAll("[^0-9]",""))
-                        > Integer.valueOf(builderDateTo.replaceAll("[^0-9]",""))) {
+                LocalDate localDateFrom = LocalDate.parse(dateFrom, formatter);
+                if (localDateTo.isBefore(LocalDate.parse(stringData[0], formatter))) {
                     break;
                 }
                 if (name.equals(stringData[1])) {
