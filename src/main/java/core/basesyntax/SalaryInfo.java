@@ -45,9 +45,6 @@ public class SalaryInfo {
         StringBuilder allSalary = new StringBuilder();
         allSalary.append("Отчёт за период " + dateFrom + " - " + dateTo + "\n");
         DateFormat format = new SimpleDateFormat("dd.MM.yyyy", Locale.ENGLISH);
-        int salary1 = 0;
-        int salary2 = 0;
-        int salary3 = 0;
 
         try {
             Date minDate = format.parse(dateFrom);
@@ -56,27 +53,23 @@ public class SalaryInfo {
                 return null;
             }
 
-            for (String s : data) {
-                String[] workInfo = s.split(" ");
-                Date workDate = format.parse(workInfo[0]);
-                if (workDate.compareTo(minDate) >= 0 && workDate.compareTo(maxDate) <= 0) {
-                    salary1 += workInfo[1].equals(names[0])
-                            ? (Integer.parseInt(workInfo[workInfo.length - 2]))
-                            * (Integer.parseInt(workInfo[workInfo.length - 1])) : 0;
-                    salary2 += workInfo[1].equals(names[1])
-                            ? (Integer.parseInt(workInfo[workInfo.length - 2])
-                            * Integer.parseInt(workInfo[workInfo.length - 1])) : 0;
-                    salary3 += workInfo[1].equals(names[2])
-                            ? (Integer.parseInt(workInfo[workInfo.length - 2])
-                            * Integer.parseInt(workInfo[workInfo.length - 1])) : 0;
+            for (int i = 0; i < names.length; i++) {
+                int [] salary = new int[names.length];
+                for (String s : data) {
+                    String[] workInfo = s.split(" ");
+                    Date workDate = format.parse(workInfo[0]);
+                    if (workDate.compareTo(minDate) >= 0 && workDate.compareTo(maxDate) <= 0) {
+                        salary[i] += workInfo[1].equals(names[i])
+                                ? (Integer.parseInt(workInfo[workInfo.length - 2]))
+                                * (Integer.parseInt(workInfo[workInfo.length - 1])) : 0;
+                    }
                 }
+                allSalary.append(names[i] + " - " + salary[i] + "\n");
             }
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
-        return allSalary.append(names[0] + " - " + salary1 + "\n")
-                        .append(names[1] + " - " + salary2 + "\n")
-                        .append(names[2] + " - " + salary3 + "\n").toString();
+        return allSalary.toString();
     }
 }
