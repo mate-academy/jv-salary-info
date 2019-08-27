@@ -60,9 +60,10 @@ public class SalaryInfo {
             for (int i = 0; i < names.length; i++) {
                 for (String row : data) {
                     if (names[i].equals(row.split(" ")[NAME])
-                            && format.parse(row.split(" ")[ACCOUNT_DATE]).compareTo(dateStart) >= 0
-                            && format.parse(row.split(" ")[ACCOUNT_DATE]).compareTo(dateFinish)
-                            <= 0) {
+                            && format.parse(row.split(" ")[ACCOUNT_DATE])
+                            .compareTo(dateStart) >= 0
+                            && format.parse(row.split(" ")[ACCOUNT_DATE])
+                            .compareTo(dateFinish) <= 0) {
                         totalSalaries[i] += Integer.parseInt(row.split(" ")[HOURLY_WAGE])
                                 * Integer.parseInt(row.split(" ")[HOURS_WORKED]);
                     }
