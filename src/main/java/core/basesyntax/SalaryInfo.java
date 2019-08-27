@@ -41,6 +41,8 @@ public class SalaryInfo {
      * Андрей - 600
      * София - 900
      */
+    private static final DateFormat DATE_FORMAT = new SimpleDateFormat("dd.mm.yyyy");
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         Hashtable<String, Integer> employees = new Hashtable<>();
         for (String value : names) {
@@ -48,17 +50,16 @@ public class SalaryInfo {
         }
 
         try {
-            DateFormat formatOfDate = new SimpleDateFormat("dd.mm.yyyy");
-            Date beginsFrom = formatOfDate.parse(dateFrom);
-            Date endsOn = formatOfDate.parse(dateTo);
+            Date beginsFrom = DATE_FORMAT.parse(dateFrom);
+            Date endsOn = DATE_FORMAT.parse(dateTo);
             if (beginsFrom.after(endsOn)) {
                 return null;
             }
-            for (String dateNameIntInt : data) {
-                Date currentDate = formatOfDate.parse(dateNameIntInt.split(" ")[0]);
-                String name = dateNameIntInt.split(" ")[1];
-                int bet = Integer.parseInt(dateNameIntInt.split(" ")[2]);
-                int salary = Integer.parseInt(dateNameIntInt.split(" ")[3]);
+            for (String employeeInfo : data) {
+                Date currentDate = DATE_FORMAT.parse(employeeInfo.split(" ")[0]);
+                String name = employeeInfo.split(" ")[1];
+                int bet = Integer.parseInt(employeeInfo.split(" ")[2]);
+                int salary = Integer.parseInt(employeeInfo.split(" ")[3]);
                 if (currentDate.after(beginsFrom) && (currentDate.before(endsOn)
                         || currentDate.equals(endsOn))) {
                     employees.put(name, employees.get(name) + bet * salary);
