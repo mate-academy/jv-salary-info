@@ -1,6 +1,7 @@
 package core.basesyntax;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     /**
@@ -38,19 +39,11 @@ public class SalaryInfo {
      * София - 900
      */
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        String[] strDateFrom = dateFrom.replaceAll("[^0-9]+", " ").split(" ");
-        String[] strDateTo = dateTo.replaceAll("[^0-9]+", " ").split(" ");
-        String[] strDateCheck;
-        int[] numDateFrom = new int[strDateFrom.length];
-        int[] numDateTo = new int[strDateTo.length];
-        int[] numDateCheck = new int[strDateTo.length];
-
-        for (int i = 0; i < strDateFrom.length; i++) {
-            numDateFrom[i] = Integer.parseInt(strDateFrom[i]);
-            numDateTo[i] = Integer.parseInt(strDateTo[i]);
-        }
-        if (LocalDate.of(numDateFrom[2], numDateFrom[1], numDateFrom[0])
-                .isAfter(LocalDate.of(numDateTo[2], numDateTo[1], numDateTo[0]))) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        LocalDate firstDate = LocalDate.parse(dateFrom, formatter);
+        LocalDate endDate = LocalDate.parse(dateTo, formatter);
+        LocalDate checkDate;
+        if (firstDate.isAfter(endDate)) {
             return null;
         }
 
@@ -60,14 +53,8 @@ public class SalaryInfo {
             dataName[i] = data[i].split(" ");
         }
         for (int i = 0; i < dataName.length; i++) {
-            strDateCheck = dataName[i][0].replaceAll("[^0-9]+", " ").split(" ");
-            for (int j = 0; j < strDateFrom.length; j++) {
-                numDateCheck[j] = Integer.parseInt(strDateCheck[j]);
-            }
-            if (LocalDate.of(numDateCheck[2], numDateCheck[1], numDateCheck[0])
-                    .isBefore(LocalDate.of(numDateFrom[2], numDateFrom[1], numDateFrom[0]))
-                    || LocalDate.of(numDateTo[2], numDateTo[1], numDateTo[0])
-                    .isBefore(LocalDate.of(numDateCheck[2], numDateCheck[1], numDateCheck[0]))) {
+            checkDate = LocalDate.parse(dataName[i][0], formatter);
+            if (checkDate.isBefore(firstDate) || endDate.isBefore(checkDate)) {
                 break;
             }
             for (int j = 0; j < names.length; j++) {
@@ -76,7 +63,6 @@ public class SalaryInfo {
                             * Integer.parseInt(dataName[i][3]);
                 }
             }
-
         }
         String result = "Отчёт за период " + dateFrom + " - " + dateTo + "\n";
         for (int i = 0; i < names.length; i++) {
