@@ -24,7 +24,7 @@ public class SalaryInfo {
                 if (day.isBefore(dateT) || day.isEqual(dateT)
                         && day.isAfter(dateF) || day.isEqual(dateF)) {
                     name = string.split(" ")[1];
-                    salary = Integer.parseInt(string.split(" ")[2])
+                    int salary = Integer.parseInt(string.split(" ")[2])
                             * Integer.parseInt(string.split(" ")[3]);
                     if (s.equals(name)) {
                         salaryCounter += salary;
