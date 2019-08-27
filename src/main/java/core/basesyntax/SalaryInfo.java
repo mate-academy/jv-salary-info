@@ -37,7 +37,8 @@ public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         LocalDate localDateTo = LocalDate.parse(dateTo, formatter);
-        if (localDateTo.isBefore(LocalDate.parse(dateFrom, formatter))) {
+        LocalDate localDateFrom = LocalDate.parse(dateFrom, formatter);
+        if (localDateTo.isBefore(localDateFrom)) {
             return null;
         }
         String list = "Отчёт за период " + dateFrom + " - " + dateTo + "\n";
@@ -45,7 +46,6 @@ public class SalaryInfo {
             int salary = 0;
             for (int i = 0; i < data.length; i++) {
                 String[] stringData = data[i].split(" ");
-                LocalDate localDateFrom = LocalDate.parse(dateFrom, formatter);
                 if (localDateTo.isBefore(LocalDate.parse(stringData[0], formatter))) {
                     break;
                 }
