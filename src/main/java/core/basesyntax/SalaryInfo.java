@@ -1,5 +1,8 @@
 package core.basesyntax;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class SalaryInfo {
 
     /**
@@ -37,69 +40,32 @@ public class SalaryInfo {
      * София - 900
      */
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        int dateFromInt = Integer.parseInt(dateFrom.substring(0, 2));
-        int dateToInt = Integer.parseInt(dateTo.substring(0, 2));
-        int period = dateToInt - dateFromInt;
-        String result = " ";
-        String s = data[0].substring(0, 2);
-        System.out.println(s);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        LocalDate localDateTo = LocalDate.parse(dateTo, formatter);
+        if (localDateTo.isBefore(LocalDate.parse(dateFrom, formatter))) {
+            return null;
+        }
+        String statement = "Отчёт за период " + dateFrom + " - " + dateTo + "\n";
+        for (String name : names) {
+            int salary = 0;
+            LocalDate localDateFrom = LocalDate.parse(dateFrom, formatter);
+            while (localDateFrom.isBefore(localDateTo.plusDays(1))) {
+                salary += getSalary(name, data, localDateFrom.format(formatter));
+                localDateFrom = localDateFrom.plusDays(1);
+            }
+            statement += name + " - " + salary + "\n";
+        }
+        return statement;
+    }
 
-        for (int i = 0; i < names.length; i++) {
-            if (dateFromInt == Integer.parseInt(data[i].substring(0, 2))) {
-                for (int j = 0; j < period; j++) {
-                    String[] updatedData = new String[period];
-                    updatedData = data[j].split(" ");
-                    int income = Integer.parseInt(updatedData[2]) * Integer.parseInt(updatedData[3]);
-
-                    result += names[i].substring(12, 17);
-                    System.out.println(data[j].substring(0, 2));
-                }
-            } else {
-                result += names[i] + " - " + "0";
+    private int getSalary(String name, String[] data, String localDateFrom) {
+        int salaryResult = 0;
+        for (String entry : data) {
+            String[] parts = entry.split(" ");
+            if (parts[0].equals(localDateFrom) && parts[1].equals(name)) {
+                salaryResult += Integer.parseInt(parts[2]) * Integer.parseInt(parts[3]);
             }
         }
-
-
-        String statement = "Отчёт за период " + dateFrom + " - " + dateTo;
-        return result;
+        return salaryResult;
     }
 }
-
-
-//str += "";
-//updatedData = updatedData[2] + "\n";
-
-
-//  "25.04.2019 Сергей 60 50"
-                    /*
-                    String str = "geekss@for@geekss";
-        String[] arrOfStr = str.split("@", 2);
-
-        for (String a : arrOfStr)
-            System.out.println(a);
-                     */
-
-
-/*                //System.out.println("dateTo: " + dateTo.split("."));
-        //period += 0;
-
-names[0] = "Sergei";
-        names[1] = "Andrew";
-        names[3] = "Sophie";
-        data = {"date", "name", "hours", "rate"};*/
-
-//  str.split(" ");
-
-        /*
-           1. По дате вычисляем п
-         */
-
-
-/*        System.out.println("Отчёт за период ");
-        int salary = 0; //  to be removed
-        StringBuilder sb = new StringBuilder(salary);
-        for (int i = 0; i < names.length; i++) {  // try to transform into for each statement
-            System.out.println(names[i] + " - " + salary);
-            sb.append(names[i] + " - " + salary);
-        }
-        return sb.toString();*/
