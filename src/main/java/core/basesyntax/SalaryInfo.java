@@ -51,19 +51,20 @@ public class SalaryInfo {
                 + dateTo + "\n");
         SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
         try {
-            Date from = format.parse(dateFrom);
-            Date to = format.parse(dateTo);
-            if (to.before(from)) {
+            Date dateStart = format.parse(dateFrom);
+            Date dateFinish = format.parse(dateTo);
+            if (dateFinish.before(dateStart)) {
                 return null;
             }
             int[] totalSalaries = new int[names.length];
             for (int i = 0; i < names.length; i++) {
-                for (String s : data) {
-                    if (names[i].equals(s.split(" ")[NAME])
-                            && format.parse(s.split(" ")[ACCOUNT_DATE]).compareTo(from) >= 0
-                            && format.parse(s.split(" ")[ACCOUNT_DATE]).compareTo(to) <= 0) {
-                        totalSalaries[i] += Integer.parseInt(s.split(" ")[HOURLY_WAGE])
-                                * Integer.parseInt(s.split(" ")[HOURS_WORKED]);
+                for (String row : data) {
+                    if (names[i].equals(row.split(" ")[NAME])
+                            && format.parse(row.split(" ")[ACCOUNT_DATE]).compareTo(dateStart) >= 0
+                            && format.parse(row.split(" ")[ACCOUNT_DATE]).compareTo(dateFinish)
+                            <= 0) {
+                        totalSalaries[i] += Integer.parseInt(row.split(" ")[HOURLY_WAGE])
+                                * Integer.parseInt(row.split(" ")[HOURS_WORKED]);
                     }
                 }
             }
