@@ -1,5 +1,8 @@
 package core.basesyntax;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class SalaryInfo {
     /**
      * Реализуйте метод getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
@@ -10,14 +13,14 @@ public class SalaryInfo {
      * ставка за 1 час. Метод должен вернуть отчёт за период, который передали в метод
      * (обе даты включительно) составленный по следующей форме: Отчёт за период
      * #дата_1# - #дата_2# Имя сотрудника - сумма заработанных средств за этот период
-     *
+     * <p>
      * Пример ввода: date from = 01.04.2019 date to = 30.04.2019
-     *
+     * <p>
      * names:
      * Сергей
      * Андрей
      * София
-     *
+     * <p>
      * data:
      * 26.04.2019 Сергей 60 50
      * 26.04.2019 Андрей 3 200
@@ -28,7 +31,7 @@ public class SalaryInfo {
      * 26.04.2019 Сергей 7 100
      * 26.04.2019 София 9 100
      * 26.04.2019 Сергей 11 50
-     *
+     * <p>
      * Пример вывода:
      * Отчёт за период 01.04.2019  - 30.04.2019
      * Сергей - 1550
@@ -36,6 +39,34 @@ public class SalaryInfo {
      * София - 900
      */
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        return null;
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        LocalDate finalDate = LocalDate.parse(dateTo, dateFormat);
+        if (finalDate.isBefore(LocalDate.parse(dateFrom, dateFormat))) {
+            return null;
+        }
+
+        String salaryInfo = "Отчёт за период " + dateFrom + " - " + dateTo + "\n";
+        for (String i : names) {
+            int salary = 0;
+            LocalDate currentDate = LocalDate.parse(dateFrom, dateFormat);
+
+            while (currentDate.isBefore(finalDate.plusDays(1))) {
+                salary += calculateSalary(i, data, currentDate.format(dateFormat));
+                currentDate = currentDate.plusDays(1);
+            }
+            salaryInfo += i + " - " + salary + "\n";
+        }
+        return salaryInfo;
+    }
+
+    private int calculateSalary(String name, String[] data, String currentDate) {
+        int salary = 0;
+        for (String i : data) {
+            String[] tmp = i.split(" ");
+            if (tmp[0].equals(currentDate) && tmp[1].equals(name)) {
+                salary += Integer.parseInt(tmp[2]) * Integer.parseInt(tmp[3]);
+            }
+        }
+        return salary;
     }
 }
