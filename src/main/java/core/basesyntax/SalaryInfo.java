@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    
+
     private static final int REPORTING_DATE_POSITION = 0;
     private static final int NAME_POSITION = 1;
     private static final int WORKED_HOURS_POSITION = 2;
@@ -52,9 +52,8 @@ public class SalaryInfo {
                             .parse(parsedData[REPORTING_DATE_POSITION], formatter);
                     if (reportingDate.isAfter(from.minusDays(1)) && reportingDate
                             .isBefore(to.plusDays(1))) {
-                        int hours = Integer.parseInt(parsedData[HOURLY_RATE_POSITION]);
-                        int rate = Integer.parseInt(parsedData[WORKED_HOURS_POSITION]);
-                        amount += rate * hours;
+                        amount += Integer.parseInt(parsedData[HOURLY_RATE_POSITION]) * Integer
+                            .parseInt(parsedData[WORKED_HOURS_POSITION]);
                     }
                 }
             }
