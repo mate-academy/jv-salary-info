@@ -1,7 +1,10 @@
 package core.basesyntax;
 
+import core.basesyntax.exception.IllegalDateParametersException;
 import org.junit.Assert;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 public class SalaryInfoTest {
     private static final String[] ROLES = {"Сергей", "Андрей", "София"};
@@ -64,11 +67,17 @@ public class SalaryInfoTest {
                     "Андрей - 1200\n" +
                     "София - 2140\n";
 
+    @Rule
+    public ExpectedException expectedEx = ExpectedException.none();
+
     @Test
-    public void getSalaryInfoByMonth() {
+    public void getSalaryInfoByMonth() throws IllegalDateParametersException {
+        expectedEx.expect(IllegalDateParametersException.class);
+        expectedEx.expectMessage("Wrong parameters");
         SalaryInfo salary = new SalaryInfo();
         for (int i = 0; i < DATES.length; i++) {
-            String actualResult = salary.getSalaryInfo(ROLES, SCRIPT_ARRAY, DATES[0], DATES[i]);
+            String actualResult = null;
+                actualResult = salary.getSalaryInfo(ROLES, SCRIPT_ARRAY, DATES[0], DATES[i]);
             String expectedResult = SalaryInfoTest.EXPECTED_REPORTS[i];
 
             Assert.assertEquals(
@@ -79,18 +88,11 @@ public class SalaryInfoTest {
                     actualResult);
         }
 
-        String actualResult = salary.getSalaryInfo(ROLES, SCRIPT_ARRAY, DATES[1], DATES[0]);
-        String expectedResult = null;
-        Assert.assertEquals(
-                "Test failed from date " + DATES[1] + " to " + DATES[0]
-                        + "\nactual: \n" + actualResult
-                        + "\nexpected: \n" + expectedResult,
-                expectedResult,
-                actualResult);
+        salary.getSalaryInfo(ROLES, SCRIPT_ARRAY, DATES[1], DATES[0]);
     }
 
     @Test
-    public void getSalaryInfoByTwoMonths() {
+    public void getSalaryInfoByTwoMonths() throws IllegalDateParametersException {
         SalaryInfo salary = new SalaryInfo();
         String actualResult = salary.getSalaryInfo(ROLES, SECOND_SCRIPT_ARRAY,
                 SECOND_DATES[0], SECOND_DATES[1]);
