@@ -44,11 +44,11 @@ public class SalaryInfo {
      * Андрей - 600
      * София - 900</p>
      */
-    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     private boolean compareDates(String date1, String date2) {
-        return LocalDate.parse(date1, formatter)
-                .compareTo(LocalDate.parse(date2, formatter)) <= 0;
+        return LocalDate.parse(date1, FORMATTER)
+                .compareTo(LocalDate.parse(date2, FORMATTER)) <= 0;
     }
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
