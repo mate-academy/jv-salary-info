@@ -63,7 +63,7 @@ public class SalaryInfo {
         if (!compareDates(dateFrom,dateTo)) {
             throw new IllegalDateParametersException("Wrong parameters");
         }
-        String result = "Отчёт за период " + dateFrom + " - " + dateTo;
+        StringBuilder result = new StringBuilder("Отчёт за период " + dateFrom + " - " + dateTo);
         for (String name : names) {
             int salary = 0;
             for (int i = 0; i < data.length; i++) {
@@ -75,8 +75,8 @@ public class SalaryInfo {
                             * Integer.parseInt(singleData[3]);
                 }
             }
-            result += "\n" + name + " - " + salary;
+            result.append("\n" + name + " - " + salary);
         }
-        return result + "\n";
+        return result.append("\n").toString();
     }
 }
