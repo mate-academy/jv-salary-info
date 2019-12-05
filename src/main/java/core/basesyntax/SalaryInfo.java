@@ -50,30 +50,21 @@ public class SalaryInfo {
             throw new IllegalDateParametersException("Wrong parameters");
         }
 
-        int[] dates = new int[data.length];
-        String[] namesFromData = new String[data.length];
-        int[] rates = new int[data.length];
-        int[] hours = new int[data.length];
         int[] totalSalary = new int[names.length];
 
         for (int i = 0; i < data.length; i++) {
             String[] dataLineArr = data[i].split(" ");
-            dates[i] = convertDate(dataLineArr[0]);
-            namesFromData[i] = dataLineArr[1];
-            rates[i] = Integer.parseInt(dataLineArr[2]);
-            hours[i] = Integer.parseInt(dataLineArr[3]);
-        }
-
-        for (int i = 0; i < data.length; i++) {
-
-            if (dates[i] >= dateFromP && dates[i] <= dateToP) {
+            if (convertDate(dataLineArr[0]) >= dateFromP
+                    && convertDate(dataLineArr[0]) <= dateToP) {
                 for (int j = 0; j < names.length; j++) {
-                    if (namesFromData[i].equals(names[j])) {
-                        totalSalary[j] += rates[i] * hours[i];
+                    if (dataLineArr[1].equals(names[j])) {
+                        totalSalary[j] += Integer.parseInt(dataLineArr[2])
+                                * Integer.parseInt(dataLineArr[3]);
                     }
                 }
             }
         }
+
         StringBuilder result = new StringBuilder("Отчёт за период ")
                 .append(dateFrom).append(" - ").append(dateTo).append("\n");
         for (int i = 0; i < names.length; i++) {
