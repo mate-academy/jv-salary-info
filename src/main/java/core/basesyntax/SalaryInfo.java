@@ -39,7 +39,8 @@ public class SalaryInfo {
      * Андрей - 600
      * София - 900</p>
      */
-    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
+    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
+            throws Exception {
         return null;
     }
 }
