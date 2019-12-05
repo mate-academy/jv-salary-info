@@ -1,5 +1,7 @@
 package core.basesyntax;
 
+import core.basesyntax.exception.IllegalDateParametersException;
+
 public class SalaryInfo {
     /**
      * <p>Реализуйте метод getSalaryInfo(String[] names, String[] data,
@@ -40,7 +42,52 @@ public class SalaryInfo {
      * София - 900</p>
      */
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
-            throws Exception {
-        return null;
+            throws IllegalDateParametersException {
+
+        int dateFromP = convertDate(dateFrom);
+        int dateToP = convertDate(dateTo);
+        if (dateFromP > dateToP) {
+            throw new IllegalDateParametersException("Wrong parameters");
+        }
+
+        int[] dates = new int[data.length];
+        String[] namesFromData = new String[data.length];
+        int[] rates = new int[data.length];
+        int[] hours = new int[data.length];
+        int[] totalSalary = new int[names.length];
+
+        for (int i = 0; i < data.length; i++) {
+            String[] dataLineArr = data[i].split(" ");
+            dates[i] = convertDate(dataLineArr[0]);
+            namesFromData[i] = dataLineArr[1];
+            rates[i] = Integer.parseInt(dataLineArr[2]);
+            hours[i] = Integer.parseInt(dataLineArr[3]);
+        }
+
+        for (int i = 0; i < data.length; i++) {
+
+            if (dates[i] >= dateFromP && dates[i] <= dateToP) {
+                for (int j = 0; j < names.length; j++) {
+                    if (namesFromData[i].equals(names[j])) {
+                        totalSalary[j] += rates[i] * hours[i];
+                    }
+                }
+            }
+        }
+        StringBuilder result = new StringBuilder("Отчёт за период ")
+                .append(dateFrom).append(" - ").append(dateTo).append("\n");
+        for (int i = 0; i < names.length; i++) {
+            result.append(names[i]).append(" - ").append(totalSalary[i]).append("\n");
+        }
+        return result.toString();
+    }
+
+    private static int convertDate(String data) {
+        String[] arr = data.split("[^0-9]+");
+        String[] arrReverse = new String[arr.length];
+        for (int i = 0; i < arr.length; i++) {
+            arrReverse[i] = arr[arr.length - 1 - i];
+        }
+        return Integer.valueOf(String.join("", arrReverse));
     }
 }
