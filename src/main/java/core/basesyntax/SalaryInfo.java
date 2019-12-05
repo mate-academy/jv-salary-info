@@ -1,10 +1,15 @@
 package core.basesyntax;
 
+import core.basesyntax.exception.IllegalDateParametersException;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class SalaryInfo {
     /**
      * <p>Реализуйте метод getSalaryInfo(String[] names, String[] data,
      * String dateFrom, String dateTo)
-     * вычисляющий зарплату сотрудников. На вход методу подаётся 2 массива и 2 даты,
+     * вычисляющий зnод методу подаётся 2 массива и 2 даты,
      * определяющие период за который надо вычислить зарплату, первый массив содержит имена
      * сотрудников организации, второй массив информацию о рабочих часах и ставке. Формат данных
      * второго массива следующий: дата, имя сотрудника, количество отработанных часов,
@@ -40,7 +45,39 @@ public class SalaryInfo {
      * София - 900</p>
      */
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
-            throws Exception {
-        return null;
+            throws Exception, IllegalArgumentException {
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        LocalDate dateStart = LocalDate.parse(dateFrom, dateFormat);
+        LocalDate dateEnd = LocalDate.parse(dateTo, dateFormat);
+
+        if (dateStart.isAfter(dateEnd)) {
+            throw new IllegalDateParametersException();
+        }
+
+        StringBuilder report = new StringBuilder("Отчёт за период " + dateFrom + " - " + dateTo);
+
+        for (String workerName :
+                names) {
+            int sumOfMoney = 0;
+            for (String dataLine :
+                    data) {
+                if (dataLine.contains(workerName)) {
+                    String[] tempData = dataLine.split(" ");
+                    LocalDate tempStart = LocalDate.parse(tempData[0], dateFormat);
+                    if (isaCorrectDate(dateStart, dateEnd, tempStart)) {
+                        sumOfMoney += Integer.parseInt(tempData[2]) * Integer.parseInt(tempData[3]);
+                    }
+                }
+            }
+            report.append("\n").append(workerName).append(" - ").append(sumOfMoney);
+        }
+        return String.valueOf(report.append("\n"));
+    }
+
+    private boolean isaCorrectDate(LocalDate dateStart, LocalDate dateEnd, LocalDate tempStart) {
+        return tempStart.isBefore(dateEnd)
+            && (tempStart.isAfter(dateStart)
+            || tempStart.equals(dateStart))
+            || tempStart.equals(dateEnd);
     }
 }
