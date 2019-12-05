@@ -46,8 +46,9 @@ public class SalaryInfo {
      * Андрей - 600
      * София - 900</p>
      */
+    private final DateFormat date = new SimpleDateFormat("dd.MM.yyyy");
+
     private boolean compareDates(String date1, String date2) {
-        DateFormat date = new SimpleDateFormat("dd.MM.yyyy");
         try {
             Date one = date.parse(date1);
             Date two = date.parse(date2);
