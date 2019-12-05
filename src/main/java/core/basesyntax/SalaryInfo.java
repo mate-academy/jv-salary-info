@@ -2,8 +2,8 @@ package core.basesyntax;
 
 import core.basesyntax.exception.IllegalDateParametersException;
 
-import java.util.Calendar;
-import java.util.GregorianCalendar;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     /**
@@ -46,40 +46,30 @@ public class SalaryInfo {
      */
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws IllegalDateParametersException {
-        Calendar calendarFrom = getDate(dateFrom);
-        Calendar calendarTo = getDate(dateTo);
-        if (calendarFrom.after(calendarTo)) {
-            throw new IllegalDateParametersException("Wrong parameters");
-        }
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        LocalDate calendarFrom = LocalDate.parse(dateFrom, formatter);
+        LocalDate calendarTo = LocalDate.parse(dateTo, formatter);
 
-        String[][] dataSplit = new String[data.length][4];
-        for (int i = 0; i < dataSplit.length; i++) {
-            dataSplit[i] = data[i].split(" ");
+        if (calendarFrom.isAfter(calendarTo)) {
+            throw new IllegalDateParametersException("Wrong parameters");
         }
 
         StringBuilder salaryInfo =
                 new StringBuilder("Отчёт за период " + dateFrom + " - " + dateTo + "\n");
-        for (String name : names) {
+        for (String name: names) {
             int salary = 0;
-            for (String[] strings : dataSplit) {
-                if (name.equals(strings[1])) {
-                    if (!getDate(strings[0]).after(calendarTo)
-                            && !getDate(strings[0]).before(calendarFrom)) {
-                        salary += Integer.parseInt(strings[2])
-                                * Integer.parseInt(strings[3]);
-                    }
+            for (int i = 0; i < data.length; i++) {
+                String[] salaryRecord = data[i].split(" ");
+                LocalDate record = LocalDate.parse(salaryRecord[0], formatter);
+                if (name.equals(salaryRecord[1])
+                        && !record.isBefore(calendarFrom)
+                        && !record.isAfter(calendarTo)) {
+                    salary += Integer.parseInt(salaryRecord[2])
+                            * Integer.parseInt(salaryRecord[3]);
                 }
             }
             salaryInfo.append(name).append(" - ").append(salary).append("\n");
         }
         return salaryInfo.toString();
-    }
-
-    public Calendar getDate(String s) {
-        String[] split = s.split("\\.");
-        int year = Integer.parseInt(split[2]);
-        int month = Integer.parseInt(split[1]) - 1;
-        int day = Integer.parseInt(split[0]);
-        return new GregorianCalendar(year, month, day);
     }
 }
