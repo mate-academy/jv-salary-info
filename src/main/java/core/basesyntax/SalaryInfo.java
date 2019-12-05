@@ -6,6 +6,9 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
+
+    public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
     /**
      * <p>Реализуйте метод getSalaryInfo(String[] names, String[] data,
      * String dateFrom, String dateTo)
@@ -46,9 +49,8 @@ public class SalaryInfo {
      */
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws Exception, IllegalArgumentException {
-        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        LocalDate dateStart = LocalDate.parse(dateFrom, dateFormat);
-        LocalDate dateEnd = LocalDate.parse(dateTo, dateFormat);
+        LocalDate dateStart = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate dateEnd = LocalDate.parse(dateTo, FORMATTER);
 
         if (dateStart.isAfter(dateEnd)) {
             throw new IllegalDateParametersException();
@@ -56,15 +58,14 @@ public class SalaryInfo {
 
         StringBuilder report = new StringBuilder("Отчёт за период " + dateFrom + " - " + dateTo);
 
-        for (String workerName :
-                names) {
+        for (String workerName : names) {
             int sumOfMoney = 0;
-            for (String dataLine :
-                    data) {
+            for (String dataLine : data) {
                 if (dataLine.contains(workerName)) {
                     String[] tempData = dataLine.split(" ");
-                    LocalDate tempStart = LocalDate.parse(tempData[0], dateFormat);
-                    if (isaCorrectDate(dateStart, dateEnd, tempStart)) {
+                    LocalDate dateInLine = LocalDate.parse(tempData[0], FORMATTER);
+                    if (compareDate(dateInLine, dateStart)
+                            && compareDate(dateEnd, dateInLine)) {
                         sumOfMoney += Integer.parseInt(tempData[2]) * Integer.parseInt(tempData[3]);
                     }
                 }
@@ -74,10 +75,8 @@ public class SalaryInfo {
         return String.valueOf(report.append("\n"));
     }
 
-    private boolean isaCorrectDate(LocalDate dateStart, LocalDate dateEnd, LocalDate tempStart) {
-        return tempStart.isBefore(dateEnd)
-            && (tempStart.isAfter(dateStart)
-            || tempStart.equals(dateStart))
-            || tempStart.equals(dateEnd);
+    private boolean compareDate(LocalDate firstDate, LocalDate secondDate) {
+        return firstDate.isAfter(secondDate)
+            || firstDate.equals(secondDate);
     }
 }
