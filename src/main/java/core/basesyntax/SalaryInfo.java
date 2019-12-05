@@ -1,5 +1,10 @@
 package core.basesyntax;
 
+import core.basesyntax.exception.IllegalDateParametersException;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class SalaryInfo {
     /**
      * <p>Реализуйте метод getSalaryInfo(String[] names, String[] data,
@@ -39,8 +44,39 @@ public class SalaryInfo {
      * Андрей - 600
      * София - 900</p>
      */
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
-            throws Exception {
-        return null;
+            throws IllegalDateParametersException {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        int[][] numbers = new int[data.length][];
+        LocalDate[] docDate = new LocalDate[data.length];
+        LocalDate dateF = LocalDate.parse(dateFrom, formatter);
+        LocalDate dateT = LocalDate.parse(dateTo, formatter);
+
+        if (dateF.isAfter(dateT)) {
+            throw new IllegalDateParametersException();
+        }
+
+        String[][] mydata = new String[data.length][];
+        StringBuilder result = new StringBuilder("Отчёт за период " + dateFrom + " - " + dateTo);
+        for (int i = 0; i < data.length; i++) {
+            mydata[i] = data[i].split(" ");
+            docDate[i] = LocalDate.parse(mydata[i][0], formatter);
+            numbers[i] = new int[]{Integer.parseInt(mydata[i][2]), Integer.parseInt(mydata[i][3])};
+        }
+        for (String name : names) {
+            int salary = 0;
+            for (int i = 0; i < data.length; i++) {
+
+                if (name.equals(mydata[i][1]) && (docDate[i].isAfter(dateF)
+                        || docDate[i].isEqual(dateF))
+                        && (docDate[i].isBefore(dateT) || docDate[i].isEqual(dateT))) {
+                    salary += numbers[i][0] * numbers[i][1];
+                }
+            }
+            result.append("\n" + name + " - " + salary);
+        }
+        return result.append("\n").toString();
     }
 }
+
