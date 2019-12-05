@@ -1,5 +1,12 @@
 package core.basesyntax;
 
+import core.basesyntax.exception.IllegalDateParametersException;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class SalaryInfo {
     /**
      * <p>Реализуйте метод getSalaryInfo(String[] names, String[] data,
@@ -41,6 +48,41 @@ public class SalaryInfo {
      */
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws Exception {
-        return null;
+        DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+        Date startDate = null;
+        try {
+            startDate = dateFormat.parse(dateFrom);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Date endDate = null;
+        try {
+            endDate = dateFormat.parse(dateTo);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        if (startDate.after(endDate)) {
+            throw new IllegalDateParametersException("Wrong parameters");
+        }
+        String result = "Отчёт за период " + dateFrom + " - " + dateTo + "\n";
+        for (int i = 0; i < names.length; i++) {
+            int salaryForPeriod = 0;
+            for (int j = 0; j < data.length; j++) {
+                String[] oneDay = data[j].split(" ");
+                Date thisDay = null;
+                try {
+                    thisDay = dateFormat.parse(oneDay[0]);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                if (names[i].equals(oneDay[1]) && thisDay.compareTo(startDate) >= 0
+                        && thisDay.compareTo(endDate) <= 0) {
+                    salaryForPeriod += Integer.parseInt(oneDay[oneDay.length - 1])
+                            * Integer.parseInt(oneDay[oneDay.length - 2]);
+                }
+            }
+            result += names[i] + " - " + salaryForPeriod + "\n";
+        }
+        return result;
     }
 }
