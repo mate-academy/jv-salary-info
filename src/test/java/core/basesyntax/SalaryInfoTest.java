@@ -1,5 +1,6 @@
 package core.basesyntax;
 
+import core.basesyntax.exception.IllegalDateParametersException;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
@@ -70,7 +71,7 @@ public class SalaryInfoTest {
     public ExpectedException expectedEx = ExpectedException.none();
 
     @Test
-    public void getSalaryInfoByMonth() {
+    public void getSalaryInfoByMonth() throws IllegalDateParametersException {
         try {
             Class<?> exceptionClass = Class
                     .forName("core.basesyntax.exception.IllegalDateParametersException");
@@ -96,7 +97,7 @@ public class SalaryInfoTest {
     }
 
     @Test
-    public void getSalaryInfoByTwoMonths() {
+    public void getSalaryInfoByTwoMonths() throws IllegalDateParametersException {
         SalaryInfo salary = new SalaryInfo();
         String actualResult = salary.getSalaryInfo(ROLES, SECOND_SCRIPT_ARRAY,
                 SECOND_DATES[0], SECOND_DATES[1]);
