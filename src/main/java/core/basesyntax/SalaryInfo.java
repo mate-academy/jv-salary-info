@@ -1,5 +1,12 @@
 package core.basesyntax;
 
+import core.basesyntax.exception.IllegalDateParametersException;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class SalaryInfo {
     /**
      * <p>Реализуйте метод getSalaryInfo(String[] names, String[] data,
@@ -39,8 +46,69 @@ public class SalaryInfo {
      * Андрей - 600
      * София - 900</p>
      */
-    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
-            throws Exception {
-        return null;
+    private static DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+
+    public static String getSalaryInfo(String[] names, String[] data,
+                                       String dateFrom, String dateTo)
+            throws IllegalDateParametersException {
+        if (!checkDate(dateFrom, dateTo)) {
+            throw new IllegalDateParametersException("Wrong parameters");
+        }
+        StringBuilder report = new StringBuilder("Отчёт за период " + dateFrom + " - " + dateTo);
+        for (String name : names) {
+            int salary = 0;
+            for (int i = 0; i < data.length; i++) {
+                if (data[i].contains(name)) {
+                    String[] dataRecord = data[i].split(" ");
+                    if (checkDate(dateFrom, dataRecord[0]) && checkDate(dataRecord[0], dateTo)) {
+                        salary += Integer.parseInt(dataRecord[2]) * Integer.parseInt(dataRecord[3]);
+                    }
+                }
+            }
+            report.append("\n").append(name).append(" - ").append(salary);
+        }
+
+        return report.toString() + "\n";
     }
+
+    public static boolean checkDate(String dateFrom, String dateTo) {
+        try {
+            Date dateToF = dateFormat.parse(dateTo);
+            Date dateFromF = dateFormat.parse(dateFrom);
+            /*System.out.println(dateFromF);
+            System.out.println(dateToF);*/
+            return dateFromF.compareTo(dateToF) <= 0;
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+
+    /*public static void main(String[] args) {
+        try {
+
+            System.out.println(getSalaryInfo(ROLES, SCRIPT_ARRAY,
+                    "27.03.2019", "26.04.2019"));
+
+        } catch (IllegalDateParametersException e) {
+            e.printStackTrace();
+        }
+
+        //System.out.println(checkDate("27.03.2019", "15.04.2019"));
+    }
+
+    private static final String[] ROLES = {"Сергей", "Андрей", "София"};
+    private static final String[] SCRIPT_ARRAY = {
+            "25.04.2019 Сергей 60 50",
+            "25.04.2019 Андрей 3 200",
+            "25.04.2019 София 10 100",
+
+            "26.04.2019 Андрей 3 200",
+            "26.04.2019 София 9 100",
+
+            "27.04.2019 Сергей 7 100",
+            "27.04.2019 София 3 80",
+            "27.04.2019 Андрей 8 100"
+    };*/
 }
