@@ -1,5 +1,12 @@
 package core.basesyntax;
 
+//import exception.IllegalDateParametersException;
+
+import core.basesyntax.exception.IllegalDateParametersException;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class SalaryInfo {
     /**
      * <p>Реализуйте метод getSalaryInfo(String[] names, String[] data,
@@ -39,8 +46,41 @@ public class SalaryInfo {
      * Андрей - 600
      * София - 900</p>
      */
+
+    static DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
+    public boolean checkDate(LocalDate firstDate, LocalDate secondDate) {
+        return firstDate.compareTo(secondDate) <= 0;
+    }
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws Exception {
-        return null;
+
+        LocalDate localDateFrom = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate localDateTo = LocalDate.parse(dateTo, FORMATTER);
+
+        if (!checkDate(localDateFrom, localDateTo)) {
+            throw new IllegalDateParametersException("Wrong parameters");
+        }
+
+        StringBuilder result = new StringBuilder();
+        result.append("Отчёт за период ").append(dateFrom)
+                .append(" - ").append(dateTo).append("\n");
+        for (String name : names) {
+            int salary = 0;
+            for (int i = 0; i < data.length; i++) {
+                String[] nameSalaryInfo = data[i].split(" ");
+                LocalDate currentDate = LocalDate.parse(nameSalaryInfo[0], FORMATTER);
+                if (nameSalaryInfo[1].equals(name)) {
+                    if (checkDate(localDateFrom, currentDate)
+                            && checkDate(currentDate, localDateTo)) {
+                        salary += Integer.parseInt(nameSalaryInfo[2])
+                                * Integer.parseInt(nameSalaryInfo[3]);
+                    }
+                }
+            }
+            result.append(name).append(" - ").append(salary).append("\n");
+        }
+        return result.toString();
     }
 }
