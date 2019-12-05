@@ -63,8 +63,7 @@ public class SalaryInfo {
                 if (names[i].equals(oneDay[1])
                         && thisDay.compareTo(startDate) >= 0
                         && thisDay.compareTo(endDate) <= 0) {
-                    salaryForPeriod += Integer.parseInt(oneDay[oneDay.length - 1])
-                            * Integer.parseInt(oneDay[oneDay.length - 2]);
+                    salaryForPeriod += Integer.parseInt(oneDay[2]) * Integer.parseInt(oneDay[3]);
                 }
             }
             sb.append(names[i]).append(" - ").append(salaryForPeriod).append("\n");
