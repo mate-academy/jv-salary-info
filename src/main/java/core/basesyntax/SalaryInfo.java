@@ -2,10 +2,8 @@ package core.basesyntax;
 
 import core.basesyntax.exception.IllegalDateParametersException;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     /**
@@ -46,43 +44,31 @@ public class SalaryInfo {
      * Андрей - 600
      * София - 900</p>
      */
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws Exception {
-        DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-        Date startDate = null;
-        try {
-            startDate = dateFormat.parse(dateFrom);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        Date endDate = null;
-        try {
-            endDate = dateFormat.parse(dateTo);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        if (startDate.after(endDate)) {
+        LocalDate startDate = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate endDate = LocalDate.parse(dateTo, FORMATTER);
+        if (startDate.compareTo(endDate) >= 0) {
             throw new IllegalDateParametersException("Wrong parameters");
         }
-        String result = "Отчёт за период " + dateFrom + " - " + dateTo + "\n";
+        StringBuilder sb = new StringBuilder();
+        sb.append("Отчёт за период ").append(dateFrom).append(" - ").append(dateTo).append("\n");
         for (int i = 0; i < names.length; i++) {
             int salaryForPeriod = 0;
             for (int j = 0; j < data.length; j++) {
                 String[] oneDay = data[j].split(" ");
-                Date thisDay = null;
-                try {
-                    thisDay = dateFormat.parse(oneDay[0]);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                if (names[i].equals(oneDay[1]) && thisDay.compareTo(startDate) >= 0
+                LocalDate thisDay = LocalDate.parse(oneDay[0], FORMATTER);
+                if (names[i].equals(oneDay[1])
+                        && thisDay.compareTo(startDate) >= 0
                         && thisDay.compareTo(endDate) <= 0) {
                     salaryForPeriod += Integer.parseInt(oneDay[oneDay.length - 1])
                             * Integer.parseInt(oneDay[oneDay.length - 2]);
                 }
             }
-            result += names[i] + " - " + salaryForPeriod + "\n";
+            sb.append(names[i]).append(" - ").append(salaryForPeriod).append("\n");
         }
-        return result;
+        return sb.toString();
     }
 }
