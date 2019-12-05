@@ -2,10 +2,8 @@ package core.basesyntax;
 
 import core.basesyntax.exception.IllegalDateParametersException;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     /**
@@ -46,17 +44,11 @@ public class SalaryInfo {
      * Андрей - 600
      * София - 900</p>
      */
-    private final DateFormat date = new SimpleDateFormat("dd.MM.yyyy");
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     private boolean compareDates(String date1, String date2) {
-        try {
-            Date one = date.parse(date1);
-            Date two = date.parse(date2);
-            return one.compareTo(two) <= 0;
-        } catch (ParseException e) {
-            System.out.println("Wrong date format");
-            return false;
-        }
+        return LocalDate.parse(date1, formatter)
+                .compareTo(LocalDate.parse(date2, formatter)) <= 0;
     }
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
