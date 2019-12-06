@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    static DateTimeFormatter DATE_PATTERN = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    static DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     /**
      * <p>Реализуйте метод getSalaryInfo(String[] names, String[] data,
@@ -50,8 +50,8 @@ public class SalaryInfo {
             throws IllegalDateParametersException {
         StringBuilder report = new StringBuilder(
                 "Отчёт за период " + dateFrom + " - " + dateTo + "\n");
-        LocalDate from = LocalDate.parse(dateFrom, DATE_PATTERN);
-        LocalDate to = LocalDate.parse(dateTo, DATE_PATTERN);
+        LocalDate from = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate to = LocalDate.parse(dateTo, FORMATTER);
         if (from.compareTo(to) >= 0) {
             throw new IllegalDateParametersException();
         }
@@ -60,7 +60,7 @@ public class SalaryInfo {
             int money = 0;
             for (String datum : data) {
                 String[] oneDay = datum.split(" ");
-                LocalDate tempDay = LocalDate.parse(oneDay[0], DATE_PATTERN);
+                LocalDate tempDay = LocalDate.parse(oneDay[0], FORMATTER);
                 if (name.equals(oneDay[1])
                         && tempDay.compareTo(from) >= 0
                         && tempDay.compareTo(to) <= 0) {
