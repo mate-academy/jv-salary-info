@@ -2,7 +2,6 @@ package core.basesyntax;
 
 import core.basesyntax.exception.IllegalDateParametersException;
 
-import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -48,8 +47,7 @@ public class SalaryInfo {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
-            throws IllegalDateParametersException{
-
+            throws IllegalDateParametersException {
         LocalDate dateFromDate = LocalDate.parse(dateFrom, FORMATTER);
         LocalDate dateToDate = LocalDate.parse(dateTo, FORMATTER);
         StringBuilder report = new StringBuilder();
