@@ -72,7 +72,7 @@ public class SalaryInfo {
             }
             report.append("\n").append(workerName).append(" - ").append(sumOfMoney);
         }
-        return String.valueOf(report.append("\n"));
+        return report.append("\n").toString();
     }
 
     private boolean compareDate(LocalDate firstDate, LocalDate secondDate) {
