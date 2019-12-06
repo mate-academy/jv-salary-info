@@ -52,7 +52,7 @@ public class SalaryInfo {
         LocalDate localDateFrom = LocalDate.parse(dateFrom, FORMATTER);
         LocalDate localDateTo = LocalDate.parse(dateTo, FORMATTER);
 
-        if (!localDateFrom.isBefore(localDateTo)) {
+        if (localDateFrom.isAfter(localDateTo)) {
             throw new IllegalDateParametersException("Wrong parameters");
         }
 
