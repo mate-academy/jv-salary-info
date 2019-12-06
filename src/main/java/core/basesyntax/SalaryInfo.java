@@ -45,43 +45,36 @@ public class SalaryInfo {
      * Андрей - 600
      * София - 900</p>
      */
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws IllegalDateParametersException, ParseException {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        LocalDate dateFromDate = LocalDate.parse(dateFrom, formatter);
-        LocalDate dateToDate = LocalDate.parse(dateTo, formatter);
-        String[] parsedData = new String[4];
-        int[] salary = new int[names.length];
+
+        LocalDate dateFromDate = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate dateToDate = LocalDate.parse(dateTo, FORMATTER);
+        StringBuilder report = new StringBuilder();
+        report.append("Отчёт за период ").append(dateFrom).append(" - ")
+                .append(dateTo).append("\n");
 
         if (dateFromDate.isAfter(dateToDate)) {
             throw new IllegalDateParametersException();
         }
 
-        for (int i = 0; i < data.length; i++) {
-            parsedData = data[i].split(" ");
-            LocalDate dateTemp = null;
-            dateTemp = LocalDate.parse(parsedData[0], formatter);
-            for (int j = 0; j < names.length; j++) {
-                if (names[j].equals(parsedData[1])) {
-                    if (dateTemp.equals(dateFromDate) || dateTemp.equals(dateToDate)
-                            || dateTemp.isAfter(dateFromDate) && dateTemp.isBefore(dateToDate)) {
-                        salary[j] = salary[j] + (Integer.parseInt(parsedData[2])
-                                * Integer.parseInt(parsedData[3]));
-                    }
+        for (int j = 0; j < names.length; j++) {
+            Integer personSalary = 0;
+            for (int i = 0; i < data.length; i++) {
+                String[] oneDay = data[i].split(" ");
+                LocalDate dateTemp = LocalDate.parse(oneDay[0], FORMATTER);
+                if (names[j].equals(oneDay[1]) && (dateTemp.equals(dateFromDate)
+                        || dateTemp.equals(dateToDate) || dateTemp.isAfter(dateFromDate)
+                        && dateTemp.isBefore(dateToDate))) {
+                    personSalary += (Integer.parseInt(oneDay[2])
+                            * Integer.parseInt(oneDay[3]));
                 }
             }
+            report.append(names[j]).append(" - ").append(personSalary).append("\n");
         }
 
-        return buildReport(names, salary, dateFrom, dateTo);
-    }
-
-    private String buildReport(String[] names, int[] salary, String dateFrom, String dateTo) {
-        StringBuilder report = new StringBuilder();
-        report.append("Отчёт за период ").append(dateFrom).append(" - ")
-                .append(dateTo).append("\n");
-        for (int i = 0; i < names.length; i++) {
-            report.append(names[i]).append(" - ").append(salary[i]).append("\n");
-        }
         return report.toString();
     }
 }
