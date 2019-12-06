@@ -1,6 +1,7 @@
 package core.basesyntax;
 
 import core.basesyntax.exception.IllegalDateParametersException;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -44,10 +45,6 @@ public class SalaryInfo {
      * София - 900</p>
      */
 
-    public boolean checkDate(LocalDate firstDate, LocalDate secondDate) {
-        return firstDate.compareTo(secondDate) <= 0;
-    }
-
     static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
@@ -69,8 +66,10 @@ public class SalaryInfo {
                 String[] nameSalaryInfo = data[i].split(" ");
                 LocalDate currentDate = LocalDate.parse(nameSalaryInfo[0], FORMATTER);
                 if (nameSalaryInfo[1].equals(name)) {
-                    if (checkDate(localDateFrom, currentDate)
-                            && checkDate(currentDate, localDateTo)) {
+                    if ((currentDate.isEqual(localDateFrom)
+                            || currentDate.isAfter(localDateFrom))
+                            && (currentDate.isEqual(localDateTo)
+                            || currentDate.isBefore(localDateTo))) {
                         salary += Integer.parseInt(nameSalaryInfo[2])
                                 * Integer.parseInt(nameSalaryInfo[3]);
                     }
