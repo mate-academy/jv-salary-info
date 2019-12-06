@@ -2,6 +2,9 @@ package core.basesyntax;
 
 import core.basesyntax.exception.IllegalDateParametersException;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class SalaryInfo {
     /**
      * <p>Реализуйте метод getSalaryInfo(String[] names, String[] data,
@@ -43,42 +46,30 @@ public class SalaryInfo {
      */
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws IllegalDateParametersException {
+        final DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        LocalDate dateFromP = LocalDate.parse(dateFrom, dateFormat);
+        LocalDate dateToP = LocalDate.parse(dateTo, dateFormat);
 
-        int dateFromP = convertDate(dateFrom);
-        int dateToP = convertDate(dateTo);
-        if (dateFromP > dateToP) {
+        if (dateFromP.compareTo(dateToP) > 0) {
             throw new IllegalDateParametersException("Wrong parameters");
-        }
-
-        int[] totalSalary = new int[names.length];
-
-        for (int i = 0; i < data.length; i++) {
-            String[] dataLineArr = data[i].split(" ");
-            if (convertDate(dataLineArr[0]) >= dateFromP
-                    && convertDate(dataLineArr[0]) <= dateToP) {
-                for (int j = 0; j < names.length; j++) {
-                    if (dataLineArr[1].equals(names[j])) {
-                        totalSalary[j] += Integer.parseInt(dataLineArr[2])
-                                * Integer.parseInt(dataLineArr[3]);
-                    }
-                }
-            }
         }
 
         StringBuilder result = new StringBuilder("Отчёт за период ")
                 .append(dateFrom).append(" - ").append(dateTo).append("\n");
-        for (int i = 0; i < names.length; i++) {
-            result.append(names[i]).append(" - ").append(totalSalary[i]).append("\n");
+        for (int j = 0; j < names.length; j++) {
+            int salary = 0;
+
+            for (int i = 0; i < data.length; i++) {
+                String[] dataLineArr = data[i].split(" ");
+
+                if (names[j].equals(dataLineArr[1])
+                        && (dateFromP.compareTo(LocalDate.parse(dataLineArr[0], dateFormat)) <= 0)
+                        && (dateToP.compareTo(LocalDate.parse(dataLineArr[0], dateFormat)) >= 0)) {
+                    salary += Integer.parseInt(dataLineArr[2]) * Integer.parseInt(dataLineArr[3]);
+                }
+            }
+            result.append(names[j]).append(" - ").append(salary).append("\n");
         }
         return result.toString();
-    }
-
-    private static int convertDate(String data) {
-        String[] arr = data.split("[^0-9]+");
-        String[] arrReverse = new String[arr.length];
-        for (int i = 0; i < arr.length; i++) {
-            arrReverse[i] = arr[arr.length - 1 - i];
-        }
-        return Integer.valueOf(String.join("", arrReverse));
     }
 }
