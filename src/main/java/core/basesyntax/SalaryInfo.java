@@ -1,5 +1,10 @@
 package core.basesyntax;
 
+import core.basesyntax.exception.IllegalDateParametersException;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class SalaryInfo {
     /**
      * <p>Реализуйте метод getSalaryInfo(String[] names, String[] data,
@@ -39,8 +44,41 @@ public class SalaryInfo {
      * Андрей - 600
      * София - 900</p>
      */
+    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.LL.yyyy");
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
-            throws Exception {
-        return null;
+            throws IllegalDateParametersException {
+        StringBuilder sb = new StringBuilder();
+        int[] array = new int[names.length];
+        LocalDate dateFromFormatted = LocalDate.parse(dateFrom, formatter);
+        LocalDate dateToFormatted = LocalDate.parse(dateTo, formatter);
+
+        // dateFrom > dateTo
+        if (dateFromFormatted.isAfter(dateToFormatted)
+                || dateFromFormatted.isEqual(dateToFormatted)) {
+            throw new IllegalDateParametersException();
+        }
+        for (int i = 0; i < names.length; i++) {
+            for (int j = 0; j < data.length; j++) {
+                String[] splittedArray = data[j].split(" ");
+                if (names[i].equals(splittedArray[1])) {
+                    LocalDate localDate = LocalDate.parse(splittedArray[0],
+                            formatter);
+                    if ((localDate.isAfter(dateFromFormatted)
+                            || localDate.isEqual(dateFromFormatted))
+                            && (localDate.isBefore(dateToFormatted)
+                            || localDate.isEqual(dateToFormatted))) {
+                        array[i] += Integer.parseInt(splittedArray[2])
+                                * Integer.parseInt(splittedArray[3]);
+                    }
+                }
+            }
+            names[i] += " - " + array[i];
+        }
+        sb.append("Отчёт за период ").append(dateFrom).append(" - ").append(dateTo).append("\n");
+        for (String s : names) {
+            sb.append(s).append("\n");
+        }
+        return sb.toString();
     }
 }
