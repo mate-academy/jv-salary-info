@@ -1,5 +1,9 @@
 package core.basesyntax;
 
+import core.basesyntax.exception.IllegalDateParametersException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class SalaryInfo {
     /**
      * <p>Реализуйте метод getSalaryInfo(String[] names, String[] data,
@@ -41,6 +45,40 @@ public class SalaryInfo {
      */
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws Exception {
-        return null;
+
+        Employe[] everyOneEmploye = new Employe[data.length];
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
+        if (LocalDate.parse(dateFrom, formatter).isAfter(LocalDate.parse(dateTo, formatter))) {
+            throw new IllegalDateParametersException("Wrong parameters");
+        }
+
+        StringBuilder builder
+                = new StringBuilder("Отчёт за период " + dateFrom + " - " + dateTo + "\n");
+
+        String[] buffer;
+        for (int i = 0; i < data.length; ++i) {
+            buffer = data[i].split(" ");
+            everyOneEmploye[i] = new Employe(LocalDate.parse(buffer[0], formatter), buffer[1],
+                    Integer.parseInt(buffer[2]), Integer.parseInt(buffer[3]));
+        }
+        for (String name : names) {
+            int finishSalary = 0;
+            for (int i = 0; i < everyOneEmploye.length; ++i) {
+                if (name.equals(everyOneEmploye[i].getName())
+                        && ((everyOneEmploye[i].getDate()
+                        .isEqual(LocalDate.parse(dateFrom, formatter)))
+                        || (everyOneEmploye[i].getDate()
+                        .isEqual(LocalDate.parse(dateTo, formatter)))
+                        || (everyOneEmploye[i].getDate()
+                        .isAfter(LocalDate.parse(dateFrom, formatter))
+                        && everyOneEmploye[i].getDate()
+                        .isBefore(LocalDate.parse(dateTo, formatter))))) {
+                    finishSalary += everyOneEmploye[i].getHours() * everyOneEmploye[i].getSalary();
+                }
+            }
+            builder.append(name).append(" - ").append(finishSalary).append("\n");
+        }
+        return builder.toString();
     }
 }
