@@ -5,9 +5,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    public SalaryInfo() {
-    }
-
     /**
      * <p>Реализуйте метод getSalaryInfo(String[] names, String[] data,
      * String dateFrom, String dateTo)
@@ -46,16 +43,17 @@ public class SalaryInfo {
      * Андрей - 600
      * София - 900</p>
      */
-    static DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final DateTimeFormatter DATE_FORMATTER =
+            DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws IllegalDateParametersException {
 
         LocalDate from = LocalDate.parse(dateFrom, DATE_FORMATTER);
-        LocalDate to = LocalDate.parse(dateTo,DATE_FORMATTER);
+        LocalDate to = LocalDate.parse(dateTo, DATE_FORMATTER);
 
         if (from.isAfter(to)) {
-            throw new IllegalDateParametersException();
+            throw new IllegalDateParametersException("Wrong parameters");
         }
 
         StringBuilder result = new StringBuilder("Отчёт за период "
