@@ -45,36 +45,37 @@ public class SalaryInfo {
      * София - 900</p>
      */
 
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws Exception {
 
-        LocalDate dateFromParsed = LocalDate.parse(dateFrom, formatter);
-        LocalDate dateToParsed = LocalDate.parse(dateTo, formatter);
+        LocalDate dateFromParsed = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate dateToParsed = LocalDate.parse(dateTo, FORMATTER);
 
         if (dateFromParsed.isAfter(dateToParsed)) {
             throw new IllegalDateParametersException("Wrong parameters");
         }
 
-        String[] personsWH = new String[4];
-        int[] zp = new int[names.length];
+        String[] personsData = new String[4];
+        int[] personsSalary = new int[names.length];
         for (int i = 0; i < data.length; i++) {
-            personsWH = data[i].split(" ");
-            LocalDate workingDate = LocalDate.parse(personsWH[0], formatter);
+            personsData = data[i].split(" ");
+            LocalDate workingDate = LocalDate.parse(personsData[0], FORMATTER);
             if ((workingDate.isAfter(dateFromParsed) && workingDate.isBefore(dateToParsed))
                     || workingDate.isEqual(dateFromParsed) || workingDate.isEqual(dateToParsed)) {
                 for (int j = 0; j < names.length; j++) {
-                    if (names[j].equals(personsWH[1])) {
-                        zp[j] += Integer.parseInt(personsWH[2]) * Integer.parseInt(personsWH[3]);
+                    if (names[j].equals(personsData[1])) {
+                        personsSalary[j] += Integer.parseInt(personsData[2])
+                                * Integer.parseInt(personsData[3]);
                     }
                 }
             }
         }
-        StringBuilder report;
-        report = new StringBuilder("Отчёт за период " + dateFrom + " - " + dateTo + "\n");
+        StringBuilder report = new StringBuilder("Отчёт за период "
+                + dateFrom + " - " + dateTo + "\n");
         for (int i = 0; i < names.length; i++) {
-            report.append(names[i] + " - " + zp[i] + "\n");
+            report.append(names[i] + " - " + personsSalary[i] + "\n");
         }
         return report.toString();
     }
