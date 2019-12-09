@@ -1,7 +1,6 @@
 package core.basesyntax;
 
 import core.basesyntax.exception.IllegalDateParametersException;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -74,4 +73,3 @@ public class SalaryInfo {
         return results.toString();
     }
 }
-
