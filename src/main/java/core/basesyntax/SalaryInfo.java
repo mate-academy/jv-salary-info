@@ -13,7 +13,7 @@ public class SalaryInfo {
      * определяющие период за который надо вычислить зарплату, первый массив содержит имена
      * сотрудников организации, второй массив информацию о рабочих часах и ставке. Формат данных
      * второго массива следующий: дата, имя сотрудника, количество отработанных часов,
-     * ставка за 1 час. Метод должен вернуть отчёт за период, который передали в метод
+     * ставка за 1 час. Метод должен вернуть отчё т за период, который передали в метод
      * (обе даты включительно) составленный по следующей форме: Отчёт за период
      * #дата_1# - #дата_2# Имя сотрудника - сумма заработанных средств за этот период
      * Создать класс-ошибку IllegalDateParametersException и сделать так, чтобы
@@ -46,20 +46,19 @@ public class SalaryInfo {
      */
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws Exception {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        LocalDate from = LocalDate.parse(dateFrom, formatter);
-        LocalDate to = LocalDate.parse(dateTo, formatter);
+        final DateTimeFormatter FR = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        LocalDate from = LocalDate.parse(dateFrom, FR);
+        LocalDate to = LocalDate.parse(dateTo, FR);
         if (from.isAfter(to)) {
             throw new IllegalDateParametersException("Wrong parameters");
         }
         int[] salary = new int[names.length];
         for (String tempData : data) {
             String[] temp = tempData.split("\\s");
+            LocalDate temp0 = (LocalDate.parse(temp[0], FR));
             for (int i = 0; i < names.length; i++) {
-                if ((LocalDate.parse(temp[0], formatter).isAfter(from)
-                        || LocalDate.parse(temp[0], formatter).isEqual(from))
-                        & (LocalDate.parse(temp[0], formatter).isBefore(to)
-                        || LocalDate.parse(temp[0], formatter).isEqual(to))
+                if ((temp0.isAfter(from) || temp0.isEqual(from))
+                        & (temp0.isBefore(to) || temp0.isEqual(to))
                         & names[i].equals(temp[1])) {
                     salary[i] += Integer.parseInt(temp[2])
                             * Integer.parseInt(temp[3]);
@@ -68,11 +67,11 @@ public class SalaryInfo {
         }
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("Отчёт за период ")
-                .append(from.format(formatter)).append(" - ")
-                .append(to.format(formatter)).append("\n");
-        for (int i = 0; i < names.length; i++) {
-            stringBuilder.append(names[i] + " - " + salary[i] + "\n");
-        }
+                .append(from.format(FR)).append(" - ")
+                .append(to.format(FR)).append("\n")
+                .append(names[0] + " - " + salary[0] + "\n")
+                .append(names[1] + " - " + salary[1] + "\n")
+                .append(names[2] + " - " + salary[2] + "\n");
         return stringBuilder.toString();
     }
 }
