@@ -7,6 +7,8 @@ import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
 
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
     /**
      * <p>Реализуйте метод getSalaryInfo(String[] names, String[] data,
      * String dateFrom, String dateTo)
@@ -47,9 +49,9 @@ public class SalaryInfo {
      */
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws Exception {
-        final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        LocalDate from = LocalDate.parse(dateFrom, formatter);
-        LocalDate to = LocalDate.parse(dateTo, formatter);
+
+        LocalDate from = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate to = LocalDate.parse(dateTo, FORMATTER);
 
         if (from.isAfter(to)) {
             throw new IllegalDateParametersException("Wrong parameters");
@@ -62,7 +64,7 @@ public class SalaryInfo {
             for (String dataToOperate : data) {
                 if (dataToOperate.contains(name)) {
                     String[] dataRes = dataToOperate.split(" ");
-                    LocalDate dateForName = LocalDate.parse(dataRes[0], formatter);
+                    LocalDate dateForName = LocalDate.parse(dataRes[0], FORMATTER);
                     if ((dateForName.isAfter(from) || dateForName.equals(from))
                             && (to.isAfter(dateForName) || to.equals(dateForName))) {
                         salary += Integer.parseInt(dataRes[2]) * Integer.parseInt(dataRes[3]);
