@@ -43,25 +43,25 @@ public class SalaryInfo {
      * Андрей - 600
      * София - 900</p>
      */
-    private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final DateTimeFormatter DATEFORMATER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws Exception {
 
-        LocalDate localDateFrom = LocalDate.parse(dateFrom,dateTimeFormatter);
-        LocalDate localDateTo = LocalDate.parse(dateTo,dateTimeFormatter);
+        LocalDate localDateFrom = LocalDate.parse(dateFrom, DATEFORMATER);
+        LocalDate localDateTo = LocalDate.parse(dateTo, DATEFORMATER);
         if (localDateTo.isBefore(localDateFrom)) {
             throw new IllegalDateParametersException("Wrong parameters");
         }
 
         StringBuilder results =  new StringBuilder("Отчёт за период "
-                + localDateFrom.format(dateTimeFormatter) + " - "
-                + localDateTo.format(dateTimeFormatter) + "\n");
+                + localDateFrom.format(DATEFORMATER) + " - "
+                + localDateTo.format(DATEFORMATER) + "\n");
         for (int i = 0; i < names.length; i++) {
             Employee employee = new Employee(names[i]);
             for (int j = 0; j < data.length; j++) {
                 String[] localData = data[j].split(" ");
-                LocalDate currentDate = LocalDate.parse(localData[0],dateTimeFormatter);
+                LocalDate currentDate = LocalDate.parse(localData[0], DATEFORMATER);
                 if (employee.getName().equals(localData[1])
                         && currentDate.isAfter(localDateFrom.minusDays(1))
                         && currentDate.isBefore(localDateTo.plusDays(1))) {
