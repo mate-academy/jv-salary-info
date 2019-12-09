@@ -45,28 +45,29 @@ public class SalaryInfo {
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws Exception {
-        DateTimeFormatter d = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        LocalDate localDateFrom = LocalDate.parse(dateFrom,d);
-        LocalDate localDateTo = LocalDate.parse(dateTo,d);
+        final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        LocalDate localDateFrom = LocalDate.parse(dateFrom,dateTimeFormatter);
+        LocalDate localDateTo = LocalDate.parse(dateTo,dateTimeFormatter);
         if (localDateTo.isBefore(localDateFrom)) {
             throw new IllegalDateParametersException("Wrong parameters");
         }
 
         StringBuilder results =  new StringBuilder("Отчёт за период "
-                + localDateFrom.format(d) + " - "
-                + localDateTo.format(d) + "\n");
+                + localDateFrom.format(dateTimeFormatter) + " - "
+                + localDateTo.format(dateTimeFormatter) + "\n");
         for (int i = 0; i < names.length; i++) {
             Employee employee = new Employee(names[i]);
             for (int j = 0; j < data.length; j++) {
                 String[] localData = data[j].split(" ");
-                LocalDate currentDate = LocalDate.parse(localData[0],d);
-                if (employee.name.equals(localData[1])
+                LocalDate currentDate = LocalDate.parse(localData[0],dateTimeFormatter);
+                if (employee.getName().equals(localData[1])
                         && currentDate.isAfter(localDateFrom.minusDays(1))
                         && currentDate.isBefore(localDateTo.plusDays(1))) {
-                    employee.value += Integer.valueOf(localData[2]) * Integer.valueOf(localData[3]);
+                    employee.setValue(Integer.valueOf(localData[2])
+                            * Integer.valueOf(localData[3]));
                 }
             }
-            results = results.append(employee.name + " - " + employee.value + "\n");
+            results = results.append(employee.getName() + " - " + employee.getValue() + "\n");
         }
         return results.toString();
     }
