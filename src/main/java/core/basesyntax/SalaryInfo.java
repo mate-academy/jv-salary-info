@@ -1,5 +1,7 @@
 package core.basesyntax;
 
+import core.basesyntax.exception.IllegalDateParametersException;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
