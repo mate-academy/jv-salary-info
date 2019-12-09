@@ -44,16 +44,16 @@ public class SalaryInfo {
      * Андрей - 600
      * София - 900</p>
      */
-    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.LL.yyyy");
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.LL.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws IllegalDateParametersException {
         StringBuilder sb = new StringBuilder();
         int[] array = new int[names.length];
-        LocalDate dateFromFormatted = LocalDate.parse(dateFrom, formatter);
-        LocalDate dateToFormatted = LocalDate.parse(dateTo, formatter);
+        LocalDate dateFromFormatted = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate dateToFormatted = LocalDate.parse(dateTo, FORMATTER);
 
-        // dateFrom > dateTo
+        sb.append("Отчёт за период ").append(dateFrom).append(" - ").append(dateTo).append("\n");
         if (dateFromFormatted.isAfter(dateToFormatted)
                 || dateFromFormatted.isEqual(dateToFormatted)) {
             throw new IllegalDateParametersException();
@@ -63,7 +63,7 @@ public class SalaryInfo {
                 String[] splittedArray = data[j].split(" ");
                 if (names[i].equals(splittedArray[1])) {
                     LocalDate localDate = LocalDate.parse(splittedArray[0],
-                            formatter);
+                            FORMATTER);
                     if ((localDate.isAfter(dateFromFormatted)
                             || localDate.isEqual(dateFromFormatted))
                             && (localDate.isBefore(dateToFormatted)
@@ -73,11 +73,7 @@ public class SalaryInfo {
                     }
                 }
             }
-            names[i] += " - " + array[i];
-        }
-        sb.append("Отчёт за период ").append(dateFrom).append(" - ").append(dateTo).append("\n");
-        for (String s : names) {
-            sb.append(s).append("\n");
+            sb.append(names[i]).append(" - ").append(array[i]).append("\n");
         }
         return sb.toString();
     }
