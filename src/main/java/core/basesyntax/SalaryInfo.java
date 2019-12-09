@@ -43,10 +43,11 @@ public class SalaryInfo {
      * Андрей - 600
      * София - 900</p>
      */
+    private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws Exception {
-        final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
         LocalDate localDateFrom = LocalDate.parse(dateFrom,dateTimeFormatter);
         LocalDate localDateTo = LocalDate.parse(dateTo,dateTimeFormatter);
         if (localDateTo.isBefore(localDateFrom)) {
@@ -65,7 +66,8 @@ public class SalaryInfo {
                         && currentDate.isAfter(localDateFrom.minusDays(1))
                         && currentDate.isBefore(localDateTo.plusDays(1))) {
                     employee.setValue(Integer.valueOf(localData[2])
-                            * Integer.valueOf(localData[3]));
+                            * Integer.valueOf(localData[3])
+                            + employee.getValue());
                 }
             }
             results = results.append(employee.getName() + " - " + employee.getValue() + "\n");

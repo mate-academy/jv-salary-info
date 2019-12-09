@@ -2,7 +2,7 @@ package core.basesyntax;
 
 public class Employee {
     private String name;
-    private int value = 0;
+    private int value;
 
     public Employee(String nameLocal) {
         name = nameLocal;
@@ -17,6 +17,6 @@ public class Employee {
     }
 
     public void setValue(int value) {
-        this.value += value;
+        this.value = value;
     }
 }
