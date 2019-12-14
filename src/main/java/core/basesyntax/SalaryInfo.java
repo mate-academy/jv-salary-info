@@ -1,6 +1,13 @@
 package core.basesyntax;
 
+import core.basesyntax.exception.IllegalDateParametersException;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class SalaryInfo {
+    static DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
     /**
      * <p>Реализуйте метод getSalaryInfo(String[] names, String[] data,
      * String dateFrom, String dateTo)
@@ -37,10 +44,32 @@ public class SalaryInfo {
      * Отчёт за период 01.04.2019  - 30.04.2019
      * Сергей - 1550
      * Андрей - 600
-     * София - 900</p>
+     * София - 90y0</p>
      */
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
-            throws Exception {
-        return null;
+            throws IllegalDateParametersException {
+
+        LocalDate firstDate = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate secondDate = LocalDate.parse(dateTo, FORMATTER);
+        if (firstDate.compareTo(secondDate) >= 0) {
+            throw new IllegalDateParametersException("Wrong parameters");
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append("Отчёт за период ").append(dateFrom).append(" - ").append(dateTo).append("\n");
+        for (int i = 0; i < names.length; i++) {
+            int salary = 0;
+            for (int j = 0; j < data.length; j++) {
+                String[] oneLineData = data[j].split(" ");
+                LocalDate thisDay = LocalDate.parse(oneLineData[0], FORMATTER);
+                if (names[i].equals(oneLineData[1])
+                        && thisDay.compareTo(firstDate) > 0
+                        && thisDay.compareTo(secondDate) <= 0) {
+                    salary += Integer.parseInt(oneLineData[2]) * Integer.parseInt(oneLineData[3]);
+                }
+            }
+            sb.append(names[i]).append(" - ").append(salary).append("\n");
+        }
+        return sb.toString();
     }
 }
