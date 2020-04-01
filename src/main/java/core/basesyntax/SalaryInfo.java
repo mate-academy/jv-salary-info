@@ -1,7 +1,14 @@
 package core.basesyntax;
 
+import core.basesyntax.exception.IllegalDateParametersException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
 public class SalaryInfo {
-    /**
+    /*
      * <p>Реализуйте метод getSalaryInfo(String[] names, String[] data,
      * String dateFrom, String dateTo)
      * вычисляющий зарплату сотрудников. На вход методу подаётся 2 массива и 2 даты,
@@ -39,8 +46,85 @@ public class SalaryInfo {
      * Андрей - 600
      * София - 900</p>
      */
-    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
-            throws Exception {
-        return null;
+    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
+
+        Date from = parseDate(dateFrom);
+        Date to = parseDate(dateTo);
+        if (from.after(to)) {
+            throw new IllegalDateParametersException("Wrong parameters");
+        }
+
+        Map<String, Integer> nameToEarnings = createNameToEarningsMap(names);
+
+        for (String record : data) {
+            EarningsRecord earningsRecord = EarningsRecord.create(record.split(" "));
+            if (filterEarningsRecord(earningsRecord, from, to, nameToEarnings)) {
+                processRecord(earningsRecord, nameToEarnings);
+
+            }
+        }
+
+        return generateReport(names, dateFrom, dateTo, nameToEarnings);
     }
+
+    private String generateReport(
+            String[] names, String dateFrom, String dateTo, Map<String, Integer> nameToEarnings) {
+        StringBuilder sb = new StringBuilder("Отчёт за период " + dateFrom + " - " + dateTo);
+        for (String name : names) {
+            sb.append("\n").append(name).append(" - ").append(nameToEarnings.get(name));
+        }
+        return sb.toString();
+    }
+
+    private Map<String, Integer> createNameToEarningsMap(String[] names) {
+        Map<String, Integer> nameToEarnings = new HashMap<>();
+        for (String name : names) {
+            nameToEarnings.put(name, 0);
+        }
+        return nameToEarnings;
+    }
+
+    private boolean filterEarningsRecord(
+            EarningsRecord earningsRecord,
+            Date fromDate,
+            Date toDate,
+            Map<String, Integer> nameToEarnings
+    ) {
+        return nameToEarnings.containsKey(earningsRecord.name)
+                && !earningsRecord.date.before(fromDate)
+                && !earningsRecord.date.after(toDate);
+    }
+
+    private void processRecord(EarningsRecord earningsRecord, Map<String, Integer> nameToEarnings) {
+        Integer earnings = nameToEarnings.get(earningsRecord.name)
+                + earningsRecord.hours * earningsRecord.hourlyRate;
+        nameToEarnings.put(earningsRecord.name, earnings);
+    }
+
+    private static Date parseDate(String date) {
+        try {
+            return new SimpleDateFormat("dd.MM.yyyy").parse(date);
+        } catch (ParseException e) {
+            throw new IllegalDateParametersException("Wrong parameters");
+        }
+    }
+
+    private static class EarningsRecord {
+
+        Date date;
+        String name;
+        int hours;
+        int hourlyRate;
+
+        static EarningsRecord create(String[] fields) {
+            EarningsRecord earningsRecord = new EarningsRecord();
+            earningsRecord.date = parseDate(fields[0]);
+            earningsRecord.name = fields[1];
+            earningsRecord.hours = Integer.parseInt(fields[2]);
+            earningsRecord.hourlyRate = Integer.parseInt(fields[3]);
+            return earningsRecord;
+        }
+
+    }
+
 }
