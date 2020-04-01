@@ -5,9 +5,10 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws IllegalDateParametersException {
-        final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         StringBuilder resultString = new StringBuilder();
         LocalDate formattedDateFrom = LocalDate.parse(dateFrom, FORMATTER);
         LocalDate formattedDateTo = LocalDate.parse(dateTo, FORMATTER);
