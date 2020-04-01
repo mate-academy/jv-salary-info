@@ -77,7 +77,8 @@ public class SalaryInfo {
             }
         }
 
-        StringBuilder result = new StringBuilder("Отчёт за период " + dateFrom + " - " + dateTo + "\n");
+        StringBuilder result
+                = new StringBuilder("Отчёт за период " + dateFrom + " - " + dateTo + "\n");
 
         for (int i = 0; i < names.length; i++) {
             result.append(names[i]).append(" - ").append(salaryOfNames[i]);
