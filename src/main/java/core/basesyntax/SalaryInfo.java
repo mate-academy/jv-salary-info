@@ -66,23 +66,6 @@ public class SalaryInfo {
         return generateReport(names, dateFrom, dateTo, nameToEarnings);
     }
 
-    private String generateReport(String[] names, String dateFrom, String dateTo,
-            Map<String, Integer> nameToEarnings) {
-        StringBuilder sb = new StringBuilder("Отчёт за период " + dateFrom + " - " + dateTo);
-        for (String name : names) {
-            sb.append("\n").append(name).append(" - ").append(nameToEarnings.get(name));
-        }
-        return sb.toString();
-    }
-
-    private Map<String, Integer> createNameToEarningsMap(String[] names) {
-        Map<String, Integer> nameToEarnings = new HashMap<>();
-        for (String name : names) {
-            nameToEarnings.put(name, 0);
-        }
-        return nameToEarnings;
-    }
-
     private boolean filterEarningsRecord(
             EarningsRecord earningsRecord,
             LocalDate fromDate,
@@ -98,6 +81,23 @@ public class SalaryInfo {
         Integer earnings = nameToEarnings.get(earningsRecord.name)
                 + earningsRecord.hours * earningsRecord.hourlyRate;
         nameToEarnings.put(earningsRecord.name, earnings);
+    }
+
+    private Map<String, Integer> createNameToEarningsMap(String[] names) {
+        Map<String, Integer> nameToEarnings = new HashMap<>();
+        for (String name : names) {
+            nameToEarnings.put(name, 0);
+        }
+        return nameToEarnings;
+    }
+
+    private String generateReport(String[] names, String dateFrom, String dateTo,
+            Map<String, Integer> nameToEarnings) {
+        StringBuilder sb = new StringBuilder("Отчёт за период " + dateFrom + " - " + dateTo);
+        for (String name : names) {
+            sb.append("\n").append(name).append(" - ").append(nameToEarnings.get(name));
+        }
+        return sb.toString();
     }
 
     private static LocalDate parseDate(String date) {
