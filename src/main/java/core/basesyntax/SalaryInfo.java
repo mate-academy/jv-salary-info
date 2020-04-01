@@ -54,9 +54,10 @@ public class SalaryInfo {
         for (String retVal: names) {
             salary = 0;
             for (int i = 0; i < data.length; i++) {
-                String [] q = data[i].split(" ");
-                if (q[1].equals(retVal) == true && suitableDate(dateFrom, dateTo, q[0]) == true) {
-                    salary += Integer.parseInt(q[2]) * Integer.parseInt(q[3]);
+                String [] oneString = data[i].split(" ");
+                if (oneString[1].equals(retVal) == true
+                        && suitableDate(dateFrom, dateTo, oneString[0]) == true) {
+                    salary += Integer.parseInt(oneString[2]) * Integer.parseInt(oneString[3]);
                 }
             }
             result.append("\n").append(retVal).append(" - ").append(salary);
@@ -67,7 +68,7 @@ public class SalaryInfo {
 
     public static Date dateConvInData(String data)
             throws ParseException {
-        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+        final SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
         Date docDate = format.parse(data);
         return docDate;
     }
@@ -83,9 +84,9 @@ public class SalaryInfo {
 
     public static int afterBeforeEqualsDays(String firstDate, String secondDate)
             throws ParseException {
-        if (dateConvInData(firstDate).compareTo(dateConvInData(secondDate)) > 0) {
+        if (dateConvInData(firstDate).after(dateConvInData(secondDate)) == true) {
             return 1;
-        } else if (dateConvInData(firstDate).compareTo(dateConvInData(secondDate)) == 0) {
+        } else if (dateConvInData(firstDate).equals(dateConvInData(secondDate)) == true) {
             return 0;
         } else {
             return -1;
