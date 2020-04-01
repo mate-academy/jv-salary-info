@@ -1,8 +1,8 @@
 package core.basesyntax;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
+import core.basesyntax.exception.IllegalDateParametersException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     /**
@@ -43,36 +43,35 @@ public class SalaryInfo {
      * Андрей - 600
      * София - 900</p>
      */
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws Exception {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
-        Date dateFromDate = sdf.parse(dateFrom);
-        Date dateToDate = sdf.parse(dateTo);
-        if (dateFromDate.compareTo(dateToDate) > 0) {
-            throw new core.basesyntax.exception.IllegalDateParametersException("Wrong parameters");
+        LocalDate dateFromDate = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate dateToDate = LocalDate.parse(dateTo, FORMATTER);
+        if (dateFromDate.isAfter(dateToDate)) {
+            throw new IllegalDateParametersException("Wrong parameters");
         }
         StringBuilder result = new StringBuilder();
         result.append("Отчёт за период ").append(dateFrom).append(" - ").append(dateTo);
         result.append("\n");
-        HashMap<String, Integer> preResult = new HashMap<>();
         for (String name : names) {
-            preResult.put(name, 0);
-        }
-        for (int i = 0; i < data.length; i++) {
-            String[] dataString = data[i].split(" ");
-            if (sdf.parse(dataString[0]).compareTo(dateFromDate) >= 0
-                    && sdf.parse(dataString[0]).compareTo(dateToDate) <= 0) {
-                int hoursAtThisDate = Integer.parseInt(dataString[2]);
-                int hourCost = Integer.parseInt(dataString[3]);
-                preResult.replace(dataString[1],
-                        preResult.get(dataString[1]) + (hourCost * hoursAtThisDate));
+            int salary = 0;
+            for (String stringData : data) {
+                String[] arrayData = stringData.split(" ");
+                LocalDate local = LocalDate.parse(arrayData[0], FORMATTER);
+                if (stringData.contains(name)
+                        && (local.isAfter(dateFromDate)
+                        || local.isEqual(dateFromDate))
+                        && (local.isBefore(dateToDate)
+                        || local.isEqual(dateToDate))) {
+                    salary += Integer.parseInt(arrayData[2])
+                            * Integer.parseInt(arrayData[3]);
+                }
             }
-        }
-        for (String name : names) {
-            result.append(name).append(" - ").append(preResult.get(name)).append("\n");
+            result.append(name).append(" - ").append(salary).append("\n");
         }
         result.deleteCharAt(result.length() - 1);
-
         return result.toString();
     }
 }
