@@ -3,8 +3,8 @@ package core.basesyntax;
 import static java.lang.Integer.parseInt;
 
 import core.basesyntax.exception.IllegalDateParametersException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     /**
@@ -47,10 +47,10 @@ public class SalaryInfo {
      */
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws Exception {
-        SimpleDateFormat formatDate = new SimpleDateFormat("dd.MM.yyyy");
-        Date dateStart = formatDate.parse(dateFrom);
-        Date dateEnd = formatDate.parse(dateTo);
-        Date actualDate = null;
+        DateTimeFormatter formatDate = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        LocalDate dateStart = LocalDate.parse(dateFrom, formatDate);
+        LocalDate dateEnd = LocalDate.parse(dateTo, formatDate);
+        LocalDate actualDate = null;
         StringBuilder result = new StringBuilder("Отчёт за период " + dateFrom + " - " + dateTo);
         int salary = 0;
 
@@ -62,10 +62,10 @@ public class SalaryInfo {
             salary = 0;
             for (String line : data) {
                 String[] entry = line.split(" ");
-                actualDate = formatDate.parse(entry[0]);
+                actualDate = LocalDate.parse(entry[0], formatDate);
                 if (name.equals(entry[1])
-                        && actualDate.compareTo(dateStart) >= 0
-                        && actualDate.compareTo(dateEnd) <= 0) {
+                        && (actualDate.isAfter(dateStart) || actualDate.isEqual(dateStart))
+                        && (actualDate.isBefore(dateEnd) || actualDate.isEqual(dateEnd))) {
                     salary += parseInt(entry[2]) * parseInt(entry[3]);
                 }
             }
