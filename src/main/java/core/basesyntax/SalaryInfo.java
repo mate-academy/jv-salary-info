@@ -59,8 +59,9 @@ public class SalaryInfo {
         int salary = 0;
         for (String name : names) {
             for (String currentData : data) {
-                if ((name.equals(getName(currentData))) & (dateCondition(currentData, dateFrom, dateTo))) {
-                        salary += getHours(currentData) * getPrice(currentData);
+                if ((name.equals(getName(currentData)))
+                        & (dateCondition(currentData, dateFrom, dateTo))) {
+                    salary += getHours(currentData) * getPrice(currentData);
                 }
             }
             result.append("\n").append(name).append(" - ").append(salary);
