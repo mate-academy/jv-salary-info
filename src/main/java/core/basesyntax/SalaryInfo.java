@@ -48,15 +48,15 @@ public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws Exception {
         Map<String, Integer> map = new HashMap<String, Integer>();
-        final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        LocalDate date1 = LocalDate.parse(dateFrom, FORMATTER);
-        LocalDate date2 = LocalDate.parse(dateTo, FORMATTER);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        LocalDate date1 = LocalDate.parse(dateFrom, formatter);
+        LocalDate date2 = LocalDate.parse(dateTo, formatter);
         if (date1.isAfter(date2)) {
             throw new IllegalDateParametersException();
         }
         for (String s : data) {
             String[] info = s.split(" ");
-            LocalDate today = LocalDate.parse(info[0], FORMATTER);
+            LocalDate today = LocalDate.parse(info[0], formatter);
             if (today.isAfter(date1) && today.isBefore(date2)
                     || today.equals(date1) || today.equals(date2)) {
                 String employee = info[1];
