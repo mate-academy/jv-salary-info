@@ -5,11 +5,13 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
+
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws Exception {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        LocalDate dateWorkFrom = LocalDate.parse(dateFrom, formatter);
-        LocalDate dateWorkTo = LocalDate.parse(dateTo, formatter);
+        LocalDate dateWorkFrom = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate dateWorkTo = LocalDate.parse(dateTo, FORMATTER);
         if (dateWorkFrom.compareTo(dateWorkTo) >= 0) {
             throw new IllegalDateParametersException("Wrong parameters");
         }
@@ -21,9 +23,9 @@ public class SalaryInfo {
             for (String strData : data) {
                 String[] personInformation = strData.split(" ");
                 if (strName.equals(personInformation[1])
-                        && LocalDate.parse(personInformation[0], formatter)
+                        && LocalDate.parse(personInformation[0], FORMATTER)
                         .compareTo(dateWorkFrom) >= 0
-                        && LocalDate.parse(personInformation[0], formatter)
+                        && LocalDate.parse(personInformation[0], FORMATTER)
                         .compareTo(dateWorkTo) <= 0) {
                     payment += Integer.parseInt(personInformation[2])
                             * Integer.parseInt(personInformation[3]);
