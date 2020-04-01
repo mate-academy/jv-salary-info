@@ -1,8 +1,8 @@
 package core.basesyntax;
 
 import core.basesyntax.exception.IllegalDateParametersException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     /**
@@ -46,20 +46,19 @@ public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws Exception {
         StringBuilder sb = new StringBuilder("Отчёт за период " + dateFrom + " - " + dateTo + "\n");
-        SimpleDateFormat format = new SimpleDateFormat();
-        format.applyPattern("dd.MM.yyyy");
-        Date dateFromDate = format.parse(dateFrom);
-        Date dateToDate = format.parse(dateTo);
-        if (dateFromDate.compareTo(dateToDate) == 1) {
+        final DateTimeFormatter F = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        LocalDate dateFromDate = LocalDate.parse(dateFrom, F).minusDays(1);
+        LocalDate dateToDate = LocalDate.parse(dateTo, F).plusDays(1);
+        if (dateFromDate.plusDays(1).isAfter(dateToDate.minusDays(1))) {
             throw new IllegalDateParametersException("Wrong parameters");
         }
         for (int i = 0; i < names.length; i++) {
             int salary = 0;
             for (int j = 0; j < data.length; j++) {
                 String[] dataArray = data[j].split(" ");
-                Date dataData = format.parse(dataArray[0]);
-                if (names[i].equals(dataArray[1]) && dataData.compareTo(dateFromDate)
-                        != -1 && dataData.compareTo(dateToDate) != 1) {
+                LocalDate dataData = LocalDate.parse(dataArray[0], F);
+                if (names[i].equals(dataArray[1]) && dataData.isAfter(dateFromDate)
+                        && dataData.isBefore(dateToDate)) {
                     salary += Integer.parseInt(dataArray[2]) * Integer.parseInt(dataArray[3]);
                 }
             }
