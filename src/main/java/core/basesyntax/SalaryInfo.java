@@ -1,9 +1,9 @@
 package core.basesyntax;
 
 import core.basesyntax.exception.IllegalDateParametersException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,11 +46,13 @@ public class SalaryInfo {
      * Андрей - 600
      * София - 900</p>
      */
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
 
-        Date from = parseDate(dateFrom);
-        Date to = parseDate(dateTo);
-        if (from.after(to)) {
+        LocalDate from = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate to = LocalDate.parse(dateTo, FORMATTER);
+        if (from.isAfter(to)) {
             throw new IllegalDateParametersException("Wrong parameters");
         }
 
@@ -60,6 +62,7 @@ public class SalaryInfo {
             EarningsRecord earningsRecord = EarningsRecord.create(record.split(" "));
             if (filterEarningsRecord(earningsRecord, from, to, nameToEarnings)) {
                 processRecord(earningsRecord, nameToEarnings);
+
             }
         }
 
@@ -85,13 +88,13 @@ public class SalaryInfo {
 
     private boolean filterEarningsRecord(
             EarningsRecord earningsRecord,
-            Date fromDate,
-            Date toDate,
+            LocalDate fromDate,
+            LocalDate toDate,
             Map<String, Integer> nameToEarnings
     ) {
         return nameToEarnings.containsKey(earningsRecord.name)
-                && !earningsRecord.date.before(fromDate)
-                && !earningsRecord.date.after(toDate);
+                && !earningsRecord.date.isBefore(fromDate)
+                && !earningsRecord.date.isAfter(toDate);
     }
 
     private void processRecord(EarningsRecord earningsRecord, Map<String, Integer> nameToEarnings) {
@@ -100,24 +103,25 @@ public class SalaryInfo {
         nameToEarnings.put(earningsRecord.name, earnings);
     }
 
-    private static Date parseDate(String date) {
+    private static LocalDate parseDate(String date) {
         try {
-            return new SimpleDateFormat("dd.MM.yyyy").parse(date);
-        } catch (ParseException e) {
+            LocalDate a;
+            return LocalDate.parse(date, FORMATTER);
+        } catch (DateTimeParseException e) {
             throw new IllegalDateParametersException("Wrong parameters");
         }
     }
 
     private static class EarningsRecord {
 
-        Date date;
+        LocalDate date;
         String name;
         int hours;
         int hourlyRate;
 
         static EarningsRecord create(String[] fields) {
             EarningsRecord earningsRecord = new EarningsRecord();
-            earningsRecord.date = parseDate(fields[0]);
+            earningsRecord.date = LocalDate.parse(fields[0], FORMATTER);
             earningsRecord.name = fields[1];
             earningsRecord.hours = Integer.parseInt(fields[2]);
             earningsRecord.hourlyRate = Integer.parseInt(fields[3]);
