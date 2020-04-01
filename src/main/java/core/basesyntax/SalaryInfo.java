@@ -1,5 +1,11 @@
 package core.basesyntax;
 
+import core.basesyntax.exception.IllegalDateParametersException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class SalaryInfo {
     /**
      * <p>Реализуйте метод getSalaryInfo(String[] names, String[] data,
@@ -27,10 +33,6 @@ public class SalaryInfo {
      * 26.04.2019 Андрей 3 200
      * 26.04.2019 Сергей 7 100
      * 26.04.2019 София 9 100
-     * 26.04.2019 Сергей 11 50
-     * 26.04.2019 Андрей 3 200
-     * 26.04.2019 Сергей 7 100
-     * 26.04.2019 София 9 100
      * 26.04.2019 Сергей 11 50</p>
      *
      * <p>Пример вывода:
@@ -39,8 +41,51 @@ public class SalaryInfo {
      * Андрей - 600
      * София - 900</p>
      */
+    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
+    private boolean checkDatesSequence(String dateFrom, String dateTo) {
+        LocalDate fromDate = LocalDate.parse(dateFrom, formatter);
+        LocalDate toDate = LocalDate.parse(dateTo, formatter);
+
+        return toDate.compareTo(fromDate) >= 0;
+    }
+
+    private boolean checkDateBelonging(String givenDate, String dateFrom, String dateTo) {
+        LocalDate fromDate = LocalDate.parse(dateFrom, formatter);
+        LocalDate toDate = LocalDate.parse(dateTo, formatter);
+        LocalDate currentDate = LocalDate.parse(givenDate, formatter);
+
+        return (currentDate.compareTo(fromDate) >= 0) && (currentDate.compareTo(toDate) <= 0);
+    }
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
-            throws Exception {
-        return null;
+            throws IllegalDateParametersException {
+
+        if (!checkDatesSequence(dateFrom, dateTo)) {
+            throw new IllegalDateParametersException("Wrong parameters");
+        }
+
+        int[] salary = new int[names.length];
+        for (int i = 0; i < names.length; i++) {
+            Pattern name = Pattern.compile(names[i]);
+            for (String datum : data) {
+                Matcher matcher = name.matcher(datum);
+                if (matcher.find()) {
+                    if (checkDateBelonging(datum.substring(0, 10), dateFrom, dateTo)) {
+                        String[] stringArray = datum.split(" ");
+                        salary[i] += Integer.parseInt(stringArray[2])
+                                * Integer.parseInt(stringArray[3]);
+                    }
+                }
+            }
+        }
+
+        StringBuilder result = new StringBuilder();
+        result.append("Отчёт за период ").append(dateFrom).append(" - ").append(dateTo);
+        for (int i = 0; i < names.length; i++) {
+            result.append("\n").append(names[i]).append(" - ").append(salary[i]);
+        }
+
+        return result.toString();
     }
 }
