@@ -52,8 +52,8 @@ public class SalaryInfo {
             throw new IllegalDateParametersException("Wrong parameters");
         }
         int[] result = new int[names.length];
-        for (String record : data) {
-            String[] values = record.split(" ");
+        for (String line : data) {
+            String[] values = line.split(" ");
             LocalDate date = LocalDate.parse(values[0], FORMAT);
             String name = values[1];
             int hours = Integer.parseInt(values[2]);
