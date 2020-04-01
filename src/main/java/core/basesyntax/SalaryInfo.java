@@ -59,14 +59,12 @@ public class SalaryInfo {
         if (fromDate.isAfter(toDate)) {
             throw new IllegalDateParametersException("Wrong parameters");
         }
-        String[] mass = new String[4];
         for (int j = 0; j < names.length; j++) {
             for (int i = 0; i < data.length; i++) {
-                mass = data[i].split(" ");
-                checkDate = LocalDate.parse(mass[0], formatter);
-                name = mass[1];
-                workinHours = Integer.valueOf(mass[2]);
-                rate = Integer.valueOf(mass[3]);
+                checkDate = LocalDate.parse(data[i].split(" ")[0], formatter);
+                name = data[i].split(" ")[1];
+                workinHours = Integer.valueOf(data[i].split(" ")[2]);
+                rate = Integer.valueOf(data[i].split(" ")[3]);
                 if (names[j].equals(name)
                         && checkDate.compareTo(toDate) < 1
                         && checkDate.compareTo(fromDate) > -1) {
