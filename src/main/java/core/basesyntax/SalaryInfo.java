@@ -69,9 +69,9 @@ public class SalaryInfo {
     }
 
     public int compareDate(String dateFrom, String dateTo) throws ParseException {
-        final DateTimeFormatter FORMAT = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        LocalDate firstDate = LocalDate.parse(dateFrom, FORMAT);
-        LocalDate lastDate = LocalDate.parse(dateTo, FORMAT);
+        final DateTimeFormatter PATTERN = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        LocalDate firstDate = LocalDate.parse(dateFrom, PATTERN);
+        LocalDate lastDate = LocalDate.parse(dateTo, PATTERN);
         return firstDate.compareTo(lastDate);
     }
 }
