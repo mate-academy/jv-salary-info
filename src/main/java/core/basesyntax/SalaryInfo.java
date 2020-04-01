@@ -1,5 +1,9 @@
 package core.basesyntax;
 
+import core.basesyntax.exception.IllegalDateParametersException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class SalaryInfo {
     /**
      * <p>Реализуйте метод getSalaryInfo(String[] names, String[] data,
@@ -39,8 +43,34 @@ public class SalaryInfo {
      * Андрей - 600
      * София - 900</p>
      */
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
-            throws Exception {
-        return null;
+            throws IllegalDateParametersException {
+        StringBuilder sb = new StringBuilder("Отчёт за период " + dateFrom + " - " + dateTo);
+        LocalDate from = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate to = LocalDate.parse(dateTo, FORMATTER);
+        if (from.isAfter(to)) {
+            throw new IllegalDateParametersException("Wrong parameters");
+        }
+        int[] salary = new int[names.length];
+        for (String s : data) {
+            String[] info = s.split(" ");
+            LocalDate date = LocalDate.parse(info[0], FORMATTER);
+            String name = info[1];
+            int hours = Integer.parseInt(info[2]);
+            int stavka = Integer.parseInt(info[3]);
+            if (!date.isBefore(from) && !date.isAfter(to)) {
+                for (int i = 0; i < names.length; i++) {
+                    if (name.equals(names[i])) {
+                        salary[i] += hours * stavka;
+                    }
+                }
+            }
+        }
+        for (int i = 0; i < names.length; i++) {
+            sb.append("\n").append(names[i]).append(" - ").append(salary[i]);
+        }
+        return sb.toString();
     }
 }
