@@ -65,8 +65,7 @@ public class SalaryInfo {
                         && (dataLocalCaseDate.isAfter(localDateFrom)
                         || dataLocalCaseDate.isEqual(localDateFrom))
                         && (dataLocalCaseDate.isBefore(localDateTo)
-                        || dataLocalCaseDate.isEqual(localDateTo))
-                ) {
+                        || dataLocalCaseDate.isEqual(localDateTo))) {
                     salary = salary + Integer.parseInt(dataArr[2]) * Integer.parseInt(dataArr[3]);
                 }
             }
