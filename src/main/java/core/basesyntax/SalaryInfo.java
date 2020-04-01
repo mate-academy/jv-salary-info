@@ -1,9 +1,7 @@
 package core.basesyntax;
 
-import java.text.ParseException;
-
+import core.basesyntax.exception.IllegalDateParametersException;
 import java.time.LocalDate;
-
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
@@ -45,23 +43,36 @@ public class SalaryInfo {
      * Андрей - 600
      * София - 900</p>
      */
-    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) throws ParseException {
+    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
+            throws IllegalDateParametersException {
         final String pattern = "dd.MM.yyyy";
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
         LocalDate to = LocalDate.parse(dateTo, formatter);
         LocalDate from = LocalDate.parse(dateFrom, formatter);
+        if (to.compareTo(from) < 0) {
+            throw new IllegalDateParametersException();
+        }
         int[] salary = new int[names.length];
         for (int i = 0; i < names.length; i++) {
             int salaryOfWorker = 0;
             for (String information: data) {
                 String[] workerData = information.split(" ");
                 LocalDate day = LocalDate.parse(workerData[0], formatter);
-                if (to.isAfter(day) && from.isBefore(day) && workerData[1].equals(names[i])) {
-                    salaryOfWorker += Integer.parseInt(workerData[2]) * Integer.parseInt(workerData[3]);
+                if (day.compareTo(to) <= 0
+                        && day.compareTo(from) >= 0
+                        && workerData[1].equals(names[i])) {
+                    salaryOfWorker += Integer.parseInt(workerData[2])
+                            * Integer.parseInt(workerData[3]);
                 }
             }
             salary[i] = salaryOfWorker;
         }
-        return "true";
+        StringBuilder report = new StringBuilder();
+        report.append("Отчёт за период ").append(dateFrom).append(" - ")
+                .append(dateTo).append("\n");
+        for (int i = 0; i < names.length; i++) {
+            report.append(names[i]).append(" - ").append(salary[i]).append("\n");
+        }
+        return report.toString().trim();
     }
 }
