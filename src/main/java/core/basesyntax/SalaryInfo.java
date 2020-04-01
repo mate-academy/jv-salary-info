@@ -1,5 +1,11 @@
 package core.basesyntax;
 
+import core.basesyntax.exception.IllegalDateParametersException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
 public class SalaryInfo {
     /**
      * <p>Реализуйте метод getSalaryInfo(String[] names, String[] data,
@@ -39,8 +45,42 @@ public class SalaryInfo {
      * Андрей - 600
      * София - 900</p>
      */
+    private final SimpleDateFormat format = new SimpleDateFormat();
+
+    public SalaryInfo() {
+        format.applyPattern("dd.MM.yyyy");
+    }
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws Exception {
-        return null;
+        Date startDate = format.parse(dateFrom);
+        Date endDate = format.parse(dateTo);
+        if (startDate.after(endDate)) {
+            throw new IllegalDateParametersException();
+        }
+        Map<String, Integer> totalSalary = new HashMap<>();
+        for (String row : data) {
+            String[] splitRow = row.split(" ");
+            Date currentDate = format.parse(splitRow[0]);
+            if (currentDate.equals(startDate) || currentDate.equals(endDate)
+                    || (currentDate.after(startDate) && currentDate.before(endDate))) {
+                String currentName = splitRow[1];
+                totalSalary.put(currentName, totalSalary.getOrDefault(currentName, 0)
+                        + Integer.parseInt(splitRow[2]) * Integer.parseInt(splitRow[3]));
+            }
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append("Отчёт за период ")
+                .append(dateFrom)
+                .append(" - ")
+                .append(dateTo)
+                .append("\n");
+        for (String name : names) {
+            sb.append(name)
+                    .append(" - ")
+                    .append(totalSalary.getOrDefault(name, 0))
+                    .append("\n");
+        }
+        return sb.toString().trim();
     }
 }
