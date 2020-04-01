@@ -69,7 +69,7 @@ public class SalaryInfo {
                     salary += Integer.parseInt(dateName[2]) * Integer.parseInt(dateName[3]);
                 }
             }
-            report.append(name).append(" - ").append(Integer.toString(salary)).append("\n");
+            report.append(name).append(" - ").append(salary).append("\n");
             salary = 0;
         }
         return report.toString().trim();
