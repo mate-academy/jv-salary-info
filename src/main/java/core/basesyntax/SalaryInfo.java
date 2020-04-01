@@ -56,18 +56,15 @@ public class SalaryInfo {
 
         Map<String, Integer> salaries = new LinkedHashMap<>();
         for (String name : names) {
-            salaries.put(name, 0);
-        }
-
-        for (String personal : data) {
-            String[] personalData = personal.split(" ");
-
-            if (dateIsBeforeOrEqual(dateFrom, personalData[0])
-                    && dateIsBeforeOrEqual(personalData[0], dateTo)) {
-                salaries.replace(personalData[1], salaries.get(personalData[1])
-                        + Integer.parseInt(personalData[2]) * Integer.parseInt(personalData[3]));
-
+            int salary = 0;
+            for (String token : data) {
+                String[] elements = token.split(" ");
+                if (name.equals(elements[1]) && dateIsBeforeOrEqual(dateFrom, elements[0])
+                        && dateIsBeforeOrEqual(elements[0], dateTo)) {
+                    salary += Integer.parseInt(elements[2]) * Integer.parseInt(elements[3]);
+                }
             }
+            salaries.put(name, salary);
         }
 
         StringBuilder result = new StringBuilder();
