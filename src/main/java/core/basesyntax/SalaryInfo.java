@@ -1,5 +1,9 @@
 package core.basesyntax;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+
 public class SalaryInfo {
     /**
      * <p>Реализуйте метод getSalaryInfo(String[] names, String[] data,
@@ -41,6 +45,34 @@ public class SalaryInfo {
      */
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws Exception {
-        return null;
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+        Date dateFromDate = sdf.parse(dateFrom);
+        Date dateToDate = sdf.parse(dateTo);
+        if (dateFromDate.compareTo(dateToDate) > 0) {
+            throw new core.basesyntax.exception.IllegalDateParametersException("Wrong parameters");
+        }
+        StringBuilder result = new StringBuilder();
+        result.append("Отчёт за период ").append(dateFrom).append(" - ").append(dateTo);
+        result.append("\n");
+        HashMap<String, Integer> preResult = new HashMap<>();
+        for (String name : names) {
+            preResult.put(name, 0);
+        }
+        for (int i = 0; i < data.length; i++) {
+            String[] dataString = data[i].split(" ");
+            if (sdf.parse(dataString[0]).compareTo(dateFromDate) >= 0
+                    && sdf.parse(dataString[0]).compareTo(dateToDate) <= 0) {
+                int hoursAtThisDate = Integer.parseInt(dataString[2]);
+                int hourCost = Integer.parseInt(dataString[3]);
+                preResult.replace(dataString[1],
+                        preResult.get(dataString[1]) + (hourCost * hoursAtThisDate));
+            }
+        }
+        for (String name : names) {
+            result.append(name).append(" - ").append(preResult.get(name)).append("\n");
+        }
+        result.deleteCharAt(result.length() - 1);
+
+        return result.toString();
     }
 }
