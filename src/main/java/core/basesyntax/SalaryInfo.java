@@ -51,7 +51,7 @@ public class SalaryInfo {
         if (from.isAfter(to)) {
             throw new IllegalDateParametersException("Wrong parameters");
         }
-        int[] result = new int[names.length];
+        int[] salaryHolder = new int[names.length];
         for (String line : data) {
             String[] values = line.split(" ");
             LocalDate date = LocalDate.parse(values[0], FORMAT);
@@ -61,14 +61,14 @@ public class SalaryInfo {
             if (!date.isBefore(from) && !date.isAfter(to)) {
                 for (int i = 0; i < names.length; ++i) {
                     if (name.equals(names[i])) {
-                        result[i] += hours * rate;
+                        salaryHolder[i] += hours * rate;
                     }
                 }
             }
         }
         StringBuilder report = new StringBuilder("Отчёт за период " + dateFrom + " - " + dateTo);
         for (int i = 0; i < names.length; ++i) {
-            report.append("\n").append(names[i]).append(" - ").append(result[i]);
+            report.append("\n").append(names[i]).append(" - ").append(salaryHolder[i]);
         }
         return report.toString();
     }
