@@ -63,28 +63,27 @@ public class SalaryInfo {
 
     private void payrollAndWriteInNames(String[] names, String[] data,
                                         LocalDate fromData, LocalDate toData) {
-        for (String employee : data) {
-            String[] splitEmployee = employee.split(" ");
-            LocalDate date = convertationToData(splitEmployee[0]);
-            if (date.isAfter(fromData) && date.isBefore(toData)
-                    || date.isEqual(fromData) || date.isEqual(toData)) {
-                for (int i = 0; i < names.length; i++) {
-                    if (names[i].contains(splitEmployee[1])) {
-                        if (names[i].length() > splitEmployee[1].length()) {
-                            String[] splitWorker = names[i].split(" ");
-                            String sum = String.valueOf(Integer.parseInt(splitWorker[2])
-                                    + Integer.parseInt(splitEmployee[2])
-                                    * Integer.parseInt(splitEmployee[3]));
-                            splitWorker[2] = sum;
-                            names[i] = String.join(" ", splitWorker);
-                        } else {
-                            names[i] += " - " + (Integer.parseInt(splitEmployee[2])
-                                    * Integer.parseInt(splitEmployee[3]));
-                        }
+        for (int i = 0; i < names.length; i++) {
+            int sum = 0;
+            for (String worker : data) {
+                String[] splitWorker = worker.split(" ");
+                if (splitWorker[1].equals(names[i])) {
+                    if (checkData(fromData, toData, splitWorker[0])) {
+                        sum += Integer.parseInt(splitWorker[2])
+                                * Integer.parseInt(splitWorker[3]);
                     }
                 }
             }
+            if (sum != 0) {
+                names[i] += " - " + sum;
+            }
         }
+    }
+
+    private boolean checkData(LocalDate fromData, LocalDate toData, String s) {
+        LocalDate data = convertationToData(s);
+        return data.isAfter(fromData) && data.isBefore(toData)
+                || data.isEqual(fromData) || data.isEqual(toData);
     }
 
     private LocalDate convertationToData(String date) {
