@@ -1,5 +1,9 @@
 package core.basesyntax;
 
+import core.basesyntax.exception.IllegalDateParametersException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class SalaryInfo {
     /**
      * <p>Реализуйте метод getSalaryInfo(String[] names, String[] data,
@@ -41,6 +45,56 @@ public class SalaryInfo {
      */
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws Exception {
-        return null;
+
+        if (getDate(dateFrom).isAfter(getDate(dateTo))) {
+            throw new IllegalDateParametersException("Wrong parameters");
+        }
+
+        DateTimeFormatter sdf = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        StringBuilder result = new StringBuilder("Отчёт за период ")
+                .append(sdf.format(getDate(dateFrom)))
+                .append(" - ")
+                .append(sdf.format(getDate(dateTo)));
+
+        int salary = 0;
+        for (String name : names) {
+            for (String currentData : data) {
+                if (name.equals(getName(currentData))) {
+                    if (dateCondition(currentData, dateFrom, dateTo)) {
+                        salary += getHours(currentData) * getPrice(currentData);
+                    }
+                }
+            }
+            result.append("\n").append(name).append(" - ").append(salary);
+            salary = 0;
+        }
+        return result.toString();
+    }
+
+    private boolean dateCondition(String current, String dateFrom, String dateTo) {
+        return (getDate(current).isAfter(getDate(dateFrom))
+                | getDate(current).isEqual(getDate(dateFrom)))
+                & (getDate(current).isBefore(getDate(dateTo))
+                | getDate(current).isEqual(getDate(dateTo)));
+    }
+
+    private static LocalDate getDate(String s) {
+        int day = Integer.valueOf(s.substring(0, 2));
+        int month = Integer.valueOf(s.substring(3, 5));
+        int year = Integer.valueOf(s.substring(6, 10));
+
+        return LocalDate.of(year, month, day);
+    }
+
+    private static String getName(String s) {
+        return s.replaceAll("[\\s\\.\\d]", "");
+    }
+
+    private static int getHours(String s) {
+        return Integer.valueOf(s.split(" ")[3]);
+    }
+
+    private static int getPrice(String s) {
+        return Integer.valueOf(s.split(" ")[2]);
     }
 }
