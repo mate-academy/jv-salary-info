@@ -1,5 +1,10 @@
 package core.basesyntax;
 
+import core.basesyntax.exception.IllegalDateParametersException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class SalaryInfo {
     /**
      * <p>Реализуйте метод getSalaryInfo(String[] names, String[] data,
@@ -40,7 +45,33 @@ public class SalaryInfo {
      * София - 900</p>
      */
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
-            throws Exception {
-        return null;
+            throws IllegalDateParametersException, ParseException {
+        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+        Date startDate = format.parse(dateFrom);
+        Date endDate = format.parse(dateTo);
+        if (startDate.after(endDate)) {
+            throw new IllegalDateParametersException();
+        }
+        StringBuilder result = new StringBuilder("Отчёт за период ")
+                                  .append(dateFrom)
+                                  .append(" - ")
+                                  .append(dateTo)
+                                  .append("\n");
+        for (String n : names) {
+            int sumN = 0;
+            for (String d : data) {
+                String[] temp = d.split(" ");
+                Date workDate = format.parse(temp[0]);
+                if (workDate.after(startDate) && workDate.before(endDate)
+                        || workDate.equals(startDate)
+                        || workDate.equals(endDate)) {
+                    if (n.equals(temp[1])) {
+                        sumN += Integer.parseInt(temp[2]) * Integer.parseInt(temp[3]);
+                    }
+                }
+            }
+            result.append(n + " - " + sumN + "\n");
+        }
+        return result.toString().trim();
     }
 }
