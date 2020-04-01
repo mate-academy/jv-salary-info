@@ -8,9 +8,9 @@ public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws Exception {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        LocalDate date1 = LocalDate.parse(dateFrom, formatter);
-        LocalDate date2 = LocalDate.parse(dateTo, formatter);
-        if (date1.compareTo(date2) >= 0) {
+        LocalDate dateWorkFrom = LocalDate.parse(dateFrom, formatter);
+        LocalDate dateWorkTo = LocalDate.parse(dateTo, formatter);
+        if (dateWorkFrom.compareTo(dateWorkTo) >= 0) {
             throw new IllegalDateParametersException("Wrong parameters");
         }
         StringBuilder report = new StringBuilder();
@@ -22,9 +22,9 @@ public class SalaryInfo {
                 String[] personInformation = strData.split(" ");
                 if (strName.equals(personInformation[1])
                         && LocalDate.parse(personInformation[0], formatter)
-                        .compareTo(date1) >= 0
+                        .compareTo(dateWorkFrom) >= 0
                         && LocalDate.parse(personInformation[0], formatter)
-                        .compareTo(date2) <= 0) {
+                        .compareTo(dateWorkTo) <= 0) {
                     payment += Integer.parseInt(personInformation[2])
                             * Integer.parseInt(personInformation[3]);
                 }
