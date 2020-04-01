@@ -52,11 +52,12 @@ public class SalaryInfo {
         if (date1.compareTo(date2) > 0) {
             throw new IllegalDateParametersException();
         }
-        String result = "Отчёт за период " + dateFrom + " - " + dateTo + "\n";
-
+        StringBuilder res = new StringBuilder();
+        res.append("Отчёт за период " + dateFrom + " - " + dateTo + "\n");
         for (int i = 0; i < names.length; i++) {
             int salary = 0;
-            result += names[i] + " - ";
+            //result += names[i] + " - ";
+            res.append(names[i] + " - ");
             for (String one : data) {
                 String[] temp = one.split(" ");
                 Date dateSalary = sdf.parse(temp[0]);
@@ -66,9 +67,9 @@ public class SalaryInfo {
                     }
                 }
             }
-            result += salary + "\n";
+            res.append(salary + "\n");
         }
-        String answer = result.substring(0,result.length() - 1);
+        String answer = res.substring(0,res.length() - 1);
         return answer;
     }
 }
