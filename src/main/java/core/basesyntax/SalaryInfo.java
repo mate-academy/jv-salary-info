@@ -49,10 +49,8 @@ public class SalaryInfo {
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws Exception {
-        LocalDate fromDate = LocalDate.parse(dateFrom, FORMATTER);
-        LocalDate toDate = LocalDate.parse(dateTo, FORMATTER);
 
-        if (toDate.isBefore(fromDate)) {
+        if (!dateIsBeforeOrEqual(dateFrom, dateTo)) {
             throw new IllegalDateParametersException("Wrong parameters");
         }
 
@@ -63,10 +61,12 @@ public class SalaryInfo {
 
         for (String personal : data) {
             String[] personalData = personal.split(" ");
-            LocalDate workDate = LocalDate.parse(personalData[0], FORMATTER);
-            if (!fromDate.isAfter(workDate) && !toDate.isBefore(workDate)) {
+
+            if (dateIsBeforeOrEqual(dateFrom, personalData[0])
+                    && dateIsBeforeOrEqual(personalData[0], dateTo)) {
                 salaries.replace(personalData[1], salaries.get(personalData[1])
                         + Integer.parseInt(personalData[2]) * Integer.parseInt(personalData[3]));
+
             }
         }
 
@@ -76,5 +76,11 @@ public class SalaryInfo {
             result.append("\n").append(person.getKey()).append(" - ").append(person.getValue());
         }
         return result.toString();
+    }
+
+    public boolean dateIsBeforeOrEqual(String first, String second) {
+        LocalDate firstDate = LocalDate.parse(first, FORMATTER);
+        LocalDate secondDate = LocalDate.parse(second, FORMATTER);
+        return firstDate.isBefore(secondDate) || firstDate.isEqual(secondDate);
     }
 }
