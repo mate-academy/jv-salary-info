@@ -2,8 +2,8 @@ package core.basesyntax;
 
 import core.basesyntax.exception.IllegalDateParametersException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     /**
@@ -69,9 +69,9 @@ public class SalaryInfo {
     }
 
     public int compareDate(String dateFrom, String dateTo) throws ParseException {
-        final SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
-        Date firstDate = format.parse(dateFrom);
-        Date lastDate = format.parse(dateTo);
+        final DateTimeFormatter format = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        LocalDate firstDate = LocalDate.parse(dateFrom, format);
+        LocalDate lastDate = LocalDate.parse(dateTo, format);
         return firstDate.compareTo(lastDate);
     }
 }
