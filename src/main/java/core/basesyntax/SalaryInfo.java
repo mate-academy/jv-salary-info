@@ -1,5 +1,11 @@
 package core.basesyntax;
 
+import core.basesyntax.exception.IllegalDateParametersException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+
 public class SalaryInfo {
     /**
      * <p>Реализуйте метод getSalaryInfo(String[] names, String[] data,
@@ -39,8 +45,46 @@ public class SalaryInfo {
      * Андрей - 600
      * София - 900</p>
      */
+    public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
-            throws Exception {
-        return null;
+            throws IllegalDateParametersException {
+        LocalDate startDate = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate endDate = LocalDate.parse(dateTo, FORMATTER);
+        if (!endDate.isAfter(startDate)) {
+            throw new IllegalDateParametersException("Wrong parameters");
+        }
+
+        StringBuilder salaryInfo = new StringBuilder("Отчёт за период "
+                + dateFrom + " - " + dateTo + "\n");
+        List<Employee> employees = new ArrayList<>();
+
+        for (String name : names) {
+            Employee employee = new Employee(name);
+            employees.add(employee);
+            for (String i : data) {
+                String[] dataInformation = i.split(" ");
+                LocalDate currentDate = LocalDate.parse(dataInformation[0], FORMATTER);
+                if (isCorrectDate(currentDate, startDate, endDate)
+                        && employee.getName().equals(dataInformation[1])) {
+                    int hours = Integer.parseInt(dataInformation[2]);
+                    int rate = Integer.parseInt(dataInformation[3]);
+                    employee.calcSalary(hours, rate);
+                }
+            }
+        }
+
+        for (Employee employee : employees) {
+            salaryInfo.append(employee.getName())
+                    .append(" - ")
+                    .append(employee.getSalary())
+                    .append("\n");
+        }
+        return salaryInfo.delete(salaryInfo.length() - 1, salaryInfo.length()).toString();
+    }
+
+    public boolean isCorrectDate(LocalDate currentDate, LocalDate startDate, LocalDate endDate) {
+        return ((currentDate.isAfter(startDate) && currentDate.isBefore(endDate))
+                || currentDate.equals(startDate) || currentDate.equals(endDate));
     }
 }
