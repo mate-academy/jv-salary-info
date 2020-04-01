@@ -49,7 +49,6 @@ public class SalaryInfo {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-
         LocalDate from = LocalDate.parse(dateFrom, FORMATTER);
         LocalDate to = LocalDate.parse(dateTo, FORMATTER);
         if (from.isAfter(to)) {
@@ -62,15 +61,13 @@ public class SalaryInfo {
             EarningsRecord earningsRecord = EarningsRecord.create(record.split(" "));
             if (filterEarningsRecord(earningsRecord, from, to, nameToEarnings)) {
                 processRecord(earningsRecord, nameToEarnings);
-
             }
         }
-
         return generateReport(names, dateFrom, dateTo, nameToEarnings);
     }
 
-    private String generateReport(
-            String[] names, String dateFrom, String dateTo, Map<String, Integer> nameToEarnings) {
+    private String generateReport(String[] names, String dateFrom, String dateTo,
+            Map<String, Integer> nameToEarnings) {
         StringBuilder sb = new StringBuilder("Отчёт за период " + dateFrom + " - " + dateTo);
         for (String name : names) {
             sb.append("\n").append(name).append(" - ").append(nameToEarnings.get(name));
@@ -113,7 +110,6 @@ public class SalaryInfo {
     }
 
     private static class EarningsRecord {
-
         LocalDate date;
         String name;
         int hours;
