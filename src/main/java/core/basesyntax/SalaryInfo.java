@@ -59,8 +59,6 @@ public class SalaryInfo {
         if (fromDate.isAfter(toDate)) {
             throw new IllegalDateParametersException("Wrong parameters");
         }
-        fromDate = fromDate.minusDays(1);
-        toDate = toDate.plusDays(1);
         for (int j = 0; j < names.length; j++) {
             for (int i = 0; i < data.length; i++) {
                 str = new StringBuilder(data[i]);
@@ -72,8 +70,8 @@ public class SalaryInfo {
                 str = str.delete(0, str.indexOf(" ") + 1);
                 rate = Integer.valueOf(str.toString());
                 if (names[j].equals(name)
-                        && checkDate.isBefore(toDate)
-                        && checkDate.isAfter(fromDate)) {
+                        && checkDate.compareTo(toDate) < 1
+                        && checkDate.compareTo(fromDate) > -1) {
                     salary += workinHours * rate;
                 }
             }
