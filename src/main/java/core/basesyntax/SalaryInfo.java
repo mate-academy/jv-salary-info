@@ -2,8 +2,8 @@ package core.basesyntax;
 
 import core.basesyntax.exception.IllegalDateParametersException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
 
@@ -45,7 +45,7 @@ public class SalaryInfo {
      * Андрей - 600
      * София - 900</p>
      */
-    public static final SimpleDateFormat FORMAT = new SimpleDateFormat("dd.MM.yyyy");
+    public static final DateTimeFormatter FORMAT = DateTimeFormatter.ofPattern("d.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws Exception {
@@ -69,9 +69,8 @@ public class SalaryInfo {
         return result.toString();
     }
 
-    public static Date dateConvInData(String data)
-            throws ParseException {
-        Date docDate = FORMAT.parse(data);
+    public static LocalDate dateConvInData(String data) {
+        LocalDate docDate = LocalDate.parse(data, FORMAT);
         return docDate;
     }
 
@@ -86,9 +85,9 @@ public class SalaryInfo {
 
     public static int afterBeforeEqualsDays(String firstDate, String secondDate)
             throws ParseException {
-        if (dateConvInData(firstDate).after(dateConvInData(secondDate)) == true) {
+        if (dateConvInData(firstDate).isAfter(dateConvInData(secondDate)) == true) {
             return 1;
-        } else if (dateConvInData(firstDate).equals(dateConvInData(secondDate)) == true) {
+        } else if (dateConvInData(firstDate).isEqual(dateConvInData(secondDate)) == true) {
             return 0;
         } else {
             return -1;
