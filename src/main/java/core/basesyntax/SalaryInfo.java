@@ -1,10 +1,12 @@
 package core.basesyntax;
 
 import core.basesyntax.exception.IllegalDateParametersException;
-import java.util.Arrays;
-import java.util.Calendar;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
+
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     /**
      * <p>Реализуйте метод getSalaryInfo(String[] names, String[] data,
@@ -44,33 +46,28 @@ public class SalaryInfo {
      * Андрей - 600
      * София - 900</p>
      */
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws IllegalDateParametersException {
-        if (convertToMilliseconds(dateFrom) > convertToMilliseconds(dateTo)) {
+        LocalDate localFrom = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate localTo = LocalDate.parse(dateTo, FORMATTER);
+        if (localFrom.isAfter(localTo)) {
             throw new IllegalDateParametersException();
         }
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("Отчёт за период ").append(dateFrom)
-                .append(" - ").append(dateTo).append("\n");
+        StringBuilder stringBuilder = new StringBuilder().append("Отчёт за период ")
+                .append(dateFrom).append(" - ").append(dateTo);
         for (String name : names) {
             int salary = 0;
             for (String line : data) {
                 String[] splitData = line.split(" ");
-                if (line.contains(name)
-                        && convertToMilliseconds(splitData[0]) >= convertToMilliseconds(dateFrom)
-                        && convertToMilliseconds(splitData[0]) <= convertToMilliseconds(dateTo)) {
+                LocalDate local = LocalDate.parse(splitData[0], FORMATTER);
+                if (line.contains(name) && (local.isAfter(localFrom) || local.isEqual(localFrom))
+                        && (local.isBefore(localTo) || local.isEqual(localTo))) {
                     salary += Integer.parseInt(splitData[2]) * Integer.parseInt(splitData[3]);
                 }
             }
-            stringBuilder.append(name).append(" - ").append(salary).append("\n");
+            stringBuilder.append("\n").append(name).append(" - ").append(salary);
         }
-        return stringBuilder.toString().substring(0,stringBuilder.length() - 1);
-    }
-
-    private long convertToMilliseconds(String dateString) {
-        int[] values = Arrays.stream(dateString.split("\\.")).mapToInt(Integer::parseInt).toArray();
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(values[2],values[1],values[0]);
-        return calendar.getTimeInMillis();
+        return stringBuilder.toString();
     }
 }
