@@ -1,6 +1,12 @@
 package core.basesyntax;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+
 public class SalaryInfo {
+
     /**
      * <p>Реализуйте метод getSalaryInfo(String[] names, String[] data,
      * String dateFrom, String dateTo)
@@ -40,7 +46,44 @@ public class SalaryInfo {
      * София - 900</p>
      */
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
-            throws Exception {
-        return null;
+            throws IllegalAccessException, ParseException {
+
+        if (!compareDates(dateFrom,dateTo)) {
+            throw new IllegalAccessException("Wrong parameters");
+        }
+
+        StringBuilder sb = new StringBuilder("Отчёт за период " + dateFrom + " - " + dateTo + '\n');
+        ArrayList<String[]> dataToArray = new ArrayList<>();
+
+        for (String s : data) {
+            if (compareDates(dateFrom,s.substring(0,11))
+                    && compareDates(s.substring(0,11),dateTo)) {
+                dataToArray.add(s.split(" "));
+            }
+        }
+
+        int[] money = new int[names.length];
+        for (int m: money) {
+            m = 0;
+        }
+        for (int i = 0; i < names.length; i++) {
+            for (String[] dataArray : dataToArray) {
+                if (names[i].equals(dataArray[1])) {
+                    money[i] += Integer.parseInt(dataArray[2]) + Integer.parseInt(dataArray[3]);
+                }
+            }
+        }
+
+        for (int i = 0; i < names.length; i++) {
+            sb.append(names[i]).append(" - ").append(money[i]).append('\n');
+        }
+        return sb.toString();
+    }
+
+    public boolean compareDates(String d1, String d2) throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.mm.yyyy");
+        Date date1 = sdf.parse(d1);
+        Date date2 = sdf.parse(d2);
+        return date1.compareTo(date2) < 0;
     }
 }
