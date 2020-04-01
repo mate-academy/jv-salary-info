@@ -51,38 +51,24 @@ public class SalaryInfo {
         LocalDate dateToDate = LocalDate.parse(dateTo, FORMATTER);
         LocalDate tempDate;
 
-        int salarySergey = 0;
-        int salaryAndrey = 0;
-        int salarySofia = 0;
-
         if (dateFromDate.isAfter(dateToDate)) {
             throw new IllegalDateParametersException("Wrong parameters");
         }
 
-        for (String datum : data) {
-            String[] info = datum.split(" ");
-            tempDate = LocalDate.parse(info[0], FORMATTER);
-            int i = 0;
-            if (tempDate.isAfter(dateFromDate)
-                    && (tempDate.isBefore(dateToDate) || tempDate.isEqual(dateToDate))) {
-                if (info[1].equals(names[i++])) {
-                    salarySergey += Integer.parseInt(info[2]) * Integer.parseInt(info[3]);
-                }
-                if (info[1].equals(names[i++])) {
-                    salaryAndrey += Integer.parseInt(info[2]) * Integer.parseInt(info[3]);
-                }
-                if (info[1].equals(names[i++])) {
-                    salarySofia += Integer.parseInt(info[2]) * Integer.parseInt(info[3]);
+        StringBuilder result = new StringBuilder().append("Отчёт за период ")
+                .append(dateFrom).append(" - ").append(dateTo);
+        for (String name : names) {
+            int salary = 0;
+            for (String datum : data) {
+                String[] info = datum.split(" ");
+                tempDate = LocalDate.parse(info[0], FORMATTER);
+                if (datum.contains(name) && tempDate.isAfter(dateFromDate)
+                        && (tempDate.isBefore(dateToDate) || tempDate.isEqual(dateToDate))) {
+                    salary += Integer.parseInt(info[2]) * Integer.parseInt(info[3]);
                 }
             }
+            result.append("\n").append(name).append(" - ").append(salary);
         }
-
-        StringBuilder result = new StringBuilder();
-        result.append("Отчёт за период ").append(dateFrom).append(" - ")
-                .append(dateTo).append("\n")
-                .append(names[0]).append(" - ").append(salarySergey).append("\n")
-                .append(names[1]).append(" - ").append(salaryAndrey).append("\n")
-                .append(names[2]).append(" - ").append(salarySofia);
 
         return result.toString();
     }
