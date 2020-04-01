@@ -1,5 +1,8 @@
 package core.basesyntax;
 
+import core.basesyntax.exception.IllegalDateParametersException;
+import java.time.LocalDate;
+
 public class SalaryInfo {
     /**
      * <p>Реализуйте метод getSalaryInfo(String[] names, String[] data,
@@ -41,6 +44,52 @@ public class SalaryInfo {
      */
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws Exception {
-        return null;
+        LocalDate fromData = convertationToData(dateFrom);
+        LocalDate toData = convertationToData(dateTo);
+        if (toData.isBefore(fromData) || toData.isEqual(fromData)) {
+            throw new IllegalDateParametersException("Wrong parameters");
+        }
+        payrollAndWriteInNames(names, data, fromData, toData);
+        StringBuilder report = new StringBuilder("Отчёт за период ");
+        report.append(dateFrom).append(" - ").append(dateTo).append("\n");
+        for (int i = 0; i < names.length; i++) {
+            report.append(names[i]);
+            if (i != names.length - 1) {
+                report.append("\n");
+            }
+        }
+        return report.toString();
+    }
+
+    private void payrollAndWriteInNames(String[] names, String[] data,
+                                        LocalDate fromData, LocalDate toData) {
+        for (String employee : data) {
+            String[] splitEmployee = employee.split(" ");
+            LocalDate date = convertationToData(splitEmployee[0]);
+            if (date.isAfter(fromData) && date.isBefore(toData)
+                    || date.isEqual(fromData) || date.isEqual(toData)) {
+                for (int i = 0; i < names.length; i++) {
+                    if (names[i].contains(splitEmployee[1])) {
+                        if (names[i].length() > splitEmployee[1].length()) {
+                            String[] splitWorker = names[i].split(" ");
+                            String sum = String.valueOf(Integer.parseInt(splitWorker[2])
+                                    + Integer.parseInt(splitEmployee[2])
+                                    * Integer.parseInt(splitEmployee[3]));
+                            splitWorker[2] = sum;
+                            names[i] = String.join(" ", splitWorker);
+                        } else {
+                            names[i] += " - " + (Integer.parseInt(splitEmployee[2])
+                                    * Integer.parseInt(splitEmployee[3]));
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private LocalDate convertationToData(String date) {
+        String[] splitDate = date.split("\\.");
+        return LocalDate.of(Integer.parseInt(splitDate[2]),
+                Integer.parseInt(splitDate[1]), Integer.parseInt(splitDate[0]));
     }
 }
