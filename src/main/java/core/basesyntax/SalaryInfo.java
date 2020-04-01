@@ -1,5 +1,9 @@
 package core.basesyntax;
 
+import core.basesyntax.exception.IllegalDateParametersException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class SalaryInfo {
     /**
      * <p>Реализуйте метод getSalaryInfo(String[] names, String[] data,
@@ -39,8 +43,43 @@ public class SalaryInfo {
      * Андрей - 600
      * София - 900</p>
      */
+    final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws Exception {
-        return null;
+        StringBuilder str = new StringBuilder("");
+        LocalDate fromDate = LocalDate.parse(dateFrom, formatter);
+        LocalDate toDate = LocalDate.parse(dateTo, formatter);
+        int workinHours;
+        int rate;
+        String name = "";
+        LocalDate checkDate = null;
+        int salary = 0;
+        String result = "Отчёт за период " + dateFrom + " - " + dateTo + "\n";
+        if (fromDate.isAfter(toDate)) {
+            throw new IllegalDateParametersException("Wrong parameters");
+        }
+        fromDate = fromDate.minusDays(1);
+        toDate = toDate.plusDays(1);
+        for (int j = 0; j < names.length; j++) {
+            for (int i = 0; i < data.length; i++) {
+                str = new StringBuilder(data[i]);
+                checkDate = LocalDate.parse(str.substring(0, str.indexOf(" ")), formatter);
+                str = str.delete(0, str.indexOf(" ") + 1);
+                name = str.substring(0, str.indexOf(" "));
+                str = str.delete(0, str.indexOf(" ") + 1);
+                workinHours = Integer.valueOf(str.substring(0, str.indexOf(" ")));
+                str = str.delete(0, str.indexOf(" ") + 1);
+                rate = Integer.valueOf(str.toString());
+                if (names[j].equals(name)
+                        && checkDate.isBefore(toDate)
+                        && checkDate.isAfter(fromDate)) {
+                    salary += workinHours * rate;
+                }
+            }
+            result += names[j] + " - " + salary + "\n";
+            salary = 0;
+        }
+        return result.trim();
     }
 }
