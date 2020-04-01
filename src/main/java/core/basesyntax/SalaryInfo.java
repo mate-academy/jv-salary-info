@@ -43,13 +43,14 @@ public class SalaryInfo {
      * Андрей - 600
      * София - 900</p>
      */
-    public static final String formatter = "dd.MM.yyyy";
+    public static final DateTimeFormatter DATE_TIME_FORMATTER
+            = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws Exception {
         StringBuilder report = new StringBuilder("Отчёт за период ");
-        LocalDate dateF = parseDate(dateFrom);
-        LocalDate dateT = parseDate(dateTo);
+        LocalDate dateF = LocalDate.parse(dateFrom, DATE_TIME_FORMATTER);
+        LocalDate dateT = LocalDate.parse(dateTo, DATE_TIME_FORMATTER);
 
         if (dateF.isAfter(dateT)) {
             throw new IllegalDateParametersException("Wrong parameters");
@@ -62,8 +63,10 @@ public class SalaryInfo {
             for (String str : data) {
                 if (str.contains(name)) {
                     String[] arrStr = str.split(" ");
-                    if (parseDate(arrStr[0]).compareTo(dateF) >= 0
-                            && parseDate(arrStr[0]).compareTo(dateT) <= 0) {
+                    if (LocalDate.parse(arrStr[0], DATE_TIME_FORMATTER)
+                            .compareTo(dateF) >= 0
+                            && LocalDate.parse(arrStr[0], DATE_TIME_FORMATTER)
+                            .compareTo(dateT) <= 0) {
                         salary += Integer.parseInt(arrStr[2]) * Integer.parseInt(arrStr[3]);
                     }
                 }
@@ -72,9 +75,5 @@ public class SalaryInfo {
         }
 
         return report.deleteCharAt(report.length() - 1).toString();
-    }
-
-    private LocalDate parseDate(String date) {
-        return LocalDate.parse(date, DateTimeFormatter.ofPattern(formatter));
     }
 }
