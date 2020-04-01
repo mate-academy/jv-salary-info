@@ -44,6 +44,8 @@ public class SalaryInfo {
      * Андрей - 600
      * София - 900</p>
      */
+    private static final DateTimeFormatter PATTERN = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws Exception {
         if (compareDate(dateFrom, dateTo) > 0) {
@@ -69,7 +71,6 @@ public class SalaryInfo {
     }
 
     public int compareDate(String dateFrom, String dateTo) throws ParseException {
-        final DateTimeFormatter PATTERN = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         LocalDate firstDate = LocalDate.parse(dateFrom, PATTERN);
         LocalDate lastDate = LocalDate.parse(dateTo, PATTERN);
         return firstDate.compareTo(lastDate);
