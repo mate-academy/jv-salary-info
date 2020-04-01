@@ -1,6 +1,8 @@
 package core.basesyntax;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -43,11 +45,12 @@ public class SalaryInfo {
      * Андрей - 600
      * София - 900</p>
      */
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws Exception {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
-        Date from = simpleDateFormat.parse(dateFrom);
-        Date to = simpleDateFormat.parse(dateTo);
+        LocalDate from = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate to = LocalDate.parse(dateTo, FORMATTER);
 
         if (from.compareTo(to) > 0) {
             throw new core.basesyntax.exception.IllegalDateParametersException("Wrong parameters");
@@ -63,7 +66,7 @@ public class SalaryInfo {
 
         for (String i: data) {
             String[] nameInfo = i.split(" ");
-            Date nameData = simpleDateFormat.parse(nameInfo[0]);
+            LocalDate nameData = LocalDate.parse(nameInfo[0], FORMATTER);
             if ((nameData.compareTo(from) >= 0) && (nameData.compareTo(to) <= 0)) {
                 int hour = Integer.parseInt(nameInfo[2]);
                 int perDay = Integer.parseInt(nameInfo[3]);
