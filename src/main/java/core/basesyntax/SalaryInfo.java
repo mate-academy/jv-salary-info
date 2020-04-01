@@ -1,6 +1,7 @@
 package core.basesyntax;
 
 import core.basesyntax.exception.IllegalDateParametersException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -45,10 +46,7 @@ public class SalaryInfo {
      */
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws Exception {
-        SimpleDateFormat format = new SimpleDateFormat("dd.mm.YYYY");
-        Date firstDate = format.parse(dateFrom);
-        Date lastDate = format.parse(dateTo);
-        if (firstDate.compareTo(lastDate) > 0) {
+        if (compareDate(dateFrom, dateTo) > 0) {
             throw new IllegalDateParametersException();
         }
         StringBuilder sb = new StringBuilder("Отчёт за период ");
@@ -59,16 +57,22 @@ public class SalaryInfo {
         for (String name : names) {
             int salary = 0;
             for (String dataElement : data) {
-                String[] temp = dataElement.split(" ");
-                Date workDate = format.parse(temp[0]);
-                if (workDate.compareTo(firstDate) >= 0 && workDate.compareTo(lastDate) <= 0) {
-                    if (name.equals(temp[1])) {
-                        salary += Integer.parseInt(temp[2]) * Integer.parseInt(temp[3]);
-                    }
+                String[] person = dataElement.split(" ");
+                if (compareDate(person[0], dateFrom) >= 0 && compareDate(person[0], dateTo) <= 0
+                        && name.equals(person[1])) {
+                    salary += Integer.parseInt(person[2]) * Integer.parseInt(person[3]);
                 }
             }
             sb.append(name + " - " + salary + "\n");
         }
         return sb.toString().strip();
     }
+
+    public int compareDate(String dateFrom, String dateTo) throws ParseException {
+        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+        Date firstDate = format.parse(dateFrom);
+        Date lastDate = format.parse(dateTo);
+        return firstDate.compareTo(lastDate);
+    }
 }
+
