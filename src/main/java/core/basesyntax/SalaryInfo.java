@@ -60,7 +60,6 @@ public class SalaryInfo {
             EarningsRecord earningsRecord = EarningsRecord.create(record.split(" "));
             if (filterEarningsRecord(earningsRecord, from, to, nameToEarnings)) {
                 processRecord(earningsRecord, nameToEarnings);
-
             }
         }
 
