@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class SalaryInfo {
+
     /**
      * <p>Реализуйте метод getSalaryInfo(String[] names, String[] data,
      * String dateFrom, String dateTo)
@@ -44,6 +45,8 @@ public class SalaryInfo {
      * Андрей - 600
      * София - 900</p>
      */
+    public static final SimpleDateFormat FORMAT = new SimpleDateFormat("dd.MM.yyyy");
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws Exception {
         if (suitablePeriod(dateFrom, dateTo) == false) {
@@ -68,8 +71,7 @@ public class SalaryInfo {
 
     public static Date dateConvInData(String data)
             throws ParseException {
-        final SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
-        Date docDate = format.parse(data);
+        Date docDate = FORMAT.parse(data);
         return docDate;
     }
 
