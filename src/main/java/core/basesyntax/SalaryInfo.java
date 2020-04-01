@@ -1,5 +1,11 @@
 package core.basesyntax;
 
+import java.text.ParseException;
+
+import java.time.LocalDate;
+
+import java.time.format.DateTimeFormatter;
+
 public class SalaryInfo {
     /**
      * <p>Реализуйте метод getSalaryInfo(String[] names, String[] data,
@@ -39,8 +45,22 @@ public class SalaryInfo {
      * Андрей - 600
      * София - 900</p>
      */
-    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
-            throws Exception {
-        return null;
+    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) throws ParseException {
+        final String pattern = "dd.MM.yyyy";
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
+        LocalDate to = LocalDate.parse(dateTo, formatter);
+        LocalDate from = LocalDate.parse(dateFrom, formatter);
+        int[] salary = new int[names.length];
+        for (String worker: names) {
+            int salaryOfWorker = 0;
+            for (String information: data) {
+                String[] workerData = information.split(" ");
+                LocalDate day = LocalDate.parse(workerData[0], formatter);
+                if (workerData[1].equals(worker)) {
+                    salaryOfWorker += Integer.parseInt(workerData[2]) * Integer.parseInt(workerData[3]);
+                }
+            }
+        }
+        return "true";
     }
 }
