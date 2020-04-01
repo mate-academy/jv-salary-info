@@ -1,26 +1,25 @@
 package core.basesyntax;
 
 import core.basesyntax.exception.IllegalDateParametersException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
-            throws IllegalDateParametersException, ParseException {
-        final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
+            throws IllegalDateParametersException {
+        final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         StringBuilder resultString = new StringBuilder();
-        Date formattedDateFrom = simpleDateFormat.parse(dateFrom);
-        Date formattedDateTo = simpleDateFormat.parse(dateTo);
+        LocalDate formattedDateFrom = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate formattedDateTo = LocalDate.parse(dateTo, FORMATTER);
 
-        if (formattedDateFrom.after(formattedDateTo)) {
+        if (formattedDateFrom.isAfter(formattedDateTo)) {
             throw new IllegalDateParametersException("Wrong parameters");
         }
         resultString
                 .append("Отчёт за период ")
-                .append(simpleDateFormat.format(formattedDateFrom))
+                .append(formattedDateFrom.format(FORMATTER))
                 .append(" - ")
-                .append(simpleDateFormat.format(formattedDateTo))
+                .append(formattedDateTo.format(FORMATTER))
                 .append("\n");
 
         for (String name : names) {
@@ -31,9 +30,9 @@ public class SalaryInfo {
 
             for (String personInfo : data) {
                 String[] substringPersonInfo = personInfo.split(" ");
-                Date personDate = simpleDateFormat.parse(substringPersonInfo[0]);
+                LocalDate personDate = LocalDate.parse(substringPersonInfo[0], FORMATTER);
 
-                if (!(personDate.before(formattedDateFrom) || personDate.after(formattedDateTo))
+                if (!(personDate.isBefore(formattedDateFrom) || personDate.isAfter(formattedDateTo))
                         && substringPersonInfo[1].equals(name)) {
                     sumOfMoney += Integer.parseInt(substringPersonInfo[2])
                             * Integer.parseInt(substringPersonInfo[3]);
