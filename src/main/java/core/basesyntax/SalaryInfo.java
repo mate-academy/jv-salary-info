@@ -1,10 +1,9 @@
 package core.basesyntax;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class SalaryInfo {
     /**
@@ -56,27 +55,26 @@ public class SalaryInfo {
             throw new core.basesyntax.exception.IllegalDateParametersException("Wrong parameters");
         }
 
-        HashMap<String, Integer> listName = new HashMap<>();
-        for (String name : names) {
-            listName.put(name, 0);
-        }
+        Map<String, Integer> listName = new LinkedHashMap<>();
         StringBuilder result = new StringBuilder();
         result.append("Отчёт за период ").append(dateFrom).append(" - ").append(dateTo);
-        result.append("\n");
-
-        for (String i: data) {
-            String[] nameInfo = i.split(" ");
-            LocalDate nameData = LocalDate.parse(nameInfo[0], FORMATTER);
-            if ((nameData.compareTo(from) >= 0) && (nameData.compareTo(to) <= 0)) {
-                int hour = Integer.parseInt(nameInfo[2]);
-                int perDay = Integer.parseInt(nameInfo[3]);
-                listName.replace(nameInfo[1], listName.get(nameInfo[1]) + (perDay * hour));
+        for (String name: names) {
+            int some = 0;
+            for (String i: data) {
+                String[] z = i.split(" ");
+                LocalDate nameData = LocalDate.parse(z[0], FORMATTER);
+                if ((name.equals(z[1]) && nameData.compareTo(from) >= 0)
+                        && (nameData.compareTo(to) <= 0)) {
+                    int hour = Integer.parseInt(z[2]);
+                    int perDay = Integer.parseInt(z[3]);
+                    some += (perDay * hour);
+                }
             }
+            listName.put(name, some);
         }
-        for (String i: names) {
-            result.append(i).append(" - ").append(listName.get(i)).append("\n");
+        for (Map.Entry<String, Integer> person : listName.entrySet()) {
+            result.append("\n").append(person.getKey()).append(" - ").append(person.getValue());
         }
-        result.deleteCharAt(result.length() - 1);
         return result.toString();
     }
 }
