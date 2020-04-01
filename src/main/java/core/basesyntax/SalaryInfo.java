@@ -69,7 +69,7 @@ public class SalaryInfo {
     }
 
     public int compareDate(String dateFrom, String dateTo) throws ParseException {
-        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+        final SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
         Date firstDate = format.parse(dateFrom);
         Date lastDate = format.parse(dateTo);
         return firstDate.compareTo(lastDate);
