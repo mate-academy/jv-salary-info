@@ -45,7 +45,7 @@ public class SalaryInfo {
      */
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws Exception {
-        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+        SimpleDateFormat format = new SimpleDateFormat("dd.mm.YYYY");
         Date firstDate = format.parse(dateFrom);
         Date lastDate = format.parse(dateTo);
         if (firstDate.compareTo(lastDate) > 0) {
