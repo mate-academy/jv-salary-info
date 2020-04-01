@@ -49,8 +49,8 @@ public class SalaryInfo {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        LocalDate from = LocalDate.parse(dateFrom, FORMATTER);
-        LocalDate to = LocalDate.parse(dateTo, FORMATTER);
+        LocalDate from = parseDate(dateFrom);
+        LocalDate to = parseDate(dateTo);
         if (from.isAfter(to)) {
             throw new IllegalDateParametersException("Wrong parameters");
         }
@@ -102,7 +102,6 @@ public class SalaryInfo {
 
     private static LocalDate parseDate(String date) {
         try {
-            LocalDate a;
             return LocalDate.parse(date, FORMATTER);
         } catch (DateTimeParseException e) {
             throw new IllegalDateParametersException("Wrong parameters");
