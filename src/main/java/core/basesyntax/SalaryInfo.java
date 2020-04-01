@@ -52,7 +52,6 @@ public class SalaryInfo {
             throw new IllegalDateParametersException();
         }
         LocalDate workDate = LocalDate.parse(date, formatter);
-
         if (workDate.isAfter(startDate) && workDate.isBefore(endDate)
                 || workDate.isEqual(startDate)
                 || workDate.isEqual(endDate)) {
