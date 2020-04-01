@@ -43,15 +43,16 @@ public class SalaryInfo {
      * Андрей - 600
      * София - 900</p>
      */
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
     public boolean isInRange(String date, String dateFrom, String dateTo)
             throws IllegalDateParametersException {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        LocalDate startDate = LocalDate.parse(dateFrom, formatter);
-        LocalDate endDate = LocalDate.parse(dateTo, formatter);
+        LocalDate startDate = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate endDate = LocalDate.parse(dateTo, FORMATTER);
         if (startDate.isAfter(endDate)) {
             throw new IllegalDateParametersException();
         }
-        LocalDate workDate = LocalDate.parse(date, formatter);
+        LocalDate workDate = LocalDate.parse(date, FORMATTER);
         if (workDate.isAfter(startDate) && workDate.isBefore(endDate)
                 || workDate.isEqual(startDate)
                 || workDate.isEqual(endDate)) {
@@ -65,20 +66,17 @@ public class SalaryInfo {
         StringBuilder result = new StringBuilder("Отчёт за период ")
                                   .append(dateFrom)
                                   .append(" - ")
-                                  .append(dateTo)
-                                  .append("\n");
+                                  .append(dateTo);
         for (String n : names) {
             int sumN = 0;
             for (String d : data) {
                 String[] temp = d.split(" ");
-                if (isInRange(temp[0], dateFrom, dateTo)) {
-                    if (n.equals(temp[1])) {
-                        sumN += Integer.parseInt(temp[2]) * Integer.parseInt(temp[3]);
-                    }
+                if (isInRange(temp[0], dateFrom, dateTo) && n.equals(temp[1])) {
+                    sumN += Integer.parseInt(temp[2]) * Integer.parseInt(temp[3]);
                 }
             }
-            result.append(n + " - " + sumN + "\n");
+            result.append("\n" + n + " - " + sumN);
         }
-        return result.toString().trim();
+        return result.toString();
     }
 }
