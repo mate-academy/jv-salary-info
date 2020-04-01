@@ -12,7 +12,7 @@ public class SalaryInfo {
             throws Exception {
         LocalDate dateWorkFrom = LocalDate.parse(dateFrom, FORMATTER);
         LocalDate dateWorkTo = LocalDate.parse(dateTo, FORMATTER);
-        if (dateWorkFrom.compareTo(dateWorkTo) >= 0) {
+        if (dateWorkTo.isBefore(dateWorkFrom)) {
             throw new IllegalDateParametersException("Wrong parameters");
         }
         StringBuilder report = new StringBuilder();
