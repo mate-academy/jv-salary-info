@@ -43,33 +43,33 @@ public class SalaryInfo {
      * Андрей - 600
      * София - 900</p>
      */
+    static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws Exception {
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        LocalDate localDateFrom = LocalDate.parse(dateFrom, dateTimeFormatter);
-        LocalDate localDateTo = LocalDate.parse(dateTo, dateTimeFormatter);
-        if (localDateFrom.compareTo(localDateTo) >= 0) {
+        LocalDate localDateFrom = LocalDate.parse(dateFrom, DATE_FORMATTER);
+        LocalDate localDateTo = LocalDate.parse(dateTo, DATE_FORMATTER);
+        if (localDateFrom.isAfter(localDateTo)) {
             throw new IllegalDateParametersException("Wrong parameters");
         }
         StringBuilder result = new StringBuilder();
-        result.append(String.format("Отчёт за период %s - %s\n", dateFrom, dateTo));
-        for (int i = 0; i < names.length; i++) {
-            String name = names[i];
+        result.append(String.format("Отчёт за период %s - %s", dateFrom, dateTo));
+        for (String name : names) {
+            result.append("\n");
             int salary = 0;
             for (String dataCase : data) {
-                String[] dataArr = dataCase.split("[ ]");
+                String[] dataArr = dataCase.split(" ");
+                LocalDate dataLocalCaseDate = LocalDate.parse(dataArr[0], DATE_FORMATTER);
                 if (name.equals(dataArr[1])
-                        && LocalDate.parse(dataArr[0], dateTimeFormatter)
-                        .compareTo(localDateFrom) >= 0
-                        && LocalDate.parse(dataArr[0], dateTimeFormatter)
-                        .compareTo(localDateTo) <= 0) {
+                        && (dataLocalCaseDate.isAfter(localDateFrom)
+                        || dataLocalCaseDate.isEqual(localDateFrom))
+                        && (dataLocalCaseDate.isBefore(localDateTo)
+                        || dataLocalCaseDate.isEqual(localDateTo))
+                ) {
                     salary = salary + Integer.parseInt(dataArr[2]) * Integer.parseInt(dataArr[3]);
                 }
             }
             result.append(String.format("%s - %d", name, salary));
-            if (i != names.length - 1) {
-                result.append("\n");
-            }
         }
         return result.toString();
     }
