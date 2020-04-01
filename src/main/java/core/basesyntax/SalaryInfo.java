@@ -66,10 +66,10 @@ public class SalaryInfo {
                 }
             }
         }
-        StringBuilder sb = new StringBuilder("Отчёт за период " + dateFrom + " - " + dateTo);
+        StringBuilder report = new StringBuilder("Отчёт за период " + dateFrom + " - " + dateTo);
         for (int i = 0; i < names.length; ++i) {
-            sb.append("\n").append(names[i]).append(" - ").append(result[i]);
+            report.append("\n").append(names[i]).append(" - ").append(result[i]);
         }
-        return sb.toString();
+        return report.toString();
     }
 }
