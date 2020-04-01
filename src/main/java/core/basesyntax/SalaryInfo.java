@@ -1,5 +1,9 @@
 package core.basesyntax;
 
+import core.basesyntax.exception.IllegalDateParametersException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class SalaryInfo {
     /**
      * <p>Реализуйте метод getSalaryInfo(String[] names, String[] data,
@@ -41,6 +45,43 @@ public class SalaryInfo {
      */
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws Exception {
-        return null;
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+
+        Date dateFromDate;
+        Date dateToDate;
+        Date tempDate;
+
+        int salarySergey = 0;
+        int salaryAndrey = 0;
+        int salarySofia = 0;
+
+        dateToDate = sdf.parse(dateTo);
+        dateFromDate = sdf.parse(dateFrom);
+        if (dateFromDate.compareTo(dateToDate) > 0) {
+            throw new IllegalDateParametersException("Wrong parameters");
+        }
+        for (String datum : data) {
+            String[] info = datum.split(" ");
+            tempDate = sdf.parse(info[0]);
+            if (tempDate.compareTo(dateFromDate) > 0 && tempDate.compareTo(dateToDate) <= 0) {
+                if (info[1].equals(names[0])) {
+                    salarySergey += Integer.parseInt(info[2]) * Integer.parseInt(info[3]);
+                }
+                if (info[1].equals(names[1])) {
+                    salaryAndrey += Integer.parseInt(info[2]) * Integer.parseInt(info[3]);
+                }
+                if (info[1].equals(names[2])) {
+                    salarySofia += Integer.parseInt(info[2]) * Integer.parseInt(info[3]);
+                }
+            }
+        }
+        StringBuilder result = new StringBuilder();
+        result.append("Отчёт за период ").append(dateFrom).append(" - ")
+                .append(dateTo).append("\n")
+                .append(names[0]).append(" - ").append(salarySergey).append("\n")
+                .append(names[1]).append(" - ").append(salaryAndrey).append("\n")
+                .append(names[2]).append(" - ").append(salarySofia);
+
+        return result.toString();
     }
 }
