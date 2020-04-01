@@ -1,5 +1,11 @@
 package core.basesyntax;
 
+import static java.lang.Integer.parseInt;
+
+import core.basesyntax.exception.IllegalDateParametersException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class SalaryInfo {
     /**
      * <p>Реализуйте метод getSalaryInfo(String[] names, String[] data,
@@ -41,6 +47,30 @@ public class SalaryInfo {
      */
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws Exception {
-        return null;
+        SimpleDateFormat formatDate = new SimpleDateFormat("dd.MM.yyyy");
+        Date dateStart = formatDate.parse(dateFrom);
+        Date dateEnd = formatDate.parse(dateTo);
+        Date actualDate = null;
+        StringBuilder result = new StringBuilder("Отчёт за период " + dateFrom + " - " + dateTo);
+        int salary = 0;
+
+        if (dateStart.compareTo(dateEnd) >= 0) {
+            throw new IllegalDateParametersException("Wrong parameters");
+        }
+
+        for (String name : names) {
+            salary = 0;
+            for (String line : data) {
+                String[] entry = line.split(" ");
+                actualDate = formatDate.parse(entry[0]);
+                if (name.equals(entry[1])
+                        && actualDate.compareTo(dateStart) >= 0
+                        && actualDate.compareTo(dateEnd) <= 0) {
+                    salary += parseInt(entry[2]) * parseInt(entry[3]);
+                }
+            }
+            result.append("\n").append(name).append(" - ").append(salary);
+        }
+        return result.toString();
     }
 }
