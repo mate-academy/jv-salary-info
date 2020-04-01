@@ -8,8 +8,8 @@ import java.util.Date;
 public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws IllegalDateParametersException, ParseException {
+        final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
         StringBuilder resultString = new StringBuilder();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
         Date formattedDateFrom = simpleDateFormat.parse(dateFrom);
         Date formattedDateTo = simpleDateFormat.parse(dateTo);
 
