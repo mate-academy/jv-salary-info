@@ -3,7 +3,6 @@ package core.basesyntax;
 import core.basesyntax.exception.IllegalDateParametersException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 
 public class SalaryInfo {
     /**
@@ -44,50 +43,38 @@ public class SalaryInfo {
      * Андрей - 600
      * София - 900</p>
      */
+    public static final String formatter = "dd.MM.yyyy";
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws Exception {
-        ArrayList<Employee> employees = new ArrayList<>();
+        StringBuilder report = new StringBuilder("Отчёт за период ");
         LocalDate dateF = parseDate(dateFrom);
         LocalDate dateT = parseDate(dateTo);
 
         if (dateF.isAfter(dateT)) {
             throw new IllegalDateParametersException("Wrong parameters");
         }
-        StringBuilder report = new StringBuilder("Отчёт за период ");
-        report.append(dateFrom).append(" - ").append(dateTo).append("\n");
-        for (String name : names) {
-            employees.add(new Employee(name));
-            report.append(getEmployeeSalary(employees.get(employees.size() - 1),
-                    data, dateF, dateT))
-                    .append("\n");
-        }
-        return report
-                .deleteCharAt(report.length() - 1)
-                .toString();
-    }
 
-    private String getEmployeeSalary(Employee employee,
-                                     String[] data,
-                                     LocalDate dateFrom,
-                                     LocalDate dateTo) {
-        for (String dataOfDay : data) {
-            if (dataOfDay.contains(employee.getName())) {
-                String[] str = dataOfDay.split(" ");
-                LocalDate date = parseDate(str[0]);
-                if ((date.isAfter(dateFrom) || date.isEqual(dateFrom))
-                        && (date.isBefore(dateTo) || date.isEqual(dateTo))) {
-                    employee.addSalary(Integer.parseInt(str[2]) * Integer.parseInt(str[3]));
+        report.append(dateFrom).append(" - ").append(dateTo).append("\n");
+
+        for (String name : names) {
+            int salary = 0;
+            for (String str : data) {
+                if (str.contains(name)) {
+                    String[] arrStr = str.split(" ");
+                    if (parseDate(arrStr[0]).compareTo(dateF) >= 0
+                            && parseDate(arrStr[0]).compareTo(dateT) <= 0) {
+                        salary += Integer.parseInt(arrStr[2]) * Integer.parseInt(arrStr[3]);
+                    }
                 }
             }
+            report.append(name).append(" - ").append(salary).append("\n");
         }
-        return new StringBuilder()
-                .append(employee.getName())
-                .append(" - ")
-                .append(employee.getSalary())
-                .toString();
+
+        return report.deleteCharAt(report.length() - 1).toString();
     }
 
     private LocalDate parseDate(String date) {
-        return LocalDate.parse(date, DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+        return LocalDate.parse(date, DateTimeFormatter.ofPattern(formatter));
     }
 }
