@@ -1,5 +1,11 @@
 package core.basesyntax;
 
+import core.basesyntax.exception.IllegalDateParametersException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.Map;
+
 public class SalaryInfo {
     /**
      * <p>Реализуйте метод getSalaryInfo(String[] names, String[] data,
@@ -41,6 +47,27 @@ public class SalaryInfo {
      */
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws Exception {
-        return null;
+        Map<String, Integer> map = new HashMap<String, Integer>();
+        final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        LocalDate date1 = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate date2 = LocalDate.parse(dateTo, FORMATTER);
+        if (date1.isAfter(date2)) {
+            throw new IllegalDateParametersException();
+        }
+        for (String s : data) {
+            String[] info = s.split(" ");
+            LocalDate today = LocalDate.parse(info[0], FORMATTER);
+            if (today.isAfter(date1) && today.isBefore(date2)
+                    || today.equals(date1) || today.equals(date2)) {
+                String employee = info[1];
+                map.put(employee, map.getOrDefault(employee,0)
+                            + Integer.parseInt(info[2]) * Integer.parseInt(info[3]));
+            }
+        }
+        StringBuilder sb = new StringBuilder("Отчёт за период " + dateFrom + " - " + dateTo + "\n");
+        for (String s : names) {
+            sb.append(s + " - " + map.getOrDefault(s, 0) + "\n");
+        }
+        return sb.toString().trim();
     }
 }
