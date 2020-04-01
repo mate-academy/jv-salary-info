@@ -1,6 +1,8 @@
 package core.basesyntax;
 
 import core.basesyntax.exception.IllegalDateParametersException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -43,41 +45,36 @@ public class SalaryInfo {
      * Андрей - 600
      * София - 900</p>
      */
+    public static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws Exception {
-        if (compareDates(dateFrom, dateTo) > 0) {
+        LocalDate fromDate = LocalDate.parse(dateFrom, formatter);
+        LocalDate toDate = LocalDate.parse(dateTo, formatter);
+
+        if (toDate.isBefore(fromDate)) {
             throw new IllegalDateParametersException("Wrong parameters");
         }
+
         Map<String, Integer> salaries = new LinkedHashMap<>();
         for (String name : names) {
             salaries.put(name, 0);
         }
+
         for (String personal : data) {
             String[] personalData = personal.split(" ");
-            if (compareDates(personalData[0], dateFrom) >= 0
-                    && compareDates(personalData[0], dateTo) <= 0) {
+            LocalDate workDate = LocalDate.parse(personalData[0], formatter);
+            if (!fromDate.isAfter(workDate) && !toDate.isBefore(workDate)) {
                 salaries.replace(personalData[1], salaries.get(personalData[1])
                         + Integer.parseInt(personalData[2]) * Integer.parseInt(personalData[3]));
             }
         }
+
         StringBuilder result = new StringBuilder();
         result.append("Отчёт за период ").append(dateFrom).append(" - ").append(dateTo);
         for (Map.Entry<String, Integer> person : salaries.entrySet()) {
             result.append("\n").append(person.getKey()).append(" - ").append(person.getValue());
         }
         return result.toString();
-    }
-
-    public int compareDates(String first, String second) {
-        String[] firstDate = first.split("\\.");
-        String[] secondDate = second.split("\\.");
-
-        for (int i = 2; i >= 0; i--) {
-            int result = firstDate[i].compareTo(secondDate[i]);
-            if (result != 0) {
-                return result;
-            }
-        }
-        return 0;
     }
 }
