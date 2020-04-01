@@ -51,15 +51,16 @@ public class SalaryInfo {
         LocalDate to = LocalDate.parse(dateTo, formatter);
         LocalDate from = LocalDate.parse(dateFrom, formatter);
         int[] salary = new int[names.length];
-        for (String worker: names) {
+        for (int i = 0; i < names.length; i++) {
             int salaryOfWorker = 0;
             for (String information: data) {
                 String[] workerData = information.split(" ");
                 LocalDate day = LocalDate.parse(workerData[0], formatter);
-                if (workerData[1].equals(worker)) {
+                if (to.isAfter(day) && from.isBefore(day) && workerData[1].equals(names[i])) {
                     salaryOfWorker += Integer.parseInt(workerData[2]) * Integer.parseInt(workerData[3]);
                 }
             }
+            salary[i] = salaryOfWorker;
         }
         return "true";
     }
