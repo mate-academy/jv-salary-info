@@ -2,6 +2,7 @@ package core.basesyntax;
 
 import core.basesyntax.exception.IllegalDateParametersException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     /**
@@ -44,25 +45,13 @@ public class SalaryInfo {
      */
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws Exception {
-        LocalDate fromData = convertationToData(dateFrom);
-        LocalDate toData = convertationToData(dateTo);
+        LocalDate fromData = conversationToData(dateFrom);
+        LocalDate toData = conversationToData(dateTo);
         if (toData.isBefore(fromData) || toData.isEqual(fromData)) {
             throw new IllegalDateParametersException("Wrong parameters");
         }
-        payrollAndWriteInNames(names, data, fromData, toData);
         StringBuilder report = new StringBuilder("Отчёт за период ");
         report.append(dateFrom).append(" - ").append(dateTo).append("\n");
-        for (int i = 0; i < names.length; i++) {
-            report.append(names[i]);
-            if (i != names.length - 1) {
-                report.append("\n");
-            }
-        }
-        return report.toString();
-    }
-
-    private void payrollAndWriteInNames(String[] names, String[] data,
-                                        LocalDate fromData, LocalDate toData) {
         for (int i = 0; i < names.length; i++) {
             int sum = 0;
             for (String worker : data) {
@@ -74,21 +63,25 @@ public class SalaryInfo {
                     }
                 }
             }
+            report.append(names[i]);
             if (sum != 0) {
-                names[i] += " - " + sum;
+                report.append(" - ").append(sum);
+            }
+            if (i != names.length - 1) {
+                report.append("\n");
             }
         }
+        return report.toString();
     }
 
-    private boolean checkData(LocalDate fromData, LocalDate toData, String s) {
-        LocalDate data = convertationToData(s);
+    private boolean checkData(LocalDate fromData, LocalDate toData, String dataString) {
+        LocalDate data = conversationToData(dataString);
         return data.isAfter(fromData) && data.isBefore(toData)
                 || data.isEqual(fromData) || data.isEqual(toData);
     }
 
-    private LocalDate convertationToData(String date) {
-        String[] splitDate = date.split("\\.");
-        return LocalDate.of(Integer.parseInt(splitDate[2]),
-                Integer.parseInt(splitDate[1]), Integer.parseInt(splitDate[0]));
+    private LocalDate conversationToData(String date) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        return LocalDate.parse(date, formatter);
     }
 }
