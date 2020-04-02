@@ -50,21 +50,15 @@ public class SalaryInfo {
         if (LocalDate.parse(dateFrom, FORMATER).isAfter(LocalDate.parse(dateTo, FORMATER))) {
             throw new IllegalDateParametersException("Wrong parameters");
         }
-        int workingHours;
-        int rate;
-        String name;
-        LocalDate checkDate;
-        int salary = 0;
         StringBuilder result = new StringBuilder("Отчёт за период " + dateFrom + " - " + dateTo);
-        String[] splitDate = new String[4];
         for (int j = 0; j < names.length; j++) {
+            int salary = 0;
             for (int i = 0; i < data.length; i++) {
-                splitDate = data[i].split(" ");
-                checkDate = LocalDate.parse(splitDate[0], FORMATER);
-                name = splitDate[1];
-                workingHours = Integer.valueOf(splitDate[2]);
-                rate = Integer.valueOf(splitDate[3]);
-                if (names[j].equals(name)
+                String[] splitDate = data[i].split(" ");
+                LocalDate checkDate = LocalDate.parse(splitDate[0], FORMATER);
+                int workingHours = Integer.valueOf(splitDate[2]);
+                int rate = Integer.valueOf(splitDate[3]);
+                if (names[j].equals(splitDate[1])
                         && checkDate.compareTo(LocalDate.parse(dateTo, FORMATER)) < 1
                         && checkDate.compareTo(LocalDate.parse(dateFrom, FORMATER)) > -1) {
                     salary += workingHours * rate;
