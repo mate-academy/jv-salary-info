@@ -43,13 +43,13 @@ public class SalaryInfo {
      * Андрей - 600
      * София - 900</p>
      */
-    private static final DateTimeFormatter FORMATT = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws IllegalDateParametersException {
-        LocalDate data1 = LocalDate.parse(dateFrom, FORMATT);
-        LocalDate data2 = LocalDate.parse(dateTo, FORMATT);
-        if (data1.isAfter(data2)) {
+        LocalDate startDate = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate endDate = LocalDate.parse(dateTo, FORMATTER);
+        if (startDate.isAfter(endDate)) {
             throw new IllegalDateParametersException("Wrong parameters");
         }
         StringBuilder report = new StringBuilder().append("Отчёт за период ")
@@ -58,10 +58,10 @@ public class SalaryInfo {
             int salary = 0;
             for (String line : data) {
                 String[] splitData = line.split(" ");
-                LocalDate localDate = LocalDate.parse(splitData[0], FORMATT);
-                if (line.contains(name) && (localDate.isAfter(data1)
-                        || localDate.isEqual(data1))
-                        && (localDate.isBefore(data2) || localDate.isEqual(data2))) {
+                LocalDate localDate = LocalDate.parse(splitData[0], FORMATTER);
+                if (line.contains(name) && (localDate.isAfter(startDate)
+                        || localDate.isEqual(startDate))
+                        && (localDate.isBefore(endDate) || localDate.isEqual(endDate))) {
                     salary += Integer.parseInt(splitData[2]) * Integer.parseInt(splitData[3]);
                 }
             }
