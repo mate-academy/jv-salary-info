@@ -1,6 +1,6 @@
 package core.basesyntax;
-import core.basesyntax.exception.IllegalDateParametersException;
 
+import core.basesyntax.exception.IllegalDateParametersException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -43,8 +43,8 @@ public class SalaryInfo {
      * Андрей - 600
      * София - 900</p>
      */
-    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) throws Exception {
-
+    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
+            throws Exception {
         SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
         Date startDate = formatter.parse(dateFrom);
         Date endDate = formatter.parse(dateTo);
@@ -52,7 +52,11 @@ public class SalaryInfo {
             throw new IllegalDateParametersException("Wrong parameters");
         }
         StringBuilder stringBuilderResult = new StringBuilder();
-        stringBuilderResult.append("Отчёт за период ").append(dateFrom).append(" - ").append(dateTo).append("\n");
+        stringBuilderResult.append("Отчёт за период ")
+                .append(dateFrom)
+                .append(" - ")
+                .append(dateTo)
+                .append("\n");
         String[] dataSplit;
 
         for (String workerName : names) {
@@ -63,14 +67,15 @@ public class SalaryInfo {
                 dataSplit = workersData.split(" ");
                 Date workerDays = formatter.parse(dataSplit[0]);
 
-                if (!(workerDays.before(startDate) || workerDays.after(endDate)) && dataSplit[1].equals(workerName)) {
-                    salary += Integer.parseInt(dataSplit[2])*Integer.parseInt(dataSplit[3]);
+                if (!(workerDays.before(startDate) || workerDays.after(endDate))
+                        && dataSplit[1].equals(workerName)) {
+                    salary += Integer.parseInt(dataSplit[2]) * Integer.parseInt(dataSplit[3]);
                 }
             }
             stringBuilderResult.append(salary).append("\n");
         }
 
-        stringBuilderResult.deleteCharAt(stringBuilderResult.length()-1);
+        stringBuilderResult.deleteCharAt(stringBuilderResult.length() - 1);
         return stringBuilderResult.toString();
 
     }
