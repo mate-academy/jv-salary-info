@@ -45,7 +45,7 @@ public class SalaryInfo {
      */
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws IllegalDateParametersException {
-        final String pattern = "dd.MM.yyyy";
+        const String pattern = "dd.MM.yyyy";
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
         LocalDate to = LocalDate.parse(dateTo, formatter);
         LocalDate from = LocalDate.parse(dateFrom, formatter);
