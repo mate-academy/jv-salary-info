@@ -47,10 +47,10 @@ public class SalaryInfo {
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws Exception {
-        LocalDate from = LocalDate.parse(dateFrom, FORMATTER);
-        LocalDate to = LocalDate.parse(dateTo, FORMATTER);
+        LocalDate dateFromWork = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate dateToWork = LocalDate.parse(dateTo, FORMATTER);
 
-        if (from.isAfter(to)) {
+        if (dateFromWork.isAfter(dateToWork)) {
             throw new IllegalDateParametersException("Wrong parameters");
         }
 
@@ -61,8 +61,8 @@ public class SalaryInfo {
             for (String info: data) {
                 String[] dani = info.split(" ");
                 LocalDate nameData = LocalDate.parse(dani[0], FORMATTER);
-                if (name.equals(dani[1]) && (nameData.equals(from) || nameData.isAfter(from))
-                        && (nameData.equals(to) || nameData.isBefore(to))) {
+                if (name.equals(dani[1]) && (nameData.equals(dateFromWork) || nameData.isAfter(dateFromWork))
+                        && (nameData.equals(dateToWork) || nameData.isBefore(dateToWork))) {
                     int hour = Integer.parseInt(dani[2]);
                     int perDay = Integer.parseInt(dani[3]);
                     money += (perDay * hour);
