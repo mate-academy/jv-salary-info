@@ -61,8 +61,8 @@ public class SalaryInfo {
                 String [] oneString = data[i].split(" ");
                 LocalDate dateOnThisLine = LocalDate.parse(oneString[0], FORMAT);
                 if (oneString[1].equals(retVal) == true
-                        && dateOnThisLine.isBefore(dateFromLocal) == false
-                        && dateOnThisLine.isAfter(dateToLocal) == false) {
+                        && !dateOnThisLine.isBefore(dateFromLocal)
+                        && !dateOnThisLine.isAfter(dateToLocal)) {
                     salary += Integer.parseInt(oneString[2]) * Integer.parseInt(oneString[3]);
                 }
             }
