@@ -3,8 +3,6 @@ package core.basesyntax;
 import core.basesyntax.exception.IllegalDateParametersException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
 
 public class SalaryInfo {
     /**
@@ -57,24 +55,23 @@ public class SalaryInfo {
 
         StringBuilder salaryInfo = new StringBuilder("Отчёт за период "
                 + dateFrom + " - " + dateTo + "\n");
-        List<Employee> employees = new ArrayList<>();
 
         for (String name : names) {
             Employee employee = new Employee(name);
-            employees.add(employee);
             for (String i : data) {
-                String[] dataInformation = i.split(" ");
-                LocalDate currentDate = LocalDate.parse(dataInformation[0], FORMATTER);
+                String[] employeeInfo = i.split(" ");
+                LocalDate currentDate = LocalDate.parse(employeeInfo[0], FORMATTER);
                 if (isCorrectDate(currentDate, startDate, endDate)
-                        && employee.getName().equals(dataInformation[1])) {
-                    int hours = Integer.parseInt(dataInformation[2]);
-                    int rate = Integer.parseInt(dataInformation[3]);
-                    employee.calcSalary(hours, rate);
+                        && employee.getName().equals(employeeInfo[1])) {
+                    int hours = Integer.parseInt(employeeInfo[2]);
+                    int rate = Integer.parseInt(employeeInfo[3]);
+                    int dailySalary = hours * rate;
+                    employee.addToTotalSalary(dailySalary);
                 }
             }
             salaryInfo.append(employee.getName())
                     .append(" - ")
-                    .append(employee.getSalary())
+                    .append(employee.getTotalSalary())
                     .append("\n");
         }
         return salaryInfo.delete(salaryInfo.length() - 1, salaryInfo.length()).toString();
