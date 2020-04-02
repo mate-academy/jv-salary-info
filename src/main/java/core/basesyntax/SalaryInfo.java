@@ -67,7 +67,6 @@ public class SalaryInfo {
                 }
             }
             result.append("\n").append(names[j]).append(" - ").append(salary);
-            salary = 0;
         }
         return result.toString();
     }
