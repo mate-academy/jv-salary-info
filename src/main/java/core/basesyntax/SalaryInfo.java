@@ -50,7 +50,7 @@ public class SalaryInfo {
             throws Exception {
         LocalDate dateFromLocal = LocalDate.parse(dateFrom, FORMAT);
         LocalDate dateToLocal = LocalDate.parse(dateTo, FORMAT);
-        if (dateFromLocal.isBefore(dateToLocal) == false) {
+        if (!dateFromLocal.isBefore(dateToLocal)) {
             throw new IllegalDateParametersException("Wrong parameters");
         }
         StringBuffer result = new StringBuffer("Отчёт за период " + dateFrom + " - " + dateTo);
@@ -59,9 +59,10 @@ public class SalaryInfo {
             salary = 0;
             for (int i = 0; i < data.length; i++) {
                 String [] oneString = data[i].split(" ");
+                LocalDate dateOnThisLine = LocalDate.parse(oneString[0], FORMAT);
                 if (oneString[1].equals(retVal) == true
-                        && dateFromLocal.compareTo(LocalDate.parse(oneString[0], FORMAT)) <= 0
-                        && LocalDate.parse(oneString[0], FORMAT).compareTo(dateToLocal) <= 0) {
+                        && dateOnThisLine.isBefore(dateFromLocal) == false
+                        && dateOnThisLine.isAfter(dateToLocal) == false) {
                     salary += Integer.parseInt(oneString[2]) * Integer.parseInt(oneString[3]);
                 }
             }
