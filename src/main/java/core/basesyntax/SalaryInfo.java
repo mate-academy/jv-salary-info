@@ -1,7 +1,8 @@
 package core.basesyntax;
 
 import core.basesyntax.exception.IllegalDateParametersException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     /**
@@ -43,49 +44,34 @@ public class SalaryInfo {
      * София - 900</p>
      */
 
-    private static final String DATE_PATTERN = "dd.MM.yyyy";
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws Exception {
 
-        long dateFromInMillis = new SimpleDateFormat(DATE_PATTERN).parse(dateFrom).getTime();
-        long dateToInMillis = new SimpleDateFormat(DATE_PATTERN).parse(dateTo).getTime();
+        LocalDate localDateFrom = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate localDateTo = LocalDate.parse(dateTo, FORMATTER);
 
-        if (dateFromInMillis > dateToInMillis) {
+        if (localDateFrom.isAfter(localDateTo)) {
             throw new IllegalDateParametersException("Wrong parameters");
         }
 
-        long[] arrayDatesInMillis = new long[data.length];
+        StringBuilder sb = new StringBuilder("Отчёт за период " + dateFrom + " - " + dateTo);
 
-        for (int i = 0; i < data.length; i++) {
-            arrayDatesInMillis[i] = new SimpleDateFormat(DATE_PATTERN)
-                    .parse(data[i].split(" ")[0]).getTime();
-        }
-
-        int[] salaryOfNames = new int[names.length];
-
-        for (int i = 0; i < salaryOfNames.length; i++) {
-            for (int j = 0; j < data.length; j++) {
-                if (dateFromInMillis <= arrayDatesInMillis[j]
-                        && dateToInMillis >= arrayDatesInMillis[j]) {
-                    if (data[j].contains(names[i])) {
-                        String[] dataLineArray = data[j].split(" ");
-                        salaryOfNames[i] += Integer.parseInt(dataLineArray[2])
-                                * Integer.parseInt(dataLineArray[3]);
-                    }
+        for (String personName : names) {
+            var salaryOfPerson = 0;
+            for (String line : data) {
+                String[] array = line.split(" ");
+                LocalDate currentDate = LocalDate.parse(array[0], FORMATTER);
+                if (personName.equals(array[1]) && (currentDate.isAfter(localDateFrom)
+                        || currentDate.isEqual(localDateFrom)) && (currentDate.isBefore(localDateTo)
+                        || currentDate.isEqual(localDateTo))) {
+                    salaryOfPerson += Integer.parseInt(array[2]) * Integer.parseInt(array[3]);
                 }
             }
+            sb.append("\n").append(personName).append(" - ").append(salaryOfPerson);
         }
 
-        StringBuilder result
-                = new StringBuilder("Отчёт за период " + dateFrom + " - " + dateTo + "\n");
-
-        for (int i = 0; i < names.length; i++) {
-            result.append(names[i]).append(" - ").append(salaryOfNames[i]);
-            if (i != names.length - 1) {
-                result.append("\n");
-            }
-        }
-        return result.toString();
+        return sb.toString();
     }
 }
