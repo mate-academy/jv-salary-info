@@ -58,9 +58,9 @@ public class SalaryInfo {
         for (String s : names) {
             int sum = 0;
             for (int i = 0; i < data.length; i++) {
-                if (data[i].contains(s)) {
-                    String[] info = data[i].split(" ");
-                    LocalDate today = LocalDate.parse(info[0], FORMATTER);
+                String[] info = data[i].split(" ");
+                LocalDate today = LocalDate.parse(info[0], FORMATTER);
+                if (info[1].equals(s)) {
                     if (today.isAfter(startDate) && today.isBefore(endDate)
                             || today.equals(startDate) || today.equals(endDate)) {
                         sum += Integer.parseInt(info[2]) * Integer.parseInt(info[3]);
