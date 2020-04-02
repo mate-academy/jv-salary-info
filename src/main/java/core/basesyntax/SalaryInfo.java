@@ -2,7 +2,6 @@ package core.basesyntax;
 
 import core.basesyntax.exception.IllegalDateParametersException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -47,12 +46,11 @@ public class SalaryInfo {
      */
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws IllegalDateParametersException, ParseException {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        LocalDate date1 = LocalDate.parse(dateFrom,dtf);
-        LocalDate date2 = LocalDate.parse(dateTo,dtf);
+        final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        LocalDate date1 = LocalDate.parse(dateFrom,dateFormatter);
+        LocalDate date2 = LocalDate.parse(dateTo,dateFormatter);
         if (date1.isAfter(date2)) {
-            throw new IllegalDateParametersException();
+            throw new IllegalDateParametersException("Wrong parameters");
         }
         StringBuilder res = new StringBuilder();
         res.append("Отчёт за период " + dateFrom + " - " + dateTo + "\n");
@@ -61,7 +59,7 @@ public class SalaryInfo {
             res.append(names[i] + " - ");
             for (String one : data) {
                 String[] temp = one.split(" ");
-                LocalDate dateSalary = LocalDate.parse(temp[0],dtf);
+                LocalDate dateSalary = LocalDate.parse(temp[0],dateFormatter);
                 if (dateSalary.isAfter(date1) && dateSalary.isBefore(date2)
                         || dateSalary.isEqual(date1)
                         || dateSalary.isEqual(date2)) {
