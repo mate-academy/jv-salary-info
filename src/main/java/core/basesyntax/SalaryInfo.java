@@ -50,7 +50,7 @@ public class SalaryInfo {
 
         LocalDate startDate = LocalDate.parse(dateFrom, FORMATTER);
         LocalDate endDate = LocalDate.parse(dateTo, FORMATTER);
-        if (startDate.compareTo(endDate) > 0) {
+        if (startDate.isAfter(endDate)) {
             throw new IllegalDateParametersException("Wrong parameters");
         }
         StringBuilder stringBuilderResult = new StringBuilder();
@@ -67,7 +67,7 @@ public class SalaryInfo {
 
             for (String workersData : data) {
                 dataSplit = workersData.split(" ");
-                LocalDate workerDays = LocalDate.parse(dataSplit[0]);
+                LocalDate workerDays = LocalDate.parse(dataSplit[0], FORMATTER);
 
                 if (!(workerDays.isBefore(startDate) || workerDays.isAfter(endDate))
                         && dataSplit[1].equals(workerName)) {
