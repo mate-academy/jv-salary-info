@@ -47,18 +47,17 @@ public class SalaryInfo {
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws Exception {
-        StringBuilder str = new StringBuilder();
         LocalDate fromDate = LocalDate.parse(dateFrom, formatter);
         LocalDate toDate = LocalDate.parse(dateTo, formatter);
+        if (fromDate.isAfter(toDate)) {
+            throw new IllegalDateParametersException("Wrong parameters");
+        }
         int workinHours;
         int rate;
         String name;
         LocalDate checkDate;
         int salary = 0;
         StringBuilder result = new StringBuilder("Отчёт за период " + dateFrom + " - " + dateTo);
-        if (fromDate.isAfter(toDate)) {
-            throw new IllegalDateParametersException("Wrong parameters");
-        }
         for (int j = 0; j < names.length; j++) {
             for (int i = 0; i < data.length; i++) {
                 checkDate = LocalDate.parse(data[i].split(" ")[0], formatter);
