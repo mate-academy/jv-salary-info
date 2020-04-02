@@ -54,9 +54,9 @@ public class SalaryInfo {
         if (startDate.isAfter(finishDate)) {
             throw new IllegalDateParametersException("Wrong parameters");
         }
-        StringBuilder res = new StringBuilder();
-        res.append("Отчёт за период ");
-        res.append(dateFrom).append(" - ").append(dateTo).append("\n");
+        StringBuilder report = new StringBuilder();
+        report.append("Отчёт за период ");
+        report.append(dateFrom).append(" - ").append(dateTo).append("\n");
 
         for (int i = 0; i < names.length; i++) {
             int salary = 0;
@@ -67,18 +67,14 @@ public class SalaryInfo {
                     salary += Integer.parseInt(splitted[2]) * Integer.parseInt(splitted[3]);
                 }
             }
-            res.append(names[i]).append(" - ").append(salary).append("\n");
+            report.append(names[i]).append(" - ").append(salary).append("\n");
         }
-        res.deleteCharAt(res.length() - 1);
-        return res.toString();
+        report.deleteCharAt(report.length() - 1);
+        return report.toString();
     }
 
-    static boolean period(LocalDate d, LocalDate begDate, LocalDate finishDate) {
-        if ((d.isAfter(begDate) || d.isEqual(begDate)) && (d.isBefore(finishDate)
-                || d.isEqual(finishDate))) {
-            return true;
-        }
-        return false;
+     boolean period(LocalDate d, LocalDate begDate, LocalDate finishDate) {
+        return ((d.isAfter(begDate) || d.isEqual(begDate)) && (d.isBefore(finishDate)
+                || d.isEqual(finishDate)));
     }
-
 }
