@@ -58,8 +58,7 @@ public class SalaryInfo {
         StringBuilder report = new StringBuilder();
         report.append("Отчёт за период ").append(dateFrom).append(" - ").append(dateTo);
 
-        for (String employee : names
-        ) {
+        for (String employee : names) {
             int totalSalary = 0;
             for (String record : data
             ) {
