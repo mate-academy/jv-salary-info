@@ -64,9 +64,9 @@ public class SalaryInfo {
                 if (str.contains(name)) {
                     String[] arrStr = str.split(" ");
                     if (LocalDate.parse(arrStr[0], DATE_TIME_FORMATTER)
-                            .compareTo(dateF) >= 0
+                            .isAfter(dateF.minusDays(1))
                             && LocalDate.parse(arrStr[0], DATE_TIME_FORMATTER)
-                            .compareTo(dateT) <= 0) {
+                            .isBefore(dateT.plusDays(1))) {
                         salary += Integer.parseInt(arrStr[2]) * Integer.parseInt(arrStr[3]);
                     }
                 }
