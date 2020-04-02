@@ -73,7 +73,7 @@ public class SalaryInfo {
         return report.toString();
     }
 
-     boolean period(LocalDate d, LocalDate begDate, LocalDate finishDate) {
+    boolean period(LocalDate d, LocalDate begDate, LocalDate finishDate) {
         return ((d.isAfter(begDate) || d.isEqual(begDate)) && (d.isBefore(finishDate)
                 || d.isEqual(finishDate)));
     }
