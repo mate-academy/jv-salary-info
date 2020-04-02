@@ -1,9 +1,9 @@
 package core.basesyntax;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import core.basesyntax.exception.IllegalDateParametersException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class SalaryInfo {
 
@@ -46,30 +46,27 @@ public class SalaryInfo {
      * София - 900</p>
      */
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
-            throws IllegalAccessException, ParseException {
+            throws IllegalDateParametersException {
 
         if (!compareDates(dateFrom,dateTo)) {
-            throw new IllegalAccessException("Wrong parameters");
+            throw new IllegalDateParametersException("Wrong parameters");
         }
 
         StringBuilder sb = new StringBuilder("Отчёт за период " + dateFrom + " - " + dateTo + '\n');
         ArrayList<String[]> dataToArray = new ArrayList<>();
 
         for (String s : data) {
-            if (compareDates(dateFrom,s.substring(0,11))
-                    && compareDates(s.substring(0,11),dateTo)) {
+            if (compareDates(dateFrom,s.substring(0,10))
+                    && compareDates(s.substring(0,10),dateTo)) {
                 dataToArray.add(s.split(" "));
             }
         }
 
         int[] money = new int[names.length];
-        for (int m: money) {
-            m = 0;
-        }
         for (int i = 0; i < names.length; i++) {
             for (String[] dataArray : dataToArray) {
                 if (names[i].equals(dataArray[1])) {
-                    money[i] += Integer.parseInt(dataArray[2]) + Integer.parseInt(dataArray[3]);
+                    money[i] += Integer.parseInt(dataArray[2]) * Integer.parseInt(dataArray[3]);
                 }
             }
         }
@@ -77,13 +74,13 @@ public class SalaryInfo {
         for (int i = 0; i < names.length; i++) {
             sb.append(names[i]).append(" - ").append(money[i]).append('\n');
         }
-        return sb.toString();
+        return sb.deleteCharAt(sb.length() - 1).toString();
     }
 
-    public boolean compareDates(String d1, String d2) throws ParseException {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd.mm.yyyy");
-        Date date1 = sdf.parse(d1);
-        Date date2 = sdf.parse(d2);
-        return date1.compareTo(date2) < 0;
+    public boolean compareDates(String d1, String d2) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        LocalDate date1 = LocalDate.parse(d1, formatter);
+        LocalDate date2 = LocalDate.parse(d2, formatter);
+        return date1.isBefore(date2) || date1.equals(date2);
     }
 }
