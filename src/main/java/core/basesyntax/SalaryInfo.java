@@ -45,11 +45,12 @@ public class SalaryInfo {
      * Андрей - 600
      * София - 900</p>
      */
+    private static final DateTimeFormatter FORMAT = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws Exception {
-        DateTimeFormatter formatDate = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        LocalDate dateStart = LocalDate.parse(dateFrom, formatDate);
-        LocalDate dateEnd = LocalDate.parse(dateTo, formatDate);
+        LocalDate dateStart = LocalDate.parse(dateFrom, FORMAT);
+        LocalDate dateEnd = LocalDate.parse(dateTo, FORMAT);
         LocalDate actualDate = null;
         StringBuilder result = new StringBuilder("Отчёт за период " + dateFrom + " - " + dateTo);
         int salary = 0;
@@ -62,7 +63,7 @@ public class SalaryInfo {
             salary = 0;
             for (String line : data) {
                 String[] entry = line.split(" ");
-                actualDate = LocalDate.parse(entry[0], formatDate);
+                actualDate = LocalDate.parse(entry[0], FORMAT);
                 if (name.equals(entry[1])
                         && (actualDate.isAfter(dateStart) || actualDate.isEqual(dateStart))
                         && (actualDate.isBefore(dateEnd) || actualDate.isEqual(dateEnd))) {
