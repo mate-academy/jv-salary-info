@@ -61,8 +61,8 @@ public class SalaryInfo {
                 int workingHours = Integer.valueOf(splitDate[2]);
                 int rate = Integer.valueOf(splitDate[3]);
                 if (names[j].equals(splitDate[1])
-                        && checkDate.compareTo(toDate) < 1
-                        && checkDate.compareTo(fromDate) > -1) {
+                        && checkDate.isBefore(toDate.plusDays(1))
+                        && checkDate.isAfter(fromDate.minusDays(1))) {
                     salary += workingHours * rate;
                 }
             }
