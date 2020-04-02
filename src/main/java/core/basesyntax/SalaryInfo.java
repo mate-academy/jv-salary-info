@@ -41,19 +41,19 @@ public class SalaryInfo {
      * Андрей - 600
      * София - 900</p>
      */
-    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     
     private boolean checkDatesSequence(String dateFrom, String dateTo) {
-        LocalDate fromDate = LocalDate.parse(dateFrom, formatter);
-        LocalDate toDate = LocalDate.parse(dateTo, formatter);
+        LocalDate fromDate = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate toDate = LocalDate.parse(dateTo, FORMATTER);
 
         return toDate.compareTo(fromDate) >= 0;
     }
 
     private boolean checkDateBelonging(String givenDate, String dateFrom, String dateTo) {
-        LocalDate fromDate = LocalDate.parse(dateFrom, formatter);
-        LocalDate toDate = LocalDate.parse(dateTo, formatter);
-        LocalDate currentDate = LocalDate.parse(givenDate, formatter);
+        LocalDate fromDate = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate toDate = LocalDate.parse(dateTo, FORMATTER);
+        LocalDate currentDate = LocalDate.parse(givenDate, FORMATTER);
 
         return (currentDate.compareTo(fromDate) >= 0) && (currentDate.compareTo(toDate) <= 0);
     }
