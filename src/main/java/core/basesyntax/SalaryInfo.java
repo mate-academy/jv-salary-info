@@ -43,11 +43,13 @@ public class SalaryInfo {
      * Андрей - 600
      * София - 900</p>
      */
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws Exception {
-        LocalDate fromData = conversationToData(dateFrom);
-        LocalDate toData = conversationToData(dateTo);
-        if (toData.isBefore(fromData) || toData.isEqual(fromData)) {
+        LocalDate fromData = LocalDate.parse(dateFrom, formatter);
+        LocalDate toData = LocalDate.parse(dateTo, formatter);
+        if (toData.compareTo(fromData) <= 0) {
             throw new IllegalDateParametersException("Wrong parameters");
         }
         StringBuilder report = new StringBuilder("Отчёт за период ");
@@ -77,13 +79,7 @@ public class SalaryInfo {
     }
 
     private boolean checkData(LocalDate fromData, LocalDate toData, String dataString) {
-        LocalDate data = conversationToData(dataString);
-        return data.isAfter(fromData) && data.isBefore(toData)
-                || data.isEqual(fromData) || data.isEqual(toData);
-    }
-
-    private LocalDate conversationToData(String date) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        return LocalDate.parse(date, formatter);
+        LocalDate data = LocalDate.parse(dataString, formatter);
+        return data.compareTo(fromData) >= 0 && data.compareTo(toData) <= 0;
     }
 }
