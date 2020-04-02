@@ -53,39 +53,30 @@ public class SalaryInfo {
         if (fromDate.isAfter(toDate)) {
             throw new IllegalDateParametersException("Wrong parameters");
         }
-        int[] salaries = new int[names.length];
+        StringBuilder output = new StringBuilder();
+        output.append("Отчёт за период ")
+                .append(dateFrom)
+                .append(" - ")
+                .append(dateTo);
 
-        for (String row : data) {
-            String[] rowValues = row.split(" ");
-            String rowName = rowValues[1];
-            LocalDate rowDate = LocalDate.parse(rowValues[0], FORMAT);
-            boolean inPeriod = !rowDate.isBefore(fromDate) && !rowDate.isAfter(toDate);
-            if (inPeriod) {
-                int hours = Integer.parseInt(rowValues[2]);
-                int rate = Integer.parseInt(rowValues[3]);
-                for (int nameIndex = 0; nameIndex < names.length; nameIndex++) {
-                    if (rowName.equals(names[nameIndex])) {
-                        salaries[nameIndex] += hours * rate;
-                    }
+        for (String name : names) {
+            int salary = 0;
+            for (String row : data) {
+                String[] rowValues = row.split(" ");
+                String rowName = rowValues[1];
+                LocalDate rowDate = LocalDate.parse(rowValues[0], FORMAT);
+                boolean inPeriod = !rowDate.isBefore(fromDate) && !rowDate.isAfter(toDate);
+                if (inPeriod && rowName.equals(name)) {
+                    int hours = Integer.parseInt(rowValues[2]);
+                    int rate = Integer.parseInt(rowValues[3]);
+                    salary += hours * rate;
                 }
             }
-        }
-        return getInfoString(names, salaries, dateFrom, dateTo);
-    }
-
-    public String getInfoString(String[] names, int[] salaries, String fromDate, String toDate) {
-        StringBuilder result = new StringBuilder();
-        result.append("Отчёт за период ")
-                .append(fromDate)
-                .append(" - ")
-                .append(toDate);
-        int nameIndex = 0;
-        for (String name : names) {
-            result.append("\n")
+            output.append("\n")
                     .append(name)
                     .append(" - ")
-                    .append(salaries[nameIndex++]);
+                    .append(salary);
         }
-        return result.toString();
+        return output.toString();
     }
 }
