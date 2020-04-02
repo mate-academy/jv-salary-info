@@ -48,10 +48,10 @@ public class SalaryInfo {
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws IllegalDateParametersException {
-        LocalDate from = LocalDate.parse(dateFrom, DATE_PATTERN);
-        LocalDate to = LocalDate.parse(dateTo, DATE_PATTERN);
+        LocalDate initialperiod = LocalDate.parse(dateFrom, DATE_PATTERN);
+        LocalDate endPeriod = LocalDate.parse(dateTo, DATE_PATTERN);
 
-        if (from.isAfter(to)) {
+        if (initialperiod.isAfter(endPeriod)) {
             throw new IllegalDateParametersException("Wrong parameters");
         }
 
@@ -65,8 +65,8 @@ public class SalaryInfo {
 
                 String[] recordArray = record.split(" ");
                 if (recordArray[1].equals(employee) && LocalDate.parse(recordArray[0], DATE_PATTERN)
-                        .isAfter(from.minusDays(1))
-                        && LocalDate.parse(recordArray[0], DATE_PATTERN).isBefore(to.plusDays(1))) {
+                        .isAfter(initialperiod.minusDays(1))
+                        && LocalDate.parse(recordArray[0], DATE_PATTERN).isBefore(endPeriod.plusDays(1))) {
                     int hours = Integer.parseInt(recordArray[2]);
                     int price = Integer.parseInt(recordArray[3]);
                     int daySalary = hours * price;
