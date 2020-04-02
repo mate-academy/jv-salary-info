@@ -1,7 +1,6 @@
 package core.basesyntax;
 
 import core.basesyntax.exception.IllegalDateParametersException;
-import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -49,7 +48,9 @@ public class SalaryInfo {
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws Exception {
-        if (suitablePeriod(dateFrom, dateTo) == false) {
+        LocalDate dateFromLocal = LocalDate.parse(dateFrom, FORMAT);
+        LocalDate dateToLocal = LocalDate.parse(dateTo, FORMAT);
+        if (dateFromLocal.isBefore(dateToLocal) == false) {
             throw new IllegalDateParametersException("Wrong parameters");
         }
         StringBuffer result = new StringBuffer("Отчёт за период " + dateFrom + " - " + dateTo);
@@ -59,49 +60,13 @@ public class SalaryInfo {
             for (int i = 0; i < data.length; i++) {
                 String [] oneString = data[i].split(" ");
                 if (oneString[1].equals(retVal) == true
-                        && suitableDate(dateFrom, dateTo, oneString[0]) == true) {
+                        && dateFromLocal.compareTo(LocalDate.parse(oneString[0], FORMAT)) <= 0
+                        && LocalDate.parse(oneString[0], FORMAT).compareTo(dateToLocal) <= 0) {
                     salary += Integer.parseInt(oneString[2]) * Integer.parseInt(oneString[3]);
                 }
             }
             result.append("\n").append(retVal).append(" - ").append(salary);
         }
-
         return result.toString();
     }
-
-    public static LocalDate dateConvInData(String data) {
-        LocalDate docDate = LocalDate.parse(data, FORMAT);
-        return docDate;
-    }
-
-    public static boolean suitablePeriod(String firstDate, String secondDate)
-            throws ParseException {
-        if (dateConvInData(firstDate).compareTo(dateConvInData(secondDate)) > 0) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    public static int afterBeforeEqualsDays(String firstDate, String secondDate)
-            throws ParseException {
-        if (dateConvInData(firstDate).isAfter(dateConvInData(secondDate)) == true) {
-            return 1;
-        } else if (dateConvInData(firstDate).isEqual(dateConvInData(secondDate)) == true) {
-            return 0;
-        } else {
-            return -1;
-        }
-    }
-
-    public static boolean suitableDate(String firstDate, String secondDate, String exactDate)
-            throws ParseException {
-        if (afterBeforeEqualsDays(firstDate, exactDate) <= 0
-                && afterBeforeEqualsDays(secondDate, exactDate) >= 0) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
 }
