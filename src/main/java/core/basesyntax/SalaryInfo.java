@@ -41,8 +41,8 @@ public class SalaryInfo {
      * Андрей - 600
      * София - 900</p>
      */
-    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    
     private boolean checkDatesSequence(String dateFrom, String dateTo) {
         LocalDate fromDate = LocalDate.parse(dateFrom, formatter);
         LocalDate toDate = LocalDate.parse(dateTo, formatter);
