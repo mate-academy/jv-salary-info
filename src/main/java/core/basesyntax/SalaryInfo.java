@@ -3,8 +3,6 @@ package core.basesyntax;
 import core.basesyntax.exception.IllegalDateParametersException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 public class SalaryInfo {
     /**
@@ -54,7 +52,9 @@ public class SalaryInfo {
             throw new IllegalDateParametersException("Wrong parameters");
         }
 
-        Map<String, Integer> salaries = new LinkedHashMap<>();
+        StringBuilder result = new StringBuilder();
+        result.append("Отчёт за период ").append(dateFrom).append(" - ").append(dateTo);
+
         for (String name : names) {
             int salary = 0;
             for (String token : data) {
@@ -64,13 +64,7 @@ public class SalaryInfo {
                     salary += Integer.parseInt(elements[2]) * Integer.parseInt(elements[3]);
                 }
             }
-            salaries.put(name, salary);
-        }
-
-        StringBuilder result = new StringBuilder();
-        result.append("Отчёт за период ").append(dateFrom).append(" - ").append(dateTo);
-        for (Map.Entry<String, Integer> person : salaries.entrySet()) {
-            result.append("\n").append(person.getKey()).append(" - ").append(person.getValue());
+            result.append("\n").append(name).append(" - ").append(salary);
         }
         return result.toString();
     }
