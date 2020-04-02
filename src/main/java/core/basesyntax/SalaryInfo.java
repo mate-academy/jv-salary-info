@@ -22,15 +22,12 @@ public class SalaryInfo {
             int payment = 0;
             for (String strData : data) {
                 String[] personInformation = strData.split(" ");
+                LocalDate dateWorkFromTo = LocalDate.parse(personInformation[0], FORMATTER);
                 if (strName.equals(personInformation[1])
-                        && (LocalDate.parse(personInformation[0], FORMATTER)
-                        .isBefore(dateWorkTo)
-                        || LocalDate.parse(personInformation[0], FORMATTER)
-                        .isEqual(dateWorkTo))
-                        && (LocalDate.parse(personInformation[0], FORMATTER)
-                        .isAfter(dateWorkFrom)
-                        || LocalDate.parse(personInformation[0], FORMATTER)
-                        .isEqual(dateWorkFrom))) {
+                        && (dateWorkFromTo.isBefore(dateWorkTo)
+                        || dateWorkFromTo.isEqual(dateWorkTo))
+                        && (dateWorkFromTo.isAfter(dateWorkFrom)
+                        || dateWorkFromTo.isEqual(dateWorkFrom))) {
                     payment += Integer.parseInt(personInformation[2])
                             * Integer.parseInt(personInformation[3]);
                 }
