@@ -43,22 +43,25 @@ public class SalaryInfo {
      * Андрей - 600
      * София - 900</p>
      */
+    private static final DateTimeFormatter FORMAT = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws Exception {
         StringBuilder sb = new StringBuilder("Отчёт за период " + dateFrom + " - " + dateTo + "\n");
-        final DateTimeFormatter F = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        LocalDate dateFromDate = LocalDate.parse(dateFrom, F).minusDays(1);
-        LocalDate dateToDate = LocalDate.parse(dateTo, F).plusDays(1);
-        if (dateFromDate.plusDays(1).isAfter(dateToDate.minusDays(1))) {
+        LocalDate dateFromDate = LocalDate.parse(dateFrom, FORMAT);
+        LocalDate dateToDate = LocalDate.parse(dateTo, FORMAT);
+        if (dateFromDate.isAfter(dateToDate)) {
             throw new IllegalDateParametersException("Wrong parameters");
         }
         for (int i = 0; i < names.length; i++) {
             int salary = 0;
             for (int j = 0; j < data.length; j++) {
                 String[] dataArray = data[j].split(" ");
-                LocalDate dataData = LocalDate.parse(dataArray[0], F);
-                if (names[i].equals(dataArray[1]) && dataData.isAfter(dateFromDate)
-                        && dataData.isBefore(dateToDate)) {
+                LocalDate dataData = LocalDate.parse(dataArray[0], FORMAT);
+                if (names[i].equals(dataArray[1]) && (dataData.isAfter(dateFromDate)
+                        || dataData.isEqual(dateFromDate))
+                        && (dataData.isBefore(dateToDate)
+                        || dataData.isEqual(dateToDate))) {
                     salary += Integer.parseInt(dataArray[2]) * Integer.parseInt(dataArray[3]);
                 }
             }
