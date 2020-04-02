@@ -43,29 +43,31 @@ public class SalaryInfo {
      * Андрей - 600
      * София - 900</p>
      */
-    public static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    public static final DateTimeFormatter FORMATER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws Exception {
-        if (LocalDate.parse(dateFrom, formatter).isAfter(LocalDate.parse(dateTo, formatter))) {
+        if (LocalDate.parse(dateFrom, FORMATER).isAfter(LocalDate.parse(dateTo, FORMATER))) {
             throw new IllegalDateParametersException("Wrong parameters");
         }
-        int workinHours;
+        int workingHours;
         int rate;
         String name;
         LocalDate checkDate;
         int salary = 0;
         StringBuilder result = new StringBuilder("Отчёт за период " + dateFrom + " - " + dateTo);
+        String[] splitDate = new String[4];
         for (int j = 0; j < names.length; j++) {
             for (int i = 0; i < data.length; i++) {
-                checkDate = LocalDate.parse(data[i].split(" ")[0], formatter);
-                name = data[i].split(" ")[1];
-                workinHours = Integer.valueOf(data[i].split(" ")[2]);
-                rate = Integer.valueOf(data[i].split(" ")[3]);
+                splitDate = data[i].split(" ");
+                checkDate = LocalDate.parse(splitDate[0], FORMATER);
+                name = splitDate[1];
+                workingHours = Integer.valueOf(splitDate[2]);
+                rate = Integer.valueOf(splitDate[3]);
                 if (names[j].equals(name)
-                        && checkDate.compareTo(LocalDate.parse(dateTo, formatter)) < 1
-                        && checkDate.compareTo(LocalDate.parse(dateFrom, formatter)) > -1) {
-                    salary += workinHours * rate;
+                        && checkDate.compareTo(LocalDate.parse(dateTo, FORMATER)) < 1
+                        && checkDate.compareTo(LocalDate.parse(dateFrom, FORMATER)) > -1) {
+                    salary += workingHours * rate;
                 }
             }
             result.append("\n").append(names[j]).append(" - ").append(salary);
