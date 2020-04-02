@@ -60,9 +60,7 @@ public class SalaryInfo {
 
         for (String employee : names) {
             int totalSalary = 0;
-            for (String record : data
-            ) {
-
+            for (String record : data) {
                 String[] recordArray = record.split(" ");
                 if (recordArray[1].equals(employee) && LocalDate.parse(recordArray[0], DATE_PATTERN)
                         .isAfter(initialperiod.minusDays(1))
