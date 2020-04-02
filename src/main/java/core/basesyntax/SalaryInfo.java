@@ -51,24 +51,22 @@ public class SalaryInfo {
         LocalDate localDateFrom = LocalDate.parse(dateFrom,FORMATTER);
         LocalDate localDateTo = LocalDate.parse(dateTo,FORMATTER);
         if (localDateFrom.isAfter(localDateTo)) {
-            throw new IllegalDateParametersException();
+            throw new IllegalDateParametersException("Wrong parameters");
         }
         StringBuilder salaryInfo = new StringBuilder().append("Отчёт за период ")
                 .append(dateFrom).append(" - ").append(dateTo);
         for (String name : names) {
-            {
-                int salary = 0;
-                for (String info : data) {
-                    String[] temp = info.split(" ");
-                    LocalDate local = LocalDate.parse((temp[0]), FORMATTER);
-                    if (name.equals(temp[1]) && (local.isAfter(localDateFrom)
-                            || local.isEqual(localDateFrom))
-                            && (local.isBefore(localDateTo) || local.isEqual(localDateTo))) {
-                        salary += Integer.parseInt(temp[2]) * Integer.parseInt(temp[3]);
-                    }
+            int salary = 0;
+            for (String info : data) {
+                String[] temp = info.split(" ");
+                LocalDate local = LocalDate.parse((temp[0]), FORMATTER);
+                if (name.equals(temp[1]) && (local.isAfter(localDateFrom)
+                        || local.isEqual(localDateFrom)) && (local.isBefore(localDateTo)
+                        || local.isEqual(localDateTo))) {
+                    salary += Integer.parseInt(temp[2]) * Integer.parseInt(temp[3]);
                 }
-                salaryInfo.append("\n").append(name).append(" - ").append(salary);
             }
+            salaryInfo.append("\n").append(name).append(" - ").append(salary);
         }
         return salaryInfo.toString();
     }
