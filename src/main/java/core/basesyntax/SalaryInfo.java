@@ -49,7 +49,7 @@ public class SalaryInfo {
             throws Exception {
         LocalDate fromData = LocalDate.parse(dateFrom, formatter);
         LocalDate toData = LocalDate.parse(dateTo, formatter);
-        if (toData.compareTo(fromData) <= 0) {
+        if (!toData.isAfter(fromData)) {
             throw new IllegalDateParametersException("Wrong parameters");
         }
         StringBuilder report = new StringBuilder("Отчёт за период ");
@@ -80,6 +80,7 @@ public class SalaryInfo {
 
     private boolean checkData(LocalDate fromData, LocalDate toData, String dataString) {
         LocalDate data = LocalDate.parse(dataString, formatter);
-        return data.compareTo(fromData) >= 0 && data.compareTo(toData) <= 0;
+        return data.isAfter(fromData) && data.isBefore(toData)
+                || data.isEqual(fromData) || data.isEqual(toData);
     }
 }
