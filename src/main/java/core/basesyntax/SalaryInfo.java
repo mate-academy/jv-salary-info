@@ -61,7 +61,8 @@ public class SalaryInfo {
             for (String info: data) {
                 String[] dani = info.split(" ");
                 LocalDate nameData = LocalDate.parse(dani[0], FORMATTER);
-                if (name.equals(dani[1]) && (nameData.equals(dateFromWork) || nameData.isAfter(dateFromWork))
+                if (name.equals(dani[1])
+                        && (nameData.equals(dateFromWork) || nameData.isAfter(dateFromWork))
                         && (nameData.equals(dateToWork) || nameData.isBefore(dateToWork))) {
                     int hour = Integer.parseInt(dani[2]);
                     int perDay = Integer.parseInt(dani[3]);
