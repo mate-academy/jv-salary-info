@@ -1,11 +1,8 @@
 package core.basesyntax;
 
 import core.basesyntax.exception.IllegalDateParametersException;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 public class SalaryInfo {
     /**
@@ -64,7 +61,7 @@ public class SalaryInfo {
             for (String info: data) {
                 String[] dani = info.split(" ");
                 LocalDate nameData = LocalDate.parse(dani[0], FORMATTER);
-                if (name.equals(dani[1]) &&  (nameData.equals(from) || nameData.isAfter(from))
+                if (name.equals(dani[1]) && (nameData.equals(from) || nameData.isAfter(from))
                         && (nameData.equals(to) || nameData.isBefore(to))) {
                     int hour = Integer.parseInt(dani[2]);
                     int perDay = Integer.parseInt(dani[3]);
