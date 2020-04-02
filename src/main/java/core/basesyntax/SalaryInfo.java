@@ -50,7 +50,7 @@ public class SalaryInfo {
         LocalDate startDate = LocalDate.parse(dateFrom, FORMATTER);
         LocalDate endDate = LocalDate.parse(dateTo, FORMATTER);
         if (startDate.isAfter(endDate)) {
-            throw new IllegalDateParametersException();
+            throw new IllegalDateParametersException("Wrong parameters!");
         }
         StringBuilder finalSalary = new StringBuilder().append("Отчёт за период ")
                 .append(dateFrom).append(" - ").append(dateTo);
