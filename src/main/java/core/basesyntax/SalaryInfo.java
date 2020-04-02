@@ -47,21 +47,19 @@ public class SalaryInfo {
      */
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws IllegalDateParametersException {
-
-        if (!isDate1BeforeDate2(dateFrom,dateTo)) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        LocalDate fromDate = LocalDate.parse(dateFrom, formatter);
+        LocalDate toDate = LocalDate.parse(dateTo, formatter);
+        if (fromDate.isAfter(toDate)) {
             throw new IllegalDateParametersException("Wrong parameters");
         }
-
         StringBuilder sb = new StringBuilder("Отчёт за период " + dateFrom + " - " + dateTo + '\n');
         ArrayList<String[]> dataToArray = new ArrayList<>();
-
         for (String s : data) {
-            if (isDate1BeforeDate2(dateFrom,s.substring(0,10))
-                    && isDate1BeforeDate2(s.substring(0,10),dateTo)) {
+            if (isDateInRange(s.substring(0,10),fromDate,toDate)) {
                 dataToArray.add(s.split(" "));
             }
         }
-
         int[] money = new int[names.length];
         for (int i = 0; i < names.length; i++) {
             for (String[] dataArray : dataToArray) {
@@ -70,17 +68,16 @@ public class SalaryInfo {
                 }
             }
         }
-
         for (int i = 0; i < names.length; i++) {
             sb.append(names[i]).append(" - ").append(money[i]).append('\n');
         }
         return sb.deleteCharAt(sb.length() - 1).toString();
     }
 
-    public boolean isDate1BeforeDate2(String d1, String d2) {
+    public boolean isDateInRange(String givenDate, LocalDate dateFrom, LocalDate dateTo) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        LocalDate date1 = LocalDate.parse(d1, formatter);
-        LocalDate date2 = LocalDate.parse(d2, formatter);
-        return date1.isBefore(date2) || date1.equals(date2);
+        LocalDate date = LocalDate.parse(givenDate, formatter);
+        return ((date.isAfter(dateFrom) || date.isEqual(dateFrom))
+                && (date.isBefore(dateTo) || date.isEqual(dateTo)));
     }
 }
