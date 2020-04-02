@@ -72,9 +72,6 @@ public class SalaryInfo {
                     employee.calcSalary(hours, rate);
                 }
             }
-        }
-
-        for (Employee employee : employees) {
             salaryInfo.append(employee.getName())
                     .append(" - ")
                     .append(employee.getSalary())
