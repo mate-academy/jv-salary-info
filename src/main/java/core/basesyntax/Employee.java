@@ -2,21 +2,21 @@ package core.basesyntax;
 
 public class Employee {
     private String name;
-    private int salary = 0;
+    private int totalSalary = 0;
 
     public Employee(String name) {
         this.name = name;
-    }
-
-    public void calcSalary(int hours, int rate) {
-        salary += hours * rate;
     }
 
     public String getName() {
         return name;
     }
 
-    public int getSalary() {
-        return salary;
+    public int getTotalSalary() {
+        return totalSalary;
+    }
+
+    public void addToTotalSalary(int dailySalary) {
+        totalSalary += dailySalary;
     }
 }
