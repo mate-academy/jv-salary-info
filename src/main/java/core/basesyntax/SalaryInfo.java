@@ -3,7 +3,6 @@ package core.basesyntax;
 import core.basesyntax.exception.IllegalDateParametersException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 
 public class SalaryInfo {
 
@@ -54,17 +53,14 @@ public class SalaryInfo {
             throw new IllegalDateParametersException("Wrong parameters");
         }
         StringBuilder sb = new StringBuilder("Отчёт за период " + dateFrom + " - " + dateTo + '\n');
-        ArrayList<String[]> dataToArray = new ArrayList<>();
-        for (String s : data) {
-            if (isDateInRange(s.substring(0,10),fromDate,toDate)) {
-                dataToArray.add(s.split(" "));
-            }
-        }
         int[] money = new int[names.length];
         for (int i = 0; i < names.length; i++) {
-            for (String[] dataArray : dataToArray) {
-                if (names[i].equals(dataArray[1])) {
-                    money[i] += Integer.parseInt(dataArray[2]) * Integer.parseInt(dataArray[3]);
+            for (String s : data) {
+                String[] split = s.split(" ");
+                if (isDateInRange(split[0],fromDate,toDate)) {
+                    if (names[i].equals(split[1])) {
+                        money[i] += Integer.parseInt(split[2]) * Integer.parseInt(split[3]);
+                    }
                 }
             }
         }
