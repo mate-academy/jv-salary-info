@@ -55,11 +55,13 @@ public class SalaryInfo {
         for (int i = 0; i < names.length; i++) {
             int sum = 0;
             for (String worker : data) {
-                String[] splitWorker = worker.split(" ");
-                if (splitWorker[1].equals(names[i])) {
-                    if (checkData(fromData, toData, splitWorker[0])) {
-                        sum += Integer.parseInt(splitWorker[2])
-                                * Integer.parseInt(splitWorker[3]);
+                if (worker.contains(names[i])) {
+                    String[] splitWorker = worker.split(" ");
+                    if (splitWorker[1].equals(names[i])) {
+                        if (checkData(fromData, toData, splitWorker[0])) {
+                            sum += Integer.parseInt(splitWorker[2])
+                                    * Integer.parseInt(splitWorker[3]);
+                        }
                     }
                 }
             }
