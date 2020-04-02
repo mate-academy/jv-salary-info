@@ -9,8 +9,9 @@ public class SalaryInfo {
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws IllegalDateParametersException {
-        if (!(LocalDate.parse(dateFrom, FORMATTER)
-                .isBefore(LocalDate.parse(dateTo, FORMATTER)))) {
+        LocalDate dateF = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate dateT = LocalDate.parse(dateTo, FORMATTER);
+        if (!(dateF.isBefore(dateT))) {
             throw new IllegalDateParametersException("Wrong parameters");
         }
         StringBuilder main = new StringBuilder("Отчёт за период "
@@ -21,10 +22,8 @@ public class SalaryInfo {
             count = 0;
             for (String j : data) {
                 String[] str = j.split(" ");
-                if (i.equals(str[1]) && ((LocalDate.parse(str[0], FORMATTER)
-                        .isBefore(LocalDate.parse(dateTo, FORMATTER)))
-                        && (LocalDate.parse(dateFrom, FORMATTER)
-                        .isBefore(LocalDate.parse(str[0], FORMATTER)))
+                LocalDate strS = LocalDate.parse(str[0], FORMATTER);
+                if (i.equals(str[1]) && ((strS.isBefore(dateT)) && dateF.isBefore(strS)
                         || (dateFrom.equals((str[0]))) || (dateTo.equals((str[0]))))) {
                     count += Integer.parseInt(str[2]) * Integer.parseInt(str[3]);
                 }
