@@ -43,57 +43,36 @@ public class SalaryInfo {
      * Андрей - 600
      * София - 900</p>
      */
+    static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws Exception {
 
-        if (getDate(dateFrom).isAfter(getDate(dateTo))) {
+        LocalDate toDate = LocalDate.parse(dateTo, FORMATTER);
+        LocalDate fromDate = LocalDate.parse(dateFrom, FORMATTER);
+
+        if (fromDate.isAfter(toDate)) {
             throw new IllegalDateParametersException("Wrong parameters");
         }
 
-        DateTimeFormatter sdf = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         StringBuilder result = new StringBuilder("Отчёт за период ")
-                .append(sdf.format(getDate(dateFrom)))
+                .append(dateFrom)
                 .append(" - ")
-                .append(sdf.format(getDate(dateTo)));
-
-        int salary = 0;
+                .append(dateTo);
         for (String name : names) {
-            for (String currentData : data) {
-                if ((name.equals(getName(currentData)))
-                        & (dateCondition(currentData, dateFrom, dateTo))) {
-                    salary += getHours(currentData) * getPrice(currentData);
+            int salary = 0;
+            for (String dataLine : data) {
+                String[] splitLine = dataLine.split(" ");
+                LocalDate currentDate = LocalDate.parse(splitLine[0], FORMATTER);
+                if ((name.equals(splitLine[1]))
+                        & ((currentDate.isAfter(fromDate) && currentDate.isBefore(toDate))
+                        || currentDate.isEqual(toDate))) {
+                    salary += (Integer.parseInt(splitLine[2])
+                            * Integer.parseInt(splitLine[3]));
                 }
             }
             result.append("\n").append(name).append(" - ").append(salary);
-            salary = 0;
         }
         return result.toString();
-    }
-
-    private boolean dateCondition(String current, String dateFrom, String dateTo) {
-        return (getDate(current).isAfter(getDate(dateFrom))
-                | getDate(current).isEqual(getDate(dateFrom)))
-                & (getDate(current).isBefore(getDate(dateTo))
-                | getDate(current).isEqual(getDate(dateTo)));
-    }
-
-    private static LocalDate getDate(String s) {
-        int day = Integer.valueOf(s.substring(0, 2));
-        int month = Integer.valueOf(s.substring(3, 5));
-        int year = Integer.valueOf(s.substring(6, 10));
-
-        return LocalDate.of(year, month, day);
-    }
-
-    private static String getName(String s) {
-        return s.replaceAll("[\\s\\.\\d]", "");
-    }
-
-    private static int getHours(String s) {
-        return Integer.valueOf(s.split(" ")[3]);
-    }
-
-    private static int getPrice(String s) {
-        return Integer.valueOf(s.split(" ")[2]);
     }
 }
