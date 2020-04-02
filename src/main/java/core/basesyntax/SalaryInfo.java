@@ -46,12 +46,15 @@ public class SalaryInfo {
      * Андрей - 600
      * София - 900</p>
      */
+
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws IllegalDateParametersException {
-        StringBuilder sb = new StringBuilder("Отчёт за период " + dateFrom + " - " + dateTo + "\n");
-        LocalDate d1 = convertToLocalDate(dateFrom);
-        LocalDate d2 = convertToLocalDate(dateTo);
-        if (d1.isAfter(d2)) {
+        StringBuilder sb = new StringBuilder("Отчёт за период " + dateFrom + " - " + dateTo);
+        LocalDate localDateFrom = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate localDateTo = LocalDate.parse(dateTo, FORMATTER);
+        if (localDateFrom.isAfter(localDateTo)) {
             throw new IllegalDateParametersException("Wrong parameters");
         }
         data = filterByDate(data, dateFrom, dateTo);
@@ -63,23 +66,19 @@ public class SalaryInfo {
                     count = count + Integer.parseInt(arr[2]) * Integer.parseInt(arr[3]);
                 }
             }
-            sb.append(name).append(" - ").append(count).append("\n");
+            sb.append("\n").append(name).append(" - ").append(count);
         }
-        return sb.toString().substring(0, sb.toString().length() - 1);
-    }
-
-    private static LocalDate convertToLocalDate(String s) {
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        return LocalDate.parse(s, dtf);
+        return sb.toString();
     }
 
     private static String[] filterByDate(String[] data, String dateFrom, String dateTo) {
         List<String> list = new ArrayList<>();
         for (String s : data) {
-            LocalDate d1 = convertToLocalDate(s.substring(0, 10));
-            LocalDate d2 = convertToLocalDate(dateFrom);
-            LocalDate d3 = convertToLocalDate(dateTo);
-            if ((d1.isAfter(d2) || d1.equals(d2)) && (d1.isBefore(d3) || d1.equals(d3))) {
+            LocalDate rowLocalDate = LocalDate.parse(s.substring(0, 10), FORMATTER);
+            LocalDate localDateFrom = LocalDate.parse(dateFrom, FORMATTER);
+            LocalDate localDateTo = LocalDate.parse(dateTo, FORMATTER);
+            if ((rowLocalDate.isAfter(localDateFrom) || rowLocalDate.equals(localDateFrom))
+                    && (rowLocalDate.isBefore(localDateTo) || rowLocalDate.equals(localDateTo))) {
                 list.add(s);
             }
         }
