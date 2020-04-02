@@ -47,9 +47,7 @@ public class SalaryInfo {
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws Exception {
-        LocalDate fromDate = LocalDate.parse(dateFrom, formatter);
-        LocalDate toDate = LocalDate.parse(dateTo, formatter);
-        if (fromDate.isAfter(toDate)) {
+        if (LocalDate.parse(dateFrom, formatter).isAfter(LocalDate.parse(dateTo, formatter))) {
             throw new IllegalDateParametersException("Wrong parameters");
         }
         int workinHours;
@@ -65,8 +63,8 @@ public class SalaryInfo {
                 workinHours = Integer.valueOf(data[i].split(" ")[2]);
                 rate = Integer.valueOf(data[i].split(" ")[3]);
                 if (names[j].equals(name)
-                        && checkDate.compareTo(toDate) < 1
-                        && checkDate.compareTo(fromDate) > -1) {
+                        && checkDate.compareTo(LocalDate.parse(dateTo, formatter)) < 1
+                        && checkDate.compareTo(LocalDate.parse(dateFrom, formatter)) > -1) {
                     salary += workinHours * rate;
                 }
             }
