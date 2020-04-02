@@ -2,7 +2,8 @@ package core.basesyntax;
 
 import core.basesyntax.exception.IllegalDateParametersException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     /**
@@ -43,11 +44,13 @@ public class SalaryInfo {
      * Андрей - 600
      * София - 900</p>
      */
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws Exception {
-        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
-        Date startDate = formatter.parse(dateFrom);
-        Date endDate = formatter.parse(dateTo);
+
+        LocalDate startDate = LocalDate.parse(dateFrom,FORMATTER);
+        LocalDate  endDate = LocalDate.parse(dateTo,FORMATTER);
         if (startDate.compareTo(endDate) > 0) {
             throw new IllegalDateParametersException("Wrong parameters");
         }
@@ -65,9 +68,9 @@ public class SalaryInfo {
 
             for (String workersData : data) {
                 dataSplit = workersData.split(" ");
-                Date workerDays = formatter.parse(dataSplit[0]);
+                LocalDate workerDays = LocalDate.parse(dataSplit[0]);
 
-                if (!(workerDays.before(startDate) || workerDays.after(endDate))
+                if (!(workerDays.isBefore(startDate) || workerDays.isAfter(endDate))
                         && dataSplit[1].equals(workerName)) {
                     salary += Integer.parseInt(dataSplit[2]) * Integer.parseInt(dataSplit[3]);
                 }
