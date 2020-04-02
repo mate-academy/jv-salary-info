@@ -49,7 +49,7 @@ public class SalaryInfo {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
         LocalDate to = LocalDate.parse(dateTo, formatter);
         LocalDate from = LocalDate.parse(dateFrom, formatter);
-        if (to.compareTo(from) < 0) {
+        if (to.isBefore(from)) {
             throw new IllegalDateParametersException();
         }
         int[] salary = new int[names.length];
@@ -58,8 +58,7 @@ public class SalaryInfo {
             for (String information: data) {
                 String[] workerData = information.split(" ");
                 LocalDate day = LocalDate.parse(workerData[0], formatter);
-                if (day.compareTo(to) <= 0
-                        && day.compareTo(from) >= 0
+                if (day.compareTo(to) <= 0 && day.compareTo(from) >= 0
                         && workerData[1].equals(names[i])) {
                     salaryOfWorker += Integer.parseInt(workerData[2])
                             * Integer.parseInt(workerData[3]);
