@@ -48,7 +48,7 @@ public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws IllegalDateParametersException {
 
-        if (!compareDates(dateFrom,dateTo)) {
+        if (!isDate1BeforeDate2(dateFrom,dateTo)) {
             throw new IllegalDateParametersException("Wrong parameters");
         }
 
@@ -56,8 +56,8 @@ public class SalaryInfo {
         ArrayList<String[]> dataToArray = new ArrayList<>();
 
         for (String s : data) {
-            if (compareDates(dateFrom,s.substring(0,10))
-                    && compareDates(s.substring(0,10),dateTo)) {
+            if (isDate1BeforeDate2(dateFrom,s.substring(0,10))
+                    && isDate1BeforeDate2(s.substring(0,10),dateTo)) {
                 dataToArray.add(s.split(" "));
             }
         }
@@ -77,7 +77,7 @@ public class SalaryInfo {
         return sb.deleteCharAt(sb.length() - 1).toString();
     }
 
-    public boolean compareDates(String d1, String d2) {
+    public boolean isDate1BeforeDate2(String d1, String d2) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         LocalDate date1 = LocalDate.parse(d1, formatter);
         LocalDate date2 = LocalDate.parse(d2, formatter);
