@@ -66,7 +66,8 @@ public class SalaryInfo {
                 String[] recordArray = record.split(" ");
                 if (recordArray[1].equals(employee) && LocalDate.parse(recordArray[0], DATE_PATTERN)
                         .isAfter(initialperiod.minusDays(1))
-                        && LocalDate.parse(recordArray[0], DATE_PATTERN).isBefore(endPeriod.plusDays(1))) {
+                        && LocalDate.parse(recordArray[0], DATE_PATTERN)
+                        .isBefore(endPeriod.plusDays(1))) {
                     int hours = Integer.parseInt(recordArray[2]);
                     int price = Integer.parseInt(recordArray[3]);
                     int daySalary = hours * price;
