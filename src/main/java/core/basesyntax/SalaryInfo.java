@@ -1,5 +1,7 @@
 package core.basesyntax;
 
+import core.basesyntax.exception.IllegalDateParametersException;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.LinkedHashMap;
@@ -51,29 +53,25 @@ public class SalaryInfo {
         LocalDate from = LocalDate.parse(dateFrom, FORMATTER);
         LocalDate to = LocalDate.parse(dateTo, FORMATTER);
 
-        if (from.compareTo(to) > 0) {
-            throw new core.basesyntax.exception.IllegalDateParametersException("Wrong parameters");
+        if (from.isAfter(to)) {
+            throw new IllegalDateParametersException("Wrong parameters");
         }
 
-        Map<String, Integer> listName = new LinkedHashMap<>();
         StringBuilder result = new StringBuilder();
         result.append("Отчёт за период ").append(dateFrom).append(" - ").append(dateTo);
         for (String name: names) {
-            int some = 0;
-            for (String i: data) {
-                String[] z = i.split(" ");
-                LocalDate nameData = LocalDate.parse(z[0], FORMATTER);
-                if ((name.equals(z[1]) && nameData.compareTo(from) >= 0)
-                        && (nameData.compareTo(to) <= 0)) {
-                    int hour = Integer.parseInt(z[2]);
-                    int perDay = Integer.parseInt(z[3]);
-                    some += (perDay * hour);
+            int money = 0;
+            for (String info: data) {
+                String[] dani = info.split(" ");
+                LocalDate nameData = LocalDate.parse(dani[0], FORMATTER);
+                if (name.equals(dani[1]) &&  (nameData.equals(from) || nameData.isAfter(from))
+                        && (nameData.equals(to) || nameData.isBefore(to))) {
+                    int hour = Integer.parseInt(dani[2]);
+                    int perDay = Integer.parseInt(dani[3]);
+                    money += (perDay * hour);
                 }
             }
-            listName.put(name, some);
-        }
-        for (Map.Entry<String, Integer> person : listName.entrySet()) {
-            result.append("\n").append(person.getKey()).append(" - ").append(person.getValue());
+            result.append("\n").append(name).append(" - ").append(money);
         }
         return result.toString();
     }
