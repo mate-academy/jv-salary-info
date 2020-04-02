@@ -45,24 +45,20 @@ public class SalaryInfo {
      */
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
-    public boolean isInRange(String date, String dateFrom, String dateTo)
+    public boolean isInRange(String date, LocalDate startDate, LocalDate endDate) {
+        LocalDate workDate = LocalDate.parse(date, FORMATTER);
+        return (workDate.isAfter(startDate) && workDate.isBefore(endDate)
+                || workDate.isEqual(startDate)
+                || workDate.isEqual(endDate));
+    }
+
+    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws IllegalDateParametersException {
         LocalDate startDate = LocalDate.parse(dateFrom, FORMATTER);
         LocalDate endDate = LocalDate.parse(dateTo, FORMATTER);
         if (startDate.isAfter(endDate)) {
             throw new IllegalDateParametersException();
         }
-        LocalDate workDate = LocalDate.parse(date, FORMATTER);
-        if (workDate.isAfter(startDate) && workDate.isBefore(endDate)
-                || workDate.isEqual(startDate)
-                || workDate.isEqual(endDate)) {
-            return true;
-        }
-        return false;
-    }
-
-    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
-            throws IllegalDateParametersException {
         StringBuilder result = new StringBuilder("Отчёт за период ")
                                   .append(dateFrom)
                                   .append(" - ")
@@ -71,7 +67,7 @@ public class SalaryInfo {
             int sumN = 0;
             for (String d : data) {
                 String[] temp = d.split(" ");
-                if (isInRange(temp[0], dateFrom, dateTo) && n.equals(temp[1])) {
+                if (isInRange(temp[0], startDate, endDate) && n.equals(temp[1])) {
                     sumN += Integer.parseInt(temp[2]) * Integer.parseInt(temp[3]);
                 }
             }
