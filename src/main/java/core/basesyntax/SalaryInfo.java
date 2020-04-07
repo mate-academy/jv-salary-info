@@ -1,5 +1,10 @@
 package core.basesyntax;
 
+import core.basesyntax.exception.IllegalDateParametersException;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Date;
+
 public class SalaryInfo {
     /**
      * <p>Реализуйте метод getSalaryInfo(String[] names, String[] data,
@@ -34,13 +39,42 @@ public class SalaryInfo {
      * 26.04.2019 Сергей 11 50</p>
      *
      * <p>Пример вывода:
-     * Отчёт за период 01.04.2019  - 30.04.2019
+     * Отчёт за период 01.04.2019 - 30.04.2019
      * Сергей - 1550
      * Андрей - 600
      * София - 900</p>
      */
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws Exception {
-        return null;
+        SimpleDateFormat sdformat = new SimpleDateFormat("dd.MM.yyyy");
+        Date dateFromFormatted = sdformat.parse(dateFrom);
+        Date dateToFormatted = sdformat.parse(dateTo);
+
+        if (dateFromFormatted.compareTo(dateToFormatted) >= 0) {
+            throw new IllegalDateParametersException("Wrong parameters");
+        }
+
+        int[] salaries = new int[names.length];
+
+        for (int i = 0; i < data.length; i++) {
+            String[] splitedData = data[i].split(" ");
+            Date date = sdformat.parse(splitedData[0]);
+            int nameIndex = Arrays.asList(names).indexOf(splitedData[1]);
+
+            if (date.compareTo(dateFromFormatted) >= 0
+                    && date.compareTo(dateToFormatted) <= 0
+                    && nameIndex >= 0) {
+                salaries[nameIndex] +=
+                        Integer.parseInt(splitedData[2]) * Integer.parseInt(splitedData[3]);
+            }
+        }
+
+        String result = "Отчёт за период " + dateFrom + " - " + dateTo;
+
+        for (int i = 0; i < salaries.length; i++) {
+            result += "\n" + names[i] + " - " + String.valueOf(salaries[i]);
+        }
+
+        return result;
     }
 }
