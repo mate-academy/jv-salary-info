@@ -43,33 +43,30 @@ public class SalaryInfo {
      * Андрей - 600
      * София - 900</p>
      */
-    private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws Exception {
-        StringBuilder informationAboutSalary = new StringBuilder("Отчёт за период ")
-                .append(dateFrom).append(" - ").append(dateTo);
-        LocalDate startData = LocalDate.parse(dateFrom, formatter);
-        LocalDate finishData = LocalDate.parse(dateTo, formatter);
+        LocalDate startData = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate finishData = LocalDate.parse(dateTo, FORMATTER);
         if (startData.compareTo(finishData) > 0) {
             throw new IllegalDateParametersException("Wrong parameters");
         }
+        StringBuilder informationAboutSalary = new StringBuilder("Отчёт за период ")
+                .append(dateFrom).append(" - ").append(dateTo);
         for (String name : names) {
             int finalSalary = 0;
             for (String personalData : data) {
                 String[] arrayOfData = personalData.split(" ");
-                if (!name.equals(arrayOfData[1])) {
+                LocalDate currentData = LocalDate.parse(arrayOfData[0], FORMATTER);
+                if (!name.equals(arrayOfData[1]) || (currentData.isBefore(startData)
+                        || currentData.isAfter(finishData))) {
                     continue;
                 }
-                LocalDate currentData = LocalDate.parse(arrayOfData[0], formatter);
-                if (!(currentData.compareTo(finishData) > 0)
-                        && !(currentData.compareTo(startData) < 0)) {
-                    finalSalary += Integer.parseInt(arrayOfData[2])
+                finalSalary += Integer.parseInt(arrayOfData[2])
                             * Integer.parseInt(arrayOfData[3]);
-                }
             }
-            informationAboutSalary.append("\n");
-            informationAboutSalary.append(name).append(" - ").append(finalSalary);
+            informationAboutSalary.append("\n").append(name).append(" - ").append(finalSalary);
         }
         return informationAboutSalary.toString();
     }
