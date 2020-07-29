@@ -60,7 +60,7 @@ public class SalaryInfo {
                 "Отчёт за период " + dateFrom + " - " + dateTo + "\n");
 
         for (int i = 0; i < names.length; i++) {
-            int pay = 0;
+            int salary = 0;
             for (int j = 0; j < data.length; j++) {
                 String[] employeeInfo = data[j].split(" ");
 
@@ -68,22 +68,16 @@ public class SalaryInfo {
                 LocalDate dateVisit = LocalDate.parse(employeeInfo[0], FORMATTER);
 
                 if (names[i].equals(employeeName)) {
-                    if (checkVisit(dateVisit, dateStart, dateEnd)) {
+                    if (!dateVisit.isBefore(dateStart) && !dateVisit.isAfter(dateEnd)) {
                         int hours = Integer.parseInt(employeeInfo[2]);
                         int rate = Integer.parseInt(employeeInfo[3]);
-                        pay += hours * rate;
+                        salary += hours * rate;
                     }
                 }
             }
-
-            report.append(names[i]).append(" - ").append(pay).append("\n");
+            report.append(names[i]).append(" - ").append(salary).append("\n");
         }
 
         return report.toString().trim();
-    }
-
-    private boolean checkVisit(LocalDate visit, LocalDate dateFrom, LocalDate dateTo) {
-        return (visit.isEqual(dateFrom) || visit.isEqual(dateTo))
-                || (visit.isAfter(dateFrom) && visit.isBefore(dateTo));
     }
 }
