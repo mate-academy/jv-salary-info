@@ -43,25 +43,25 @@ public class SalaryInfo {
      * Андрей - 600
      * София - 900</p>
      */
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws IllegalDateParametersException {
 
-        LocalDate firstDate = LocalDate.parse(dateFrom, formatter);
-        LocalDate secondDate = LocalDate.parse(dateTo, formatter);
+        LocalDate firstDate = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate secondDate = LocalDate.parse(dateTo, FORMATTER);
         if (firstDate.isAfter(secondDate)) {
             throw new IllegalDateParametersException("Wrong parameters");
         }
 
-        StringBuilder stringBuilder = new StringBuilder("Отчёт за период "
-                + dateFrom + " - "
-                + dateTo + "\n");
+        StringBuilder stringBuilder = new StringBuilder().append("Отчёт за период ")
+                .append(dateFrom)
+                .append(" - ").append(dateTo);
         for (String name : names) {
             int salaryAmount = 0;
             for (String dataByName : data) {
                 String[] infoByDateAndName = dataByName.split(" ");
-                LocalDate dateOfSalary = LocalDate.parse(infoByDateAndName[0], formatter);
+                LocalDate dateOfSalary = LocalDate.parse(infoByDateAndName[0], FORMATTER);
                 if (dataByName.contains(name)
                         && !dateOfSalary.isBefore(firstDate)
                         && !dateOfSalary.isAfter(secondDate)) {
@@ -69,8 +69,8 @@ public class SalaryInfo {
                             * Integer.parseInt(infoByDateAndName[3]);
                 }
             }
-            stringBuilder.append(name + " - " + salaryAmount + "\n");
+            stringBuilder.append("\n").append(name).append(" - ").append(salaryAmount);
         }
-        return stringBuilder.toString().trim();
+        return stringBuilder.toString();
     }
 }
