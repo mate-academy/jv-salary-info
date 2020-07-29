@@ -71,7 +71,6 @@ public class SalaryInfo {
                         || currentDate.isBefore(endDate))) {
                     salary += Integer.parseInt(dataArray[2]) * Integer.parseInt(dataArray[3]);
                 }
-
             }
             result.append(name).append(" - ").append(salary).append("\n");
         }
