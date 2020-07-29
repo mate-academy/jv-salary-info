@@ -1,5 +1,10 @@
 package core.basesyntax;
 
+import core.basesyntax.exception.IllegalDateParametersException;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class SalaryInfo {
     /**
      * <p>Реализуйте метод getSalaryInfo(String[] names, String[] data,
@@ -39,8 +44,47 @@ public class SalaryInfo {
      * Андрей - 600
      * София - 900</p>
      */
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyy");
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
-            throws Exception {
-        return null;
+            throws IllegalDateParametersException {
+
+        LocalDate localDateFrom = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate localDateTo = LocalDate.parse(dateTo, FORMATTER);
+
+        if (localDateFrom.isAfter(localDateTo) || localDateFrom.isEqual(localDateTo)
+        ) {
+            throw new IllegalDateParametersException("Wrong parameters");
+        }
+
+        StringBuilder result = new StringBuilder("Отчёт за период ");
+        result.append(dateFrom).append(" - ").append(dateTo).append("\n");
+
+        for (String name : names) {
+            int tempSalary = 0;
+
+            for (String lineOfData : data) {
+                String[] allDataArray = lineOfData.split(" ");
+                if (name.equals(allDataArray[1])
+                        && dateComparator(dateFrom, dateTo, allDataArray[0])) {
+                    tempSalary +=
+                            Integer.parseInt(allDataArray[2]) * Integer.parseInt(allDataArray[3]);
+                }
+            }
+            result.append(name).append(" - ").append(tempSalary).append("\n");
+        }
+
+        return result.substring(0, result.length() - 1);
+    }
+
+    private boolean dateComparator(String dateFrom, String dateTo, String dateToCompare) {
+        LocalDate localDateFrom = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate localDateTo = LocalDate.parse(dateTo, FORMATTER);
+        LocalDate localDateToCompare = LocalDate.parse(dateToCompare, FORMATTER);
+
+        return ((localDateFrom.isBefore(localDateToCompare)
+                || localDateFrom.isEqual(localDateToCompare))
+                && (localDateTo.isAfter(localDateToCompare)
+                || localDateTo.isEqual(localDateToCompare)));
     }
 }
