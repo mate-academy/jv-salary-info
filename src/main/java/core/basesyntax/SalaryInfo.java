@@ -46,7 +46,7 @@ public class SalaryInfo {
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
-            throws Exception {
+            throws IllegalDateParametersException {
         LocalDate beginDate = LocalDate.parse(dateFrom, DATE_FORMAT);
         LocalDate endDate = LocalDate.parse(dateTo, DATE_FORMAT);
         if (beginDate.isAfter(endDate)) {
