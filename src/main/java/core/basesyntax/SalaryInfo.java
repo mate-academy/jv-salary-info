@@ -62,14 +62,14 @@ public class SalaryInfo {
         for (String name: names) {
             int sum = 0;
             for (String employee: data) {
-                String[] temporaryString = employee.split(" ");
-                if (name.equals(temporaryString[1])) {
-                    if (LocalDate.parse(temporaryString[0], DATE_FORMAT)
+                String[] employeeInfo = employee.split(" ");
+                if (name.equals(employeeInfo[1])) {
+                    if (LocalDate.parse(employeeInfo[0], DATE_FORMAT)
                             .compareTo(LocalDate.parse(dateFrom, DATE_FORMAT)) >= 0
-                            && LocalDate.parse(temporaryString[0], DATE_FORMAT)
+                            && LocalDate.parse(employeeInfo[0], DATE_FORMAT)
                             .compareTo(LocalDate.parse(dateTo, DATE_FORMAT)) <= 0) {
-                        sum += Integer.parseInt(temporaryString[2])
-                                * Integer.parseInt(temporaryString[3]);
+                        sum += Integer.parseInt(employeeInfo[2])
+                                * Integer.parseInt(employeeInfo[3]);
                     }
                 }
             }
