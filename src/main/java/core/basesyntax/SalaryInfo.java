@@ -43,7 +43,7 @@ public class SalaryInfo {
      * Андрей - 600
      * София - 900</p>
      */
-    static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("d.MM.yyyy");
+    public static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("d.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws IllegalDateParametersException {
@@ -51,13 +51,10 @@ public class SalaryInfo {
             throw new IllegalDateParametersException("Wrong parameters");
         }
         StringBuilder report = new StringBuilder();
-        report.append("Отчёт за период ").append(dateFrom).append(" - ")
-                .append(dateTo).append("\n");
-        int totalSalaryForThePeriod = 0;
-        for (String employee : names
-        ) {
-            for (String infoAboutSalary : data
-            ) {
+        report.append("Отчёт за период ").append(dateFrom).append(" - ").append(dateTo);
+        for (String employee : names) {
+            int totalSalaryForThePeriod = 0;
+            for (String infoAboutSalary : data) {
                 String[] arrayInfoAboutSalary = infoAboutSalary.split(" ");
                 if (LocalDate.parse(dateFrom, DATE_FORMAT).minusDays(1)
                         .isBefore(LocalDate.parse(arrayInfoAboutSalary[0], DATE_FORMAT))
@@ -70,9 +67,8 @@ public class SalaryInfo {
                     }
                 }
             }
-            report.append(employee).append(" - ").append(totalSalaryForThePeriod).append("\n");
-            totalSalaryForThePeriod = 0;
+            report.append("\n").append(employee).append(" - ").append(totalSalaryForThePeriod);
         }
-        return report.toString().trim();
+        return report.toString();
     }
 }
