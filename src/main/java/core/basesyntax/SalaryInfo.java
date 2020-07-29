@@ -43,31 +43,33 @@ public class SalaryInfo {
      * Андрей - 600
      * София - 900</p>
      */
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        LocalDate fromDate = LocalDate.parse(dateFrom, formatter);
-        LocalDate toDate = LocalDate.parse(dateTo, formatter);
+        LocalDate fromDate = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate toDate = LocalDate.parse(dateTo, FORMATTER);
         if (fromDate.compareTo(toDate) > 0) {
             throw new IllegalDateParametersException("Wrong parameters");
         }
-        StringBuilder sb = new StringBuilder();
-        sb.append(String.format("Отчёт за период %s - %s\n", dateFrom, dateTo));
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(String.format("Отчёт за период %s - %s\n", dateFrom, dateTo));
         for (int i = 0; i < names.length; i++) {
-            sb.append(names[i]);
+            stringBuilder.append(names[i]);
             int salary = 0;
             for (int j = 0; j < data.length; j++) {
                 String[] strings = data[j].split(" ");
-                boolean flag = names[i].equals(strings[1])
-                        && (LocalDate.parse(strings[0], formatter)).compareTo(fromDate) >= 0
-                        && (LocalDate.parse(strings[0], formatter)).compareTo(toDate) <= 0;
-                salary = flag ? Integer.parseInt(strings[2])
-                        * Integer.parseInt(strings[3]) + salary : salary;
+                if (names[i].equals(strings[1])
+                        && (LocalDate.parse(strings[0], FORMATTER)).compareTo(fromDate) >= 0
+                        && (LocalDate.parse(strings[0], FORMATTER)).compareTo(toDate) <= 0) {
+                    salary = Integer.parseInt(strings[2])
+                            * Integer.parseInt(strings[3]) + salary;
+                }
             }
-            sb.append(String.format(" - %d", salary));
+            stringBuilder.append(String.format(" - %d", salary));
             if (i + 1 != names.length) {
-                sb.append("\n");
+                stringBuilder.append("\n");
             }
         }
-        return sb.toString();
+        return stringBuilder.toString();
     }
 }
