@@ -62,7 +62,7 @@ public class SalaryInfo {
             int totalPersonSalary = 0;
             for (String elementOfData : data) {
                 if (elementOfData.split(" ")[1].equals(name)
-                        && isInDateRange(fromDate, toDate, elementOfData)) {
+                        && isInDateRange(fromDate, toDate, elementOfData.split(" ")[0])) {
                     totalPersonSalary += Integer.parseInt(elementOfData.split(" ")[3])
                             * Integer.parseInt(elementOfData.split(" ")[2]);
                 }
@@ -74,10 +74,10 @@ public class SalaryInfo {
     }
 
     private boolean isInDateRange(LocalDate fromDate,
-                                  LocalDate toDate, String elementOfData) {
-        return LocalDate.parse(elementOfData.split(" ")[0], FORMATTER)
+                                  LocalDate toDate, String dateToCheck) {
+        return LocalDate.parse(dateToCheck, FORMATTER)
                 .isBefore(toDate.plusDays(1))
-                && (LocalDate.parse(elementOfData.split(" ")[0], FORMATTER)
+                && (LocalDate.parse(dateToCheck, FORMATTER)
                 .isAfter(fromDate.minusDays(1)));
     }
 }
