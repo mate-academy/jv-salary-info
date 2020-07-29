@@ -61,10 +61,9 @@ public class SalaryInfo {
             for (String lines : data) {
                 String[] line = lines.split(" ");
                 LocalDate dateWhenWorked = LocalDate.parse(line[0], FORMATTER);
-                if (!dateWhenWorked.isBefore(dateBegin) && !dateWhenWorked.isAfter(dateEnd)) {
-                    if (name.equals(line[1])) {
-                        sumToPay += Integer.parseInt(line[2]) * Integer.parseInt(line[3]);
-                    }
+                if (!dateWhenWorked.isBefore(dateBegin) && !dateWhenWorked.isAfter(dateEnd)
+                        && name.equals(line[1])) {
+                    sumToPay += Integer.parseInt(line[2]) * Integer.parseInt(line[3]);
                 }
             }
             builder.append(name).append(" - ").append(sumToPay).append("\n");
