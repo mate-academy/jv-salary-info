@@ -72,7 +72,7 @@ public class SalaryInfo {
         return sb.toString();
     }
 
-    //Doing reverse for date strings to int.
+    //Doing reverse for array with date strings to int.
     public int convertStringDate(String[] stringDate) {
         StringBuilder myStringBuilder = new StringBuilder();
         for (int i = stringDate.length - 1; i >= 0; i--) {
