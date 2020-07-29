@@ -52,12 +52,11 @@ public class SalaryInfo {
         LocalDate beginDate = LocalDate.parse(dateFrom, FORMATTER);
         LocalDate endDate = LocalDate.parse(dateTo, FORMATTER);
 
-        StringBuilder result =
-                new StringBuilder("Отчёт за период " + dateFrom + " - " + dateTo + "\n");
-
         if (beginDate.isAfter(endDate)) {
             throw new IllegalDateParametersException("Wrong parameters!");
         }
+        StringBuilder result =
+                new StringBuilder("Отчёт за период " + dateFrom + " - " + dateTo + "\n");
 
         for (String name : names) {
             int salary = 0;
