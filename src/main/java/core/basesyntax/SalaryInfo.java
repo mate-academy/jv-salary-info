@@ -73,8 +73,7 @@ public class SalaryInfo {
         return report.toString();
     }
 
-    private boolean isInDateRange(LocalDate fromDate,
-                                  LocalDate toDate, String dateToCheck) {
+    private boolean isInDateRange(LocalDate fromDate, LocalDate toDate, String dateToCheck) {
         return LocalDate.parse(dateToCheck, FORMATTER)
                 .isBefore(toDate.plusDays(1))
                 && (LocalDate.parse(dateToCheck, FORMATTER)
