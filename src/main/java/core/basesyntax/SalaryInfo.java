@@ -51,8 +51,7 @@ public class SalaryInfo {
             throw new IllegalDateParametersException("Wrong parameters");
         }
         StringBuilder sb = new StringBuilder();
-        sb.append(String.format("Отчёт за период %s - %s", dateFrom, dateTo));
-        sb.append("\n");
+        sb.append(String.format("Отчёт за период %s - %s\n", dateFrom, dateTo));
         for (int i = 0; i < names.length; i++) {
             sb.append(names[i]);
             int salary = 0;
@@ -61,7 +60,8 @@ public class SalaryInfo {
                 boolean flag = names[i].equals(strings[1])
                         && (LocalDate.parse(strings[0], formatter)).compareTo(fromDate) >= 0
                         && (LocalDate.parse(strings[0], formatter)).compareTo(toDate) <= 0;
-                salary = flag ? Integer.parseInt(strings[2]) * Integer.parseInt(strings[3]) + salary : salary;
+                salary = flag ? Integer.parseInt(strings[2])
+                        * Integer.parseInt(strings[3]) + salary : salary;
             }
             sb.append(String.format(" - %d", salary));
             if (i + 1 != names.length) {
