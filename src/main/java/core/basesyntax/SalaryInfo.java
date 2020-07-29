@@ -65,8 +65,7 @@ public class SalaryInfo {
                 String[] dataArray = current.split(" ");
                 LocalDate currentDate = LocalDate.parse(dataArray[0], FORMATTER);
                 if ((name.equals(dataArray[1]))
-                        && (currentDate.isEqual(beginDate)
-                        || currentDate.isAfter(beginDate))
+                        && (currentDate.isEqual(beginDate) || currentDate.isAfter(beginDate))
                         && (currentDate.isEqual(endDate)
                         || currentDate.isBefore(endDate))) {
                     salary += Integer.parseInt(dataArray[2]) * Integer.parseInt(dataArray[3]);
