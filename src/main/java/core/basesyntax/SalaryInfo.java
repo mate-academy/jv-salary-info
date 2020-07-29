@@ -1,6 +1,8 @@
 package core.basesyntax;
+import java.time.LocalDate;
+import exception.IllegalDateParametersException;
 
-public class SalaryInfo {
+public class SalaryInfo  {
     /**
      * <p>Реализуйте метод getSalaryInfo(String[] names, String[] data,
      * String dateFrom, String dateTo)
@@ -41,6 +43,27 @@ public class SalaryInfo {
      */
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws Exception {
-        return null;
+        String[] partsOfDateFrom = dateFrom.split(".");
+        String[] partsOfDateTo = dateTo.split(".");
+
+        LocalDate homeDateFrom = LocalDate.of(Integer.parseInt(partsOfDateFrom[partsOfDateFrom.length - 1]), Integer.parseInt(partsOfDateFrom[partsOfDateFrom.length -2]), Integer.parseInt(partsOfDateFrom[partsOfDateFrom.length - 3]));
+        LocalDate homeDateTo = LocalDate.of(Integer.parseInt(partsOfDateTo[partsOfDateTo.length -1]), Integer.parseInt(partsOfDateTo[partsOfDateTo.length -2]), Integer.parseInt(partsOfDateTo[partsOfDateTo.length - 3]));
+        if(homeDateFrom.isAfter(homeDateTo)){
+            throw new IllegalDateParametersException("Wrong parameters");
+        }
+        int salary  = 0;
+        StringBuilder result = new StringBuilder();
+        result.append("Отчет за период ").append(dateFrom).append(" - ").append(dateTo).append(" \n");
+        for(int i = 0; i<names.length; i++){
+            for(int j = 0; j < data.length; j++){
+                String [] strAboutWorker = data[j].split(" ");
+                String [] workerDate = strAboutWorker[0].split(" ");
+                LocalDate localWorkerDate = LocalDate.of(Integer.parseInt(workerDate[2]), Integer.parseInt(workerDate[1]), Integer.parseInt(workerDate[0]));
+                if(names[i].equalsIgnoreCase(strAboutWorker[1]) && localWorkerDate.isAfter(homeDateFrom) && localWorkerDate.isBefore(homeDateTo))
+                    salary = salary + (Integer.parseInt(strAboutWorker[2]) * Integer.parseInt(strAboutWorker[3]));
+            }
+            result.append(names[i]).append(" - ").append(String.valueOf(salary)).append(" \n");
+        }
+        return result.toString();
     }
 }
