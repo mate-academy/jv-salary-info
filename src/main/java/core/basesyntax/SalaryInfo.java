@@ -45,8 +45,8 @@ public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws Exception {
 
-        StringBuilder sb = new StringBuilder();
-        sb.append("Отчёт за период ").append(dateFrom).append(" - ").append(dateTo);
+        StringBuilder resultBuilder = new StringBuilder();
+        resultBuilder.append("Отчёт за период ").append(dateFrom).append(" - ").append(dateTo);
 
         for (String myEmployeeName : names) {
             int earnedMoney = 0;
@@ -67,9 +67,9 @@ public class SalaryInfo {
                     earnedMoney += Integer.parseInt(dataArray[2]) * Integer.parseInt(dataArray[3]);
                 }
             }
-            sb.append("\n").append(myEmployeeName).append(" - ").append(earnedMoney);
+            resultBuilder.append("\n").append(myEmployeeName).append(" - ").append(earnedMoney);
         }
-        return sb.toString();
+        return resultBuilder.toString();
     }
 
     //Doing reverse for array with date strings to int.
