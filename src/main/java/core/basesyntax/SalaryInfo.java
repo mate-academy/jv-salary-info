@@ -46,24 +46,31 @@ public class SalaryInfo {
 
     public String getSalaryInfo(String[] names, String[] data,
                                 String dateFrom, String dateTo) throws Exception {
-        int[] salaries = new int[names.length];
-        for (String singleData : data) {
+        checkInputDates(dateFrom, dateTo);
 
+        Worker[] workers = new Worker[names.length];
+
+        for (int i = 0; i < names.length; i++) {
+            Worker worker = new Worker(names[i]);
+            workers[i] = worker;
+        }
+
+        for (String singleData : data) {
             DataLineInfo dataLineInfo = new DataLineInfo(singleData);
             if (isNeedDate(dateFrom, dateTo, dataLineInfo.date)) {
-                for (int i = 0; i < names.length; i++) {
-                    if (names[i].equals(dataLineInfo.name)) {
-                        salaries[i] += dataLineInfo.hours * dataLineInfo.payment;
+                for (Worker worker : workers) {
+                    if (worker.name.equals(dataLineInfo.name)) {
+                        worker.salary += dataLineInfo.hours * dataLineInfo.payment;
                     }
                 }
             }
         }
-        String report = makeReport(dateFrom, dateTo, names, salaries);
+
+        String report = makeReport(dateFrom, dateTo, workers);
         return report;
     }
 
-    private static String makeReport(String dateFrom, String dateTo,
-                                     String[] names, int[] salaries) {
+    private String makeReport(String dateFrom, String dateTo, Worker[] workers) {
         StringBuilder result = new StringBuilder();
 
         result.append("Отчёт за период ")
@@ -72,14 +79,23 @@ public class SalaryInfo {
                 .append(dateTo)
                 .append("\n");
 
-        for (int i = 0; i < names.length; i++) {
-            result.append(names[i]).append(" - ").append(salaries[i]);
-            if (i != names.length - 1) {
-                result.append("\n");
-            }
+        for (Worker worker : workers) {
+            result.append(worker.name).append(" - ").append(worker.salary).append("\n");
+            ;
         }
+        result.append("\n");
 
-        return result.toString();
+        return result.toString().replace("\n\n", "");
+    }
+
+    private void checkInputDates(String dateFrom, String dateTo) throws Exception {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+        Date from = sdf.parse(dateFrom);
+        Date to = sdf.parse(dateTo);
+
+        if (from.compareTo(to) > 0) {
+            throw new IllegalDateParametersException("Wrong parameters");
+        }
     }
 
     private static boolean isNeedDate(String dateFrom, String dateTo,
@@ -88,10 +104,6 @@ public class SalaryInfo {
         Date from = sdf.parse(dateFrom);
         Date to = sdf.parse(dateTo);
         Date current = sdf.parse(currentDate);
-
-        if (from.compareTo(to) > 0) {
-            throw new IllegalDateParametersException("Wrong parameters");
-        }
 
         if (current.compareTo(from) >= 0
                 && current.compareTo(to) <= 0) {
