@@ -1,12 +1,11 @@
 package core.basesyntax;
 
 import core.basesyntax.exception.IllegalDateParametersException;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws IllegalDateParametersException {
@@ -18,13 +17,15 @@ public class SalaryInfo {
         StringBuilder result = new StringBuilder();
         result.append("Отчёт за период ").append(dateFrom)
                 .append(" - ").append(dateTo);
-        LocalDate ld;
+        LocalDate currentDate;
         int salary = 0;
         for (String name : names) {
             for (String info : data) {
                 String[] information = info.split(" ");
-                ld = LocalDate.parse(information[0], DATE_FORMAT);
-                if (name.equals(information[1]) && (ld.isBefore(endDate) || ld.equals(endDate)) && (ld.isAfter(startDate) || ld.equals(startDate))) {
+                currentDate = LocalDate.parse(information[0], DATE_FORMAT);
+                if (name.equals(information[1])
+                        && (currentDate.isBefore(endDate) || currentDate.equals(endDate))
+                        && (currentDate.isAfter(startDate) || currentDate.equals(startDate))) {
                     salary += Integer.parseInt(information[2]) * Integer.parseInt(information[3]);
                 }
             }
