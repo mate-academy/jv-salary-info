@@ -55,16 +55,17 @@ public class SalaryInfo {
             throw new IllegalDateParametersException("Wrong parameters");
         }
 
-        report.append("Отчёт за период " + dateFrom + " - " + dateTo);
+        report.append("Отчёт за период ").append(dateFrom).append(" - ").append(dateTo);
 
         for (String name : names) {
-            report.append("\n" + name + " - ");
+            report.append("\n").append(name).append(" - ");
             int totalPersonSalary = 0;
             for (String elementOfData : data) {
-                if (elementOfData.split(" ")[1].equals(name)
-                        && isInDateRange(fromDate, toDate, elementOfData.split(" ")[0])) {
-                    totalPersonSalary += Integer.parseInt(elementOfData.split(" ")[3])
-                            * Integer.parseInt(elementOfData.split(" ")[2]);
+                String [] splittedPartOfData = elementOfData.split(" ");
+                if (splittedPartOfData[1].equals(name)
+                        && isInDateRange(fromDate, toDate, splittedPartOfData[0])) {
+                    totalPersonSalary += Integer.parseInt(splittedPartOfData[3])
+                            * Integer.parseInt(splittedPartOfData[2]);
                 }
             }
             report.append(totalPersonSalary);
