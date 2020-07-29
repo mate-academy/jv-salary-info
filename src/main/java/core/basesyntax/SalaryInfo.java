@@ -49,27 +49,26 @@ public class SalaryInfo {
             throws IllegalDateParametersException {
         LocalDate dateFromLocal = LocalDate.parse(dateFrom, FORMATTER);
         LocalDate dateToLocal = LocalDate.parse(dateTo, FORMATTER);
-        LocalDate localDate;
-        String[] nameData;
-        int[] resultSum = new int[names.length];
-        StringBuilder salary = new StringBuilder("Отчёт за период " + dateFrom + " - " + dateTo);
+        StringBuilder salary = new StringBuilder("Отчёт за период ")
+                .append(dateFrom).append(" - ").append(dateTo);
 
         if (dateToLocal.isBefore(dateFromLocal)) {
-            throw new IllegalDateParametersException();
+            throw new IllegalDateParametersException("Wrong parameters");
         }
         for (int i = 0; i < names.length; i++) {
+            int sum = 0;
             for (int j = 0; j < data.length; j++) {
-                nameData = data[j].split(" ");
-                localDate = LocalDate.parse(nameData[0], FORMATTER);
+                String[] nameData = data[j].split(" ");
+                LocalDate localDate = LocalDate.parse(nameData[0], FORMATTER);
                 if ((localDate.isBefore(dateToLocal) || localDate.isEqual(dateToLocal))
                         && (localDate.isAfter(dateFromLocal) || localDate.isEqual(dateFromLocal))) {
                     if (names[i].equals(nameData[1])) {
-                        resultSum[i] += (Integer.parseInt(nameData[2])
+                        sum += (Integer.parseInt(nameData[2])
                                 * Integer.parseInt(nameData[3]));
                     }
                 }
             }
-            salary.append("\n" + names[i] + " - " + resultSum[i]);
+            salary.append("\n").append(names[i]).append(" - ").append(sum);
         }
         return salary.toString();
     }
