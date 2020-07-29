@@ -1,5 +1,9 @@
 package core.basesyntax;
 
+import core.basesyntax.exception.IllegalDateParametersException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class SalaryInfo {
     /**
      * <p>Реализуйте метод getSalaryInfo(String[] names, String[] data,
@@ -39,8 +43,60 @@ public class SalaryInfo {
      * Андрей - 600
      * София - 900</p>
      */
-    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
-            throws Exception {
-        return null;
+
+    public String getSalaryInfo(String[] names, String[] data,
+                                String dateFrom, String dateTo) throws Exception {
+        int[] salaries = new int[names.length];
+        for (String singleData : data) {
+
+            DataLineInfo dataLineInfo = new DataLineInfo(singleData);
+            if (isNeedDate(dateFrom, dateTo, dataLineInfo.date)) {
+                for (int i = 0; i < names.length; i++) {
+                    if (names[i].equals(dataLineInfo.name)) {
+                        salaries[i] += dataLineInfo.hours * dataLineInfo.payment;
+                    }
+                }
+            }
+        }
+        String report = makeReport(dateFrom, dateTo, names, salaries);
+        return report;
+    }
+
+    private static String makeReport(String dateFrom, String dateTo,
+                                     String[] names, int[] salaries) {
+        StringBuilder result = new StringBuilder();
+
+        result.append("Отчёт за период ")
+                .append(dateFrom)
+                .append(" - ")
+                .append(dateTo)
+                .append("\n");
+
+        for (int i = 0; i < names.length; i++) {
+            result.append(names[i]).append(" - ").append(salaries[i]);
+            if (i != names.length - 1) {
+                result.append("\n");
+            }
+        }
+
+        return result.toString();
+    }
+
+    private static boolean isNeedDate(String dateFrom, String dateTo,
+                                      String currentDate) throws Exception {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+        Date from = sdf.parse(dateFrom);
+        Date to = sdf.parse(dateTo);
+        Date current = sdf.parse(currentDate);
+
+        if (from.compareTo(to) > 0) {
+            throw new IllegalDateParametersException("Wrong parameters");
+        }
+
+        if (current.compareTo(from) >= 0
+                && current.compareTo(to) <= 0) {
+            return true;
+        }
+        return false;
     }
 }
