@@ -1,6 +1,13 @@
 package core.basesyntax;
 
+import core.basesyntax.exception.IllegalDateParametersException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class SalaryInfo {
+
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
     /**
      * <p>Реализуйте метод getSalaryInfo(String[] names, String[] data,
      * String dateFrom, String dateTo)
@@ -11,7 +18,8 @@ public class SalaryInfo {
      * ставка за 1 час. Метод должен вернуть отчёт за период, который передали в метод
      * (обе даты включительно) составленный по следующей форме: Отчёт за период
      * #дата_1# - #дата_2# Имя сотрудника - сумма заработанных средств за этот период
-     * Создать пакет exception и в нём класс-ошибку IllegalDateParametersException. Сделать так,
+     * Создать пакет core.basesyntax.exception и в нём класс-ошибку
+     * IllegalDateParametersException. Сделать так,
      * чтобы метод getSalaryInfo выбрасывал IllegalDateParametersException,
      * если dateFrom > dateTo, с сообщнием "Wrong parameters"</p>
      *
@@ -39,8 +47,31 @@ public class SalaryInfo {
      * Андрей - 600
      * София - 900</p>
      */
-    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
-            throws Exception {
-        return null;
+    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
+
+        LocalDate localDateFrom = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate localDateTu = LocalDate.parse(dateTo, FORMATTER);
+
+        if (localDateFrom.isAfter(localDateTu)) {
+            throw new IllegalDateParametersException("Wrong parameters");
+        }
+        StringBuilder result =
+                new StringBuilder("Отчёт за период " + dateFrom + " - " + dateTo + "\n");
+        for (String name : names) {
+            int tempSalary = 0;
+            for (String row : data) {
+                String[] dataArray = row.split(" ");
+                LocalDate localWorkDay = LocalDate.parse(dataArray[0], FORMATTER);
+                if (name.equals(dataArray[1])) {
+                    if (!localWorkDay.isBefore(localDateFrom)
+                            && !localWorkDay.isAfter(localDateTu)) {
+                        tempSalary +=
+                                Integer.parseInt(dataArray[2]) * Integer.parseInt(dataArray[3]);
+                    }
+                }
+            }
+            result.append(name).append(" - ").append(tempSalary).append("\n");
+        }
+        return result.toString().trim();
     }
 }
