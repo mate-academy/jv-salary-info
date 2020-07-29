@@ -12,8 +12,7 @@ public class SalaryInfo {
 
         Date dateStart = new SimpleDateFormat("dd.MM.yyyy").parse(dateFrom);
         Date dateEnd = new SimpleDateFormat("dd.MM.yyyy").parse(dateTo);
-        int compare = dateEnd.compareTo(dateStart);
-        if (compare == -1) {
+        if (dateEnd.compareTo(dateStart) == -1) {
             throw new IllegalDateParametersException("Wrong parameters");
         }
         StringBuilder result = new StringBuilder();
