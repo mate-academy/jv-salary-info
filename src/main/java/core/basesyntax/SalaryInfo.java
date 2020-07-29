@@ -1,5 +1,9 @@
 package core.basesyntax;
 
+import core.basesyntax.exception.IllegalDateParametersException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class SalaryInfo {
     /**
      * <p>Реализуйте метод getSalaryInfo(String[] names, String[] data,
@@ -39,8 +43,31 @@ public class SalaryInfo {
      * Андрей - 600
      * София - 900</p>
      */
-    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
-            throws Exception {
-        return null;
+    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
+        final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        LocalDate fromDate = LocalDate.parse(dateFrom, formatter);
+        LocalDate toDate = LocalDate.parse(dateTo, formatter);
+        if (fromDate.compareTo(toDate) > 0) {
+            throw new IllegalDateParametersException("Wrong parameters");
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append(String.format("Отчёт за период %s - %s", dateFrom, dateTo));
+        sb.append("\n");
+        for (int i = 0; i < names.length; i++) {
+            sb.append(names[i]);
+            int salary = 0;
+            for (int j = 0; j < data.length; j++) {
+                String[] strings = data[j].split(" ");
+                boolean flag = names[i].equals(strings[1])
+                        && (LocalDate.parse(strings[0], formatter)).compareTo(fromDate) >= 0
+                        && (LocalDate.parse(strings[0], formatter)).compareTo(toDate) <= 0;
+                salary = flag ? Integer.parseInt(strings[2]) * Integer.parseInt(strings[3]) + salary : salary;
+            }
+            sb.append(String.format(" - %d", salary));
+            if (i + 1 != names.length) {
+                sb.append("\n");
+            }
+        }
+        return sb.toString();
     }
 }
