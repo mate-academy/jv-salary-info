@@ -1,5 +1,9 @@
 package core.basesyntax;
 
+import core.basesyntax.exception.IllegalDateParametersException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class SalaryInfo {
     /**
      * <p>Реализуйте метод getSalaryInfo(String[] names, String[] data,
@@ -39,8 +43,47 @@ public class SalaryInfo {
      * Андрей - 600
      * София - 900</p>
      */
+
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws Exception {
-        return null;
+
+        LocalDate dateStart = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate dateEnd = LocalDate.parse(dateTo, FORMATTER);
+
+        if (dateStart.isAfter(dateEnd)) {
+            throw new IllegalDateParametersException("Wrong parameters");
+        }
+
+        StringBuilder report = new StringBuilder(
+                "Отчёт за период " + dateFrom + " - " + dateTo + "\n");
+
+        for (int i = 0; i < names.length; i++) {
+            int pay = 0;
+            for (int j = 0; j < data.length; j++) {
+                String[] employeeInfo = data[j].split(" ");
+
+                String employeeName = employeeInfo[1];
+                LocalDate dateVisit = LocalDate.parse(employeeInfo[0], FORMATTER);
+
+                if (names[i].equals(employeeName)) {
+                    if (checkVisit(dateVisit, dateStart, dateEnd)) {
+                        int hours = Integer.parseInt(employeeInfo[2]);
+                        int rate = Integer.parseInt(employeeInfo[3]);
+                        pay += hours * rate;
+                    }
+                }
+            }
+
+            report.append(names[i]).append(" - ").append(pay).append("\n");
+        }
+
+        return report.toString().trim();
+    }
+
+    private boolean checkVisit(LocalDate visit, LocalDate dateFrom, LocalDate dateTo) {
+        return (visit.isEqual(dateFrom) || visit.isEqual(dateTo))
+                || (visit.isAfter(dateFrom) && visit.isBefore(dateTo));
     }
 }
