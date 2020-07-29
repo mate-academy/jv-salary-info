@@ -1,5 +1,9 @@
 package core.basesyntax;
 
+import core.basesyntax.exception.IllegalDateParametersException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class SalaryInfo {
     /**
      * <p>Реализуйте метод getSalaryInfo(String[] names, String[] data,
@@ -39,8 +43,41 @@ public class SalaryInfo {
      * Андрей - 600
      * София - 900</p>
      */
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws Exception {
-        return null;
+        LocalDate fromDate = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate toDate = LocalDate.parse(dateTo, FORMATTER);
+        StringBuilder report = new StringBuilder();
+
+        if (toDate.isBefore(fromDate)) {
+            throw new IllegalDateParametersException("Wrong parameters");
+        }
+
+        report.append("Отчёт за период " + dateFrom + " - " + dateTo);
+
+        for (String name : names) {
+            report.append("\n" + name + " - ");
+            int totalPersonSalary = 0;
+            for (String elementOfData : data) {
+                if (elementOfData.split(" ")[1].equals(name)
+                        && isInDateRange(fromDate, toDate, elementOfData)) {
+                    totalPersonSalary += Integer.parseInt(elementOfData.split(" ")[3])
+                            * Integer.parseInt(elementOfData.split(" ")[2]);
+                }
+            }
+            report.append(totalPersonSalary);
+        }
+
+        return report.toString();
+    }
+
+    private boolean isInDateRange(LocalDate fromDate,
+                                  LocalDate toDate, String elementOfData) {
+        return LocalDate.parse(elementOfData.split(" ")[0], FORMATTER)
+                .isBefore(toDate.plusDays(1))
+                && (LocalDate.parse(elementOfData.split(" ")[0], FORMATTER)
+                .isAfter(fromDate.minusDays(1)));
     }
 }
