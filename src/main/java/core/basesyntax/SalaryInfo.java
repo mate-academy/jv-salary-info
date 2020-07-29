@@ -54,17 +54,14 @@ public class SalaryInfo {
             throw new IllegalDateParametersException("Wrong parameters");
         }
 
-        String[] dataOnParts = new String[4];
-
         StringBuilder result = new StringBuilder("Отчёт за период "
                 + dateFrom + " - " + dateTo + "\n");
 
-        LocalDate currentDate;
         for (String name : names) {
             int totalSalary = 0;
             for (int i = 0; i < data.length; i++) {
-                dataOnParts = data[i].split(" ");
-                currentDate = LocalDate.parse(dataOnParts[0], DATE_FORMAT);
+                String[] dataOnParts = data[i].split(" ");
+                LocalDate currentDate = LocalDate.parse(dataOnParts[0], DATE_FORMAT);
                 if ((name.equals(dataOnParts[1])) && (currentDate.isEqual(startDate)
                         || currentDate.isAfter(startDate))
                         && (currentDate.isEqual(endDate) || currentDate.isBefore(endDate))) {
@@ -74,6 +71,6 @@ public class SalaryInfo {
             }
             result.append(name + " - " + totalSalary + "\n");
         }
-        return result.deleteCharAt(result.length() - 1).toString();
+        return result.toString().trim();
     }
 }
