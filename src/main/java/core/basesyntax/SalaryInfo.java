@@ -3,7 +3,6 @@ package core.basesyntax;
 import core.basesyntax.exception.IllegalDateParametersException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
 
 public class SalaryInfo {
     /**
@@ -55,15 +54,19 @@ public class SalaryInfo {
         }
         StringBuilder result =
                 new StringBuilder(String.format("Отчёт за период %s - %s", dateFrom, dateTo));
-        Arrays.stream(names)
-                .map(name -> "\n" + name + " - " + Arrays.stream(data)
-                    .filter(line -> line.split(" ")[1].equals(name)
-                        && !LocalDate.parse(line.split(" ")[0], DATE_FORMAT).isBefore(beginDate)
-                        && !LocalDate.parse(line.split(" ")[0], DATE_FORMAT).isAfter(endDate))
-                    .mapToInt(line -> Integer.parseInt(line.split(" ")[2])
-                        * Integer.parseInt(line.split(" ")[3]))
-                    .sum())
-                .forEach(result::append);
+        for (String name : names) {
+            int totalSalary = 0;
+            for (String line : data) {
+                String[] lineDataArray = line.split(" ");
+                if (lineDataArray[1].equals(name)
+                        && !LocalDate.parse(lineDataArray[0], DATE_FORMAT).isBefore(beginDate)
+                        && !LocalDate.parse(lineDataArray[0], DATE_FORMAT).isAfter(endDate)) {
+                    totalSalary += Integer.parseInt(lineDataArray[2])
+                            * Integer.parseInt(lineDataArray[3]);
+                }
+            }
+            result.append("\n").append(name).append(" - ").append(totalSalary);
+        }
         return result.toString();
     }
 }
