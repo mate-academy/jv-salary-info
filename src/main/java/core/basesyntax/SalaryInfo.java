@@ -44,7 +44,7 @@ public class SalaryInfo {
      * София - 900</p>
      */
 
-    static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws Exception {
@@ -53,7 +53,6 @@ public class SalaryInfo {
             throw new IllegalDateParametersException("Wrong parameters");
         }
 
-        int sum = 0;
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("Отчёт за период ")
                 .append(dateFrom).append(" - ")
@@ -61,22 +60,23 @@ public class SalaryInfo {
                 .append("\n");
 
         for (String name: names) {
+            int sum = 0;
             for (String employee: data) {
-                if (name.equals(employee.split(" ")[1])) {
-                    if (LocalDate.parse(employee.split(" ")[0], DATE_FORMAT)
+                String[] temporaryString = employee.split(" ");
+                if (name.equals(temporaryString[1])) {
+                    if (LocalDate.parse(temporaryString[0], DATE_FORMAT)
                             .compareTo(LocalDate.parse(dateFrom, DATE_FORMAT)) >= 0
-                            && LocalDate.parse(employee.split(" ")[0], DATE_FORMAT)
+                            && LocalDate.parse(temporaryString[0], DATE_FORMAT)
                             .compareTo(LocalDate.parse(dateTo, DATE_FORMAT)) <= 0) {
-                        sum += Integer.parseInt(employee.split(" ")[2])
-                                * Integer.parseInt(employee.split(" ")[3]);
+                        sum += Integer.parseInt(temporaryString[2])
+                                * Integer.parseInt(temporaryString[3]);
                     }
                 }
             }
 
             stringBuilder.append(name).append(" - ").append(sum).append("\n");
-            sum = 0;
         }
 
-        return stringBuilder.toString().substring(0,stringBuilder.length() - 1);
+        return stringBuilder.toString().trim();
     }
 }
