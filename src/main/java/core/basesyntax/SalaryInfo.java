@@ -55,7 +55,6 @@ public class SalaryInfo {
         }
         StringBuilder builder = new StringBuilder();
         builder.append("Отчёт за период ").append(dateFrom).append(" - ").append(dateTo);
-        builder.append("\n");
         for (String name : names) {
             int sumToPay = 0;
             for (String lines : data) {
@@ -66,8 +65,8 @@ public class SalaryInfo {
                     sumToPay += Integer.parseInt(line[2]) * Integer.parseInt(line[3]);
                 }
             }
-            builder.append(name).append(" - ").append(sumToPay).append("\n");
+            builder.append("\n").append(name).append(" - ").append(sumToPay);
         }
-        return builder.toString().trim();
+        return builder.toString();
     }
 }
