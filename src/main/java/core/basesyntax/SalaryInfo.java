@@ -50,8 +50,6 @@ public class SalaryInfo {
             throws IllegalDateParametersException {
         final LocalDate dateToDate = LocalDate.parse(dateTo, FORMATTER);
         final LocalDate dateFromDate = LocalDate.parse(dateFrom, FORMATTER);
-        LocalDate dateOfLine;
-        int money;
 
         if (dateFromDate.isAfter(dateToDate)) {
             throw new IllegalDateParametersException("Wrong parameters");
@@ -61,20 +59,20 @@ public class SalaryInfo {
                 new StringBuilder("Отчёт за период " + dateFrom + " - " + dateTo + "\n");
 
         for (String name: names) {
-            money = 0;
-            resultString.append(name + " - ");
+            int money = 0;
             for (String dataLine: data) {
-                dateOfLine = LocalDate.parse(dataLine.split(" ")[0],
+                String[] dataLineInfo = dataLine.split(" ");
+                LocalDate dateOfLine = LocalDate.parse(dataLineInfo[0],
                          FORMATTER);
-                if (name.equals(dataLine.split(" ")[1])
+                if (name.equals(dataLineInfo[1])
                         && (dateOfLine.isBefore(dateToDate) || dateOfLine.isEqual(dateToDate))
                         && (dateOfLine.isAfter(dateFromDate) || dateOfLine.isEqual(dateFromDate))) {
-                    money = money + Integer.parseInt(dataLine.split(" ")[2])
-                            * Integer.parseInt(dataLine.split(" ")[3]);
+                    money = money + Integer.parseInt(dataLineInfo[2])
+                            * Integer.parseInt(dataLineInfo[3]);
                 }
             }
-            resultString.append(money + "\n");
+            resultString.append(name + " - ").append(money + "\n");
         }
-        return resultString.toString().substring(0, resultString.toString().length() - 1);
+        return resultString.toString().trim();
     }
 }
