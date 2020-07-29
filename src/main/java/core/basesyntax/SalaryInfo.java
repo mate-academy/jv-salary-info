@@ -1,5 +1,7 @@
 package core.basesyntax;
 
+import core.basesyntax.core.basesyntax.exception.IllegalDateParametersException;
+
 public class SalaryInfo {
     /**
      * <p>Реализуйте метод getSalaryInfo(String[] names, String[] data,
@@ -11,7 +13,8 @@ public class SalaryInfo {
      * ставка за 1 час. Метод должен вернуть отчёт за период, который передали в метод
      * (обе даты включительно) составленный по следующей форме: Отчёт за период
      * #дата_1# - #дата_2# Имя сотрудника - сумма заработанных средств за этот период
-     * Создать пакет exception и в нём класс-ошибку IllegalDateParametersException. Сделать так,
+     * Создать пакет core.basesyntax.core.basesyntax.exception
+     * и в нём класс-ошибку IllegalDateParametersException. Сделать так,
      * чтобы метод getSalaryInfo выбрасывал IllegalDateParametersException,
      * если dateFrom > dateTo, с сообщнием "Wrong parameters"</p>
      *
@@ -41,6 +44,40 @@ public class SalaryInfo {
      */
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws Exception {
-        return null;
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("Отчёт за период ").append(dateFrom).append(" - ").append(dateTo);
+
+        for (String myEmployeeName : names) {
+            int earnedMoney = 0;
+            for (String myWorkingData : data) {
+
+                String[] dataArray = myWorkingData.split(" ");
+                int beginDate = convertStringDate(dateFrom.split("\\."));
+                int endDate = convertStringDate(dateTo.split("\\."));
+                int currentDate = convertStringDate(dataArray[0].split("\\."));
+
+                if (beginDate > endDate) {
+                    throw new IllegalDateParametersException("Wrong parameters");
+                }
+
+                if (beginDate <= currentDate
+                        && endDate >= currentDate
+                        && myEmployeeName.equalsIgnoreCase(dataArray[1])) {
+                    earnedMoney += Integer.parseInt(dataArray[2]) * Integer.parseInt(dataArray[3]);
+                }
+            }
+            sb.append("\n").append(myEmployeeName).append(" - ").append(earnedMoney);
+        }
+        return sb.toString();
+    }
+
+    //Doing reverse for date strings to int.
+    public int convertStringDate(String[] stringDate) {
+        StringBuilder myStringBuilder = new StringBuilder();
+        for (int i = stringDate.length - 1; i >= 0; i--) {
+            myStringBuilder.append(stringDate[i]);
+        }
+        return Integer.parseInt(myStringBuilder.toString());
     }
 }
