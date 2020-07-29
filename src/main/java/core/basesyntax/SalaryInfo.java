@@ -1,5 +1,11 @@
 package core.basesyntax;
 
+import core.basesyntax.exception.IllegalDateParametersException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+
 public class SalaryInfo {
     /**
      * <p>Реализуйте метод getSalaryInfo(String[] names, String[] data,
@@ -39,8 +45,51 @@ public class SalaryInfo {
      * Андрей - 600
      * София - 900</p>
      */
+    final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws Exception {
-        return null;
+        LocalDate date1 = LocalDate.parse(dateFrom, formatter);
+        LocalDate date2 = LocalDate.parse(dateTo, formatter);
+        if (date1.isAfter(date2)) {
+            throw new IllegalDateParametersException("Wrong parameters");
+        }
+
+        StringBuilder result = new StringBuilder("Отчёт за период ").append(dateFrom)
+                .append(" - ").append(dateTo);
+        List<EmployeeWorkdaySummary> summaryObjects = buildSummaryObjects(data);
+
+        for (int i = 0; i < names.length; i++) {
+            int salary = 0;
+            for (int j = 0; j < summaryObjects.size(); j++) {
+                if (names[i].equals(summaryObjects.get(j).getPersonName())) {
+                    if (isBetween(date1, date2, summaryObjects.get(j).getDate())) {
+                        salary += summaryObjects.get(j).getHours()
+                                * summaryObjects.get(j).getHourRate();
+                    }
+                }
+            }
+            result.append("\n").append(buildSummaryObjects(data).get(i).getPersonName())
+                    .append(" - ").append(salary);
+
+        }
+        return result.toString();
+    }
+
+    private List<EmployeeWorkdaySummary> buildSummaryObjects(String[] data) {
+        List<EmployeeWorkdaySummary> result = new ArrayList<>();
+
+        for (int i = 0; i < data.length; i++) {
+            String[] arr = data[i].split(" ");
+            LocalDate date = LocalDate.parse(arr[0], formatter);
+            int hours = Integer.parseInt(arr[2]);
+            int salaryPerHour = Integer.parseInt(arr[3]);
+            result.add(new EmployeeWorkdaySummary(arr[1], date, hours, salaryPerHour));
+        }
+        return result;
+    }
+
+    private boolean isBetween(LocalDate dateFrom, LocalDate dateTo, LocalDate target) {
+        return target.isAfter(dateFrom.minusDays(1)) && target.isBefore(dateTo.plusDays(1));
     }
 }
