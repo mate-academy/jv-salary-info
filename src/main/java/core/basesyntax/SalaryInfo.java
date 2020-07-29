@@ -5,12 +5,13 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final DateTimeFormatter DATE_FORMATTER =
+            DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws IllegalDateParametersException {
-        LocalDate startDate = LocalDate.parse(dateFrom, dateFormatter);
-        LocalDate stopDate = LocalDate.parse(dateTo, dateFormatter);
+        LocalDate startDate = LocalDate.parse(dateFrom, DATE_FORMATTER);
+        LocalDate stopDate = LocalDate.parse(dateTo, DATE_FORMATTER);
 
         if (startDate.isAfter(stopDate)) {
             throw new IllegalDateParametersException("Wrong parameters");
@@ -21,7 +22,7 @@ public class SalaryInfo {
             int salary = 0;
             for (String currentData : data) {
                 String[] strData = currentData.split(" ");
-                LocalDate currentDate = LocalDate.parse(strData[0], dateFormatter);
+                LocalDate currentDate = LocalDate.parse(strData[0], DATE_FORMATTER);
                 if (name.equals(strData[1])
                         && (currentDate.isAfter(startDate) || currentDate.isEqual(startDate))
                         && (currentDate.isBefore(stopDate) || currentDate.isEqual(stopDate))) {
@@ -30,6 +31,6 @@ public class SalaryInfo {
             }
             response.append(name).append(" - ").append(salary).append("\n");
         }
-        return response.deleteCharAt(response.length() - 1).toString();
+        return response.toString().trim();
     }
 }
