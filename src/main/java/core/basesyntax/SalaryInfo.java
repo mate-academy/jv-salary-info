@@ -56,7 +56,8 @@ public class SalaryInfo {
         }
 
         StringBuilder resultString =
-                new StringBuilder("Отчёт за период " + dateFrom + " - " + dateTo + "\n");
+                new StringBuilder("Отчёт за период ").append(dateFrom)
+                        .append(" - ").append(dateTo).append("\n");
 
         for (String name: names) {
             int money = 0;
@@ -71,7 +72,7 @@ public class SalaryInfo {
                             * Integer.parseInt(dataLineInfo[3]);
                 }
             }
-            resultString.append(name + " - ").append(money + "\n");
+            resultString.append(name).append(" - ").append(money).append("\n");
         }
         return resultString.toString().trim();
     }
