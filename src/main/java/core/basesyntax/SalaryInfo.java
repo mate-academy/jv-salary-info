@@ -31,10 +31,8 @@ public class SalaryInfo {
         StringBuilder result = new StringBuilder();
 
         result.append("Отчёт за период ")
-                .append(dateFrom)
-                .append(" - ")
-                .append(dateTo)
-                .append("\n");
+                .append(dateFrom).append(" - ")
+                .append(dateTo).append("\n");
 
         for (int i = 0; i < names.length; i++) {
             result.append(names[i]).append(" - ").append(salaries[i]).append("\n");
@@ -54,7 +52,7 @@ public class SalaryInfo {
         }
     }
 
-    private static boolean isNeedDate(String dateFrom, String dateTo,
+    private boolean isNeedDate(String dateFrom, String dateTo,
                                       String currentDate) throws Exception {
         LocalDate from = LocalDate.parse(dateFrom, FORMATOFDATE);
         LocalDate to = LocalDate.parse(dateTo, FORMATOFDATE);
