@@ -64,14 +64,14 @@ public class SalaryInfo {
         for (String name : names) {
             int workerSalary = 0;
             for (String dataElement : data) {
-                String[] oneString = dataElement.split(" ");
+                String[] elements = dataElement.split(" ");
 
-                LocalDate dataDayOfWork = LocalDate.parse(oneString[0], FORMATTER);
+                LocalDate dataDayOfWork = LocalDate.parse(elements[0], FORMATTER);
 
-                if ((oneString[1].equals(name))
+                if ((elements[1].equals(name))
                         && (!dataDayOfWork.isBefore(dataFirst))
                         && (!dataDayOfWork.isAfter(dataLast))) {
-                    workerSalary += Integer.parseInt(oneString[2]) * Integer.parseInt(oneString[3]);
+                    workerSalary += Integer.parseInt(elements[2]) * Integer.parseInt(elements[3]);
                 }
             }
             salaryInfo.append("\n")
