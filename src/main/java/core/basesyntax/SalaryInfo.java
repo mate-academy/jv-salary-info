@@ -55,8 +55,8 @@ public class SalaryInfo {
         if (beginDate.isAfter(endDate)) {
             throw new IllegalDateParametersException("Wrong parameters!");
         }
-        StringBuilder result =
-                new StringBuilder("Отчёт за период " + dateFrom + " - " + dateTo + "\n");
+        StringBuilder result = new StringBuilder();
+        result.append("Отчёт за период ").append(dateFrom).append(" - ").append(dateTo);
 
         for (String name : names) {
             int salary = 0;
