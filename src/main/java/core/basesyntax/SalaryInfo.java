@@ -16,10 +16,7 @@ public class SalaryInfo {
             throw new IllegalDateParametersException("Wrong parameters");
         }
         StringBuilder report = new StringBuilder("Отчёт за период ");
-        report.append(dateFrom);
-        report.append(" - ");
-        report.append(dateTo);
-        report.append("\n");
+        report.append(dateFrom).append(" - ").append(dateTo).append("\n");
         dateStart = dateStart.minusDays(1);
         dateFinish = dateFinish.plusDays(1);
         int[] cashTotal = new int[names.length];
@@ -32,10 +29,7 @@ public class SalaryInfo {
             }
         }
         for (int i = 0; i < names.length; i++) {
-            report.append(names[i]);
-            report.append(" - ");
-            report.append(cashTotal[i]);
-            report.append("\n");
+            report.append(names[i]).append(" - ").append(cashTotal[i]).append("\n");
         }
         return report.toString().trim();
 
