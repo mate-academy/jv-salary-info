@@ -47,7 +47,8 @@ public class SalaryInfo {
             throw new IllegalDateParametersException("Wrong parameters");
         }
 
-        StringBuilder order = new StringBuilder("Отчёт за период " + dateFrom + " - " + dateTo);
+        StringBuilder order = new StringBuilder("Отчёт за период ")
+                .append(dateFrom).append(" - ").append(dateTo);
         for (String name : names) {
             int sumSalary = 0;
             for (String workers : data) {
