@@ -11,7 +11,7 @@ public class SalaryInfo {
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws Exception {
-
+        StringBuilder header = new StringBuilder("Отчёт за период " + dateFrom + " - " + dateTo);
         LocalDate dateStart = LocalDate.parse(dateFrom, FORMATTER);
         LocalDate dateEnd = LocalDate.parse(dateTo, FORMATTER);
         if (dateEnd.compareTo(dateStart) == -1) {
@@ -31,6 +31,6 @@ public class SalaryInfo {
             }
             result.append("\n").append(n).append(" - ").append(salary);
         }
-        return ("Отчёт за период " + dateFrom + " - " + dateTo) + result.toString();
+        return header.append(result.toString()).toString();
     }
 }
