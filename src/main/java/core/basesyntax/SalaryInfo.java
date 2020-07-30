@@ -56,8 +56,12 @@ public class SalaryInfo {
             throw new IllegalDateParametersException("Wrong parameters");
         }
 
-        StringBuilder report = new StringBuilder(
-                "Отчёт за период " + dateFrom + " - " + dateTo + "\n");
+        StringBuilder report = new StringBuilder();
+        report.append("Отчёт за период ")
+                .append(dateFrom)
+                .append(" - ")
+                .append(dateTo)
+                .append("\n");
 
         for (int i = 0; i < names.length; i++) {
             int salary = 0;
@@ -67,12 +71,11 @@ public class SalaryInfo {
                 String employeeName = employeeInfo[1];
                 LocalDate dateVisit = LocalDate.parse(employeeInfo[0], FORMATTER);
 
-                if (names[i].equals(employeeName)) {
-                    if (!dateVisit.isBefore(dateStart) && !dateVisit.isAfter(dateEnd)) {
-                        int hours = Integer.parseInt(employeeInfo[2]);
-                        int rate = Integer.parseInt(employeeInfo[3]);
-                        salary += hours * rate;
-                    }
+                if (names[i].equals(employeeName)
+                        && !dateVisit.isBefore(dateStart) && !dateVisit.isAfter(dateEnd)) {
+                    int hours = Integer.parseInt(employeeInfo[2]);
+                    int rate = Integer.parseInt(employeeInfo[3]);
+                    salary += hours * rate;
                 }
             }
             report.append(names[i]).append(" - ").append(salary).append("\n");
