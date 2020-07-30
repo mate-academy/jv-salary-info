@@ -53,18 +53,18 @@ public class SalaryInfo {
         StringBuilder report = new StringBuilder();
         report.append("Отчёт за период ").append(dateFrom).append(" - ").append(dateTo);
         for (String employee : names) {
+
             int totalSalaryForThePeriod = 0;
             for (String infoAboutSalary : data) {
                 String[] arrayInfoAboutSalary = infoAboutSalary.split(" ");
                 if (LocalDate.parse(dateFrom, DATE_FORMAT).minusDays(1)
                         .isBefore(LocalDate.parse(arrayInfoAboutSalary[0], DATE_FORMAT))
                         && (LocalDate.parse(arrayInfoAboutSalary[0], DATE_FORMAT)
-                        .isBefore(LocalDate.parse(dateTo, DATE_FORMAT).plusDays(1)))) {
-                    if (employee.equals(arrayInfoAboutSalary[1])) {
-                        totalSalaryForThePeriod +=
-                                Integer.parseInt(arrayInfoAboutSalary[2])
-                                        * Integer.parseInt(arrayInfoAboutSalary[3]);
-                    }
+                        .isBefore(LocalDate.parse(dateTo, DATE_FORMAT).plusDays(1)))
+                        && employee.equals(arrayInfoAboutSalary[1])) {
+                    totalSalaryForThePeriod +=
+                            Integer.parseInt(arrayInfoAboutSalary[2])
+                                    * Integer.parseInt(arrayInfoAboutSalary[3]);
                 }
             }
             report.append("\n").append(employee).append(" - ").append(totalSalaryForThePeriod);
