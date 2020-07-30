@@ -43,19 +43,20 @@ public class SalaryInfo {
      * Андрей - 600
      * София - 900</p>
      */
-    static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws IllegalDateParametersException {
-        StringBuilder myResult = new StringBuilder();
-        myResult.append("Отчёт за период ").append(dateFrom).append(" - ").append(dateTo);
-        int salary = 0;
         if (LocalDate.parse(dateFrom, DATE_FORMAT).isAfter(LocalDate.parse(dateTo, DATE_FORMAT))) {
             throw new IllegalDateParametersException("Wrong parameters");
         }
+        StringBuilder resultInfo = new StringBuilder();
+        resultInfo.append("Отчёт за период ").append(dateFrom).append(" - ").append(dateTo);
+        int salary = 0;
+
         for (int j = 0; j < names.length; j++) {
-            for (String d : data) {
-                String[] row = d.split(" ");
+            for (String oneElementOfData : data) {
+                String[] row = oneElementOfData.split(" ");
                 if (row[1].equals(names[j])) {
                     if (LocalDate.parse(row[0], DATE_FORMAT)
                             .compareTo(LocalDate.parse(dateFrom, DATE_FORMAT)) >= 0
@@ -65,9 +66,9 @@ public class SalaryInfo {
                     }
                 }
             }
-            myResult.append("\n").append(names[j]).append(" - ").append(salary);
+            resultInfo.append("\n").append(names[j]).append(" - ").append(salary);
             salary = 0;
         }
-        return myResult.toString();
+        return resultInfo.toString();
     }
 }
