@@ -51,7 +51,7 @@ public class SalaryInfo {
      * София - 900</p>
      */
 
-    static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern(
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern(
             "dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data,
