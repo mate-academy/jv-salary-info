@@ -3,8 +3,6 @@ package core.basesyntax;
 import core.basesyntax.exception.IllegalDateParametersException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
-import java.time.temporal.ChronoField;
 
 public class SalaryInfo {
     /**
@@ -45,14 +43,12 @@ public class SalaryInfo {
      * Андрей - 600
      * София - 900</p>
      */
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws Exception {
-        DateTimeFormatter formatter = new DateTimeFormatterBuilder()
-                .appendPattern("dd.MM.yyyy")
-                .parseDefaulting(ChronoField.YEAR, 2019)
-                .toFormatter();
-        LocalDate strartingDate = LocalDate.parse(dateFrom, formatter);
-        LocalDate finishingDate = LocalDate.parse(dateTo, formatter);
+        LocalDate strartingDate = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate finishingDate = LocalDate.parse(dateTo, FORMATTER);
         if (strartingDate.isAfter(finishingDate)) {
             throw new IllegalDateParametersException("Wrong parameters");
         }
@@ -63,7 +59,7 @@ public class SalaryInfo {
             int wages = 0;
             for (String workingTime : data) {
                 String[] list = workingTime.split(" ");
-                LocalDate workPeriod = LocalDate.parse(list[0], formatter);
+                LocalDate workPeriod = LocalDate.parse(list[0], FORMATTER);
                 if ((list[1].equals(name))
                         && (!workPeriod.isBefore(strartingDate))
                         && (!workPeriod.isAfter(finishingDate))) {
