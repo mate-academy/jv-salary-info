@@ -1,7 +1,6 @@
 package core.basesyntax;
 
 import core.basesyntax.exception.IllegalDateParametersException;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
@@ -16,7 +15,7 @@ public class SalaryInfo {
         if (dateStart.isAfter(dateFinish)) {
             throw new IllegalDateParametersException("Wrong parameters");
         }
-        StringBuilder report = new StringBuilder("Отчёт за период ")
+        StringBuilder report = new StringBuilder("Отчёт за период ");
         report.append(dateFrom);
         report.append(" - ");
         report.append(dateTo);
