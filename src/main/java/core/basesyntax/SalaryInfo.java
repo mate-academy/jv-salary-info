@@ -1,6 +1,6 @@
 package core.basesyntax;
 
-import core.basesyntax.core.basesyntax.exception.IllegalDateParametersException;
+import core.basesyntax.exception.IllegalDateParametersException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -15,7 +15,7 @@ public class SalaryInfo {
      * ставка за 1 час. Метод должен вернуть отчёт за период, который передали в метод
      * (обе даты включительно) составленный по следующей форме: Отчёт за период
      * #дата_1# - #дата_2# Имя сотрудника - сумма заработанных средств за этот период
-     * Создать пакет core.basesyntax.exception и в нём класс-ошибку IllegalDateParametersException.
+     * Создать пакет core.exception и в нём класс-ошибку IllegalDateParametersException.
      * Сделать так,
      * чтобы метод getSalaryInfo выбрасывал IllegalDateParametersException,
      * если dateFrom > dateTo, с сообщнием "Wrong parameters"</p>
@@ -48,7 +48,8 @@ public class SalaryInfo {
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom,
                                 String dateTo) throws IllegalDateParametersException {
-        StringBuilder builder = new StringBuilder("Отчёт за период " + dateFrom + " - " + dateTo);
+        StringBuilder builder =
+                new StringBuilder("Отчёт за период ").append(dateFrom).append(" - ").append(dateTo);
         LocalDate dateStart = LocalDate.parse(dateFrom, FORMATTER);
         LocalDate dateFinish = LocalDate.parse(dateTo, FORMATTER);
 
@@ -56,18 +57,18 @@ public class SalaryInfo {
             throw new IllegalDateParametersException("Wrong parameters");
         }
         for (int i = 0; i < names.length; i++) {
-            int fee = 0;
+            int salary = 0;
             for (int j = 0; j < data.length; j++) {
                 if ((LocalDate.parse(data[j].split(" ")[0], FORMATTER).isAfter(dateStart)
                         || LocalDate.parse(data[j].split(" ")[0], FORMATTER).isEqual(dateStart))
                         && (LocalDate.parse(data[j].split(" ")[0], FORMATTER).isBefore(dateFinish)
                         || LocalDate.parse(data[j].split(" ")[0], FORMATTER).isEqual(dateFinish))
                         && names[i].equals(data[j].split(" ")[1])) {
-                    fee += Integer.parseInt(data[j].split(" ")[2])
+                    salary += Integer.parseInt(data[j].split(" ")[2])
                             * Integer.parseInt(data[j].split(" ")[3]);
                 }
             }
-            builder.append("\n").append(names[i] + " - ").append(fee);
+            builder.append("\n").append(names[i]).append(" - ").append(salary);
         }
         return builder.toString();
     }
