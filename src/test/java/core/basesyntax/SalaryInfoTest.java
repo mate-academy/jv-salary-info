@@ -73,7 +73,7 @@ public class SalaryInfoTest {
     public void getSalaryInfoByMonth() throws Exception {
         try {
             Class<?> exceptionClass = Class
-                    .forName("Exceptions.IllegalDateParametersException");
+                    .forName("core.basesyntax.exception.IllegalDateParametersException");
             expectedEx.expect((Class<? extends Throwable>) exceptionClass);
             expectedEx.expectMessage("Wrong parameters");
             SalaryInfo salary = new SalaryInfo();
@@ -112,7 +112,7 @@ public class SalaryInfoTest {
     @Test
     public void testClassExists() {
         try {
-            Class.forName("Exceptions.IllegalDateParametersException");
+            Class.forName("core.basesyntax.exception.IllegalDateParametersException");
         } catch (ClassNotFoundException e) {
             Assert.fail("Should create a class called 'IllegalDateParametersException'.");
         }
