@@ -5,13 +5,13 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws Exception {
 
-        LocalDate dateOfStart = LocalDate.parse(dateFrom, formatter);
-        LocalDate dateOfEnd = LocalDate.parse(dateTo, formatter);
+        LocalDate dateOfStart = LocalDate.parse(dateFrom, DATE_FORMATTER);
+        LocalDate dateOfEnd = LocalDate.parse(dateTo, DATE_FORMATTER);
 
         if (dateOfEnd.isBefore(dateOfStart)) {
             throw new IllegalDateParametersException("Wrong parameters");
@@ -28,7 +28,7 @@ public class SalaryInfo {
                 if (dateNameHoursRate.length < 4) {
                     throw new IllegalArgumentException("Wrong data parameter");
                 }
-                LocalDate dateOfEntry = LocalDate.parse(dateNameHoursRate[0], formatter);
+                LocalDate dateOfEntry = LocalDate.parse(dateNameHoursRate[0], DATE_FORMATTER);
 
                 if (name.equals(dateNameHoursRate[1]) && !(dateOfEntry.isAfter(dateOfEnd)
                         || dateOfEntry.isBefore(dateOfStart))) {
