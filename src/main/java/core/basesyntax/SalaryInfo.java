@@ -52,11 +52,12 @@ public class SalaryInfo {
         LocalDate fromDate = LocalDate.parse(dateFrom, FORMATTER);
         LocalDate toDate = LocalDate.parse(dateTo, FORMATTER);
 
-        StringBuilder result = new StringBuilder("Отчёт за период " + dateFrom + " - " + dateTo);
-
         if (fromDate.isAfter(toDate)) {
             throw new IllegalDateParametersException("Wrong parameters");
         }
+
+        StringBuilder result = new StringBuilder();
+        result.append("Отчёт за период ").append(dateFrom).append(" - ").append(dateTo);
 
         for (String name : names) {
             int salary = 0;
@@ -68,7 +69,7 @@ public class SalaryInfo {
                     salary += Integer.parseInt(dataArray[2]) * Integer.parseInt(dataArray[3]);
                 }
             }
-            result.append("\n" + name + " - ").append(salary);
+            result.append("\n").append(name).append(" - ").append(salary);
         }
         return result.toString();
     }
