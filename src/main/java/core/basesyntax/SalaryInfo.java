@@ -56,8 +56,7 @@ public class SalaryInfo {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("Отчёт за период ")
                 .append(dateFrom).append(" - ")
-                .append(dateTo)
-                .append("\n");
+                .append(dateTo).append("\n");
 
         for (String name: names) {
             int sum = 0;
