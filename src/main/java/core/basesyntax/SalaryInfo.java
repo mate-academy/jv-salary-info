@@ -61,20 +61,21 @@ public class SalaryInfo {
         result.append(dateFrom).append(" - ").append(dateTo).append("\n");
 
         for (String name : names) {
-            int tempSalary = 0;
+            int totalSalaryByPerson = 0;
 
             for (String lineOfData : data) {
                 String[] allDataArray = lineOfData.split(" ");
                 if (name.equals(allDataArray[1])
                         && dateComparator(dateFrom, dateTo, allDataArray[0])) {
-                    tempSalary +=
+                    totalSalaryByPerson +=
                             Integer.parseInt(allDataArray[2]) * Integer.parseInt(allDataArray[3]);
                 }
             }
-            result.append(name).append(" - ").append(tempSalary).append("\n");
+            result.append("\n").append(name).append(" - ")
+                    .append(totalSalaryByPerson);
         }
 
-        return result.substring(0, result.length() - 1);
+        return result.toString();
     }
 
     private boolean dateComparator(String dateFrom, String dateTo, String dateToCompare) {
