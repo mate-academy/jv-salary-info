@@ -1,4 +1,5 @@
 package core.basesyntax;
+
 import java.time.format.DateTimeFormatter;
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -49,19 +50,23 @@ public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws IllegalDateParametersException {
         StringBuilder report = new StringBuilder("Отчёт за период " + dateFrom + " - " + dateTo);
-        report.append(System.lineSeparator());
-        LocalDate dateStart = LocalDate.parse(dateFrom, FORMAT);
-        LocalDate dateFinish = LocalDate.parse(dateTo, FORMAT);
-        if(dateStart.isAfter(dateFinish)) {
+        report.append("\n");
+        LocalDate dateStart = LocalDate.parse(dateFrom, FORMAT).minusDays(1);
+        LocalDate dateFinish = LocalDate.parse(dateTo, FORMAT).plusDays(1);
+        if (dateStart.isAfter(dateFinish)) {
             throw new IllegalDateParametersException("Wrong parameters");
         }
         int[] cashTotal = new int[names.length];
         for (String line : data) {
             String[] lineSepareted = line.split(" ");
-            cashTotal[Arrays.asList(names).indexOf(lineSepareted[1])] +=
-                    Integer.parseInt(lineSepareted[2])*Integer.parseInt(lineSepareted[3]);
+            if (dateFinish.isAfter(LocalDate.parse(lineSepareted[0], FORMAT)) &&
+                    LocalDate.parse(lineSepareted[0], FORMAT).isAfter(dateStart))
+                cashTotal[Arrays.asList(names).indexOf(lineSepareted[1])] +=
+                        Integer.parseInt(lineSepareted[2]) * Integer.parseInt(lineSepareted[3]);
         }
-        
-        return null;
+        for (int i = 0; i < names.length; i++) {
+            report.append(names[i] + " - " + cashTotal[i] + "\n");
+        }
+        return report.toString().substring(0,report.toString().length()-1);
     }
 }
