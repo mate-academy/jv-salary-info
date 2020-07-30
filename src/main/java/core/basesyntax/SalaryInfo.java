@@ -1,12 +1,9 @@
 package core.basesyntax;
 
 import core.basesyntax.exception.IllegalDateParametersException;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
-
-
 
 public class SalaryInfo {
     private static final DateTimeFormatter FORMAT = DateTimeFormatter.ofPattern("dd.MM.yyyy");
