@@ -44,10 +44,11 @@ public class SalaryInfo {
      * Андрей - 600
      * София - 900</p>
      */
+    static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws Exception {
 
-        final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         LocalDate fromDate = LocalDate.parse(dateFrom, FORMATTER);
         LocalDate toDate = LocalDate.parse(dateTo, FORMATTER);
 
@@ -61,7 +62,6 @@ public class SalaryInfo {
         for (int i = 0; i < names.length; i++) {
             salaryForInterval.append("\n").append(names[i]).append(" - ");
             int totalSalary = 0;
-
             for (String dataLine : data) {
                 String[] dataSplit = dataLine.split(" ");
                 int amountOfHours = Integer.parseInt(dataSplit[2]);
@@ -75,7 +75,6 @@ public class SalaryInfo {
                         : totalSalary;
             }
             salaryForInterval.append(totalSalary);
-                salaryForInterval.append(names.length > i + 1 ? "\n" : "");
         }
 
         return salaryForInterval.toString();
