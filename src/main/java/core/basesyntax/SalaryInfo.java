@@ -54,32 +54,32 @@ public class SalaryInfo {
                                 String dateFrom, String dateTo)
             throws IllegalDateParametersException {
 
-        final DateTimeFormatter formatter =
+        final DateTimeFormatter FORMATTER =
                 DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
-        StringBuilder report = new StringBuilder("Отчёт за период ");
-        report.append(dateFrom + " - " + dateTo + "\n");
-
-        LocalDate startOfPeriod = LocalDate.parse(dateFrom, formatter);
-        LocalDate endOfPeriod = LocalDate.parse(dateTo, formatter);
+        LocalDate startOfPeriod = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate endOfPeriod = LocalDate.parse(dateTo, FORMATTER);
 
         if (startOfPeriod.isAfter(endOfPeriod)) {
             throw new IllegalDateParametersException("Wrong parameters");
         }
 
+        StringBuilder report = new StringBuilder("Отчёт за период ");
+        report.append(dateFrom).append(" - ").append(dateTo);
+
         for (String name : names) {
             int salary = 0;
             for (String line : data) {
                 String[] dayInfo = line.split(" ");
-                LocalDate date = LocalDate.parse(dayInfo[0], formatter);
+                LocalDate date = LocalDate.parse(dayInfo[0], FORMATTER);
                 if (dayInfo[1].equals(name)
                         && (date.isBefore(endOfPeriod) || date.isEqual(endOfPeriod))
                         && (date.isAfter(startOfPeriod) || date.isEqual(endOfPeriod))) {
                     salary += Integer.parseInt(dayInfo[2]) * Integer.parseInt(dayInfo[3]);
                 }
             }
-            report.append(name + " - " + salary + "\n");
+            report.append("\n").append(name).append(" - ").append(salary);
         }
-        return report.toString().trim();
+        return report.toString();
     }
 }
