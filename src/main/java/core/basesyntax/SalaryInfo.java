@@ -44,14 +44,13 @@ public class SalaryInfo {
      * София - 900</p>
      */
 
-    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws Exception {
 
-        final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        LocalDate parsedDateFrom = LocalDate.parse(dateFrom, formatter);
-        LocalDate parseDateTo = LocalDate.parse(dateTo, formatter);
+        LocalDate parsedDateFrom = LocalDate.parse(dateFrom, DATE_FORMAT);
+        LocalDate parseDateTo = LocalDate.parse(dateTo, DATE_FORMAT);
 
         if (parsedDateFrom.isAfter(parseDateTo)) {
             throw new IllegalDateParametersException("Wrong parameters");
@@ -63,7 +62,7 @@ public class SalaryInfo {
             int salary = 0;
             for (int i = 0; i < data.length; i++) {
                 String[] employeeData = data[i].split(" ");
-                LocalDate workingDate = LocalDate.parse(employeeData[0], formatter);
+                LocalDate workingDate = LocalDate.parse(employeeData[0], DATE_FORMAT);
                 if (element.equals(employeeData[1]) && (workingDate.isBefore(parseDateTo)
                         || workingDate.isEqual(parseDateTo)) && (workingDate.isAfter(parsedDateFrom)
                         || workingDate.isEqual(parsedDateFrom))) {
