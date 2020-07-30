@@ -59,8 +59,8 @@ public class SalaryInfo {
         StringBuilder salaryForInterval =
                 new StringBuilder("Отчёт за период ").append(dateFrom).append(" - ").append(dateTo);
 
-        for (int i = 0; i < names.length; i++) {
-            salaryForInterval.append("\n").append(names[i]).append(" - ");
+        for (String name : names) {
+            salaryForInterval.append("\n").append(name).append(" - ");
             int totalSalary = 0;
             for (String dataLine : data) {
                 String[] dataSplit = dataLine.split(" ");
@@ -68,7 +68,7 @@ public class SalaryInfo {
                 int salaryPerHour = Integer.parseInt(dataSplit[3]);
                 String nameData = dataSplit[1];
                 LocalDate dateData = LocalDate.parse(dataSplit[0], FORMATTER);
-                totalSalary = (nameData.equals(names[i])
+                totalSalary = (nameData.equals(name)
                         && dateData.compareTo(fromDate) >= 0
                         && dateData.compareTo(toDate) <= 0)
                         ? totalSalary + salaryPerHour * amountOfHours
