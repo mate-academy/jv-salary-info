@@ -6,7 +6,7 @@ import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
 
-    final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws Exception {
@@ -15,8 +15,8 @@ public class SalaryInfo {
         if (start.compareTo(finish) > 0) {
             throw new IllegalDateParametersException("Wrong parameters");
         }
-        StringBuilder result = new StringBuilder("Отчёт за период " + dateFrom
-                + " - " + dateTo);
+        StringBuilder result = new StringBuilder();
+        result.append("Отчёт за период ").append(dateFrom).append(" - ").append(dateTo);
         for (String name : names) {
             int salary = 0;
             for (String element : data) {
