@@ -1,7 +1,12 @@
 package core.basesyntax;
 
+import core.basesyntax.exception.IllegalDateParametersException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class SalaryInfo {
-    /**
+
+    /*
      * <p>Реализуйте метод getSalaryInfo(String[] names, String[] data,
      * String dateFrom, String dateTo)
      * вычисляющий зарплату сотрудников. На вход методу подаётся 2 массива и 2 даты,
@@ -39,8 +44,32 @@ public class SalaryInfo {
      * Андрей - 600
      * София - 900</p>
      */
+    public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws Exception {
-        return null;
+        LocalDate dateStart = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate dateEnd = LocalDate.parse(dateTo, FORMATTER);
+        if (dateStart.isAfter(dateEnd)) {
+            throw new IllegalDateParametersException("Wrong parameters");
+        }
+        StringBuilder report = new StringBuilder();
+        report.append("Отчёт за период ").append(dateFrom).append(" - ").append(dateTo);
+        for (String nameStr : names) {
+            int salary = 0;
+            for (String worker : data) {
+                String[] array = worker.split(" ");
+                LocalDate dateFromData = LocalDate.parse(array[0], FORMATTER);
+                if ((array[1].equals(nameStr))
+                        && (!dateFromData.isBefore(dateStart))
+                        && (!dateFromData.isAfter(dateEnd))) {
+                    int workedHours = Integer.parseInt(array[2]);
+                    int perHourIndex = Integer.parseInt(array[3]);
+                    salary += workedHours * perHourIndex;
+                }
+            }
+            report.append("\n").append(nameStr).append(" - ").append(salary);
+        }
+        return report.toString();
     }
 }
