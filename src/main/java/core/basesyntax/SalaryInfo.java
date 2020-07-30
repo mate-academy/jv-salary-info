@@ -45,13 +45,6 @@ public class SalaryInfo {
      */
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
-    private boolean isDateInRange(String date, LocalDate startDate, LocalDate endDate) {
-        LocalDate workDate = LocalDate.parse(date, DATE_FORMAT);
-        return (workDate.isAfter(startDate) && workDate.isBefore(endDate)
-                || workDate.isEqual(startDate)
-                || workDate.isEqual(endDate));
-    }
-
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws IllegalDateParametersException {
         LocalDate startDate = LocalDate.parse(dateFrom, DATE_FORMAT);
@@ -72,5 +65,12 @@ public class SalaryInfo {
             result.append("\n" + name + " - " + salary);
         }
         return result.toString();
+    }
+
+    private boolean isDateInRange(String date, LocalDate startDate, LocalDate endDate) {
+        LocalDate workDate = LocalDate.parse(date, DATE_FORMAT);
+        return (workDate.isAfter(startDate) && workDate.isBefore(endDate)
+                || workDate.isEqual(startDate)
+                || workDate.isEqual(endDate));
     }
 }
