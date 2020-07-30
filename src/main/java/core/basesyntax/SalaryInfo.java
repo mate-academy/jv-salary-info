@@ -1,5 +1,11 @@
 package core.basesyntax;
 
+import core.basesyntax.exception.IllegalDateParametersException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.temporal.ChronoField;
+
 public class SalaryInfo {
     /**
      * <p>Реализуйте метод getSalaryInfo(String[] names, String[] data,
@@ -41,6 +47,34 @@ public class SalaryInfo {
      */
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws Exception {
-        return null;
+        DateTimeFormatter formatter = new DateTimeFormatterBuilder()
+                .appendPattern("dd.MM.yyyy")
+                .parseDefaulting(ChronoField.YEAR, 2019)
+                .toFormatter();
+        LocalDate strartingDate = LocalDate.parse(dateFrom, formatter);
+        LocalDate finishingDate = LocalDate.parse(dateTo, formatter);
+        if (strartingDate.isAfter(finishingDate)) {
+            throw new IllegalDateParametersException("Wrong parameters");
+        }
+
+        StringBuilder report = new StringBuilder();
+        report.append("Отчёт за период ").append(dateFrom).append(" - ").append(dateTo);
+        for (String name : names) {
+            int wages = 0;
+            for (String workingTime : data) {
+                String[] list = workingTime.split(" ");
+                LocalDate workPeriod = LocalDate.parse(list[0], formatter);
+                if ((list[1].equals(name))
+                        && (!workPeriod.isBefore(strartingDate))
+                        && (!workPeriod.isAfter(finishingDate))) {
+                    int hours = Integer.parseInt(list[2]);
+                    int quotient = Integer.parseInt(list[3]);
+                    wages += hours * quotient;
+                }
+            }
+            report.append("\n").append(name).append(" - ").append(wages);
+        }
+        return report.toString();
     }
+
 }
