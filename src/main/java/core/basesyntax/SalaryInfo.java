@@ -15,7 +15,7 @@ public class SalaryInfo {
      * ставка за 1 час. Метод должен вернуть отчёт за период, который передали в метод
      * (обе даты включительно) составленный по следующей форме: Отчёт за период
      * #дата_1# - #дата_2# Имя сотрудника - сумма заработанных средств за этот период
-     * Создать пакет core.basesyntax.exception и в нём класс-ошибку IllegalDateParametersException. Сделать так,
+     * Создать пакет exception и в нём класс-ошибку IllegalDateParametersException. Сделать так,
      * чтобы метод getSalaryInfo выбрасывал IllegalDateParametersException,
      * если dateFrom > dateTo, с сообщнием "Wrong parameters"</p>
      *
