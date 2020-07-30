@@ -52,9 +52,8 @@ public class SalaryInfo {
         }
         StringBuilder resultInfo = new StringBuilder();
         resultInfo.append("Отчёт за период ").append(dateFrom).append(" - ").append(dateTo);
-        int salary = 0;
-
         for (int j = 0; j < names.length; j++) {
+            int salary = 0;
             for (String oneElementOfData : data) {
                 String[] row = oneElementOfData.split(" ");
                 if (row[1].equals(names[j])) {
@@ -67,7 +66,6 @@ public class SalaryInfo {
                 }
             }
             resultInfo.append("\n").append(names[j]).append(" - ").append(salary);
-            salary = 0;
         }
         return resultInfo.toString();
     }
