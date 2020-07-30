@@ -45,7 +45,7 @@ public class SalaryInfo {
      */
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
-    public boolean isDateInRange(String date, LocalDate startDate, LocalDate endDate) {
+    private boolean isDateInRange(String date, LocalDate startDate, LocalDate endDate) {
         LocalDate workDate = LocalDate.parse(date, DATE_FORMAT);
         return (workDate.isAfter(startDate) && workDate.isBefore(endDate)
                 || workDate.isEqual(startDate)
@@ -60,18 +60,16 @@ public class SalaryInfo {
             throw new IllegalDateParametersException("Wrong parameters");
         }
         StringBuilder result = new StringBuilder("Отчёт за период ")
-                .append(dateFrom)
-                .append(" - ")
-                .append(dateTo);
+                .append(dateFrom).append(" - ").append(dateTo);
         for (String name : names) {
-            int sumN = 0;
-            for (String d : data) {
-                String[] arr = d.split(" ");
+            int salary = 0;
+            for (String oneEmplDayInfo : data) {
+                String[] arr = oneEmplDayInfo.split(" ");
                 if (isDateInRange(arr[0], startDate, endDate) && name.equals(arr[1])) {
-                    sumN += Integer.valueOf(arr[2]) * Integer.valueOf(arr[3]);
+                    salary += Integer.valueOf(arr[2]) * Integer.valueOf(arr[3]);
                 }
             }
-            result.append("\n" + name + " - " + sumN);
+            result.append("\n" + name + " - " + salary);
         }
         return result.toString();
     }
