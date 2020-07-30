@@ -54,12 +54,12 @@ public class SalaryInfo {
         if (countBegins.isAfter(countEnds)) {
             throw new IllegalDateParametersException("Wrong parameters");
         }
-        StringBuilder head = new StringBuilder();
-        head.append("Отчёт за период ").append(dateFrom).append(" - ").append(dateTo);
+        StringBuilder report = new StringBuilder();
+        report.append("Отчёт за период ").append(dateFrom).append(" - ").append(dateTo);
         for (String name : names) {
             int personsSalary = 0;
-            for (int j = 0; j < data.length; j++) {
-                String[] dataArraySplit = data[j].split(" ");
+            for (String datum : data) {
+                String[] dataArraySplit = datum.split(" ");
                 LocalDate salaryDate = LocalDate.parse(dataArraySplit[0], FORMATTER);
                 if ((!salaryDate.isBefore(countBegins))
                         && (!salaryDate.isAfter(countEnds))
@@ -69,9 +69,9 @@ public class SalaryInfo {
                 }
 
             }
-            head.append("\n").append(name).append(" - ").append(personsSalary);
+            report.append("\n").append(name).append(" - ").append(personsSalary);
         }
 
-        return head.toString();
+        return report.toString();
     }
 }
