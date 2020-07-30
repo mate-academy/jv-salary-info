@@ -5,4 +5,3 @@ public class IllegalDateParametersException extends Exception {
         super(message);
     }
 }
-
