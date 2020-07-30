@@ -58,7 +58,7 @@ public class SalaryInfo {
         }
 
         StringBuilder result = new StringBuilder("Отчёт за период ");
-        result.append(dateFrom).append(" - ").append(dateTo).append("\n");
+        result.append(dateFrom).append(" - ").append(dateTo);
 
         for (String name : names) {
             int totalSalaryByPerson = 0;
