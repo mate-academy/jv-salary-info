@@ -1,5 +1,9 @@
 package core.basesyntax;
 
+import core.basesyntax.exception.IllegalDateParametersException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class SalaryInfo {
     /**
      * <p>Реализуйте метод getSalaryInfo(String[] names, String[] data,
@@ -11,7 +15,7 @@ public class SalaryInfo {
      * ставка за 1 час. Метод должен вернуть отчёт за период, который передали в метод
      * (обе даты включительно) составленный по следующей форме: Отчёт за период
      * #дата_1# - #дата_2# Имя сотрудника - сумма заработанных средств за этот период
-     * Создать пакет exception и в нём класс-ошибку IllegalDateParametersException. Сделать так,
+     * Создать пакет core.basesyntax.exception и в нём класс-ошибку IllegalDateParametersException. Сделать так,
      * чтобы метод getSalaryInfo выбрасывал IllegalDateParametersException,
      * если dateFrom > dateTo, с сообщнием "Wrong parameters"</p>
      *
@@ -39,8 +43,35 @@ public class SalaryInfo {
      * Андрей - 600
      * София - 900</p>
      */
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("d.MM.yyyy");
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
-            throws Exception {
-        return null;
+            throws IllegalDateParametersException {
+        LocalDate start = LocalDate.parse(dateFrom, DATE_TIME_FORMATTER);
+        LocalDate end = LocalDate.parse(dateTo, DATE_TIME_FORMATTER);
+        StringBuilder result = new StringBuilder();
+
+        if (end.isBefore(start)) {
+            throw new IllegalDateParametersException("Wrong parameters");
+        }
+
+        result.append("Отчёт за период ").append(dateFrom).append(" - ").append(dateTo);
+
+        for (int i = 0; i < names.length; i++) {
+            int sum = 0;
+
+            for (int j = 0; j < data.length; j++) {
+                String[] dataArray = data[j].split(" ");
+                LocalDate actualyDate = LocalDate.parse(dataArray[0], DATE_TIME_FORMATTER);
+
+                if ((dataArray[1].equals(names[i]))
+                        && (actualyDate.isEqual(start) || actualyDate.isAfter(start))
+                        && (actualyDate.isEqual(end) || actualyDate.isBefore(end))) {
+                    sum += Integer.parseInt(dataArray[2]) * Integer.parseInt(dataArray[3]);
+                }
+            }
+            result.append("\n").append(names[i]).append(" - ").append(sum);
+        }
+        return result.toString();
     }
 }
