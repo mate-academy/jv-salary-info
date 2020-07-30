@@ -47,27 +47,27 @@ public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws Exception {
 
-        final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        LocalDate fromDate = LocalDate.parse(dateFrom, formatter);
-        LocalDate toDate = LocalDate.parse(dateTo, formatter);
+        final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        LocalDate fromDate = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate toDate = LocalDate.parse(dateTo, FORMATTER);
 
         if (fromDate.compareTo(toDate) > 0) {
             throw new IllegalDateParametersException("Wrong parameters");
         }
 
         StringBuilder salaryForInterval =
-                new StringBuilder("Отчёт за период " + dateFrom + " - " + dateTo + "\n");
+                new StringBuilder("Отчёт за период ").append(dateFrom).append(" - ").append(dateTo);
 
         for (int i = 0; i < names.length; i++) {
-            salaryForInterval.append(names[i]).append(" - ");
+            salaryForInterval.append("\n").append(names[i]).append(" - ");
             int totalSalary = 0;
 
-            for (String d : data) {
-                String[] dataSplit = d.split(" ");
+            for (String dataLine : data) {
+                String[] dataSplit = dataLine.split(" ");
                 int amountOfHours = Integer.parseInt(dataSplit[2]);
                 int salaryPerHour = Integer.parseInt(dataSplit[3]);
                 String nameData = dataSplit[1];
-                LocalDate dateData = LocalDate.parse(dataSplit[0], formatter);
+                LocalDate dateData = LocalDate.parse(dataSplit[0], FORMATTER);
                 totalSalary = (nameData.equals(names[i])
                         && dateData.compareTo(fromDate) >= 0
                         && dateData.compareTo(toDate) <= 0)
@@ -75,9 +75,7 @@ public class SalaryInfo {
                         : totalSalary;
             }
             salaryForInterval.append(totalSalary);
-            if (names.length > i + 1) {
-                salaryForInterval.append("\n");
-            }
+                salaryForInterval.append(names.length > i + 1 ? "\n" : "");
         }
 
         return salaryForInterval.toString();
