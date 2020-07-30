@@ -11,26 +11,25 @@ public class SalaryInfo {
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws Exception {
-        StringBuilder header = new StringBuilder("Отчёт за период " + dateFrom + " - " + dateTo);
         LocalDate dateStart = LocalDate.parse(dateFrom, FORMATTER);
         LocalDate dateEnd = LocalDate.parse(dateTo, FORMATTER);
         if (dateEnd.compareTo(dateStart) == -1) {
             throw new IllegalDateParametersException("Wrong parameters");
         }
-        StringBuilder result = new StringBuilder();
-        for (String n : names) {
+        StringBuilder result = new StringBuilder("Отчёт за период " + dateFrom + " - " + dateTo);
+        for (String name : names) {
             int salary = 0;
             for (int i = 0;i < data.length; i++) {
-                String[] str = data[i].split(" ");
-                LocalDate actual = LocalDate.parse(str[0], FORMATTER);
-                if (str[1].equals(n) && dateEnd.compareTo(actual) >= 0
+                String[] dataline = data[i].split(" ");
+                LocalDate actual = LocalDate.parse(dataline[0], FORMATTER);
+                if (dataline[1].equals(name) && dateEnd.compareTo(actual) >= 0
                         && dateStart.compareTo(actual) <= 0) {
-                    salary += Integer.parseInt(str[2]) * Integer.parseInt(str[3]);
+                    salary += Integer.parseInt(dataline[2]) * Integer.parseInt(dataline[3]);
                 }
 
             }
-            result.append("\n").append(n).append(" - ").append(salary);
+            result.append("\n").append(name).append(" - ").append(salary);
         }
-        return header.append(result.toString()).toString();
+        return result.toString();
     }
 }
