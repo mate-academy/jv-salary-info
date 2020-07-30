@@ -32,15 +32,13 @@ public class SalaryInfo {
 
         result.append("Отчёт за период ")
                 .append(dateFrom).append(" - ")
-                .append(dateTo).append("\n");
+                .append(dateTo);
 
         for (int i = 0; i < names.length; i++) {
-            result.append(names[i]).append(" - ").append(salaries[i]).append("\n");
+            result.append("\n").append(names[i]).append(" - ").append(salaries[i]);
         }
 
-        result.append("\n");
-
-        return result.toString().replace("\n\n", "");
+        return result.toString();
     }
 
     private void checkInputDates(String dateFrom, String dateTo) throws Exception {
