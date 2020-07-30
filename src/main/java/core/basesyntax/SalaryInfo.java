@@ -51,7 +51,6 @@ public class SalaryInfo {
 
         LocalDate parsedDateFrom = LocalDate.parse(dateFrom, DATE_FORMAT);
         LocalDate parseDateTo = LocalDate.parse(dateTo, DATE_FORMAT);
-
         if (parsedDateFrom.isAfter(parseDateTo)) {
             throw new IllegalDateParametersException("Wrong parameters");
         }
