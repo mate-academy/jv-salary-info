@@ -56,13 +56,12 @@ public class SalaryInfo {
             int salary = 0;
             for (String oneElementOfData : data) {
                 String[] row = oneElementOfData.split(" ");
-                if (row[1].equals(names[j])) {
-                    if (LocalDate.parse(row[0], DATE_FORMAT)
-                            .compareTo(LocalDate.parse(dateFrom, DATE_FORMAT)) >= 0
-                            && LocalDate.parse(row[0], DATE_FORMAT)
-                            .compareTo(LocalDate.parse(dateTo, DATE_FORMAT)) <= 0) {
-                        salary += Integer.parseInt(row[2]) * Integer.parseInt(row[3]);
-                    }
+                if (row[1].equals(names[j]) && LocalDate.parse(row[0], DATE_FORMAT)
+                        .compareTo(LocalDate.parse(dateFrom, DATE_FORMAT)) >= 0
+                        && LocalDate.parse(row[0], DATE_FORMAT)
+                        .compareTo(LocalDate.parse(dateTo, DATE_FORMAT)) <= 0) {
+                    salary += Integer.parseInt(row[2]) * Integer.parseInt(row[3]);
+
                 }
             }
             resultInfo.append("\n").append(names[j]).append(" - ").append(salary);
