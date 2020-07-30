@@ -43,6 +43,9 @@ public class SalaryInfo {
      * Андрей - 600
      * София - 900</p>
      */
+
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws Exception {
 
@@ -54,7 +57,8 @@ public class SalaryInfo {
             throw new IllegalDateParametersException("Wrong parameters");
         }
 
-        StringBuilder report = new StringBuilder("Отчёт за период " + dateFrom + " - " + dateTo);
+        StringBuilder report = new StringBuilder().append("Отчёт за период ")
+                            .append(dateFrom).append(" - ").append(dateTo);
         for (String element : names) {
             int salary = 0;
             for (int i = 0; i < data.length; i++) {
