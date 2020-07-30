@@ -46,9 +46,9 @@ public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws IllegalDateParametersException {
 
-        DateTimeFormatter dataFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        LocalDate fromDate = LocalDate.parse(dateFrom, dataFormatter);
-        LocalDate toDate = LocalDate.parse(dateTo, dataFormatter);
+        final DateTimeFormatter DataFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        LocalDate fromDate = LocalDate.parse(dateFrom, DataFormatter);
+        LocalDate toDate = LocalDate.parse(dateTo, DataFormatter);
         if (fromDate.isAfter(toDate)) {
             throw new IllegalDateParametersException("Wrong parameters");
         }
@@ -60,7 +60,7 @@ public class SalaryInfo {
             int salary = 0;
             for (String info : data) {
                 String[] tempinfo = info.split(" ");
-                LocalDate workDay = LocalDate.parse(tempinfo[0], dataFormatter);
+                LocalDate workDay = LocalDate.parse(tempinfo[0], DataFormatter);
                 if ((workDay.isAfter(fromDate) || workDay.equals(fromDate))
                         && (workDay.isBefore(toDate) || workDay.equals(toDate))
                         && (name.equals(tempinfo[1]))) {
@@ -74,4 +74,3 @@ public class SalaryInfo {
         return stringBuilder.toString();
     }
 }
-
