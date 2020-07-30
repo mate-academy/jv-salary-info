@@ -59,7 +59,6 @@ public class SalaryInfo {
         for (String name : names) {
             int money = 0;
             for (String salaryInfo : data) {
-                //int money =0;
                 String[] infoForSalary = salaryInfo.split(" ");
                 LocalDate entryDate = LocalDate.parse(infoForSalary[0], FORMATTER);
                 if ((infoForSalary[1].equals(name))

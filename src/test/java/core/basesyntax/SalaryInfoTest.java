@@ -1,10 +1,8 @@
 package core.basesyntax;
-
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-
 public class SalaryInfoTest {
     private static final String[] ROLES = {"Сергей", "Андрей", "София"};
     private static final String[] SCRIPT_ARRAY = {
