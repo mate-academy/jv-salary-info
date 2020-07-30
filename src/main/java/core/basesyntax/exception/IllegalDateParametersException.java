@@ -1,7 +1,7 @@
 package core.basesyntax.exception;
 
 public class IllegalDateParametersException extends Exception {
-    public IllegalDateParametersException(String wrongParameters) {
-        super(wrongParameters);
+    public IllegalDateParametersException(String message) {
+        super(message);
     }
 }
