@@ -1,8 +1,10 @@
 package core.basesyntax;
-import java.time.LocalDate;
-import exception.IllegalDateParametersException;
 
-public class SalaryInfo  {
+import core.basesyntax.exception.IllegalDateParametersException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
+public class SalaryInfo {
     /**
      * <p>Реализуйте метод getSalaryInfo(String[] names, String[] data,
      * String dateFrom, String dateTo)
@@ -41,28 +43,33 @@ public class SalaryInfo  {
      * Андрей - 600
      * София - 900</p>
      */
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("d.MM.yyyy");
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws Exception {
-        String[] partsOfDateFrom = dateFrom.split(".");
-        String[] partsOfDateTo = dateTo.split(".");
-
-        LocalDate homeDateFrom = LocalDate.of(Integer.parseInt(partsOfDateFrom[partsOfDateFrom.length - 1]), Integer.parseInt(partsOfDateFrom[partsOfDateFrom.length -2]), Integer.parseInt(partsOfDateFrom[partsOfDateFrom.length - 3]));
-        LocalDate homeDateTo = LocalDate.of(Integer.parseInt(partsOfDateTo[partsOfDateTo.length -1]), Integer.parseInt(partsOfDateTo[partsOfDateTo.length -2]), Integer.parseInt(partsOfDateTo[partsOfDateTo.length - 3]));
-        if(homeDateFrom.isAfter(homeDateTo)){
+        LocalDate homeDateFrom = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate homeDateTo = LocalDate.parse(dateTo, FORMATTER);
+        if (homeDateFrom.isAfter(homeDateTo)) {
             throw new IllegalDateParametersException("Wrong parameters");
         }
-        int salary  = 0;
+
         StringBuilder result = new StringBuilder();
-        result.append("Отчет за период ").append(dateFrom).append(" - ").append(dateTo).append(" \n");
-        for(int i = 0; i<names.length; i++){
-            for(int j = 0; j < data.length; j++){
-                String [] strAboutWorker = data[j].split(" ");
-                String [] workerDate = strAboutWorker[0].split(" ");
-                LocalDate localWorkerDate = LocalDate.of(Integer.parseInt(workerDate[2]), Integer.parseInt(workerDate[1]), Integer.parseInt(workerDate[0]));
-                if(names[i].equalsIgnoreCase(strAboutWorker[1]) && localWorkerDate.isAfter(homeDateFrom) && localWorkerDate.isBefore(homeDateTo))
-                    salary = salary + (Integer.parseInt(strAboutWorker[2]) * Integer.parseInt(strAboutWorker[3]));
+        result.append("Отчёт за период ").append(dateFrom).append(" - ").append(dateTo);
+        for (int i = 0; i < names.length; i++) {
+            int salary = 0;
+            for (int j = 0; j < data.length; j++) {
+                String[] strAboutWorker = data[j].split(" ");
+                LocalDate localWorkerDate = LocalDate.parse(strAboutWorker[0], FORMATTER);
+                if (names[i].equalsIgnoreCase(strAboutWorker[1])
+                        && (localWorkerDate.isAfter(homeDateFrom)
+                        || localWorkerDate.isEqual(homeDateFrom))
+                        && (localWorkerDate.isBefore(homeDateTo)
+                        || localWorkerDate.isEqual(homeDateTo))) {
+                    salary = salary + (Integer.parseInt(strAboutWorker[2])
+                            * Integer.parseInt(strAboutWorker[3]));
+                }
             }
-            result.append(names[i]).append(" - ").append(String.valueOf(salary)).append(" \n");
+            result.append("\n").append(names[i]).append(" - ").append(salary);
         }
         return result.toString();
     }
