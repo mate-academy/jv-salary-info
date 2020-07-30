@@ -54,14 +54,14 @@ public class SalaryInfo {
                                 String dateFrom, String dateTo)
             throws IllegalDateParametersException {
 
-        final DateTimeFormatter FORMATTER =
+        final DateTimeFormatter formatter =
                 DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
         StringBuilder report = new StringBuilder("Отчёт за период ");
         report.append(dateFrom + " - " + dateTo + "\n");
 
-        LocalDate startOfPeriod = LocalDate.parse(dateFrom, FORMATTER);
-        LocalDate endOfPeriod = LocalDate.parse(dateTo, FORMATTER);
+        LocalDate startOfPeriod = LocalDate.parse(dateFrom, formatter);
+        LocalDate endOfPeriod = LocalDate.parse(dateTo, formatter);
 
         if (startOfPeriod.isAfter(endOfPeriod)) {
             throw new IllegalDateParametersException("Wrong parameters");
@@ -71,8 +71,10 @@ public class SalaryInfo {
             int salary = 0;
             for (String line : data) {
                 String[] dayInfo = line.split(" ");
-                LocalDate date = LocalDate.parse(dayInfo[0], FORMATTER);
-                if (dayInfo[1].equals(name) && (date.isBefore(endOfPeriod) || date.isEqual(endOfPeriod)) && (date.isAfter(startOfPeriod) || date.isEqual(endOfPeriod))) {
+                LocalDate date = LocalDate.parse(dayInfo[0], formatter);
+                if (dayInfo[1].equals(name)
+                        && (date.isBefore(endOfPeriod) || date.isEqual(endOfPeriod))
+                        && (date.isAfter(startOfPeriod) || date.isEqual(endOfPeriod))) {
                     salary += Integer.parseInt(dayInfo[2]) * Integer.parseInt(dayInfo[3]);
                 }
             }
