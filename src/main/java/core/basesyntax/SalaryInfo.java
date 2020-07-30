@@ -61,12 +61,12 @@ public class SalaryInfo {
 
         for (int i = 0; i < names.length; i++) {
             int salary = 0;
-            for (int j = 0; j < summaryObjects.size(); j++) {
-                if (names[i].equals(summaryObjects.get(j).getPersonName())) {
-                    if (isBetween(date1, date2, summaryObjects.get(j).getDate())) {
-                        salary += summaryObjects.get(j).getHours()
-                                * summaryObjects.get(j).getHourRate();
-                    }
+            for (EmployeeWorkdaySummary summaryObject : summaryObjects) {
+                if (names[i].equals(summaryObject.getPersonName())
+                        && isBetween(date1, date2, summaryObject.getDate())) {
+                    salary += summaryObject.getHours()
+                            * summaryObject.getHourRate();
+
                 }
             }
             result.append("\n").append(buildSummaryObjects(data).get(i).getPersonName())
