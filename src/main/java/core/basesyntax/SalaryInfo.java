@@ -62,15 +62,13 @@ public class SalaryInfo {
             int sum = 0;
             for (String employee: data) {
                 String[] employeeInfo = employee.split(" ");
-                if (name.equals(employeeInfo[1])) {
-                    if (LocalDate.parse(employeeInfo[0], DATE_FORMAT)
+                if (name.equals(employeeInfo[1]) && LocalDate.parse(employeeInfo[0], DATE_FORMAT)
                             .compareTo(LocalDate.parse(dateFrom, DATE_FORMAT)) >= 0
                             && LocalDate.parse(employeeInfo[0], DATE_FORMAT)
                             .compareTo(LocalDate.parse(dateTo, DATE_FORMAT)) <= 0) {
                         sum += Integer.parseInt(employeeInfo[2])
                                 * Integer.parseInt(employeeInfo[3]);
                     }
-                }
             }
 
             stringBuilder.append(name).append(" - ").append(sum).append("\n");
