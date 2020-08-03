@@ -11,8 +11,8 @@ public class SalaryInfo {
      * ставка за 1 час. Метод должен вернуть отчёт за период, который передали в метод
      * (обе даты включительно) составленный по следующей форме: Отчёт за период
      * #дата_1# - #дата_2# Имя сотрудника - сумма заработанных средств за этот период
-     * Создать пакет exception и в нём класс-ошибку IllegalDateParametersException. Сделать так,
-     * чтобы метод getSalaryInfo выбрасывал IllegalDateParametersException,
+     * Создать пакет exception и в нём класс-ошибку IllegalDateParametersException, он должен быть unchecked.
+     * Сделать так чтобы метод getSalaryInfo выбрасывал IllegalDateParametersException,
      * если dateFrom > dateTo, с сообщнием "Wrong parameters"</p>
      *
      * <p>Пример ввода: date from = 01.04.2019 date to = 30.04.2019</p>
@@ -23,24 +23,22 @@ public class SalaryInfo {
      * София</p>
      *
      * <p>data:
-     * 26.04.2019 Сергей 60 50
-     * 26.04.2019 Андрей 3 200
-     * 26.04.2019 Сергей 7 100
-     * 26.04.2019 София 9 100
-     * 26.04.2019 Сергей 11 50
-     * 26.04.2019 Андрей 3 200
-     * 26.04.2019 Сергей 7 100
-     * 26.04.2019 София 9 100
-     * 26.04.2019 Сергей 11 50</p>
+     * 26.04.2019 Сергей 4 50
+     * 05.04.2019 Андрей 3 200
+     * 10.04.2019 Сергей 7 100
+     * 22.04.2019 София 9 100
+     * 25.06.2019 Сергей 11 50
+     * 26.04.2019 Андрей 3 150
+     * 13.02.2019 Сергей 7 100
+     * 26.04.2019 София 9 100</p>
      *
      * <p>Пример вывода:
      * Отчёт за период 01.04.2019  - 30.04.2019
-     * Сергей - 1550
-     * Андрей - 600
-     * София - 900</p>
+     * Сергей - 900
+     * Андрей - 1050
+     * София - 1 800</p>
      */
-    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
-            throws Exception {
+    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         return null;
     }
 }

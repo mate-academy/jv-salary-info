@@ -70,11 +70,11 @@ public class SalaryInfoTest {
     public ExpectedException expectedEx = ExpectedException.none();
 
     @Test
-    public void getSalaryInfoByMonth() throws Exception {
+    public void getSalaryInfoByMonth() {
         try {
             Class<?> exceptionClass = Class
                     .forName("core.basesyntax.exception.IllegalDateParametersException");
-            expectedEx.expect((Class<? extends Throwable>) exceptionClass);
+            expectedEx.expect((Class<? extends RuntimeException>) exceptionClass);
             expectedEx.expectMessage("Wrong parameters");
             SalaryInfo salary = new SalaryInfo();
             for (int i = 0; i < DATES.length; i++) {
@@ -95,7 +95,7 @@ public class SalaryInfoTest {
     }
 
     @Test
-    public void getSalaryInfoByTwoMonths() throws Exception {
+    public void getSalaryInfoByTwoMonths() {
         SalaryInfo salary = new SalaryInfo();
         String actualResult = salary.getSalaryInfo(ROLES, SECOND_SCRIPT_ARRAY,
                 SECOND_DATES[0], SECOND_DATES[1]);
