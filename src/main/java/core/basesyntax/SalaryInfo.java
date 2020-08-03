@@ -1,8 +1,8 @@
 package core.basesyntax;
 
-import core.basesyntax.IllegalDateParametersException;
-import java.time.format.DateTimeFormatter;
+import core.basesyntax.exception.IllegalDateParametersException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     private static final DateTimeFormatter DATE_PAR = DateTimeFormatter.ofPattern("dd.MM.yyyy");
@@ -16,8 +16,8 @@ public class SalaryInfo {
         resultInfo.append("Отчёт за период ").append(dateFrom).append(" - ").append(dateTo);
         for (int j = 0; j < names.length; j++) {
             int salary = 0;
-            for (String oneElementOfData : data) {
-                String[] row = oneElementOfData.split(" ");
+            for (String startData : data) {
+                String[] row = startData.split(" ");
                 if (row[1].equals(names[j]) && LocalDate.parse(row[0], DATE_PAR)
                         .compareTo(LocalDate.parse(dateFrom, DATE_PAR)) >= 0
                         && LocalDate.parse(row[0], DATE_PAR)
