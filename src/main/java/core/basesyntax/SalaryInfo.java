@@ -36,7 +36,7 @@ public class SalaryInfo {
      * Отчёт за период 01.04.2019  - 30.04.2019
      * Сергей - 900
      * Андрей - 1050
-     * София - 1 800</p>
+     * София - 1800</p>
      */
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         return null;
