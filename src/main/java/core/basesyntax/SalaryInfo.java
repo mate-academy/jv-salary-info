@@ -8,10 +8,7 @@ public class SalaryInfo {
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder result = new StringBuilder();
-        result.append("Report for period ");
-        result.append(dateFrom);
-        result.append(" - ");
-        result.append(dateTo);
+        result.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
         LocalDate startDate = LocalDate.parse(dateFrom, DATE_FORMAT);
         LocalDate endDate = LocalDate.parse(dateTo, DATE_FORMAT);
 
@@ -26,10 +23,7 @@ public class SalaryInfo {
                     salary += Integer.parseInt(dataPats[2]) * Integer.parseInt(dataPats[3]);
                 }
             }
-            result.append("\n");
-            result.append(names[i]);
-            result.append(" - ");
-            result.append(salary);
+            result.append("\n").append(names[i]).append(" - ").append(salary);
         }
         return result.toString();
     }
