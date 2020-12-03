@@ -6,7 +6,6 @@ public class SalaryInfo {
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         int[] salaries = new int[names.length];
-        System.out.println(dateFrom);
         String[] stringDateFromArray = dateFrom.split("\\.");
         String[] stringDateToArray = dateTo.split("\\.");
         LocalDate dateStart = LocalDate.of(Integer.parseInt(stringDateFromArray[2]),
