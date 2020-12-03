@@ -23,7 +23,6 @@ public class SalaryInfo {
             }
             result.append(name).append(" - ").append(salary).append("\n");
         }
-
         return result.toString().trim();
     }
 }
