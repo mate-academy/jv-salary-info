@@ -24,15 +24,16 @@ public class SalaryInfo {
                         int salary = Arrays.stream(data)
                                 .filter(row -> row.split(" ")[1].equals(rowName))
                                 .mapToInt((row -> {
+                                    String[] dividedRow = row.split(" ");
                                     LocalDate rowDate =
-                                            LocalDate.parse(row.split(" ")[0], DATE_FORMATTER);
+                                            LocalDate.parse(dividedRow[0], DATE_FORMATTER);
                                     return (rowDate
                                                 .isAfter(LocalDate.parse(dateFrom, DATE_FORMATTER))
                                             && rowDate
                                                 .isBefore(LocalDate.parse(dateTo, DATE_FORMATTER)
                                                         .plusDays(1)))
-                                            ? Integer.parseInt(row.split(" ")[2])
-                                                * Integer.parseInt(row.split(" ")[3])
+                                            ? Integer.parseInt(dividedRow[2])
+                                                * Integer.parseInt(dividedRow[3])
                                             : 0;
                                 }))
                                 .sum();
