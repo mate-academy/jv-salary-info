@@ -10,27 +10,28 @@ public class SalaryInfo {
         LocalDate localDateFrom = LocalDate.parse(dateFrom, DATE);
         LocalDate localDateTo = LocalDate.parse(dateTo, DATE);
         StringBuilder informationAboutSalary = new StringBuilder();
-        informationAboutSalary.append("Report for period "
-                            + dateFrom
-                            + " - "
-                            + dateTo
-                            + "\n");
-        int[] salary = new int[names.length];
+        informationAboutSalary.append("Report for period ")
+                            .append(dateFrom)
+                            .append(" - ")
+                            .append(dateTo)
+                            .append("\n");
         for (int i = 0; i < names.length; i++) {
+            int salary = 0;
             for (int j = 0; j < data.length; j++) {
                 String[] delimiterData = data[j].split(" ");
                 LocalDate workDate = LocalDate.parse(delimiterData[0], DATE);
                 if (delimiterData[1].equals(names[i])
                         && (workDate.isBefore(localDateTo) || workDate.isEqual(localDateTo))
                         && (workDate.isAfter(localDateFrom) || workDate.isEqual(localDateFrom))) {
-                    salary[i] += (Integer.valueOf(delimiterData[2])
-                                  * Integer.valueOf(delimiterData[3]));
+                    salary += (Integer.valueOf(delimiterData[2])
+                            * Integer.valueOf(delimiterData[3]));
                 }
             }
-            informationAboutSalary.append(names[i] + " - " + salary[i] + "\n");
+            informationAboutSalary.append(names[i])
+                                  .append(" - ")
+                                  .append(salary)
+                                  .append("\n");
         }
-
         return informationAboutSalary.toString().trim();
-
     }
 }
