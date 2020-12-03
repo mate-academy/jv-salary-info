@@ -8,6 +8,10 @@ public class Employee {
     private WorkingDay workingDay;
     private ArrayList<WorkingDay> data;
 
+    public Employee(String name) {
+        this.name = name;
+    }
+
     public Employee(String name, WorkingDay workingDay) {
         this.name = name;
         this.workingDay = workingDay;
