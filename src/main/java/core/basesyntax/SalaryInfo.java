@@ -22,7 +22,6 @@ public class SalaryInfo {
     }
 
     private boolean checkDate(String dateFrom, String dateTo, String date) {
-
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         LocalDate startDate = LocalDate.parse(dateFrom, dtf);
         LocalDate finalDate = LocalDate.parse(dateTo, dtf);
