@@ -8,6 +8,13 @@ public class WorkingDay {
     private int hoursWorked;
     private int hourIncome;
 
+    public WorkingDay() {
+    }
+
+    public WorkingDay(LocalDate workingDate) {
+        this.workingDate = workingDate;
+    }
+
     public WorkingDay(LocalDate workingDate, int hoursWorked, int hourIncome) {
         this.workingDate = workingDate;
         this.hoursWorked = hoursWorked;
