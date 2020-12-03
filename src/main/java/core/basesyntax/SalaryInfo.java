@@ -2,8 +2,6 @@ package core.basesyntax;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class SalaryInfo {
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter
@@ -20,34 +18,19 @@ public class SalaryInfo {
             int salary = 0;
 
             for (int j = 0; j < data.length; j++) {
-                StringBuilder stringBuilderName = getName(data[j]);
-                LocalDate localDate = LocalDate.parse(data[j].substring(0, 10), DATE_FORMATTER);
+                String[] splitData = data[j].split(" ");
+                LocalDate localDate = LocalDate.parse(splitData[0], DATE_FORMATTER);
 
-                if (stringBuilderName.toString().equals(names[i])
+                if (splitData[1].equals(names[i])
                         && (localDate.isAfter(localDateFrom) || localDate.isEqual(localDateFrom))
                         && (localDate.isBefore(localDateTo) || localDate.isEqual(localDateTo))
                         && !localDateFrom.isEqual(localDateTo)) {
-                    String[] salaryPerHour = data[j].substring(12
-                            + stringBuilderName.length()).split(" ");
-                    salary += Integer.parseInt(salaryPerHour[0])
-                            * Integer.parseInt(salaryPerHour[1]);
+                    salary += Integer.parseInt(splitData[2]) * Integer.parseInt(splitData[3]);
                 }
             }
             reportAboutSalary.append("\n").append(names[i]).append(" - ").append(salary);
         }
 
         return reportAboutSalary.toString();
-    }
-
-    private StringBuilder getName(String name) {
-        Pattern pattern = Pattern.compile("[A-Za-z]*");
-        Matcher matcher = pattern.matcher(name);
-        StringBuilder resultOfName = new StringBuilder();
-
-        while (matcher.find()) {
-            resultOfName.append(matcher.group());
-        }
-
-        return resultOfName;
     }
 }
