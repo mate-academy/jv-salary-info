@@ -16,16 +16,17 @@ public class SalaryInfo {
             int salary = 0;
             
             for (String lineOfData : data) {
-                LocalDate dateFromData = LocalDate.parse(lineOfData.split(" ")[0], formatter);
-                String nameFromData = lineOfData.split(" ")[1];
+                String[] info = lineOfData.split(" ");
+                LocalDate dateFromData = LocalDate.parse(info[0], formatter);
+                String nameFromData = info[1];
                 
                 if (nameFromData.equals(name)
                         && (dateFromData.isAfter(localDateFrom)
                         || dateFromData.isEqual(localDateFrom))
                         && (dateFromData.isBefore(localDateTo)
                         || dateFromData.isEqual(localDateTo))) {
-                    salary += Integer.parseInt(lineOfData.split(" ")[2])
-                            * Integer.parseInt(lineOfData.split(" ")[3]);
+                    salary += Integer.parseInt(info[2])
+                            * Integer.parseInt(info[3]);
                 }
             }
             report.append("\n").append(name).append(" - ").append(salary);
