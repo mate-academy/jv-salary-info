@@ -5,10 +5,6 @@ import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
 
-    public static void main(String[] args) {
-
-    }
-
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         DateTimeFormatter formatDate = DateTimeFormatter.ofPattern("d.MM.yyyy");
         StringBuilder returnValue = new StringBuilder("Report for period "
