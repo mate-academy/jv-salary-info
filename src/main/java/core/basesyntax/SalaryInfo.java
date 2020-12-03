@@ -16,12 +16,11 @@ public class SalaryInfo {
         report.append(dateFrom).append(" - ").append(dateTo).append("\n");
         List<String> processedNames = new ArrayList<>();
         Arrays.stream(data)
-                .filter(dataRow -> Arrays.asList(names).contains(dataRow.split(" ")[1]))
                 .forEach(dataRow -> {
                     String rowName = dataRow.split(" ")[1];
-                    if (!processedNames.contains(rowName)) {
-                        report.append(rowName)
-                                .append(" - ")
+                    if (Arrays.asList(names).contains(rowName)
+                            && !processedNames.contains(rowName)) {
+                        report.append(rowName).append(" - ")
                                 .append(getIndividualSalary(data, dateFrom, dateTo, rowName))
                                 .append("\n");
                         processedNames.add(rowName);
