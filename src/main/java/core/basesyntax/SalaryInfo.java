@@ -10,7 +10,10 @@ public class SalaryInfo {
         LocalDate begin = LocalDate.parse(dateFrom, DATE_FORMAT);
         LocalDate end = LocalDate.parse(dateTo, DATE_FORMAT);
         StringBuilder salaryInformation = new StringBuilder();
-        salaryInformation.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
+        salaryInformation.append("Report for period ")
+                .append(dateFrom)
+                .append(" - ")
+                .append(dateTo);
 
         for (String name : names) {
             int salary = 0;
