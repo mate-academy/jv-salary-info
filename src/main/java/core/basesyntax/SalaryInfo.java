@@ -9,7 +9,6 @@ public class SalaryInfo {
             DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-
         LocalDate calendarFrom = convertDataToLocalDate(dateFrom, DATE_TIME_FORMATTER);
         LocalDate calendarTo = convertDataToLocalDate(dateTo, DATE_TIME_FORMATTER);
         StringBuilder employeeSalary = new StringBuilder();
@@ -26,10 +25,8 @@ public class SalaryInfo {
                             || currentDate.isEqual(calendarFrom))
                             && (currentDate.isBefore(calendarTo)
                             || currentDate.isEqual(calendarTo))) {
-
                         salary += Integer.valueOf(splitedData[2])
                                 * Integer.valueOf(splitedData[3]);
-
                     }
                 }
             }
@@ -39,8 +36,7 @@ public class SalaryInfo {
     }
 
     private LocalDate convertDataToLocalDate(String date, DateTimeFormatter dateTimeFormatter) {
-        LocalDate localDate = LocalDate.parse(date, dateTimeFormatter);
-        return localDate;
+        return LocalDate.parse(date, dateTimeFormatter);
     }
 }
 
