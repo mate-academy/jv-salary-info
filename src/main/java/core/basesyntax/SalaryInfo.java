@@ -36,3 +36,4 @@ public class SalaryInfo {
                 || toDate(checkDate).isEqual(toDate(dateTo));
     }
 }
+
