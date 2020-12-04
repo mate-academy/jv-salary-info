@@ -4,10 +4,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    static final DateTimeFormatter DATA_TIME_FORMATTER =
+    private static final DateTimeFormatter DATA_TIME_FORMATTER =
             DateTimeFormatter.ofPattern("dd.MM.yyyy");
-
-    private LocalDate localDate;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder salaryInfo = new StringBuilder();
@@ -16,7 +14,7 @@ public class SalaryInfo {
             int sum = 0;
             for (String rowData : data) {
                 String[] strings = rowData.split(" ");
-                localDate = LocalDate.parse(strings[0], DATA_TIME_FORMATTER);
+                LocalDate localDate = LocalDate.parse(strings[0], DATA_TIME_FORMATTER);
                 if (isCalculate(localDate, dateFrom, dateTo) && names[i].equals(strings[1])) {
                     sum += Integer.parseInt(strings[2]) * Integer.parseInt(strings[3]);
                 }
