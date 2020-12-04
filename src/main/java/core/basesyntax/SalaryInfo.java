@@ -1,5 +1,6 @@
 package core.basesyntax;
 
+import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -16,13 +17,14 @@ public class SalaryInfo {
         for (String name: names) {
             int salary = 0;
             for (String piece: data) {
-                String[] info = piece.split(" ", 0);
-                if (LocalDate.parse(info[0], DATE_FORMAT)
+                if (LocalDate.parse(Array.get(piece.split(" ", 0), 0).toString(), DATE_FORMAT)
                         .compareTo(LocalDate.parse(dateFrom, DATE_FORMAT)) >= 0 
-                        && LocalDate.parse(info[0], DATE_FORMAT)
+                        && LocalDate.parse(Array.get(piece.split(" ", 0), 0).toString(), DATE_FORMAT)
                             .compareTo(LocalDate.parse(dateTo, DATE_FORMAT)) <= 0 
-                        && info[1].equals(name)) {
-                    salary += getSalary(Integer.parseInt(info[2]), Integer.parseInt(info[3]));
+                        && Array.get(piece.split(" ", 0), 1).toString().equals(name)) {
+                    salary += getSalary(
+                            Integer.parseInt(Array.get(piece.split(" ", 0), 2).toString()),
+                            Integer.parseInt(Array.get(piece.split(" ", 0), 3).toString()));
                 }
             }
             builder.append(name).append(" - ")
