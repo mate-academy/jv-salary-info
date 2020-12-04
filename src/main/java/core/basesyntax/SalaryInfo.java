@@ -13,7 +13,6 @@ public class SalaryInfo {
         StringBuilder salaryInfo = new StringBuilder();
         salaryInfo.append("Report for period " + dateFrom + " - " + dateTo);
         for (int i = 0; i < names.length; i++) {
-            salaryInfo.append("\n").append(names[i]).append(" - ");
             int sum = 0;
             for (String rowData : data) {
                 String[] strings = rowData.split(" ");
@@ -22,7 +21,7 @@ public class SalaryInfo {
                     sum += Integer.parseInt(strings[2]) * Integer.parseInt(strings[3]);
                 }
             }
-            salaryInfo.append(sum);
+            salaryInfo.append("\n").append(names[i]).append(" - ").append(sum);
         }
         return salaryInfo.toString();
     }
