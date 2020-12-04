@@ -10,11 +10,8 @@ public class SalaryInfo {
         LocalDate localDateFrom = LocalDate.parse(dateFrom, DATE);
         LocalDate localDateTo = LocalDate.parse(dateTo, DATE);
         StringBuilder informationAboutSalary = new StringBuilder();
-        informationAboutSalary.append("Report for period ")
-                            .append(dateFrom)
-                            .append(" - ")
-                            .append(dateTo)
-                            .append("\n");
+        informationAboutSalary.append("Report for period ").append(dateFrom)
+                              .append(" - ").append(dateTo);
         for (int i = 0; i < names.length; i++) {
             int salary = 0;
             for (int j = 0; j < data.length; j++) {
@@ -27,11 +24,8 @@ public class SalaryInfo {
                             * Integer.valueOf(delimiterData[3]));
                 }
             }
-            informationAboutSalary.append(names[i])
-                                  .append(" - ")
-                                  .append(salary)
-                                  .append("\n");
+            informationAboutSalary.append("\n").append(names[i]).append(" - ").append(salary);
         }
-        return informationAboutSalary.toString().trim();
+        return informationAboutSalary.toString();
     }
 }
