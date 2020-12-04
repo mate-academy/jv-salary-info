@@ -10,7 +10,7 @@ public class SalaryInfo {
         StringBuilder stringBuilder = new StringBuilder("Report for period ");
         stringBuilder.append(dateFrom).append(" - ").append(dateTo);
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
         LocalDate workDateFrom = LocalDate.parse(dateFrom,formatter);
         LocalDate workDateTo = LocalDate.parse(dateTo,formatter);
@@ -28,13 +28,9 @@ public class SalaryInfo {
                                 * Integer.valueOf(personalData[3]);
                     }
                 }
-
             }
             stringBuilder.append("\n").append(names[i]).append(" - ").append(salary);
-
         }
-
         return stringBuilder.toString();
     }
 }
-
