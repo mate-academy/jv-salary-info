@@ -5,7 +5,7 @@ import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
 
-    public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         int salary;
@@ -18,7 +18,7 @@ public class SalaryInfo {
         for (int i = 0; i < names.length; i++) {
             salary = 0;
             for (int k = 0; k < data.length; k++) {
-                String[] date = data[k].split(" "); // parse string to part "25.04.2019 John 60 50"
+                String[] date = data[k].split(" ");
                 LocalDate current = LocalDate.parse(date[0], FORMATTER);
 
                 if (names[i].equals(date[1]) && (from.isBefore(current)
