@@ -5,35 +5,31 @@ import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     private LocalDate localDate;
-    private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final DateTimeFormatter DATA_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder salaryInfo = new StringBuilder();
+        salaryInfo.append("Report for period " + dateFrom + " - " + dateTo);
         for (int i = 0; i < names.length; i++) {
+            salaryInfo.append("\n");
             salaryInfo.append(names[i]).append(" - ");
             int sum = 0;
-            for (String dates : data) {
-                localDate = LocalDate.parse(dates.substring(0, 10), dateTimeFormatter);
-                if (isCalculate(localDate, dateFrom, dateTo)) {
-                    String[] strings = dates.split(" ");
-                    if (names[i].equals(strings[1])) {
-                        sum += Integer.parseInt(strings[2]) * Integer.parseInt(strings[3]);
-                    }
-                }
+            for (String rowData : data) {
+                String[] strings = rowData.split(" ");
+                localDate = LocalDate.parse(strings[0], DATA_TIME_FORMATTER);
+                if (isCalculate(localDate, dateFrom, dateTo) && names[i].equals(strings[1])) {
+                       sum += Integer.parseInt(strings[2]) * Integer.parseInt(strings[3]);
+              }
             }
-            if (i == names.length - 1) {
-                salaryInfo.append(sum);
-                continue;
-            }
-            salaryInfo.append(sum).append("\n");
+            salaryInfo.append(sum);
         }
-        return "Report for period " + dateFrom + " - " + dateTo + "\n" + salaryInfo;
+        return salaryInfo.toString();
     }
 
     private boolean isCalculate(LocalDate localDate, String dateFrom, String dateTo) {
-        return (localDate.isEqual(LocalDate.parse(dateFrom, dateTimeFormatter))
-                || localDate.isEqual(LocalDate.parse(dateTo, dateTimeFormatter))
-                || localDate.isAfter(LocalDate.parse(dateFrom, dateTimeFormatter))
-                && localDate.isBefore(LocalDate.parse(dateTo, dateTimeFormatter)));
+        return (localDate.isEqual(LocalDate.parse(dateFrom, DATA_TIME_FORMATTER))
+                || localDate.isEqual(LocalDate.parse(dateTo, DATA_TIME_FORMATTER))
+                || localDate.isAfter(LocalDate.parse(dateFrom, DATA_TIME_FORMATTER))
+                && localDate.isBefore(LocalDate.parse(dateTo, DATA_TIME_FORMATTER)));
     }
 }
