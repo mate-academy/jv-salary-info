@@ -15,13 +15,10 @@ public class SalaryInfo {
             int wage = 0;
             for (String dataInformation : data) {
                 String[] information = dataInformation.split(" ");
-                if (name.equals(information[1])) {
-                    LocalDate date = LocalDate.parse(information[0], DATE_FORMAT);
-                    if ((date.isAfter(start) && date.isBefore(end))
-                            || date.isEqual(end) || date.isEqual(start)) {
-                        wage += Integer.parseInt(information[2])
-                                * Integer.parseInt(information[3]);
-                    }
+                LocalDate date = LocalDate.parse(information[0], DATE_FORMAT);
+                if (name.equals(information[1]) && ((date.isAfter(start) && date.isBefore(end))
+                        || date.isEqual(end) || date.isEqual(start))) {
+                    wage += Integer.parseInt(information[2]) * Integer.parseInt(information[3]);
                 }
             }
             wageInformation.append("\n").append(name).append(" - ").append(wage);
