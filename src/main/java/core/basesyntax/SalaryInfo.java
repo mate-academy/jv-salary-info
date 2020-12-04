@@ -1,8 +1,8 @@
 package core.basesyntax;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import static java.lang.Integer.parseInt;
+
+import java.time.LocalDate;
 
 public class SalaryInfo {
 
@@ -14,9 +14,9 @@ public class SalaryInfo {
             for (int j = 0; j < data.length; j++) {
                 String [] oneEntry = data[j].split(" ");
                 if (names[i].equals(oneEntry[1]) && (parseDate(oneEntry[0])
-                        .compareTo(parseDate(dateFrom))) > 0 && (parseDate(oneEntry[0])
-                        .compareTo(parseDate(dateTo))) <= 0) {
-                    totalSalary += Integer.parseInt(oneEntry[2]) * Integer.parseInt(oneEntry[3]);
+                        .compareTo(parseDate(dateTo))) <= 0 && (parseDate(oneEntry[0])
+                        .compareTo(parseDate(dateFrom))) > 0) {
+                    totalSalary += parseInt(oneEntry[2]) * parseInt(oneEntry[3]);
                 }
             }
             report += totalSalary;
@@ -24,14 +24,10 @@ public class SalaryInfo {
         return report;
     }
 
-    public Date parseDate(String dateInString) {
-        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
-        Date result = null;
-        try {
-            result = format.parse(dateInString);
-        } catch (ParseException e) {
-            System.out.println(("Wrong parsing from String to Date") + e);
-        }
-        return result;
+    public LocalDate parseDate(String dateInString) {
+        String [] splittedDate = dateInString.split("\\.");
+        LocalDate date = LocalDate.of(parseInt(splittedDate[2]),
+                parseInt(splittedDate[1]),parseInt(splittedDate[0]));
+        return date;
     }
 }
