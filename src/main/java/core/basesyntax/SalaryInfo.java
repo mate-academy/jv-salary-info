@@ -1,6 +1,5 @@
 package core.basesyntax;
 
-import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -9,23 +8,18 @@ public class SalaryInfo {
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder builder = new StringBuilder();
-        builder.append("Report for period ")
-                .append(dateFrom)
-                .append(" - ")
-                .append(dateTo)
-                .append("\n");
+        builder.append("Report for period ").append(dateFrom)
+                .append(" - ").append(dateTo).append("\n");
         for (String name: names) {
             int salary = 0;
-            for (String piece: data) {
-                if (LocalDate.parse(Array.get(piece.split(" ", 0), 0).toString(), DATE_FORMAT)
+            for (String row: data) {
+                String[] info = row.split(" ", 0);
+                if (LocalDate.parse(info[0], DATE_FORMAT)
                         .compareTo(LocalDate.parse(dateFrom, DATE_FORMAT)) >= 0 
-                        && LocalDate.parse(Array.get(piece.split(" ", 0), 0)
-                                .toString(), DATE_FORMAT)
+                        && LocalDate.parse(info[0], DATE_FORMAT)
                             .compareTo(LocalDate.parse(dateTo, DATE_FORMAT)) <= 0 
-                        && Array.get(piece.split(" ", 0), 1).toString().equals(name)) {
-                    salary += getSalary(
-                            Integer.parseInt(Array.get(piece.split(" ", 0), 2).toString()),
-                            Integer.parseInt(Array.get(piece.split(" ", 0), 3).toString()));
+                        && info[1].equals(name)) {
+                    salary += Integer.parseInt(info[2]) * Integer.parseInt(info[3]);
                 }
             }
             builder.append(name).append(" - ")
@@ -35,9 +29,5 @@ public class SalaryInfo {
             }
         }
         return builder.toString();
-    }
-
-    private static int getSalary(int workingHours, int fee) {
-        return workingHours * fee;
     }
 }
