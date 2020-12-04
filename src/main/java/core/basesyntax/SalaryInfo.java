@@ -5,16 +5,17 @@ import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
 
+    static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
     String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        LocalDate beginFrom = LocalDate.parse(dateFrom, formatter);
-        LocalDate endTo = LocalDate.parse(dateTo, formatter);
+        LocalDate beginFrom = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate endTo = LocalDate.parse(dateTo, FORMATTER);
         StringBuilder builder = new StringBuilder("Report for period " + dateFrom + " - " + dateTo);
 
         for (String name : names) {
             int counter = 0;
             for (String matcher : data) {
-                LocalDate date = LocalDate.parse(matcher.split(" ")[0], formatter);
+                LocalDate date = LocalDate.parse(matcher.split(" ")[0], FORMATTER);
                 if (name.equals(matcher.split(" ")[1])
                         && (date.isAfter(beginFrom) && date.isBefore(endTo)
                         || date.isEqual(beginFrom) || date.isEqual(endTo))) {
