@@ -19,7 +19,8 @@ public class SalaryInfo {
             for (String piece: data) {
                 if (LocalDate.parse(Array.get(piece.split(" ", 0), 0).toString(), DATE_FORMAT)
                         .compareTo(LocalDate.parse(dateFrom, DATE_FORMAT)) >= 0 
-                        && LocalDate.parse(Array.get(piece.split(" ", 0), 0).toString(), DATE_FORMAT)
+                        && LocalDate.parse(Array.get(piece.split(" ", 0), 0)
+                                .toString(), DATE_FORMAT)
                             .compareTo(LocalDate.parse(dateTo, DATE_FORMAT)) <= 0 
                         && Array.get(piece.split(" ", 0), 1).toString().equals(name)) {
                     salary += getSalary(
