@@ -1,7 +1,5 @@
 package core.basesyntax;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 
 public class SalaryInfo {
@@ -15,7 +13,8 @@ public class SalaryInfo {
 
         for (Employee employee : employees) {
             result.append("\n").append(employee.getName()).append(" - ")
-                    .append(employee.getSalary(Company.parseDate(dateFrom), Company.parseDate(dateTo)));
+                    .append(employee.getSalary(Company.parseDate(dateFrom),
+                            Company.parseDate(dateTo)));
         }
 
         return result.toString();
