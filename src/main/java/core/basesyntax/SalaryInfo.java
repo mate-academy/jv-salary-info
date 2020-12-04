@@ -4,14 +4,15 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final DateTimeFormatter DATE_TIME_FORMATTER
+            = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate dayFrom = LocalDate.parse(dateFrom, DATE_TIME_FORMATTER);
         LocalDate dayTo = LocalDate.parse(dateTo, DATE_TIME_FORMATTER);
         StringBuilder builderSalary = new StringBuilder();
         builderSalary.append("Report for period ").append(dateFrom).append(" - ")
-                .append(dateTo).append("\n");
+                .append(dateTo);
 
         for (String name : names) {
             int employeeSalary = 0;
@@ -25,8 +26,8 @@ public class SalaryInfo {
                             * Integer.parseInt(employeesData[3]);
                 }
             }
-            builderSalary.append(name).append(" - ").append(employeeSalary).append("\n");
+            builderSalary.append("\n").append(name).append(" - ").append(employeeSalary);
         }
-        return builderSalary.substring(0, builderSalary.toString().length() - 1);
+        return builderSalary.toString();
     }
 }
