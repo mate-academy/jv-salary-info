@@ -16,14 +16,13 @@ public class SalaryInfo {
         for (String name : names) {
             int personalSalary = 0;
             for (String employeeData : data) {
-                LocalDate employeeWorkDate = LocalDate
-                        .parse(employeeData.substring(0, 10), DATE_FORMAT);
+                String[] splitedData = employeeData.split(" ");
+                LocalDate employeeWorkDate = LocalDate.parse(splitedData[0], DATE_FORMAT);
                 if (!employeeWorkDate.isBefore(formattedDateFrom)
                         && !employeeWorkDate.isAfter(formattedDateTo)) {
-                    String[] employeeNameSalary = employeeData.substring(11).split(" ");
-                    if (employeeNameSalary[0].equals(name)) {
-                        personalSalary += Integer.parseInt(employeeNameSalary[1])
-                                * Integer.parseInt(employeeNameSalary[2]);
+                    if (splitedData[1].equals(name)) {
+                        personalSalary += Integer.parseInt(splitedData[2])
+                                * Integer.parseInt(splitedData[3]);
                     }
                 }
             }
