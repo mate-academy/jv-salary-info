@@ -1,10 +1,10 @@
 package core.basesyntax;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
+    private final DateTimeFormatter tdf = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder stringBuilder = new StringBuilder();
@@ -16,33 +16,20 @@ public class SalaryInfo {
         stringBuilder.append("\n");
 
         int salary = 0;
-        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
-        Date firstDate = null;
-        Date secondDate = null;
-        try {
-            firstDate = sdf.parse(dateFrom);
-            secondDate = sdf.parse(dateTo);
-        } catch (ParseException e) {
-            System.out.println("Date parsing error");
-        }
-
+        LocalDate firstDate = LocalDate.parse(dateFrom, tdf);
+        LocalDate secondDate = LocalDate.parse(dateTo, tdf);
         String[] splitData;
 
         for (String name: names) {
             for (int i = 0; i < data.length; i++) {
-                try {
-                    splitData = data[i].split(" ");
-                    if (splitData[1].equals(name)
-                            && (firstDate.before(sdf.parse(splitData[0]))
-                            || firstDate.equals(sdf.parse(splitData[0])))
-                            && (secondDate.after(sdf.parse(splitData[0]))
-                            || secondDate.equals(sdf.parse(splitData[0])))) {
-                        salary += Integer.parseInt(splitData[2]) * Integer.parseInt(splitData[3]);
-                    }
-                } catch (ParseException e) {
-                    System.out.println("Date parsing error");
+                splitData = data[i].split(" ");
+                if (splitData[1].equals(name)
+                        && (firstDate.isBefore(LocalDate.parse(splitData[0], tdf))
+                        || firstDate.equals(LocalDate.parse(splitData[0], tdf)))
+                        && (secondDate.isAfter(LocalDate.parse(splitData[0], tdf))
+                        || secondDate.equals(LocalDate.parse(splitData[0], tdf)))) {
+                    salary += Integer.parseInt(splitData[2]) * Integer.parseInt(splitData[3]);
                 }
-
             }
             stringBuilder.append(name);
             stringBuilder.append(" - ");
