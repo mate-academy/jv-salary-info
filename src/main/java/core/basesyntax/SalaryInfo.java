@@ -12,19 +12,17 @@ public class SalaryInfo {
         LocalDate periodStart = LocalDate.parse(dateFrom, DATE_TIME_FORMATTER);
         LocalDate periodEnd = LocalDate.parse(dateTo, DATE_TIME_FORMATTER);
 
-        StringBuilder str = new StringBuilder("Report for period ")
-                .append(dateFrom)
-                .append(" - ")
-                .append(dateTo);
+        StringBuilder report = new StringBuilder("Report for period ")
+                .append(dateFrom).append(" - ").append(dateTo);
 
         for (String namePerson : names) {
             int income = 0;
-            for (String s : data) {
-                String[] split = s.split(" ");
-                LocalDate workingDate = LocalDate.parse(split[0], DATE_TIME_FORMATTER);
-                String reportName = split[1];
-                int hoursWorked = Integer.parseInt(split[2]);
-                int hourlyRate = Integer.parseInt(split[3]);
+            for (String rowData : data) {
+                String[] splitData = rowData.split(" ");
+                LocalDate workingDate = LocalDate.parse(splitData[0], DATE_TIME_FORMATTER);
+                String reportName = splitData[1];
+                int hoursWorked = Integer.parseInt(splitData[2]);
+                int hourlyRate = Integer.parseInt(splitData[3]);
 
                 if (reportName.equals(namePerson)
                         && (workingDate.isAfter(periodStart)
@@ -34,8 +32,8 @@ public class SalaryInfo {
                     income += hoursWorked * hourlyRate;
                 }
             }
-            str.append("\n").append(namePerson).append(" - ").append(income);
+            report.append("\n").append(namePerson).append(" - ").append(income);
         }
-        return str.toString();
+        return report.toString();
     }
 }
