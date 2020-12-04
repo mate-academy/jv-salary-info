@@ -8,7 +8,7 @@ public class SalaryInfo {
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder result = new StringBuilder();
-        String [] getSalary = getSalaryForEach(data,dateFrom,dateTo);
+        int[] getSalary = getSalaryForEach(names, data, dateFrom, dateTo);
         result.append("Report for period ").append(dateFrom).append(" - ")
                 .append(dateTo).append("\n");
         int counter = 0;
@@ -20,34 +20,26 @@ public class SalaryInfo {
         return result.toString().trim();
     }
 
-    public String[] getSalaryForEach(String[] data, String dateFrom, String dateTo) {
-        int salaryAndrew = 0;
-        int salaryJohn = 0;
-        int salaryKate = 0;
+    public int[] getSalaryForEach(String[] names, String[] data, String dateFrom, String dateTo) {
+        int[] totalySalaryEmployee = new int[names.length];
         LocalDate dateStart = LocalDate.parse(dateFrom, FORMATTER);
         LocalDate dateFinish = LocalDate.parse(dateTo, FORMATTER);
-        for (String info : data) {
-            String[] splitInformation = info.split(" ");
-            int salaryPerHour = Integer.parseInt(splitInformation[2]);
-            int workedTime = Integer.parseInt(splitInformation[3]);
-            int salaryForDay = salaryPerHour * workedTime;
-            LocalDate currentDay = LocalDate.parse(splitInformation[0], FORMATTER);
-            if (splitInformation[1].equals("Andrew")
-                    && currentDay.isAfter(dateStart.minusDays(1))
-                    && currentDay.isBefore(dateFinish.plusDays(1))) {
-                salaryAndrew += salaryForDay;
-            } else if (splitInformation[1].equals("John")
-                    && currentDay.isAfter(dateStart.minusDays(1))
-                    && currentDay.isBefore(dateFinish.plusDays(1))) {
-                salaryJohn += salaryForDay;
-            } else if (splitInformation[1].equals("Kate")
-                    && currentDay.isAfter(dateStart.minusDays(1))
-                    && currentDay.isBefore(dateFinish.plusDays(1))) {
-                salaryKate += salaryForDay;
+        for (int i = 0; i < names.length; i++) {
+            for (String info : data) {
+                String[] splitInformation = info.split(" ");
+                String nameEmployee = splitInformation[1];
+                int workedTime = Integer.parseInt(splitInformation[2]);
+                int salaryPerHour = Integer.parseInt(splitInformation[3]);
+                int salaryForDay = salaryPerHour * workedTime;
+                LocalDate currentDay = LocalDate.parse(splitInformation[0], FORMATTER);
+                if (nameEmployee.equals(names[i])
+                        && currentDay.isAfter(dateStart.minusDays(1))
+                        && currentDay.isBefore(dateFinish.plusDays(1))) {
+                    totalySalaryEmployee[i] += salaryForDay;
+                }
             }
+
         }
-        return new String[]{String.valueOf(salaryJohn),
-                String.valueOf(salaryAndrew),
-                String.valueOf(salaryKate)};
+        return totalySalaryEmployee;
     }
 }
