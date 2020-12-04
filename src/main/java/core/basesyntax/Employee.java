@@ -46,7 +46,8 @@ public class Employee {
         ArrayList<WorkingDay> filtered = new ArrayList<>();
         for (WorkingDay day : getData()) {
             if (day.getWorkingDate().isAfter(dateFrom) && day.getWorkingDate().isBefore(dateTo)
-                    || day.getWorkingDate().isEqual(dateFrom) || day.getWorkingDate().isEqual(dateTo)) {
+                    || day.getWorkingDate().isEqual(dateFrom)
+                    || day.getWorkingDate().isEqual(dateTo)) {
                 filtered.add(day);
             }
         }
