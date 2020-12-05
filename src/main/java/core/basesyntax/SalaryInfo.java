@@ -18,12 +18,12 @@ public class SalaryInfo {
             for (int j = 0; j < data.length; j++) {
                 String[] str = data[j].split(" "); //0 - date, 1 - name, 2*3 - salary
                 if (names[i].equals(str[1])) {
-                    LocalDate mDate = LocalDate.parse(str[0], formatter);
-                    LocalDate mDateFrom = LocalDate.parse(dateFrom, formatter);
-                    LocalDate mDateTo = LocalDate.parse(dateTo, formatter);
+                    LocalDate myDate = LocalDate.parse(str[0], formatter);
+                    LocalDate myDateFrom = LocalDate.parse(dateFrom, formatter);
+                    LocalDate myDateTo = LocalDate.parse(dateTo, formatter);
 
-                    if (mDate.isAfter(mDateFrom) && mDate.isBefore(mDateTo)
-                            || mDate.isEqual(mDateFrom) || mDate.isEqual(mDateTo)) {
+                    if (myDate.isAfter(myDateFrom) && myDate.isBefore(myDateTo)
+                            || myDate.isEqual(myDateFrom) || myDate.isEqual(myDateTo)) {
                         salary += Integer.valueOf(str[2]) * Integer.valueOf(str[3]);
                     }
                 }
