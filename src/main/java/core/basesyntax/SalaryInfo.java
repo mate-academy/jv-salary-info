@@ -5,12 +5,12 @@ import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
 
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
 
         StringBuilder stringBuilder = new StringBuilder("Report for period ");
         stringBuilder.append(dateFrom).append(" - ").append(dateTo);
-
-        final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
         LocalDate workDateFrom = LocalDate.parse(dateFrom,formatter);
         LocalDate workDateTo = LocalDate.parse(dateTo,formatter);
