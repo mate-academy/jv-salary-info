@@ -3,8 +3,10 @@ package core.basesyntax;
 import static java.lang.Integer.parseInt;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder report = new StringBuilder("Report for period " + dateFrom + " - " + dateTo);
@@ -13,21 +15,15 @@ public class SalaryInfo {
             int totalSalary = 0;
             for (int j = 0; j < data.length; j++) {
                 String [] oneEntry = data[j].split(" ");
-                if (names[i].equals(oneEntry[1]) && (parseDate(oneEntry[0])
-                        .compareTo(parseDate(dateTo))) <= 0 && (parseDate(oneEntry[0])
-                        .compareTo(parseDate(dateFrom))) > 0) {
+                if (names[i].equals(oneEntry[1]) && (LocalDate.parse(oneEntry[0],FORMATTER)
+                        .compareTo(LocalDate.parse(dateTo,FORMATTER))) <= 0
+                        && (LocalDate.parse(oneEntry[0],FORMATTER)
+                        .compareTo(LocalDate.parse(dateFrom,FORMATTER))) > 0) {
                     totalSalary += parseInt(oneEntry[2]) * parseInt(oneEntry[3]);
                 }
             }
             report.append(totalSalary);
         }
         return report.toString();
-    }
-
-    public LocalDate parseDate(String dateInString) {
-        String [] splittedDate = dateInString.split("\\.");
-        LocalDate date = LocalDate.of(parseInt(splittedDate[2]),
-                parseInt(splittedDate[1]),parseInt(splittedDate[0]));
-        return date;
     }
 }
