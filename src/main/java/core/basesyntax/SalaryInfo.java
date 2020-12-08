@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 public class SalaryInfo {
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter
             .ofPattern("dd.MM.yyyy");
+    private static final String LINE_SEPARATOR = "\n";
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate localDateFrom = LocalDate.parse(dateFrom, DATE_FORMATTER);
@@ -23,12 +24,11 @@ public class SalaryInfo {
                         && splitedData[1].equals(name)
                         && (localDate.isAfter(localDateFrom)
                         || localDate.isEqual(localDateFrom))
-                        && (localDate.isBefore(localDateTo) || localDate.isEqual(localDateTo))
-                         ) {
+                        && (localDate.isBefore(localDateTo) || localDate.isEqual(localDateTo))) {
                     salary += Integer.parseInt(splitedData[2]) * Integer.parseInt(splitedData[3]);
                 }
             }
-            report.append(System.lineSeparator()).append(name).append(" - ").append(salary);
+            report.append(LINE_SEPARATOR).append(name).append(" - ").append(salary);
         }
         return report.toString();
     }
