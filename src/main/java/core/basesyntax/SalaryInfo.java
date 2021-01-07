@@ -55,6 +55,7 @@ public class SalaryInfo {
         String result = "";
         for (String name : names) {
             int salary = 0;
+
             for (String d : data) {
                 String[] dd = d.split(" ");
                 if (dd[1].equals(name) && simpleDateFormat.parse(dd[0]).getTime() >= from
