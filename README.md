@@ -1,59 +1,46 @@
 # jv-salary-info
 
-Реализуйте метод `getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)` вычисляющий зарплату сотрудников. На вход методу подаётся 2 массива и 2 даты, определяющие период за который надо вычислить зарплату, первый массив содержит имена сотрудников организации, второй массив информацию о рабочих часах и ставке. Формат данных второго массива следующий: дата, имя сотрудника, количество отработанных часов, ставка за 1 час. Создать класс-ошибку IllegalDateParametersException и сделать так, чтобы метод getSalaryInfo выбрасывал IllegalDateParametersException, если dateFrom > dateTo, с сообщнием "Wrong parameters". Метод должен вернуть отчёт за период, который передали в метод (обе даты включительно) составленный по следующей форме: 
-   Отчёт за период #дата_1# - #дата_2#
-   Имя сотрудника - сумма заработанных средств за этот период
-
-   Пример ввода:
+Implement method `getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)`. It should calculate 
+salary for employees. As input you receive two arrays and two dates in String format. 
+ - Date represents limits that you should meet while calculation salary for employees (inclusively).
+ - First array (`names`) contains names ofr employees you should calculate salary for.
+ - Second array (`data`) contains info about their working hour during particular day and income per hour. 
+Method should return info in the following format:
+```
+   Report for period #date_1# - #date_2#
+   #Name of employee# - #money earned#
+```
+Here is sample of input data.
+Dates format:
+```
    date from = `01.04.2019 `
    date to = `30.04.2019` 
+``` 
 
-   names:
+names:
+```
+   John
+   Andrew
+   Kate
+```
 
-   ```Java
-   Сергей
-   Андрей
-   София
-   ```
+data:
+```
+  26.04.2019 John 4 50
+  05.04.2019 Andrew 3 200
+  10.04.2019 John 7 100
+  22.04.2019 Kate 9 100
+  25.06.2019 John 11 50
+  26.04.2019 Andrew 3 150
+  13.02.2019 John 7 100
+  26.04.2019 Kate 9 100
+```
 
-   data:
-
-   ```java
-   26.04.2019 Сергей 60 50
-   
-   26.04.2019 Андрей 3 200
-   
-   26.04.2019 Сергей 7 100
-   
-   26.04.2019 София 9 100
-   
-   26.04.2019 Сергей 11 50
-   ```
-
-   26.04.2019 Андрей 3 200
-
-   26.04.2019 Сергей 7 100
-
-   26.04.2019 София 9 100
-
-   26.04.2019 Сергей 11 50
-
-   Пример вывода:
-
-   ```java
-   Отчёт за период 01.04.2019  - 30.04.2019
-   
-   Сергей - 1550
-   Андрей - 600
-   София - 900
-   ```
-
-   
-
-   Сергей - 1550
-   
-   Андрей - 600
-   
-   София - 900
-
-   
+Method execution result:
+```
+   Repost for period 01.04.2019  - 30.04.2019  
+   John - 900
+   Andrew - 1050
+   Kate - 1800
+```
+### [Try to avoid these common mistakes while solving task](https://mate-academy.github.io/jv-program-common-mistakes/java-core/exceptions/salary-info)
