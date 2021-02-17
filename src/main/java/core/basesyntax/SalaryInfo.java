@@ -6,14 +6,11 @@ import java.time.format.DateTimeFormatter;
 public class SalaryInfo {
 
     public static final String DATE_PATTERN = "dd.MM.yyyy";
+    public static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_PATTERN);
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_PATTERN);
         LocalDate parseDateFrom = LocalDate.parse(dateFrom, formatter);
-        formatter.format(parseDateFrom);
         LocalDate parseDateTo = LocalDate.parse(dateTo, formatter);
-        formatter.format(parseDateTo);
         int[] salaryArray = new int[3];
         StringBuilder builder = new StringBuilder();
         for (String datum : data) {
