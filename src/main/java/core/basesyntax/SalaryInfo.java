@@ -35,10 +35,10 @@ public class SalaryInfo {
                 }
             }
         }
-        return (builder.append("Report for period ").append(dateFrom).append(" - ")
+        return builder.append("Report for period ").append(dateFrom).append(" - ")
                 .append(dateTo).append("\n").append(names[0]).append(" - ").append(salaryArray[0])
                 .append("\n").append(names[1]).append(" - ").append(salaryArray[1])
-                .append("\n").append(names[2]).append(" - ").append(salaryArray[2]).toString());
+                .append("\n").append(names[2]).append(" - ").append(salaryArray[2]).toString();
 
     }
 }
