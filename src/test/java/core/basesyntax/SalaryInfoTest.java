@@ -2,6 +2,7 @@ package core.basesyntax;
 
 import org.junit.Assert;
 import org.junit.Test;
+import core.basesyntax.model.*;
 
 public class SalaryInfoTest {
     private static final String[] sampleNames = {"John", "Andrew", "Kate"};
