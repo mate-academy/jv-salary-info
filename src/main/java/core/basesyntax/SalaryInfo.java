@@ -3,14 +3,13 @@ package core.basesyntax;
 import core.basesyntax.model.DateParser;
 import core.basesyntax.model.DateValidator;
 import core.basesyntax.model.exception.IncorrectDateFormat;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 public class SalaryInfo {
-    private final DateValidator VALIDATOR = new DateValidator();
-    private final DateParser PARSER = new DateParser();
+    private DateValidator validator = new DateValidator();
+    private DateParser parser = new DateParser();
 
     /**
      * Метод должен вернуть строку (информацию о зарплате сотрудника) в формате:
@@ -36,8 +35,10 @@ public class SalaryInfo {
                 for (String name : names) {
                     Calendar currentDate = createCalendarDate(dateFrom);
                     Calendar lastDate = createCalendarDate(dateTo);
-                    report.append(name).append(" - ")
-                            .append(getSalaryForEmployee(data, currentDate, lastDate, name)).append("\n");
+                    report.append(name)
+                            .append(" - ")
+                            .append(getSalaryForEmployee(data, currentDate, lastDate, name))
+                            .append("\n");
                 }
             }
         } catch (NullPointerException | IncorrectDateFormat ex) {
@@ -63,16 +64,19 @@ public class SalaryInfo {
      * В метод calculateSalary() передается уже разделенная строка.
      * Пример:
      * arg => [11.08.2019 Andrew 8 100]
-     * PARSER.parseEmployeeDate(arg, date) вернет [8 100].
+     * parser.parseEmployeeDate(arg, date) вернет [8 100].
      */
 
-    private int getSalaryForEmployee(String[] data, Calendar currentDate, Calendar lastDate, String name) {
+    private int getSalaryForEmployee(String[] data,
+                                     Calendar currentDate,
+                                     Calendar lastDate,
+                                     String name) {
         int salary = 0;
         while (!currentDate.after(lastDate)) {
             String date = concatDateWithName(name, currentDate);
             for (String arg : data) {
                 if (arg.contains(date)) {
-                    salary += calculateSalary(PARSER.parseEmployeeDate(arg, date));
+                    salary += calculateSalary(parser.parseEmployeeDate(arg, date));
                 }
             }
             currentDate.add(Calendar.DAY_OF_MONTH, +1);
@@ -104,9 +108,9 @@ public class SalaryInfo {
      */
 
     private Calendar createCalendarDate(String date) {
-        int year = PARSER.getYear(date);
-        int month = PARSER.getMonth(date) - 1;
-        int day = PARSER.getDay(date);
+        int year = parser.getYear(date);
+        int month = parser.getMonth(date) - 1;
+        int day = parser.getDay(date);
         return new GregorianCalendar(year, month, day);
     }
 
@@ -126,9 +130,9 @@ public class SalaryInfo {
      */
 
     private boolean checkDate(String date) throws IncorrectDateFormat {
-        return VALIDATOR.isDateNumber(date)
-                && VALIDATOR.isCorrectDateFormat(date)
-                && VALIDATOR.isCorrectDateLength(date);
+        return validator.isDateNumber(date)
+                && validator.isCorrectDateFormat(date)
+                && validator.isCorrectDateLength(date);
     }
 
 }

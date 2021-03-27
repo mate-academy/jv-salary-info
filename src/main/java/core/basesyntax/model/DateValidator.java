@@ -1,13 +1,15 @@
 package core.basesyntax.model;
 
-import core.basesyntax.model.exception.*;
-
+import core.basesyntax.model.exception.DateIsNaN;
+import core.basesyntax.model.exception.IncorrectDateFormat;
+import core.basesyntax.model.exception.IncorrectDateLength;
+import core.basesyntax.model.exception.IncorrectDatePattern;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
  * Класс DateValidator. Обрабатывает строку даты и проверяет ее формат.
- * Инициализировать поле DATE_FORMAT_DEFAULT.
+ * Инициализировать поле dateFormatDefault.
  * Создать строковый шаблон даты (dd.MM.yyyy).
  * Реализовать методы:
  * - isCorrectDateFormat() проверяет формат даты (dd.mm.yyyy)
@@ -16,25 +18,25 @@ import java.util.regex.Pattern;
  */
 
 public class DateValidator {
-    private final String DATE_FORMAT_DEFAULT = "dd.MM.yyyy";
-    private final Pattern PATTERN = Pattern.compile("\\d{2}.\\d{2}.\\d{4}");
+    private String dateFormatDefault = "dd.MM.yyyy";
+    private Pattern regex = Pattern.compile("\\d{2}.\\d{2}.\\d{4}");
 
-    public String getDATE_FORMAT_DEFAULT() {
-        return DATE_FORMAT_DEFAULT;
+    public String getDateFormatDefault() {
+        return dateFormatDefault;
     }
 
     public boolean isCorrectDateFormat(String date) throws IncorrectDateFormat {
-        Matcher matcher = PATTERN.matcher(date);
+        Matcher matcher = regex.matcher(date);
         if (!matcher.matches()) {
-            throw new IncorrectDatePattern("The date should be: [" + DATE_FORMAT_DEFAULT + "]");
+            throw new IncorrectDatePattern("The date should be: [" + dateFormatDefault + "]");
         }
         return true;
     }
 
     public boolean isCorrectDateLength(String date) throws IncorrectDateFormat {
-        if (DATE_FORMAT_DEFAULT.length() != date.length()) {
+        if (dateFormatDefault.length() != date.length()) {
             throw new IncorrectDateLength("The length of the date should be: ["
-                    + DATE_FORMAT_DEFAULT.length() + "]");
+                    + dateFormatDefault.length() + "]");
         }
         return true;
     }
