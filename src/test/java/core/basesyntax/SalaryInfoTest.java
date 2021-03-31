@@ -68,11 +68,11 @@ public class SalaryInfoTest {
     public void getSalaryInfoByMonth() {
         SalaryInfo salary = new SalaryInfo();
         for (int i = 0; i < dates.length; i++) {
-            String actualResult = salary.getSalaryInfo(sampleNames, scriptArray, dates[0], dates[i]);
-            String expectedResult = SalaryInfoTest.exceptedReports[i];
+            String actualResult = salary.getSalaryInfo(sampleNames, scriptArray, dates[0], dates[2]);
+            String expectedResult = SalaryInfoTest.exceptedReports[2];
 
             Assert.assertEquals(
-                    "Test failed from date " + dates[0] + " to " + dates[i]
+                    "Test failed from date " + dates[0] + " to " + dates[2]
                             + "\nactual: \n" + actualResult
                             + "\nexpected: \n" + expectedResult,
                     expectedResult,
