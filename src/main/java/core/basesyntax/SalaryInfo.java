@@ -4,36 +4,33 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    public final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    public final DateTimeFormatter dateTime = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        //StringBuilder builder = new StringBuilder();
-        /*создать for each о массиву data пройтись по String dateFrom, String dateTo
-        рамки для считания зарпалаты dateFrom, dateTo == масив дата и то и то
-        split в массив
-        */
-        LocalDate dateFromLocalTime = LocalDate.parse(dateFrom, dateTimeFormatter);
-        LocalDate dateToLocalTime = LocalDate.parse(dateTo, dateTimeFormatter);
-        LocalDate currentEmployeeDate;
-        String[] employee = new String[data.length];
-        String getName = "";
-        int hoursWork = 0;
-        int money = 0;
+        StringBuilder builder = new StringBuilder();
+        builder.append("Report for period ").append(dateFrom).append(" - ").append(dateTo).append("\n");
+        LocalDate dateFromTime = LocalDate.parse(dateFrom, dateTime);
+        LocalDate dateToTime = LocalDate.parse(dateTo, dateTime);
+        String[] employee;
+        LocalDate nowData;
         int getMoney = 0;
-        for (String current : data) {
-            employee = current.split("");
-            //employee[0] =
-            employee[1] = getName;
-            employee[2] = String.valueOf(hoursWork);
-            employee[3] = String.valueOf(money);
-        }
-        for (int i = 0; i < employee.length; i++) {
-            if(getName.contains(employee[i])){
-               getMoney = hoursWork * money;
+        for (int i = 0; i < names.length; i++) {
+            getMoney = 0;
+            for (int j = 0; j < data.length; j++) {
+                if (data[j].contains(names[i])) {
+                    employee = data[j].split(" ");
+                    nowData = LocalDate.parse(employee[0], dateTime);
+                    if (nowData.isAfter(dateFromTime)
+                            && nowData.isBefore(dateToTime)
+                            || nowData.equals(dateToTime)) {
+                            getMoney += Integer.parseInt(employee[2]) * Integer.parseInt(employee[3]);
+
+                    }
+                }
             }
+
+            builder.append(names[i]).append(" - ").append(getMoney).append("\n");
         }
-
-
-
+        return String.valueOf(builder).trim();
     }
 }
