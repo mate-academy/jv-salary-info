@@ -15,15 +15,15 @@ public class SalaryInfo {
         int[] salary = new int[names.length];
         for (int i = 0; i < names.length; i++) {
             String name = names[i];
-            for (int j = 0; j < data.length; j++) {
-                if (data[j].contains(name)) {
-                    String[] dateAndDay = data[j].split(" ");
-                    LocalDate dateTime = LocalDate.parse(dateAndDay[0], FORMATTER);
+            for (String infoAboutEmployee : data) {
+                if (infoAboutEmployee.contains(name)) {
+                    String[] allInfo = infoAboutEmployee.split(" ");
+                    LocalDate dateTime = LocalDate.parse(allInfo[0], FORMATTER);
 
                     if (localDateFrom.compareTo(dateTime) <= 0
                             && localDateTo.compareTo(dateTime) >= 0) {
-                        salary[i] += Integer.parseInt(dateAndDay[2])
-                                * Integer.parseInt(dateAndDay[3]);
+                        salary[i] += Integer.parseInt(allInfo[2])
+                                * Integer.parseInt(allInfo[3]);
                     }
                 }
             }
