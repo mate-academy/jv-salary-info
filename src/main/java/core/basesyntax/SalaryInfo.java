@@ -14,6 +14,9 @@ public class SalaryInfo {
     private static final String EXCEPT_LETTERS_PATTERN = "[^A-Za-z]+";
 
     protected String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
+        if (names == null || data == null || dateFrom == null || dateTo == null) {
+            throw new NullPointerException("Can't read data. Null in the input data");
+        }
         StringBuilder sb = new StringBuilder();
         sb.append(HEADER_OF_RESPONSE).append(dateFrom)
                 .append(DASH).append(dateTo).append(LINE_SEPARATOR);
@@ -23,10 +26,9 @@ public class SalaryInfo {
         for (int i = 0; i < names.length; i++) {
             salarySummary = 0;
             for (int j = 0; j < data.length; j++) {
-                if (checkName(names[i], data[j])) {
-                    if (checkDate(localDateFrom, localDateTo.plusDays(1), data[j])) {
-                        salarySummary += calculateSalary(data[j]);
-                    }
+                if (checkName(names[i], data[j])
+                        && checkDate(localDateFrom, localDateTo.plusDays(1), data[j])) {
+                    salarySummary += calculateSalary(data[j]);
                 }
             }
             sb.append(names[i]).append(DASH).append(salarySummary).append(LINE_SEPARATOR);
@@ -60,8 +62,12 @@ public class SalaryInfo {
     }
 
     private int calculateSalary(String data) {
-        int hours = Integer.parseInt(data.replaceAll(HOURS_PATTERN, "$1"));
-        int rate = Integer.parseInt(data.replaceAll(RATE_PATTERN, "$1"));
+        int hours = parseDataToIntByPattern(data, HOURS_PATTERN);
+        int rate = parseDataToIntByPattern(data, RATE_PATTERN);
         return hours * rate;
+    }
+
+    private int parseDataToIntByPattern(String data, String pattern) {
+        return Integer.parseInt(data.replaceAll(pattern, "$1"));
     }
 }
