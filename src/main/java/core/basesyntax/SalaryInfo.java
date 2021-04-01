@@ -31,8 +31,7 @@ public class SalaryInfo {
             }
             sb.append(names[i]).append(DASH).append(salarySummary).append(LINE_SEPARATOR);
         }
-        sb.setLength(sb.length() - 1);
-        return sb.toString();
+        return sb.toString().trim();
     }
 
     private LocalDate parseStringToLocalDate(String date) {
