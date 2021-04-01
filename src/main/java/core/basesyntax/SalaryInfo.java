@@ -11,7 +11,7 @@ public class SalaryInfo {
     private static final String HOURS_PATTERN = "[\\d\\.]+[\\D]+ ([\\d]+)[\\s\\d]+$";
     private static final String RATE_PATTERN = "[\\d\\.]+[\\D]+ [\\d]+\\s([\\d]+)$";
     private static final String PATTERN_FOR_CHECK_DATE = "([\\d\\.]+)[\\w\\d\\s]+";
-    private static final String ONLY_LETTERS_PATTERN = "[^A-Za-z]+";
+    private static final String EXCEPT_LETTERS_PATTERN = "[^A-Za-z]+";
 
     protected String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder sb = new StringBuilder();
@@ -41,7 +41,7 @@ public class SalaryInfo {
 
     private boolean checkName(String name, String data) {
         if (name != null && data != null) {
-            data = data.replaceAll(ONLY_LETTERS_PATTERN, "");
+            data = data.replaceAll(EXCEPT_LETTERS_PATTERN, "");
             if (data.equals(name)) {
                 return true;
             }
