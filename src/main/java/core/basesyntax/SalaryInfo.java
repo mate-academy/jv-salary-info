@@ -13,11 +13,11 @@ public class SalaryInfo {
         StringBuilder builder = new StringBuilder();
         builder.append("Report for period ").append(dateFrom)
                 .append(" - ").append(dateTo).append("\n");
-        for (int i = 0; i < names.length; i++) {
+        for (String name : names) {
             int totalSalary = 0;
-            for (int j = 0; j < data.length; j++) {
-                if (data[j].contains(names[i])) {
-                    String[] userRecords = data[j].split(" ");
+            for (String record : data) {
+                if (record.contains(name)) {
+                    String[] userRecords = record.split(" ");
                     LocalDate userDate = LocalDate.parse(userRecords[0], formatter);
                     if (userDate.isAfter(parsedDateFrom) && userDate.isBefore(parsedDateTo)
                             || userDate.isEqual(parsedDateFrom) || userDate.isEqual(parsedDateTo)) {
@@ -26,9 +26,8 @@ public class SalaryInfo {
                     }
                 }
             }
-            builder.append(names[i]).append(" - ").append(totalSalary).append("\n");
+            builder.append(name).append(" - ").append(totalSalary).append("\n");
         }
         return builder.toString().trim();
     }
 }
-
