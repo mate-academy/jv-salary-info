@@ -5,6 +5,13 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 public class SalaryInfo {
+    private static final DateTimeFormatter FORMATTER =
+            DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final int DATE_INDEX = 0;
+    private static final int NAME_INDEX = 1;
+    private static final int HOUR_INDEX = 2;
+    private static final int PAYMENT_INDEX = 3;
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         int totalSalary = 0;
         StringBuilder builder = new StringBuilder();
@@ -28,25 +35,23 @@ public class SalaryInfo {
 
     public LocalDate toDate(String dateInString) {
         try {
-            DateTimeFormatter formatter =
-                    DateTimeFormatter.ofPattern("dd.MM.yyyy");
-            return LocalDate.parse(dateInString.split(" ")[0], formatter);
+            return LocalDate.parse(dateInString.split(" ")[DATE_INDEX], FORMATTER);
         } catch (DateTimeParseException exc) {
-            System.out.println(dateInString.split(" ")[0] + "is not parsable!");
+            System.out.println(dateInString.split(" ")[DATE_INDEX] + "is not parsable!");
             throw exc;
         }
     }
 
     public String getName(String data) {
-        return data.split(" ")[1];
+        return data.split(" ")[NAME_INDEX];
     }
 
     public int getHoursInDay(String data) {
-        return Integer.parseInt(data.split(" ")[2]);
+        return Integer.parseInt(data.split(" ")[HOUR_INDEX]);
     }
 
     public int getPayment(String data) {
-        return Integer.parseInt(data.split(" ")[3]);
+        return Integer.parseInt(data.split(" ")[PAYMENT_INDEX]);
     }
 
     public boolean compareNames(String dataName, String name) {
