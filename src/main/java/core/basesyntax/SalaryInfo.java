@@ -38,7 +38,6 @@ public class SalaryInfo {
             }
             str.append(name).append(" - ").append(employeeSalary).append("\n");
         }
-        str.deleteCharAt(str.length() - 1);
-        return str.toString();
+        return str.toString().trim();
     }
 }
