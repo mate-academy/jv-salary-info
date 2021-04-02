@@ -8,8 +8,10 @@ import java.util.List;
 public class SalaryInfo {
 
     public static final String DATE_FORMAT = "dd.MM.yyyy";
+    public static final String MINUS_DELIMITER = "-";
     public static final String NEW_STRING_DELIMITER = "\n";
     public static final String SPACE_DELIMITER = " ";
+    public static final String TITLE_OF_REPORT = "Report for period";
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
 
@@ -48,11 +50,16 @@ public class SalaryInfo {
         }
 
         StringBuilder sb = new StringBuilder();
+        sb.append(TITLE_OF_REPORT + SPACE_DELIMITER)
+                .append(dateFrom)
+                .append(SPACE_DELIMITER + MINUS_DELIMITER + SPACE_DELIMITER)
+                .append(dateTo)
+                .append(NEW_STRING_DELIMITER);
 
         for (Employee employees : listEmployee) {
             sb.append(employees.toString()).append(NEW_STRING_DELIMITER);
         }
 
-        return sb.toString();
+        return sb.toString().trim();
     }
 }
