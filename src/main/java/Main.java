@@ -1,7 +1,6 @@
 package core.basesyntax;
 
 public class Main {
-
     public static void main(String[] args) {
         SalaryInfo info = new SalaryInfo();
         System.out.println(info.getSalaryInfo(new String[]{"John", "Andrew", "Kate"},
@@ -18,8 +17,5 @@ public class Main {
                         "11.08.2019 Andrew 8 100"
                 },
                 "14.07.2019", "10.08.2019"));
-
     }
 }
-
-
