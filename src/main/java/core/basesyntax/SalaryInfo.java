@@ -13,25 +13,23 @@ public class SalaryInfo {
         StringBuilder builder = new StringBuilder();
 
         builder.append("Report ").append("for ").append("period ")
-                .append(localDateFrom.format(DATE_FORMAT)).append(" - ")
-                .append(localDateTo.format(DATE_FORMAT));
+                .append(dateFrom).append(" - ")
+                .append(dateTo);
 
         for (String name : names) {
             int salary = 0;
-            for (String dates: data) {
-                String[] splitData = dates.split(" ");
+            for (String info: data) {
+                String[] splitData = info.split(" ");
                 LocalDate localDate = LocalDate.parse(splitData[0], DATE_FORMAT);
 
                 if (splitData[1].equals(name)
                         && (localDate.isAfter(localDateFrom) || localDate.isEqual(localDateFrom))
-                        && (localDate.isBefore(localDateTo) || localDate.isEqual(localDateTo))
-                        && !localDateFrom.isEqual(localDateTo)) {
+                        && (localDate.isBefore(localDateTo) || localDate.isEqual(localDateTo))) {
                     salary += Integer.parseInt(splitData[2]) * Integer.parseInt(splitData[3]);
                 }
             }
             builder.append("\n").append(name).append(" - ").append(salary);
         }
-
         return builder.toString();
     }
 }
