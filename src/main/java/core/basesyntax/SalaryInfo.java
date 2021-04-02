@@ -9,42 +9,34 @@ public class SalaryInfo {
 
     public static String getSalaryInfo(String[] names, String[] data,
                                        String dateFrom, String dateTo) {
-        String nameOfEmployee = "";
         LocalDate date;
-        LocalDate dateFromParsed;
-        LocalDate dateToParsed;
+        LocalDate dateFromParsed = LocalDate.parse(dateFrom, FORMATION_WITH_DOT);
+        LocalDate dateToParsed = LocalDate.parse(dateTo, FORMATION_WITH_DOT);
         int timesGotSalary;
         int salary;
-        int[] arrayOfSalaries = new int[names.length];
         StringBuilder str = new StringBuilder();
         str.append("Report for period ").append(dateFrom).append(" - ").append(dateTo).append("\n");
 
-        for (int j = 0; j < names.length; j++) {
+        for (String name: names) {
+            int employeeSalary = 0;
             for (int i = 0; i < data.length; i++) {
                 String[] employeesInformation = data[i].split(" ");
-                nameOfEmployee = employeesInformation[1];
+                String nameOfEmployee = employeesInformation[1];
                 timesGotSalary = Integer.parseInt(employeesInformation[2]);
                 salary = Integer.parseInt(employeesInformation[3]);
                 String dateWithoutDot = employeesInformation[0];
                 date = LocalDate.parse(dateWithoutDot, FORMATION_WITH_DOT);
-                dateFromParsed = LocalDate.parse(dateFrom, FORMATION_WITH_DOT);
-                dateToParsed = LocalDate.parse(dateTo, FORMATION_WITH_DOT);
 
                 if (dateFromParsed.minusDays(1).isBefore(date)
                         && dateToParsed.plusDays(1).isAfter(date)) {
-                    if (nameOfEmployee.equals(names[j])) {
-                        arrayOfSalaries[j] += timesGotSalary * salary;
+                    if (nameOfEmployee.equals(name)) {
+                        employeeSalary += timesGotSalary * salary;
                     } else {
-                        arrayOfSalaries[j] += 0;
+                        employeeSalary += 0;
                     }
                 }
             }
-        }
-        for (int i = 0; i < names.length; ) {
-            for (int employeeSalary : arrayOfSalaries) {
-                str.append(names[i]).append(" - ").append(employeeSalary).append("\n");
-                i++;
-            }
+            str.append(name).append(" - ").append(employeeSalary).append("\n");
         }
         str.deleteCharAt(str.length() - 1);
         return str.toString();
