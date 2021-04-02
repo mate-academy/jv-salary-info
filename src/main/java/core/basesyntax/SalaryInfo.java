@@ -1,49 +1,45 @@
 package core.basesyntax;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 public class SalaryInfo {
-    private static final int NUMBERS_IN_DATE = 3;
+    private static final DateTimeFormatter FORMATTER =
+            DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder result = new StringBuilder();
-        result.append("Report for period ");
-        result.append(dateFrom);
-        result.append(" - ");
-        result.append(dateTo);
-        result.append("\n");
+        result.append("Report for period ").append(dateFrom)
+                .append(" - ").append(dateTo).append("\n");
         LocalDate dateOnWork;
         LocalDate localDateFrom = convert(dateFrom);
         LocalDate localDateTo = convert(dateTo);
         String[] dataInArray;
-        for (int i = 0; i < names.length; i++) {
+        for (String name : names) {
             int moneyEarned = 0;
-            for (int j = 0; j < data.length; j++) {
-                dataInArray = data[j].split(" ");
+            for (String datum : data) {
+                dataInArray = datum.split(" ");
                 dateOnWork = convert(dataInArray[0]);
                 if (dateOnWork.compareTo(localDateFrom) >= 0
-                        && dateOnWork.compareTo(localDateTo) <= 0) {
-                    if (dataInArray[1].equals(names[i])) {
-                        moneyEarned += ((Integer.parseInt(dataInArray[2]))
-                                * (Integer.parseInt(dataInArray[3])));
-                    }
+                        && dateOnWork.compareTo(localDateTo) <= 0
+                        && dataInArray[1].equals(name)) {
+                    moneyEarned += Integer.parseInt(dataInArray[2])
+                            * Integer.parseInt(dataInArray[3]);
                 }
             }
-            result.append(names[i]);
-            result.append(" - ");
-            result.append(moneyEarned);
-            result.append("\n");
+            result.append(name).append(" - ")
+                    .append(moneyEarned).append("\n");
         }
         result.setLength(result.length() - 1);
         return result.toString();
     }
 
     private LocalDate convert(String date) {
-        String[] arrayFromDate = date.split("\\.");
-        int[] dateInInt = new int[NUMBERS_IN_DATE];
-        for (int i = 0; i < NUMBERS_IN_DATE; i++) {
-            dateInInt[i] = Integer.parseInt(arrayFromDate[i]);
+        try {
+            return LocalDate.parse(date, FORMATTER);
+        } catch (DateTimeParseException exc) {
+            throw new DateTimeParseException("%s is not parsable! %f", date, exc.getErrorIndex());
         }
-        return LocalDate.of(dateInInt[2], dateInInt[1], dateInInt[0]);
     }
 }
