@@ -26,7 +26,6 @@ public class SalaryInfo {
                 }
             }
         }
-
         StringBuilder sb = new StringBuilder();
         sb.append("Report for period ")
                 .append(dateFrom)
@@ -41,7 +40,6 @@ public class SalaryInfo {
                     : sb.append("\n").append(names[i]).append(" - ")
                     .append(salaryAllEmployees[i]);
         }
-
         return sb.toString();
     }
 }
