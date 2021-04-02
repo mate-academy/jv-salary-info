@@ -2,7 +2,6 @@ package core.basesyntax;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 
 public class SalaryInfo {
     private static final DateTimeFormatter FORMATTER =
@@ -12,15 +11,13 @@ public class SalaryInfo {
         StringBuilder result = new StringBuilder();
         result.append("Report for period ").append(dateFrom)
                 .append(" - ").append(dateTo).append("\n");
-        LocalDate dateOnWork;
         LocalDate localDateFrom = convert(dateFrom);
         LocalDate localDateTo = convert(dateTo);
-        String[] dataInArray;
         for (String name : names) {
             int moneyEarned = 0;
             for (String datum : data) {
-                dataInArray = datum.split(" ");
-                dateOnWork = convert(dataInArray[0]);
+                String[] dataInArray = datum.split(" ");
+                LocalDate dateOnWork = convert(dataInArray[0]);
                 if (dateOnWork.compareTo(localDateFrom) >= 0
                         && dateOnWork.compareTo(localDateTo) <= 0
                         && dataInArray[1].equals(name)) {
@@ -36,10 +33,6 @@ public class SalaryInfo {
     }
 
     private LocalDate convert(String date) {
-        try {
-            return LocalDate.parse(date, FORMATTER);
-        } catch (DateTimeParseException exc) {
-            throw new DateTimeParseException("%s is not parsable! %f", date, exc.getErrorIndex());
-        }
+        return LocalDate.parse(date, FORMATTER);
     }
 }
