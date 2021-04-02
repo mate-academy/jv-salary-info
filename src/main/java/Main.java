@@ -1,6 +1,7 @@
 package core.basesyntax;
 
 public class Main {
+
     public static void main(String[] args) {
         SalaryInfo info = new SalaryInfo();
         System.out.println(info.getSalaryInfo(new String[]{"John", "Andrew", "Kate"},

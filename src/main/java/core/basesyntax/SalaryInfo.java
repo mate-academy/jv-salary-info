@@ -12,8 +12,6 @@ public class SalaryInfo {
         LocalDate endDate = LocalDate.parse(dateTo, DATE_TIME_FORMATTER);
         StringBuilder reportString = new StringBuilder("Report for period "
                 + dateFrom + " - " + dateTo + "\n");
-        int workingHours;
-        int paymentPerHour;
         for (String name : names) {
             int salary = 0;
             for (String dataInfo : data) {
@@ -22,14 +20,14 @@ public class SalaryInfo {
                         DATE_TIME_FORMATTER).isBefore(beginDate)
                         && !LocalDate.parse(dataInfo.split(" ")[0],
                         DATE_TIME_FORMATTER).isAfter(endDate)) {
+                    int workingHours;
+                    int paymentPerHour;
                     workingHours = Integer.parseInt(dataInfo.split(" ")[2]);
                     paymentPerHour = Integer.parseInt(dataInfo.split(" ")[3]);
                     salary += workingHours * paymentPerHour;
                 }
-
             }
             reportString.append(name).append(" - ").append(salary).append("\n");
-            salary = 0;
         }
         return reportString.toString().trim();
     }
