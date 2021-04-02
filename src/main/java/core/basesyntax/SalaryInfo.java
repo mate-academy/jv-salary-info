@@ -16,7 +16,7 @@ public class SalaryInfo {
             int salary = 0;
             for (String dataInfo : data) {
                 String[] splitedInfo = dataInfo.split(" ");
-                if (name.equals(dataInfo.split(" ")[1])
+                if (name.equals(splitedInfo[1])
                         && !LocalDate.parse(splitedInfo[0],
                         DATE_TIME_FORMATTER).isBefore(beginDate)
                         && !LocalDate.parse(splitedInfo[0],
