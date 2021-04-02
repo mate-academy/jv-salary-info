@@ -4,26 +4,27 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    public final DateTimeFormatter dateTime = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private final DateTimeFormatter dateTime = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder builder = new StringBuilder();
-        builder.append("Report for period ").append(dateFrom).append(" - ").append(dateTo).append("\n");
+        builder.append("Report for period ").append(dateFrom)
+                .append(" - ").append(dateTo).append("\n");
         LocalDate dateFromTime = LocalDate.parse(dateFrom, dateTime);
         LocalDate dateToTime = LocalDate.parse(dateTo, dateTime);
         String[] employee;
         LocalDate nowData;
-        int getMoney = 0;
+        int getMoney;
         for (int i = 0; i < names.length; i++) {
             getMoney = 0;
             for (int j = 0; j < data.length; j++) {
                 if (data[j].contains(names[i])) {
                     employee = data[j].split(" ");
                     nowData = LocalDate.parse(employee[0], dateTime);
-                    if (nowData.isAfter(dateFromTime)
-                            && nowData.isBefore(dateToTime)
+                    if (nowData.isAfter(dateFromTime) && nowData.isBefore(dateToTime)
                             || nowData.equals(dateToTime)) {
-                            getMoney += Integer.parseInt(employee[2]) * Integer.parseInt(employee[3]);
+                        getMoney += Integer.parseInt(employee[2])
+                                * Integer.parseInt(employee[3]);
 
                     }
                 }
