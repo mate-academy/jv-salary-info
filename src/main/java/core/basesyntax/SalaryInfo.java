@@ -19,6 +19,10 @@ public class SalaryInfo {
         LocalDate startOfPeriod = LocalDate.parse(dateFrom, formatter);
         LocalDate endOfPeriod = LocalDate.parse(dateTo, formatter);
 
+        if (!startOfPeriod.equals(endOfPeriod)) {
+            endOfPeriod = endOfPeriod.plusDays(1);
+        }
+
         List<Employee> listEmployee = new ArrayList<>();
 
         for (String name : names) {
