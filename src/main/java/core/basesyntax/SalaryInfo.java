@@ -15,11 +15,8 @@ public class SalaryInfo {
         if (names == null || data == null || dateFrom == null || dateTo == null) {
             throw new IllegalArgumentException("Empty array(s) or string(s)");
         }
-
         LocalDate firstDay = LocalDate.parse(dateFrom, DATE_FORMAT);
-
         LocalDate lastDay = LocalDate.parse(dateTo, DATE_FORMAT);
-
         StringBuilder report = new StringBuilder();
         report.append("Report for period ")
                 .append(dateFrom)
