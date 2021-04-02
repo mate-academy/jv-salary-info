@@ -17,13 +17,14 @@ public class SalaryInfo {
         for (String name : names) {
             int totalSalary = 0;
             for (String datum : data) {
+                String[] splitData = datum.split(" ");
+                String takeDate = splitData[0];
                 if (datum.contains(name)) {
-                    String takeDate = datum.split(" ")[0];
                     LocalDate dateWorker = LocalDate.parse(takeDate, FORMATTER);
                     if (dateWorker.compareTo(dateStart) >= 0
                             && dateWorker.compareTo(dateFinish) <= 0) {
-                        String timeWorker = datum.split(" ")[2];
-                        String priceForOneHour = datum.split(" ")[3];
+                        String timeWorker = splitData[2];
+                        String priceForOneHour = splitData[3];
                         totalSalary += Integer.parseInt(timeWorker)
                                 * Integer.parseInt(priceForOneHour);
                     }
