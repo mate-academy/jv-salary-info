@@ -1,7 +1,6 @@
 package core.basesyntax;
 
 public class Main {
-
     public static void main(String[] args) {
         SalaryInfo salaryInfo = new SalaryInfo();
         String[] data = new String[] { "26.04.2019 John 4 50",

@@ -12,22 +12,22 @@ public class SalaryInfo {
         String[] formatName = new String[names.length];
         LocalDate localDateFrom = LocalDate.parse(dateFrom, TIME_FORMATTER);
         LocalDate localDateTo = LocalDate.parse(dateTo, TIME_FORMATTER);
-        int salaryPerDay = 0;
+        int indexOfFormateName = 0;
 
-        for (int i = 0; i < names.length; i++) {
+        for (String name : names) {
+            int salaryPerDay = 0;
             for (String datum : data) {
                 String[] getInfoFromData = datum.split(" ");
-                if (getInfoFromData[1].equals(names[i])) {
+                if (getInfoFromData[1].equals(name)) {
                     salaryPerDay += checkEmployee(getInfoFromData,
                             localDateFrom, localDateTo);
                 }
             }
-            formatName[i] = writeInfoAboutEmployee(names[i],
+            formatName[indexOfFormateName] = writeInfoAboutEmployee(name,
                     salaryPerDay);
-            salaryPerDay = 0;
+            indexOfFormateName++;
         }
-
-        return writeInfoAboutAllEmployee(formatName,
+        return writeInfoAboutAllEmployees(formatName,
                 dateFrom,dateTo);
     }
 
@@ -37,11 +37,10 @@ public class SalaryInfo {
         int employeeWorkHour = Integer.parseInt(employee[2]);
         int employeeSalary = Integer.parseInt(employee[3]);
 
-        if (workingDate.isAfter(localDateFrom)
+        if (workingDate.isAfter(localDateFrom.minusDays(1))
                 && workingDate.isBefore(localDateTo.plusDays(1))) {
-            return salaryCalculator(employeeSalary, employeeWorkHour);
+            return calculateSalary(employeeSalary, employeeWorkHour);
         }
-
         return 0;
     }
 
@@ -49,12 +48,12 @@ public class SalaryInfo {
         return name.concat(" - ").concat(String.valueOf(earnedMoney));
     }
 
-    public int salaryCalculator(int salary, int workedHour) {
+    public int calculateSalary(int salary, int workedHour) {
         return salary * workedHour;
     }
 
-    public String writeInfoAboutAllEmployee(String[] employees, String dataFrom,
-                                           String dataTo) {
+    public String writeInfoAboutAllEmployees(String[] employees, String dataFrom,
+                                             String dataTo) {
         StringBuilder allEmployee = new StringBuilder()
                 .append("Report for period ").append(dataFrom)
                 .append(" - ").append(dataTo);
@@ -62,7 +61,6 @@ public class SalaryInfo {
         for (String employee : employees) {
             allEmployee.append("\n").append(employee);
         }
-
         return allEmployee.toString();
     }
 }
