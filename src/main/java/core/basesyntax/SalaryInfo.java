@@ -4,13 +4,13 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    private static final DateTimeFormatter TIME_FORMATTER =
+    private static final DateTimeFormatter DATE_FORMATTER =
                         DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public static String getSalaryInfo(String[] names, String[] data,
                                        String dateFrom, String dateTo) {
-        LocalDate dateFromTime = LocalDate.parse(dateFrom, TIME_FORMATTER);
-        LocalDate dateToTime = LocalDate.parse(dateTo, TIME_FORMATTER);
+        LocalDate dateFromTime = LocalDate.parse(dateFrom, DATE_FORMATTER);
+        LocalDate dateToTime = LocalDate.parse(dateTo, DATE_FORMATTER);
         LocalDate currentDateSalary;
 
         StringBuilder stringBuilder = new StringBuilder();
@@ -24,7 +24,7 @@ public class SalaryInfo {
                 if (dataEmployee.contains(nameEmployee)) {
                     String[] arrayDateNameHourIncome = dataEmployee.split(" ");
                     currentDateSalary = LocalDate.parse(arrayDateNameHourIncome[0],
-                                                        TIME_FORMATTER);
+                                                        DATE_FORMATTER);
                     if ((currentDateSalary.isAfter(dateFromTime)
                             && currentDateSalary.isBefore(dateToTime))
                             || currentDateSalary.equals(dateToTime)) {
