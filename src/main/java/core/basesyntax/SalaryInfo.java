@@ -19,8 +19,8 @@ public class SalaryInfo {
 
         for (String name: names) {
             int employeeSalary = 0;
-            for (int i = 0; i < data.length; i++) {
-                String[] employeesInformation = data[i].split(" ");
+            for (String datum : data) {
+                String[] employeesInformation = datum.split(" ");
                 String nameOfEmployee = employeesInformation[1];
                 timesGotSalary = Integer.parseInt(employeesInformation[2]);
                 salary = Integer.parseInt(employeesInformation[3]);
