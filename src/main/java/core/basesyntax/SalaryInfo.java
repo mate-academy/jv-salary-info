@@ -1,36 +1,21 @@
 package core.basesyntax;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+
 
 public class SalaryInfo {
+public static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-        Date[] workingDays = new Date[data.length];
+        LocalDate fromDate = LocalDate.parse(dateFrom, DATE_FORMAT);
+        LocalDate toDate = LocalDate.parse(dateTo, DATE_FORMAT);
+        LocalDate[] workingDays = new LocalDate[data.length];
         long[] salaryAllEmployees = new long[names.length];
 
-        Date fromDate = null;
-        try {
-            fromDate = dateFormat.parse(dateFrom);
-        } catch (ParseException e) {
-            System.out.println("Date not valid");
-        }
-
-        Date toDate = null;
-        try {
-            toDate = dateFormat.parse(dateTo);
-        } catch (ParseException e) {
-            System.out.println("Date not valid");
-        }
-
         for (int i = 0; i < data.length; i++) {
-            try {
-                workingDays[i] = dateFormat.parse(data[i].substring(0, 10));
-            } catch (ParseException e) {
-                System.out.println("Date not valid");
-            }
+            workingDays[i] = LocalDate.parse(data[i].substring(0, 10), DATE_FORMAT);
         }
 
         for (int i = 0; i < workingDays.length; i++) {
