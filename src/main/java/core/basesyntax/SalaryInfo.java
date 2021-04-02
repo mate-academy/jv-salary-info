@@ -15,15 +15,16 @@ public class SalaryInfo {
         for (String name : names) {
             int salary = 0;
             for (String dataInfo : data) {
+                String[] splitedInfo = dataInfo.split(" ");
                 if (name.equals(dataInfo.split(" ")[1])
-                        && !LocalDate.parse(dataInfo.split(" ")[0],
+                        && !LocalDate.parse(splitedInfo[0],
                         DATE_TIME_FORMATTER).isBefore(beginDate)
-                        && !LocalDate.parse(dataInfo.split(" ")[0],
+                        && !LocalDate.parse(splitedInfo[0],
                         DATE_TIME_FORMATTER).isAfter(endDate)) {
                     int workingHours;
                     int paymentPerHour;
-                    workingHours = Integer.parseInt(dataInfo.split(" ")[2]);
-                    paymentPerHour = Integer.parseInt(dataInfo.split(" ")[3]);
+                    workingHours = Integer.parseInt(splitedInfo[2]);
+                    paymentPerHour = Integer.parseInt(splitedInfo[3]);
                     salary += workingHours * paymentPerHour;
                 }
             }
