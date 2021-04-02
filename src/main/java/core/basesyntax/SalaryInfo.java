@@ -19,21 +19,19 @@ public class SalaryInfo {
             to.setTime(FORMATTER.parse(dateTo, new ParsePosition(0)));
             report.append("\n").append(name).append(" - ");
             int salary = 0;
-            while (!from.after(to)) {
-                String dateAndName = FORMATTER.format(from.getTimeInMillis()) + " " + name + " ";
-                for (String line : data) {
-                    if (line.contains(dateAndName)) {
-                        line = line.replaceAll(dateAndName, "");
-                        String[] hoursAndRate = line.split(" ");
-                        salary += Integer.parseInt(hoursAndRate[0])
-                                * Integer.parseInt(hoursAndRate[1]);
+            for (String line : data) {
+                if (line.contains(name)) {
+                    Calendar currentDate = new GregorianCalendar();
+                    currentDate.setTime(FORMATTER.parse(line.split(" ")[0], new ParsePosition(0)));
+                    if ((currentDate.equals(from) || currentDate.after(from))
+                            && (currentDate.equals(to) || currentDate.before(to))) {
+                        salary += Integer.parseInt(line.split(" ")[2])
+                                * Integer.parseInt(line.split(" ")[3]);
                     }
                 }
-                from.add(Calendar.DAY_OF_MONTH, +1);
             }
             report.append(salary);
         }
         return report.toString();
     }
 }
-
