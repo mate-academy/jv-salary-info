@@ -1,17 +1,19 @@
 package core.basesyntax;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
+    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     private static final int DATE_ELEMENT = 0;
     private static final int NAME_ELEMENT = 1;
     private static final int HOURS_ELEMENT = 2;
     private static final int INCOME_ELEMENT = 3;
 
-    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
+    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
+            throws IllegalArgumentException {
         if (names == null || data == null) {
             throw new IllegalArgumentException("Empty array(s)");
         }
@@ -19,19 +21,11 @@ public class SalaryInfo {
             throw new IllegalArgumentException("Empty string(s)");
         }
 
-        Date firstDay = null;
-        try {
-            firstDay = DATE_FORMAT.parse(dateFrom);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        LocalDate firstDay = null;
+        firstDay = LocalDate.parse(dateFrom, DATE_FORMAT);
 
-        Date lastDay = null;
-        try {
-            lastDay = DATE_FORMAT.parse(dateTo);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        LocalDate lastDay = null;
+        lastDay = LocalDate.parse(dateTo, DATE_FORMAT);
 
         StringBuilder report = new StringBuilder();
         report.append("Report for period ")
@@ -42,13 +36,7 @@ public class SalaryInfo {
 
         for (String name : names) {
             int salary = 0;
-
-            try {
-                salary = calculateEmployeeSalary(data, name, firstDay, lastDay);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
+            salary = calculateEmployeeSalary(data, name, firstDay, lastDay);
             report.append(name)
                     .append(" - ")
                     .append(salary)
@@ -57,21 +45,16 @@ public class SalaryInfo {
         return report.substring(0, report.length() - 1);
     }
 
-    public int calculateEmployeeSalary(String[] data, String employeeName, Date firstDay,
-                                       Date lastDay) {
+    public int calculateEmployeeSalary(String[] data, String employeeName, LocalDate firstDay,
+                                       LocalDate lastDay) {
         int salary = 0;
 
         for (String info : data) {
             String[] employeeInfo = info.split(" ");
-            Date date = null;
+            LocalDate date = null;
+            date = LocalDate.parse(employeeInfo[DATE_ELEMENT], DATE_FORMAT);
 
-            try {
-                date = (Date) DATE_FORMAT.parse(employeeInfo[DATE_ELEMENT]);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-
-            if (date.before(firstDay) || date.after(lastDay)) {
+            if (date.isBefore(firstDay) || date.isAfter(lastDay)) {
                 continue;
             }
 
