@@ -30,7 +30,6 @@ public class SalaryInfo {
                     }
                 }
             }
-
             builder.append(names[i]).append(" - ").append(getMoney).append("\n");
         }
         return String.valueOf(builder).trim();
