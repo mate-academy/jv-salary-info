@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate localDateFrom = LocalDate.parse(dateFrom, FORMATTER);
@@ -14,24 +14,21 @@ public class SalaryInfo {
         builder.append("Report for period ").append(dateFrom).append(" - ")
                 .append(dateTo).append("\n");
 
-        int[] salary = new int[names.length];
-
-        for (int i = 0; i < names.length; i++) {
-            String name = names[i];
-
-            for (int j = 0; j < data.length; j++) {
-                if (data[j].contains(name)) {
-                    String[] dataArray = data[j].split(" ");
+        for (String name : names) {
+            int salary = 0;
+            for (String workerData : data) {
+                if (workerData.contains(name)) {
+                    String[] dataArray = workerData.split(" ");
                     LocalDate workerDate = LocalDate.parse(dataArray[0], FORMATTER);
 
-                    if (workerDate.isAfter(localDateFrom)
+                    if (workerDate.isAfter(localDateFrom.minusDays(1))
                             && workerDate.isBefore(localDateTo.plusDays(1))) {
-                        salary[i] += Integer.parseInt(dataArray[3])
+                        salary += Integer.parseInt(dataArray[3])
                                 * Integer.parseInt(dataArray[2]);
                     }
                 }
             }
-            builder.append(name).append(" - ").append(salary[i]).append("\n");
+            builder.append(name).append(" - ").append(salary).append("\n");
         }
         String result = builder.toString().strip();
         return result;
