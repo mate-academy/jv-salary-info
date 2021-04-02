@@ -12,15 +12,15 @@ public class SalaryInfo {
                 + dateFrom
                 + " - " + dateTo);
 
-        for (String obj: names) {
+        for (String name: names) {
             salary = 0;
-            for (String dataObj: data) {
-                if (obj.equals(dataObj.split(" ")[1])
-                        && dateIsInRange(dateFrom, dateTo, dataObj.split(" ")[0])) {
-                    salary += getSalary(dataObj);
+            for (String recordFromDB: data) {
+                if (name.equals(recordFromDB.split(" ")[1])
+                        && dateIsInRange(dateFrom, dateTo, recordFromDB.split(" ")[0])) {
+                    salary += getSalary(recordFromDB);
                 }
             }
-            salaries.append("\n" + obj + " - " + salary);
+            salaries.append("\n" + name + " - " + salary);
         }
         return salaries.toString();
     }
@@ -41,9 +41,9 @@ public class SalaryInfo {
     }
 
     private boolean dateIsInRange(String dateFrom, String dateTo, String dateToCheck) {
-        LocalDate dateFr = getDate(dateFrom);
-        LocalDate dateT = getDate(dateTo);
-        LocalDate checkDate = getDate(dateToCheck);
-        return !checkDate.isAfter(dateT) && !checkDate.isBefore(dateFr);
+        LocalDate localDateFrom = getDate(dateFrom);
+        LocalDate localDateTo = getDate(dateTo);
+        LocalDate localDateToCheck = getDate(dateToCheck);
+        return !localDateToCheck.isAfter(localDateTo) && !localDateToCheck.isBefore(localDateFrom);
     }
 }
