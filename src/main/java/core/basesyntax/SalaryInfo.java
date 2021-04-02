@@ -12,35 +12,33 @@ public class SalaryInfo {
     private static final int NEW_ARRAY_INDEX = 2;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        LocalDate firstDate = LocalDate.parse(dateFrom, FORMAT);
+        LocalDate firstDate = LocalDate.parse(dateFrom, FORMAT).minusDays(1);
         LocalDate lastDate = LocalDate.parse(dateTo, FORMAT).plusDays(1);
-        String[] newData = new String[NEW_ARRAY_INDEX];
         StringBuilder finalList = new StringBuilder();
 
         finalList.append("Report for period").append(" ")
                 .append(dateFrom).append(" - ").append(dateTo);
 
-        for (int y = 0; y < names.length; y++) {
+        for (String name : names) {
             int employeeSalary = 0;
 
-            for (int i = 0; i < data.length; i++) {
-                String[] employeesData = data[i].split(" ");
+            for (String datum : data) {
+                String[] employeesData = datum.split(" ");
 
                 LocalDate actualDate = LocalDate.parse(employeesData[DATE_INDEX], FORMAT);
                 String employeeName = employeesData[NAME_INDEX];
 
                 if (actualDate.isAfter(firstDate) && actualDate.isBefore(lastDate)
-                        && names[y].equals(employeeName)) {
+                        && name.equals(employeeName)) {
                     employeeSalary += Integer.parseInt(employeesData[DAYS_INDEX])
                             * Integer.parseInt(employeesData[INCOME_INDEX]);
 
                 }
             }
 
-            finalList.append("\n").append(names[y]).append(" - ")
+            finalList.append("\n").append(name).append(" - ")
                     .append(Integer.toString(employeeSalary));
         }
-
         return finalList.toString();
     }
 }
