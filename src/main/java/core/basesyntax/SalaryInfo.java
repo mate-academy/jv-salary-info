@@ -26,7 +26,6 @@ public class SalaryInfo {
                             || nowData.equals(dateToTime)) {
                         getMoney += Integer.parseInt(employee[2])
                                 * Integer.parseInt(employee[3]);
-
                     }
                 }
             }
