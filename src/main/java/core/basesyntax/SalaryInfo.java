@@ -7,11 +7,11 @@ import java.util.List;
 
 public class SalaryInfo {
 
-    public static final String DATE_FORMAT = "dd.MM.yyyy";
-    public static final String MINUS_DELIMITER = "-";
-    public static final String NEW_STRING_DELIMITER = "\n";
-    public static final String SPACE_DELIMITER = " ";
-    public static final String TITLE_OF_REPORT = "Report for period";
+    private static final String DATE_FORMAT = "dd.MM.yyyy";
+    private static final String MINUS_DELIMITER = "-";
+    private static final String NEW_STRING_DELIMITER = "\n";
+    private static final String SPACE_DELIMITER = " ";
+    private static final String TITLE_OF_REPORT = "Report for period";
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
 
