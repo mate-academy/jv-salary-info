@@ -5,8 +5,6 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 public class SalaryInfo {
-    public static final int HOURS_IN_DAY = 24;
-
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         int totalSalary = 0;
         StringBuilder builder = new StringBuilder();
