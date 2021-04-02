@@ -13,15 +13,14 @@ public class SalaryInfo {
         totalResult.append("Report for period ")
                 .append(dateFrom).append(" - ")
                 .append(dateTo).append("\n");
-        for (int i = 0, namesLength = names.length; i < namesLength; i++) {
-            String name = names[i];
+        for (String name : names) {
             int allSalary = 0;
-            for (int j = 0; j < data.length; j++) {
-                String info = data[j];
+            for (String info : data) {
                 if (info.contains(name)) {
                     String[] splitDataArray = info.split(" ");
                     LocalDate currentDay = LocalDate.parse(splitDataArray[0], FORMAT_DATE);
-                    if (currentDay.isAfter(firstDay) && currentDay.isBefore(lastDay.plusDays(1))) {
+                    if (currentDay.isEqual(firstDay) || currentDay.isAfter(firstDay)
+                            && currentDay.isBefore(lastDay.plusDays(1))) {
                         allSalary += Integer.parseInt(splitDataArray[2])
                                 * Integer.parseInt(splitDataArray[3]);
                     }
