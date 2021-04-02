@@ -8,7 +8,6 @@ public class SalaryInfo {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-
         LocalDate dateStart = LocalDate.parse(dateFrom, FORMATTER);
         LocalDate dateEnd = LocalDate.parse(dateTo, FORMATTER);
         StringBuilder result = new StringBuilder();
