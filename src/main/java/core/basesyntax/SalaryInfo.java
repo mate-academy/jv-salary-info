@@ -41,9 +41,9 @@ public class SalaryInfo {
     }
 
     private boolean dateIsInRange(String dateFrom, String dateTo, String dateToCheck) {
-        LocalDate dateFr = getDate(dateFrom);
-        LocalDate dateT = getDate(dateTo);
-        LocalDate checkDate = getDate(dateToCheck);
+        LocalDate localDateFrom = getDate(dateFrom);
+        LocalDate localDateTo = getDate(dateTo);
+        LocalDate localDateToCheck = getDate(dateToCheck);
         return !checkDate.isAfter(dateT) && !checkDate.isBefore(dateFr);
     }
 }
