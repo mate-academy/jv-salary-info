@@ -1,9 +1,6 @@
 package core.basesyntax;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
@@ -16,30 +13,34 @@ public class SalaryInfo {
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate firstDate = LocalDate.parse(dateFrom, FORMAT);
-        LocalDate lastDate = LocalDate.parse(dateTo, FORMAT);
+        LocalDate lastDate = LocalDate.parse(dateTo, FORMAT).plusDays(1);
         String[] newData = new String[NEW_ARRAY_INDEX];
         StringBuilder finalList = new StringBuilder();
 
         finalList.append("Report for period").append(" ")
                 .append(dateFrom).append(" - ").append(dateTo);
 
-        for (int i = 0; i < data.length; i++) {
-            String[] employeesData = data[i].split(" ");
+        for (int y = 0; y < names.length; y++) {
+            int employeeSalary = 0;
 
-            LocalDate actualDate = LocalDate.parse(employeesData[DATE_INDEX], FORMAT);
-            String employeeName = employeesData[NAME_INDEX];
+            for (int i = 0; i < data.length; i++) {
+                String[] employeesData = data[i].split(" ");
 
-            if (actualDate.isAfter(firstDate) && actualDate.isBefore(lastDate)) {
-                for (int y = 0; y < names.length; y++) {
-                    if (names[y].equals(employeeName)) {
-                        finalList.append("\n").append(employeeName).append(" ")
-                                .append(Integer.toString(Integer.parseInt(employeesData[DAYS_INDEX])
-                                * Integer.parseInt(employeesData[INCOME_INDEX])));
+                LocalDate actualDate = LocalDate.parse(employeesData[DATE_INDEX], FORMAT);
+                String employeeName = employeesData[NAME_INDEX];
 
-                    }
+                if (actualDate.isAfter(firstDate) && actualDate.isBefore(lastDate)
+                        && names[y].equals(employeeName)) {
+                    employeeSalary += Integer.parseInt(employeesData[DAYS_INDEX])
+                            * Integer.parseInt(employeesData[INCOME_INDEX]);
+
                 }
             }
+
+            finalList.append("\n").append(names[y]).append(" - ")
+                    .append(Integer.toString(employeeSalary));
         }
+
         return finalList.toString();
     }
 }
