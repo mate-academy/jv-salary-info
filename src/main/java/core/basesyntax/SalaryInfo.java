@@ -1,7 +1,5 @@
 package core.basesyntax;
 
-import java.text.ParseException;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -14,18 +12,13 @@ public class SalaryInfo {
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws IllegalArgumentException {
-        if (names == null || data == null) {
-            throw new IllegalArgumentException("Empty array(s)");
-        }
-        if (dateFrom == null || dateTo == null) {
-            throw new IllegalArgumentException("Empty string(s)");
+        if (names == null || data == null || dateFrom == null || dateTo == null) {
+            throw new IllegalArgumentException("Empty array(s) or string(s)");
         }
 
-        LocalDate firstDay = null;
-        firstDay = LocalDate.parse(dateFrom, DATE_FORMAT);
+        LocalDate firstDay = LocalDate.parse(dateFrom, DATE_FORMAT);
 
-        LocalDate lastDay = null;
-        lastDay = LocalDate.parse(dateTo, DATE_FORMAT);
+        LocalDate lastDay = LocalDate.parse(dateTo, DATE_FORMAT);
 
         StringBuilder report = new StringBuilder();
         report.append("Report for period ")
@@ -35,8 +28,7 @@ public class SalaryInfo {
                 .append("\n");
 
         for (String name : names) {
-            int salary = 0;
-            salary = calculateEmployeeSalary(data, name, firstDay, lastDay);
+            int salary = calculateEmployeeSalary(data, name, firstDay, lastDay);
             report.append(name)
                     .append(" - ")
                     .append(salary)
