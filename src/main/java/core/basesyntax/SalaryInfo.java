@@ -12,23 +12,21 @@ public class SalaryInfo {
         StringBuilder salaryInfo = new StringBuilder();
         salaryInfo.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
 
-        for (int i = 0; i < names.length; i++) {
+        for (String s : names) {
             int salary = 0;
-            for (int j = 0; j < data.length; j++) {
-                String[] employees = data[j].split(" ");
+            for (String datum : data) {
+                String[] employees = datum.split(" ");
                 LocalDate localDate = LocalDate.parse(employees[0], DATE_FORMAT);
                 String name = employees[1];
                 int hours = Integer.parseInt(employees[2]);
                 int employeesSalary = Integer.parseInt(employees[3]);
-                if (name.equals(names[i]) && (localDate.isAfter(begin) || localDate.isEqual(begin))
+                if (name.equals(s) && (localDate.isAfter(begin) || localDate.isEqual(begin))
                         && (localDate.isBefore(end) || localDate.isEqual(end))) {
-                    salary = salary + hours * employeesSalary;
+                    salary += hours * employeesSalary;
                 }
             }
-            salaryInfo.append("\n").append(names[i]).append(" - ").append(salary);
+            salaryInfo.append("\n").append(s).append(" - ").append(salary);
         }
         return salaryInfo.toString();
     }
 }
-
-
