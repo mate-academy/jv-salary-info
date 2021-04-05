@@ -51,8 +51,7 @@ public class SalaryInfo {
                             report[j] =
                                     stringBuilder.append(fieldsOfReport[NAME_IN_REPORT_POSITION])
                                                      .append(INSERT_BETWEEN_VALUES)
-                                                     .append(totalSalaryPerPeriod)
-                                                     .toString();
+                                                 .append(totalSalaryPerPeriod).toString();
                             stringBuilder.setLength(ZERO_VALUE);
                         }
                     }
