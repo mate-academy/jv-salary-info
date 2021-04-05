@@ -4,12 +4,12 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    private final DateTimeFormatter formatter =
+    private static final DateTimeFormatter FORMATTER =
             DateTimeFormatter.ofPattern("dd.MM.yyyy");
-    private final int zeroElement = 0;
-    private final int firstElement = 1;
-    private final int secondElement = 2;
-    private final int thirdElement = 3;
+    private static final int DATE_INDEX = 0;
+    private static final int NAME_INDEX = 1;
+    private static final int HOURS_INDEX = 2;
+    private static final int RATE_INDEX = 3;
 
     public String getSalaryInfo(String[] names,
                                        String[] data,
@@ -17,8 +17,8 @@ public class SalaryInfo {
                                        String dateTo) {
 
         LocalDate date = null;
-        LocalDate dateDateFrom = LocalDate.parse(dateFrom, formatter);
-        LocalDate dateDateTo = LocalDate.parse(dateTo, formatter);
+        LocalDate dateDateFrom = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate dateDateTo = LocalDate.parse(dateTo, FORMATTER);
         StringBuilder stringBuilder = new StringBuilder();
 
         stringBuilder.append("Report for period ")
@@ -29,11 +29,11 @@ public class SalaryInfo {
         for (String name : names) {
             int salary = 0;
             for (String stringWithAllData : data) {
-                String stringDate = stringWithAllData.split(" ")[zeroElement];
-                date = LocalDate.parse(stringDate, formatter);
-                String nameFromData = stringWithAllData.split(" ")[firstElement];
-                int hours = Integer.parseInt(stringWithAllData.split(" ")[secondElement]);
-                int rate = Integer.parseInt(stringWithAllData.split(" ")[thirdElement]);
+                String stringDate = stringWithAllData.split(" ")[DATE_INDEX];
+                date = LocalDate.parse(stringDate, FORMATTER);
+                String nameFromData = stringWithAllData.split(" ")[NAME_INDEX];
+                int hours = Integer.parseInt(stringWithAllData.split(" ")[HOURS_INDEX]);
+                int rate = Integer.parseInt(stringWithAllData.split(" ")[RATE_INDEX]);
 
                 if ((date.compareTo(dateDateFrom) >= 0
                         && date.compareTo(dateDateTo) <= 0)
