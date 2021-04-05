@@ -44,7 +44,7 @@ public class SalaryInfo {
                             Integer.parseInt(fieldsOfData[SALARY_RATE_PER_HOUR_POSITION]);
                     for (int j = 0; j < report.length; j++) {
                         if (report[j].contains(names[i])) {
-                            String[] fieldsOfReport = report[i].split(SPACE_DELIMITER);
+                            String[] fieldsOfReport = report[j].split(SPACE_DELIMITER);
                             int totalSalaryPerPeriod = Integer.parseInt(
                                     fieldsOfReport[TOTAL_SALARY_IN_REPORT_POSITION]);
                             totalSalaryPerPeriod += workedHours * salaryRate;
