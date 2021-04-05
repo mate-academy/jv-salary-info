@@ -4,13 +4,18 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    public static String getSalaryInfo(String[] names,
+    private final DateTimeFormatter formatter =
+            DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private final int zeroElement = 0;
+    private final int firstElement = 1;
+    private final int secondElement = 2;
+    private final int thirdElement = 3;
+
+    public String getSalaryInfo(String[] names,
                                        String[] data,
                                        String dateFrom,
                                        String dateTo) {
 
-        DateTimeFormatter formatter =
-                DateTimeFormatter.ofPattern("dd.MM.yyyy");
         LocalDate date = null;
         LocalDate dateDateFrom = LocalDate.parse(dateFrom, formatter);
         LocalDate dateDateTo = LocalDate.parse(dateTo, formatter);
@@ -19,17 +24,16 @@ public class SalaryInfo {
         stringBuilder.append("Report for period ")
                 .append(dateFrom)
                 .append(" - ")
-                .append(dateTo)
-                .append("\n");
+                .append(dateTo);
 
         for (String name : names) {
             int salary = 0;
             for (String stringWithAllData : data) {
-                String stringDate = stringWithAllData.split(" ")[0];
+                String stringDate = stringWithAllData.split(" ")[zeroElement];
                 date = LocalDate.parse(stringDate, formatter);
-                String nameFromData = stringWithAllData.split(" ")[1];
-                int hours = Integer.parseInt(stringWithAllData.split(" ")[2]);
-                int rate = Integer.parseInt(stringWithAllData.split(" ")[3]);
+                String nameFromData = stringWithAllData.split(" ")[firstElement];
+                int hours = Integer.parseInt(stringWithAllData.split(" ")[secondElement]);
+                int rate = Integer.parseInt(stringWithAllData.split(" ")[thirdElement]);
 
                 if ((date.compareTo(dateDateFrom) >= 0
                         && date.compareTo(dateDateTo) <= 0)
@@ -38,9 +42,9 @@ public class SalaryInfo {
                 }
 
             }
-            stringBuilder.append(name).append(" - ").append(salary).append("\n");
+            stringBuilder.append("\n").append(name).append(" - ").append(salary);
         }
 
-        return stringBuilder.toString().trim();
+        return stringBuilder.toString();
     }
 }
