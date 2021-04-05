@@ -5,11 +5,8 @@ import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     private static final int DATE_IN_DATA_POSITION = 0;
-    private static final int NAME_IN_REPORT_POSITION = 0;
     private static final int SALARY_RATE_PER_HOUR_POSITION = 3;
-    private static final int TOTAL_SALARY_IN_REPORT_POSITION = 2;
     private static final int WORKED_HOURS_POSITION = 2;
-    private static final int ZERO_VALUE = 0;
     private static final String DATE_FORMAT = "dd.MM.yyyy";
     private static final String MINUS_DELIMITER = "-";
     private static final String NEW_STRING_DELIMITER = "\n";
@@ -25,47 +22,42 @@ public class SalaryInfo {
         if (!startOfPeriod.equals(endOfPeriod)) {
             endOfPeriod = endOfPeriod.plusDays(1);
         }
-        String[] report = new String[names.length];
-        StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < names.length; i++) {
-            report[i] = stringBuilder.append(names[i]).append(INSERT_BETWEEN_VALUES)
-                                     .append(ZERO_VALUE).toString();
-            stringBuilder.setLength(ZERO_VALUE);
-        }
+        int[] totalSumsForReport = new int[names.length];
         for (int i = 0; i < names.length; i++) {
             for (String line : data) {
                 String[] fieldsOfData = line.split(SPACE_DELIMITER);
-                LocalDate date =
-                        LocalDate.parse(fieldsOfData[DATE_IN_DATA_POSITION], formatter);
+                LocalDate date = LocalDate.parse(fieldsOfData[DATE_IN_DATA_POSITION], formatter);
                 if (line.contains(names[i]) && (date.isAfter(startOfPeriod)
                         && date.isBefore(endOfPeriod))) {
-                    int workedHours = Integer.parseInt(fieldsOfData[WORKED_HOURS_POSITION]);
-                    int salaryRate =
-                            Integer.parseInt(fieldsOfData[SALARY_RATE_PER_HOUR_POSITION]);
-                    for (int j = 0; j < report.length; j++) {
-                        if (report[j].contains(names[i])) {
-                            String[] fieldsOfReport = report[j].split(SPACE_DELIMITER);
-                            int totalSalaryPerPeriod = Integer.parseInt(
-                                    fieldsOfReport[TOTAL_SALARY_IN_REPORT_POSITION]);
-                            totalSalaryPerPeriod += workedHours * salaryRate;
-                            report[j] =
-                                    stringBuilder.append(fieldsOfReport[NAME_IN_REPORT_POSITION])
-                                                     .append(INSERT_BETWEEN_VALUES)
-                                                 .append(totalSalaryPerPeriod).toString();
-                            stringBuilder.setLength(ZERO_VALUE);
-                        }
-                    }
+                    totalSumsForReport[i] += getTotalSumPerDay(fieldsOfData);
                 }
             }
         }
-        stringBuilder.append(TITLE_OF_REPORT + SPACE_DELIMITER).append(dateFrom)
-                     .append(INSERT_BETWEEN_VALUES).append(dateTo).append(NEW_STRING_DELIMITER);
-        for (int i = 0; i < report.length; i++) {
-            stringBuilder.append(report[i]);
-            if (i < report.length - 1) {
+        return makeReport(names, totalSumsForReport, dateFrom, dateTo);
+    }
+
+    private int getTotalSumPerDay(String[] fieldsOfData) {
+        int workedHours = Integer.parseInt(fieldsOfData[WORKED_HOURS_POSITION]);
+        int salaryRate = Integer.parseInt(fieldsOfData[SALARY_RATE_PER_HOUR_POSITION]);
+        return workedHours * salaryRate;
+    }
+
+    private String makeReport(String[] names, int[] totalSumForReport,
+                              String dateFrom, String dateTo) {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(makeHeaderOfReport(dateFrom, dateTo));
+        for (int i = 0; i < names.length; i++) {
+            stringBuilder.append(names[i]).append(INSERT_BETWEEN_VALUES)
+                         .append(totalSumForReport[i]);
+            if (i < names.length - 1) {
                 stringBuilder.append(NEW_STRING_DELIMITER);
             }
         }
         return stringBuilder.toString();
+    }
+
+    private String makeHeaderOfReport(String dateFrom, String dateTo) {
+        return TITLE_OF_REPORT + SPACE_DELIMITER + dateFrom + SPACE_DELIMITER
+                + MINUS_DELIMITER + SPACE_DELIMITER + dateTo + NEW_STRING_DELIMITER;
     }
 }
