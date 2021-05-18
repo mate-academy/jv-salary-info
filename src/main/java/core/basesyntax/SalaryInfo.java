@@ -6,14 +6,15 @@ import java.time.format.DateTimeFormatter;
 public class SalaryInfo {
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        String result = "Report for period ";
+        StringBuilder result = new StringBuilder();
+        result.append("Report for period ");
         int[] salary = new int[names.length];
         final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
         LocalDate dateBegin = LocalDate.parse(dateFrom, formatter);
         LocalDate dateEnd = LocalDate.parse(dateTo, formatter);
 
-        result = result + dateFrom + " - " + dateTo;
+        result.append(dateFrom + " - " + dateTo);
 
         for (String tempDataString : data) {
             LocalDate date = LocalDate.parse(getParameter(tempDataString), formatter);
@@ -33,9 +34,9 @@ public class SalaryInfo {
             }
         }
         for (int i = 0; i < names.length; i++) {
-            result = formatResult(result, names[i], salary[i]);
+            result.append("\n" + names[i] + " - " + salary[i]);
         }
-        return result;
+        return result.toString();
     }
 
     private String getParameter(String parameter) {
@@ -46,7 +47,4 @@ public class SalaryInfo {
         return oldText.replaceFirst(oldText.substring(0, oldText.indexOf(' ')), "").strip();
     }
 
-    private String formatResult(String text, String name, int salary) {
-        return text + "\n" + name + " - " + salary;
-    }
 }
