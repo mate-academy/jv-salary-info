@@ -1,46 +1,37 @@
 package core.basesyntax;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    private final SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        StringBuilder builder = new StringBuilder();
-        String[] array = new String[names.length];
-        try {
-            Date firstDate = format.parse(dateFrom);
-            Date secondDate = format.parse(dateTo);
-            for (int i = 0;i < names.length;i++) {
-                int totalAmount = 0;
-                for (String row : data) {
-                    String[] record = row.trim().split("\\s");
-                    Date recordDate = format.parse(record[0]);
-                    String recordName = record[1];
-                    int amountPerHour = Integer.parseInt(record[3]);
-                    int amountHour = Integer.parseInt(record[2]);
-                    if (recordDate.compareTo(firstDate) >= 0
-                            && recordDate.compareTo(secondDate) <= 0
-                            && recordName.equals(names[i])) {
-                        totalAmount += amountPerHour * amountHour;
-                    }
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        StringBuilder reporter = new StringBuilder();
+        LocalDate firstDate = LocalDate.parse(dateFrom, formatter);
+        LocalDate secondDate = LocalDate.parse(dateTo, formatter);
+        reporter.append("Report for period ").append(
+            firstDate.format(formatter)).append(" - ").append(
+            secondDate.format(formatter)).append("\n");
+        for (int i = 0; i < names.length; i++) {
+            int totalAmount = 0;
+            for (String row : data) {
+                String[] record = row.trim().split("\\s");
+                LocalDate recordDate = LocalDate.parse(record[0], formatter);
+                String recordName = record[1];
+                int amountPerHour = Integer.parseInt(record[3]);
+                int amountHour = Integer.parseInt(record[2]);
+                if (recordDate.compareTo(firstDate) >= 0
+                        && recordDate.compareTo(secondDate) <= 0
+                        && recordName.equals(names[i])) {
+                    totalAmount += amountPerHour * amountHour;
                 }
-                array[i] = builder.append(names[i]).append(" - ").append(totalAmount).toString();
-                builder.delete(0,builder.length());
             }
-            builder.delete(0,builder.length());
-            builder.append("Report for period ").append(
-                            format.format(firstDate)).append(" - ").append(
-                            format.format(secondDate)).append("\n");
-        } catch (ParseException e) {
-            System.out.println("Wrong format");
+            reporter.append(names[i]).append(" - ").append(totalAmount);
+            if (i < names.length - 1) {
+                reporter.append("\n");
+            }
         }
-        for (int i = 0;i < names.length - 1;i++) {
-            builder.append(array[i]).append("\n");
-        }
-        builder.append(array[array.length - 1]);
-        return builder.toString();
+        return reporter.toString();
     }
 }
