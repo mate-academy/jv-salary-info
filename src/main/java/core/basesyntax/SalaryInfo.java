@@ -8,7 +8,7 @@ public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         StringBuilder reporter = new StringBuilder();
-        LocalDate firstDate = LocalDate.parse(dateFrom, formatter);
+        LocalDate startDate = LocalDate.parse(dateFrom, formatter);
         LocalDate secondDate = LocalDate.parse(dateTo, formatter);
         reporter.append("Report for period ").append(
             firstDate.format(formatter)).append(" - ").append(
