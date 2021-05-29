@@ -71,7 +71,7 @@ public class SalaryInfoTest {
             String actualResult = salary.getSalaryInfo(sampleNames, scriptArray, dates[0], dates[i]);
             String expectedResult = SalaryInfoTest.exceptedReports[i];
 
-            Assert.assertEquals(
+            Assert.   assertEquals(
                     "Test failed from date " + dates[0] + " to " + dates[i]
                             + "\nactual: \n" + actualResult
                             + "\nexpected: \n" + expectedResult,
