@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class Record {
-    private final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     private String originalData;
     private LocalDate date;
     private String userName;
@@ -19,7 +19,7 @@ public class Record {
     private void createFields() {
         if (originalData != null) {
             String[] inputData = originalData.split(" ");
-            this.date = LocalDate.parse(inputData[0], FORMATTER);
+            this.date = LocalDate.parse(inputData[0], formatter);
             this.userName = inputData[1];
             this.countDays = Integer.parseInt(inputData[2]);
             this.salary = Double.parseDouble(inputData[3]);

@@ -6,11 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SalaryInfo {
-    private final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        LocalDate from = LocalDate.parse(dateFrom, FORMATTER);
-        LocalDate to = LocalDate.parse(dateTo, FORMATTER);
+        LocalDate from = LocalDate.parse(dateFrom, formatter);
+        LocalDate to = LocalDate.parse(dateTo, formatter);
         List<String> reportRecords = new ArrayList<>();
         for (String name : names) {
             double sum = 0;
@@ -28,9 +28,9 @@ public class SalaryInfo {
     private String createReport(List<String> reportRecords, LocalDate from, LocalDate to) {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("Report for period ");
-        stringBuilder.append(from.format(FORMATTER));
+        stringBuilder.append(from.format(formatter));
         stringBuilder.append(" - ");
-        stringBuilder.append(to.format(FORMATTER));
+        stringBuilder.append(to.format(formatter));
         stringBuilder.append("\n");
         for (String reportRecord : reportRecords) {
             stringBuilder.append(reportRecord).append("\n");
