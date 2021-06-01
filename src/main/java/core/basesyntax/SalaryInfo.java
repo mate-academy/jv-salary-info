@@ -13,7 +13,7 @@ public class SalaryInfo {
         LocalDate to = LocalDate.parse(dateTo, formatter);
         List<String> reportRecords = new ArrayList<>();
         for (String name : names) {
-            double sum = 0;
+            int sum = 0;
             for (String value : data) {
                 Record record = new Record(value);
                 if (name.equals(record.getUserName())
