@@ -17,8 +17,8 @@ public class SalaryInfo {
             for (String value : data) {
                 Record record = new Record(value);
                 if (name.equals(record.getUserName())
-                        && record.getDate().isAfter(from)
-                        && record.getDate().isBefore(to)) {
+                        && record.getDate().isAfter(from.minusDays(1))
+                        && record.getDate().isBefore(to.plusDays(1))) {
                     sum += record.getSalary() * record.getCountDays();
                 }
             }

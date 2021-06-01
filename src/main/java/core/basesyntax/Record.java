@@ -9,7 +9,7 @@ public class Record {
     private LocalDate date;
     private String userName;
     private int countDays;
-    private double salary;
+    private int salary;
 
     public Record(String data) {
         this.originalData = data;
@@ -22,7 +22,7 @@ public class Record {
             this.date = LocalDate.parse(inputData[0], formatter);
             this.userName = inputData[1];
             this.countDays = Integer.parseInt(inputData[2]);
-            this.salary = Double.parseDouble(inputData[3]);
+            this.salary = Integer.parseInt(inputData[3]);
         }
     }
 
@@ -50,11 +50,11 @@ public class Record {
         this.countDays = countDays;
     }
 
-    public double getSalary() {
+    public int getSalary() {
         return salary;
     }
 
-    public void setSalary(double salary) {
+    public void setSalary(int salary) {
         this.salary = salary;
     }
 }
