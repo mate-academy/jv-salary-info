@@ -37,6 +37,6 @@ public class SalaryInfo {
         for (String reportRecord : reportRecords) {
             stringBuilder.append(reportRecord).append("\n");
         }
-        return stringBuilder.toString();
+        return stringBuilder.substring(0, stringBuilder.length() - 1);
     }
 }
