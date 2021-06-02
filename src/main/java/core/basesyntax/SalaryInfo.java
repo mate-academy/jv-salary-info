@@ -28,15 +28,13 @@ public class SalaryInfo {
     }
 
     private String createReport(List<String> reportRecords, LocalDate from, LocalDate to) {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("Report for period ");
-        stringBuilder.append(from.format(formatter));
-        stringBuilder.append(" - ");
-        stringBuilder.append(to.format(formatter));
-        stringBuilder.append("\n");
+        StringBuilder report = new StringBuilder();
+        report.append("Report for period ").
+                append(from.format(formatter)).append(" - ").
+                append(to.format(formatter)).append("\n");
         for (String reportRecord : reportRecords) {
-            stringBuilder.append(reportRecord).append("\n");
+            report.append(reportRecord).append("\n");
         }
-        return stringBuilder.substring(0, stringBuilder.length() - 1);
+        return report.substring(0, report.length() - 1);
     }
 }

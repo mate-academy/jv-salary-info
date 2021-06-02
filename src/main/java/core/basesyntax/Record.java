@@ -5,25 +5,21 @@ import java.time.format.DateTimeFormatter;
 
 public class Record {
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-    private String originalData;
     private LocalDate date;
     private String userName;
     private int countDays;
     private int salary;
 
     public Record(String data) {
-        this.originalData = data;
-        createFields();
+        initFields(data);
     }
 
-    private void createFields() {
-        if (originalData != null) {
-            String[] inputData = originalData.split(" ");
-            this.date = LocalDate.parse(inputData[0], formatter);
-            this.userName = inputData[1];
-            this.countDays = Integer.parseInt(inputData[2]);
-            this.salary = Integer.parseInt(inputData[3]);
-        }
+    private void initFields(String originalData) {
+        String[] inputData = originalData.split(" ");
+        this.date = LocalDate.parse(inputData[0], formatter);
+        this.userName = inputData[1];
+        this.countDays = Integer.parseInt(inputData[2]);
+        this.salary = Integer.parseInt(inputData[3]);
     }
 
     public LocalDate getDate() {
