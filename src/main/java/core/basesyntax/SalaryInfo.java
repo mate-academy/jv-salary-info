@@ -29,9 +29,9 @@ public class SalaryInfo {
 
     private String createReport(List<String> reportRecords, LocalDate from, LocalDate to) {
         StringBuilder report = new StringBuilder();
-        report.append("Report for period ").
-                append(from.format(formatter)).append(" - ").
-                append(to.format(formatter)).append("\n");
+        report.append("Report for period ")
+                .append(from.format(formatter)).append(" - ")
+                .append(to.format(formatter)).append("\n");
         for (String reportRecord : reportRecords) {
             report.append(reportRecord).append("\n");
         }
