@@ -11,20 +11,20 @@ public class SalaryInfo {
         StringBuilder result = new StringBuilder();
         LocalDate from = LocalDate.parse(dateFrom, FORMAT);
         LocalDate to = LocalDate.parse(dateTo, FORMAT);
-        result.append("Report for period: ")
+        result.append("Report for period")
                 .append(dateFrom)
                 .append(" - ")
                 .append(dateTo)
                 .append(": ");
         for (String name : names) {
-            double moneyEarned = 0;
+            int moneyEarned = 0;
             for (String check : data) {
                 if (check.contains(name)) {
                     String[] array = check.split(" ");
                     LocalDate localDate = LocalDate.parse(array[0], FORMAT);
                     if ((localDate.isAfter(from) || localDate.equals(from))
                             && (localDate.equals(to) || localDate.isBefore(to))) {
-                        moneyEarned += Double.parseDouble(array[2]) * Double.parseDouble(array[3]);
+                        moneyEarned += Integer.parseInt(array[2]) * Integer.parseInt(array[3]);
                     }
                 }
             }
