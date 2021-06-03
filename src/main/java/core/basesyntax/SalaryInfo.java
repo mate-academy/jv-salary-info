@@ -1,8 +1,37 @@
 package core.basesyntax;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class SalaryInfo {
 
+    public static final DateTimeFormatter FORMAT = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        return null;
+        StringBuilder result = new StringBuilder();
+        LocalDate from = LocalDate.parse(dateFrom, FORMAT);
+        LocalDate to = LocalDate.parse(dateTo, FORMAT);
+        result.append("Report for period: ")
+                .append(dateFrom)
+                .append(" - ")
+                .append(dateTo)
+                .append(": ");
+        for (String name : names) {
+            double moneyEarned = 0;
+            for (String check : data) {
+                if (check.contains(name)) {
+                    String[] array = check.split(" ");
+                    LocalDate localDate = LocalDate.parse(array[0], FORMAT);
+                    if (localDate.isAfter(from) && localDate.isBefore(to)) {
+                        moneyEarned += Double.parseDouble(array[2]) * Double.parseDouble(array[3]);
+                    }
+                }
+            }
+            result.append("\n")
+                    .append(name)
+                    .append(" - ")
+                    .append(moneyEarned);
+        }
+        return result.toString();
     }
 }
