@@ -16,11 +16,11 @@ public class SalaryInfo {
         StringBuilder buildInfo = new StringBuilder(String.format(HEADER, dateFrom, dateTo));
         for (String name : names) {
             int sumOfSalary = 0;
-            buildInfo.append("\n").append(name)
-                    .append(" ").append("-").append(" ");
+            buildInfo.append("\n").append(name).append(" - ");
             for (String info : data) {
                 if (info.contains(name)) {
-                    LocalDate currentDate = LocalDate.parse(info.split(" ")[DATE_INDEX], FORMATTER);
+                    String dateInfo = info.split(" ")[DATE_INDEX];
+                    LocalDate currentDate = LocalDate.parse(dateInfo, FORMATTER);
                     if ((fromDate.isBefore(currentDate) || fromDate.isEqual(currentDate))
                             && (toDate.isAfter(currentDate) || toDate.isEqual(currentDate))) {
                         sumOfSalary += Integer.parseInt(info.split(" ")[COUNT_OF_HOURS_INDEX])
