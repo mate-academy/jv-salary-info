@@ -14,8 +14,7 @@ public class SalaryInfo {
         result.append("Report for period ")
                 .append(dateFrom)
                 .append(" - ")
-                .append(dateTo)
-                .append(": ");
+                .append(dateTo);
         for (String name : names) {
             int moneyEarned = 0;
             for (String check : data) {
