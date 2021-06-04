@@ -14,30 +14,31 @@ public class SalaryInfo {
 
         LocalDate dateFirst = LocalDate.parse(dateFrom, FORMATTER);
         LocalDate dateLast = LocalDate.parse(dateTo, FORMATTER);
-        LocalDate dateInput;
+        LocalDate currentDate;
 
-        StringBuilder totalSalary = new StringBuilder("Report for period ");
-        totalSalary.append(dateFrom).append(" - ").append(dateTo).append("\n");
+        StringBuilder totalSalary =
+                new StringBuilder(String.format("Report for period %s - %s", dateFrom, dateTo));
 
         for (String name : names) {
             int employeeTotalSalary = 0;
-            totalSalary.append(name).append(" - ");
+            totalSalary.append("\n").append(name).append(" - ");
 
             for (String info : data) {
-                String[] record = info.split(" ");
+                String[] splittedDate = info.split(" ");
 
-                if (name.equals(record[NAME_INDEX])) {
-                    dateInput = LocalDate.parse(record[DATE_INDEX], FORMATTER);
+                if (name.equals(splittedDate[NAME_INDEX])) {
+                    currentDate = LocalDate.parse(splittedDate[DATE_INDEX], FORMATTER);
 
-                    if (dateFirst.compareTo(dateInput) <= 0 && dateLast.compareTo(dateInput) >= 0) {
-                        employeeTotalSalary += Integer.parseInt(record[HOURS_OF_WORK_INDEX])
-                                * Integer.parseInt(record[SALARY_FOR_AN_HOUR_INDEX]);
+                    if (dateFirst.compareTo(currentDate) <= 0
+                            && dateLast.compareTo(currentDate) >= 0) {
+                        employeeTotalSalary += Integer.parseInt(splittedDate[HOURS_OF_WORK_INDEX])
+                                * Integer.parseInt(splittedDate[SALARY_FOR_AN_HOUR_INDEX]);
                     }
                 }
             }
-            totalSalary.append(employeeTotalSalary).append("\n");
+            totalSalary.append(employeeTotalSalary);
         }
-        return totalSalary.toString().trim();
+        return totalSalary.toString();
     }
 
 }
