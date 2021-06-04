@@ -28,7 +28,7 @@ public class SalaryInfo {
                 if (name.equals(elementFromData[POSITION_NAME])) {
                     localDateData = LocalDate.parse(elementFromData[POSITION_DATE], FORMATTER);
                     if (localDateData.isAfter(localDateFrom.minusDays(1))
-                        && localDateData.isBefore(localDateTo.plusDays(1))) {
+                            && localDateData.isBefore(localDateTo.plusDays(1))) {
                         salary += Integer.parseInt(elementFromData[POSITION_HOUR])
                             * Integer.parseInt(elementFromData[POSITION_PAY]);
                     }
