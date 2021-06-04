@@ -8,7 +8,7 @@ public class SalaryInfo {
     private static final int INDEX_OF_NAME = 1;
     private static final int INDEX_OF_HOURS = 2;
     private static final int INDEX_OF_AMOUNT = 3;
-    private static final DateTimeFormatter dateFormatter
+    private static final DateTimeFormatter DATE_TIME_FORMATTER
             = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
@@ -21,9 +21,11 @@ public class SalaryInfo {
 
         for (String name : names) {
             for (String information : data) {
-                if (compareDates(information, dateFrom, dateTo)
-                        && compareNames(information, name)) {
-                    amountSum += getDaySalary(information);
+                String[] totalInformation = information.split(" ");
+                if (areInBetween(totalInformation[INDEX_OF_DATE], dateFrom, dateTo)
+                        && totalInformation[INDEX_OF_NAME].equals(name)) {
+                    amountSum += Integer.parseInt(totalInformation[INDEX_OF_HOURS])
+                               * Integer.parseInt(totalInformation[INDEX_OF_AMOUNT]);
                 }
             }
             builder.append("\n")
@@ -35,27 +37,12 @@ public class SalaryInfo {
         return builder.toString();
     }
 
-    private int getDaySalary(String information) {
-        return Integer.parseInt(getInfoByIndex(information, INDEX_OF_HOURS))
-                * Integer.parseInt(getInfoByIndex(information, INDEX_OF_AMOUNT));
-    }
-
-    private boolean compareNames(String information, String name) {
-        String nameInfo = getInfoByIndex(information, INDEX_OF_NAME);
-        return nameInfo.equals(name);
-    }
-
-    private boolean compareDates(String information, String dateFrom, String dateTo) {
-        String dateInfo = getInfoByIndex(information, INDEX_OF_DATE);
-        LocalDate currentDate = LocalDate.parse(dateInfo, dateFormatter);
-        LocalDate startDate = LocalDate.parse(dateFrom, dateFormatter);
-        LocalDate endDate = LocalDate.parse(dateTo, dateFormatter);
+    private boolean areInBetween(String information, String dateFrom, String dateTo) {
+        LocalDate currentDate = LocalDate.parse(information, DATE_TIME_FORMATTER);
+        LocalDate startDate = LocalDate.parse(dateFrom, DATE_TIME_FORMATTER);
+        LocalDate endDate = LocalDate.parse(dateTo, DATE_TIME_FORMATTER);
         return currentDate.isAfter(startDate) && currentDate.isBefore(endDate)
                 || currentDate.isAfter(startDate) && currentDate.equals(endDate);
     }
 
-    private String getInfoByIndex(String information, int index) {
-        String[] totalInformation = information.split(" ");
-        return totalInformation[index];
-    }
 }
