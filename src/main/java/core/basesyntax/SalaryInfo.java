@@ -38,11 +38,13 @@ public class SalaryInfo {
     }
 
     private boolean areInBetween(String information, String dateFrom, String dateTo) {
-        LocalDate currentDate = LocalDate.parse(information, DATE_TIME_FORMATTER);
-        LocalDate startDate = LocalDate.parse(dateFrom, DATE_TIME_FORMATTER);
-        LocalDate endDate = LocalDate.parse(dateTo, DATE_TIME_FORMATTER);
-        return currentDate.isAfter(startDate) && currentDate.isBefore(endDate)
-                || currentDate.isAfter(startDate) && currentDate.equals(endDate);
+        return LocalDate.parse(information, DATE_TIME_FORMATTER)
+                .isAfter(LocalDate.parse(dateFrom, DATE_TIME_FORMATTER))
+                && LocalDate.parse(information, DATE_TIME_FORMATTER)
+                .isBefore(LocalDate.parse(dateTo, DATE_TIME_FORMATTER))
+                || LocalDate.parse(information, DATE_TIME_FORMATTER)
+                .isAfter(LocalDate.parse(dateFrom, DATE_TIME_FORMATTER))
+                && LocalDate.parse(information, DATE_TIME_FORMATTER)
+                .equals(LocalDate.parse(dateTo, DATE_TIME_FORMATTER));
     }
-
 }
