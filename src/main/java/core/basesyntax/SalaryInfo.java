@@ -17,13 +17,13 @@ public class SalaryInfo {
         for (String name : names) {
             int salary = 0;
             for (int i = 0; i < data.length; i++) {
-                String[] splitArr = data[i].split(" ");
-                LocalDate workingDayDate = LocalDate.parse(splitArr[DATA_INDEX],
+                String[] splittedData = data[i].split(" ");
+                LocalDate workingDayDate = LocalDate.parse(splittedData[DATA_INDEX],
                         DATE_TIME_FORMATTER);
-                if (splitArr[NAME_INDEX].equals(name)
+                if (splittedData[NAME_INDEX].equals(name)
                         && compareDates(workingDayDate, dateFrom, dateTo)) {
-                    salary += (Integer.parseInt(splitArr[WORKING_HOUR_INDEX])
-                                    * Integer.parseInt(splitArr[PARTICULAR_DAY_INDEX]));
+                    salary += (Integer.parseInt(splittedData[WORKING_HOUR_INDEX])
+                                    * Integer.parseInt(splittedData[PARTICULAR_DAY_INDEX]));
                 }
             }
             stringBuilder.append("\n").append(name).append(" - ").append(salary);
