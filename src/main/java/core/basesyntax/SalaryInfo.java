@@ -5,7 +5,7 @@ import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-    private static final int INDEX_OF_NAME = 1;
+    private static final int INDEX_OF_DATE = 0;
     private static final int INDEX_OF_HOURS = 2;
     private static final int INDEX_OF_SALARY_PER_HOUR = 3;
     private static final String CHARACTER = "-";
@@ -13,36 +13,29 @@ public class SalaryInfo {
     public static String getSalaryInfo(String[] names, String[] data,
                                        String dateFrom, String dateTo) {
         StringBuilder builder = new StringBuilder();
-        int[] eachSalary = new int[names.length];
         LocalDate firstDate = LocalDate.parse(dateFrom.substring(6, 10) + CHARACTER
                 + dateFrom.substring(3, 5) + CHARACTER + dateFrom.substring(0, 2));
         LocalDate secondDate = LocalDate.parse(dateTo.substring(6, 10) + CHARACTER
                 + dateTo.substring(3, 5) + CHARACTER + dateTo.substring(0, 2));
-
-        for (String datum : data) {
-            builder.append(datum);
-            LocalDate date = LocalDate.parse(builder.substring(6, 10) + CHARACTER
-                    + builder.substring(3, 5) + CHARACTER + builder.substring(0, 2));
-
-            if ((date.isAfter(firstDate) || date.isEqual(firstDate)) && (date.isBefore(secondDate)
-                    || date.isEqual(secondDate))) {
-                for (int j = 0; j < names.length; j++) {
-                    if (names[j].equals(datum.split(" ")[INDEX_OF_NAME])) {
-                        eachSalary[j] += Integer.parseInt(datum.split(" ")[INDEX_OF_HOURS])
-                                * Integer.parseInt(datum.split(" ")[INDEX_OF_SALARY_PER_HOUR]);
-                    }
-                }
-            }
-            builder.delete(0, builder.length());
-        }
-
         builder.append("Report for period ").append(FORMATTER.format(firstDate)).append(" - ")
                 .append(FORMATTER.format(secondDate));
 
-        for (int i = 0; i < names.length; i++) {
-            builder.append("\n").append(names[i]).append(" - ").append(eachSalary[i]);
+        for (String name : names) {
+            int eachSalary = 0;
+            for (String information : data) {
+                if (information.contains(name)) {
+                    String currentDate = information.split(" ")[INDEX_OF_DATE];
+                    LocalDate date = LocalDate.parse(currentDate, FORMATTER);
+                    if ((date.isAfter(firstDate) || date.isEqual(firstDate))
+                            && (date.isBefore(secondDate) || date.isEqual(secondDate))) {
+                        eachSalary += Integer.parseInt(information.split(" ")[INDEX_OF_HOURS])
+                                * Integer.parseInt(information.split(" ")
+                                [INDEX_OF_SALARY_PER_HOUR]);
+                    }
+                }
+            }
+            builder.append("\n").append(name).append(" - ").append(eachSalary);
         }
-
         return builder.toString();
     }
 }
