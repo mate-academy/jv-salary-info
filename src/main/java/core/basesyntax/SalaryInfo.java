@@ -10,7 +10,8 @@ public class SalaryInfo {
     private static final int INDEX_OF_SALARY_PER_HOUR = 2;
     private static final int HOURS = 3;
 
-    public static String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
+    public static String getSalaryInfo(String[] names, String[] data,
+                                       String dateFrom, String dateTo) {
         try {
             Date dateStart = dateFormat.parse(dateFrom);
             Date dateEnd = dateFormat.parse(dateTo);
