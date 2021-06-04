@@ -5,6 +5,9 @@ import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final int INDEX_OF_NAME = 1;
+    private static final int INDEX_OF_HOURS = 2;
+    private static final int INDEX_OF_SALARY_PER_HOUR = 3;
     private static final String CHARACTER = "-";
 
     public static String getSalaryInfo(String[] names, String[] data,
@@ -24,9 +27,9 @@ public class SalaryInfo {
             if ((date.isAfter(firstDate) || date.isEqual(firstDate)) && (date.isBefore(secondDate)
                     || date.isEqual(secondDate))) {
                 for (int j = 0; j < names.length; j++) {
-                    if (names[j].equals(datum.split(" ")[1])) {
-                        eachSalary[j] += Integer.parseInt(datum.split(" ")[2])
-                                * Integer.parseInt(datum.split(" ")[3]);
+                    if (names[j].equals(datum.split(" ")[INDEX_OF_NAME])) {
+                        eachSalary[j] += Integer.parseInt(datum.split(" ")[INDEX_OF_HOURS])
+                                * Integer.parseInt(datum.split(" ")[INDEX_OF_SALARY_PER_HOUR]);
                     }
                 }
             }
