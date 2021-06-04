@@ -19,12 +19,12 @@ public class SalaryInfo {
             buildInfo.append("\n").append(name).append(" - ");
             for (String info : data) {
                 if (info.contains(name)) {
-                    String dateInfo = info.split(" ")[DATE_INDEX];
-                    LocalDate currentDate = LocalDate.parse(dateInfo, FORMATTER);
+                    String[] dateInfo = info.split(" ");
+                    LocalDate currentDate = LocalDate.parse(dateInfo[DATE_INDEX], FORMATTER);
                     if ((fromDate.isBefore(currentDate) || fromDate.isEqual(currentDate))
                             && (toDate.isAfter(currentDate) || toDate.isEqual(currentDate))) {
-                        sumOfSalary += Integer.parseInt(info.split(" ")[COUNT_OF_HOURS_INDEX])
-                                * Integer.parseInt(info.split(" ")[SALARY_PER_HOUR_INDEX]);
+                        sumOfSalary += Integer.parseInt(dateInfo[COUNT_OF_HOURS_INDEX])
+                                * Integer.parseInt(dateInfo[SALARY_PER_HOUR_INDEX]);
                     }
                 }
             }
