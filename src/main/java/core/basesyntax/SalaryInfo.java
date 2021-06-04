@@ -20,7 +20,8 @@ public class SalaryInfo {
             int salaryForPeriod = 0;
             for (String information : data) {
                 if (information.contains(name)) {
-                    LocalDate localDate = LocalDate.parse(information.split(" ")[INDEX_OF_DATE], FORMAT_OF_DATE);
+                    LocalDate localDate = LocalDate.parse(information.split(" ")
+                            [INDEX_OF_DATE], FORMAT_OF_DATE);
                     if ((periodTo.isAfter(localDate) || periodTo.isEqual(localDate))
                             && periodFrom.isBefore(localDate) || periodFrom.isEqual(localDate)) {
                         salaryForPeriod +=
