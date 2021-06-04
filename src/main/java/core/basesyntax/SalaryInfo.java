@@ -24,8 +24,10 @@ public class SalaryInfo {
                     String[] splittedDataArray = info.split(" ");
                     LocalDate currentDate = LocalDate.parse(splittedDataArray[DATE_INDEX],
                             DATE_TIME_FORMATTER);
-                    if ((currentDate.isAfter(localDateFrom) || currentDate.isEqual(localDateFrom))
-                            && (currentDate.isBefore(localDateTo) || currentDate.isEqual(localDateTo))) {
+                    if ((currentDate.isAfter(localDateFrom)
+                            || currentDate.isEqual(localDateFrom))
+                            && (currentDate.isBefore(localDateTo)
+                            || currentDate.isEqual(localDateTo))) {
                         totalSalary += Integer.parseInt(splittedDataArray[HOURS_INDEX])
                                 * Integer.parseInt(splittedDataArray[SALARY_PER_HOUR_INDEX]);
                     }
