@@ -14,14 +14,11 @@ public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate fromDate = LocalDate.parse(dateFrom, FORMATTER);
         LocalDate toDate = LocalDate.parse(dateTo, FORMATTER);
-        StringBuilder employeesInfo = new StringBuilder();
-        StringBuilder title = new StringBuilder();
-
-        title.append("Report for period ")
-                .append(dateFrom).append(" - ").append(dateTo).append("\n");
+        StringBuilder salaryInfo = new StringBuilder();
+        salaryInfo.append("Report for period ")
+                .append(dateFrom).append(" - ").append(dateTo);
 
         for (String employee : names) {
-            employeesInfo.append(employee).append(" - ");
             int money = 0;
             for (String record : data) {
                 String[] currentRecord = record.split(" ");
@@ -36,10 +33,9 @@ public class SalaryInfo {
                 money += Integer.parseInt(currentRecord[HOURS_INDEX])
                         * Integer.parseInt(currentRecord[INCOME_PER_HOUR_INDEX]);
             }
-            employeesInfo.append(money).append("\n");
+            salaryInfo.append("\n").append(employee).append(" - ").append(money);
         }
 
-        employeesInfo.replace(employeesInfo.length() - 1, employeesInfo.length(), "");
-        return title.append(employeesInfo).toString();
+        return salaryInfo.toString();
     }
 }
