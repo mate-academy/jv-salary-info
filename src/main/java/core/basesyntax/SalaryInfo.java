@@ -25,7 +25,7 @@ public class SalaryInfo {
             allSalaryUser = 0;
             for (String dataWorkUser : data) {
                 tempArray = dataWorkUser.split(" ");
-                if (tempArray[POSITION_NAME_IN_ARRAY_DATE].equals(nameUser) == true) {
+                if (tempArray[POSITION_NAME_IN_ARRAY_DATE].equals(nameUser)) {
                     dateWorkUser = LocalDate.parse(tempArray[POSITION_DATE_IN_ARRAY_DATA],
                             DateTimeFormatter.ofPattern(FORMAT_DATE));
                     if (dateWorkUser.isAfter(dateFromSalaryInfo)
