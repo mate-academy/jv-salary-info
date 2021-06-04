@@ -1,10 +1,14 @@
 package core.basesyntax;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
+
+    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
+
         StringBuilder resultMessage = new StringBuilder("Report for period ")
                 .append(dateFrom)
                 .append(" - ")
@@ -29,19 +33,14 @@ public class SalaryInfo {
         return resultMessage.toString();
     }
 
-    public Date getDateFromString(String date) {
-        String[] splitDate = date.split("\\.");
-        int[] splitIntDate = new int[splitDate.length];
-
-        for (int i = 0; i < splitDate.length; i++) {
-            splitIntDate[i] = Integer.parseInt(splitDate[i]);
-        }
-
-        Calendar calendar = new GregorianCalendar(splitIntDate[2], splitIntDate[1]-1, splitIntDate[0]);
-        return calendar.getTime();
+    public LocalDate getDateFromString(String date) {
+        return LocalDate.parse(date, DATE_FORMAT);
     }
 
-    public boolean isBetween (Date startData, Date endData, Date currentDate) {
-        return currentDate.before(endData) && currentDate.after(startData);
+    public boolean isBetween(LocalDate startData, LocalDate endData, LocalDate currentDate) {
+        return currentDate.isBefore(endData)
+                && currentDate.isAfter(startData)
+                || startData.equals(currentDate)
+                || endData.equals(currentDate);
     }
 }
