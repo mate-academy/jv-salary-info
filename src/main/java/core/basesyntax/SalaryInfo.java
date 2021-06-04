@@ -16,7 +16,7 @@ public class SalaryInfo {
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         stringBuilder = new StringBuilder();
-        stringBuilder.append(String.format("Report for period %s - %s\n", dateFrom, dateTo));
+        stringBuilder.append(String.format("Report for period %s - %s", dateFrom, dateTo));
 
         LocalDate localDateFrom = LocalDate.parse(dateFrom, FORMATTER);
         LocalDate localDateTo = LocalDate.parse(dateTo, FORMATTER);
@@ -34,9 +34,9 @@ public class SalaryInfo {
                     }
                 }
             }
-            stringBuilder.append(String.format("%s - %d\n", name, salary));
+            stringBuilder.append(String.format("\n%s - %d", name, salary));
         }
 
-        return stringBuilder.toString().trim();
+        return stringBuilder.toString();
     }
 }
