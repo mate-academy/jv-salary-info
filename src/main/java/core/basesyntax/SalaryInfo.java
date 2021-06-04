@@ -19,15 +19,15 @@ public class SalaryInfo {
 
         for (String name : names) {
             int totalSalary = 0;
-            for (String d : data) {
-                if (d.contains(name)) {
-                    String[] dataArray = d.split(" ");
-                    LocalDate currDate = LocalDate.parse(dataArray[DATE_INDEX],
+            for (String info : data) {
+                if (info.contains(name)) {
+                    String[] splittedDataArray = info.split(" ");
+                    LocalDate currentDate = LocalDate.parse(splittedDataArray[DATE_INDEX],
                             DATE_TIME_FORMATTER);
-                    if ((currDate.isAfter(localDateFrom) || currDate.isEqual(localDateFrom))
-                            && (currDate.isBefore(localDateTo) || currDate.isEqual(localDateTo))) {
-                        totalSalary += Integer.parseInt(dataArray[HOURS_INDEX])
-                                * Integer.parseInt(dataArray[SALARY_PER_HOUR_INDEX]);
+                    if ((currentDate.isAfter(localDateFrom) || currentDate.isEqual(localDateFrom))
+                            && (currentDate.isBefore(localDateTo) || currentDate.isEqual(localDateTo))) {
+                        totalSalary += Integer.parseInt(splittedDataArray[HOURS_INDEX])
+                                * Integer.parseInt(splittedDataArray[SALARY_PER_HOUR_INDEX]);
                     }
                 }
             }
