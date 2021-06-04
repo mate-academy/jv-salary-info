@@ -1,57 +1,44 @@
 package core.basesyntax;
 
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     private static DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
     private static final int INDEX_OF_SALARY_PER_HOUR = 2;
-    private static final int HOURS = 3;
+    private static final int INDEX_OF_HOURS = 3;
+    private static final int INDEX_OF_DATE = 0;
+    private static final int INDEX_OF_NAME = 1;
+    private static final DateTimeFormatter DATE_TIME_FORMATTER
+            = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public static String getSalaryInfo(String[] names, String[] data,
                                        String dateFrom, String dateTo) {
-        try {
-            Date dateStart = dateFormat.parse(dateFrom);
-            Date dateEnd = dateFormat.parse(dateTo);
-            int[] salary = new int[names.length];
-            for (int i = 0; i < salary.length; i++) {
-                salary[i] = 0;
-            }
-            for (int i = 0; i < data.length; i++) {
-                String[] distributedData = data[i].split(" ");
-                Date inherimDate = dateFormat.parse(distributedData[0]);
-                if ((inherimDate.compareTo(dateStart) >= 0)
-                        && (inherimDate.compareTo(dateEnd) <= 0)) {
-                    for (int j = 0; j < names.length; j++) {
-                        if (names[j].equals(distributedData[1])) {
-                            salary[j] += Integer.parseInt(distributedData[INDEX_OF_SALARY_PER_HOUR])
-                                    * Integer.parseInt(distributedData[HOURS]);
-                        }
-                    }
+        String report = "Report for period " + dateFrom + " - " + dateTo + "\n";
+        LocalDate dateStart = LocalDate.parse(dateFrom, DATE_TIME_FORMATTER);
+        LocalDate dateEnd = LocalDate.parse(dateTo, DATE_TIME_FORMATTER);
+        int[] salary = new int[names.length];
+        for (int i = 0; i < names.length; i++) {
+            int sumSalary = 0;
+            for (int j = 0; j < data.length; j++) {
+                String[] totalInformation = data[j].split(" ");
+                LocalDate currentDate = LocalDate.parse(totalInformation[INDEX_OF_DATE],
+                                        DATE_TIME_FORMATTER);
+                String name = totalInformation[INDEX_OF_NAME];
+                if ((name.equals(names[i])) && (currentDate.compareTo(dateStart) >= 0)
+                                            && (currentDate.compareTo(dateEnd) <= 0)) {
+                    sumSalary += Integer.parseInt(totalInformation[INDEX_OF_HOURS])
+                              * Integer.parseInt(totalInformation[INDEX_OF_SALARY_PER_HOUR]);
                 }
             }
-            String s = "Report for period " + dateFrom + " - " + dateTo + "\n";
-            for (int i = 0; i < names.length; i++) {
-                s += names[i] + " - " + salary[i];
-                if (i != (names.length - 1)) {
-                    s += "\n";
-                }
+            report += names[i] + " - " + sumSalary;
+            if (i != (names.length - 1)) {
+                report += "\n";
             }
-            return s;
-        } catch (ParseException e) {
-            e.printStackTrace();
         }
-        return "";
-    }
-
-    public static void main(String[] args) {
-        String [] names = new String[]{"Yura", "Yurka"};
-        String [] data = {"26.04.2019 Yura 4 50", "05.04.2019 Yurka 3 200"};
-        String dateFrom = "05.04.2019";
-        String dateTo = "30.04.2021";
-        String result = getSalaryInfo(names, data, dateFrom, dateTo);
-        System.out.println(result);
+        return report;
     }
 }
+
