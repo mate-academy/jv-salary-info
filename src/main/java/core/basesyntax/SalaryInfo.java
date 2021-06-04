@@ -4,17 +4,14 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    private StringBuilder stringBuilder;
-    private DateTimeFormatter formatter;
-    private UtilsData utilsData;
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("d.MM.yyyy");
+    private UtilsData utilsData = new UtilsData();
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        stringBuilder = new StringBuilder();
-        formatter = DateTimeFormatter.ofPattern("d.MM.yyyy");
-        utilsData = new UtilsData();
+        StringBuilder stringBuilder = new StringBuilder();
 
-        LocalDate localDateFrom = LocalDate.parse(dateFrom, formatter);
-        LocalDate localDateTo = LocalDate.parse(dateTo, formatter);
+        LocalDate localDateFrom = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate localDateTo = LocalDate.parse(dateTo, FORMATTER);
 
         int[] salaryEmployees = new int[names.length];
 
@@ -27,7 +24,7 @@ public class SalaryInfo {
                 if (!name.equals(utilsData.getNameFromDate(datum))) {
                     continue;
                 }
-                localDateData = utilsData.getDateFromDate(datum, formatter);
+                localDateData = utilsData.getDateFromDate(datum, FORMATTER);
                 if (localDateData.isAfter(localDateFrom.minusDays(1))
                         && localDateData.isBefore(localDateTo.plusDays(1))) {
                     salaryEmployees[i] +=
@@ -38,8 +35,8 @@ public class SalaryInfo {
         }
 
         stringBuilder.append("Report for period ")
-            .append(localDateFrom.format(formatter))
-            .append(" - ").append(localDateTo.format(formatter)).append("\n");
+            .append(localDateFrom.format(FORMATTER))
+            .append(" - ").append(localDateTo.format(FORMATTER)).append("\n");
 
         for (int i = 0; i < names.length; i++) {
             stringBuilder.append(names[i])
