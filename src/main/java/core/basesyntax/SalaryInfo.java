@@ -7,26 +7,26 @@ public class SalaryInfo {
     static final int WHICH_DATE = 0;
     private static final int HOURS = 2;
     private static final int SALARY_PER_HOUR = 3;
-    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder result = new StringBuilder();
-        LocalDate datFrom = LocalDate.parse(dateFrom, formatter);
-        LocalDate datTo = LocalDate.parse(dateTo, formatter);
+        LocalDate fromDate = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate toDate = LocalDate.parse(dateTo, FORMATTER);
         result.append("Report for period ")
-                .append(formatter.format(datFrom))
+                .append(dateFrom)
                 .append(" - ")
-                .append(formatter.format(datTo));
+                .append(dateTo);
         for (String name : names) {
             int salaryCounter = 0;
-            for (String date : data) {
-                if (date.contains(name)) {
-                    String[] arrayOfDate = date.split(" ");
-                    LocalDate datIs = LocalDate.parse(arrayOfDate[WHICH_DATE], formatter);
-                    if ((datIs.isEqual(datFrom) || datIs.isAfter(datFrom))
-                            && (datIs.isEqual(datTo) || datIs.isBefore(datTo))) {
-                        salaryCounter += (Integer.parseInt(arrayOfDate[HOURS])
-                                * Integer.parseInt(arrayOfDate[SALARY_PER_HOUR]));
+            for (String information : data) {
+                if (information.contains(name)) {
+                    String[] splitterDate = information.split(" ");
+                    LocalDate currentDate = LocalDate.parse(splitterDate[WHICH_DATE], FORMATTER);
+                    if ((currentDate.isEqual(fromDate) || currentDate.isAfter(fromDate))
+                            && (currentDate.isEqual(toDate) || currentDate.isBefore(toDate))) {
+                        salaryCounter += (Integer.parseInt(splitterDate[HOURS])
+                                * Integer.parseInt(splitterDate[SALARY_PER_HOUR]));
                     }
                 }
             }
