@@ -9,12 +9,13 @@ public class SalaryInfo {
     private static final int POSITION_NAME = 1;
     private static final int POSITION_HOUR = 2;
     private static final int POSITION_PAY = 3;
-    private StringBuilder stringBuilder;
-    private String[] elementFromData;
-    private LocalDate localDateData;
-    private int salary;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
+        StringBuilder stringBuilder;
+        String[] elementFromData;
+        LocalDate localDateData;
+        int salary;
+
         stringBuilder = new StringBuilder();
         stringBuilder.append(String.format("Report for period %s - %s", dateFrom, dateTo));
 
@@ -23,8 +24,8 @@ public class SalaryInfo {
 
         for (String name : names) {
             salary = 0;
-            for (String datum : data) {
-                elementFromData = datum.split(" ");
+            for (String record : data) {
+                elementFromData = record.split(" ");
                 if (name.equals(elementFromData[POSITION_NAME])) {
                     localDateData = LocalDate.parse(elementFromData[POSITION_DATE], FORMATTER);
                     if (localDateData.isAfter(localDateFrom.minusDays(1))
