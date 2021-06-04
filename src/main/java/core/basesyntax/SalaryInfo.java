@@ -26,7 +26,8 @@ public class SalaryInfo {
                     LocalDate localDate = LocalDate.parse(information[TIME], FORMAT);
                     if ((localDate.isAfter(from) || localDate.equals(from))
                             && (localDate.equals(to) || localDate.isBefore(to))) {
-                        moneyEarned += Integer.parseInt(information[HOURS]) * Integer.parseInt(information[SALARY]);
+                        moneyEarned += Integer.parseInt(information[HOURS])
+                                * Integer.parseInt(information[SALARY]);
                     }
                 }
             }
