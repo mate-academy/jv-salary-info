@@ -26,7 +26,7 @@ public class SalaryInfo {
                             && dateFromLocalData.isBefore(dateWork)
                             || dateFromLocalData.isEqual(dateWork))) {
                         salaryMen += Integer.parseInt(dataOfMen[2])
-                                  * Integer.parseInt(dataOfMen[3]);
+                                   * Integer.parseInt(dataOfMen[3]);
                     }
                 }else {
                     continue;
