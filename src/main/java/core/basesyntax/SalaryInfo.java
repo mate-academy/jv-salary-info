@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    static final int WHICH_DATE = 0;
+    private static final int WHICH_DATE = 0;
     private static final int HOURS = 2;
     private static final int SALARY_PER_HOUR = 3;
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
