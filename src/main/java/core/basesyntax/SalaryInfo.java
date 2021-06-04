@@ -7,6 +7,10 @@ public class SalaryInfo {
 
     private static final DateTimeFormatter DATE_TIME_FORMATTER =
             DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final int DATE_POSITION_IN_ARRAY = 0;
+    private static final int NAME_POSITION_IN_ARRAY = 1;
+    private static final int WORKING_HOURS_POSITION_IN_ARRAY = 2;
+    private static final int INCOME_PER_HOUR_POSITION_IN_ARRAY = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
 
@@ -17,23 +21,25 @@ public class SalaryInfo {
         StringBuilder resultingString =
                 new StringBuilder()
                         .append("Report for period ").append(dateFrom)
-                        .append(" - ").append(dateTo).append("\n");
+                        .append(" - ").append(dateTo);
 
         for (String employeeName : names) {
             int sumSalaryPerPerson = 0;
             for (String stringFromData : data) {
                 dataSplit = stringFromData.split(" ");
-                dateFromData = LocalDate.parse(dataSplit[0], DATE_TIME_FORMATTER);
-                if (dataSplit[1].equals(employeeName)
+                dateFromData =
+                        LocalDate.parse(dataSplit[DATE_POSITION_IN_ARRAY], DATE_TIME_FORMATTER);
+                if (dataSplit[NAME_POSITION_IN_ARRAY].equals(employeeName)
                         && dateFromData.isAfter(dateFromInDateFormat.minusDays(1))
                         && dateFromData.isBefore(dateToInDateFormat.plusDays(1))) {
-                    sumSalaryPerPerson += Integer.parseInt(dataSplit[2])
-                            * Integer.parseInt(dataSplit[3]);
+                    sumSalaryPerPerson +=
+                            Integer.parseInt(dataSplit[WORKING_HOURS_POSITION_IN_ARRAY])
+                            * Integer.parseInt(dataSplit[INCOME_PER_HOUR_POSITION_IN_ARRAY]);
                 }
             }
-            resultingString.append(employeeName).append(" - ")
-                    .append(sumSalaryPerPerson).append("\n");
+            resultingString.append("\n").append(employeeName).append(" - ")
+                    .append(sumSalaryPerPerson);
         }
-        return resultingString.toString().trim();
+        return resultingString.toString();
     }
 }
