@@ -20,7 +20,6 @@ public class SalaryInfo {
                                .append("\n");
         LocalDate dateStart = LocalDate.parse(dateFrom, DATE_TIME_FORMATTER);
         LocalDate dateEnd = LocalDate.parse(dateTo, DATE_TIME_FORMATTER);
-        int[] salary = new int[names.length];
         for (int i = 0; i < names.length; i++) {
             int sumSalary = 0;
             for (int j = 0; j < data.length; j++) {
