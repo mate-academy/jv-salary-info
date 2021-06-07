@@ -10,8 +10,6 @@ public class SalaryInfo {
     private static final int SALARY_INDEX = 3;
     private static final int HOUR_INDEX = 2;
 
-
-
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate fromDate = LocalDate.parse(dateFrom, DOT_FORMAT);
         LocalDate toDate = LocalDate.parse(dateTo, DOT_FORMAT);
