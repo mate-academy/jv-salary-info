@@ -22,9 +22,9 @@ public class SalaryInfo {
                 .append(" - ").append(dateTo);
         for (String name: names) {
             for (String line: data) {
-                splited = line.split(" ");
+                String[] splited = line.split(" ");
                 if (name.equals(splited[NAME_INDEX])) {
-                    date = date.parse(splited[DATE_INDEX], DOT_FORMAT);
+                    LocalDate date = date.parse(splited[DATE_INDEX], DOT_FORMAT);
                     if ((fromDate.isEqual(date) || fromDate.isBefore(date))
                             && (toDate.isEqual(date) || toDate.isAfter(date))) {
                         salarySum += Integer.parseInt(splited[SALARY_INDEX])
