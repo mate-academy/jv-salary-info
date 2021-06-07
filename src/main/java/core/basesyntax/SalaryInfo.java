@@ -7,6 +7,7 @@ public class SalaryInfo {
     public static final int DATE_INDEX = 0;
     public static final int HOURS_INDEX = 2;
     public static final int SALARY_PER_HOUR_INDEX = 3;
+    public static final String SPACE_SEPARATOR = " ";
     public static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
@@ -19,10 +20,13 @@ public class SalaryInfo {
             for (String dataInfo : data) {
                 if (dataInfo.contains(name)) {
                     LocalDate localDate =
-                            LocalDate.parse(dataInfo.split(" ")[DATE_INDEX], DATE_FORMAT);
+                            LocalDate.parse(dataInfo
+                                    .split(SPACE_SEPARATOR)[DATE_INDEX], DATE_FORMAT);
                     if (!localDate.isBefore(firstDate) && !localDate.isAfter(lastDate)) {
-                        sumEmployeeSalary += Integer.parseInt(dataInfo.split(" ")[HOURS_INDEX])
-                                * Integer.parseInt(dataInfo.split(" ")[SALARY_PER_HOUR_INDEX]);
+                        sumEmployeeSalary += Integer.parseInt(dataInfo
+                                .split(SPACE_SEPARATOR)[HOURS_INDEX])
+                                * Integer.parseInt(dataInfo
+                                .split(SPACE_SEPARATOR)[SALARY_PER_HOUR_INDEX]);
                     }
                 }
             }
