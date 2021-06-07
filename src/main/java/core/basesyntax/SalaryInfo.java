@@ -33,7 +33,6 @@ public class SalaryInfo {
                 }
             }
             builder.append(String.format("\n%s - %d", name, salarySum));
-            salarySum = 0;
         }
         return builder.toString();
     }
