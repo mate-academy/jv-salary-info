@@ -18,15 +18,13 @@ public class SalaryInfo {
         for (String name : names) {
             int sumEmployeeSalary = 0;
             for (String dataInfo : data) {
+                String[] dataAsArray = dataInfo.split(SPACE_SEPARATOR);
                 if (dataInfo.contains(name)) {
                     LocalDate localDate =
-                            LocalDate.parse(dataInfo
-                                    .split(SPACE_SEPARATOR)[DATE_INDEX], DATE_FORMAT);
+                            LocalDate.parse(dataAsArray[DATE_INDEX], DATE_FORMAT);
                     if (!localDate.isBefore(firstDate) && !localDate.isAfter(lastDate)) {
-                        sumEmployeeSalary += Integer.parseInt(dataInfo
-                                .split(SPACE_SEPARATOR)[HOURS_INDEX])
-                                * Integer.parseInt(dataInfo
-                                .split(SPACE_SEPARATOR)[SALARY_PER_HOUR_INDEX]);
+                        sumEmployeeSalary += Integer.parseInt(dataAsArray[HOURS_INDEX])
+                                * Integer.parseInt(dataAsArray[SALARY_PER_HOUR_INDEX]);
                     }
                 }
             }
