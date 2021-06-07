@@ -13,7 +13,8 @@ public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate dateFromSalaryInfo = LocalDate.parse(dateFrom,
                 DateTimeFormatter.ofPattern(DATE_FORMAT));
-        LocalDate dateWorkUser;
+        LocalDate dateToSalaryInfo = LocalDate.parse(dateTo,
+                DateTimeFormatter.ofPattern(DATE_FORMAT));
         StringBuilder resultInformation = new StringBuilder("Report for period ");
         resultInformation.append(dateFrom).append(" - ").append(dateTo);
 
@@ -22,14 +23,13 @@ public class SalaryInfo {
             for (String dataWorkUser : data) {
                 String[] tempArray = dataWorkUser.split(" ");
                 if (tempArray[POSITION_NAME_IN_ARRAY_DATA].equals(nameUser)) {
-                    dateWorkUser = LocalDate.parse(tempArray[POSITION_DATE_IN_ARRAY_DATA],
+                    LocalDate currentDate = LocalDate.parse(tempArray[POSITION_DATE_IN_ARRAY_DATA],
                             DateTimeFormatter.ofPattern(DATE_FORMAT));
-                    LocalDate currentDate = LocalDate.parse(dateTo,
-                            DateTimeFormatter.ofPattern(DATE_FORMAT));
-                    if (dateWorkUser.isAfter(dateFromSalaryInfo)
-                            && dateWorkUser.isBefore(currentDate)
-                            || dateWorkUser.equals(dateFromSalaryInfo)
-                            || dateWorkUser.equals(currentDate)) {
+
+                    if (currentDate.isAfter(dateFromSalaryInfo)
+                            && currentDate.isBefore(dateToSalaryInfo)
+                            || currentDate.equals(dateFromSalaryInfo)
+                            || currentDate.equals(dateToSalaryInfo)) {
                         allSalaryUser += Integer.parseInt(tempArray[POSITION_HOURS_IN_ARRAY_DATA])
                                 * Integer.parseInt(tempArray[POSITION_SALARY_IN_ARRAY_DATA]);
                     }
