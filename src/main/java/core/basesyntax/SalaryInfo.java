@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    private static final DateTimeFormatter DOT_FORMAT = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final DateTimeFormatter DOT_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     private static final int NAME_INDEX = 1;
     private static final int DATE_INDEX = 0;
     private static final int SALARY_INDEX = 3;
