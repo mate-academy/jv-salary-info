@@ -4,86 +4,61 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    private static final int NUMBER_IN_LINE_DATE = 10;
-    private static final int NUMBER_IN_LINE_NAME = 11;
-    private static final int NUMBER_IN_LINE_WORK_HOURS = 12;
-    private static final DateTimeFormatter DATE_TIME_FORMATTER
-            = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-    private static final String DATE_FROM = "01.04.2019";
-    private static final String DATE_TO = "30.04.2019";
-    private static final LocalDate DATE_FROM_WITH_FORMATTER
-            = LocalDate.parse(DATE_FROM, DATE_TIME_FORMATTER);
-    private static final LocalDate DATE_TO_WITH_FORMATTER
-            = LocalDate.parse(DATE_TO, DATE_TIME_FORMATTER);
 
     public String getSalaryInfo(String[] names, String[] data,
                                        String dateFrom, String dateTo) {
-        String salaryInfo = new StringBuilder()
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        LocalDate dateFromWithFormatter = LocalDate.parse(dateFrom, dateTimeFormatter);
+        LocalDate dateToWithFormatter = LocalDate.parse(dateTo, dateTimeFormatter);
+        StringBuilder salaryInfo = new StringBuilder()
                 .append("Report for period ")
                 .append(dateFrom).append(" - ")
-                .append(dateTo).toString();
-
-        String loopLine = "";
-        int salaryAmount = 0;
-
+                .append(dateTo);
+        String dataSeparator = " ";
+        StringBuilder date = new StringBuilder();
+        StringBuilder name = new StringBuilder();
+        StringBuilder hour = new StringBuilder();
+        StringBuilder salaryPerHour = new StringBuilder();
+        int earnedPerName = 0;
         for (int i = 0; i < names.length; i++) {
-            salaryAmount = 0;
-            loopLine = "";
             for (int j = 0; j < data.length; j++) {
-
-                if (dataName(names[i],data[j]) && isDataDate(dataDate(data[j]))) {
-                    salaryAmount =
-                            salaryCalculator(salaryAmount, dataHoursSalary(data[j]),
-                                    dataWorkHours(data[j], names[i].length()));
+                date.delete(0, date.length());
+                date = date.append(data[j].substring(0, data[j].indexOf(dataSeparator, 0)));
+                name.delete(0, name.length());
+                name = name.append(data[j].substring(data[j].indexOf(dataSeparator, 0) + 1,
+                        data[j].indexOf(dataSeparator, data[j].indexOf(dataSeparator, 0) + 1)));
+                if (names[i].equals(name.toString())
+                        && isDateInPeriod(date, dateTimeFormatter,
+                        dateFromWithFormatter, dateToWithFormatter)) {
+                    hour.delete(0, hour.length());
+                    hour = hour.append(data[j].substring(
+                            data[j].indexOf(dataSeparator,
+                                    data[j].indexOf(dataSeparator, 0) + 1) + 1,
+                            data[j].lastIndexOf(dataSeparator)));
+                    salaryPerHour.delete(0, salaryPerHour.length());
+                    salaryPerHour = salaryPerHour.append(
+                            data[j].substring(data[j].lastIndexOf(dataSeparator) + 1,
+                                    data[j].length()));
+                    earnedPerName += Integer.parseInt(hour.toString())
+                            * Integer.parseInt(salaryPerHour.toString());
                 }
             }
-            loopLine = new StringBuilder()
-                    .append("\n")
+            salaryInfo = salaryInfo.append("\n")
                     .append(names[i])
                     .append(" - ")
-                    .append(salaryAmount)
-                    .toString();
-            salaryInfo = loopCalculation(salaryInfo,loopLine);
+                    .append(earnedPerName);
+            earnedPerName = 0;
         }
-
-        return salaryInfo;
+        return salaryInfo.toString();
     }
 
-    public int salaryCalculator(int salaryExist, String hours, String salaryAmount) {
-        return salaryExist + Integer.parseInt(hours) * Integer.parseInt(salaryAmount);
-    }
-
-    public String dataDate(String data) {
-        return new StringBuilder(data).substring(0,NUMBER_IN_LINE_DATE);
-    }
-
-    public boolean isDataDate(String data) {
-        return LocalDate.parse(data,DATE_TIME_FORMATTER)
-                .isAfter(DATE_FROM_WITH_FORMATTER)
-                && LocalDate.parse(data,DATE_TIME_FORMATTER)
-                .isBefore(DATE_TO_WITH_FORMATTER);
-    }
-
-    public boolean dataName(String name, String data) {
-        return new StringBuilder(data)
-                .substring(NUMBER_IN_LINE_NAME,name.length()
-                        + NUMBER_IN_LINE_NAME).equals(name);
-    }
-
-    public String dataWorkHours(String data, int nameSize) {
-        return new StringBuilder(data).substring(nameSize
-                + NUMBER_IN_LINE_WORK_HOURS,data.lastIndexOf(" "));
-    }
-
-    public String dataHoursSalary(String data) {
-        return new StringBuilder(data)
-                .substring(data.lastIndexOf(" ") + 1,data.length());
-    }
-
-    public String loopCalculation(String addTo, String loopData) {
-        return new StringBuilder()
-                .append(addTo)
-                .append(loopData)
-                .toString();
+    private boolean isDateInPeriod(StringBuilder date,
+                                   DateTimeFormatter dateTimeFormatter,
+                                   LocalDate dateFromWithFormatter,
+                                   LocalDate dateToWithFormatter) {
+        return (LocalDate.parse(date, dateTimeFormatter).isAfter(dateFromWithFormatter)
+                || LocalDate.parse(date, dateTimeFormatter).equals(dateToWithFormatter))
+                && (LocalDate.parse(date, dateTimeFormatter).isBefore(dateToWithFormatter)
+                || LocalDate.parse(date, dateTimeFormatter).equals(dateToWithFormatter));
     }
 }
