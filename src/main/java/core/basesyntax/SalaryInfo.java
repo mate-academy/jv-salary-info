@@ -4,14 +4,13 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    static final String DELIMITER = " ";
-    static final int DATA_INDEX = 0;
-    static final int NAME_INDEX = 1;
-    static final int HOURS_INDEX = 2;
-    static final int SALARY_PER_HOUR_INDEX = 3;
+    public static final String DELIMITER = " ";
+    public static final int DATA_INDEX = 0;
+    public static final int NAME_INDEX = 1;
+    public static final int HOURS_INDEX = 2;
+    public static final int SALARY_PER_HOUR_INDEX = 3;
 
-    public String getSalaryInfo(String[] names, String[] data,
-                                       String dateFrom, String dateTo) {
+    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         LocalDate dateFromWithFormatter = LocalDate.parse(dateFrom, dateTimeFormatter);
         LocalDate dateToWithFormatter = LocalDate.parse(dateTo, dateTimeFormatter);
@@ -43,9 +42,11 @@ public class SalaryInfo {
                                    DateTimeFormatter dateTimeFormatter,
                                    LocalDate dateFromWithFormatter,
                                    LocalDate dateToWithFormatter) {
-        return (LocalDate.parse(date, dateTimeFormatter).isAfter(dateFromWithFormatter)
-                || LocalDate.parse(date, dateTimeFormatter).equals(dateToWithFormatter))
-                && (LocalDate.parse(date, dateTimeFormatter).isBefore(dateToWithFormatter)
-                || LocalDate.parse(date, dateTimeFormatter).equals(dateToWithFormatter));
+        LocalDate localDate = LocalDate.parse(date, dateTimeFormatter);
+        return (localDate.isAfter(dateFromWithFormatter)
+                || localDate.equals(dateToWithFormatter))
+                && localDate.isBefore(dateToWithFormatter)
+                || localDate.equals(dateToWithFormatter);
     }
+
 }
