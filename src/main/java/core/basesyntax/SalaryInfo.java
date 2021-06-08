@@ -30,7 +30,7 @@ public class SalaryInfo {
                     earnedPerName += Integer.parseInt(splitLine[HOURS_INDEX])
                             * Integer.parseInt(splitLine[SALARY_PER_HOUR_INDEX]);
                 }
-            } OutOfMemoryError
+            }
             salaryInfo = salaryInfo.append("\n")
                     .append(name)
                     .append(" - ")
