@@ -43,21 +43,18 @@ public class SalaryInfo {
     }
 
     private String getName(String string) {
-        String name = string.substring(string.indexOf(SPACE) + 1,
+        return string.substring(string.indexOf(SPACE) + 1,
                 string.indexOf(SPACE, string.indexOf(SPACE) + 1));
-        return name;
     }
 
     private int getPayPerDay(String string) {
-        int daysOfWork = Integer.parseInt(string.substring(
+        return Integer.parseInt(string.substring(
                 string.lastIndexOf(SPACE) + 1));
-        return daysOfWork;
     }
 
     private int getDaysOfWork(String string) {
         String[] array = string.split(SPACE);
-        int payPerDay = Integer.parseInt(array[2]);
-        return payPerDay;
+        return Integer.parseInt(array[2]);
     }
 
 }
