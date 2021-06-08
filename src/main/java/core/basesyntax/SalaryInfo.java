@@ -11,6 +11,7 @@ public class SalaryInfo {
     public static final int INDEX_PRICE = 2;
     public static final int INDEX_HOURS = 3;
     public static final int SIZE_DATA_ARRAY = 4;
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         final LocalDate dateFromLocal = LocalDate.parse(dateFrom, DATA_FORMAT);
         final LocalDate dateToLocal = LocalDate.parse(dateTo, DATA_FORMAT);
