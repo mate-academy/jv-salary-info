@@ -14,14 +14,14 @@ public class SalaryInfo {
         LocalDate sdateTo = LocalDate.parse(dateTo, formatter);
         int[] totalSalaryForPerson = new int[names.length];
         for (String inputData : data) {
-            String[] dates = inputData.split(SPACE);
-            LocalDate inputDateString = LocalDate.parse(dates[0], formatter);
+            String[] info = inputData.split(SPACE);
+            LocalDate inputDateString = LocalDate.parse(info[0], formatter);
             if ((inputDateString.isBefore(sdateTo) && inputDateString.isAfter(sdateFrom))
                     || inputDateString.isEqual(sdateTo) || inputDateString.isEqual(sdateFrom)) {
                 for (int j = 0; j < names.length; j++) {
-                    if (names[j].equals(getName(inputData))) {
+                    if (names[j].equals(info[1])) {
                         totalSalaryForPerson[j] +=
-                                getPayPerDay(inputData) * getDaysOfWork(inputData);
+                                Integer.parseInt(info[2]) * Integer.parseInt(info[3]);
                         break;
                     }
                 }
@@ -31,30 +31,9 @@ public class SalaryInfo {
         stringBuilder.append("Report for period ").append(dateFrom).append(" - ")
                 .append(dateTo).append("\n");
         for (int i = 0; i < names.length; i++) {
-            if (i == names.length - 1) {
-                stringBuilder.append(names[i]).append(DASH)
-                        .append(totalSalaryForPerson[i]);
-            } else {
-                stringBuilder.append(names[i]).append(DASH)
-                        .append(totalSalaryForPerson[i]).append("\n");
-            }
+            stringBuilder.append(names[i]).append(" - ")
+                    .append(totalSalaryForPerson[i]).append("\n");
         }
-        return stringBuilder.toString();
+        return stringBuilder.toString().trim();
     }
-
-    private String getName(String string) {
-        return string.substring(string.indexOf(SPACE) + 1,
-                string.indexOf(SPACE, string.indexOf(SPACE) + 1));
-    }
-
-    private int getPayPerDay(String string) {
-        return Integer.parseInt(string.substring(
-                string.lastIndexOf(SPACE) + 1));
-    }
-
-    private int getDaysOfWork(String string) {
-        String[] array = string.split(SPACE);
-        return Integer.parseInt(array[2]);
-    }
-
 }
