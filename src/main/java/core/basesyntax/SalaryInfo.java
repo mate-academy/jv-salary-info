@@ -9,11 +9,13 @@ public class SalaryInfo {
     public static final int NAME_INDEX = 1;
     public static final int HOURS_INDEX = 2;
     public static final int SALARY_PER_HOUR_INDEX = 3;
+    public static final String DATE_FORMATTER = "dd.MM.yyyy";
+    public static final DateTimeFormatter DATE_TIME_FORMATTER =
+            DateTimeFormatter.ofPattern(DATE_FORMATTER);
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        LocalDate dateFromWithFormatter = LocalDate.parse(dateFrom, dateTimeFormatter);
-        LocalDate dateToWithFormatter = LocalDate.parse(dateTo, dateTimeFormatter);
+        LocalDate dateFromWithFormatter = LocalDate.parse(dateFrom, DATE_TIME_FORMATTER);
+        LocalDate dateToWithFormatter = LocalDate.parse(dateTo, DATE_TIME_FORMATTER);
         StringBuilder salaryInfo = new StringBuilder()
                 .append("Report for period ")
                 .append(dateFrom).append(" - ")
@@ -25,7 +27,7 @@ public class SalaryInfo {
                 splitLine = element.split(DELIMITER);
                 if (name.equals(splitLine[NAME_INDEX])
                         && isDateInPeriod(splitLine[DATA_INDEX],
-                        dateTimeFormatter, dateFromWithFormatter, dateToWithFormatter)) {
+                        dateFromWithFormatter, dateToWithFormatter)) {
                     earnedPerName += Integer.parseInt(splitLine[HOURS_INDEX])
                             * Integer.parseInt(splitLine[SALARY_PER_HOUR_INDEX]);
                 }
@@ -39,10 +41,9 @@ public class SalaryInfo {
     }
 
     private boolean isDateInPeriod(String date,
-                                   DateTimeFormatter dateTimeFormatter,
                                    LocalDate dateFromWithFormatter,
                                    LocalDate dateToWithFormatter) {
-        LocalDate localDate = LocalDate.parse(date, dateTimeFormatter);
+        LocalDate localDate = LocalDate.parse(date, DATE_TIME_FORMATTER);
         return (localDate.isAfter(dateFromWithFormatter)
                 || localDate.equals(dateToWithFormatter))
                 && localDate.isBefore(dateToWithFormatter)
