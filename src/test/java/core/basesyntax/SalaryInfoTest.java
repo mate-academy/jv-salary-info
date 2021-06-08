@@ -43,7 +43,7 @@ public class SalaryInfoTest {
     };
 
     private static final String[] secondScriptArray = {
-            "13.07.2019 John 60 50",//-
+            "13.07.2019 John 60 50",
             "15.07.2019 Andrew 3 200",
             "15.07.2019 Kate 10 100",
 
