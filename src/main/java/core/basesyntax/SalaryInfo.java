@@ -4,11 +4,11 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    public static final String DELIMITER = " ";
-    public static final int DATA_INDEX = 0;
-    public static final int NAME_INDEX = 1;
-    public static final int HOURS_INDEX = 2;
-    public static final int SALARY_PER_HOUR_INDEX = 3;
+    static final String DELIMITER = " ";
+    static final int DATA_INDEX = 0;
+    static final int NAME_INDEX = 1;
+    static final int HOURS_INDEX = 2;
+    static final int SALARY_PER_HOUR_INDEX = 3;
 
     public String getSalaryInfo(String[] names, String[] data,
                                        String dateFrom, String dateTo) {
