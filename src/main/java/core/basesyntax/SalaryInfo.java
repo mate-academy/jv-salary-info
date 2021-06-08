@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
+    public static final String DATA_SEPARATOR = " ";
+    public static final int DATA_SEPARATOR_LENGTH = DATA_SEPARATOR.length();
 
     public String getSalaryInfo(String[] names, String[] data,
                                        String dateFrom, String dateTo) {
@@ -14,45 +16,34 @@ public class SalaryInfo {
                 .append("Report for period ")
                 .append(dateFrom).append(" - ")
                 .append(dateTo);
-        String dataSeparator = " ";
-        StringBuilder date = new StringBuilder();
-        StringBuilder name = new StringBuilder();
-        StringBuilder hour = new StringBuilder();
-        StringBuilder salaryPerHour = new StringBuilder();
-        int earnedPerName = 0;
-        for (int i = 0; i < names.length; i++) {
-            for (int j = 0; j < data.length; j++) {
-                date.delete(0, date.length());
-                date = date.append(data[j].substring(0, data[j].indexOf(dataSeparator, 0)));
-                name.delete(0, name.length());
-                name = name.append(data[j].substring(data[j].indexOf(dataSeparator, 0) + 1,
-                        data[j].indexOf(dataSeparator, data[j].indexOf(dataSeparator, 0) + 1)));
-                if (names[i].equals(name.toString())
-                        && isDateInPeriod(date, dateTimeFormatter,
-                        dateFromWithFormatter, dateToWithFormatter)) {
-                    hour.delete(0, hour.length());
-                    hour = hour.append(data[j].substring(
-                            data[j].indexOf(dataSeparator,
-                                    data[j].indexOf(dataSeparator, 0) + 1) + 1,
-                            data[j].lastIndexOf(dataSeparator)));
-                    salaryPerHour.delete(0, salaryPerHour.length());
-                    salaryPerHour = salaryPerHour.append(
-                            data[j].substring(data[j].lastIndexOf(dataSeparator) + 1,
-                                    data[j].length()));
-                    earnedPerName += Integer.parseInt(hour.toString())
-                            * Integer.parseInt(salaryPerHour.toString());
+        for (String name : names) {
+            int earnedPerName = 0;
+            for (String element : data) {
+                if (name.equals(element.substring(element.indexOf(DATA_SEPARATOR, 0)
+                                + DATA_SEPARATOR_LENGTH,
+                        element.indexOf(DATA_SEPARATOR, element.indexOf(DATA_SEPARATOR, 0)
+                                + DATA_SEPARATOR_LENGTH)))
+                        && isDateInPeriod(element.substring(0,element.indexOf(DATA_SEPARATOR, 0)),
+                        dateTimeFormatter,dateFromWithFormatter, dateToWithFormatter)) {
+                    earnedPerName += Integer.parseInt(element.substring(element
+                            .indexOf(DATA_SEPARATOR,
+                                    element.indexOf(DATA_SEPARATOR, 0)
+                                            + DATA_SEPARATOR_LENGTH) + DATA_SEPARATOR_LENGTH,
+                            element.lastIndexOf(DATA_SEPARATOR)))
+                            * Integer.parseInt(element.substring(element.lastIndexOf(DATA_SEPARATOR)
+                            + DATA_SEPARATOR_LENGTH, element.length()));
+                    System.out.println(earnedPerName);
                 }
             }
             salaryInfo = salaryInfo.append("\n")
-                    .append(names[i])
+                    .append(name)
                     .append(" - ")
                     .append(earnedPerName);
-            earnedPerName = 0;
         }
         return salaryInfo.toString();
     }
 
-    private boolean isDateInPeriod(StringBuilder date,
+    private boolean isDateInPeriod(String date,
                                    DateTimeFormatter dateTimeFormatter,
                                    LocalDate dateFromWithFormatter,
                                    LocalDate dateToWithFormatter) {
