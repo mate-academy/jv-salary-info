@@ -1,5 +1,6 @@
-package core.basesyntax;
+package core;
 
+import core.basesyntax.SalaryInfo;
 import org.junit.Assert;
 import org.junit.Test;
 
