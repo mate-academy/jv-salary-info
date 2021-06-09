@@ -6,7 +6,7 @@ import java.time.format.DateTimeFormatter;
 public class SalaryInfo {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     private static final int INDEX_DATA = 0;
-    private static final int INDEX_FROM_DATA = 1;
+    private static final int INDEX_NAME = 1;
     private static final int INDEX_SALARY_PER_HOUR = 2;
     private static final int INDEX_AMOUNT_HOURS = 3;
 
@@ -23,7 +23,7 @@ public class SalaryInfo {
             for (String datas : data) {
                 String [] massive = datas.split(" ");
                 LocalDate now = LocalDate.parse(massive[INDEX_DATA],FORMATTER);
-                if (name.equals(massive[INDEX_FROM_DATA]) && now.compareTo(datefrom) >= 0
+                if (name.equals(massive[INDEX_NAME]) && now.compareTo(datefrom) >= 0
                         && now.compareTo(dateto) <= 0) {
                     salary += Integer.parseInt(massive[INDEX_SALARY_PER_HOUR])
                             * Integer.parseInt(massive[INDEX_AMOUNT_HOURS]);
