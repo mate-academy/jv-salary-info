@@ -11,7 +11,6 @@ public class SalaryInfo {
     private static final byte SALARY_POS = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        int periodSalary;
         StringBuilder result = new StringBuilder();
 
         result.append("Report for period ")
@@ -19,12 +18,10 @@ public class SalaryInfo {
                 .append(" - ").append(LocalDate.parse(dateTo, DATE_FORMAT).format(DATE_FORMAT));
 
         for (String name: names) {
-            periodSalary = 0;
+            int periodSalary = 0;
             for (String record: data) {
                 String[] splitRecord = record.split(" ");
                 LocalDate date = LocalDate.parse(splitRecord[DATE_POS],DATE_FORMAT);
-                /* may be resolved without additional "date" variable but then next "if" block
-                becomes totally unreadable */
                 if (splitRecord[NAME_POS].equals(name)
                         && (date.isAfter(LocalDate.parse(dateFrom, DATE_FORMAT))
                         || date.isEqual(LocalDate.parse(dateFrom, DATE_FORMAT)))
@@ -34,7 +31,7 @@ public class SalaryInfo {
                             * Integer.parseInt(splitRecord[SALARY_POS]);
                 }
             }
-            result.append("\r\n").append(name).append(" - ").append(periodSalary);
+            result.append(System.lineSeparator()).append(name).append(" - ").append(periodSalary);
         }
 
         return result.toString();
