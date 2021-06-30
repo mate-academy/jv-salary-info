@@ -1,137 +1,61 @@
 package core.basesyntax;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
 public class SalaryInfo {
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
 
-        int year = 0;
-        int month = 0;
-        int dayOfMonth = 0;
+        LocalDate localDateFrom = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate localDateTo = LocalDate.parse(dateTo, FORMATTER);
 
-        int countForEach = 0;
+        int userValues = 4;
 
-        for (String value : dateFrom.split("\\.")) {
-            if (countForEach == 0) {
-                dayOfMonth = Integer.parseInt(value);
-            } else if (countForEach == 1) {
-                month = Integer.parseInt(value);
-            } else if (countForEach == 2) {
-                year = Integer.parseInt(value);
-            }
-
-            countForEach++;
-        }
-
-        countForEach = 0;
-
-        LocalDate ldBegin = LocalDate.of(year, month, dayOfMonth);
-
-        year = 0;
-        month = 0;
-        dayOfMonth = 0;
-
-        for (String value : dateTo.split("\\.")) {
-            if (countForEach == 0) {
-                dayOfMonth = Integer.parseInt(value);
-            } else if (countForEach == 1) {
-                month = Integer.parseInt(value);
-            } else if (countForEach == 2) {
-                year = Integer.parseInt(value);
-            }
-
-            countForEach++;
-        }
-
-        countForEach = 0;
-
-        LocalDate ldEnd = LocalDate.of(year, month, dayOfMonth);
-        int countValuesInDataUser = 4;
-
-        String[] inputDataUser = new String[countValuesInDataUser];
+        String[] arrayOfData = new String[userValues];
         Map<String, Integer> userData = new HashMap<String, Integer>();
 
-        for (int i = 0; i < data.length; i++) {
+        for (String line : data) {
+            arrayOfData = line.split(" ");
+            LocalDate currentDate = LocalDate.parse(arrayOfData[0], FORMATTER);
 
-            for (String value : data[i].split(" ")) {
-                inputDataUser[countForEach] = value;
-                countForEach++;
-            }
+            for (String name : names) {
+                if ((name.equals(arrayOfData[1])) && (currentDate.isAfter(localDateFrom)
+                        || currentDate.isEqual(localDateFrom))
+                        && (currentDate.isEqual(localDateTo)
+                        || currentDate.isBefore(localDateTo))) {
+                    int hours = Integer.parseInt(arrayOfData[2]);
+                    int salaryForHour = Integer.parseInt(arrayOfData[3]);
 
-            countForEach = 0;
-
-            for (String value : inputDataUser[0].split("\\.")) {
-                if (countForEach == 0) {
-                    dayOfMonth = Integer.parseInt(value);
-                } else if (countForEach == 1) {
-                    month = Integer.parseInt(value);
-                } else if (countForEach == 2) {
-                    year = Integer.parseInt(value);
-                }
-
-                countForEach++;
-            }
-
-            countForEach = 0;
-
-            LocalDate ldUser = LocalDate.of(year, month, dayOfMonth);
-
-            if ((ldUser.isAfter(ldBegin) || ldUser.isEqual(ldBegin)) && (
-                    ldUser.isEqual(ldEnd) || ldUser.isBefore(ldEnd))) {
-                int hours = Integer.parseInt(inputDataUser[2]);
-                int salaryForHour = Integer.parseInt(inputDataUser[3]);
-                Integer v = userData.get(inputDataUser[1]);
-
-                if (v == null) {
-                    userData.put(inputDataUser[1], hours * salaryForHour);
-                } else {
-                    userData.put(inputDataUser[1], v + hours * salaryForHour);
+                    if (userData.get(arrayOfData[1]) == null) {
+                        userData.put(arrayOfData[1], hours * salaryForHour);
+                    } else {
+                        userData.put(arrayOfData[1], userData.get(arrayOfData[1])
+                                + hours * salaryForHour);
+                    }
                 }
             }
-
-            year = 0;
-            month = 0;
-            dayOfMonth = 0;
-
         }
 
-        StringBuilder stringBuilder = new StringBuilder();
+        StringBuilder result = new StringBuilder();
+        result.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
 
         if (userData.isEmpty()) {
-            stringBuilder.append("Report for period " + dateFrom + " - " + dateTo + "\n");
-            stringBuilder.append(names[0] + " - " + 0 + "\n");
-            stringBuilder.append(names[1] + " - " + 0 + "\n");
-            stringBuilder.append(names[2] + " - " + 0);
-
-            String result = stringBuilder.toString();
-            return result;
-        }
-
-        stringBuilder.append("Report for period " + dateFrom + " - " + dateTo + "\n");
-
-        for (Map.Entry<String, Integer> item : userData.entrySet()) {
-            if (item.getKey().equals(names[0])) {
-                stringBuilder.append(item.getKey() + " - " + item.getValue() + "\n");
+            for (String name : names) {
+                result.append(System.lineSeparator()).append(name).append(" - ").append(0);
             }
+
+            return result.toString();
         }
 
-        for (Map.Entry<String, Integer> item : userData.entrySet()) {
-            if (item.getKey().equals(names[1])) {
-                stringBuilder.append(item.getKey() + " - " + item.getValue() + "\n");
-            }
+        for (String name : names) {
+            result.append(System.lineSeparator()).append(name).append(" - ")
+                    .append(userData.get(name));
         }
 
-        for (Map.Entry<String, Integer> item : userData.entrySet()) {
-            if (item.getKey().equals(names[2])) {
-                stringBuilder.append(item.getKey() + " - " + item.getValue());
-            }
-        }
-
-        String result = stringBuilder.toString();
-
-        return result;
-
+        return result.toString();
     }
 }
