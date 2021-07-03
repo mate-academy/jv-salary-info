@@ -2,8 +2,6 @@ package core.basesyntax;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.Map;
 
 public class SalaryInfo {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
@@ -16,46 +14,24 @@ public class SalaryInfo {
         int userValues = 4;
 
         String[] arrayOfData = new String[userValues];
-        Map<String, Integer> userData = new HashMap<String, Integer>();
+        StringBuilder report = new StringBuilder();
+        report.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
 
-        for (String line : data) {
-            arrayOfData = line.split(" ");
-            LocalDate currentDate = LocalDate.parse(arrayOfData[0], FORMATTER);
-
-            for (String name : names) {
+        for (String name : names) {
+            int salary = 0;
+            for (String line : data) {
+                arrayOfData = line.split(" ");
+                LocalDate currentDate = LocalDate.parse(arrayOfData[0], FORMATTER);
                 if ((name.equals(arrayOfData[1])) && (currentDate.isAfter(localDateFrom)
                         || currentDate.isEqual(localDateFrom))
                         && (currentDate.isEqual(localDateTo)
                         || currentDate.isBefore(localDateTo))) {
-                    int hours = Integer.parseInt(arrayOfData[2]);
-                    int salaryForHour = Integer.parseInt(arrayOfData[3]);
-
-                    if (userData.get(arrayOfData[1]) == null) {
-                        userData.put(arrayOfData[1], hours * salaryForHour);
-                    } else {
-                        userData.put(arrayOfData[1], userData.get(arrayOfData[1])
-                                + hours * salaryForHour);
-                    }
+                    salary += (Integer.parseInt(arrayOfData[3]) * Integer.parseInt(arrayOfData[2]));
                 }
             }
+            report.append('\n').append(name).append(" - ").append(salary);
         }
 
-        StringBuilder result = new StringBuilder();
-        result.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
-
-        if (userData.isEmpty()) {
-            for (String name : names) {
-                result.append(System.lineSeparator()).append(name).append(" - ").append(0);
-            }
-
-            return result.toString();
-        }
-
-        for (String name : names) {
-            result.append(System.lineSeparator()).append(name).append(" - ")
-                    .append(userData.get(name));
-        }
-
-        return result.toString();
+        return report.toString();
     }
 }
