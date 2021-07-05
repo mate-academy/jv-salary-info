@@ -19,9 +19,9 @@ public class SalaryInfo {
                     int salary = Integer.parseInt(date.split(" ")[3]);
                     salarySum += (hours * salary);
                 }
-                result.append(name).append(" - ").append(salarySum)
-                        .append(System.getProperty("line.separator"));
             }
+            result.append(name).append(" - ").append(salarySum)
+                    .append(System.getProperty("line.separator"));
         }
 
         return result.toString().trim();
