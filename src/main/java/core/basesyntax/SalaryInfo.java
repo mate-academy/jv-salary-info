@@ -37,7 +37,8 @@ public class SalaryInfo {
                 break;
             }
             if (currentNameIndex == -1) {
-                //if there is no such name in names[], so that means we don't need to calculate the employee's salary
+                //if there is no such name in names[], so that means we
+                // don't need to calculate the employee's salary
                 continue;
             }
 
@@ -56,12 +57,14 @@ public class SalaryInfo {
             // (if we hadn't find space symbol and salaryString contains not only salary data):
             int salaryInt = Integer.parseInt(salaryString);
 
-            //TODO: if we hadn't check it yet in 47th row, HERE MAY APPEARS StringIndexOutOfBoundsException
+            //TODO: if we hadn't check it yet in 47th row, HERE MAY APPEARS
+            // StringIndexOutOfBoundsException
             // (if we hadn't find space symbol and salaryIndex < 0):
             int workingHoursIndex = currentData.substring(0, salaryIndex).lastIndexOf(' ');
             String workingHoursString = currentData.substring(workingHoursIndex + 1, salaryIndex);
             //TODO: HERE MAY APPEARS NumberFormatException
-            // (if we hadn't find space symbol and workingHoursString contains not only working hours data):
+            // (if we hadn't find space symbol and workingHoursString contains
+            // not only working hours data):
             int workingHoursInt = Integer.parseInt(workingHoursString);
 
             //if everything is ok, raising current salary in salaries[]
