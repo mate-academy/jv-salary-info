@@ -23,8 +23,6 @@ public class SalaryInfo {
             throw new RuntimeException("Data array is not valid!");
         }
 
-        dateFrom = dateFrom.trim();
-        dateTo = dateTo.trim();
         int[] salaries = new int[names.length];
         LocalDate date1;
         LocalDate date2;
