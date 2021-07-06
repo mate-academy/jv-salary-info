@@ -2,33 +2,48 @@ package core.basesyntax;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 public class SalaryInfo {
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
 
-        //TODO: HERE MAY APPEARS NullPointerException
-        // (if dateFrom == null || dateTo == null):
+        //checking validity
+        if (dateFrom == null || dateFrom.isEmpty()) {
+            throw new RuntimeException("Date from is not valid!");
+        }
+        if (dateTo == null || dateTo.isEmpty()) {
+            throw new RuntimeException("Date to is not valid!");
+        }
+        if (names == null || names.length == 0) {
+            throw new RuntimeException("Names array is not valid!");
+        }
+        if (data == null || data.length == 0) {
+            throw new RuntimeException("Data array is not valid!");
+        }
+
         dateFrom = dateFrom.trim();
         dateTo = dateTo.trim();
-        //TODO: HERE MAY APPEARS NullPointerException
-        // (if names == null):
         int[] salaries = new int[names.length];
-        //TODO: HERE MAY APPEARS NullPointerException
-        // (if dateFrom == null or dateTo == null)
-        // or DateTimeParseException
-        // (if dateFrom or dateTo has invalid formats):
-        LocalDate date1 = LocalDate.parse(dateFrom, DATE_FORMAT);
-        LocalDate date2 = LocalDate.parse(dateTo, DATE_FORMAT);
+        LocalDate date1;
+        LocalDate date2;
+        try {
+            date1 = LocalDate.parse(dateFrom, DATE_FORMAT);
+        } catch (DateTimeParseException e) {
+            throw new RuntimeException("Can't parse DATE FROM, invalid value: " + dateFrom);
+        }
+        try {
+            date2 = LocalDate.parse(dateTo, DATE_FORMAT);
+        } catch (DateTimeParseException e) {
+            throw new RuntimeException("Can't parse DATE TO, invalid value: " + dateTo);
+        }
 
-        //TODO: HERE MAY APPEARS NullPointerException
-        // (if data == null):
-        for (String currentData : data) {
+        for (int d = 0; d < data.length; d++) {
+            String currentData = data[d];
+
             //searching for employee's index in names[]
             int currentNameIndex = -1;
-            //TODO: if we hadn't check it yet in 15th row, HERE MAY APPEARS NullPointerException
-            // (if names == null):
             for (int i = 0; i < names.length; i++) {
                 if (!currentData.contains(names[i])) {
                     continue;
@@ -43,9 +58,13 @@ public class SalaryInfo {
             }
 
             //checks if the date is reliable
-            //TODO: HERE MAY APPEARS DateTimeParseException
-            // (if the parsed substring has invalid format):
-            LocalDate currentDate = LocalDate.parse(currentData.substring(0, 10), DATE_FORMAT);
+            LocalDate currentDate;
+            try {
+                currentDate = LocalDate.parse(currentData.substring(0, 10), DATE_FORMAT);
+            } catch (DateTimeParseException e) {
+                throw new RuntimeException("Can't parse DATE in the row " + d + ", invalid value: " + currentData.substring(0, 10));
+            }
+
             if (currentDate.isBefore(date1) || currentDate.isAfter(date2)) {
                 continue;
             }
@@ -53,19 +72,21 @@ public class SalaryInfo {
             //parsing the salary data
             int salaryIndex = currentData.lastIndexOf(' ');
             String salaryString = currentData.substring(salaryIndex + 1);
-            //TODO: HERE MAY APPEARS NumberFormatException
-            // (if we hadn't find space symbol and salaryString contains not only salary data):
-            int salaryInt = Integer.parseInt(salaryString);
+            int salaryInt;
+            try {
+                salaryInt = Integer.parseInt(salaryString);
+            } catch (NumberFormatException e) {
+                throw new RuntimeException("Can't parse SALARY in the row " + d+ ", invalid value: " + salaryString);
+            }
 
-            //TODO: if we hadn't check it yet in 47th row, HERE MAY APPEARS
-            // StringIndexOutOfBoundsException
-            // (if we hadn't find space symbol and salaryIndex < 0):
             int workingHoursIndex = currentData.substring(0, salaryIndex).lastIndexOf(' ');
             String workingHoursString = currentData.substring(workingHoursIndex + 1, salaryIndex);
-            //TODO: HERE MAY APPEARS NumberFormatException
-            // (if we hadn't find space symbol and workingHoursString contains
-            // not only working hours data):
-            int workingHoursInt = Integer.parseInt(workingHoursString);
+            int workingHoursInt;
+            try {
+                workingHoursInt = Integer.parseInt(workingHoursString);
+            } catch (NumberFormatException e) {
+                throw new RuntimeException("Can't parse WORKING HOURS in the row " + d+ ", invalid value: " + workingHoursString);
+            }
 
             //if everything is ok, raising current salary in salaries[]
             salaries[currentNameIndex] += workingHoursInt * salaryInt;
