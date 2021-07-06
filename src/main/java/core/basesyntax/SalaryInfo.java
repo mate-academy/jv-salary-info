@@ -6,9 +6,9 @@ import java.time.format.DateTimeParseException;
 
 public class SalaryInfo {
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private StringBuilder report;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-
         //checking validity
         if (dateFrom == null || dateFrom.isEmpty()) {
             throw new RuntimeException("Date from is not valid!");
@@ -23,7 +23,6 @@ public class SalaryInfo {
             throw new RuntimeException("Data array is not valid!");
         }
 
-        int[] salaries = new int[names.length];
         LocalDate from;
         LocalDate to;
         try {
@@ -37,67 +36,58 @@ public class SalaryInfo {
             throw new RuntimeException("Can't parse DATE TO, invalid value: " + dateTo);
         }
 
-        for (int d = 0; d < data.length; d++) {
-            String currentData = data[d];
+        report = new StringBuilder()
+                .append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
+        for (String name : names) {
+            int salary = 0;
+            for (int dataIndex = 0; dataIndex < data.length; dataIndex++) {
+                String currentData = data[dataIndex];
 
-            //searching for employee's index in names[]
-            int currentNameIndex = -1;
-            for (int i = 0; i < names.length; i++) {
-                if (!currentData.contains(names[i])) {
+                //if it's not our employee, continue until we find him or her
+                if (!currentData.contains(name)) {
                     continue;
                 }
-                currentNameIndex = i;
-                break;
-            }
-            if (currentNameIndex == -1) {
-                //if there is no such name in names[], so that means we
-                // don't need to calculate the employee's salary
-                continue;
-            }
 
-            //checks if the date is reliable
-            LocalDate currentDate;
-            try {
-                currentDate = LocalDate.parse(currentData.substring(0, 10), DATE_FORMAT);
-            } catch (DateTimeParseException e) {
-                throw new RuntimeException("Can't parse DATE in the row " + d + ", invalid value: " + currentData.substring(0, 10));
-            }
+                //checks if the date is reliable
+                LocalDate currentDate;
+                try {
+                    currentDate = LocalDate.parse(currentData.substring(0, 10), DATE_FORMAT);
+                } catch (DateTimeParseException e) {
+                    throw new RuntimeException("Can't parse DATE in the row " + dataIndex
+                            + ", invalid value: " + currentData.substring(0, 10));
+                }
 
-            if (currentDate.isBefore(from) || currentDate.isAfter(to)) {
-                continue;
-            }
+                if (currentDate.isBefore(from) || currentDate.isAfter(to)) {
+                    continue;
+                }
 
-            //parsing the salary data
-            int salaryIndex = currentData.lastIndexOf(' ');
-            String salaryString = currentData.substring(salaryIndex + 1);
-            int salaryInt;
-            try {
-                salaryInt = Integer.parseInt(salaryString);
-            } catch (NumberFormatException e) {
-                throw new RuntimeException("Can't parse SALARY in the row " + d+ ", invalid value: " + salaryString);
-            }
+                //parsing the salary data
+                int salaryIndex = currentData.lastIndexOf(' ');
+                String salaryString = currentData.substring(salaryIndex + 1);
+                int salaryInt;
+                try {
+                    salaryInt = Integer.parseInt(salaryString);
+                } catch (NumberFormatException e) {
+                    throw new RuntimeException("Can't parse SALARY in the row " + dataIndex
+                            + ", invalid value: " + salaryString);
+                }
 
-            int workingHoursIndex = currentData.substring(0, salaryIndex).lastIndexOf(' ');
-            String workingHoursString = currentData.substring(workingHoursIndex + 1, salaryIndex);
-            int workingHoursInt;
-            try {
-                workingHoursInt = Integer.parseInt(workingHoursString);
-            } catch (NumberFormatException e) {
-                throw new RuntimeException("Can't parse WORKING HOURS in the row " + d+ ", invalid value: " + workingHoursString);
-            }
+                int workingHoursIndex = currentData.substring(0, salaryIndex).lastIndexOf(' ');
+                String workingHoursString = currentData.substring(workingHoursIndex + 1, salaryIndex);
+                int workingHoursInt;
+                try {
+                    workingHoursInt = Integer.parseInt(workingHoursString);
+                } catch (NumberFormatException e) {
+                    throw new RuntimeException("Can't parse WORKING HOURS in the row " + dataIndex
+                            + ", invalid value: " + workingHoursString);
+                }
 
-            //if everything is ok, raising current salary in salaries[]
-            salaries[currentNameIndex] += workingHoursInt * salaryInt;
+                //if everything is ok, raising current salary
+                salary += workingHoursInt * salaryInt;
+            }
+            //appending the employee's salary data
+            report.append(System.lineSeparator()).append(name).append(" - ").append(salary);
         }
-
-        //resulting the string with salary data
-        StringBuilder result = new StringBuilder();
-        result.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
-        for (int i = 0; i < names.length; i++) {
-            result.append(System.lineSeparator())
-                    .append(names[i]).append(" - ").append(salaries[i]);
-        }
-
-        return result.toString();
+        return report.toString();
     }
 }
