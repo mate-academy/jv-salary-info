@@ -24,15 +24,15 @@ public class SalaryInfo {
         }
 
         int[] salaries = new int[names.length];
-        LocalDate date1;
-        LocalDate date2;
+        LocalDate from;
+        LocalDate to;
         try {
-            date1 = LocalDate.parse(dateFrom, DATE_FORMAT);
+            from = LocalDate.parse(dateFrom, DATE_FORMAT);
         } catch (DateTimeParseException e) {
             throw new RuntimeException("Can't parse DATE FROM, invalid value: " + dateFrom);
         }
         try {
-            date2 = LocalDate.parse(dateTo, DATE_FORMAT);
+            to = LocalDate.parse(dateTo, DATE_FORMAT);
         } catch (DateTimeParseException e) {
             throw new RuntimeException("Can't parse DATE TO, invalid value: " + dateTo);
         }
@@ -63,7 +63,7 @@ public class SalaryInfo {
                 throw new RuntimeException("Can't parse DATE in the row " + d + ", invalid value: " + currentData.substring(0, 10));
             }
 
-            if (currentDate.isBefore(date1) || currentDate.isAfter(date2)) {
+            if (currentDate.isBefore(from) || currentDate.isAfter(to)) {
                 continue;
             }
 
