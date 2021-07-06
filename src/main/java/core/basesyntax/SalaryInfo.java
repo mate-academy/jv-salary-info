@@ -5,26 +5,27 @@ import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        StringBuilder result = new StringBuilder();
-        result.append("Report for period ").append(dateFrom).append(" - ").append(dateTo)
-                .append(System.getProperty("line.separator"));
+        StringBuilder report = new StringBuilder();
+        report.append("Report for period ").append(dateFrom).append(" - ").append(dateTo)
+                .append(System.lineSeparator());
 
         for (String name : names) {
             int salarySum = 0;
             for (String date : data) {
+                String[] splittedDate = date.split(" ");
                 if (name.equals(date.substring(11, 11 + name.length()))
-                        && !parseDate(date.substring(0, 10)).isBefore(parseDate(dateFrom))
-                        && !parseDate(date.substring(0, 10)).isAfter(parseDate(dateTo))) {
-                    int hours = Integer.parseInt(date.split(" ")[2]);
-                    int salary = Integer.parseInt(date.split(" ")[3]);
+                        && !parseDate(splittedDate[0]).isBefore(parseDate(dateFrom))
+                        && !parseDate(splittedDate[0]).isAfter(parseDate(dateTo))) {
+                    int hours = Integer.parseInt(splittedDate[2]);
+                    int salary = Integer.parseInt(splittedDate[3]);
                     salarySum += (hours * salary);
                 }
             }
-            result.append(name).append(" - ").append(salarySum)
-                    .append(System.getProperty("line.separator"));
+            report.append(name).append(" - ").append(salarySum)
+                    .append(System.lineSeparator());
         }
 
-        return result.toString().trim();
+        return report.toString().trim();
     }
 
     public final LocalDate parseDate(String date) {
