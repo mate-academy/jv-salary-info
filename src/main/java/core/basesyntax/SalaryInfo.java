@@ -73,7 +73,8 @@ public class SalaryInfo {
                 }
 
                 int workingHoursIndex = currentData.substring(0, salaryIndex).lastIndexOf(' ');
-                String workingHoursString = currentData.substring(workingHoursIndex + 1, salaryIndex);
+                String workingHoursString = currentData
+                        .substring(workingHoursIndex + 1, salaryIndex);
                 int workingHoursInt;
                 try {
                     workingHoursInt = Integer.parseInt(workingHoursString);
