@@ -22,9 +22,11 @@ public class SalaryInfo {
         }
 
         StringBuilder sb = new StringBuilder();
-        sb.append("Report for period " + localDateFrom.format(FORMATTER) + " - " + localDateTo.format(FORMATTER) + '\n');
+        sb.append("Report for period " + localDateFrom.format(FORMATTER) + " - "
+                + localDateTo.format(FORMATTER));
 
         for (String name : names) {
+            sb.append(System.lineSeparator());
             int salary = 0;
             for (String element : data) {
                 String[] parsedData = element.split(" ");
@@ -49,11 +51,11 @@ public class SalaryInfo {
                 }
 
                 if ((workingDate.isAfter(localDateFrom) && workingDate.isBefore(localDateTo))
-                    || workingDate.isEqual(localDateFrom) || workingDate.isEqual(localDateTo)) {
+                        || workingDate.isEqual(localDateFrom) || workingDate.isEqual(localDateTo)) {
                     salary += workingHours * ratePerHour;
                 }
             }
-            sb.append(name + " - " + salary + '\n');
+            sb.append(name + " - " + salary);
         }
         return sb.toString();
     }
