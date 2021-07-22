@@ -26,6 +26,7 @@ public class SalaryInfo {
             }
             report.append(name).append(" - ").append(salary).append(System.lineSeparator());
         }
-        return report.substring(0, report.length() - 2);
+        //return report.substring(0, report.length() - 2);
+        return report.toString().trim();
     }
 }
