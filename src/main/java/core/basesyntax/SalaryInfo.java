@@ -6,20 +6,21 @@ import java.util.Arrays;
 
 public class SalaryInfo {
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-    private LocalDate dateFromData;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate dateStart = LocalDate.parse(dateFrom, formatter);
         LocalDate dateEnd = LocalDate.parse(dateTo, formatter);
+        LocalDate dateFromData;
         int namePosition;
         int[] salary = new int[names.length];
         for (int i = 0; i < data.length; i++) {
-            String[] tmp = data[i].split(" ");
-            dateFromData = LocalDate.parse(tmp[0], formatter);
+            String[] recordData = data[i].split(" ");
+            dateFromData = LocalDate.parse(recordData[0], formatter);
             if (dateFromData.isAfter(dateStart.minusDays(1))
                     && dateFromData.isBefore(dateEnd.plusDays(1))) {
-                namePosition = Arrays.asList(names).indexOf(tmp[1]);
-                salary[namePosition] += Integer.parseInt(tmp[2]) * Integer.parseInt(tmp[3]);
+                namePosition = Arrays.asList(names).indexOf(recordData[1]);
+                salary[namePosition] += Integer.parseInt(recordData[2])
+                        * Integer.parseInt(recordData[3]);
             }
         }
         StringBuilder result = new StringBuilder("Report for period ")
