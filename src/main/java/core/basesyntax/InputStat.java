@@ -1,21 +1,21 @@
 package core.basesyntax;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class InputStat {
-    private Date date;
+    private LocalDate date;
     private String name;
     private int hours;
     private int rate;
 
-    public InputStat(Date date, String name, int hours, int rate) {
+    public InputStat(LocalDate date, String name, int hours, int rate) {
         this.date = date;
         this.name = name;
         this.hours = hours;
         this.rate = rate;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 

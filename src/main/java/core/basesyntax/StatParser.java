@@ -6,7 +6,7 @@ public class StatParser {
     public static InputStat parse(String stat) {
         String[] values = stat.split(SEPARATOR);
         InputStat inputStat = new InputStat(
-                DateParser.parseDate(values[0]),
+                DateParser.parse(values[0]),
                 values[1],
                 Integer.parseInt(values[2]),
                 Integer.parseInt(values[3]));
