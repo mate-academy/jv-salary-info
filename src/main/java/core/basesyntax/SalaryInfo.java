@@ -3,7 +3,6 @@ package core.basesyntax;
 import java.time.LocalDate;
 
 public class SalaryInfo {
-    private static final String LINE_SEPARATOR = System.lineSeparator();
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate from = DateParser.parse(dateFrom);
@@ -19,7 +18,7 @@ public class SalaryInfo {
                     salary += inputStat.getHours() * inputStat.getRate();
                 }
             }
-            report.append(LINE_SEPARATOR + name + " - " + salary);
+            report.append(System.lineSeparator()).append(name).append(" - ").append(salary);
         }
         return report.toString();
     }
