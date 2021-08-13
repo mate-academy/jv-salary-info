@@ -6,7 +6,7 @@ import java.time.format.DateTimeParseException;
 
 public class SalaryInfo {
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-    private static final int numberOfColumns = 4;
+    private static final int COLUMNS_NUMBER = 4;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate localDateFrom;
@@ -41,7 +41,7 @@ public class SalaryInfo {
         for (String itemData : data) {
             itemDataArray = itemData.split(" ");
 
-            if (itemDataArray.length != numberOfColumns) {
+            if (itemDataArray.length != COLUMNS_NUMBER) {
                 throw new RuntimeException("Invalid data row");
             }
             try {
