@@ -8,8 +8,6 @@ public class SalaryInfo {
     private static final int COLUMNS_NUMBER = 4;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        LocalDate localDateFrom;
-        LocalDate localDateTo;
         String[] itemDataArray;
         LocalDate itemDate;
         String itemName;
@@ -20,8 +18,8 @@ public class SalaryInfo {
             throw new RuntimeException("Null argument");
         }
 
-        localDateFrom = LocalDate.parse(dateFrom, formatter);
-        localDateTo = LocalDate.parse(dateTo, formatter);
+        LocalDate localDateFrom = LocalDate.parse(dateFrom, formatter);
+        LocalDate localDateTo = LocalDate.parse(dateTo, formatter);
 
         if (localDateFrom.compareTo(localDateTo) > 0) {
             throw new RuntimeException("Invalid date range");
