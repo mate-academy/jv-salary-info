@@ -2,7 +2,6 @@ package core.basesyntax;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 
 public class SalaryInfo {
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
@@ -20,12 +19,9 @@ public class SalaryInfo {
         if (names == null || data == null || dateFrom == null || dateTo == null) {
             throw new RuntimeException("Null argument");
         }
-        try {
-            localDateFrom = LocalDate.parse(dateFrom, formatter);
-            localDateTo = LocalDate.parse(dateTo, formatter);
-        } catch (DateTimeParseException dateTimeParseException) {
-            throw new RuntimeException("Invalid dateFrom or dateTo");
-        }
+
+        localDateFrom = LocalDate.parse(dateFrom, formatter);
+        localDateTo = LocalDate.parse(dateTo, formatter);
 
         if (localDateFrom.compareTo(localDateTo) > 0) {
             throw new RuntimeException("Invalid date range");
@@ -44,15 +40,11 @@ public class SalaryInfo {
             if (itemDataArray.length != COLUMNS_NUMBER) {
                 throw new RuntimeException("Invalid data row");
             }
-            try {
-                itemDate = LocalDate.parse(itemDataArray[0], formatter);
-                numberOfDays = Integer.parseInt(itemDataArray[2]);
-                itemSalary = Integer.parseInt(itemDataArray[3]);
-            } catch (DateTimeParseException dateTimeParseException) {
-                throw new RuntimeException("Invalid date in the row in the data");
-            } catch (NumberFormatException numberFormatException) {
-                throw new RuntimeException("Invalid format number of days or salary");
-            }
+
+            itemDate = LocalDate.parse(itemDataArray[0], formatter);
+            numberOfDays = Integer.parseInt(itemDataArray[2]);
+            itemSalary = Integer.parseInt(itemDataArray[3]);
+
             if (numberOfDays < 0) {
                 throw new RuntimeException("Invalid value of number of days");
             } else if (itemSalary < 0) {
