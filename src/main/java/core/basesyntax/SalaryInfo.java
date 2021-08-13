@@ -32,8 +32,7 @@ public class SalaryInfo {
         result.append("Report for period "
                 + dateFrom
                 + " - "
-                + dateTo
-                + System.lineSeparator());
+                + dateTo);
         for (String itemData : data) {
             itemDataArray = itemData.split(" ");
 
@@ -61,12 +60,10 @@ public class SalaryInfo {
 
         }
         for (int i = 0; i < names.length; i++) {
+            result.append(System.lineSeparator());
             result.append(names[i])
                     .append(" - ")
                     .append(totalSalaries[i]);
-            if (i != names.length - 1) {
-                result.append(System.lineSeparator());
-            }
         }
         return result.toString();
     }
