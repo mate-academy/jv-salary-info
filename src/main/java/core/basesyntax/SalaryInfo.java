@@ -11,7 +11,7 @@ public class SalaryInfo {
         String[] itemDataArray;
         LocalDate itemDate;
         String itemName;
-        int numberOfDays;
+        int workingHour;
         int[] totalSalaries = new int[names.length];
         int itemSalary;
         if (names == null || data == null || dateFrom == null || dateTo == null) {
@@ -39,11 +39,11 @@ public class SalaryInfo {
             }
 
             itemDate = LocalDate.parse(itemDataArray[0], formatter);
-            numberOfDays = Integer.parseInt(itemDataArray[2]);
+            workingHour = Integer.parseInt(itemDataArray[2]);
             itemSalary = Integer.parseInt(itemDataArray[3]);
 
-            if (numberOfDays < 0) {
-                throw new RuntimeException("Invalid value of number of days");
+            if (workingHour < 0) {
+                throw new RuntimeException("Invalid value of hours");
             } else if (itemSalary < 0) {
                 throw new RuntimeException("Invalid value of salary");
             }
@@ -51,7 +51,7 @@ public class SalaryInfo {
             if (itemDate.compareTo(localDateFrom) >= 0 && itemDate.compareTo(localDateTo) <= 0) {
                 for (int i = 0; i < names.length; i++) {
                     if (names[i].equals(itemName)) {
-                        totalSalaries[i] += numberOfDays * itemSalary;
+                        totalSalaries[i] += workingHour * itemSalary;
                     }
                 }
             }
