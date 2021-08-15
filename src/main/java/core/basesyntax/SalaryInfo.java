@@ -6,11 +6,10 @@ import java.time.format.DateTimeFormatter;
 public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder report = new StringBuilder();
-        report.append("Report for period ").append(dateFrom).append(" - ").append(dateTo)
-                .append(System.lineSeparator());
+        report.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
         for (String name: names) {
             String nameCheked = name.replaceAll("[^A-Za-z]", "");
-            report.append(nameCheked);
+            report.append(System.lineSeparator()).append(nameCheked);
             int amount = 0;
             for (String dayData: data) {
                 int spaceSecond = (dayData.substring(11)).indexOf(' ') + 11;
@@ -21,10 +20,10 @@ public class SalaryInfo {
                     amount += Integer.parseInt(dayData.substring(spaceSecond + 1, spacelast)
                             .replaceAll("[^0-9]", ""))
                             * Integer.parseInt(dayData.substring(spacelast + 1)
-                                    .replaceAll("[^0-9]",""));
+                            .replaceAll("[^0-9]",""));
                 }
             }
-            report.append(" - ").append(amount).append(System.lineSeparator());
+            report.append(" - ").append(amount);
         }
         return report.toString();
     }
