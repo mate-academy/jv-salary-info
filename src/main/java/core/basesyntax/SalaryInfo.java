@@ -25,15 +25,15 @@ public class SalaryInfo {
                     sum += hours * rate;
                 }
             }
-            report.append("\n").append(name).append(" - ").append(sum);
+            report.append(System.lineSeparator()).append(name).append(" - ").append(sum);
         }
         return report.toString();
     }
 
     public boolean isCorrectDate(String startInput, String stopInput, String workDate) {
-        LocalDate start = LocalDate.parse( startInput , DATE_FORMAT) ;
-        LocalDate stop = LocalDate.parse( stopInput , DATE_FORMAT) ;
-        LocalDate work = LocalDate.parse( workDate , DATE_FORMAT) ;
+        LocalDate start = LocalDate.parse(startInput, DATE_FORMAT).minusDays(1);
+        LocalDate stop = LocalDate.parse(stopInput, DATE_FORMAT).plusDays(1);
+        LocalDate work = LocalDate.parse(workDate, DATE_FORMAT);
         return start.isBefore(work) && work.isBefore(stop);
     }
 }
