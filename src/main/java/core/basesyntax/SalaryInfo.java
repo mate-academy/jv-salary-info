@@ -13,13 +13,13 @@ public class SalaryInfo {
             int salary = 0;
             report.append(System.lineSeparator()).append(name).append(" - ");
             for (String info : data) {
-                String[] Draw = info.split(" ");
-                if ((formatter(Draw[0]).isAfter(formatter(dateFrom))
-                        || formatter(Draw[0]).equals(formatter(dateFrom)))
-                        && (formatter(Draw[0]).equals(formatter(dateTo))
-                        || formatter(Draw[0]).isBefore(formatter(dateTo)))
-                        && Draw[1].equals(name)) {
-                    salary += getSalaryFromInfo(Draw);
+                String[] draw = info.split(" ");
+                if ((formatter(draw[0]).isAfter(formatter(dateFrom))
+                        || formatter(draw[0]).equals(formatter(dateFrom)))
+                        && (formatter(draw[0]).equals(formatter(dateTo))
+                        || formatter(draw[0]).isBefore(formatter(dateTo)))
+                        && draw[1].equals(name)) {
+                    salary += getSalaryFromInfo(draw);
                 }
             }
             report.append(salary);
@@ -32,9 +32,9 @@ public class SalaryInfo {
         return LocalDate.parse(info, formatter);
     }
 
-    private int getSalaryFromInfo(String[] Draw) {
-        int hours = Integer.parseInt(Draw[2]);
-        int value = Integer.parseInt(Draw[3]);
+    private int getSalaryFromInfo(String[] array) {
+        int hours = Integer.parseInt(array[2]);
+        int value = Integer.parseInt(array[3]);
         return hours * value;
     }
 }
