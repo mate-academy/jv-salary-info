@@ -6,8 +6,8 @@ import java.time.format.DateTimeFormatter;
 public class SalaryInfo {
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        LocalDate from = stringToDate(dateFrom);
-        LocalDate to = stringToDate(dateTo);
+        LocalDate localDateFrom = stringToDate(dateFrom);
+        LocalDate localDateTo = stringToDate(dateTo);
         StringBuilder result = new StringBuilder("Report for period " + dateFrom + " - " + dateTo);
         for (String name : names) {
             int salary = 0;
@@ -15,8 +15,8 @@ public class SalaryInfo {
                 String[] splitOneInfo = info.split(" ");
                 LocalDate currentDate = stringToDate(splitOneInfo[0]);
                 if (name.equals(splitOneInfo[1])
-                        && !currentDate.isBefore(from)
-                        && !currentDate.isAfter(to)) {
+                        && !currentDate.isBefore(localDateFrom)
+                        && !currentDate.isAfter(localDateTo)) {
                     salary += Integer.parseInt(splitOneInfo[2])
                             * Integer.parseInt(splitOneInfo[3]);
                 }
@@ -27,9 +27,7 @@ public class SalaryInfo {
     }
 
     private LocalDate stringToDate(String date) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         return LocalDate.parse(date, formatter);
     }
 }
-
-
