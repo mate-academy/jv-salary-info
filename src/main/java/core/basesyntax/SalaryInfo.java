@@ -5,22 +5,24 @@ import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final int DATE_FROM_DATA = 0;
+    private static final int NAME_FROM_DATA = 1;
+    private static final int HOURS_FROM_DATA = 2;
+    private static final int RATE_FROM_DATA = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder report = new StringBuilder().append("Report for period ")
                 .append(dateFrom)
                 .append(" - ")
                 .append(dateTo);
-
         for (String name : names) {
             int sum = 0;
-
             for (String datum : data) {
-                String date = datum.split(" ")[0];
-                String worker = datum.split(" ")[1];
-                int hours = Integer.parseInt(datum.split(" ")[2]);
-                int rate = Integer.parseInt(datum.split(" ")[3]);
-
+                String[] datumArr = datum.split(" ");
+                String date = datumArr[DATE_FROM_DATA];
+                String worker = datumArr[NAME_FROM_DATA];
+                int hours = Integer.parseInt(datumArr[HOURS_FROM_DATA]);
+                int rate = Integer.parseInt(datumArr[RATE_FROM_DATA]);
                 if (name.equals(worker) && isCorrectDate(dateFrom, dateTo, date)) {
                     sum += hours * rate;
                 }
