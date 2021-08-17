@@ -18,13 +18,19 @@ public class SalaryInfo {
             for (String datum : data) {
                 String[] personalData = datum.split(" ");
                 if (name.equals(personalData[1])
-                        && LocalDate.parse(dateFrom, formatter).isBefore(LocalDate.parse(personalData[0], formatter))
-                        && LocalDate.parse(dateTo, formatter).plusDays(1).isAfter((LocalDate.parse(personalData[0], formatter)))
+                        && LocalDate.parse(dateFrom, formatter)
+                        .isBefore(LocalDate.parse(personalData[0], formatter))
+                        && LocalDate.parse(dateTo, formatter)
+                        .plusDays(1).isAfter((LocalDate.parse(personalData[0], formatter)))
                 ) {
-                    bufferSum += Integer.parseInt(personalData[2]) * Integer.parseInt(personalData[3]);
+                    bufferSum += Integer.parseInt(personalData[2])
+                            * Integer.parseInt(personalData[3]);
                 }
             }
-            result.append(name).append(" - ").append(bufferSum).append(System.getProperty("line.separator"));
+            result.append(name)
+                    .append(" - ")
+                    .append(bufferSum)
+                    .append(System.getProperty("line.separator"));
         }
         return result.toString().trim();
     }
