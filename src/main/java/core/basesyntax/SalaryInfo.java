@@ -1,15 +1,12 @@
 package core.basesyntax;
 
 import java.time.LocalDate;
-import javax.xml.crypto.Data;
-import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder result = new StringBuilder();
         final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        int sum = 0;
 
         result.append("Report for period ")
                 .append(dateFrom)
@@ -22,13 +19,13 @@ public class SalaryInfo {
                 String[] personalData = datum.split(" ");
                 if (name.equals(personalData[1])
                         && LocalDate.parse(dateFrom, formatter).isBefore(LocalDate.parse(personalData[0], formatter))
-                        && LocalDate.parse(dateTo, formatter).isAfter((LocalDate.parse(personalData[0], formatter)))
+                        && LocalDate.parse(dateTo, formatter).plusDays(1).isAfter((LocalDate.parse(personalData[0], formatter)))
                 ) {
-                    sum += Integer.parseInt(personalData[2]) * Integer.parseInt(personalData[3]);
+                    bufferSum += Integer.parseInt(personalData[2]) * Integer.parseInt(personalData[3]);
                 }
             }
-            result.append(name).append(" - ").append(sum).append(System.getProperty("line.separator"));
+            result.append(name).append(" - ").append(bufferSum).append(System.getProperty("line.separator"));
         }
-        return result.toString();
+        return result.toString().trim();
     }
 }
