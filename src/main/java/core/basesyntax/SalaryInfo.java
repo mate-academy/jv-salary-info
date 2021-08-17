@@ -8,10 +8,7 @@ public class SalaryInfo {
         String[] from = dateFrom.split("\\.");
 
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("Report for period ");
-        stringBuilder.append(dateFrom);
-        stringBuilder.append(" - ");
-        stringBuilder.append(dateTo);
+        stringBuilder.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
 
         LocalDate start = LocalDate.of(Integer.parseInt(from[2]), Integer.parseInt(from[1]),
                 Integer.parseInt(from[0]));
@@ -30,12 +27,8 @@ public class SalaryInfo {
                     salary += Integer.parseInt(info[2]) * Integer.parseInt(info[3]);
                 }
             }
-            stringBuilder.append(System.lineSeparator());
-            stringBuilder.append(name);
-            stringBuilder.append(" - ");
-            stringBuilder.append(salary);
+            stringBuilder.append(System.lineSeparator()).append(name).append(" - ").append(salary);
         }
-
         return stringBuilder.toString();
     }
 }
