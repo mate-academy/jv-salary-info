@@ -1,6 +1,5 @@
 package core.basesyntax;
 
-import java.text.DateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -8,18 +7,10 @@ public class SalaryInfo {
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        //String[] to = dateTo.split("\\.");
         LocalDate to = LocalDate.parse(dateTo, formatter);
         LocalDate from = LocalDate.parse(dateFrom, formatter);
-        //String[] from = dateFrom.split("\\.");
-
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
-
-        //LocalDate start = LocalDate.of(Integer.parseInt(from[2]), Integer.parseInt(from[1]),
-        //        Integer.parseInt(from[0]));
-        //LocalDate stop = LocalDate.of(Integer.parseInt(to[2]), Integer.parseInt(to[1]),
-        //        Integer.parseInt(to[0]));
 
         for (String name : names) {
             int salary = 0;
