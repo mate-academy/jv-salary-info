@@ -10,24 +10,27 @@ public class SalaryInfo {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("Report for period ").append(dateFrom).append(" - ").append(dateTo)
                 .append(System.lineSeparator());
-
         for (String name : names) {
+            final int dateIndex = 0;
+            final int nameIndex = 1;
+            final int hoursPosition = 2;
+            final int salaryPosition = 3;
             int salarySum = 0;
-            for (String date : data) {
-                String[] splittedDate = date.split(" ");
-                if (name.equals(splittedDate[1]) && !LocalDate.parse(splittedDate[0], formatter)
+            for (String datum : data) {
+                String[] splittedDate = datum.split(" ");
+                if (name.equals(splittedDate[nameIndex])
+                        && !LocalDate.parse(splittedDate[dateIndex], formatter)
                         .isBefore(LocalDate.parse(dateFrom, formatter))
-                        && !LocalDate.parse(splittedDate[0], formatter)
+                        && !LocalDate.parse(splittedDate[dateIndex], formatter)
                         .isAfter(LocalDate.parse(dateTo, formatter))) {
-                    int hours = Integer.parseInt(splittedDate[2]);
-                    int salary = Integer.parseInt(splittedDate[3]);
+                    int hours = Integer.parseInt(splittedDate[hoursPosition]);
+                    int salary = Integer.parseInt(splittedDate[salaryPosition]);
                     salarySum += (hours * salary);
                 }
             }
             stringBuilder.append(name).append(" - ").append(salarySum)
                     .append(System.lineSeparator());
         }
-
         return stringBuilder.toString().trim();
     }
 }
