@@ -17,8 +17,8 @@ public class SalaryInfo {
             for (String day : data) {
                 String[] info = day.split(" ");
                 LocalDate workDay = LocalDate.parse(info[0], formatter);
-                if (info[1].equals(name) & (workDay.isEqual(from) | workDay.isEqual(to)
-                        | (workDay.isAfter(from) & workDay.isBefore(to)))) {
+                if (info[1].equals(name) && (workDay.isEqual(from) || workDay.isEqual(to)
+                        || (workDay.isAfter(from) & workDay.isBefore(to)))) {
                     salary += Integer.parseInt(info[2]) * Integer.parseInt(info[3]);
                 }
             }
