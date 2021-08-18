@@ -24,7 +24,8 @@ public class SalaryInfo {
                         salary += Integer.parseInt(dataOfDay[2]) * Integer.parseInt(dataOfDay[3]);
                     }
                 }
-                stringBuilder.append(System.lineSeparator()).append(names[i]).append(" - ").append(salary);
+                stringBuilder.append(System.lineSeparator())
+                        .append(names[i]).append(" - ").append(salary);
             }
         } catch (DateTimeParseException e) {
             System.out.println("DateTimeParseException! Some date cannot be formatted");
