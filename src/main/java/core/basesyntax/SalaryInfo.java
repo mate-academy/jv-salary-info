@@ -19,7 +19,7 @@ public class SalaryInfo {
                 .append(dateFrom)
                 .append(" - ")
                 .append(dateTo)
-                .append(System.getProperty("line.separator"));
+                .append(System.lineSeparator());
         for (String name : names) {
             int bufferSum = 0;
             for (String datum : data) {
