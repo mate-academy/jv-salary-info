@@ -2,7 +2,6 @@ package core.basesyntax;
 
 import core.basesyntax.core.Date;
 import core.basesyntax.core.Employee;
-
 import java.util.LinkedList;
 
 public class SalaryInfo {
