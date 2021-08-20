@@ -5,7 +5,6 @@ import core.basesyntax.core.Employee;
 import java.util.LinkedList;
 
 public class SalaryInfo {
-
     private static final int BEGIN_INDEX_OF_DATA = 0;
     private static final int END_INDEX_OF_DATA = 10;
     private static final String REGULAR_EXPRESSION_FOR_EMPLOYEE_INCOME_PER_HOUR = ".+(\\d+) ";
