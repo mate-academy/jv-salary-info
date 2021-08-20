@@ -26,6 +26,9 @@ public class SalaryInfo {
             }
             stringBuilder.append(names[i]).append(" - ").append(salaryArr[i]).append("\r\n");
         }
+        if (result.equals(null) || result.length() < 2) {
+            return "String is null";
+        }
         result = result + stringBuilder.toString();
         return result.substring(0, result.length() - 2);
     }
