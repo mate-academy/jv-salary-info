@@ -4,37 +4,38 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final int DATE_INDEX = 0;
+    private static final int NAME_INDEX = 1;
+    private static final int HOURS_INDEX = 2;
+    private static final int PAYMENT_INDEX = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        LocalDate fromDate = LocalDate.parse(dateFrom, formatter);
-        LocalDate toDate = LocalDate.parse(dateTo, formatter);
-        int [] salary = new int[names.length];
+        LocalDate fromDate = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate toDate = LocalDate.parse(dateTo, FORMATTER);
+        int[] salary = new int[names.length];
         for (String line : data) {
-            String [] temporaryData = line.split(" ");
+            String [] dataFromLine = line.split(" ");
             for (int i = 0; i < names.length; i++) {
-                if (isIn(LocalDate.parse(temporaryData[0], formatter),fromDate,toDate)
-                        && temporaryData[1].equals(names[i])) {
-                    salary[i] += Integer.parseInt(temporaryData[2])
-                            * Integer.parseInt(temporaryData[3]);
+                if (isIn(LocalDate.parse(dataFromLine[DATE_INDEX], FORMATTER),fromDate,toDate)
+                        && dataFromLine[NAME_INDEX].equals(names[i])) {
+                    salary[i] += Integer.parseInt(dataFromLine[HOURS_INDEX])
+                            * Integer.parseInt(dataFromLine[PAYMENT_INDEX]);
                 }
             }
         }
-        StringBuilder sb = new StringBuilder();
-        sb.append("Report for period ").append(dateFrom).append(" - ")
-                .append(dateTo).append(System.lineSeparator());
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("Report for period ").append(dateFrom).append(" - ")
+                .append(dateTo);
         for (int i = 0; i < salary.length; i++) {
-            if (i == salary.length - 1) {
-                sb.append(names[i]).append(" - ").append(salary[i]);
-            } else {
-                sb.append(names[i]).append(" - ").append(salary[i]).append(System.lineSeparator());
-            }
+            stringBuilder.append(System.lineSeparator()).append(names[i])
+                    .append(" - ").append(salary[i]);
         }
-        return sb.toString().trim();
+        return stringBuilder.toString();
     }
 
     private boolean isIn(LocalDate date, LocalDate from, LocalDate to) {
         return ((date.isAfter(from) || date.isEqual(from))
-                & (date.isBefore(to) || date.isEqual(to)));
+                && (date.isBefore(to) || date.isEqual(to)));
     }
 }
