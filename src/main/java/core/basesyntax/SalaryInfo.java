@@ -5,6 +5,10 @@ import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     private static final String EUROPEAN_FORMAT = "dd.MM.yyyy";
+    private static final int CURRENT_DATE = 0;
+    private static final int NAME = 1;
+    private static final int HOURS = 2;
+    private static final int INCOME_PER_HOUR = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         final DateTimeFormatter eurFormat = DateTimeFormatter
@@ -19,13 +23,13 @@ public class SalaryInfo {
                 .append(" - ").append(dateTo).append(System.lineSeparator());
         for (String splitedDate : data) {
             compareData = splitedDate.split(" ");
-            currentDate = LocalDate.parse(compareData[0], eurFormat);
+            currentDate = LocalDate.parse(compareData[CURRENT_DATE], eurFormat);
             for (int j = 0; j < names.length; j++) {
                 if (fromDate.compareTo(currentDate) <= 0
                         && toDate.compareTo(currentDate) >= 0
-                        && names[j].equals(compareData[1])) {
-                    countSalaries[j] += Integer.parseInt(compareData[2])
-                            * Integer.parseInt(compareData[3]);
+                        && names[j].equals(compareData[NAME])) {
+                    countSalaries[j] += Integer.parseInt(compareData[HOURS])
+                            * Integer.parseInt(compareData[INCOME_PER_HOUR]);
                 }
             }
         }
@@ -33,8 +37,6 @@ public class SalaryInfo {
             stringBuilder.append(names[i]).append(" - ").append(countSalaries[i])
                     .append(System.lineSeparator());
         }
-        int indexDel = stringBuilder.lastIndexOf(System.lineSeparator());
-        stringBuilder.delete(indexDel, stringBuilder.length());
-        return stringBuilder.toString();
+        return stringBuilder.toString().trim();
     }
 }
