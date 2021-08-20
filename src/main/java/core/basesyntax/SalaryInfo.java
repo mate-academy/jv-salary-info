@@ -30,6 +30,6 @@ public class SalaryInfo {
             return "String is null";
         }
         result = result + stringBuilder.toString();
-        return result.substring(0, result.length() - 2);
+        return result.substring(0, result.length() - 1);
     }
 }
