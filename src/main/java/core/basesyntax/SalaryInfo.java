@@ -7,6 +7,10 @@ import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final int DATE = 0;
+    private static final int NAME = 1;
+    private static final int HOURS_PER_DAY = 2;
+    private static final int INCOME_PER_HOUR = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder reportBuilder = new StringBuilder();
@@ -19,12 +23,12 @@ public class SalaryInfo {
             int salaryOfEmployee = 0;
             for (String employeeInfo : data) {
                 String[] employeeInfoArray = employeeInfo.split(" ");
-                LocalDate dateOfDataArray = parseStringToDate(employeeInfoArray[0]);
-                if (employeeName.equals(employeeInfoArray[1])
+                LocalDate dateOfDataArray = parseStringToDate(employeeInfoArray[DATE]);
+                if (employeeName.equals(employeeInfoArray[NAME])
                         && dateOfDataArray.isAfter(startDate)
                         && dateOfDataArray.isBefore(endDate.plusDays(1))) {
-                    salaryOfEmployee += Integer.parseInt(employeeInfoArray[2])
-                            * Integer.parseInt(employeeInfoArray[3]);
+                    salaryOfEmployee += Integer.parseInt(employeeInfoArray[HOURS_PER_DAY])
+                            * Integer.parseInt(employeeInfoArray[INCOME_PER_HOUR]);
                 }
             }
             reportBuilder.append(salaryOfEmployee).append(System.lineSeparator());
