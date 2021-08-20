@@ -4,9 +4,9 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-    static final int DATEINDEX = 0;
-    static final int NAMEINDEX = 1;
+    static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    static final int DATE_INDEX = 0;
+    static final int NAME_INDEX = 1;
     static final int HOURSPOSITION = 2;
     static final int SALARYPOSITION = 3;
 
@@ -19,7 +19,7 @@ public class SalaryInfo {
             for (String datum : data) {
                 String[] splittedDate = datum.split(" ");
                 if (isValidDate(name, dateFrom, splittedDate,
-                        DATEINDEX, dateTo, FORMATTER)) {
+                        DATE_INDEX, dateTo, formatter)) {
                     int hours = Integer.parseInt(splittedDate[HOURSPOSITION]);
                     int salary = Integer.parseInt(splittedDate[SALARYPOSITION]);
                     salarySum += (hours * salary);
@@ -32,12 +32,12 @@ public class SalaryInfo {
     }
 
     public boolean isValidDate(String name, String dateFrom, String[] splittedDate,
-                               int DATEINDEX, String dateTo, DateTimeFormatter FORMATTER) {
-        if (name.equals(splittedDate[NAMEINDEX])
-                && !LocalDate.parse(splittedDate[DATEINDEX], FORMATTER)
-                .isBefore(LocalDate.parse(dateFrom, FORMATTER))
-                && !LocalDate.parse(splittedDate[DATEINDEX], FORMATTER)
-                .isAfter(LocalDate.parse(dateTo, FORMATTER))) {
+                               int dateindex, String dateTo, DateTimeFormatter formatter) {
+        if (name.equals(splittedDate[NAME_INDEX])
+                && !LocalDate.parse(splittedDate[dateindex], formatter)
+                .isBefore(LocalDate.parse(dateFrom, formatter))
+                && !LocalDate.parse(splittedDate[dateindex], formatter)
+                .isAfter(LocalDate.parse(dateTo, formatter))) {
             return true;
         } else {
             return false;
