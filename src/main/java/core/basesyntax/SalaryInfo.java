@@ -8,7 +8,7 @@ public class SalaryInfo {
     private static final int NAME_INDEX = 1;
     private static final int HOURSPOSITION = 2;
     private static final int SALARYPOSITION = 3;
-    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder stringBuilder = new StringBuilder();
@@ -19,7 +19,7 @@ public class SalaryInfo {
             for (String datum : data) {
                 String[] splittedDate = datum.split(" ");
                 if (isValidDate(name, dateFrom, splittedDate,
-                        DATE_INDEX, dateTo, formatter)) {
+                        DATE_INDEX, dateTo, FORMATTER)) {
                     int hours = Integer.parseInt(splittedDate[HOURSPOSITION]);
                     int salary = Integer.parseInt(splittedDate[SALARYPOSITION]);
                     salarySum += (hours * salary);
