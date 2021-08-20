@@ -1,21 +1,22 @@
 package core.basesyntax;
 
-import core.basesyntax.utils.ParserStringDateToLocalDate;
+import core.basesyntax.utils.ParseDate;
 import java.time.LocalDate;
 
 public class SalaryInfo {
-    private final ParserStringDateToLocalDate parser = new ParserStringDateToLocalDate();
+    private final ParseDate parser = new ParseDate();
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder builder = new StringBuilder();
-        int salaryFull = 0;
+        LocalDate dateStart = parser.stringToLocalDate(dateFrom);
+        LocalDate dateEnd = parser.stringToLocalDate(dateTo);
+
         for (String name : names) {
+            int salaryFull = 0;
+
             for (int i = 0; i < data.length; i++) {
                 String[] partsData = data[i].split(" ");
-
-                LocalDate dateStart = parser.stringToLocalDate(dateFrom);
                 LocalDate dateData = parser.stringToLocalDate(partsData[0]);
-                LocalDate dateEnd = parser.stringToLocalDate(dateTo);
 
                 if (name.equals(partsData[1])) {
                     if ((dateStart.isBefore(dateData)) || (dateStart.isEqual(dateData))) {
@@ -33,7 +34,6 @@ public class SalaryInfo {
             builder.append(name);
             builder.append(" - ");
             builder.append(salaryFull);
-            salaryFull = 0;
         }
         return "Report for period " + dateFrom + " - " + dateTo + builder;
     }
