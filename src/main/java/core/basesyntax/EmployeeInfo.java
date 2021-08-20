@@ -2,15 +2,14 @@ package core.basesyntax;
 
 public class EmployeeInfo {
     private String name;
-    private int summarySalary;
+    private int salary;
 
     public EmployeeInfo(String name) {
         this.name = name;
-        this.summarySalary = 0;
     }
 
     public void addSalary(int hours, int salaryPerHour) {
-        this.summarySalary += hours * salaryPerHour;
+        salary += hours * salaryPerHour;
     }
 
     public String getName() {
@@ -19,6 +18,6 @@ public class EmployeeInfo {
 
     @Override
     public String toString() {
-        return name + " - " + summarySalary;
+        return name + " - " + salary;
     }
 }
