@@ -1,5 +1,7 @@
 package core.basesyntax.core;
 
+import java.util.Objects;
+
 public class Employee {
     private String name;
     private long cash;
@@ -10,7 +12,7 @@ public class Employee {
     }
 
     public Employee(String name) {
-        this(name,0);
+        this(name, 0);
     }
 
     public String getName() {
@@ -31,6 +33,23 @@ public class Employee {
 
     public void addCash(long cashToAdd) {
         this.cash += cashToAdd;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Employee employee = (Employee) o;
+        return Objects.equals(name, employee.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, cash);
     }
 
     @Override

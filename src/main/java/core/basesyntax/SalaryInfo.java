@@ -1,8 +1,9 @@
 package core.basesyntax;
 
-import core.basesyntax.core.Date;
 import core.basesyntax.core.Employee;
+import java.time.LocalDate;
 import java.util.LinkedList;
+import java.util.List;
 
 public class SalaryInfo {
     private static final int BEGIN_INDEX_OF_DATA = 0;
@@ -11,8 +12,13 @@ public class SalaryInfo {
     private static final String REGULAR_EXPRESSION_FOR_EMPLOYEE_NAME = "\\W|\\d";
     private static final String REGULAR_EXPRESSION_FOR_EMPLOYEE_WORKING_HOURS
             = ".+[a-zA-Z] | (\\d+)";
-    private Date fromData;
-    private Date toDate;
+    private static final int DAY_START_INDEX = 0;
+    private static final int DAY_END_INDEX = 2;
+    private static final int MONTH_START_INDEX = 3;
+    private static final int MONTH_END_INDEX = 5;
+    private static final int YEAR_START_INDEX = 6;
+    private LocalDate fromDate;
+    private LocalDate toDate;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         initializingDate(dateFrom, dateTo);
@@ -21,9 +27,9 @@ public class SalaryInfo {
             String nameOfCurrentEmploy = singleData
                     .replaceAll(REGULAR_EXPRESSION_FOR_EMPLOYEE_NAME, "");
             if (validDataCheck(singleData.substring(BEGIN_INDEX_OF_DATA, END_INDEX_OF_DATA))
-                    && isEmployeeInLinkedList(linkedListOfEmployee, nameOfCurrentEmploy)) {
+                    && linkedListOfEmployee.contains(new Employee(nameOfCurrentEmploy))) {
                 Employee currentEmploy
-                        = getEmployeeInLinkedList(linkedListOfEmployee, nameOfCurrentEmploy);
+                        = getEmployeeFromList(linkedListOfEmployee, nameOfCurrentEmploy);
                 long hours = Long.parseLong(singleData
                         .replaceAll(REGULAR_EXPRESSION_FOR_EMPLOYEE_WORKING_HOURS, ""));
                 long incomePerHour = Long.parseLong(singleData
@@ -31,11 +37,11 @@ public class SalaryInfo {
                 currentEmploy.setCash(currentEmploy.getCash() + (hours * incomePerHour));
             }
         }
-        return formOutPutString(linkedListOfEmployee, fromData.toString(), toDate.toString());
+        return formOutPutString(linkedListOfEmployee, dateFrom, dateTo);
     }
 
     private Employee getEmployeeFromList(List<Employee> linkedListOfEmployee,
-                                             String nameOfEmployee) {
+                                         String nameOfEmployee) {
         for (Employee employee : linkedListOfEmployee) {
             if (employee.getName().equals(nameOfEmployee)) {
                 return employee;
@@ -59,27 +65,21 @@ public class SalaryInfo {
         return stringBuilder.toString().trim();
     }
 
-    private boolean isEmployeeInLinkedList(LinkedList<Employee> linkedListOfEmployee,
-                                           String nameOfEmployee) {
-        for (Employee employee : linkedListOfEmployee) {
-            if (employee.getName().equals(nameOfEmployee)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     private boolean validDataCheck(String s) {
-        Date currentDate = new Date(s);
-        long longFromDate = fromData.getAsIntegerForEquals();
-        long longToDate = toDate.getAsIntegerForEquals();
-        long longCurrentDate = currentDate.getAsIntegerForEquals();
-        return longFromDate <= longCurrentDate && longCurrentDate <= longToDate;
+        LocalDate currentDate = LocalDate.of(Integer.parseInt(s.substring(YEAR_START_INDEX)),
+                Integer.parseInt(s.substring(MONTH_START_INDEX, MONTH_END_INDEX)),
+                Integer.parseInt(s.substring(DAY_START_INDEX, DAY_END_INDEX)));
+        return (currentDate.compareTo(fromDate) >= 0
+                && currentDate.compareTo(toDate) <= 0);
     }
 
     private void initializingDate(String dateFrom, String dateTo) {
-        this.fromData = new Date(dateFrom);
-        this.toDate = new Date(dateTo);
+        fromDate = LocalDate.of(Integer.parseInt(dateFrom.substring(YEAR_START_INDEX)),
+                Integer.parseInt(dateFrom.substring(MONTH_START_INDEX, MONTH_END_INDEX)),
+                Integer.parseInt(dateFrom.substring(DAY_START_INDEX, DAY_END_INDEX)));
+        toDate = LocalDate.of(Integer.parseInt(dateTo.substring(YEAR_START_INDEX)),
+                Integer.parseInt(dateTo.substring(MONTH_START_INDEX, MONTH_END_INDEX)),
+                Integer.parseInt(dateTo.substring(DAY_START_INDEX, DAY_END_INDEX)));
     }
 
     private LinkedList<Employee> formLinkedListOfEmployee(String[] names) {
