@@ -34,7 +34,7 @@ public class SalaryInfo {
         return formOutPutString(linkedListOfEmployee, fromData.toString(), toDate.toString());
     }
 
-    private Employee getEmployeeInLinkedList(LinkedList<Employee> linkedListOfEmployee,
+    private Employee getEmployeeFromList(List<Employee> linkedListOfEmployee,
                                              String nameOfEmployee) {
         for (Employee employee : linkedListOfEmployee) {
             if (employee.getName().equals(nameOfEmployee)) {
