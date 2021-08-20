@@ -9,6 +9,7 @@ public class SalaryInfo {
     private static final int HOURS_INDEX = 2;
     private static final int SALARY_PER_HOUR_INDEX = 3;
     private static final String DATE_PATTERN = "dd.MM.yyyy";
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern(DATE_PATTERN);
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate localDateFrom = getDateFromString(dateFrom);
@@ -45,11 +46,11 @@ public class SalaryInfo {
     private String getResultInfoOfAllEmployee(EmployeeInfo[] employeeSalaryInfoArray,
                                               String dateFrom,
                                               String dateTo) {
-        StringBuilder res = new StringBuilder("Report for period " + dateFrom + " - " + dateTo);
+        StringBuilder builder = new StringBuilder("Report for period " + dateFrom + " - " + dateTo);
         for (EmployeeInfo employeeSalaryInfo : employeeSalaryInfoArray) {
-            res.append(System.lineSeparator()).append(employeeSalaryInfo);
+            builder.append(System.lineSeparator()).append(employeeSalaryInfo);
         }
-        return res.toString();
+        return builder.toString();
     }
 
     private void addSalaryToExistingUser(EmployeeInfo[] employeeSalaryInfoArray,
@@ -64,7 +65,6 @@ public class SalaryInfo {
     }
 
     private LocalDate getDateFromString(String date) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_PATTERN);
-        return LocalDate.parse(date, formatter);
+        return LocalDate.parse(date, FORMATTER);
     }
 }
