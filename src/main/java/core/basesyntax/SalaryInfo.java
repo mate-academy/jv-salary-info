@@ -19,7 +19,8 @@ public class SalaryInfo {
         } catch (DateTimeParseException e) {
             throw new RuntimeException("Exception while parsing string to date ", e);
         }
-        String result = "Report for period " + dateFrom + " - " + dateTo + "\r\n";
+        String separator = System.lineSeparator();
+        String result = "Report for period " + dateFrom + " - " + dateTo + separator;
         StringBuilder stringBuilder = new StringBuilder();
         int[] salaryArr = new int[names.length];
         for (int i = 0; i < names.length; i++) {
@@ -40,7 +41,6 @@ public class SalaryInfo {
                     }
                 }
             }
-            String separator = System.lineSeparator();
             if (i == names.length - 1) {
                 stringBuilder.append(names[i]).append(" - ").append(salaryArr[i]);
             } else {
