@@ -40,12 +40,14 @@ public class SalaryInfo {
                     }
                 }
             }
-            stringBuilder.append(names[i]).append(" - ").append(salaryArr[i]).append("\r\n");
-        }
-        if (result.equals(null) || result.length() < 2) {
-            return "String is null";
+            String separator = System.lineSeparator();
+            if (i == names.length - 1) {
+                stringBuilder.append(names[i]).append(" - ").append(salaryArr[i]);
+            } else {
+                stringBuilder.append(names[i]).append(" - ").append(salaryArr[i]).append(separator);
+            }
         }
         result = result + stringBuilder.toString();
-        return result.substring(0, result.length() - 2);
+        return result;
     }
 }
