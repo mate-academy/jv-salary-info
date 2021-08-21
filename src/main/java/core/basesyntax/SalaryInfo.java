@@ -8,13 +8,12 @@ public class SalaryInfo {
     private static final DateTimeFormatter FORMATTER =
             DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
-
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
-    throws DateTimeException {
+            throws DateTimeException {
         LocalDate startDate;
         LocalDate endDate;
         LocalDate dateInArray;
-        int[] salaryOfEmployees = new int[names.length];
+        StringBuilder salaryInfo = new StringBuilder();
         try {
             startDate = LocalDate.parse(dateFrom, FORMATTER);
             endDate = LocalDate.parse(dateTo, FORMATTER);
@@ -22,6 +21,8 @@ public class SalaryInfo {
             System.out.println("Cannot parse date");
             throw e;
         }
+        salaryInfo.append("Report for period ").append(dateFrom).append(" - ").append(dateTo)
+                .append(System.lineSeparator());
         for (int i = 0; i < names.length; i++) {
             int salary = 0;
             for (int j = 0; j < data.length; j++) {
@@ -35,14 +36,15 @@ public class SalaryInfo {
                 int hours = Integer.parseInt(data[j].split(" ")[2]);
                 int salaryPerHour = Integer.parseInt(data[j].split(" ")[3]);
 
-                if (nameFromData.equals(names[i]) && dateInArray.isAfter(startDate)
-                        && dateInArray.isBefore(endDate)) {
+                if (nameFromData.equals(names[i])
+                        && (dateInArray.isAfter(startDate) || dateInArray.equals(startDate))
+                        && (dateInArray.isBefore(endDate) || dateInArray.equals(endDate))) {
                     salary += hours * salaryPerHour;
                 }
-                System.out.println(salary);;
             }
-            salaryOfEmployees[i] = salary;
+            salaryInfo.append(names[i]).append(" - ").append(salary)
+                    .append(System.lineSeparator());
         }
-        return names[1] + " " + salaryOfEmployees[1];
+        return salaryInfo.toString().trim();
     }
 }
