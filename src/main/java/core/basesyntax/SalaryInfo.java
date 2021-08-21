@@ -16,11 +16,12 @@ public class SalaryInfo {
                 .append(dateFrom)
                 .append(" - ")
                 .append(dateTo);
-        for(String name : names) {
+        for (String name : names) {
             int salary = 0;
-            for(String line : data) {
+            for (String line : data) {
                 String[] lineWords = line.split(" ");
-                if(lineWords[EMPLOYEE_NAME_INDEX].equals(name) && isValidDate(dateFrom, dateTo, lineWords[ACTUAL_DATE])) {
+                if (lineWords[EMPLOYEE_NAME_INDEX].equals(name)
+                        && isValidDate(dateFrom, dateTo, lineWords[ACTUAL_DATE])) {
                     int hours = Integer.parseInt(lineWords[WORKING_HOURS_INDEX]);
                     int salaryPerHour = Integer.parseInt(lineWords[RATE_PER_HOURS_INDEX]);
                     salary += hours * salaryPerHour;
