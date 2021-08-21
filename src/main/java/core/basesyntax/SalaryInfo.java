@@ -16,9 +16,9 @@ public class SalaryInfo {
     }
 
     public String result(String result[][], String dateFrom, String dateTo) {
-        return new StringBuilder("Report for period ").append(dateFrom).append(" - ").append(dateTo).append("\n")
-                .append(result[0][0]).append(" - ").append(result[1][0]).append("\n")
-                .append(result[0][1]).append(" - ").append(result[1][1]).append("\n")
+        return new StringBuilder("Report for period ").append(dateFrom).append(" - ").append(dateTo).append(System.lineSeparator())
+                .append(result[0][0]).append(" - ").append(result[1][0]).append(System.lineSeparator())
+                .append(result[0][1]).append(" - ").append(result[1][1]).append(System.lineSeparator())
                 .append(result[0][2]).append(" - ").append(result[1][2]).toString();
     }
 
@@ -35,10 +35,12 @@ public class SalaryInfo {
             table[i] = data[i].split(" ");
             table[i][INDEX_DAY_BEGIN] = stringToIntDate(table[i][INDEX_DAY_BEGIN]).toString();
             int tempDate = Integer.parseInt(table[i][INDEX_DAY_BEGIN]);
-            for (int j = 0; j < outData[0].length; j++) {
-                if (tempDate >= dateFromInteger && tempDate <= dateToInteger && table[i][1].equals(names[j])) {
-                    outData[1][j] = String.valueOf(Integer.parseInt(outData[1][j])
-                            + Integer.parseInt(table[i][2]) * Integer.parseInt(table[i][3]));
+            if (tempDate >= dateFromInteger && tempDate <= dateToInteger) {
+               for (int j = 0; j < outData[0].length; j++) {
+                   if (table[i][1].equals(names[j])) {
+                       outData[1][j] = String.valueOf(Integer.parseInt(outData[1][j])
+                               + Integer.parseInt(table[i][2]) * Integer.parseInt(table[i][3]));
+                   }
                 }
             }
         }
