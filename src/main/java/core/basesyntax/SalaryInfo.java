@@ -5,36 +5,49 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 public class SalaryInfo {
-    public static final DateTimeFormatter TIME_FORMATER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-    private LocalDate localDateFrom;
-    private LocalDate localDateTo;
-    private LocalDate localDateData;
+    public static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    public static final int NAME = 1;
+    public static final int PERIOD = 0;
+    public static final int HOURS = 2;
+    public static final int SALARY = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
+        LocalDate localDateFrom;
+        LocalDate localDateTo;
+        LocalDate localDateData;
+
         try {
-            localDateFrom = LocalDate.parse(dateFrom, TIME_FORMATER);
-            localDateTo = LocalDate.parse(dateTo, TIME_FORMATER);
+            localDateFrom = LocalDate.parse(dateFrom, TIME_FORMATTER);
+            localDateTo = LocalDate.parse(dateTo, TIME_FORMATTER);
         } catch (DateTimeParseException exc) {
             throw exc;
+            //throw new DateTimeParseException("Incorrect", exc);
+
         }
-        StringBuilder builder = new StringBuilder("Report for period " + dateFrom
-                + " - " + dateTo);
+        StringBuilder builder = new StringBuilder();
+        builder.append("Report for period ")
+                        .append(dateFrom)
+                        .append(" - ")
+                        .append(dateTo);
         long[] countSalary = new long[names.length];
         for (int i = 0; i < names.length; i++){
             for(int j = 0; j < data.length; j++){
                 String[] lineOfDate = data[j].split(" ");
                 try {
-                    localDateData = LocalDate.parse(lineOfDate[0],TIME_FORMATER);
+                    localDateData = LocalDate.parse(lineOfDate[PERIOD], TIME_FORMATTER);
                 } catch (DateTimeParseException exc) {
                     throw exc;
                 }
                 if ((localDateData.isEqual(localDateFrom) || localDateData.isAfter(localDateFrom))
                         && (localDateData.isBefore(localDateTo) || localDateData.isEqual(localDateTo))
-                        && names[i].equals(lineOfDate[1])) {
-                    countSalary[i] += Long.parseLong(lineOfDate[2]) * Long.parseLong(lineOfDate[3]);
+                        && names[i].equals(lineOfDate[NAME])) {
+                    countSalary[i] += Long.parseLong(lineOfDate[HOURS]) * Long.parseLong(lineOfDate[SALARY]);
                 }
             }
-            builder.append(System.lineSeparator()).append(names[i]).append(" - ").append(countSalary[i]);
+            builder.append(System.lineSeparator())
+                   .append(names[i])
+                   .append(" - ")
+                   .append(countSalary[i]);
         }
         return builder.toString();
     }
