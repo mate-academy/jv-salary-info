@@ -20,9 +20,7 @@ public class SalaryInfo {
             localDateFrom = LocalDate.parse(dateFrom, TIME_FORMATTER);
             localDateTo = LocalDate.parse(dateTo, TIME_FORMATTER);
         } catch (DateTimeParseException exc) {
-            throw exc;
-            //throw new DateTimeParseException("Incorrect", exc);
-
+            throw new RuntimeException("Period format for scanning is not valid", exc);
         }
         StringBuilder builder = new StringBuilder();
         builder.append("Report for period ")
@@ -36,7 +34,7 @@ public class SalaryInfo {
                 try {
                     localDateData = LocalDate.parse(lineOfDate[PERIOD], TIME_FORMATTER);
                 } catch (DateTimeParseException exc) {
-                    throw exc;
+                    throw new RuntimeException("Date format of USER is not valid", exc);
                 }
                 if ((localDateData.isEqual(localDateFrom) || localDateData.isAfter(localDateFrom))
                         && (localDateData.isBefore(localDateTo) || localDateData.isEqual(localDateTo))
