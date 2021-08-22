@@ -16,7 +16,6 @@ public class SalaryInfo {
         StringBuilder salaryInfo = new StringBuilder("Report for period ")
                 .append(dateFrom).append(" - ").append(dateTo)
                 .append(System.lineSeparator());
-
         for (String name : names) {
             int totalSalary = 0;
             for (String datum : data) {
@@ -30,7 +29,6 @@ public class SalaryInfo {
             salaryInfo.append(name).append(" - ").append(totalSalary)
                     .append(System.lineSeparator());
         }
-
         return salaryInfo.toString().trim();
     }
 
@@ -46,7 +44,6 @@ public class SalaryInfo {
             System.out.println("The date is set incorrectly.");
             throw exc;
         }
-
         return localDate.equals(localDateFrom)
                 || localDate.equals(localDateTo)
                 || localDate.isAfter(localDateFrom)
