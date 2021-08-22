@@ -18,8 +18,8 @@ public class SalaryInfo {
             startDate = LocalDate.parse(dateFrom, FORMATTER);
             endDate = LocalDate.parse(dateTo, FORMATTER);
         } catch (DateTimeException e) {
-            System.out.println("Cannot parse date");
-            throw e;
+            throw new DateTimeException("Cannot parse date. Format of date should be"
+                    + "dd.mm.yyyy");
         }
         salaryInfo.append("Report for period ").append(dateFrom).append(" - ").append(dateTo)
                 .append(System.lineSeparator());
@@ -29,17 +29,19 @@ public class SalaryInfo {
                 try {
                     dateInArray = LocalDate.parse(data[j].split(" ")[0], FORMATTER);
                 } catch (DateTimeException e) {
-                    System.out.println("Cannot parse date from data");
-                    throw e;
-                }
-                String nameFromData = data[j].split(" ")[1];
-                int hours = Integer.parseInt(data[j].split(" ")[2]);
-                int salaryPerHour = Integer.parseInt(data[j].split(" ")[3]);
+                    throw new DateTimeException("Cannot parse date from data."
+                            + "Format of date should be dd.mm.yyyy");
+                } finally {
+                    dateInArray = LocalDate.parse(data[j].split(" ")[0], FORMATTER);
+                    String nameFromData = data[j].split(" ")[1];
+                    int hours = Integer.parseInt(data[j].split(" ")[2]);
+                    int salaryPerHour = Integer.parseInt(data[j].split(" ")[3]);
 
-                if (nameFromData.equals(names[i])
-                        && (dateInArray.isAfter(startDate) || dateInArray.equals(startDate))
-                        && (dateInArray.isBefore(endDate) || dateInArray.equals(endDate))) {
-                    salary += hours * salaryPerHour;
+                    if (nameFromData.equals(names[i])
+                            && (dateInArray.isAfter(startDate) || dateInArray.equals(startDate))
+                            && (dateInArray.isBefore(endDate) || dateInArray.equals(endDate))) {
+                        salary += hours * salaryPerHour;
+                    }
                 }
             }
             salaryInfo.append(names[i]).append(" - ").append(salary)
