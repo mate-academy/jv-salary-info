@@ -25,7 +25,9 @@ public class SalaryInfo {
             throw new DateTimeException("Cannot parse date. Format of date should be"
                     + "dd.mm.yyyy");
         }
-        salaryInfo.append("Report for period ").append(dateFrom).append(" - ").append(dateTo)
+        salaryInfo.append("Report for period ")
+                .append(dateFrom)
+                .append(" - ").append(dateTo)
                 .append(System.lineSeparator());
         for (int i = 0; i < names.length; i++) {
             int salary = 0;
@@ -46,7 +48,9 @@ public class SalaryInfo {
                     salary += hours * salaryPerHour;
                 }
             }
-            salaryInfo.append(names[i]).append(" - ").append(salary)
+            salaryInfo.append(names[i])
+                    .append(" - ")
+                    .append(salary)
                     .append(System.lineSeparator());
         }
         return salaryInfo.toString().trim();
