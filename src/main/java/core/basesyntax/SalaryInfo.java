@@ -11,35 +11,34 @@ public class SalaryInfo {
     private static final int MONEY_AMOUNT_INDEX = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        LocalDate start;
-        LocalDate finish;
-        LocalDate specificDate;
-        String separator = System.lineSeparator();
-        StringBuilder output = new StringBuilder();
-        output.append("Report for period ")
+        LocalDate startDate;
+        LocalDate finishDate;
+        LocalDate workingDateDay;
+        StringBuilder report = new StringBuilder();
+        report.append("Report for period ")
                 .append(dateFrom)
                 .append(" - ")
                 .append(dateTo)
-                .append(separator);
+                .append(System.lineSeparator());
         for (String name : names) {
             int salary = 0;
             for (String element : data) {
                 String[] splitData = element.split(" ");
-                start = LocalDate.parse(dateFrom, FORMATTER);
-                finish = LocalDate.parse(dateTo, FORMATTER);
-                specificDate = LocalDate.parse(splitData[DATE_INDEX], FORMATTER);
+                startDate = LocalDate.parse(dateFrom, FORMATTER);
+                finishDate = LocalDate.parse(dateTo, FORMATTER);
+                workingDateDay = LocalDate.parse(splitData[DATE_INDEX], FORMATTER);
                 if (name.equals(splitData[NAME_INDEX])
-                        && specificDate.isAfter(start)
-                        && specificDate.isBefore(finish.plusDays(1))) {
+                        && workingDateDay.isAfter(startDate)
+                        && workingDateDay.isBefore(finishDate.plusDays(1))) {
                     salary += Integer.parseInt(splitData[HOURS_COUNT_INDEX])
                             * Integer.parseInt(splitData[MONEY_AMOUNT_INDEX]);
                 }
             }
-            output.append(name)
+            report.append(name)
                     .append(" - ")
                     .append(salary)
-                    .append(separator);
+                    .append(System.lineSeparator());
         }
-        return output.toString().trim();
+        return report.toString().trim();
     }
 }
