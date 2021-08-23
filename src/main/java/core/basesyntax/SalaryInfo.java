@@ -2,52 +2,39 @@ package core.basesyntax;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 
 public class SalaryInfo {
-    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        DateTimeFormatter formater = DateTimeFormatter.ofPattern("d.MM.yyyy");
-        LocalDate fromDate;
-        LocalDate toDate;
-        try {
-            fromDate = LocalDate.parse(dateFrom, formater);
-        } catch (DateTimeParseException e) {
-            throw new RuntimeException("Exception while parsing string to date ", e);
-        }
-        try {
-            toDate = LocalDate.parse(dateTo, formater);
-        } catch (DateTimeParseException e) {
-            throw new RuntimeException("Exception while parsing string to date ", e);
-        }
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
+    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
+            throws RuntimeException {
+        LocalDate fromDate = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate toDate = LocalDate.parse(dateTo, FORMATTER);
         String separator = System.lineSeparator();
-        String result = "Report for period " + dateFrom + " - " + dateTo + separator;
         StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("Report for period ").append(dateFrom).append(" - ")
+                .append(dateTo).append(separator);
         int[] salaryArr = new int[names.length];
-        for (int i = 0; i < names.length; i++) {
-            for (int j = 0; j < data.length; j++) {
-                if (data[j].contains(names[i])) {
-                    String [] lineOfData = data[j].split(" ");
-                    LocalDate day;
-                    try {
-                        day = LocalDate.parse(lineOfData[0],formater);
-                    } catch (DateTimeParseException e) {
-                        throw new RuntimeException("Exception while parsing string to date ", e);
-                    }
+        for (int name = 0; name < names.length; name++) {
+            for (int record = 0; record < data.length; record++) {
+                if (data[record].contains(names[name])) {
+                    String [] lineOfData = data[record].split(" ");
+                    LocalDate day = LocalDate.parse(lineOfData[0], FORMATTER);;
                     if (!day.isBefore(fromDate) && !day.isAfter(toDate)) {
-                        String[] dataLineArr = data[j].split(" ");
-                        int hours = Integer.parseInt(dataLineArr[2]);
-                        int money = Integer.parseInt(dataLineArr[3]);
-                        salaryArr[i] = salaryArr[i] + hours * money;
+                        String[] dataLineArr = data[record].split(" ");
+                        salaryArr[name] = salaryArr[name] + Integer.parseInt(dataLineArr[2])
+                                * Integer.parseInt(dataLineArr[3]);
                     }
                 }
             }
-            if (i == names.length - 1) {
-                stringBuilder.append(names[i]).append(" - ").append(salaryArr[i]);
+            if (name == names.length - 1) {
+                stringBuilder.append(names[name]).append(" - ").append(salaryArr[name]);
             } else {
-                stringBuilder.append(names[i]).append(" - ").append(salaryArr[i]).append(separator);
+                stringBuilder.append(names[name]).append(" - ")
+                        .append(salaryArr[name]).append(separator);
             }
         }
-        result = result + stringBuilder.toString();
+        String result = stringBuilder.toString();
         return result;
     }
 }
