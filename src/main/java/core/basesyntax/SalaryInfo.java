@@ -12,7 +12,7 @@ public class SalaryInfo {
     private static final int SALARY_IN_DATA = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        final StringBuilder salaryInfo =
+        StringBuilder salaryInfo =
                 new StringBuilder("Report for period " + dateFrom + " - "
                         + dateTo + System.lineSeparator());
         LocalDate localDateFrom = LocalDate.parse(dateFrom, DATE_TIME_FORMATTER);
@@ -30,8 +30,11 @@ public class SalaryInfo {
                             * Integer.parseInt(parseDatum[SALARY_IN_DATA]);
                 }
             }
-            salaryInfo.append(name).append(" - ").append(sumOfSalary)
-                    .append(name.equals(names[names.length - 1]) ? "" : System.lineSeparator());
+            salaryInfo.append(name)
+                    .append(" - ")
+                    .append(sumOfSalary)
+                    .append(name.equals(names[names.length - 1])
+                            ? "" : System.lineSeparator());
         }
         return salaryInfo.toString();
     }
