@@ -10,25 +10,25 @@ public class SalaryInfo {
         LocalDate localDateFrom = LocalDate.parse(dateFrom, FORMATTER);
         LocalDate localDateTo = LocalDate.parse(dateTo, FORMATTER);
 
-        StringBuilder sb = new StringBuilder("Report for period " + dateFrom + " - " + dateTo);
+        StringBuilder report = new StringBuilder("Report for period " + dateFrom + " - " + dateTo);
 
         for (String name : names) {
             int totalSalary = 0;
-            for (String intel : data) {
-                String[] splitIntel = intel.split(" ");
-                LocalDate currentDate = LocalDate.parse(splitIntel[0], FORMATTER);
-                if (name.equals(splitIntel[1])
-                        && !currentDate.isBefore(localDateFrom)
+            for (String datum : data) {
+                String[] record = datum.split(" ");
+                LocalDate currentDate = LocalDate.parse(record[0], FORMATTER);
+                if (name.equals(record[1])
+                            && !currentDate.isBefore(localDateFrom)
                         && !currentDate.isAfter(localDateTo)) {
-                    totalSalary += Integer.parseInt(splitIntel[2])
-                            * Integer.parseInt(splitIntel[3]);
+                    totalSalary += Integer.parseInt(record[2])
+                            * Integer.parseInt(record[3]);
                 }
             }
-            sb.append(System.lineSeparator())
+            report.append(System.lineSeparator())
                     .append(name)
                     .append(" - ")
                     .append(totalSalary);
         }
-        return sb.toString();
+        return report.toString();
     }
 }
