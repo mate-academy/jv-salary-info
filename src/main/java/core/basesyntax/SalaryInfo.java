@@ -20,12 +20,12 @@ public class SalaryInfo {
             for (int dataElement = 0; dataElement < data.length; dataElement++) {
                 String[] dataArray = data[dataElement].split(" ");
                 if (names[i].equals(dataArray[NAME])
-                        && (LocalDate.parse(dataArray[DATE], DATE_FORMAT).
-                        isAfter(LocalDate.parse(dateFrom, DATE_FORMAT))
+                        && (LocalDate.parse(dataArray[DATE], DATE_FORMAT)
+                        .isAfter(LocalDate.parse(dateFrom, DATE_FORMAT))
                         || LocalDate.parse(dataArray[DATE], DATE_FORMAT)
                         .isEqual(LocalDate.parse(dateFrom, DATE_FORMAT)))
-                        && (LocalDate.parse(dataArray[DATE], DATE_FORMAT).
-                        isBefore(LocalDate.parse(dateTo, DATE_FORMAT))
+                        && (LocalDate.parse(dataArray[DATE], DATE_FORMAT)
+                        .isBefore(LocalDate.parse(dateTo, DATE_FORMAT))
                         || LocalDate.parse(dataArray[DATE], DATE_FORMAT)
                         .isEqual(LocalDate.parse(dateTo, DATE_FORMAT)))) {
                     salary += Integer.parseInt(dataArray[HOURS])
