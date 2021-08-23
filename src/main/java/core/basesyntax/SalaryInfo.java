@@ -11,9 +11,9 @@ public class SalaryInfo {
     private static final int SALARY = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        StringBuilder answer = new StringBuilder();
+        StringBuilder report = new StringBuilder();
 
-        answer.append("Report for period ")
+        report.append("Report for period ")
                 .append(dateFrom)
                 .append(" - ")
                 .append(dateTo)
@@ -30,13 +30,13 @@ public class SalaryInfo {
                             * Integer.parseInt(dataArray[SALARY]);
                 }
             }
-            answer.append(name)
+            report.append(name)
                     .append(" - ")
                     .append(salary)
                     .append(System.lineSeparator());
 
         }
 
-        return answer.toString().trim();
+        return report.toString().trim();
     }
 }
