@@ -21,22 +21,14 @@ public class SalaryInfo {
             int sumOfSalary = 0;
             for (String datum : data) {
                 String[] parseDatum = datum.split(" ");
-                int salary = 0;
-                for (String datum1 : data) {
-                    String[] parseDatum1 = datum1.split(" ");
-                    LocalDate tempDate
-                            = LocalDate.parse(parseDatum[DATE_IN_DATA], DATE_TIME_FORMATTER);
-                    LocalDate tempDate1
-                            = LocalDate.parse(parseDatum1[DATE_IN_DATA], DATE_TIME_FORMATTER);
-                    if ((tempDate.isAfter(localDateFrom) && tempDate.isBefore(localDateTo)
-                            || tempDate.isEqual(localDateFrom) || tempDate.isEqual(localDateTo))
-                            && tempDate.isEqual(tempDate1) && name.equals(parseDatum[NAME_IN_DATA])
-                            && name.equals(parseDatum1[NAME_IN_DATA])) {
-                        salary += Integer.parseInt(parseDatum1[HOURS_IN_DATA])
-                                * Integer.parseInt(parseDatum1[SALARY_IN_DATA]);
-                    }
+                LocalDate tempDate
+                        = LocalDate.parse(parseDatum[DATE_IN_DATA], DATE_TIME_FORMATTER);
+                if ((tempDate.isAfter(localDateFrom) && tempDate.isBefore(localDateTo)
+                        || tempDate.isEqual(localDateFrom) || tempDate.isEqual(localDateTo))
+                        && name.equals(parseDatum[NAME_IN_DATA])) {
+                    sumOfSalary += Integer.parseInt(parseDatum[HOURS_IN_DATA])
+                            * Integer.parseInt(parseDatum[SALARY_IN_DATA]);
                 }
-                sumOfSalary += salary;
             }
             salaryInfo.append(name).append(" - ").append(sumOfSalary)
                     .append(name.equals(names[names.length - 1]) ? "" : System.lineSeparator());
