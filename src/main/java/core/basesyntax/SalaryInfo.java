@@ -31,7 +31,7 @@ public class SalaryInfo {
         return salaryInfo.toString().trim();
     }
 
-    private boolean dateCheck(String date, String dateFrom, String dateTo) {
+    private boolean isDateSuitable(String date, String dateFrom, String dateTo) {
         LocalDate localDate = LocalDate.parse(date, DATE_FORMATTER);
         LocalDate localDateFrom = LocalDate.parse(dateFrom, DATE_FORMATTER);
         LocalDate localDateTo = LocalDate.parse(dateTo, DATE_FORMATTER);
