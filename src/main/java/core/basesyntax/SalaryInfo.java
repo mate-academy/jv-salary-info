@@ -4,13 +4,19 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
+    private static final DateTimeFormatter DATE_TIME_FORMATTER
+            = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final int DATE_IN_DATA = 0;
+    private static final int NAME_IN_DATA = 1;
+    private static final int HOURS_IN_DATA = 2;
+    private static final int SALARY_IN_DATA = 3;
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        StringBuilder salaryInfo =
+        final StringBuilder salaryInfo =
                 new StringBuilder("Report for period " + dateFrom + " - "
                         + dateTo + System.lineSeparator());
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        LocalDate dateF = LocalDate.parse(dateFrom, dateTimeFormatter);
-        LocalDate dateT = LocalDate.parse(dateTo, dateTimeFormatter);
+        LocalDate localDateFrom = LocalDate.parse(dateFrom, DATE_TIME_FORMATTER);
+        LocalDate localDateTo = LocalDate.parse(dateTo, DATE_TIME_FORMATTER);
         for (String name : names) {
             int sumOfSalary = 0;
             for (String datum : data) {
@@ -18,17 +24,16 @@ public class SalaryInfo {
                 int salary = 0;
                 for (String datum1 : data) {
                     String[] parseDatum1 = datum1.split(" ");
-                    LocalDate tempDate = LocalDate.parse(parseDatum[0], dateTimeFormatter);
-                    LocalDate tempDate1 = LocalDate.parse(parseDatum1[0], dateTimeFormatter);
-                    if ((tempDate.isAfter(dateF) && tempDate.isBefore(dateT)
-                            || tempDate.isEqual(dateF) || tempDate.isEqual(dateT))
-                            && tempDate.isEqual(tempDate1)) {
-                        if (name.equals(parseDatum[1])) {
-                            salary += name.equals(parseDatum1[1])
-                                    ? Integer.parseInt(parseDatum1[2])
-                                    * Integer.parseInt(parseDatum1[3])
-                                    : 0;
-                        }
+                    LocalDate tempDate
+                            = LocalDate.parse(parseDatum[DATE_IN_DATA], DATE_TIME_FORMATTER);
+                    LocalDate tempDate1
+                            = LocalDate.parse(parseDatum1[DATE_IN_DATA], DATE_TIME_FORMATTER);
+                    if ((tempDate.isAfter(localDateFrom) && tempDate.isBefore(localDateTo)
+                            || tempDate.isEqual(localDateFrom) || tempDate.isEqual(localDateTo))
+                            && tempDate.isEqual(tempDate1) && name.equals(parseDatum[NAME_IN_DATA])
+                            && name.equals(parseDatum1[NAME_IN_DATA])) {
+                        salary += Integer.parseInt(parseDatum1[HOURS_IN_DATA])
+                                * Integer.parseInt(parseDatum1[SALARY_IN_DATA]);
                     }
                 }
                 sumOfSalary += salary;
