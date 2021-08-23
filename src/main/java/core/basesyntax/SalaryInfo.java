@@ -33,17 +33,9 @@ public class SalaryInfo {
     }
 
     private boolean dateCheck(String date, String dateFrom, String dateTo) {
-        LocalDate localDate;
-        LocalDate localDateFrom;
-        LocalDate localDateTo;
-        try {
-            localDate = LocalDate.parse(date, DATE_FORMATTER);
-            localDateFrom = LocalDate.parse(dateFrom, DATE_FORMATTER);
-            localDateTo = LocalDate.parse(dateTo, DATE_FORMATTER);
-        } catch (DateTimeParseException exc) {
-            System.out.println("The date is set incorrectly.");
-            throw exc;
-        }
+        LocalDate localDate = LocalDate.parse(date, DATE_FORMATTER);
+        LocalDate localDateFrom = LocalDate.parse(dateFrom, DATE_FORMATTER);
+        LocalDate localDateTo = LocalDate.parse(dateTo, DATE_FORMATTER);
         return localDate.equals(localDateFrom)
                 || localDate.equals(localDateTo)
                 || localDate.isAfter(localDateFrom)
