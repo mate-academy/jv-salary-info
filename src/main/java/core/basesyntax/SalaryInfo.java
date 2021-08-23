@@ -4,25 +4,25 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    private final DateTimeFormatter dataFormat = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-    private final int zeroConstant = 0;
-    private final int oneConstant = 1;
-    private final int twoConstant = 2;
-    private final int threeConstant = 3;
+    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final int DATE_INDEX = 0;
+    private static final int NAME_INDEX = 1;
+    private static final int WORKING_HOURS_INDEX = 2;
+    private static final int PAYMENT_INDEX = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        LocalDate dateFromConvert = LocalDate.parse(dateFrom, dataFormat);
-        LocalDate dateToConvert = LocalDate.parse(dateTo, dataFormat);
+        LocalDate dateFromConvert = LocalDate.parse(dateFrom, DATE_FORMAT);
+        LocalDate dateToConvert = LocalDate.parse(dateTo, DATE_FORMAT);
 
         int[] salary = new int[names.length];
 
         for (int i = 0; i < names.length; i++) {
             for (int j = 0; j < data.length; j++) {
-                LocalDate checkDate = LocalDate.parse(data[j].split(" ")[zeroConstant], dataFormat);
+                LocalDate checkDate = LocalDate.parse(data[j].split(" ")[DATE_INDEX], DATE_FORMAT);
                 if (!checkDate.isBefore(dateFromConvert) && !checkDate.isAfter(dateToConvert)) {
-                    if (data[j].split(" ")[oneConstant].equals(names[i])) {
-                        salary[i] += Integer.parseInt(data[j].split(" ")[twoConstant])
-                                * Integer.parseInt(data[j].split(" ")[threeConstant]);
+                    if (data[j].split(" ")[NAME_INDEX].equals(names[i])) {
+                        salary[i] += Integer.parseInt(data[j].split(" ")[WORKING_HOURS_INDEX])
+                                * Integer.parseInt(data[j].split(" ")[PAYMENT_INDEX]);
                     }
                 }
             }
