@@ -19,16 +19,15 @@ public class SalaryInfo {
         for (String nameOfEmployee : names) {
             int moneyEarned = 0;
             for (String checkData : data) {
-                String[] newData = checkData.split(" ");
-                String date = newData[DATE];
-                String name = newData[NAME];
-                LocalDate begin = LocalDate.parse(dateFrom, FORMATTER).minusDays(1);
-                LocalDate ourDate = LocalDate.parse(date, FORMATTER);
-                LocalDate finish = LocalDate.parse(dateTo, FORMATTER).plusDays(1);
-                int hours = Integer.parseInt(newData[HOURS_OF_WORK]);
-                int salary = Integer.parseInt(newData[SALARY_PER_HOUR]);
-                if (nameOfEmployee.equals(name) && begin.isBefore(ourDate)
-                        && ourDate.isBefore(finish)) {
+                String[] record = checkData.split(" ");
+                LocalDate date = LocalDate.parse(record[DATE], FORMATTER);
+                String name = record[NAME];
+                LocalDate begin = LocalDate.parse(dateFrom, FORMATTER);
+                LocalDate finish = LocalDate.parse(dateTo, FORMATTER);
+
+                int hours = Integer.parseInt(record[HOURS_OF_WORK]);
+                int salary = Integer.parseInt(record[SALARY_PER_HOUR]);
+                if (nameOfEmployee.equals(name) && !date.isBefore(begin) && !date.isAfter(finish)) {
                     moneyEarned += hours * salary;
                 }
             }
