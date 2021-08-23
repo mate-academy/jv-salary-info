@@ -19,14 +19,14 @@ public class SalaryInfo {
                 .append(System.lineSeparator());
         for (String name : names) {
             int salary = 0;
-            for (int i = 0; i < data.length; i++) {
-                String[] rowInData = data[i].split(" ");
+            for (String row : data) {
+                String[] rowArray = row.split(" ");
                 LocalDate startDate = LocalDate.parse(dateFrom, FORMATTER);
                 LocalDate endDate = LocalDate.parse(dateTo, FORMATTER);
-                LocalDate dateInArray = LocalDate.parse(rowInData[DATE], FORMATTER);
-                String nameFromData = rowInData[NAME];
-                int hours = Integer.parseInt(rowInData[HOURS]);
-                int salaryPerHour = Integer.parseInt(rowInData[SALARY]);
+                LocalDate dateInArray = LocalDate.parse(rowArray[DATE], FORMATTER);
+                String nameFromData = rowArray[NAME];
+                int hours = Integer.parseInt(rowArray[HOURS]);
+                int salaryPerHour = Integer.parseInt(rowArray[SALARY]);
                 if (nameFromData.equals(name)
                         && (dateInArray.isAfter(startDate) || dateInArray.isEqual(startDate))
                         && (dateInArray.isBefore(endDate) || dateInArray.isEqual(endDate))) {
