@@ -17,23 +17,23 @@ public class SalaryInfo {
                 .append(dateFrom)
                 .append(" - ").append(dateTo)
                 .append(System.lineSeparator());
-        for (int i = 0; i < names.length; i++) {
+        for (String name : names) {
             int salary = 0;
-            for (int j = 0; j < data.length; j++) {
-                String[] rowInData = data[j].split(" ");
+            for (int i = 0; i < data.length; i++) {
+                String[] rowInData = data[i].split(" ");
                 LocalDate startDate = LocalDate.parse(dateFrom, FORMATTER);
                 LocalDate endDate = LocalDate.parse(dateTo, FORMATTER);
                 LocalDate dateInArray = LocalDate.parse(rowInData[DATE], FORMATTER);
                 String nameFromData = rowInData[NAME];
                 int hours = Integer.parseInt(rowInData[HOURS]);
                 int salaryPerHour = Integer.parseInt(rowInData[SALARY]);
-                if (nameFromData.equals(names[i])
-                        && (dateInArray.isAfter(startDate) || dateInArray.equals(startDate))
-                        && (dateInArray.isBefore(endDate) || dateInArray.equals(endDate))) {
+                if (nameFromData.equals(name)
+                        && (dateInArray.isAfter(startDate) || dateInArray.isEqual(startDate))
+                        && (dateInArray.isBefore(endDate) || dateInArray.isEqual(endDate))) {
                     salary += hours * salaryPerHour;
                 }
             }
-            salaryInfo.append(names[i])
+            salaryInfo.append(name)
                     .append(" - ")
                     .append(salary)
                     .append(System.lineSeparator());
