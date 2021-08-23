@@ -37,9 +37,9 @@ public class SalaryInfo {
     }
 
     private boolean isDateInRange(String date, String dateFrom, String dateTo) {
-        return LocalDate.parse(date, FORMAT).isEqual(LocalDate.parse(dateFrom, FORMAT))
-                || LocalDate.parse(date, FORMAT).isEqual(LocalDate.parse(dateTo, FORMAT))
-                || LocalDate.parse(date, FORMAT).isBefore(LocalDate.parse(dateTo, FORMAT))
-                && LocalDate.parse(date, FORMAT).isAfter(LocalDate.parse(dateFrom, FORMAT));
+        return LocalDate.parse(date, FORMATTER).isEqual(LocalDate.parse(dateFrom, FORMATTER))
+                || LocalDate.parse(date, FORMATTER).isEqual(LocalDate.parse(dateTo, FORMATTER))
+                || LocalDate.parse(date, FORMATTER).isBefore(LocalDate.parse(dateTo, FORMATTER))
+                && LocalDate.parse(date, FORMATTER).isAfter(LocalDate.parse(dateFrom, FORMATTER));
     }
 }
