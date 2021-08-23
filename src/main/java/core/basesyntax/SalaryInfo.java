@@ -11,17 +11,17 @@ public class SalaryInfo {
     private static final int PAYMENT_INDEX = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        LocalDate dateFromConvert = LocalDate.parse(dateFrom, DATE_FORMAT);
-        LocalDate dateToConvert = LocalDate.parse(dateTo, DATE_FORMAT);
+        LocalDate startDate = LocalDate.parse(dateFrom, DATE_FORMAT);
+        LocalDate finishDate = LocalDate.parse(dateTo, DATE_FORMAT);
 
-        int[] salary = new int[names.length];
+        int[] salaries = new int[names.length];
 
         for (int i = 0; i < names.length; i++) {
             for (int j = 0; j < data.length; j++) {
                 LocalDate checkDate = LocalDate.parse(data[j].split(" ")[DATE_INDEX], DATE_FORMAT);
-                if (!checkDate.isBefore(dateFromConvert) && !checkDate.isAfter(dateToConvert)) {
+                if (!checkDate.isBefore(startDate) && !checkDate.isAfter(finishDate)) {
                     if (data[j].split(" ")[NAME_INDEX].equals(names[i])) {
-                        salary[i] += Integer.parseInt(data[j].split(" ")[WORKING_HOURS_INDEX])
+                        salaries[i] += Integer.parseInt(data[j].split(" ")[WORKING_HOURS_INDEX])
                                 * Integer.parseInt(data[j].split(" ")[PAYMENT_INDEX]);
                     }
                 }
@@ -38,7 +38,7 @@ public class SalaryInfo {
             result.append(System.lineSeparator())
                     .append(names[i])
                     .append(" - ")
-                    .append(salary[i]);
+                    .append(salaries[i]);
         }
 
         return result.toString();
