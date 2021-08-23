@@ -12,8 +12,7 @@ public class SalaryInfo {
     private static final int HOURS_FROM_DATA = 2;
     private static final int SALARY_FROM_DATA = 3;
 
-    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
-            throws DateTimeException {
+    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate startDate;
         LocalDate endDate;
         LocalDate dateInArray;
@@ -22,8 +21,8 @@ public class SalaryInfo {
             startDate = LocalDate.parse(dateFrom, FORMATTER);
             endDate = LocalDate.parse(dateTo, FORMATTER);
         } catch (DateTimeException e) {
-            throw new DateTimeException("Cannot parse date. Format of date should be"
-                    + "dd.mm.yyyy");
+            throw new RuntimeException("Cannot parse date. Format of date should be"
+                    + "dd.mm.yyyy", e);
         }
         salaryInfo.append("Report for period ")
                 .append(dateFrom)
@@ -36,8 +35,8 @@ public class SalaryInfo {
                 try {
                     dateInArray = LocalDate.parse(rowInData[DATE_FROM_DATA], FORMATTER);
                 } catch (DateTimeException e) {
-                    throw new DateTimeException("Cannot parse date from data."
-                            + "Format of date should be dd.mm.yyyy");
+                    throw new RuntimeException("Cannot parse date from data."
+                            + "Format of date should be dd.mm.yyyy", e);
                 }
                 String nameFromData = rowInData[NAME_FROM_DATA];
                 int hours = Integer.parseInt(rowInData[HOURS_FROM_DATA]);
