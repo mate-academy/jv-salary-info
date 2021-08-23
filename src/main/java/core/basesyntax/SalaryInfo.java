@@ -29,7 +29,8 @@ public class SalaryInfo {
                         && ((period.isAfter(localDateFrom) && period.isBefore(localDateTo))
                         || period.isEqual(localDateFrom)
                         || period.isEqual(localDateTo))) {
-                    salary += Integer.valueOf(record[WORK_HOURS]) * Integer.valueOf(record[SALARY_PER_HOURS]);
+                    salary += Integer.valueOf(record[WORK_HOURS])
+                            * Integer.valueOf(record[SALARY_PER_HOURS]);
                 }
             }
             stringBuilder.append(separator).append(name).append(" - ").append(salary);
