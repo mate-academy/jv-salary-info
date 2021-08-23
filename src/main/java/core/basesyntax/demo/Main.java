@@ -1,4 +1,6 @@
-package core.basesyntax;
+package core.basesyntax.demo;
+
+import core.basesyntax.SalaryInfo;
 
 public class Main {
     public static void main(String[] args) {
