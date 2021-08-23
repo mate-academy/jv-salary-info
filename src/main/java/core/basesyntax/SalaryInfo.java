@@ -12,8 +12,8 @@ public class SalaryInfo {
     public static final int MONEY_PER_HOUR = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        LocalDate localDateFrom = LocalDate.parse(dateFrom, DATE_TIME_FORMATTER).minusDays(1);
-        LocalDate localDateTo = LocalDate.parse(dateTo, DATE_TIME_FORMATTER).plusDays(1);
+        LocalDate localDateFrom = LocalDate.parse(dateFrom, DATE_TIME_FORMATTER);
+        LocalDate localDateTo = LocalDate.parse(dateTo, DATE_TIME_FORMATTER);
 
         StringBuilder stringBuilder = new StringBuilder("Report for period ")
                 .append(dateFrom)
@@ -28,8 +28,10 @@ public class SalaryInfo {
                 LocalDate currentDate = LocalDate.parse(infoArray[DATE_INDEX],
                         DATE_TIME_FORMATTER);
                 if ((nameOfEmployee.equals(infoArray[NAME_OF_EMPLOYEE]))
-                        && currentDate.isAfter(localDateFrom)
-                        && currentDate.isBefore(localDateTo)) {
+                        && (currentDate.isAfter(localDateFrom)
+                        || currentDate.equals(localDateFrom))
+                        && (currentDate.isBefore(localDateTo)
+                        || currentDate.equals(localDateTo))) {
                     totalSalary += Integer.parseInt(infoArray[WORKING_HOURS])
                             * Integer.parseInt(infoArray[MONEY_PER_HOUR]);
                 }
