@@ -5,7 +5,10 @@ import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-    private Integer salary;
+    private static final int DATE = 0;
+    private static final int NAME = 1;
+    private static final int HOUR = 2;
+    private static final int MONEY = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder salaryInfo = new StringBuilder()
@@ -16,22 +19,24 @@ public class SalaryInfo {
                 .append(System.lineSeparator());
         LocalDate startDate = LocalDate.parse(dateFrom, FORMATTER);
         LocalDate finishDate = LocalDate.parse(dateTo, FORMATTER);
-        for (String iterationNames : names) {
+        Integer salary;
+        for (String record : names) {
             salary = 0;
-            for (String record : data) {
-                String[] splitData = record.split(" ");
-                if (iterationNames.equals(splitData[1])) {
-                    LocalDate localDate = LocalDate.parse(splitData[0], FORMATTER);
+            for (String evaluation : data) {
+                String[] splitData = evaluation.split(" ");
+                if (record.equals(splitData[NAME])) {
+                    LocalDate localDate = LocalDate.parse(splitData[DATE], FORMATTER);
                     if ((localDate.isAfter(startDate) && localDate.isBefore(finishDate))
                             || localDate.isEqual(startDate) || localDate.isEqual(finishDate)) {
-                        this.salary +=
-                                Integer.parseInt(splitData[2]) * Integer.parseInt(splitData[3]);
+                        salary +=
+                                Integer.parseInt(splitData[HOUR])
+                                        * Integer.parseInt(splitData[MONEY]);
                     }
                 }
             }
-            salaryInfo.append(iterationNames);
+            salaryInfo.append(record);
             salaryInfo.append(" - ");
-            salaryInfo.append(this.salary);
+            salaryInfo.append(salary);
             salaryInfo.append(System.lineSeparator());
 
         }
