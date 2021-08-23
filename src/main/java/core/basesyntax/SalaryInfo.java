@@ -1,7 +1,7 @@
 package core.basesyntax;
 
-import java.time.format.DateTimeFormatter;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     public static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd.MM.yyyy");
@@ -16,10 +16,13 @@ public class SalaryInfo {
         for (String oneLine : data) {
             String[] dataArray = oneLine.split(" ");
             for (int i = 0; i < names.length; i++) {
-                if (!LocalDate.parse(dataArray[DATE_INDEX], DATE_FORMAT).isBefore(LocalDate.parse(dateFrom, DATE_FORMAT))
-                        && !LocalDate.parse(dataArray[DATE_INDEX], DATE_FORMAT).isAfter(LocalDate.parse(dateTo, DATE_FORMAT))
+                if (!LocalDate.parse(dataArray[DATE_INDEX], DATE_FORMAT)
+                        .isBefore(LocalDate.parse(dateFrom, DATE_FORMAT))
+                        && !LocalDate.parse(dataArray[DATE_INDEX], DATE_FORMAT)
+                        .isAfter(LocalDate.parse(dateTo, DATE_FORMAT))
                         && dataArray[NAME_INDEX].equals(names[i])) {
-                    salary[i] += Integer.parseInt(dataArray[HOURS_INDEX]) * Integer.parseInt(dataArray[SALARY_INDEX]);
+                    salary[i] += Integer.parseInt(dataArray[HOURS_INDEX])
+                            * Integer.parseInt(dataArray[SALARY_INDEX]);
                 }
             }
         }
