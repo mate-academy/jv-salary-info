@@ -5,8 +5,10 @@ import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     public static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-    public static final int FOR_GET_SALARY = 1;
+    public static final int HOURS = 1;
+    public static final int SALARY_PER_MONTH = 2;
     public static final int FOR_RECORD = 0;
+    public static final int NAME = 1;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate localDateFrom = LocalDate.parse(dateFrom, DATE_FORMAT);
@@ -21,11 +23,11 @@ public class SalaryInfo {
                 if (changingDate.isAfter(localDateFrom)
                         && (changingDate.isBefore(localDateTo)
                         || changingDate.isEqual(localDateTo))
-                        && datum.contains(name)) {
+                        && record[NAME].equals(name)) {
                     String[] hoursAndSalary = datum.substring(datum.indexOf(" ") + 1)
                                                                     .split(" ");
-                    salary += Integer.parseInt(hoursAndSalary[FOR_GET_SALARY])
-                            * Integer.parseInt(hoursAndSalary[FOR_GET_SALARY + 1]);
+                    salary += Integer.parseInt(hoursAndSalary[HOURS])
+                            * Integer.parseInt(hoursAndSalary[SALARY_PER_MONTH]);
                 }
             }
             builder.append(System.lineSeparator())
