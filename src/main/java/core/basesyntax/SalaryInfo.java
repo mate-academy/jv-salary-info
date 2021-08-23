@@ -8,22 +8,22 @@ public class SalaryInfo {
     private Integer salary;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        StringBuilder salaryInfo = new StringBuilder();
-        salaryInfo.append("Report for period ");
-        salaryInfo.append(dateFrom);
-        salaryInfo.append(" - ");
-        salaryInfo.append(dateTo);
-        salaryInfo.append(System.lineSeparator());
-        LocalDate localDateFrom = LocalDate.parse(dateFrom, FORMATTER);
-        LocalDate localDateTo = LocalDate.parse(dateTo, FORMATTER);
+        StringBuilder salaryInfo = new StringBuilder()
+                .append("Report for period ")
+                .append(dateFrom)
+                .append(" - ")
+                .append(dateTo)
+                .append(System.lineSeparator());
+        LocalDate startDate = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate finishDate = LocalDate.parse(dateTo, FORMATTER);
         for (String iterationNames : names) {
             salary = 0;
-            for (String iterationDate : data) {
-                String[] splitData = iterationDate.split(" ");
+            for (String record : data) {
+                String[] splitData = record.split(" ");
                 if (iterationNames.equals(splitData[1])) {
                     LocalDate localDate = LocalDate.parse(splitData[0], FORMATTER);
-                    if ((localDate.isAfter(localDateFrom) && localDate.isBefore(localDateTo))
-                            || localDate.isEqual(localDateFrom) || localDate.isEqual(localDateTo)) {
+                    if ((localDate.isAfter(startDate) && localDate.isBefore(finishDate))
+                            || localDate.isEqual(startDate) || localDate.isEqual(finishDate)) {
                         this.salary +=
                                 Integer.parseInt(splitData[2]) * Integer.parseInt(splitData[3]);
                     }
