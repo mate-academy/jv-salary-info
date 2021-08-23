@@ -12,8 +12,6 @@ public class SalaryInfo {
     private static final int SALARY = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        LocalDate startDate = LocalDate.parse(dateFrom, FORMATTER);
-        LocalDate endDate = LocalDate.parse(dateTo, FORMATTER);
         StringBuilder salaryInfo = new StringBuilder();
         salaryInfo.append("Report for period ")
                 .append(dateFrom)
@@ -23,6 +21,8 @@ public class SalaryInfo {
             int salary = 0;
             for (int j = 0; j < data.length; j++) {
                 String[] rowInData = data[j].split(" ");
+                LocalDate startDate = LocalDate.parse(dateFrom, FORMATTER);
+                LocalDate endDate = LocalDate.parse(dateTo, FORMATTER);
                 LocalDate dateInArray = LocalDate.parse(rowInData[DATE], FORMATTER);
                 String nameFromData = rowInData[NAME];
                 int hours = Integer.parseInt(rowInData[HOURS]);
