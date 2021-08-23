@@ -12,26 +12,29 @@ public class SalaryInfo {
     private static final int SALARY_POSITION = 3;
 
     public String getSalaryInfo(String[] names, String[] data,
-                                String stringDateFrom, String stringDateTo) {
-        StringBuilder output = new StringBuilder("Report for period ");
-        output.append(stringDateFrom).append(" - ")
-                .append(stringDateTo).append(System.lineSeparator());
+                                String dateFrom, String dateTo) {
+        StringBuilder report = new StringBuilder("Report for period ");
+        report.append(dateFrom).append(" - ")
+                .append(dateTo).append(System.lineSeparator());
 
-        LocalDate dateFrom = LocalDate.parse(stringDateFrom, DATE_FORMAT);
-        LocalDate dateTo = LocalDate.parse(stringDateTo, DATE_FORMAT);
+        LocalDate localDateFrom = LocalDate.parse(dateFrom, DATE_FORMAT);
+        LocalDate localDateTo = LocalDate.parse(dateTo, DATE_FORMAT);
         for (String name : names) {
             int salary = 0;
-            for (String oneData : data) {
-                String[] localData = oneData.split(" ");
-                LocalDate date = LocalDate.parse(localData[DATE_POSITION], DATE_FORMAT);
-                if (localData[NAME_POSITION].equals(name) && date.compareTo(dateFrom) >= 0
-                        && date.compareTo(dateTo) <= 0) {
-                    salary += Integer.parseInt(localData[HOURS_POSITION])
-                            * Integer.parseInt(localData[SALARY_POSITION]);
+            for (String line : data) {
+                String[] lineElements = line.split(" ");
+                LocalDate actualDate = LocalDate.parse(lineElements[DATE_POSITION], DATE_FORMAT);
+                if (lineElements[NAME_POSITION].equals(name)
+                        && (actualDate.isAfter(localDateFrom)
+                        || actualDate.equals(localDateFrom))
+                        && (actualDate.isBefore(localDateTo)
+                        || actualDate.equals(localDateTo))) {
+                    salary += Integer.parseInt(lineElements[HOURS_POSITION])
+                            * Integer.parseInt(lineElements[SALARY_POSITION]);
                 }
             }
-            output.append(name).append(" - ").append(salary).append(System.lineSeparator());
+            report.append(name).append(" - ").append(salary).append(System.lineSeparator());
         }
-        return output.toString().trim();
+        return report.toString().trim();
     }
 }
