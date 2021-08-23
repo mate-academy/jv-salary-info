@@ -4,32 +4,34 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    private static final int INDEX_DATA_DATE = 0;
-    private static final int INDEX_DATA_NAME = 1;
-    private static final int INDEX_DATA_TIME = 2;
-    private static final int INDEX_DATA_MONEY = 3;
+    private static final int DATE = 0;
+    private static final int NAME = 1;
+    private static final int HOURS = 2;
+    private static final int MONEY = 3;
     private static final DateTimeFormatter PATTERN = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        String[] temporyData;
+        String[] record;
         int sum;
-        StringBuilder outString = new StringBuilder("Report for period ")
+        StringBuilder report = new StringBuilder("Report for period ")
                 .append(dateFrom).append(" - ").append(dateTo);
         for (String name : names) {
-            outString.append(System.lineSeparator());
+            report.append(System.lineSeparator());
             sum = 0;
             for (String datum : data) {
-                temporyData = datum.split(" ");
-                if (isDataOk(temporyData[INDEX_DATA_DATE], dateFrom, dateTo)) {
-                    if (temporyData[INDEX_DATA_NAME].equals(name)) {
-                        sum += Integer.parseInt(temporyData[INDEX_DATA_TIME])
-                                * Integer.parseInt(temporyData[INDEX_DATA_MONEY]);
-                    }
+                record = datum.split(" ");
+                if ((record[NAME].equals(name))
+                        && isDataOk(record[DATE], dateFrom, dateTo)) {
+                    sum += Integer.parseInt(record[HOURS])
+                            * Integer.parseInt(record[MONEY]);
+
                 }
             }
-            outString.append(name).append(" - ").append(sum);
+            report.append(name)
+                    .append(" - ")
+                    .append(sum);
         }
-        return outString.toString();
+        return report.toString();
     }
 
     public boolean isDataOk(String date, String dateFrom, String dateTo) {
