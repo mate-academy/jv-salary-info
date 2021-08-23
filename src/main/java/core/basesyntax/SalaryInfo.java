@@ -14,7 +14,8 @@ public class SalaryInfo {
         StringBuilder reportForPeriod = new StringBuilder()
                 .append("Report for period ")
                 .append(dateFrom)
-                .append(" - ").append(dateTo);
+                .append(" - ")
+                .append(dateTo);
         for (String name : names) {
             int moneyEarned = 0;
             for (String datum : data) {
@@ -32,5 +33,3 @@ public class SalaryInfo {
         return reportForPeriod.toString();
     }
 }
-
-
