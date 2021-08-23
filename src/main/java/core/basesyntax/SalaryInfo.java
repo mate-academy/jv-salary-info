@@ -4,8 +4,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    private static final String FORMATTER = "dd.MM.yyyy";
-    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(FORMATTER);
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     private static final int DATE_INDEX = 0;
     private static final int NAME_INDEX = 1;
     private static final int HOURS_COUNT_INDEX = 2;
@@ -25,16 +24,15 @@ public class SalaryInfo {
         for (String name : names) {
             int salary = 0;
             for (String element : data) {
-                String[] splittedData = element.split(" ");
-                start = LocalDate.parse(dateFrom, DateTimeFormatter.ofPattern(FORMATTER));
-                finish = LocalDate.parse(dateTo, DateTimeFormatter.ofPattern(FORMATTER));
-                specificDate = LocalDate.parse(splittedData[DATE_INDEX],
-                        DateTimeFormatter.ofPattern(FORMATTER));
-                if (name.equals(splittedData[NAME_INDEX])
+                String[] splitData = element.split(" ");
+                start = LocalDate.parse(dateFrom, FORMATTER);
+                finish = LocalDate.parse(dateTo, FORMATTER);
+                specificDate = LocalDate.parse(splitData[DATE_INDEX], FORMATTER);
+                if (name.equals(splitData[NAME_INDEX])
                         && specificDate.isAfter(start)
                         && specificDate.isBefore(finish.plusDays(1))) {
-                    salary += Integer.parseInt(splittedData[HOURS_COUNT_INDEX])
-                            * Integer.parseInt(splittedData[MONEY_AMOUNT_INDEX]);
+                    salary += Integer.parseInt(splitData[HOURS_COUNT_INDEX])
+                            * Integer.parseInt(splitData[MONEY_AMOUNT_INDEX]);
                 }
             }
             output.append(name)
