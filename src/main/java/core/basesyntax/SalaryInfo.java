@@ -11,35 +11,23 @@ public class SalaryInfo {
     private static final DateTimeFormatter PATTERN = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        int[] sumSallary = new int[names.length];
         String[] temporyData;
-        for (String datum : data) {
-            temporyData = datum.split(" ");
-            if (isDataOk(temporyData[INDEX_DATA_DATE], dateFrom, dateTo)) {
-                for (int i = 0; i < names.length; i++) {
-                    if (temporyData[INDEX_DATA_NAME].equals(names[i])) {
-                        sumSallary[i] += Integer.parseInt(temporyData[INDEX_DATA_TIME])
+        int sum;
+        StringBuilder outString = new StringBuilder("Report for period ")
+                .append(dateFrom).append(" - ").append(dateTo);
+        for (String name : names) {
+            outString.append(System.lineSeparator());
+            sum = 0;
+            for (String datum : data) {
+                temporyData = datum.split(" ");
+                if (isDataOk(temporyData[INDEX_DATA_DATE], dateFrom, dateTo)) {
+                    if (temporyData[INDEX_DATA_NAME].equals(name)) {
+                        sum += Integer.parseInt(temporyData[INDEX_DATA_TIME])
                                 * Integer.parseInt(temporyData[INDEX_DATA_MONEY]);
                     }
                 }
             }
-        }
-        return result(sumSallary, names, dateFrom, dateTo);
-    }
-
-    public String result(int[] sumSallary, String[] names, String dateFrom, String dateTo) {
-        StringBuilder outString = new StringBuilder("Report for period ")
-                .append(dateFrom).append(" - ").append(dateTo)
-                .append(System.lineSeparator());
-        for (int i = 0; i < names.length; i++) {
-            if (i != names.length - 1) {
-                outString.append(names[i]).append(" - ")
-                        .append(sumSallary[i])
-                        .append(System.lineSeparator());
-            } else {
-                outString.append(names[i]).append(" - ")
-                        .append(sumSallary[i]);
-            }
+            outString.append(name).append(" - ").append(sum);
         }
         return outString.toString();
     }
