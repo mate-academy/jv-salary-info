@@ -8,7 +8,7 @@ public class SalaryInfo {
     private static final int DATE_INDEX = 0;
     private static final int NAME_INDEX = 1;
     private static final int HOURS_INDEX = 2;
-    private static final int SALARY_FOR_HOURS_INDEX = 3;
+    private static final int SALARY_PER_HOURS_INDEX = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder report = new StringBuilder();
@@ -27,7 +27,7 @@ public class SalaryInfo {
                 if (name.equals(dataInfo[NAME_INDEX])
                         && process.isAfter(start) && process.isBefore(finish)) {
                     money += Integer.parseInt(dataInfo[HOURS_INDEX])
-                            * Integer.parseInt(dataInfo[SALARY_FOR_HOURS_INDEX]);
+                            * Integer.parseInt(dataInfo[SALARY_PER_HOURS_INDEX]);
                 }
             }
             report.append(name)
