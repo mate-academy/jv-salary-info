@@ -7,6 +7,10 @@ public class SalaryInfo {
     private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
+        int date = 0;
+        int worker = 1;
+        int hours = 2;
+        int money = 3;
         StringBuilder stringBuilder = new StringBuilder();
         LocalDate beginPeriod = LocalDate.parse(dateFrom, dateTimeFormatter);
         LocalDate endPeriod = LocalDate.parse(dateTo, dateTimeFormatter);
@@ -18,12 +22,13 @@ public class SalaryInfo {
             int salary = 0;
             for (String datum : data) {
                 String[] partsOfData = datum.split("\\s");
-                if (partsOfData[1].equals(name)
-                            && LocalDate.parse(partsOfData[0],
-                            dateTimeFormatter).isBefore(endPeriod.plusDays(1))
-                            && LocalDate.parse(partsOfData[0],
-                            dateTimeFormatter).isAfter(beginPeriod.minusDays(1))) {
-                    salary += (Integer.parseInt(partsOfData[2]) * Integer.parseInt(partsOfData[3]));
+                if (partsOfData[worker].equals(name)
+                            && !LocalDate.parse(partsOfData[date],
+                            dateTimeFormatter).isAfter(endPeriod)
+                            && !LocalDate.parse(partsOfData[date],
+                            dateTimeFormatter).isBefore(beginPeriod)) {
+                    salary += (Integer.parseInt(partsOfData[hours])
+                                * Integer.parseInt(partsOfData[money]));
                 }
             }
             stringBuilder.append(name)
