@@ -28,7 +28,9 @@ public class SalaryInfo {
                     }
                 }
             }
-            report.append(System.lineSeparator()).append(names[i]).append(" - ").append(calculatedSalary);
+            report.append(System.lineSeparator())
+                    .append(names[i]).append(" - ")
+                    .append(calculatedSalary);
         }
         return report.toString();
     }
