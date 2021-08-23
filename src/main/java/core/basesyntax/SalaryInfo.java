@@ -21,15 +21,18 @@ public class SalaryInfo {
             int income = 0;
             for (String checkData : data) {
                 String[] splitData = checkData.split(" ");
-                String date = splitData[PARTICULAR_DAY];
+                LocalDate currentDate = LocalDate.parse(splitData[PARTICULAR_DAY],
+                        FORMATTER);
                 String nameOfEmployee = splitData[NAME_OF_EMPLOYEE];
                 int numberOfHours = Integer.parseInt(splitData[NUMBER_OF_HOURS]);
                 int incomePerHour = Integer.parseInt(splitData[INCOME_PER_HOUR]);
-                LocalDate start = LocalDate.parse(dateFrom, FORMATTER).minusDays(1);
-                LocalDate process = LocalDate.parse(date, FORMATTER);
-                LocalDate finish = LocalDate.parse(dateTo, FORMATTER).plusDays(1);
+                LocalDate start = LocalDate.parse(dateFrom, FORMATTER);
+                LocalDate finish = LocalDate.parse(dateTo, FORMATTER);
                 if (name.equals(nameOfEmployee)
-                        && start.isBefore(process) && finish.isAfter(process)) {
+                        && (currentDate.isAfter(start)
+                        || currentDate.equals(start))
+                        && (currentDate.isBefore(finish)
+                        || currentDate.equals(finish))) {
                     income += numberOfHours * incomePerHour;
                 }
             }
