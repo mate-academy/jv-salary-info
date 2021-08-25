@@ -4,6 +4,10 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
+    public static final int INDEXZERO = 0;
+    public static final int INDEXONE = 1;
+    public static final int INDEXTWO = 2;
+    public static final int INDEXTHREE = 3;
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public static String getSalaryInfo(String[] names, String[] data,
@@ -15,13 +19,14 @@ public class SalaryInfo {
                 .append(dateTo).append(System.lineSeparator());
         for (String name : names) {
             int userSalary = 0;
-            for (String workingDate : data) {
-                String[] userWorkingData = workingDate.split(" ");
-                LocalDate userDate = LocalDate.parse(userWorkingData[0], FORMATTER);
-                if (name.equals(userWorkingData[1]) && userDate.isAfter(fromDate)
+            for (String string : data) {
+                String[] userWorkingData = string.split(" ");
+                LocalDate userDate = LocalDate.parse(userWorkingData[INDEXZERO], FORMATTER);
+                if (name.equals(userWorkingData[INDEXONE]) && userDate.isAfter(fromDate)
                         && userDate.isBefore(toDate)) {
                     userSalary += Integer.parseInt(
-                            userWorkingData[2]) * Integer.parseInt(userWorkingData[3]);
+                            userWorkingData[INDEXTWO])
+                            * Integer.parseInt(userWorkingData[INDEXTHREE]);
                 }
             }
             result.append(name).append(" - ").append(userSalary).append(System.lineSeparator());
