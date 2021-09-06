@@ -4,10 +4,11 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
+    static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        final DateTimeFormatter D_F = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        LocalDate dateFromDateType = LocalDate.parse(dateFrom, D_F);
-        LocalDate dateToDateType = LocalDate.parse(dateTo, D_F);
+        LocalDate dateFromDateType = LocalDate.parse(dateFrom, SalaryInfo.DATE_FORMAT);
+        LocalDate dateToDateType = LocalDate.parse(dateTo, SalaryInfo.DATE_FORMAT);
         StringBuilder salaryInfo = new StringBuilder("Report for period "
                 + dateFrom
                 + " - "
@@ -17,9 +18,9 @@ public class SalaryInfo {
             for (String dataItem : data) {
                 String[] dataItemInfo = dataItem.split(" ");
                 if (name.equals(dataItemInfo[1])
-                        && LocalDate.parse(dataItemInfo[0], D_F)
+                        && LocalDate.parse(dataItemInfo[0], SalaryInfo.DATE_FORMAT)
                         .isAfter(dateFromDateType)
-                        && LocalDate.parse(dataItemInfo[0], D_F)
+                        && LocalDate.parse(dataItemInfo[0], SalaryInfo.DATE_FORMAT)
                         .isBefore(dateToDateType.plusDays(1))) {
                     salary = salary
                             + Integer.parseInt(dataItemInfo[2])
