@@ -24,8 +24,10 @@ public class SalaryInfo {
                 int workingHour = Integer.parseInt(dat.split(" ")[2]);
                 int incomePerHour = Integer.parseInt(dat.split(" ")[3]);
                 String localName = dat.split(" ")[1];
-                if ((localDateFact.equals(localDateFrom) || localDateFact.equals(localDateTo)
-                        || localDateFact.isAfter(localDateFrom) && localDateFact.isBefore(localDateTo))
+                if ((localDateFact.equals(localDateFrom)
+                        || localDateFact.equals(localDateTo)
+                        || localDateFact.isAfter(localDateFrom)
+                        && localDateFact.isBefore(localDateTo))
                         && localName.contains(name)) {
                     totalSalary += workingHour * incomePerHour;
                 }
@@ -38,7 +40,6 @@ public class SalaryInfo {
         return builder.toString();
     }
 }
-
 
 
 

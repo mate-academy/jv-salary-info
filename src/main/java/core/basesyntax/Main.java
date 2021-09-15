@@ -11,13 +11,13 @@ public class Main {
             "13.02.2019 John 7 100",
             "26.04.2019 Kate 9 100"
     };
-
     static final String[] NAMES = new String[]{"John", "Andrew", "Kate"};
     static final String DATE_FROM = "01.04.2019";
     static final String DATE_TO = "30.04.2019";
 
     public static void main(String[] args) {
         SalaryInfo salaryInfo = new SalaryInfo();
-        System.out.println(salaryInfo.getSalaryInfo(NAMES, DATA, DATE_FROM, DATE_TO));
+        System.out.println(salaryInfo.getSalaryInfo(
+                NAMES, DATA, DATE_FROM, DATE_TO));
     }
 }
