@@ -1,58 +1,44 @@
 package core.basesyntax;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        StringBuilder res = new StringBuilder("Report for period " + dateFrom + " - " + dateTo);
+        StringBuilder report = new StringBuilder("Report for period " + dateFrom + " - " + dateTo);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        LocalDate dateF = LocalDate.parse(dateFrom,formatter);
+        LocalDate dateT = LocalDate.parse(dateTo,formatter);
 
-        DateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
-        Date date = null;
-        Date dateF = null;
-        Date dateT = null;
-        try {
-            dateF = (Date) formatter.parse(dateFrom);
-            dateT = (Date) formatter.parse(dateTo);
-
-        } catch (ParseException e) {
-            //
-            e.printStackTrace();
-        }
         for (int i = 0; i < names.length; i++) {
-            String name = names[i];
             int fullSalary = 0;
             for (int j = 0; j < data.length; j++) {
-                DateFormat formatter1 = new SimpleDateFormat("dd.MM.yyyy");
+                if (data[j] == null) {
+                    continue;
+                }
                 StringBuilder string = new StringBuilder(data[j]);
                 if (string.length() > 8 || data[j] != null) {
-                    String dateString = string.substring(0,string.indexOf(" "));
-                    try {
-                        date = (Date) formatter.parse(dateString);
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                    int fr = string.indexOf(" ") + 1;
-                    int to = fr + string.substring(string.indexOf(" ") + 2).indexOf(" ") + 1;
-                    String checkedName = string.substring(fr,to);
-                    int hours = Integer.parseInt(string.substring(to + 1,string.lastIndexOf(" ")));
-                    int salaryPerHour = Integer.parseInt(
-                            string.substring(string.lastIndexOf(" ") + 1));
+                    String[] words = data[j].split(" ",0);
+                    LocalDate date = LocalDate.parse(words[0],formatter);
+                    String checkedName = words[1];
+                    int hours = Integer.parseInt(words[2]);
+                    int salaryPerHour = Integer.parseInt(words[3]);
                     int salary = hours * salaryPerHour;
-                    if (checkedName.equals(name) && !date.before(dateF) && !date.after(dateT)) {
+                    boolean a = !date.isBefore(dateF);
+                    boolean b = !date.isAfter(dateT);
+                    if (checkedName.equals(names[i])
+                            && !date.isBefore(dateF) && !date.isAfter(dateT)) {
                         fullSalary = salary + fullSalary;
                     }
                     if (j == data.length - 1) {
-                        StringBuilder resName = new StringBuilder(name + " - " + fullSalary);
-                        res.append(System.lineSeparator());
-                        res.append(resName);
+                        StringBuilder resName = new StringBuilder(names[i] + " - " + fullSalary);
+                        report.append(System.lineSeparator());
+                        report.append(resName);
                     }
                 }
             }
         }
-        return res.toString();
+        return report.toString();
     }
 }
