@@ -6,7 +6,7 @@ import java.time.format.DateTimeFormatter;
 public class SalaryInfo {
     public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
-    public static String getSalaryInfo(String[] names,
+    public String getSalaryInfo(String[] names,
                                        String[] data,
                                        String dateFrom,
                                        String dateTo) {
@@ -20,15 +20,16 @@ public class SalaryInfo {
         for (String name : names) {
             int totalSalary = 0;
             for (String dat : data) {
-                LocalDate localDateFact = LocalDate.parse(dat.split(" ")[0], FORMATTER);
-                int workingHour = Integer.parseInt(dat.split(" ")[2]);
-                int incomePerHour = Integer.parseInt(dat.split(" ")[3]);
-                String localName = dat.split(" ")[1];
+                String[] split = dat.split(" ");
+                LocalDate localDateFact = LocalDate.parse(split[0], FORMATTER);
+                int workingHour = Integer.parseInt(split[2]);
+                int incomePerHour = Integer.parseInt(split[3]);
+                String localName = split[1];
                 if ((localDateFact.equals(localDateFrom)
                         || localDateFact.equals(localDateTo)
                         || localDateFact.isAfter(localDateFrom)
                         && localDateFact.isBefore(localDateTo))
-                        && localName.contains(name)) {
+                        && localName.equals(name)) {
                     totalSalary += workingHour * incomePerHour;
                 }
             }
