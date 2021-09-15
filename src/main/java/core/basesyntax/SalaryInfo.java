@@ -40,10 +40,3 @@ public class SalaryInfo {
         return builder.toString();
     }
 }
-
-
-
-
-
-
-
