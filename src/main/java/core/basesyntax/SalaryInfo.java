@@ -18,24 +18,22 @@ public class SalaryInfo {
                     continue;
                 }
                 StringBuilder string = new StringBuilder(data[j]);
-                if (string.length() > 8 || data[j] != null) {
-                    String[] words = data[j].split(" ",0);
-                    LocalDate date = LocalDate.parse(words[0],formatter);
-                    String checkedName = words[1];
-                    int hours = Integer.parseInt(words[2]);
-                    int salaryPerHour = Integer.parseInt(words[3]);
-                    int salary = hours * salaryPerHour;
-                    boolean a = !date.isBefore(dateF);
-                    boolean b = !date.isAfter(dateT);
-                    if (checkedName.equals(names[i])
+                String[] words = data[j].split(" ",0);
+                LocalDate date = LocalDate.parse(words[0],formatter);
+                String checkedName = words[1];
+                int hours = Integer.parseInt(words[2]);
+                int salaryPerHour = Integer.parseInt(words[3]);
+                int salary = hours * salaryPerHour;
+                boolean a = !date.isBefore(dateF);
+                boolean b = !date.isAfter(dateT);
+                if (checkedName.equals(names[i])
                             && !date.isBefore(dateF) && !date.isAfter(dateT)) {
-                        fullSalary = salary + fullSalary;
-                    }
-                    if (j == data.length - 1) {
-                        StringBuilder resName = new StringBuilder(names[i] + " - " + fullSalary);
-                        report.append(System.lineSeparator());
-                        report.append(resName);
-                    }
+                    fullSalary = salary + fullSalary;
+                }
+                if (j == data.length - 1) {
+                    StringBuilder resName = new StringBuilder(names[i] + " - " + fullSalary);
+                    report.append(System.lineSeparator());
+                    report.append(resName);
                 }
             }
         }
