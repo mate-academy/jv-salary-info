@@ -17,7 +17,6 @@ public class SalaryInfo {
                 if (data[j] == null) {
                     continue;
                 }
-                StringBuilder string = new StringBuilder(data[j]);
                 String[] words = data[j].split(" ",0);
                 LocalDate date = LocalDate.parse(words[0],formatter);
                 String checkedName = words[1];
