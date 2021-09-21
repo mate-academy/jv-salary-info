@@ -8,7 +8,8 @@ public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         String patternFormat = "dd.MM.yyyy";
         Locale localeUa = new Locale("ua", "UA");
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(patternFormat).withLocale(localeUa);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(patternFormat)
+                .withLocale(localeUa);
 
         LocalDate dateBegin;
         try {
@@ -37,7 +38,8 @@ public class SalaryInfo {
                     System.out.println("Wrong date! " + e);
                     continue;
                 }
-                if (employeeData.contains(name) && !dataDate.isBefore(dateBegin) && !dataDate.isAfter(dateEnd)) {
+                if (employeeData.contains(name) && !dataDate.isBefore(dateBegin)
+                        && !dataDate.isAfter(dateEnd)) {
                     amount += Integer.parseInt(dataArray[2]) * Integer.parseInt(dataArray[3]);
                 }
             }
