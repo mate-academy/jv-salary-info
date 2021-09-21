@@ -1,21 +1,25 @@
 package core.basesyntax;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        Date dateBegin;
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+        String patternFormat = "dd.MM.yyyy";
+        Locale localeUa = new Locale("ua", "UA");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(patternFormat).withLocale(localeUa);
+
+        LocalDate dateBegin;
         try {
-            dateBegin = dateFormat.parse(dateFrom);
+            dateBegin = LocalDate.parse(dateFrom, formatter);
         } catch (Exception e) {
             System.out.println("Wrong dateFrom! " + e);
             return "";
         }
-        Date dateEnd;
+        LocalDate dateEnd;
         try {
-            dateEnd = dateFormat.parse(dateTo);
+            dateEnd = LocalDate.parse(dateTo, formatter);
         } catch (Exception e) {
             System.out.println("Wrong dateTo! " + e);
             return "";
@@ -25,18 +29,15 @@ public class SalaryInfo {
         for (String name : names) {
             int amount = 0;
             for (String employeeData : data) {
-                if (!employeeData.contains(name)) {
-                    continue;
-                }
-                Date dataDate;
+                String[] dataArray = employeeData.split(" ");
+                LocalDate dataDate;
                 try {
-                    dataDate = dateFormat.parse(employeeData);
+                    dataDate = LocalDate.parse(dataArray[0], formatter);
                 } catch (Exception e) {
                     System.out.println("Wrong date! " + e);
                     continue;
                 }
-                if (!dataDate.before(dateBegin) && !dataDate.after(dateEnd)) {
-                    String[] dataArray = employeeData.split(" ");
+                if (employeeData.contains(name) && !dataDate.isBefore(dateBegin) && !dataDate.isAfter(dateEnd)) {
                     amount += Integer.parseInt(dataArray[2]) * Integer.parseInt(dataArray[3]);
                 }
             }
