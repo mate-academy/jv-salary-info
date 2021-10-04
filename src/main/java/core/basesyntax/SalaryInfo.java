@@ -4,8 +4,9 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
+    private final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         var parseDateFrom = LocalDate.parse(dateFrom, dtf);
         var parseDateTo = LocalDate.parse(dateTo, dtf);
         var salaryInfo = new StringBuilder("Report for period "
@@ -24,10 +25,8 @@ public class SalaryInfo {
                     }
                 }
             }
-            salaryInfo = new StringBuilder(salaryInfo + System.lineSeparator()
-                    + name + " - " + salary);
+            salaryInfo.append(System.lineSeparator()).append(name).append(" - ").append(salary);
         }
         return salaryInfo.toString();
     }
 }
-
