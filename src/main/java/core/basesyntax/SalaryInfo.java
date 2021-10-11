@@ -56,8 +56,7 @@ public class SalaryInfo {
             System.out.println(stringBuilder);
             return stringBuilder.toString();
         } catch (ParseException e) {
-            System.out.println("Data parse exception");
-            return null;
+            return "Data parse exception";
         }
     }
 
