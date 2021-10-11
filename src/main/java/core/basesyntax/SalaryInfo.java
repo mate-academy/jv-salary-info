@@ -50,7 +50,7 @@ public class SalaryInfo {
             stringBuilder.append("Report for period ").append(dateFrom)
                     .append(" - ").append(dateTo);
             for (int i = 0; i < names.length; i++) {
-                stringBuilder.append("\r\n").append(names[i]).append(" - ")
+                stringBuilder.append("\n").append(names[i]).append(" - ")
                         .append(employeeSalary[i]);
             }
             System.out.println(stringBuilder);
