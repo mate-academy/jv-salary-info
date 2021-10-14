@@ -18,7 +18,6 @@ public class SalaryInfo {
 
             for (int j = 0; j < data.length; j++) {
                 String[] datas = data[j].split(" ");
-
                 LocalDate dateFromDatas = LocalDate.parse(datas[0],formatter);
                 if (dateFromDatas.isBefore(localDateTo.plusDays(1))
                         && (dateFromDatas.isAfter(localDateFrom))
