@@ -15,7 +15,6 @@ public class SalaryInfo {
 
         for (int i = 0; i < names.length; i++) {
             int periodSalary = 0;
-
             for (int j = 0; j < data.length; j++) {
                 String[] datas = data[j].split(" ");
                 LocalDate dateFromDatas = LocalDate.parse(datas[0],formatter);
