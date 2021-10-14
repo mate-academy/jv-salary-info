@@ -28,5 +28,6 @@ public class SalaryInfo {
             stringBuilder.append(names[i]).append(" - ").append(periodSalary).append(System.lineSeparator());
         }
         return stringBuilder.toString();
+
     }
 }
