@@ -20,11 +20,10 @@ public class SalaryInfo {
                 String[] oneDayDataArr = oneDayData.split(" ");
                 LocalDate date = LocalDate.parse(oneDayDataArr[0], formatter);
                 if ((date.isEqual(dateFromLD) || date.isAfter(dateFromLD))
-                        && (date.isEqual(dateToLD) || date.isBefore(dateToLD))) {
-                    if (oneDayDataArr[1].equals(names[i])) {
-                        salary[i] += Double.parseDouble(oneDayDataArr[2])
-                                    * Double.parseDouble(oneDayDataArr[3]);
-                    }
+                        && (date.isEqual(dateToLD) || date.isBefore(dateToLD))
+                        && oneDayDataArr[1].equals(names[i])) {
+                    salary[i] += Double.parseDouble(oneDayDataArr[2])
+                        * Double.parseDouble(oneDayDataArr[3]);
                 }
             }
             report.append(names[i]).append(" - ").append((int) salary[i]);
