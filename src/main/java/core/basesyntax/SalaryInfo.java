@@ -12,6 +12,9 @@ public class SalaryInfo {
         double[] salary = new double[names.length];
         LocalDate dateFromLD = LocalDate.parse(dateFrom, formatter);
         LocalDate dateToLD = LocalDate.parse(dateTo, formatter);
+        StringBuilder sb = new StringBuilder();
+        sb.append("Report for period ").append(dateFrom).append(" - ").append(dateTo)
+                .append(System.lineSeparator());
         for (int i = 0; i < names.length; i++) {
             for (String oneDayData : data) {
                 String[] oneDayDataArr = oneDayData.split(" ");
@@ -24,13 +27,8 @@ public class SalaryInfo {
                     }
                 }
             }
-        }
-        StringBuilder sb = new StringBuilder();
-        sb.append("Report for period ").append(dateFrom).append(" - ").append(dateTo)
-                .append(System.lineSeparator());
-        for (int j = 0; j < names.length; j++) {
-            sb.append(names[j]).append(" - ").append((int) salary[j]);
-            if (j != names.length - 1) {
+            sb.append(names[i]).append(" - ").append((int) salary[i]);
+            if (i != names.length - 1) {
                 sb.append(System.lineSeparator());
             }
         }
