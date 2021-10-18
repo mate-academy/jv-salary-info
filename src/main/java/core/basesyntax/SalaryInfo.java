@@ -9,7 +9,7 @@ public class SalaryInfo {
             = DateTimeFormatter.ofPattern("dd.MM.yyyy", Locale.ENGLISH);
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        double[] salary = new double[names.length];
+        int[] salary = new int[names.length];
         LocalDate dateFromLD = LocalDate.parse(dateFrom, formatter);
         LocalDate dateToLD = LocalDate.parse(dateTo, formatter);
         StringBuilder report = new StringBuilder();
@@ -22,11 +22,11 @@ public class SalaryInfo {
                 if ((date.isEqual(dateFromLD) || date.isAfter(dateFromLD))
                         && (date.isEqual(dateToLD) || date.isBefore(dateToLD))
                         && oneDayDataArr[1].equals(names[i])) {
-                    salary[i] += Double.parseDouble(oneDayDataArr[2])
-                        * Double.parseDouble(oneDayDataArr[3]);
+                    salary[i] += Integer.parseInt(oneDayDataArr[2])
+                        * Integer.parseInt(oneDayDataArr[3]);
                 }
             }
-            report.append(names[i]).append(" - ").append((int) salary[i]);
+            report.append(names[i]).append(" - ").append(salary[i]);
             if (i != names.length - 1) {
                 report.append(System.lineSeparator());
             }
