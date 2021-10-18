@@ -5,9 +5,11 @@ import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
 public class SalaryInfo {
+    private final DateTimeFormatter formatter
+            = DateTimeFormatter.ofPattern("dd.MM.yyyy", Locale.ENGLISH);
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         double[] salary = new double[names.length];
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy", Locale.ENGLISH);
         LocalDate dateFromLD = LocalDate.parse(dateFrom, formatter);
         LocalDate dateToLD = LocalDate.parse(dateTo, formatter);
         for (int i = 0; i < names.length; i++) {
