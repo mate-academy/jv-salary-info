@@ -39,7 +39,7 @@ public class SalaryInfo {
         LocalDate dateFromLocalDate = LocalDate.parse(dateFrom, DATE_TIME_FORMATTER);
         LocalDate dateToLocalDate = LocalDate.parse(dateTo, DATE_TIME_FORMATTER);
         LocalDate dateCheckLocalDate = LocalDate.parse(dateCheck, DATE_TIME_FORMATTER);
-        return dateFromLocalDate.compareTo(dateCheckLocalDate) <= 0
-                && dateToLocalDate.compareTo(dateCheckLocalDate) >= 0;
+        return dateCheckLocalDate.isAfter(dateFromLocalDate)
+                && dateCheckLocalDate.isBefore(dateToLocalDate.plusDays(1));
     }
 }
