@@ -1,7 +1,5 @@
 package core.basesyntax;
 
-import java.util.Arrays;
-
 public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder stringBuilder = new StringBuilder();
@@ -43,8 +41,10 @@ public class SalaryInfo {
         int[] dataInt = getArrayData(data);
         int[] dataFromInt = getArrayData(dataFrom);
         int[] dataToInt = getArrayData(dataTo);
-        if (dataFromInt[2] == dataToInt[2] && dataFromInt[1] == dataToInt[1] && dataFromInt[0] == dataToInt[0]){
-            return dataInt[2] == dataFromInt[2] && dataInt[1] == dataFromInt[1] && dataInt[0] == dataFromInt[0];
+        if (dataFromInt[2] == dataToInt[2] && dataFromInt[1] == dataToInt[1]
+                && dataFromInt[0] == dataToInt[0]) {
+            return dataInt[2] == dataFromInt[2] && dataInt[1] == dataFromInt[1]
+                    && dataInt[0] == dataFromInt[0];
         } else if (dataFromInt[2] == dataToInt[2] && dataFromInt[1] == dataToInt[1]) {
             return dataInt[2] == dataFromInt[2] && dataInt[1] == dataFromInt[1]
                     && (dataInt[0] >= dataFromInt[0] && dataInt[0] <= dataToInt[0]);
@@ -54,7 +54,8 @@ public class SalaryInfo {
                     || (dataInt[1] == dataFromInt[1] && dataInt[0] >= dataFromInt[0])
                     || (dataInt[1] == dataToInt[1] && dataInt[0] <= dataToInt[0]));
         } else {
-                return false;               // ruled out the possibility of different years
+            return false;
+            // ruled out the possibility of different years
         }
     }
 }
