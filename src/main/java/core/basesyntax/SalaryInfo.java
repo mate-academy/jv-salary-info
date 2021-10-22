@@ -26,21 +26,20 @@ public class SalaryInfo {
             }
         }
 
-        StringBuilder sb = new StringBuilder();
-        sb.append("Report for period ").append(dateFrom).append(" - ").append(dateTo)
-                .append(System.lineSeparator());
+        StringBuilder reportBuild = new StringBuilder();
+        reportBuild.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
         for (Employee employee : employees) {
-            sb.append(employee.getName()).append(" - ").append(employee.getSalary()).toString();
-            sb.append(System.lineSeparator());
+            reportBuild.append(System.lineSeparator())
+                    .append(employee.getName()).append(" - ").append(employee.getSalary()).toString();
         }
-        return sb.toString().trim();
+        return reportBuild.toString();
     }
 
     private boolean checkDate(String dateCheck, String dateFrom, String dateTo) {
-        LocalDate dateFromLocalDate = LocalDate.parse(dateFrom, DATE_FORMATTER);
-        LocalDate dateToLocalDate = LocalDate.parse(dateTo, DATE_FORMATTER);
-        LocalDate dateCheckLocalDate = LocalDate.parse(dateCheck, DATE_FORMATTER);
-        return dateCheckLocalDate.isAfter(dateFromLocalDate)
-                && dateCheckLocalDate.isBefore(dateToLocalDate.plusDays(1));
+        LocalDate from = LocalDate.parse(dateFrom, DATE_FORMATTER);
+        LocalDate to = LocalDate.parse(dateTo, DATE_FORMATTER);
+        LocalDate checkDate = LocalDate.parse(dateCheck, DATE_FORMATTER);
+        return checkDate.isAfter(from)
+                && checkDate.isBefore(to.plusDays(1));
     }
 }
