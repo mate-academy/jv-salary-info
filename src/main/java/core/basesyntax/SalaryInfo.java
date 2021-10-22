@@ -5,21 +5,21 @@ import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 
 public class SalaryInfo {
-    static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-
-        Employee[] employees = Arrays.stream(names).map(name -> new Employee(name))
+        Employee[] employees = Arrays.stream(names)
+                .map(name -> new Employee(name))
                 .toArray(Employee[]::new);
 
         for (String salaryData : data) {
-            String[] splitData = salaryData.split(" ");
-            String name = splitData[1];
+            String[] splittedData = salaryData.split(" ");
+            String name = splittedData[1];
             for (Employee employee : employees) {
                 if (employee.getName().equals(name)) {
-                    String dateByData = splitData[0];
+                    String dateByData = splittedData[0];
                     if (checkDate(dateByData, dateFrom, dateTo)) {
-                        int salary = Integer.valueOf(splitData[2]) * Integer.valueOf(splitData[3]);
+                        int salary = Integer.valueOf(splittedData[2]) * Integer.valueOf(splittedData[3]);
                         employee.addSalary(salary);
                     }
                 }
@@ -30,15 +30,16 @@ public class SalaryInfo {
         sb.append("Report for period ").append(dateFrom).append(" - ").append(dateTo)
                 .append(System.lineSeparator());
         for (Employee employee : employees) {
-            sb.append(employee.getSalaryInfo()).append(System.lineSeparator());
+            sb.append(employee.getName()).append(" - ").append(employee.getSalary()).toString();
+            sb.append(System.lineSeparator());
         }
         return sb.toString().trim();
     }
 
-    public boolean checkDate(String dateCheck, String dateFrom, String dateTo) {
-        LocalDate dateFromLocalDate = LocalDate.parse(dateFrom, DATE_TIME_FORMATTER);
-        LocalDate dateToLocalDate = LocalDate.parse(dateTo, DATE_TIME_FORMATTER);
-        LocalDate dateCheckLocalDate = LocalDate.parse(dateCheck, DATE_TIME_FORMATTER);
+    private boolean checkDate(String dateCheck, String dateFrom, String dateTo) {
+        LocalDate dateFromLocalDate = LocalDate.parse(dateFrom, DATE_FORMATTER);
+        LocalDate dateToLocalDate = LocalDate.parse(dateTo, DATE_FORMATTER);
+        LocalDate dateCheckLocalDate = LocalDate.parse(dateCheck, DATE_FORMATTER);
         return dateCheckLocalDate.isAfter(dateFromLocalDate)
                 && dateCheckLocalDate.isBefore(dateToLocalDate.plusDays(1));
     }
