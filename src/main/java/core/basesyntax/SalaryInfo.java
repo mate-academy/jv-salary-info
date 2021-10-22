@@ -4,27 +4,33 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
+    private static final DateTimeFormatter DATE_FORMATTER
+            = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final int DATE_INDEX = 0;
+    private static final int NAME_INDEX = 1;
+    private static final int HOURS_INDEX = 2;
+    private static final int HOUR_SALARY_INDEX = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        DateTimeFormatter df = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        LocalDate from = LocalDate.parse(dateFrom, df);
-        LocalDate to = LocalDate.parse(dateTo, df);
-        StringBuilder sb = new StringBuilder("Report for period "
-                + dateFrom + " - " + dateTo + System.lineSeparator());
+        LocalDate dateStart = LocalDate.parse(dateFrom, DATE_FORMATTER);
+        LocalDate dateEnd = LocalDate.parse(dateTo, DATE_FORMATTER);
+        StringBuilder reportBuilder = new StringBuilder("Report for period ")
+                .append(dateFrom).append(" - ").append(dateTo);
         int salary = 0;
-
         for (String name : names) {
-            for (String dates : data) {
-                String[] split = dates.split(" ");
-                LocalDate localDate = LocalDate.parse(split[0], df);
-                if (name.equals(split[1]) && (localDate.isAfter(from) || localDate.equals(from))
-                        && (localDate.isBefore(to) || localDate.equals(to))) {
-                    salary += Integer.parseInt(split[2]) * Integer.parseInt(split[3]);
+            for (String dataLine : data) {
+                String[] splitterData = dataLine.split(" ");
+                LocalDate checkDate = LocalDate.parse(splitterData[DATE_INDEX], DATE_FORMATTER);
+                if (name.equals(splitterData[NAME_INDEX])
+                        && (checkDate.isAfter(dateStart) || checkDate.equals(dateStart))
+                        && (checkDate.isBefore(dateEnd) || checkDate.equals(dateEnd))) {
+                    salary += Integer.parseInt(splitterData[HOURS_INDEX])
+                            * Integer.parseInt(splitterData[HOUR_SALARY_INDEX]);
                 }
             }
-            sb.append(name + " - " + salary + System.lineSeparator());
+            reportBuilder.append(System.lineSeparator()).append(name).append(" - ").append(salary);
             salary = 0;
         }
-        return sb.toString().trim();
+        return reportBuilder.toString();
     }
 }
