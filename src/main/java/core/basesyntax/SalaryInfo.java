@@ -1,33 +1,32 @@
 package core.basesyntax;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class SalaryInfo {
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = 
+            DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        SalaryInfo info = new SalaryInfo();
-        StringBuilder result = new StringBuilder("Report for period "
+        LocalDate startDate = LocalDate.parse(dateFrom, DATE_TIME_FORMATTER);
+        LocalDate finishDate = LocalDate.parse(dateTo, DATE_TIME_FORMATTER);
+        StringBuilder reportBuilder = new StringBuilder("Report for period "
                 + dateFrom + " - " + dateTo);
         for (String name : names) {
             int amontOfMoney = 0;
             for (String datum : data) {
                 String[] split = datum.split(" ");
+                LocalDate separateDate = LocalDate.parse(split[0], DATE_TIME_FORMATTER);
                 if (name.equals(split[1])) {
-                    if (info.getDateCode(split[0]) >= info.getDateCode(dateFrom)
-                            && info.getDateCode(split[0]) <= info.getDateCode(dateTo)) {
+                    if (separateDate.isAfter(startDate) && separateDate
+                            .isBefore(finishDate.plusDays(1))) {
                         amontOfMoney += Integer.parseInt(split[2]) * Integer.parseInt(split[3]);
                     }
                 }
             }
-            result.append(System.lineSeparator()).append(name)
+            reportBuilder.append(System.lineSeparator()).append(name)
                     .append(" - ").append(amontOfMoney);
         }
-        return result.toString();
-    }
-
-    private double getDateCode(String date) {
-        String[] split = date.split("\\.");
-        double resultedNumber = 0;
-        for (int i = split.length - 1, j = 1; i >= 0; i--, j *= 100) {
-            resultedNumber += Double.parseDouble(split[i]) / j;
-        }
-        return resultedNumber;
+        return reportBuilder.toString();
     }
 }
