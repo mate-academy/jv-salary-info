@@ -46,14 +46,13 @@ public class SalaryInfo {
         builder.append("Report for period ")
                 .append(startDate)
                 .append(hyphenAppender)
-                .append(endDate)
-                .append(System.lineSeparator());
+                .append(endDate);
         for (int i = 0; i < names.length; i++) {
-            builder.append(names[i])
+            builder.append(System.lineSeparator())
+                    .append(names[i])
                     .append(hyphenAppender)
-                    .append(incomes[i])
-                    .append(System.lineSeparator());
+                    .append(incomes[i]);
         }
-        return builder.toString().trim();
+        return builder.toString();
     }
 }
