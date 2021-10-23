@@ -7,7 +7,8 @@ public class SalaryInfo {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("d.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        StringBuilder result = new StringBuilder("Report for period " + dateFrom + " - " + dateTo + System.lineSeparator());
+        StringBuilder result = new StringBuilder("Report for period " + dateFrom + " - " + dateTo
+                + System.lineSeparator());
         LocalDate fromDate = LocalDate.parse(dateFrom, FORMATTER);
         LocalDate beforeDate = LocalDate.parse(dateTo, FORMATTER);
         for (String name : names) {
@@ -15,7 +16,8 @@ public class SalaryInfo {
             for (String info : data) {
                 String[] container = info.split(" ");
                 LocalDate dateOfWork = LocalDate.parse(container[0], FORMATTER);
-                if (container[1].equals(name) && dateOfWork.isAfter(fromDate) && dateOfWork.isBefore(beforeDate.plusDays(1))) {
+                if (container[1].equals(name) && dateOfWork.isAfter(fromDate)
+                        && dateOfWork.isBefore(beforeDate.plusDays(1))) {
                     count += Integer.valueOf(container[2]) * Integer.valueOf(container[3]);
                 }
             }
