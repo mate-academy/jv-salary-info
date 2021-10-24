@@ -3,9 +3,9 @@ package core.basesyntax;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-
 public class SalaryInfo {
-    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter
+            .ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder result = new StringBuilder().append("Report for period ")
@@ -15,7 +15,8 @@ public class SalaryInfo {
         for (String name : names) {
             int totalSalary = 0;
             for (String stringOfData : data) {
-                LocalDate salaryDate = LocalDate.parse(stringOfData.substring(0,stringOfData.indexOf(" ")), DATE_FORMATTER);
+                LocalDate salaryDate = LocalDate.parse(stringOfData
+                        .substring(0,stringOfData.indexOf(" ")), DATE_FORMATTER);
                 if (stringOfData.contains(name)
                         && salaryDate.compareTo(dateFromInLocalDate) >= 0
                         && salaryDate.compareTo(dateToInLocalDate) <= 0) {
