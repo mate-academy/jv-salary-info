@@ -2,7 +2,6 @@ package core.basesyntax;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class SalaryInfo {
@@ -21,19 +20,24 @@ public class SalaryInfo {
                     && LocalDate.parse(splitData[0], DATE_TIME_FORMATTER)
                     .compareTo(LocalDate.parse(dateTo, DATE_TIME_FORMATTER)) <= 0) {
                 moneyPerDay = Integer.parseInt(splitData[2]) * Integer.parseInt(splitData[3]);
+                // Get current value or put a new name with a value
+                // if this name was not there before
                 currentValue = employeesSalary.putIfAbsent(splitData[1], moneyPerDay);
                 if (currentValue != null) {
-                    // Updating current value
+                    // Update current value
                     employeesSalary.replace(splitData[1], currentValue + moneyPerDay);
                 }
             }
         }
 
-        ArrayList<String> result = new ArrayList<>();
-        result.add(String.format("Report for period %s - %s", dateFrom, dateTo));
+        StringBuilder result = new StringBuilder(
+                String.format("Report for period %s - %s\n", dateFrom, dateTo));
         for (String name : names) {
-            result.add(name + " - " + employeesSalary.getOrDefault(name, 0));
+            result.append(name)
+                    .append(" - ")
+                    .append(employeesSalary.getOrDefault(name, 0))
+                    .append(name.equals(names[names.length - 1]) ? "" : "\n");
         }
-        return String.join("\n", result);
+        return result.toString();
     }
 }
