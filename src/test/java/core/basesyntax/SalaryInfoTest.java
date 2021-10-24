@@ -86,11 +86,7 @@ public class SalaryInfoTest {
         SalaryInfo salary = new SalaryInfo();
         for (int i = 0; i < dates.length; i++) {
             String actualResult = null;
-            try {
-                actualResult = salary.getSalaryInfo(sampleNames, scriptArray, dates[0], dates[i]);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+            actualResult = salary.getSalaryInfo(sampleNames, scriptArray, dates[0], dates[i]);
             String expectedResult = SalaryInfoTest.exceptedReports[i];
 
             Assert.assertEquals(
@@ -106,12 +102,8 @@ public class SalaryInfoTest {
     public void getSalaryInfoByTwoMonths() {
         SalaryInfo salary = new SalaryInfo();
         String actualResult = null;
-        try {
-            actualResult = salary.getSalaryInfo(sampleNames, secondScriptArray,
-                    secondDates[0], secondDates[1]);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        actualResult = salary.getSalaryInfo(sampleNames, secondScriptArray,
+                secondDates[0], secondDates[1]);
         String expectedResult = SalaryInfoTest.secondExceptedReports;
 
         Assert.assertEquals(

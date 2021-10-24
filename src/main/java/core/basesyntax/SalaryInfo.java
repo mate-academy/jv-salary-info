@@ -1,25 +1,24 @@
 package core.basesyntax;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 
 public class SalaryInfo {
-    private static final SimpleDateFormat DATE_FORMATTER = new SimpleDateFormat("dd.MM.yyyy");
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
-    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
-            throws ParseException {
+    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder result = new StringBuilder().append("Report for period ")
                                .append(dateFrom).append(" - ").append(dateTo);
-        Date dateFromInDate = DATE_FORMATTER.parse(dateFrom);
-        Date dateToInDate = DATE_FORMATTER.parse(dateTo);
+        LocalDate dateFromInLocalDate = LocalDate.parse(dateFrom, DATE_FORMATTER);
+        LocalDate dateToInLocalDate = LocalDate. parse(dateTo, DATE_FORMATTER);
         for (String name : names) {
             int totalSalary = 0;
             for (String stringOfData : data) {
-                Date salaryDate = DATE_FORMATTER.parse(stringOfData);
+                LocalDate salaryDate = LocalDate.parse(stringOfData.substring(0,stringOfData.indexOf(" ")), DATE_FORMATTER);
                 if (stringOfData.contains(name)
-                        && salaryDate.compareTo(dateFromInDate) >= 0
-                        && salaryDate.compareTo(dateToInDate) <= 0) {
+                        && salaryDate.compareTo(dateFromInLocalDate) >= 0
+                        && salaryDate.compareTo(dateToInLocalDate) <= 0) {
                     Integer hoursPerDay = Integer.parseInt(stringOfData.substring(
                             stringOfData.lastIndexOf(name) + name.length() + 1,
                             stringOfData.lastIndexOf(" ")));
