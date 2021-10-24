@@ -3,6 +3,8 @@ package core.basesyntax;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.text.ParseException;
+
 public class SalaryInfoTest {
     private static final String[] sampleNames = {"John", "Andrew", "Kate"};
     private static final String[] scriptArray = {
@@ -83,7 +85,12 @@ public class SalaryInfoTest {
     public void getSalaryInfoByMonth() {
         SalaryInfo salary = new SalaryInfo();
         for (int i = 0; i < dates.length; i++) {
-            String actualResult = salary.getSalaryInfo(sampleNames, scriptArray, dates[0], dates[i]);
+            String actualResult = null;
+            try {
+                actualResult = salary.getSalaryInfo(sampleNames, scriptArray, dates[0], dates[i]);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
             String expectedResult = SalaryInfoTest.exceptedReports[i];
 
             Assert.assertEquals(
@@ -98,8 +105,13 @@ public class SalaryInfoTest {
     @Test
     public void getSalaryInfoByTwoMonths() {
         SalaryInfo salary = new SalaryInfo();
-        String actualResult = salary.getSalaryInfo(sampleNames, secondScriptArray,
-                secondDates[0], secondDates[1]);
+        String actualResult = null;
+        try {
+            actualResult = salary.getSalaryInfo(sampleNames, secondScriptArray,
+                    secondDates[0], secondDates[1]);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         String expectedResult = SalaryInfoTest.secondExceptedReports;
 
         Assert.assertEquals(
