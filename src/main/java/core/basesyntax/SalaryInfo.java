@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-
     static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public static void main(String[] args) {
@@ -21,30 +20,29 @@ public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate dateFromLocalDate = LocalDate.parse(dateFrom, DATE_TIME_FORMATTER);
         LocalDate dateToLocalDate = LocalDate.parse(dateTo, DATE_TIME_FORMATTER);
-        int[] salaries = new int[names.length];
         String[] splittedData;
-        for (String string: data) {
-            splittedData = string.split(" ");
-            LocalDate splittedDate = LocalDate.parse(splittedData[0], DATE_TIME_FORMATTER);
-            if (dateFromLocalDate.compareTo(splittedDate) <= 0
-                    && dateToLocalDate.compareTo(splittedDate) >= 0) {
-                for (int i = 0; i < names.length; i++) {
-                    if (names[i].equals(splittedData[1])) {
-                        salaries[i] += Integer.parseInt(splittedData[2])
-                                * Integer.parseInt(splittedData[3]);
-                    }
+
+        String separator = System.lineSeparator();
+        StringBuilder stringBuilderReport = new StringBuilder("Report for period "
+                + dateFrom + " - " + dateTo + separator);
+
+        for (int i = 0; i < names.length; i++) {
+            int sumSalaryForEmployee = 0;
+            for (String dataElement: data) {
+                splittedData = dataElement.split(" ");
+                LocalDate splittedDate = LocalDate.parse(splittedData[0], DATE_TIME_FORMATTER);
+                if (dateFromLocalDate.compareTo(splittedDate) <= 0
+                        && dateToLocalDate.compareTo(splittedDate) >= 0
+                        && splittedData[1].equals(names[i])) {
+                    sumSalaryForEmployee += Integer.parseInt(splittedData[2])
+                                    * Integer.parseInt(splittedData[3]);
                 }
             }
-        }
-        String separator = System.lineSeparator();
-        StringBuilder stringBuilder = new StringBuilder("Report for period "
-                + dateFrom + " - " + dateTo + separator);
-        for (int i = 0; i < names.length; i++) {
-            stringBuilder.append(names[i]).append(" - ").append(salaries[i]);
+            stringBuilderReport.append(names[i]).append(" - ").append(sumSalaryForEmployee);
             if (i != names.length - 1) {
-                stringBuilder.append(separator);
+                stringBuilderReport.append(separator);
             }
         }
-        return stringBuilder.toString();
+        return stringBuilderReport.toString();
     }
 }
