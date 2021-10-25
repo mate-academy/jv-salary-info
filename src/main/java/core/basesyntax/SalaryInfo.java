@@ -14,8 +14,8 @@ public class SalaryInfo {
         LocalDate dateFrom = LocalDate.parse(from, FORMATTER);
         LocalDate dateTo = LocalDate.parse(to, FORMATTER);
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("Report for period ").append(dateFrom).append(" - ")
-                .append(dateTo).append(System.lineSeparator());
+        stringBuilder.append("Report for period ").append(dateFrom.format(FORMATTER)).append(" - ")
+                .append(dateTo.format(FORMATTER)).append(System.lineSeparator());
         int counter = 0;
         for (String name : names) {
             stringBuilder.append(name).append(" - ");
@@ -30,11 +30,11 @@ public class SalaryInfo {
                     salary += hours * payment;
                 }
             }
+            counter++;
             stringBuilder.append(salary);
             if (counter < names.length) {
                 stringBuilder.append(System.lineSeparator());
             }
-            counter++;
         }
         return stringBuilder.toString();
     }
