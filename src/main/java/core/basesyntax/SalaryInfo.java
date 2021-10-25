@@ -16,7 +16,6 @@ public class SalaryInfo {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("Report for period ").append(dateFrom.format(FORMATTER)).append(" - ")
                 .append(dateTo.format(FORMATTER)).append(System.lineSeparator());
-        int counter = 0;
         for (String name : names) {
             stringBuilder.append(name).append(" - ");
             int salary = 0;
@@ -30,12 +29,8 @@ public class SalaryInfo {
                     salary += hours * payment;
                 }
             }
-            counter++;
-            stringBuilder.append(salary);
-            if (counter < names.length) {
-                stringBuilder.append(System.lineSeparator());
-            }
+            stringBuilder.append(salary).append(System.lineSeparator());
         }
-        return stringBuilder.toString();
+        return stringBuilder.toString().trim();
     }
 }
