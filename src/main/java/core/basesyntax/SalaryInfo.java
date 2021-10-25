@@ -38,11 +38,9 @@ public class SalaryInfo {
                                     * Integer.parseInt(splittedData[3]);
                 }
             }
-            stringBuilderReport.append(names[i]).append(" - ").append(sumSalaryForEmployee);
-            if (i != names.length - 1) {
-                stringBuilderReport.append(separator);
-            }
+            stringBuilderReport.append(names[i]).append(" - ").append(sumSalaryForEmployee)
+                    .append(separator);
         }
-        return stringBuilderReport.toString();
+        return stringBuilderReport.toString().trim();
     }
 }
