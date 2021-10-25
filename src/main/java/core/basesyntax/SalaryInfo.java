@@ -10,9 +10,9 @@ public class SalaryInfo {
     private static final int HOURS = 2;
     private static final int PAYMENT = 3;
 
-    public String getSalaryInfo(String[] names, String[] data, String From, String To) {
-        LocalDate dateFrom = LocalDate.parse(From, FORMATTER);
-        LocalDate dateTo = LocalDate.parse(To, FORMATTER);
+    public String getSalaryInfo(String[] names, String[] data, String from, String to) {
+        LocalDate dateFrom = LocalDate.parse(from, FORMATTER);
+        LocalDate dateTo = LocalDate.parse(to, FORMATTER);
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("Report for period ").append(dateFrom).append(" - ")
                 .append(dateTo).append(System.lineSeparator());
