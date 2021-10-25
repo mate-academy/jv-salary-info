@@ -8,8 +8,8 @@ public class SalaryInfo {
             = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        LocalDate from = LocalDate.parse(dateFrom,DATE_FORMATTER);
-        LocalDate to = LocalDate.parse(dateTo,DATE_FORMATTER);
+        LocalDate from = LocalDate.parse(dateFrom, DATE_FORMATTER);
+        LocalDate to = LocalDate.parse(dateTo, DATE_FORMATTER);
         StringBuilder result = new StringBuilder("Report for period ")
                 .append(dateFrom)
                 .append(" - ")
@@ -20,7 +20,7 @@ public class SalaryInfo {
             salaryForPeriod = 0;
             for (String dataLine : data) {
                 String[] formattedDataLine = dataLine.split(" ");
-                LocalDate currentDate = LocalDate.parse(formattedDataLine[0],DATE_FORMATTER);
+                LocalDate currentDate = LocalDate.parse(formattedDataLine[0], DATE_FORMATTER);
                 if (currentName.equals(formattedDataLine[1])
                         && from.compareTo(currentDate) <= 0
                         && to.compareTo(currentDate) >= 0) {
@@ -30,11 +30,9 @@ public class SalaryInfo {
             }
             result.append(currentName)
                     .append(" - ")
-                    .append(salaryForPeriod);
-            if (!currentName.equals(names[names.length - 1])) {
-                result.append(System.lineSeparator());
-            }
+                    .append(salaryForPeriod)
+                    .append(System.lineSeparator());
         }
-        return result.toString();
+        return result.toString().trim();
     }
 }
