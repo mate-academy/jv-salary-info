@@ -5,7 +5,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 
 public class SalaryInfo {
-    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter
+            .ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         Employee[] employees = Arrays.stream(names)
@@ -19,7 +20,9 @@ public class SalaryInfo {
                 if (employee.getName().equals(name)) {
                     String dateByData = splittedData[0];
                     if (checkDate(dateByData, dateFrom, dateTo)) {
-                        int salary = Integer.valueOf(splittedData[2]) * Integer.valueOf(splittedData[3]);
+                        int wage = Integer.valueOf(splittedData[2]);
+                        int workingHours = Integer.valueOf(splittedData[3]);
+                        int salary = wage * workingHours;
                         employee.addSalary(salary);
                     }
                 }
@@ -30,7 +33,10 @@ public class SalaryInfo {
         reportBuild.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
         for (Employee employee : employees) {
             reportBuild.append(System.lineSeparator())
-                    .append(employee.getName()).append(" - ").append(employee.getSalary()).toString();
+                    .append(employee.getName())
+                    .append(" - ")
+                    .append(employee.getSalary())
+                    .toString();
         }
         return reportBuild.toString();
     }
