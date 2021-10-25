@@ -31,12 +31,12 @@ public class SalaryInfo {
         }
 
         StringBuilder result = new StringBuilder(
-                String.format("Report for period %s - %s\n", dateFrom, dateTo));
+                String.format("Report for period %s - %s%s", dateFrom, dateTo, System.lineSeparator()));
         for (String name : names) {
             result.append(name)
                     .append(" - ")
                     .append(employeesSalary.getOrDefault(name, 0))
-                    .append(name.equals(names[names.length - 1]) ? "" : "\n");
+                    .append(name.equals(names[names.length - 1]) ? "" : System.lineSeparator());
         }
         return result.toString();
     }
