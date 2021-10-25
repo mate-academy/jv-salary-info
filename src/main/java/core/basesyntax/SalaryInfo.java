@@ -21,10 +21,7 @@ public class SalaryInfo {
                     count += Integer.valueOf(container[2]) * Integer.valueOf(container[3]);
                 }
             }
-            if (names[names.length - 1].equals(name) && names.length > 1) {
-                result.append(name + " - " + count);
-                return result.toString();
-            } else if (names.length == 1) {
+            if (names.length == 1 || names[names.length - 1].equals(name)) {
                 result.append(name + " - " + count);
                 return result.toString();
             }
