@@ -21,12 +21,8 @@ public class SalaryInfo {
                     count += Integer.valueOf(container[2]) * Integer.valueOf(container[3]);
                 }
             }
-            if (names.length == 1 || names[names.length - 1].equals(name)) {
-                result.append(name + " - " + count);
-                return result.toString();
-            }
             result.append(name + " - " + count + System.lineSeparator());
         }
-        return result.toString();
+        return result.toString().trim();
     }
 }
