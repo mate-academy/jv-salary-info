@@ -21,7 +21,7 @@ public class SalaryInfo {
             for (String dataLine : data) {
                 String[] formattedDataLine = dataLine.split(" ");
                 LocalDate currentDate = LocalDate.parse(formattedDataLine[0],DATE_FORMATTER);
-                if (currentDate.equals(formattedDataLine[1])
+                if (currentName.equals(formattedDataLine[1])
                         && from.compareTo(currentDate) <= 0
                         && to.compareTo(currentDate) >= 0) {
                     salaryForPeriod += Integer.parseInt(formattedDataLine[2])
@@ -31,7 +31,7 @@ public class SalaryInfo {
             result.append(currentName)
                     .append(" - ")
                     .append(salaryForPeriod);
-            if (names.length != 1 && !currentName.equals(names[names.length - 1])) {
+            if (!currentName.equals(names[names.length - 1])) {
                 result.append(System.lineSeparator());
             }
         }
