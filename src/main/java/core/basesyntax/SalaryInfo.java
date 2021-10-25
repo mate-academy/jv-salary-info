@@ -4,11 +4,15 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d.MM.yyyy");
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("d.MM.yyyy");
+    private static final int DATA = 0;
+    private static final int NAME = 1;
+    private static final int HOURS = 2;
+    private static final int PAYMENT = 3;
 
-    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        LocalDate datef = LocalDate.parse(dateFrom, formatter);
-        LocalDate dateT = LocalDate.parse(dateTo, formatter);
+    public String getSalaryInfo(String[] names, String[] data, String From, String To) {
+        LocalDate dateFrom = LocalDate.parse(From, FORMATTER);
+        LocalDate dateTo = LocalDate.parse(To, FORMATTER);
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("Report for period ").append(dateFrom).append(" - ")
                 .append(dateTo).append(System.lineSeparator());
@@ -18,16 +22,16 @@ public class SalaryInfo {
             int salary = 0;
             for (String pool : data) {
                 String[] dataArray = pool.split(" ");
-                LocalDate arrayDate = LocalDate.parse(dataArray[0], formatter);
-                if (arrayDate.isAfter(datef.minusDays(1))
-                        && arrayDate.isBefore(dateT.plusDays(1)) && dataArray[1].equals(name)) {
-                    int x = Integer.parseInt(dataArray[2]);
-                    int payment = Integer.parseInt(dataArray[3]);
-                    salary += x * payment;
+                LocalDate arrayDate = LocalDate.parse(dataArray[DATA], FORMATTER);
+                if (arrayDate.isAfter(dateFrom.minusDays(1))
+                        && arrayDate.isBefore(dateTo.plusDays(1)) && dataArray[NAME].equals(name)) {
+                    int hours = Integer.parseInt(dataArray[HOURS]);
+                    int payment = Integer.parseInt(dataArray[PAYMENT]);
+                    salary += hours * payment;
                 }
             }
             stringBuilder.append(salary);
-            if (counter < 2) {
+            if (counter < names.length) {
                 stringBuilder.append(System.lineSeparator());
             }
             counter++;
