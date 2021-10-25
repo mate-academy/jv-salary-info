@@ -33,12 +33,12 @@ public class SalaryInfo {
         StringBuilder result = new StringBuilder(
                 String.format("Report for period %s - %s%s", dateFrom, dateTo,
                         System.lineSeparator()));
-        for (int i = 0; i < names.length; i++) {
-            result.append(names[i])
+        for (String name : names) {
+            result.append(name)
                     .append(" - ")
-                    .append(employeesSalary.getOrDefault(names[i], 0))
-                    .append(i == names.length - 1 ? "" : System.lineSeparator());
+                    .append(employeesSalary.getOrDefault(name, 0))
+                    .append(System.lineSeparator());
         }
-        return result.toString();
+        return result.toString().trim();
     }
 }
