@@ -16,22 +16,22 @@ public class SalaryInfo {
                 .append(dateTo)
                 .append(System.lineSeparator());
         int salaryForPeriod;
-        for (String currencyName : names) {
+        for (String currentName : names) {
             salaryForPeriod = 0;
             for (String dataLine : data) {
                 String[] formattedDataLine = dataLine.split(" ");
-                LocalDate currencyDate = LocalDate.parse(formattedDataLine[0],DATE_FORMATTER);
-                if (currencyName.equals(formattedDataLine[1])
-                        && from.compareTo(currencyDate) <= 0
-                        && to.compareTo(currencyDate) >= 0) {
+                LocalDate currentDate = LocalDate.parse(formattedDataLine[0],DATE_FORMATTER);
+                if (currentDate.equals(formattedDataLine[1])
+                        && from.compareTo(currentDate) <= 0
+                        && to.compareTo(currentDate) >= 0) {
                     salaryForPeriod += Integer.parseInt(formattedDataLine[2])
                             * Integer.parseInt(formattedDataLine[3]);
                 }
             }
-            result.append(currencyName)
+            result.append(currentName)
                     .append(" - ")
                     .append(salaryForPeriod);
-            if (!currencyName.equals(names[names.length - 1])) {
+            if (names.length != 1 && !currentName.equals(names[names.length - 1])) {
                 result.append(System.lineSeparator());
             }
         }
