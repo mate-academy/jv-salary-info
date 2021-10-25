@@ -12,8 +12,8 @@ public class SalaryInfo {
     private static final int UNITS_PER_HOUR = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        LocalDate start = LocalDate.parse(dateFrom, DATE_TIME_FORMATTER);
-        LocalDate end = LocalDate.parse(dateTo, DATE_TIME_FORMATTER);
+        LocalDate startDate = LocalDate.parse(dateFrom, DATE_TIME_FORMATTER);
+        LocalDate endDate = LocalDate.parse(dateTo, DATE_TIME_FORMATTER);
         StringBuilder report = new StringBuilder("Report for period ");
         report.append(dateFrom).append(" - ").append(dateTo);
 
@@ -23,9 +23,9 @@ public class SalaryInfo {
             for (String employee : data) {
                 String[] info = employee.split(" ");
                 LocalDate workDate = LocalDate.parse(info[DATE_INDEX],DATE_TIME_FORMATTER);
-                if (name.equals(info[NAME_INDEX]) && (workDate.isAfter(start)
-                        || workDate.equals(start)) && (workDate.isBefore(end)
-                        || workDate.equals(end))) {
+                if (name.equals(info[NAME_INDEX]) && (workDate.isAfter(startDate)
+                        || workDate.equals(startDate)) && (workDate.isBefore(endDate)
+                        || workDate.equals(endDate))) {
                     salary += Integer.parseInt(info[WORKING_HOURS])
                             * Integer.parseInt(info[UNITS_PER_HOUR]);
                 }
