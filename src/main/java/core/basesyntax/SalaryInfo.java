@@ -21,9 +21,9 @@ public class SalaryInfo {
             int salary = 0;
             for (String pool : data) {
                 String[] dataArray = pool.split(" ");
-                if (LocalDate.parse(dataArray[0], formatter).isAfter(datef.minusDays(1))
-                        && LocalDate.parse(dataArray[0], formatter)
-                        .isBefore(dateT.plusDays(1)) && dataArray[1].equals(name)) {
+                LocalDate arrayDate = LocalDate.parse(dataArray[0], formatter);
+                if (arrayDate.isAfter(datef.minusDays(1))
+                        && arrayDate.isBefore(dateT.plusDays(1)) && dataArray[1].equals(name)) {
                     int x = Integer.parseInt(dataArray[2]);
                     int payment = Integer.parseInt(dataArray[3]);
                     salary += x * payment;
