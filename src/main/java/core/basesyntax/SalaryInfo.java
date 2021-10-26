@@ -29,7 +29,6 @@ public class SalaryInfo {
                 }
             }
         }
-
         StringBuilder result = new StringBuilder(
                 String.format("Report for period %s - %s%s", dateFrom, dateTo,
                         System.lineSeparator()));
