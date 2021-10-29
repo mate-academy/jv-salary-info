@@ -19,27 +19,25 @@ public class SalaryInfo {
                 .append(dateFrom).append(" - ")
                 .append(dateTo);
 
-        int salary = 0;
-        for (int i = 0; i < names.length; i++) {
-            for (int j = 0; j < data.length; j++) {
-                String[] splittedData = data[j].split(" ");
+        for (String name : names) {
+            int salary = 0;
+            for (String datas : data) {
+                String[] splittedData = datas.split(" ");
                 LocalDate testDate = LocalDate.parse(splittedData[INDEX_DATE], FORMATTER);
                 if (isWithinRange(testDate, localFrom, localTo)
-                        && names[i].equals(splittedData[INDEX_NAME])) {
+                        && name.equals(splittedData[INDEX_NAME])) {
                     salary += Integer.parseInt(splittedData[INDEX_SALARY])
                             * Integer.parseInt(splittedData[INDEX_TIMES]);
                 }
             }
             stringBuilder.append(System.lineSeparator())
-                    .append(names[i]).append(" - ")
+                    .append(name).append(" - ")
                     .append(salary);
-            salary = 0;
         }
-
         return stringBuilder.toString();
     }
 
-    private static boolean isWithinRange(LocalDate testDate, LocalDate from, LocalDate to) {
+    private boolean isWithinRange(LocalDate testDate, LocalDate from, LocalDate to) {
         return !(testDate.isBefore(from) || testDate.isAfter(to));
     }
 }
