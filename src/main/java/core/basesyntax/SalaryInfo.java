@@ -23,9 +23,7 @@ public class SalaryInfo {
                 String[] split = datum.split(" ");
                 LocalDate separateDate = LocalDate.parse(split[DATE], DATE_TIME_FORMATTER);
                 if (name.equals(split[NAME_OF_EMPLOYEE])
-                        && (separateDate.isAfter(startDate) || separateDate.equals(startDate))
-                        && (separateDate.isBefore(finishDate.plusDays(NUMBER_OF_DAYS))
-                        || separateDate.equals(finishDate))) {
+                        && separateDate.isAfter(startDate.minusDays(NUMBER_OF_DAYS) && separateDate.isBefore(finishDate.plusDays(NUMBER_OF_DAYS)) {
                     amontOfMoney += Integer.parseInt(split[WORKING_HOURS])
                             * Integer.parseInt(split[SALARY_PER_HOUR]);
                 }
