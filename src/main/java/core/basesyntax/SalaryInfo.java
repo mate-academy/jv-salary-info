@@ -10,12 +10,12 @@ public class SalaryInfo {
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         Employee[] employees = Arrays.stream(names)
-                .map(name -> new Employee(name))
+                .map(Employee::new)
                 .toArray(Employee[]::new);
 
         for (String salaryData : data) {
             String[] splittedData = salaryData.split(" ");
-            String name = splittedData[1];
+            final String name = splittedData[1];
             for (Employee employee : employees) {
                 if (employee.getName().equals(name)) {
                     String dateByData = splittedData[0];
@@ -35,8 +35,7 @@ public class SalaryInfo {
             reportBuild.append(System.lineSeparator())
                     .append(employee.getName())
                     .append(" - ")
-                    .append(employee.getSalary())
-                    .toString();
+                    .append(employee.getSalary());
         }
         return reportBuild.toString();
     }
