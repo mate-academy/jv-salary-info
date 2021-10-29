@@ -44,7 +44,7 @@ public class SalaryInfo {
         LocalDate from = LocalDate.parse(dateFrom, DATE_FORMATTER);
         LocalDate to = LocalDate.parse(dateTo, DATE_FORMATTER);
         LocalDate checkDate = LocalDate.parse(dateCheck, DATE_FORMATTER);
-        return checkDate.isAfter(from)
+        return checkDate.isAfter(from.minusDays(1))
                 && checkDate.isBefore(to.plusDays(1));
     }
 }
