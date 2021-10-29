@@ -5,6 +5,9 @@ import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     private static final DateTimeFormatter FORMAT = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final int DATE = 0;
+    private static final int WORKING_HOUR = 2;
+    private static final int PER_HOUR = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder result = new StringBuilder("Report for period ");
@@ -15,24 +18,22 @@ public class SalaryInfo {
             int salary = 0;
             result.append(name).append(" - ");
             for (String line : data) {
-                LocalDate datesInLine = LocalDate.parse(line.substring(0, 10), FORMAT);
+                LocalDate datesInLine = LocalDate.parse(line.split(" ")[DATE], FORMAT);
                 if ((startDate.isBefore(datesInLine.plusDays(1)))
                         && (datesInLine.isBefore(finishDate.plusDays(1)))
                         && line.contains(name)) {
-                    salary += getSalary(line, name);
+                    salary += getSalary(line);
                 }
             }
             result.append(salary).append(System.lineSeparator());
         }
-        result.setLength(result.length() - System.lineSeparator().length());
-        return result.toString();
+        return result.toString().trim();
     }
 
-    private int getSalary(String line, String name) {
-        int startIndexWorkingHour = line.indexOf(name) + name.length() + 1;
-        String workingHourString = line.substring(startIndexWorkingHour, line.lastIndexOf(" "));
+    private int getSalary(String line) {
+        String workingHourString = line.split(" ")[WORKING_HOUR];
         int workingHour = Integer.parseInt(workingHourString);
-        String moneyString = line.substring(line.lastIndexOf(" ") + 1, line.length());
+        String moneyString = line.split(" ")[PER_HOUR];
         int money = Integer.parseInt(moneyString);
         return workingHour * money;
     }
