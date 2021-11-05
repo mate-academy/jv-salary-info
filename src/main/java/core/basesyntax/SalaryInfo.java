@@ -6,14 +6,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SalaryInfo {
+    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        LocalDate dateFromLD = LocalDate.parse(dateFrom, DateTimeFormatter.ofPattern("dd.MM.yyyy"));
-        LocalDate dateToLD = LocalDate.parse(dateTo, DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+        LocalDate dateFromLD = LocalDate.parse(dateFrom, DATE_FORMAT);
+        LocalDate dateToLD = LocalDate.parse(dateTo, DATE_FORMAT);
         List<String> dataCut = new ArrayList<>();
         for (String dataEntry : data) {
             LocalDate entryDate = LocalDate.parse(dataEntry
                     .replaceAll("\\s\\w+\\s\\d+\\s\\d+$", ""),
-                    DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+                    DATE_FORMAT);
             if (entryDate.isEqual(dateFromLD) || entryDate.isAfter(dateFromLD)
                     && entryDate.isBefore(dateToLD) || entryDate.isEqual(dateToLD)) {
                 dataCut.add(dataEntry);
