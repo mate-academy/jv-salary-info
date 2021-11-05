@@ -1,71 +1,38 @@
 package core.basesyntax;
 
-import java.util.Arrays;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        int lower = 0;
-        int higher = 0;
-        sortData(data);
-        if (convertedDateToInt(trimDataEntryToDate(data[0]))
-                <= convertedDateToInt(dateTo)) {
-            higher = data.length;
-            for (int i = 0; i < data.length; i++) {
-                if (convertedDateToInt(trimDataEntryToDate(data[i]))
-                        >= convertedDateToInt(dateFrom)) {
-                    lower = i;
-                    break;
-                }
-            }
-            for (int i = lower; i < data.length; i++) {
-                if (convertedDateToInt(trimDataEntryToDate(data[i]))
-                        > convertedDateToInt(dateTo)) {
-                    higher = i;
-                    break;
-                }
+        LocalDate dateFromLD = LocalDate.parse(dateFrom, DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+        LocalDate dateToLD = LocalDate.parse(dateTo, DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+        List<String> dataCut = new ArrayList<>();
+        for (String dataEntry : data) {
+            LocalDate entryDate = LocalDate.parse(dataEntry
+                    .replaceAll("\\s\\w+\\s\\d+\\s\\d+$", ""),
+                    DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+            if (entryDate.isEqual(dateFromLD) || entryDate.isAfter(dateFromLD)
+                    && entryDate.isBefore(dateToLD) || entryDate.isEqual(dateToLD)) {
+                dataCut.add(dataEntry);
             }
         }
-        String[] dataCut = new String[higher - lower];
-        System.arraycopy(data, lower, dataCut, 0, higher - lower);
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
         for (String name : names) {
             stringBuilder.append(System.lineSeparator()).append(name).append(" - ");
             int sum = 0;
-            for (String workday : dataCut) {
-                if (workday.contains(name)) {
-                    sum += sumWorkday(workday);
+            for (String dataEntry : dataCut) {
+                if (dataEntry.contains(name)) {
+                    String[] entryArray = dataEntry.split(" ");
+                    sum += Integer.parseInt(entryArray[entryArray.length - 1])
+                            * Integer.parseInt(entryArray[entryArray.length - 2]);
                 }
             }
             stringBuilder.append(sum);
         }
         return stringBuilder.toString();
-    }
-
-    private int convertedDateToInt(String date) {
-        return Integer.parseInt(convertDate(date));
-    }
-
-    private String convertDate(String date) {
-        date = date.replaceAll("^(\\d+)\\D(\\d+)\\D([0-9]+)", "$3$2$1");
-        return date;
-    }
-
-    private String trimDataEntryToDate(String data) {
-        return (data.replaceAll("\\s\\w+\\s\\d+\\s\\d+$", ""));
-    }
-
-    private int sumWorkday(String workday) {
-        String numWorkday = workday.replaceAll("^\\d+\\s\\w+\\s", "");
-        return Integer.parseInt(numWorkday.replaceAll("^\\d+\\s", ""))
-                * Integer.parseInt(numWorkday.replaceAll("\\s\\d+$", ""));
-    }
-
-    private String[] sortData(String[] data) {
-        for (int i = 0; i < data.length; i++) {
-            data[i] = convertDate(data[i]);
-        }
-        Arrays.sort(data);
-        return data;
     }
 }
