@@ -17,9 +17,9 @@ public class SalaryInfo {
             for (String dataEntry : data) {
                 String[] entryArray = dataEntry.split(" ");
                 LocalDate entryDate = LocalDate.parse(entryArray[0], DATE_FORMAT);
-                if ((entryDate.isEqual(dateFromLD) || entryDate.isAfter(dateFromLD))
-                        && (entryDate.isBefore(dateToLD) || entryDate.isEqual(dateToLD))
-                        && entryArray[1].equals(name)) {
+                if (entryArray[1].equals(name) && (entryDate.isEqual(dateFromLD)
+                        || entryDate.isAfter(dateFromLD)) && (entryDate.isBefore(dateToLD)
+                        || entryDate.isEqual(dateToLD))) {
                     sum += Integer.parseInt(entryArray[2]) * Integer.parseInt(entryArray[3]);
                 }
             }
