@@ -17,8 +17,8 @@ public class SalaryInfo {
         LocalDate endDate = LocalDate.parse(dateTo, dfStandart);
 
         for (String name : names) {
-            output.append(name);
             output.append(System.lineSeparator());
+            output.append(name);
             output.append(" - ");
             int tempSalary = 0;
             for (String dt : data) {
@@ -32,7 +32,6 @@ public class SalaryInfo {
             }
             output.append(tempSalary);
         }
-        output.append(System.lineSeparator());
         return output.toString();
     }
 }
