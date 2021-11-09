@@ -1,26 +1,24 @@
 package core.basesyntax;
 
-import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
-            throws NumberFormatException, DateTimeException {
+    DateTimeFormatter dfStandart = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
+    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
 
         StringBuilder output = new StringBuilder("Report for period ");
         output.append(dateFrom);
         output.append(" - ");
         output.append(dateTo);
 
-        DateTimeFormatter dfStandart = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         LocalDate startDate = LocalDate.parse(dateFrom, dfStandart);
         LocalDate endDate = LocalDate.parse(dateTo, dfStandart);
 
         for (String name : names) {
             output.append(System.lineSeparator());
-            StringBuilder tempLine = new StringBuilder(name);
-            tempLine.append(" - ");
+            output.append(" - ");
             int tempSalary = 0;
             for (String dt : data) {
                 String[] tempData = dt.split(" ");
@@ -31,10 +29,9 @@ public class SalaryInfo {
                     }
                 }
             }
-            tempLine.append(tempSalary);
-            output.append(tempLine);
+            output.append(tempSalary);
         }
-        output.append("\n");
+        output.append(System.lineSeparator());
         return output.toString();
     }
 }
