@@ -1,6 +1,14 @@
 package core.basesyntax;
 
 public class SalaryInfo {
+    private static final int DATE_INDEX = 0;
+    private static final int NAME_INDEX = 1;
+    private static final int HOURS_INDEX = 2;
+    private static final int HOUR_INCOME_INDEX = 3;
+    private static final int DAY_INDEX = 0; //not to confuse with DATE_INDEX
+    private static final int MONTH_INDEX = 1;
+    private static final int YEAR_INDEX = 2;
+
     public String getSalaryInfo(String[] names,
                                 String[] data,
                                 String dateFrom,
@@ -10,11 +18,11 @@ public class SalaryInfo {
         int[] salary = new int[names.length];
         for (String dataLine : data) {
             String[] parsedLine = dataLine.split("\\s+");
-            int parsedDate = parseDate(parsedLine[0]);
+            int parsedDate = parseDate(parsedLine[DATE_INDEX]);
             if (parsedDate <= parsedDateTo && parsedDate >= parsedDateFrom) {
-                int employeeIndex = findEmployeeIndex(names, parsedLine[1]);
-                int moneyEarned = Integer.parseInt(parsedLine[2])
-                        * Integer.parseInt(parsedLine[3]);
+                int employeeIndex = findEmployeeIndex(names, parsedLine[NAME_INDEX]);
+                int moneyEarned = Integer.parseInt(parsedLine[HOURS_INDEX])
+                        * Integer.parseInt(parsedLine[HOUR_INCOME_INDEX]);
                 salary[employeeIndex] += moneyEarned;
             }
         }
@@ -23,9 +31,9 @@ public class SalaryInfo {
 
     private int parseDate(String date) {
         String[] parsedDate = date.split("\\.");
-        String dateString = parsedDate[2]
-                + parsedDate[1]
-                + parsedDate[0];
+        String dateString = parsedDate[YEAR_INDEX]
+                + parsedDate[MONTH_INDEX]
+                + parsedDate[DAY_INDEX];
         return Integer.parseInt(dateString);
     }
 
