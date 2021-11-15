@@ -8,11 +8,11 @@ public class DateClass {
     static final String FORMATTER = "dd.MM.yyyy";
     private DateTimeFormatter formatter;
 
-    public DateClass () {
+    public DateClass() {
         formatter = DateTimeFormatter.ofPattern(FORMATTER);
     }
 
-    public LocalDate getLocalDate (String dateValue) {
+    public LocalDate getLocalDate(String dateValue) {
         try {
             return LocalDate.parse(dateValue, formatter);
         } catch (DateTimeParseException e) {
