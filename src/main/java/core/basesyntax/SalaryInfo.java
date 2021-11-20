@@ -18,12 +18,15 @@ public class SalaryInfo {
         for (String name : names) {
             int totalSalary = 0;
             for (String stringOfData : data) {
-                LocalDate salaryDate = LocalDate.parse(parseData(stringOfData)[INDEX_SALARY_DATE], DATE_FORMATTER);
+                LocalDate salaryDate = LocalDate
+                        .parse(parseData(stringOfData)[INDEX_SALARY_DATE], DATE_FORMATTER);
                 if (stringOfData.contains(name)
                         && salaryDate.compareTo(dateFromInLocalDate) >= 0
                         && salaryDate.compareTo(dateToInLocalDate) <= 0) {
-                    Integer hoursPerDay = Integer.parseInt(parseData(stringOfData)[INDEX_HOURS_PER_DAY]);
-                    Integer incomePerHour = Integer.parseInt(parseData(stringOfData)[INDEX_INCOME_PER_HOUR]);
+                    Integer hoursPerDay = Integer
+                            .parseInt(parseData(stringOfData)[INDEX_HOURS_PER_DAY]);
+                    Integer incomePerHour = Integer
+                            .parseInt(parseData(stringOfData)[INDEX_INCOME_PER_HOUR]);
                     totalSalary += hoursPerDay * incomePerHour;
                 }
             }
