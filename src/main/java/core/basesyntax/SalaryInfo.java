@@ -10,6 +10,7 @@ public class SalaryInfo {
     private static final int INDEX_OF_PAYMENT = 3;
     private static final DateTimeFormatter formatter
             = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder buildResult = new StringBuilder("Report for period ");
         buildResult.append(dateFrom).append(" - ").append(dateTo);
