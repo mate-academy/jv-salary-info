@@ -12,16 +12,16 @@ public class SalaryInfo {
             = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        StringBuilder buildResult = new StringBuilder("Report for period ");
-        buildResult.append(dateFrom).append(" - ").append(dateTo);
+        StringBuilder reportBuilder = new StringBuilder("Report for period ");
+        reportBuilder.append(dateFrom).append(" - ").append(dateTo);
         for (String name : names) {
-            buildResult.append(System.lineSeparator())
+            reportBuilder.append(System.lineSeparator())
                     .append(name)
                     .append(" - ")
                     .append(getSalaryFromPerson(name, data, dateFrom, dateTo));
 
         }
-        return buildResult.toString().trim();
+        return reportBuilder.toString().trim();
     }
 
     private int getSalaryFromPerson(String name, String[] data, String dateFrom, String dateTo) {
