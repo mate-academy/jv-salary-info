@@ -8,15 +8,17 @@ public class SalaryInfo {
     private static final int INDEX_OF_NAME = 1;
     private static final int INDEX_OF_HOURS = 2;
     private static final int INDEX_OF_PAYMENT = 3;
-
+    private static final DateTimeFormatter formatter
+            = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder buildResult = new StringBuilder("Report for period ");
-        buildResult.append(dateFrom).append(" - ").append(dateTo).append(System.lineSeparator());
+        buildResult.append(dateFrom).append(" - ").append(dateTo);
         for (String name : names) {
-            buildResult.append(name)
+            buildResult.append(System.lineSeparator())
+                    .append(name)
                     .append(" - ")
-                    .append(getSalaryFromPerson(name, data, dateFrom, dateTo))
-                    .append(System.lineSeparator());
+                    .append(getSalaryFromPerson(name, data, dateFrom, dateTo));
+
         }
         return buildResult.toString().trim();
     }
@@ -24,25 +26,20 @@ public class SalaryInfo {
     private int getSalaryFromPerson(String name, String[] data, String dateFrom, String dateTo) {
         int totalScoreOfPerson = 0;
 
-        for (String info : data) {
-            String[] infoArr = info.split(" ");
-            if (name.equals(infoArr[INDEX_OF_NAME])) {
-                LocalDate currentDate = getDate(infoArr[INDEX_OF_DATE]);
-                LocalDate workFrom = getDate(dateFrom);
-                LocalDate workTo = getDate(dateTo);
+        for (String infoFromData : data) {
+            String[] info = infoFromData.split(" ");
+            if (name.equals(info[INDEX_OF_NAME])) {
+                LocalDate currentDate = LocalDate.parse(info[INDEX_OF_DATE], formatter);
+                LocalDate workFrom = LocalDate.parse(dateFrom, formatter);
+                LocalDate workTo = LocalDate.parse(dateTo, formatter);
 
                 if ((currentDate.isBefore(workTo) || currentDate.isEqual(workTo))
                         && (currentDate.isAfter(workFrom)) || currentDate.isEqual(workFrom)) {
-                    totalScoreOfPerson += (Integer.parseInt(infoArr[INDEX_OF_HOURS])
-                            * Integer.parseInt(infoArr[INDEX_OF_PAYMENT]));
+                    totalScoreOfPerson += (Integer.parseInt(info[INDEX_OF_HOURS])
+                            * Integer.parseInt(info[INDEX_OF_PAYMENT]));
                 }
             }
         }
         return totalScoreOfPerson;
-    }
-
-    public LocalDate getDate(String date) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        return LocalDate.parse(date, formatter);
     }
 }
