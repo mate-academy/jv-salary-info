@@ -26,7 +26,6 @@ public class SalaryInfo {
 
     private int getSalaryFromPerson(String name, String[] data, String dateFrom, String dateTo) {
         int totalScoreOfPerson = 0;
-
         for (String infoFromData : data) {
             String[] info = infoFromData.split(" ");
             if (name.equals(info[INDEX_OF_NAME])) {
