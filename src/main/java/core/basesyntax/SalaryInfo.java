@@ -4,8 +4,10 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
+    static final String CONSTANT_FORMAT = "dd.MM.yyyy";
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(CONSTANT_FORMAT);
         LocalDate startDate = LocalDate.parse(dateFrom, formatter).minusDays(1);
         LocalDate finishDate = LocalDate.parse(dateTo, formatter).plusDays(1);
         StringBuilder builder = new StringBuilder("Report for period " + dateFrom + " - " + dateTo);
