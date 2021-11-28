@@ -16,7 +16,7 @@ public class SalaryInfo {
             for (String datum : data) {
                 int days = Integer.parseInt(datum.split(" ")[2]);
                 int price = Integer.parseInt(datum.split(" ")[3]);
-                String nameTemp = datum.substring(11, 11 + name.length());
+                String nameTemp = datum.split(" ")[1];
                 LocalDate dataTemp = LocalDate.parse(datum.split(" ")[0], formatter);
                 if (dataTemp.isAfter(startDate) && dataTemp.isBefore(finishDate)
                         && name.equals(nameTemp)) {
