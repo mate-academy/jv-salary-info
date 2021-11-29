@@ -1,35 +1,25 @@
 package core.basesyntax;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
-            throws ParseException {
-
+    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         int[] salary = new int[names.length];
-
-        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
-
-        Date date = new Date();
-
-        Date startDate = format.parse(dateFrom);
-
-        Date endDate = format.parse(dateTo);
-
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        LocalDate startDate = LocalDate.parse(dateFrom, formatter);
+        LocalDate endDate = LocalDate.parse(dateTo, formatter);
         String finalResult = "Report for period "
                 + dateFrom + " - "
                 + dateTo
                 + System.lineSeparator();;
-
         for (int i = 0; i < names.length; i++) {
             for (int j = 0; j < data.length; j++) {
                 if (data[j].contains(names[i])
-                        & (format.parse(data[j].split(" ")[0]).before(endDate)
-                        | format.parse(data[j].split(" ")[0]).equals(endDate))
-                        & (format.parse(data[j].split(" ")[0]).after(startDate)
-                        | format.parse(data[j].split(" ")[0]).equals(startDate))) {
+                        && (LocalDate.parse(data[j].split(" ")[0], formatter).isBefore(endDate)
+                        || LocalDate.parse(data[j].split(" ")[0], formatter).equals(endDate))
+                        && (LocalDate.parse(data[j].split(" ")[0], formatter).isAfter(startDate)
+                        || LocalDate.parse(data[j].split(" ")[0], formatter).equals(startDate))) {
                     int incomePH = Integer.parseInt(
                             data[j].substring(data[j].lastIndexOf(" ") + 1));
                     String hoursSplit = data[j].substring(0,data[j].lastIndexOf(" "));
