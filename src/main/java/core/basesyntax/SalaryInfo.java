@@ -30,14 +30,10 @@ public class SalaryInfo {
                             * Integer.parseInt(arrayFromLine[INDEX_OF_PAYMENT]);
                 }
             }
-            if (i == names.length - 1) {
-                result.append(names[i]).append(" - ").append(salary);
-                break;
-            }
             result.append(names[i]).append(" - ").append(salary)
                     .append(System.lineSeparator());
             salary = 0;
         }
-        return result.toString();
+        return result.toString().trim();
     }
 }
