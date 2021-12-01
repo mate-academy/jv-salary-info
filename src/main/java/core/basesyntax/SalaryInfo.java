@@ -11,6 +11,8 @@ public class SalaryInfo {
             return "";
         }
         StringBuilder report = new StringBuilder();
+        LocalDate start = LocalDate.parse(dateFrom, dateTimeFormatter);
+        LocalDate end = LocalDate.parse(dateTo, dateTimeFormatter);
 
         report.append("Report for period ").append(dateFrom).append(" - ")
                 .append(dateTo).append(System.lineSeparator());
@@ -19,8 +21,7 @@ public class SalaryInfo {
             report.append(names[i]).append(" - ");
             for (int j = 0; j < data.length; j++) {
                 String [] result = data[j].split(" ");
-                LocalDate start = LocalDate.parse(dateFrom, dateTimeFormatter);
-                LocalDate end = LocalDate.parse(dateTo, dateTimeFormatter);
+
                 LocalDate dateOfArray =
                         LocalDate.parse(result[0], dateTimeFormatter);
                 if ((dateOfArray.isAfter(start) || start.equals(dateOfArray))
