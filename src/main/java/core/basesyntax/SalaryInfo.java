@@ -24,7 +24,7 @@ public class SalaryInfo {
             if (checkDate(content[0], dateFrom, dateTo)) {
 
                 int result = 0;
-                int addSalar ;
+                int addSalar;
                 addSalar = Integer.parseInt(content[2]) * Integer.parseInt(content[3]);
                 indexArray = indexOfArray(employeesArray, content[1]);
                 if (indexArray >= 0) {
