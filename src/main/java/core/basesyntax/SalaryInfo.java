@@ -1,11 +1,11 @@
 package core.basesyntax;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    private SimpleDateFormat stringToDate = new SimpleDateFormat("dd.MM.yyyy");
+    //private SimpleDateFormat stringToDate = new SimpleDateFormat("dd.MM.yyyy");
+    private DateTimeFormatter formatDate = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder stringBuilder = new StringBuilder();
@@ -22,8 +22,6 @@ public class SalaryInfo {
             String[] content = curent.split(" ");
             int indexArray;
             if (checkDate(content[0], dateFrom, dateTo)) {
-
-                int result = 0;
                 int addSalar;
                 addSalar = Integer.parseInt(content[2]) * Integer.parseInt(content[3]);
                 indexArray = indexOfArray(employeesArray, content[1]);
@@ -41,14 +39,13 @@ public class SalaryInfo {
 
     private boolean checkDate(String checkedDate, String from, String to) {
         try {
-            Date curentDate = stringToDate.parse(checkedDate);
-            Date dateFrom = stringToDate.parse(from);
-            Date dateTo = stringToDate.parse(to);
-
+            LocalDate curentDate = LocalDate.parse(checkedDate, formatDate);
+            LocalDate dateFrom = LocalDate.parse(from, formatDate);
+            LocalDate dateTo = LocalDate.parse(to, formatDate);
             if (curentDate.compareTo(dateFrom) >= 0 && curentDate.compareTo(dateTo) <= 0) {
                 return true;
             }
-        } catch (ParseException e) {
+        } catch (IllegalArgumentException e) {
             System.out.println("input data error");
         }
         return false;
