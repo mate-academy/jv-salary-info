@@ -32,8 +32,7 @@ public class SalaryInfo {
                                 * Integer.parseInt(info[QUOTIENT_INDEX]);
                     }
                 } catch (DateTimeException e) {
-                    System.out.println("Date is not parsable");
-                    throw e;
+                    throw new RuntimeException("Date is not parsable", e);
                 }
             }
             salaryInfo.append(System.lineSeparator())
