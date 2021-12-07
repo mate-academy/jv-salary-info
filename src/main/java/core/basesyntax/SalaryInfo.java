@@ -25,9 +25,11 @@ public class SalaryInfo {
                     LocalDate localDateFrom = LocalDate.parse(dateFrom, formatter);
                     LocalDate localDateTo = LocalDate.parse(dateTo, formatter);
                     LocalDate localDate = LocalDate.parse(info[DATE_INDEX], formatter);
-                    if (localDate.isAfter(localDateFrom) && localDate.isBefore(localDateTo.plusDays(1))
+                    if (localDate.isAfter(localDateFrom)
+                            && localDate.isBefore(localDateTo.plusDays(1))
                             && (names[i].equals(info[NAME_INDEX]))) {
-                        salary[i] += Integer.parseInt(info[RATE_INDEX]) * Integer.parseInt(info[QUOTIENT_INDEX]);
+                        salary[i] += Integer.parseInt(info[RATE_INDEX])
+                                * Integer.parseInt(info[QUOTIENT_INDEX]);
                     }
                 } catch (DateTimeException e) {
                     System.out.println("Date is not parsable");
