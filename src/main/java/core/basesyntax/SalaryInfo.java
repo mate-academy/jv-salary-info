@@ -9,14 +9,12 @@ public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate localDateFrom = LocalDate.parse(dateFrom, FORMATTER);
         LocalDate localDateTo = LocalDate.parse(dateTo, FORMATTER);
-        String[] dataLineSplit;
-        LocalDate dataLineDate;
         int[] salary = new int[names.length];
         for (int i = 0; i < names.length; i++) {
             salary[i] = 0;
             for (String dataLine : data) {
-                dataLineSplit = dataLine.split(" ");
-                dataLineDate = LocalDate.parse(dataLineSplit[0], FORMATTER);
+                String[] dataLineSplit = dataLine.split(" ");
+                LocalDate dataLineDate = LocalDate.parse(dataLineSplit[0], FORMATTER);
                 if ((dataLineDate.isAfter(localDateFrom)
                         || dataLineDate.equals(localDateFrom))
                         && (dataLineDate.isBefore(localDateTo)
@@ -29,14 +27,10 @@ public class SalaryInfo {
         }
         StringBuilder builder = new StringBuilder("");
         builder.append("Report for period ").append(dateFrom).append(" - ")
-                .append(dateTo).append(System.lineSeparator());
+                .append(dateTo);
         for (int i = 0; i < names.length; i++) {
-            if (i != names.length - 1) {
-                builder.append(names[i]).append(" - ").append(salary[i])
-                        .append(System.lineSeparator());
-            } else {
-                builder.append(names[i]).append(" - ").append(salary[i]);
-            }
+            builder.append(System.lineSeparator()).append(names[i]).append(" - ")
+                    .append(salary[i]);
         }
         return builder.toString();
     }
