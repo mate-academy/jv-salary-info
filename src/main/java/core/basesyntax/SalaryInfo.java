@@ -6,9 +6,7 @@ import java.time.format.DateTimeFormatter;
 public class SalaryInfo {
 
     //set global formatter for date
-    static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-    //declare new line separator
-    static final String n = System.lineSeparator();
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
 
@@ -42,7 +40,8 @@ public class SalaryInfo {
         }
 
         for (int i = 0; i < names.length; i++) {
-            reportString.append(n).append(names[i]).append(" - ").append(salarySum[i]);
+            reportString.append(System.lineSeparator())
+                    .append(names[i]).append(" - ").append(salarySum[i]);
         }
 
         return reportString.toString();
