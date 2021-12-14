@@ -2,7 +2,6 @@ package core.basesyntax;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 
 public class SalaryInfo {
     private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
@@ -17,21 +16,16 @@ public class SalaryInfo {
         for (String name: names) {
             int salaryFromPeriod = 0;
             for (int i = 0; i < data.length; i++) {
-                try {
-                    String[] splitDataArray = data[i].split(" ");
-                    LocalDate localDate =
-                            LocalDate.parse(splitDataArray[0], dateTimeFormatter);
-                    if (localDate.isAfter(localDateIsAfter)
-                            && (localDate.isBefore(localDateIsBefore)
-                            || localDate.equals(localDateIsBefore))
-                            && splitDataArray[1].equals(name)) {
-                        salaryFromPeriod +=
-                                Integer.parseInt(splitDataArray[2])
-                                        * Integer.parseInt(splitDataArray[3]);
-                    }
-                } catch (DateTimeParseException dateTimeParseException) {
-                    System.out.printf("%s is not parsable!%n", data[i]);
-                    throw dateTimeParseException;
+                String[] splitDataArray = data[i].split(" ");
+                LocalDate localDate =
+                        LocalDate.parse(splitDataArray[0], dateTimeFormatter);
+                if (localDate.isAfter(localDateIsAfter)
+                        && (localDate.isBefore(localDateIsBefore)
+                        || localDate.equals(localDateIsBefore))
+                        && splitDataArray[1].equals(name)) {
+                    salaryFromPeriod +=
+                            Integer.parseInt(splitDataArray[2])
+                                    * Integer.parseInt(splitDataArray[3]);
                 }
             }
             sbReport.append(System.lineSeparator())
