@@ -1,4 +1,4 @@
-# jv-salary-info
+.# jv-salary-info
 
 Implement method `getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)`. It should calculate 
 salary for employees. As input you receive two arrays and two dates in String format. 
