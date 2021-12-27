@@ -5,28 +5,59 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 public class SalaryInfo {
+
     public static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
+    public static void main(String[] args) {
+        String[] sampleNames = {"John", "Andrew", "Kate"};
+        String[] nullNames = null;
+        String[] scriptArray = {
+                "25.04.2019 John 60 50",
+                "25.04.2019 Andrew 3 200",
+                "25.04.2019 Kate 10 100",
+
+                "26.04.2019 Andrew 3 200",
+                "26.04.2019 Kate 9 100",
+
+                "27.04.2019 John 7 100",
+                "27.04.2019 Kate 3 80",
+                "27.04.2019 Andrew 8 100"
+        };
+        SalaryInfo salaryInfo = new SalaryInfo();
+        System.out.println(salaryInfo.getSalaryInfo(sampleNames, scriptArray,
+                "23.04.2019", "29.04.2019"));
+        System.out.println(salaryInfo.getSalaryInfo(nullNames, scriptArray,
+                "23.04.2019", "29.04.2019"));
+    }
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         if (names == null) {
-            throw new NullPointerException("names is null");
+            throw new IllegalArgumentException("Illegal argument 'names'",
+                    new NullPointerException("'names' couldn't be null"));
         }
         if (data == null) {
-            throw new NullPointerException("data is null");
+            throw new IllegalArgumentException("Illegal argument 'names'",
+                    new NullPointerException("'data' couldn't be null"));
         }
         if (dateFrom == null) {
-            throw new NullPointerException("dateFrom is null");
+            throw new IllegalArgumentException("Illegal argument 'dateFrom'",
+                    new NullPointerException("'dateFrom' couldn't be null"));
         }
         if (dateTo == null) {
-            throw new NullPointerException("dateTo is null");
+            throw new IllegalArgumentException("Illegal argument 'dateTo'",
+                    new NullPointerException("'dateTo' couldn't be null"));
         }
         LocalDate from;
         LocalDate to;
         try {
             from = parseDate(dateFrom);
+        } catch (DateTimeParseException e) {
+            throw new IllegalArgumentException("Illegal argument 'dateFrom'", e);
+        }
+        try {
             to = parseDate(dateTo);
         } catch (DateTimeParseException e) {
-            throw e;
+            throw new IllegalArgumentException("Illegal argument 'dateTo'", e);
         }
         int[] salary = new int[names.length];
         for (String record : data) {
@@ -34,13 +65,6 @@ public class SalaryInfo {
             if (token.length != 4) {
                 continue;
             }
-            /*
-                sample: 05.04.2019 Andrew 3 200
-                token[0] - date;
-                token[1] - name;
-                token[2] - working hour;
-                token[3] - income per hour.
-            */
             LocalDate localDate;
             String name;
             int workHour;
