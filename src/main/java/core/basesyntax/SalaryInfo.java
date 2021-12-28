@@ -8,45 +8,7 @@ public class SalaryInfo {
 
     public static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
-    public static void main(String[] args) {
-        String[] sampleNames = {"John", "Andrew", "Kate"};
-        String[] nullNames = null;
-        String[] scriptArray = {
-                "25.04.2019 John 60 50",
-                "25.04.2019 Andrew 3 200",
-                "25.04.2019 Kate 10 100",
-
-                "26.04.2019 Andrew 3 200",
-                "26.04.2019 Kate 9 100",
-
-                "27.04.2019 John 7 100",
-                "27.04.2019 Kate 3 80",
-                "27.04.2019 Andrew 8 100"
-        };
-        SalaryInfo salaryInfo = new SalaryInfo();
-        System.out.println(salaryInfo.getSalaryInfo(sampleNames, scriptArray,
-                "23.04.2019", "29.04.2019"));
-        System.out.println(salaryInfo.getSalaryInfo(nullNames, scriptArray,
-                "23.04.2019", "29.04.2019"));
-    }
-
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        if (names == null) {
-            throw new IllegalArgumentException("Illegal argument 'names'",
-                    new NullPointerException("'names' couldn't be null"));
-        }
-        if (data == null) {
-            throw new IllegalArgumentException("Illegal argument 'names'",
-                    new NullPointerException("'data' couldn't be null"));
-        }
-        if (dateFrom == null) {
-            throw new IllegalArgumentException("Illegal argument 'dateFrom'",
-                    new NullPointerException("'dateFrom' couldn't be null"));
-        }
-        if (dateTo == null) {
-            throw new IllegalArgumentException("Illegal argument 'dateTo'",
-                    new NullPointerException("'dateTo' couldn't be null"));
-        }
         LocalDate from;
         LocalDate to;
         try {
@@ -63,7 +25,8 @@ public class SalaryInfo {
         for (String record : data) {
             String[] token = record.trim().split(" ");
             if (token.length != 4) {
-                continue;
+                throw new IllegalArgumentException("Illegal argument 'data'. Couldn't"
+                        + "parse '" + record + "'");
             }
             LocalDate localDate;
             String name;
@@ -72,7 +35,7 @@ public class SalaryInfo {
             try {
                 localDate = parseDate(token[0]);
             } catch (DateTimeParseException e) {
-                continue;
+                throw new IllegalArgumentException("Illegal argument 'data'", e);
             }
             if ((localDate.compareTo(from) < 0) || (localDate.compareTo(to) > 0)) {
                 continue;
@@ -91,18 +54,24 @@ public class SalaryInfo {
             try {
                 workHour = Integer.parseInt(token[2]);
             } catch (NumberFormatException e) {
-                continue;
+                throw new IllegalArgumentException("Illegal argument 'data'", e);
             }
             if (workHour < 0) {
-                continue;
+                throw new IllegalArgumentException("Illegal argument 'data'. "
+                        + "Working hours couldn't by negative:"
+                        + System.lineSeparator()
+                        + "'" + record + "'");
             }
             try {
                 income = Integer.parseInt(token[3]);
             } catch (NumberFormatException e) {
-                continue;
+                throw new IllegalArgumentException("Illegal argument 'data'", e);
             }
             if (income < 0) {
-                continue;
+                throw new IllegalArgumentException("Illegal argument 'data'. "
+                        + "Income per hour couldn't by negative:"
+                        + System.lineSeparator()
+                        + "'" + record + "'");
             }
             salary[namesIndex] += income * workHour;
         }
