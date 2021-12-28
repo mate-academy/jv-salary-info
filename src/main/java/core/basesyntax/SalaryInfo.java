@@ -2,7 +2,6 @@ package core.basesyntax;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 
 public class SalaryInfo {
 
@@ -11,16 +10,8 @@ public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate from;
         LocalDate to;
-        try {
-            from = parseDate(dateFrom);
-        } catch (DateTimeParseException e) {
-            throw new IllegalArgumentException("Illegal argument 'dateFrom'", e);
-        }
-        try {
-            to = parseDate(dateTo);
-        } catch (DateTimeParseException e) {
-            throw new IllegalArgumentException("Illegal argument 'dateTo'", e);
-        }
+        from = parseDate(dateFrom);
+        to = parseDate(dateTo);
         int[] salary = new int[names.length];
         for (String record : data) {
             String[] token = record.trim().split(" ");
@@ -30,13 +21,7 @@ public class SalaryInfo {
             }
             LocalDate localDate;
             String name;
-            int workHour;
-            int income;
-            try {
-                localDate = parseDate(token[0]);
-            } catch (DateTimeParseException e) {
-                throw new IllegalArgumentException("Illegal argument 'data'", e);
-            }
+            localDate = parseDate(token[0]);
             if ((localDate.compareTo(from) < 0) || (localDate.compareTo(to) > 0)) {
                 continue;
             }
@@ -51,22 +36,16 @@ public class SalaryInfo {
             if (namesIndex < 0) {
                 continue;
             }
-            try {
-                workHour = Integer.parseInt(token[2]);
-            } catch (NumberFormatException e) {
-                throw new IllegalArgumentException("Illegal argument 'data'", e);
-            }
+            int workHour;
+            workHour = Integer.parseInt(token[2]);
             if (workHour < 0) {
                 throw new IllegalArgumentException("Illegal argument 'data'. "
                         + "Working hours couldn't by negative:"
                         + System.lineSeparator()
                         + "'" + record + "'");
             }
-            try {
-                income = Integer.parseInt(token[3]);
-            } catch (NumberFormatException e) {
-                throw new IllegalArgumentException("Illegal argument 'data'", e);
-            }
+            int income;
+            income = Integer.parseInt(token[3]);
             if (income < 0) {
                 throw new IllegalArgumentException("Illegal argument 'data'. "
                         + "Income per hour couldn't by negative:"
