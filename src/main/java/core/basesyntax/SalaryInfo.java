@@ -5,9 +5,10 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 public class SalaryInfo {
-    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
+    private static final DateTimeFormatter dateTimeFormatter
+            = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
-        final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder sbReport
                 = new StringBuilder("Report for period " + dateFrom + " - " + dateTo);
         LocalDate localDateIsAfter
@@ -29,7 +30,6 @@ public class SalaryInfo {
                                 * Integer.parseInt(splitDataArray[3]);
                     }
                 } catch (DateTimeParseException dateTimeParseException) {
-                    System.out.printf("%s is not parsable!%n", data[i]);
                     throw dateTimeParseException;
                 }
             }
