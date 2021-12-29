@@ -22,6 +22,10 @@ public class SalaryInfo {
         return Integer.parseInt(first[0]) <= Integer.parseInt(second[0]);
     }
 
+    public boolean isDateBetweenDates(String firstDate, String date, String secondDate) {
+        return isLessOrEqual(firstDate, date) && isLessOrEqual(date, secondDate);
+    }
+
     public int findIndexOfName(String[] names, String name) {
         for (int i = 0; i < names.length; i++) {
             if (names[i].equals(name)) {
@@ -37,11 +41,8 @@ public class SalaryInfo {
         for (String info : data) {
             String[] separatedInfo = info.split(" ");
             //data check
-            if (Validator.isNotNull(separatedInfo[0], dateTo, dateFrom)
-                    && Validator.isCorrectDateLength(separatedInfo[0], dateTo, dateFrom)
-                    && Validator.isDateContainsOnlyNumbers(separatedInfo[0], dateTo, dateFrom)) {
-                if (isLessOrEqual(separatedInfo[0], dateTo)
-                        && isLessOrEqual(dateFrom, separatedInfo[0])) {
+            if (Validator.isValidDate(separatedInfo[0], dateTo, dateFrom)) {
+                if (isDateBetweenDates(dateFrom, separatedInfo[0], dateTo)) {
                     if (Validator.isNumbers(separatedInfo[2], separatedInfo[3])) {
                         salaries[findIndexOfName(names, separatedInfo[1])]
                                 += Integer.parseInt(separatedInfo[2])
