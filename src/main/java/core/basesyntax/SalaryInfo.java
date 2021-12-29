@@ -33,6 +33,7 @@ public class SalaryInfo {
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         int[] salaries = new int[names.length];
+
         for (String info : data) {
             String[] separatedInfo = info.split(" ");
             if (isLessOrEqual(separatedInfo[0], dateTo)
@@ -41,10 +42,12 @@ public class SalaryInfo {
                         += Integer.parseInt(separatedInfo[2]) * Integer.parseInt(separatedInfo[3]);
             }
         }
-        String result = "Report for period " + dateFrom + " - " + dateTo;
+
+        StringBuilder result = new StringBuilder("Report for period " + dateFrom + " - " + dateTo);
+
         for (int i = 0; i < names.length; i++) {
-            result += System.lineSeparator() + names[i] + " - " + salaries[i];
+            result.append(System.lineSeparator()).append(names[i]).append(" - ").append(salaries[i]);
         }
-        return result;
+        return result.toString();
     }
 }
