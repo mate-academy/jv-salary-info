@@ -36,17 +36,26 @@ public class SalaryInfo {
 
         for (String info : data) {
             String[] separatedInfo = info.split(" ");
-            if (isLessOrEqual(separatedInfo[0], dateTo)
-                    && isLessOrEqual(dateFrom, separatedInfo[0])) {
-                salaries[findIndexOfName(names, separatedInfo[1])]
-                        += Integer.parseInt(separatedInfo[2]) * Integer.parseInt(separatedInfo[3]);
+            //data check
+            if (Validator.isNotNull(separatedInfo[0], dateTo, dateFrom)
+                    && Validator.isCorrectDateLength(separatedInfo[0], dateTo, dateFrom)
+                    && Validator.isDateContainsOnlyNumbers(separatedInfo[0], dateTo, dateFrom)) {
+                if (isLessOrEqual(separatedInfo[0], dateTo)
+                        && isLessOrEqual(dateFrom, separatedInfo[0])) {
+                    if (Validator.isNumbers(separatedInfo[2], separatedInfo[3])) {
+                        salaries[findIndexOfName(names, separatedInfo[1])]
+                                += Integer.parseInt(separatedInfo[2])
+                                * Integer.parseInt(separatedInfo[3]);
+                    }
+                }
             }
         }
 
         StringBuilder result = new StringBuilder("Report for period " + dateFrom + " - " + dateTo);
 
         for (int i = 0; i < names.length; i++) {
-            result.append(System.lineSeparator()).append(names[i]).append(" - ").append(salaries[i]);
+            result.append(System.lineSeparator())
+                    .append(names[i]).append(" - ").append(salaries[i]);
         }
         return result.toString();
     }
