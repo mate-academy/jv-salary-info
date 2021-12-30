@@ -41,14 +41,12 @@ public class SalaryInfo {
         for (String info : data) {
             String[] separatedInfo = info.split(" ");
             //data check
-            if (Validator.isValidDate(separatedInfo[0], dateTo, dateFrom)) {
-                if (isDateBetweenDates(dateFrom, separatedInfo[0], dateTo)) {
-                    if (Validator.isNumbers(separatedInfo[2], separatedInfo[3])) {
-                        salaries[findIndexOfName(names, separatedInfo[1])]
-                                += Integer.parseInt(separatedInfo[2])
-                                * Integer.parseInt(separatedInfo[3]);
-                    }
-                }
+            if (Validator.isValidDate(separatedInfo[0], dateTo, dateFrom)
+                    && isDateBetweenDates(dateFrom, separatedInfo[0], dateTo)
+                    && Validator.isNumbers(separatedInfo[2], separatedInfo[3])) {
+                salaries[findIndexOfName(names, separatedInfo[1])]
+                        += Integer.parseInt(separatedInfo[2])
+                        * Integer.parseInt(separatedInfo[3]);
             }
         }
 
