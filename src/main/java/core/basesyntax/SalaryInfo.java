@@ -1,25 +1,20 @@
 package core.basesyntax;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    private int[] salary = null;
-
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        salary = new int[names.length];
-        splitData(names, data, dateFrom, dateTo);
-        StringBuffer dateInfo = new StringBuffer();
-        StringBuffer salaryInfo = new StringBuffer();
+        StringBuilder dateInfo = new StringBuilder();
+        StringBuilder salaryInfo = new StringBuilder();
         dateInfo.append("Report for period ")
                 .append(dateFrom)
                 .append(" - ").append(dateTo)
                 .append("\n");
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < names.length; i++) {
             salaryInfo.append(names[i])
                     .append(" - ")
-                    .append(salary[i]);
+                    .append(salaryByName(names[i], data, dateFrom, dateTo));
             if (i != 2) {
                 salaryInfo.append("\n");
             }
@@ -27,44 +22,30 @@ public class SalaryInfo {
         return dateInfo.toString() + salaryInfo.toString();
     }
 
-    private void splitData(String[] names, String[] data, String dateFrom, String dateTo) {
-        Date dateFromPeriod = parseDate(dateFrom);
-        Date dateToPeriod = parseDate(dateTo);
+    private int salaryByName(String name, String[] data, String dateFrom, String dateTo) {
+        LocalDate dateFromPeriod = parseDate(dateFrom);
+        LocalDate dateToPeriod = parseDate(dateTo);
+        int salary = 0;
         for (String line : data) {
             String[] splitLine = line.split(" ");
-            Date dateCurrentLine = parseDate(splitLine[0]);
-            if (isDateInInterval(dateCurrentLine, dateFromPeriod, dateToPeriod)) {
-                assignSalary(names, splitLine[1], splitLine[2], splitLine[3]);
+            LocalDate dateCurrentLine = parseDate(splitLine[0]);
+            if (name.equals(splitLine[1])
+                    && isDateInInterval(dateCurrentLine, dateFromPeriod, dateToPeriod)) {
+                salary += Integer.parseInt(splitLine[2]) * Integer.parseInt(splitLine[3]);
             }
         }
+        return salary;
     }
 
-    private Date parseDate(String dateString) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-        Date date = null;
-
-        try {
-            date = dateFormat.parse(dateString);
-        } catch (ParseException e) {
-            System.out.println("Can't parse the date" + e);
-        }
+    private LocalDate parseDate(String dateString) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        LocalDate date = LocalDate.parse(dateString, formatter);
         return date;
     }
 
-    private Boolean isDateInInterval(Date dateNow, Date dateFrom, Date dateTo) {
-        return (dateNow.after(dateFrom) || dateNow.equals(dateFrom))
-                && (dateNow.before(dateTo) || dateNow.equals(dateTo));
-    }
-
-    private void assignSalary(String[] name, String nameWorker, String numberOfHours,
-                              String salaryFromHour) {
-        int numberHours = Integer.parseInt(numberOfHours);
-        int salaryHour = Integer.parseInt(salaryFromHour);
-        for (int i = 0; i < name.length; i++) {
-            if (nameWorker.equals(name[i])) {
-                salary[i] += numberHours * salaryHour;
-                break;
-            }
-        }
+    private Boolean isDateInInterval(LocalDate dateNow, LocalDate dateFrom, LocalDate dateTo) {
+        return (dateNow.isAfter(dateFrom) || dateNow.isEqual(dateFrom))
+                && (dateNow.isBefore(dateTo) || dateNow.isEqual(dateTo));
     }
 }
+
