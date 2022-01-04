@@ -2,7 +2,6 @@ package core.basesyntax;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 
 public class SalaryInfo {
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
@@ -15,17 +14,13 @@ public class SalaryInfo {
         for (String name : names) {
             int salary = 0;
             builder.append(name).append(" - ");
-            for (String pr : data) {
-                String[] array = pr.split(" ");
+            for (String record : data) {
+                String[] array = record.split(" ");
                 if (name.equals(array[1])) {
-                    try {
-                        LocalDate date = LocalDate.parse(array[0], formatter);
-                        if (date.isAfter(dateFromPeriod) && date.isBefore(dateToPeriod)
-                                || date.equals(dateFromPeriod) || date.equals(dateToPeriod)) {
-                            salary += Integer.parseInt(array[2]) * Integer.parseInt(array[3]);
-                        }
-                    } catch (DateTimeParseException e) {
-                        throw new IllegalArgumentException("Invalid format for date", e);
+                    LocalDate date = LocalDate.parse(array[0], formatter);
+                    if (date.isAfter(dateFromPeriod) && date.isBefore(dateToPeriod)
+                            || date.equals(dateFromPeriod) || date.equals(dateToPeriod)) {
+                        salary += Integer.parseInt(array[2]) * Integer.parseInt(array[3]);
                     }
                 }
             }
