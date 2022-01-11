@@ -56,15 +56,14 @@ public class SalaryInfo {
     public static final int SALARY_INDEX = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        Date from = null;
-        Date to = null;
+        Date from;
+        Date to;
 
         try {
             from = DATE_FORMAT.parse(dateFrom);
             to = DATE_FORMAT.parse(dateTo);
         } catch (ParseException exception) {
-            System.out.println(ERROR_MESSAGE);
-            exception.printStackTrace();
+            throw new RuntimeException(ERROR_MESSAGE);
         }
 
         StringBuilder builder = new StringBuilder();
@@ -86,8 +85,7 @@ public class SalaryInfo {
                                 * Integer.parseInt(parsedData[SALARY_INDEX]);
                     }
                 } catch (ParseException exception) {
-                    System.out.println(ERROR_MESSAGE);
-                    exception.printStackTrace();
+                    throw new RuntimeException(ERROR_MESSAGE);
                 }
             }
 
