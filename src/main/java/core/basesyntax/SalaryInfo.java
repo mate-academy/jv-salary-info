@@ -1,5 +1,10 @@
 package core.basesyntax;
 
+import core.basesyntax.exception.IllegalDateParametersException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class SalaryInfo {
     /**
      * <p>Реализуйте метод getSalaryInfo(String[] names, String[] data,
@@ -39,8 +44,49 @@ public class SalaryInfo {
      * Андрей - 600
      * София - 900</p>
      */
+
+    public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
+    public static final String ERROR_MESSAGE = "Wrong parameters";
+    public static final String PREFIX_START = "Отчёт за период ";
+    public static final String PREFIX_MIDDLE = " - ";
+    public static final String SPLIT_REGEX = " ";
+    public static final String NEXT_LINE = "\n";
+    public static final int DATE_INDEX = 0;
+    public static final int NAME_INDEX = 1;
+    public static final int HOURS_INDEX = 2;
+    public static final int SALARY_INDEX = 3;
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
-            throws Exception {
-        return null;
+            throws IllegalDateParametersException, ParseException {
+        Date from = DATE_FORMAT.parse(dateFrom);
+        Date to = DATE_FORMAT.parse(dateTo);
+
+        if (from.after(to) || from.equals(to)) {
+            throw new IllegalDateParametersException(ERROR_MESSAGE);
+        }
+
+        StringBuilder builder = new StringBuilder();
+        builder.append(PREFIX_START).append(dateFrom).append(PREFIX_MIDDLE).append(dateTo);
+
+        for (String name : names) {
+            builder.append(NEXT_LINE).append(name).append(PREFIX_MIDDLE);
+            int salary = 0;
+
+            for (String datum : data) {
+                String[] parsedData = datum.split(SPLIT_REGEX);
+                if (parsedData[NAME_INDEX].equals(name)
+                        && (DATE_FORMAT.parse(parsedData[DATE_INDEX]).after(from)
+                        || DATE_FORMAT.parse(parsedData[DATE_INDEX]).equals(from))
+                        && (DATE_FORMAT.parse(parsedData[DATE_INDEX]).before(to)
+                        || DATE_FORMAT.parse(parsedData[DATE_INDEX]).equals(to))) {
+                    salary += Integer.parseInt(parsedData[HOURS_INDEX])
+                            * Integer.parseInt(parsedData[SALARY_INDEX]);
+                }
+            }
+
+            builder.append(salary);
+        }
+
+        return builder.toString();
     }
 }
