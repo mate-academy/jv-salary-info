@@ -1,6 +1,5 @@
 package core.basesyntax;
 
-import core.basesyntax.exception.IllegalDateParametersException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -47,7 +46,7 @@ public class SalaryInfo {
 
     public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
     public static final String ERROR_MESSAGE = "Wrong parameters";
-    public static final String PREFIX_START = "Отчёт за период ";
+    public static final String PREFIX_START = "Report for period ";
     public static final String PREFIX_MIDDLE = " - ";
     public static final String SPLIT_REGEX = " ";
     public static final String NEXT_LINE = "\n";
@@ -56,13 +55,16 @@ public class SalaryInfo {
     public static final int HOURS_INDEX = 2;
     public static final int SALARY_INDEX = 3;
 
-    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
-            throws IllegalDateParametersException, ParseException {
-        Date from = DATE_FORMAT.parse(dateFrom);
-        Date to = DATE_FORMAT.parse(dateTo);
+    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
+        Date from = null;
+        Date to = null;
 
-        if (from.after(to) || from.equals(to)) {
-            throw new IllegalDateParametersException(ERROR_MESSAGE);
+        try {
+            from = DATE_FORMAT.parse(dateFrom);
+            to = DATE_FORMAT.parse(dateTo);
+        } catch (ParseException exception) {
+            System.out.println(ERROR_MESSAGE);
+            exception.printStackTrace();
         }
 
         StringBuilder builder = new StringBuilder();
@@ -74,13 +76,18 @@ public class SalaryInfo {
 
             for (String datum : data) {
                 String[] parsedData = datum.split(SPLIT_REGEX);
-                if (parsedData[NAME_INDEX].equals(name)
-                        && (DATE_FORMAT.parse(parsedData[DATE_INDEX]).after(from)
-                        || DATE_FORMAT.parse(parsedData[DATE_INDEX]).equals(from))
-                        && (DATE_FORMAT.parse(parsedData[DATE_INDEX]).before(to)
-                        || DATE_FORMAT.parse(parsedData[DATE_INDEX]).equals(to))) {
-                    salary += Integer.parseInt(parsedData[HOURS_INDEX])
-                            * Integer.parseInt(parsedData[SALARY_INDEX]);
+                try {
+                    if (parsedData[NAME_INDEX].equals(name)
+                            && (DATE_FORMAT.parse(parsedData[DATE_INDEX]).after(from)
+                            || DATE_FORMAT.parse(parsedData[DATE_INDEX]).equals(from))
+                            && (DATE_FORMAT.parse(parsedData[DATE_INDEX]).before(to)
+                            || DATE_FORMAT.parse(parsedData[DATE_INDEX]).equals(to))) {
+                        salary += Integer.parseInt(parsedData[HOURS_INDEX])
+                                * Integer.parseInt(parsedData[SALARY_INDEX]);
+                    }
+                } catch (ParseException exception) {
+                    System.out.println(ERROR_MESSAGE);
+                    exception.printStackTrace();
                 }
             }
 
