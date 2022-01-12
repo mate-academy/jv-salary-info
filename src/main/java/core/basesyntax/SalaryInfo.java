@@ -2,10 +2,9 @@ package core.basesyntax;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 
 public class SalaryInfo {
-    public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder builder = new StringBuilder();
@@ -28,11 +27,6 @@ public class SalaryInfo {
     }
 
     public int compareDates(String date1, String date2) {
-        try {
-            return LocalDate.parse(date1, FORMATTER).compareTo(LocalDate.parse(date2, FORMATTER));
-        } catch (DateTimeParseException exc) {
-            System.out.println("Strings cannot be parsed");
-            throw exc;
-        }
+        return LocalDate.parse(date1, FORMATTER).compareTo(LocalDate.parse(date2, FORMATTER));
     }
 }
