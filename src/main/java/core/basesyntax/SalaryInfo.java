@@ -44,16 +44,15 @@ public class SalaryInfo {
      * София - 900</p>
      */
 
-    public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
-    public static final String ERROR_MESSAGE = "Wrong parameters";
-    public static final String PREFIX_START = "Report for period ";
-    public static final String PREFIX_MIDDLE = " - ";
-    public static final String SPLIT_REGEX = " ";
-    public static final String NEXT_LINE = "\n";
-    public static final int DATE_INDEX = 0;
-    public static final int NAME_INDEX = 1;
-    public static final int HOURS_INDEX = 2;
-    public static final int SALARY_INDEX = 3;
+    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
+    private static final String PREFIX_START = "Report for period ";
+    private static final String PREFIX_MIDDLE = " - ";
+    private static final String SPLIT_REGEX = " ";
+    private static final String NEXT_LINE = "\n";
+    private static final int DATE_INDEX = 0;
+    private static final int NAME_INDEX = 1;
+    private static final int HOURS_INDEX = 2;
+    private static final int SALARY_INDEX = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         Date from;
@@ -63,7 +62,7 @@ public class SalaryInfo {
             from = DATE_FORMAT.parse(dateFrom);
             to = DATE_FORMAT.parse(dateTo);
         } catch (ParseException exception) {
-            throw new RuntimeException(ERROR_MESSAGE);
+            throw new RuntimeException("Wrong parameters", exception);
         }
 
         StringBuilder builder = new StringBuilder();
@@ -85,7 +84,7 @@ public class SalaryInfo {
                                 * Integer.parseInt(parsedData[SALARY_INDEX]);
                     }
                 } catch (ParseException exception) {
-                    throw new RuntimeException(ERROR_MESSAGE);
+                    throw new RuntimeException("Wrong parameters", exception);
                 }
             }
 
