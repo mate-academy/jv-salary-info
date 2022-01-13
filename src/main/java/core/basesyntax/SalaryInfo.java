@@ -4,15 +4,16 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
 
-        LocalDate parseDateFrom = LocalDate.parse(dateFrom, formatter);
-        LocalDate parseDateTo = LocalDate.parse(dateTo, formatter);
+        LocalDate parseDateFrom = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate parseDateTo = LocalDate.parse(dateTo, FORMATTER);
 
         StringBuilder report = new StringBuilder();
         report.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
+
         for (String name : names) {
             int income = 0;
             for (String datum : data) {
@@ -20,7 +21,7 @@ public class SalaryInfo {
                 if (checkDate(name, getInfoWithDate[1], getInfoWithDate[0],
                         parseDateFrom, parseDateTo)) {
                     if (name.equals(getInfoWithDate[1])) {
-                        income = income + (Integer.parseInt(getInfoWithDate[2])
+                        income += (Integer.parseInt(getInfoWithDate[2])
                                 * Integer.parseInt(getInfoWithDate[3]));
                     }
                 }
@@ -36,7 +37,7 @@ public class SalaryInfo {
 
     private boolean checkDate(String name, String nameDate, String date,
                               LocalDate dateFrom, LocalDate dateTo) {
-        LocalDate parseDate = LocalDate.parse(date, formatter);
+        LocalDate parseDate = LocalDate.parse(date, FORMATTER);
 
         if (parseDate.isAfter(dateFrom) && parseDate.isBefore(dateTo)
                 || parseDate.equals(dateTo) && name.equals(nameDate)) {
