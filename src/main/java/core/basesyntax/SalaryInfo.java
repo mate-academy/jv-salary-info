@@ -29,7 +29,6 @@ public class SalaryInfo {
                                 * Integer.parseInt(splittedData[HOUR_INCOME_POSITION]);
                     }
                 }
-
             }
             builder.append(System.lineSeparator()).append(name).append(" - ").append(salary);
         }
