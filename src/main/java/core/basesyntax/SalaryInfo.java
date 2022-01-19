@@ -13,7 +13,7 @@ public class SalaryInfo {
         if (dateFromToDate != null && dateToToDate != null && names != null && data != null) {
             for (String name: names) {
                 int moneyEarned = 0;
-                builder.append("\n");
+                builder.append(System.getProperty("line.separator"));
                 for (String dates : data) {
                     String[] dataToMath = dates.split(" ");
                     if (name.equals(dataToMath[1])) {
