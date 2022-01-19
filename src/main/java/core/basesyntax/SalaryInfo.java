@@ -38,7 +38,7 @@ public class SalaryInfo {
             Date date = new SimpleDateFormat("dd.MM.yyyy").parse(dateInString);
             return date;
         } catch (Exception e) {
-            throw new RuntimeException("Date" +  dateInString + "is incorrect", e);
+            throw new RuntimeException("Date" + dateInString + "is incorrect", e);
         }
     }
 }
