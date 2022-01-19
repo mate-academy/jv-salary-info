@@ -14,11 +14,9 @@ public class SalaryInfo {
                 for (String dates : data) {
                     String[] dataToMath = dates.split(" ");
                     boolean dateCheck = checkDate(dateFrom, dateTo, dataToMath[0]);
-                    if (name.equals(dataToMath[1])) {
-                        if (dateCheck) {
-                            moneyEarned += Integer.parseInt(dataToMath[2])
-                                    * Integer.parseInt(dataToMath[3]);
-                        }
+                    if (name.equals(dataToMath[1]) && checkDate(dateFrom, dateTo, dataToMath[0])) {
+                        moneyEarned += Integer.parseInt(dataToMath[2])
+                                * Integer.parseInt(dataToMath[3]);
                     }
                 }
                 builder.append(name).append(" - ").append(moneyEarned);
@@ -31,18 +29,8 @@ public class SalaryInfo {
         Date dateFromToDate = createDate(dateFrom);
         Date dateToToDate = createDate(dateTo);
         Date dayOfWork = createDate(dateOfWork);
-        if (dateFromToDate != null && dateToToDate != null) {
-            if (dayOfWork != null) {
-                if (dayOfWork.equals(dateFromToDate)
-                        || dayOfWork.after(dateFromToDate)) {
-                    if (dayOfWork.equals(dateToToDate)
-                            || dayOfWork.before(dateToToDate)) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
+        return (dayOfWork.after(dateFromToDate) || dayOfWork.equals(dateFromToDate))
+                && (dayOfWork.before(dateToToDate) || dayOfWork.equals(dateToToDate));
     }
 
     private final Date createDate(String dateInString) {
