@@ -4,6 +4,10 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
+    private static final int INDEX_OF_DATE = 0;
+    private static final int INDEX_OF_NAME = 1;
+    private static final int INDEX_OF_WORKED_HOURS = 2;
+    private static final int INDEX_OF_INCOME_PER_HOUR = 3;
     private static final DateTimeFormatter DATE_FORMATTER
             = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
@@ -26,9 +30,10 @@ public class SalaryInfo {
         String[] splitData;
         for (String info : data) {
             splitData = info.split(" ");
-            if (isDateBetweenDateFromAndDateTo(splitData[0], dateFrom, dateTo)
-                    && name.equals(splitData[1])) {
-                salary += Integer.parseInt(splitData[2]) * Integer.parseInt(splitData[3]);
+            if (isDateBetweenDateFromAndDateTo(splitData[INDEX_OF_DATE], dateFrom, dateTo)
+                    && name.equals(splitData[INDEX_OF_NAME])) {
+                salary += Integer.parseInt(splitData[INDEX_OF_WORKED_HOURS])
+                        * Integer.parseInt(splitData[INDEX_OF_INCOME_PER_HOUR]);
             }
         }
         return salary;
