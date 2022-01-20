@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    public final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d.MM.yyyy");
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         int[] salaries = new int[names.length];
