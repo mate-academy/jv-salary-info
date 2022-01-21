@@ -20,10 +20,12 @@ public class SalaryInfo {
             for (String line : data) {
                 String[] elements = line.split(" ");
                 if (elements[NAME].equals(name)) {
-                    LocalDate localDateInLine = LocalDate.parse(elements[WORKING_DAY], dateTimeFormatter);
+                    LocalDate localDateInLine = LocalDate.parse(elements[WORKING_DAY],
+                            dateTimeFormatter);
                     if (localDateInLine.compareTo(localDateFrom) >= 0
                             && localDateInLine.compareTo(localDateTo) <= 0) {
-                        salary += Integer.parseInt(elements[INCOME]) * Integer.parseInt(elements[HOURS]);
+                        salary += Integer.parseInt(elements[INCOME])
+                                * Integer.parseInt(elements[HOURS]);
                     }
                 }
             }
