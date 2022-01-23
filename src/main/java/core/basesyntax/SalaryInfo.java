@@ -35,6 +35,6 @@ public class SalaryInfo {
                     .append(totalSalary).append(System.lineSeparator());
             totalSalary = 0;
         }
-        return stringBuilder.toString();
+        return stringBuilder.toString().trim();
     }
 }
