@@ -15,21 +15,27 @@ public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate localDateFrom = parseDate(dateFrom);
         LocalDate localDateTo = parseDate(dateTo);
+        StringBuilder report = new StringBuilder();
         int[] salary = new int[names.length];
 
+        report.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
+
         for (int i = 0; i < names.length; i++) {
-            for (int j = 0; j < data.length; j++) {
-                String[] splitData = data[j].split(" ");
+            for (String currentData : data) {
+                String[] splitData = currentData.split(" ");
 
                 if (names[i].equals(splitData[INDEX_OF_NAME])
                         && parseDate(splitData[INDEX_OF_DATE]).isAfter(localDateFrom)
-                        && parseDate(splitData[INDEX_OF_DATE]).isBefore(localDateTo.plusDays(1))) {
+                        && (parseDate(splitData[INDEX_OF_DATE]).isBefore(localDateTo)
+                        || parseDate(splitData[INDEX_OF_DATE]).isEqual(localDateTo))) {
                     salary[i] += Integer.parseInt(splitData[INDEX_OF_WORKING_HOUR])
                             * Integer.parseInt(splitData[INDEX_OF_INCOME]);
                 }
             }
+            report.append(System.lineSeparator())
+                    .append(names[i]).append(" - ").append(salary[i]);
         }
-        return getReport(names, salary, dateFrom, dateTo);
+        return report.toString();
     }
 
     private LocalDate parseDate(String date) {
@@ -39,16 +45,5 @@ public class SalaryInfo {
                 Integer.parseInt(splitDate[INDEX_OF_MONTH]),
                 Integer.parseInt(splitDate[INDEX_OF_DAY])
         );
-    }
-
-    private String getReport(String[] names, int[] salary, String dateFrom, String dateTo) {
-        StringBuilder report = new StringBuilder();
-        report.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
-
-        for (int i = 0; i < names.length; i++) {
-            report.append(System.lineSeparator())
-                    .append(names[i]).append(" - ").append(salary[i]);
-        }
-        return report.toString();
     }
 }
