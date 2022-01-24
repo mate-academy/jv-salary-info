@@ -20,17 +20,18 @@ public class SalaryInfo {
             builder.append(System.lineSeparator())
                     .append(name).append(" - ");
             for (int j = 0; j < data.length; j++) {
-                if (name.equals(data[j].split(" ")[NAME_INDEX])) {
-                    if (LocalDate.parse(data[j].split(" ")[DATE_INDEX], FORMAT)
+                String[] dataLine = data[j].split(" ");
+                if (name.equals(dataLine[NAME_INDEX])) {
+                    if (LocalDate.parse(dataLine[DATE_INDEX], FORMAT)
                             .equals(LocalDate.parse(dateFrom, FORMAT))
-                            || LocalDate.parse(data[j].split(" ")[DATE_INDEX], FORMAT)
+                            || LocalDate.parse(dataLine[DATE_INDEX], FORMAT)
                             .equals(LocalDate.parse(dateTo, FORMAT))
-                            || (LocalDate.parse(data[j].split(" ")[DATE_INDEX], FORMAT)
+                            || (LocalDate.parse(dataLine[DATE_INDEX], FORMAT)
                             .isAfter(LocalDate.parse(dateFrom, FORMAT))
-                            && LocalDate.parse(data[j].split(" ")[DATE_INDEX], FORMAT)
+                            && LocalDate.parse(dataLine[DATE_INDEX], FORMAT)
                             .isBefore(LocalDate.parse(dateTo, FORMAT)))) {
-                        salaryAmount += Integer.parseInt(data[j].split(" ")[SALARY_INDEX])
-                                * Integer.parseInt(data[j].split(" ")[HOURS_INDEX]);
+                        salaryAmount += Integer.parseInt(dataLine[SALARY_INDEX])
+                                * Integer.parseInt(dataLine[HOURS_INDEX]);
                     }
                 }
             }
