@@ -15,21 +15,21 @@ public class SalaryInfo {
         StringBuilder builder = new StringBuilder()
                 .append("Report for period ").append(dateFrom)
                 .append(" - ").append(dateTo);
+        LocalDate firstDay = LocalDate.parse(dateFrom, FORMAT);
+        LocalDate lastDay = LocalDate.parse(dateTo, FORMAT);
+        LocalDate checkDate = null;
         for (String name : names) {
             salaryAmount = 0;
             builder.append(System.lineSeparator())
                     .append(name).append(" - ");
             for (int j = 0; j < data.length; j++) {
                 String[] dataLine = data[j].split(" ");
+                checkDate = LocalDate.parse(dataLine[DATE_INDEX], FORMAT);
                 if (name.equals(dataLine[NAME_INDEX])) {
-                    if (LocalDate.parse(dataLine[DATE_INDEX], FORMAT)
-                            .equals(LocalDate.parse(dateFrom, FORMAT))
-                            || LocalDate.parse(dataLine[DATE_INDEX], FORMAT)
-                            .equals(LocalDate.parse(dateTo, FORMAT))
-                            || (LocalDate.parse(dataLine[DATE_INDEX], FORMAT)
-                            .isAfter(LocalDate.parse(dateFrom, FORMAT))
-                            && LocalDate.parse(dataLine[DATE_INDEX], FORMAT)
-                            .isBefore(LocalDate.parse(dateTo, FORMAT)))) {
+                    if (checkDate.equals(firstDay)
+                            || checkDate.equals(lastDay)
+                            || (checkDate.isAfter(firstDay)
+                            && checkDate.isBefore(lastDay))) {
                         salaryAmount += Integer.parseInt(dataLine[SALARY_INDEX])
                                 * Integer.parseInt(dataLine[HOURS_INDEX]);
                     }
