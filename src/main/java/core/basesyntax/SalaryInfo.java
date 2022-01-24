@@ -4,12 +4,12 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    public static final DateTimeFormatter FORMATTER =
+    static final DateTimeFormatter FORMATTER =
             DateTimeFormatter.ofPattern("dd.MM.yyyy");
-    public static final int PERIODSTART = 0;
-    public static final int PERIODEND = 1;
-    public static final int PERIODSALLARY = 2;
-    public static final int PERIODPLUSDAYS = 1;
+    static final int PERIODSTART = 0;
+    static final int PERIODEND = 1;
+    static final int PERIODSALLARY = 2;
+    static final int PERIODPLUSDAYS = 1;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         return calculate(names, data, dateFrom, dateTo);
