@@ -9,6 +9,7 @@ public class SalaryInfo {
     static final int PERIODSTART = 0;
     static final int PERIODEND = 1;
     static final int PERIODSALLARY = 2;
+    static final int PERIODLAST = 3;
     static final int PERIODPLUSDAYS = 1;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
@@ -31,7 +32,7 @@ public class SalaryInfo {
                         .plusDays(PERIODPLUSDAYS))) {
                     finalSalary = finalSalary
                             + (Integer.parseInt(period[PERIODSALLARY])
-                            * Integer.parseInt(period[3]));
+                            * Integer.parseInt(period[PERIODLAST]));
                 }
             }
             calculation.append(finalSalary);
