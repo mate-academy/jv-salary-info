@@ -9,18 +9,19 @@ public class SalaryInfo {
     private static final int HOURS_POSITION = 2;
     private static final int HOUR_INCOME_POSITION = 3;
 
-    private static final DateTimeFormatter format = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        LocalDate fromDate = LocalDate.parse(dateFrom, format);
-        LocalDate toDate = LocalDate.parse(dateTo, format);
+        LocalDate fromDate = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate toDate = LocalDate.parse(dateTo, FORMATTER);
         StringBuilder builder = new StringBuilder();
         builder.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
+        String[] splittedData;
         for (String name : names) {
             int salary = 0;
             for (String dat : data) {
-                String[] splittedData = dat.split(" ");
-                LocalDate currentDate = LocalDate.parse(splittedData[DATE_POSITION], format);
+                splittedData = dat.split(" ");
+                LocalDate currentDate = LocalDate.parse(splittedData[DATE_POSITION], FORMATTER);
                 if (splittedData[NAME_POSITION].equals(name)) {
                     if (currentDate.isAfter(fromDate) && currentDate.isBefore(toDate)
                             || currentDate.isEqual(toDate)
