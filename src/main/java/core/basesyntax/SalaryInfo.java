@@ -4,30 +4,25 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d.MM.yyyy");
+    public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         int[] salaries = new int[names.length];
 
-        LocalDate dateDateFrom = LocalDate.parse(dateFrom, formatter);
-        LocalDate dateDateTo = LocalDate.parse(dateTo, formatter);
+        LocalDate localDateFrom = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate localDateTo = LocalDate.parse(dateTo, FORMATTER);
 
-        for (int i = 0; i < data.length; i++) {
-            String[] temp = data[i].split(" ");
-            LocalDate currentDate = LocalDate.parse(temp[0], formatter);
+        for (int i = 0; i < names.length; i++) {
+            for (int j = 0; j < data.length; j++) {
+                String[] temp = data[j].split(" ");
+                LocalDate currentDate = LocalDate.parse(temp[0], FORMATTER);
 
-            if (temp[1].equals(names[0])
-                    && ((currentDate.isEqual(dateDateFrom) || currentDate.isEqual(dateDateTo))
-                    || (currentDate.isAfter(dateDateFrom) && currentDate.isBefore(dateDateTo)))) {
-                salaries[0] += Integer.parseInt(temp[2]) * Integer.parseInt(temp[3]);
-            } else if (temp[1].equals(names[1])
-                    && ((currentDate.isEqual(dateDateFrom) || currentDate.isEqual(dateDateTo))
-                    || (currentDate.isAfter(dateDateFrom) && currentDate.isBefore(dateDateTo)))) {
-                salaries[1] += Integer.parseInt(temp[2]) * Integer.parseInt(temp[3]);
-            } else if (temp[1].equals(names[2])
-                    && ((currentDate.isEqual(dateDateFrom) || currentDate.isEqual(dateDateTo))
-                    || (currentDate.isAfter(dateDateFrom) && currentDate.isBefore(dateDateTo)))) {
-                salaries[2] += Integer.parseInt(temp[2]) * Integer.parseInt(temp[3]);
+                if (temp[1].equals(names[i])
+                        && ((currentDate.isEqual(localDateFrom) || currentDate.isEqual(localDateTo))
+                        || (currentDate.isAfter(localDateFrom)
+                        && currentDate.isBefore(localDateTo)))) {
+                    salaries[i] += Integer.parseInt(temp[2]) * Integer.parseInt(temp[3]);
+                }
             }
         }
 
