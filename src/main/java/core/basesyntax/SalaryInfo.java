@@ -1,50 +1,38 @@
 package core.basesyntax;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
-import java.util.Date;
 
 public class SalaryInfo {
+    private static final DateTimeFormatter DATE_TIME_FORMATTER
+            = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder salaryBilder = new StringBuilder("Report for period "
                 + dateFrom + " - " + dateTo);
         int paimant = 0;
-        for (int i = 0; i < names.length; i++) {
-            for (int j = 0; j < data.length; j++) {
-                Boolean found = Arrays.asList(data[j].split(" ")).contains(names[i]);
+        for (String name : names) {
+            for (String datum : data) {
+                int workingHour = Integer.parseInt(datum.split(" ")[2]);
+                int incomePerHour = Integer.parseInt(datum.split(" ")[3]);
+                boolean found = Arrays.asList(datum.split(" ")).contains(name);
                 if (found) {
-                    if (getDay(data[j]).after(getDay(dateFrom))
-                            | getDay(data[j]).equals(getDay(dateFrom))
-                            && getDay(data[j]).before(getDay(dateTo))
-                            | getDay(data[j]).equals(getDay(dateTo))) {
-                        paimant += (getWorkingHour(data[j]) * getIncomePerHour(data[j]));
+                    if (getDay(datum).compareTo(getDay(dateFrom)) >= 0
+                            & getDay(dateTo).compareTo(getDay(datum)) >= 0) {
+                        paimant += (workingHour * incomePerHour);
                     }
                 }
             }
-            salaryBilder.append(System.lineSeparator() + names[i]).append(" - " + paimant);
+            salaryBilder.append(System.lineSeparator()).append(name).append(" - ").append(paimant);
             paimant = 0;
         }
         return salaryBilder.toString();
     }
 
-    public int getWorkingHour(String data) {
-        return Integer.parseInt(data.split(" ")[2].replaceAll("[^0-9]",""));
-    }
-
-    public int getIncomePerHour(String data) {
-        return Integer.parseInt(data.split(" ")[3].replaceAll("[^0-9]",""));
-    }
-
-    private static Date getDay(String data) {
-        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
-        Date date = new Date();
-        try {
-            date = formatter.parse(data);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return date;
+    private LocalDate getDay(String value) {
+        String onlyDate = value.split(" ")[0];
+        return LocalDate.from(DATE_TIME_FORMATTER.parse(onlyDate));
     }
 
 }
