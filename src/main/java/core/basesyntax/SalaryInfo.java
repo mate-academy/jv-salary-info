@@ -6,6 +6,10 @@ import java.time.format.DateTimeFormatter;
 public class SalaryInfo {
     public static final DateTimeFormatter FORMATTER =
             DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    public static final int PERIODSTART = 0;
+    public static final int PERIODEND = 1;
+    public static final int PERIODSALLARY = 2;
+    public static final int PERIODPLUSDAYS = 1;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         return calculate(names, data, dateFrom, dateTo);
@@ -20,11 +24,14 @@ public class SalaryInfo {
             calculation.append(System.lineSeparator()).append(name).append(" - ");
             for (int i = 0; i < data.length; i++) {
                 String[] period = data[i].split(" ");
-                LocalDate today = LocalDate.parse(period[0], FORMATTER);
-                if (name.equals(period[1]) && today.isAfter(LocalDate.parse(dateFrom, FORMATTER))
-                        && today.isBefore(LocalDate.parse(dateTo,FORMATTER).plusDays(1))) {
+                LocalDate today = LocalDate.parse(period[PERIODSTART], FORMATTER);
+                if (name.equals(period[PERIODEND])
+                        && today.isAfter(LocalDate.parse(dateFrom, FORMATTER))
+                        && today.isBefore(LocalDate.parse(dateTo,FORMATTER)
+                        .plusDays(PERIODPLUSDAYS))) {
                     finalSalary = finalSalary
-                            + (Integer.parseInt(period[2]) * Integer.parseInt(period[3]));
+                            + (Integer.parseInt(period[PERIODSALLARY])
+                            * Integer.parseInt(period[3]));
                 }
             }
             calculation.append(finalSalary);
