@@ -1,23 +1,26 @@
 package core.basesyntax;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         int[] salaries = new int[names.length];
-        LocalDate dateFromLocal = getLocalDateFromString(dateFrom);
-        LocalDate dateToLocal = getLocalDateFromString(dateTo);
+        LocalDate dateFromLocal = LocalDate.parse(dateFrom, formatter);
+        LocalDate dateToLocal = LocalDate.parse(dateTo, formatter);
         for (String line: data) {
             String[] parsedData = line.split(" ");
             for (int i = 0; i < names.length; i++) {
                 if (parsedData[1].equals(names[i])) {
-                    LocalDate dateOfWork = getLocalDateFromString(parsedData[0]);
-                    if ((dateOfWork.isAfter(dateFromLocal) | dateOfWork.equals(dateFromLocal))) {
-                        if (dateOfWork.equals(dateToLocal) | dateOfWork.isBefore(dateToLocal)) {
-                            int salaryForThatDay = Integer.parseInt(parsedData[2])
+                    LocalDate dateOfWork = LocalDate.parse(parsedData[0], formatter);
+                    if ((dateOfWork.isAfter(dateFromLocal) | dateOfWork.equals(dateFromLocal))
+                            & (dateOfWork.equals(dateToLocal)
+                            | dateOfWork.isBefore(dateToLocal))) {
+                        int salaryForThatDay = Integer.parseInt(parsedData[2])
                                     * Integer.parseInt(parsedData[3]);
-                            salaries[i] += salaryForThatDay;
-                        }
+                        salaries[i] += salaryForThatDay;
                     }
                 }
             }
@@ -28,13 +31,6 @@ public class SalaryInfo {
             bufferResult.append(System.lineSeparator()).append(names[i]).append(" - ")
                     .append(salaries[i]);
         }
-        return new String(bufferResult);
-    }
-
-    public LocalDate getLocalDateFromString(String data) {
-        String[] parsedData;
-        parsedData = data.split("\\.");
-        return LocalDate.of(Integer.parseInt(parsedData[2]),
-                Integer.parseInt(parsedData[1]), Integer.parseInt(parsedData[0]));
+        return bufferResult.toString();
     }
 }
