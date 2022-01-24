@@ -18,12 +18,11 @@ public class SalaryInfo {
                 .append(dateFrom)
                 .append(" - ")
                 .append(dateTo);
-
         for (String name : names) {
             int daySalaryAmount = 0;
             result.append(System.lineSeparator()).append(name).append(" - ");
-            for (String d : data) {
-                String[] dayPersonInfo = d.split(" ");
+            for (String datum : data) {
+                String[] dayPersonInfo = datum.split(" ");
                 LocalDate currentDate = LocalDate.parse(dayPersonInfo[DATE_INDEX], FORMATTER);
                 int hours = Integer.parseInt(dayPersonInfo[HOURS_INDEX]);
                 int salary = Integer.parseInt(dayPersonInfo[SALARY_INDEX]);
