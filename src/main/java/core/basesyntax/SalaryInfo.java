@@ -18,11 +18,12 @@ public class SalaryInfo {
             int sumSalary = 0;
             String name;
             LocalDate date;
-            for (String datum : data) {
-                name = datum.split(" ")[1];
-                date = LocalDate.parse(datum.split(" ")[0], FORMATTER);
-                hours = Integer.parseInt(datum.split(" ")[2]);
-                salary = Integer.parseInt(datum.split(" ")[3]);
+            for (String parameter : data) {
+                String[] values = parameter.split(" ");
+                date = LocalDate.parse(values[0], FORMATTER);
+                name = values[1];
+                hours = Integer.parseInt(values[2]);
+                salary = Integer.parseInt(values[3]);
                 if ((date.isAfter(fromDate) && date.isBefore(toDate)
                         || date.isEqual(toDate)) && string.equals(name)) {
                     sumSalary += hours * salary;
