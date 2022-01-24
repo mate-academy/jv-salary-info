@@ -12,7 +12,7 @@ public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate startDate;
         LocalDate finishDate;
-        LocalDate carrentDate;
+        LocalDate currentDate;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         startDate = LocalDate.parse(dateFrom, formatter);
         finishDate = LocalDate.parse(dateTo, formatter);
