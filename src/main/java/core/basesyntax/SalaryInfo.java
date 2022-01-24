@@ -15,12 +15,12 @@ public class SalaryInfo {
         StringBuilder builder = new StringBuilder()
                 .append("Report for period ").append(dateFrom)
                 .append(" - ").append(dateTo);
-        for (int i = 0; i < names.length; i++) {
+        for (String name : names) {
             salaryAmount = 0;
             builder.append(System.lineSeparator())
-                    .append(names[i]).append(" - ");
+                    .append(name).append(" - ");
             for (int j = 0; j < data.length; j++) {
-                if (names[i].equals(data[j].split(" ")[NAME_INDEX])) {
+                if (name.equals(data[j].split(" ")[NAME_INDEX])) {
                     if (LocalDate.parse(data[j].split(" ")[DATE_INDEX], FORMAT)
                             .equals(LocalDate.parse(dateFrom, FORMAT))
                             || LocalDate.parse(data[j].split(" ")[DATE_INDEX], FORMAT)
