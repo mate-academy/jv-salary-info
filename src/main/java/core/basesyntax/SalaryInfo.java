@@ -18,7 +18,8 @@ public class SalaryInfo {
         for (String name : names) {
             for (String datum : data) {
                 int workingHour = Integer.parseInt(datum.split(SPLETERATOR)[INDEX_WORKING_HOUR ]);
-                int incomePerHour = Integer.parseInt(datum.split(SPLETERATOR)[INDEX_INCOME_PER_HOUR]);
+                int incomePerHour = Integer.parseInt(datum.split(SPLETERATOR)
+                        [INDEX_INCOME_PER_HOUR]);
                 boolean found = Arrays.asList(datum.split(SPLETERATOR)).contains(name);
                 if (found) {
                     if (getDay(datum).compareTo(getDay(dateFrom)) >= 0
