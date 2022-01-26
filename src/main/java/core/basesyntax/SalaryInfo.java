@@ -6,8 +6,8 @@ import java.time.format.DateTimeFormatter;
 public class SalaryInfo {
     static final DateTimeFormatter FORMATTER =
             DateTimeFormatter.ofPattern("dd.MM.yyyy");
-    static final int PERIODSTART = 0;
-    static final int PERIODEND = 1;
+    static final int PERIOD_START = 0;
+    static final int PERIOD_END = 1;
     static final int PERIODSALLARY = 2;
     static final int PERIODLAST = 3;
     static final int PERIODPLUSDAYS = 1;
