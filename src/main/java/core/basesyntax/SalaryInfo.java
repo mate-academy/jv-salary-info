@@ -7,24 +7,24 @@ import java.time.format.DateTimeParseException;
 public class SalaryInfo {
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        final LocalDate DATE_FROM;
-        final LocalDate DATE_TO;
-        LocalDate DAY_USER_WORKS;
+        final LocalDate localDateFrom;
+        final LocalDate localDateTo;
+        LocalDate employeeWorks;
         String pattern = "dd.MM.yyyy";
         StringBuilder output = new StringBuilder();
 
         try {
             DateTimeFormatter formatter =
                     DateTimeFormatter.ofPattern(pattern);
-            DATE_FROM = LocalDate.parse(dateFrom, formatter);
+            localDateFrom = LocalDate.parse(dateFrom, formatter);
         } catch (DateTimeParseException e) {
-           throw e;
+            throw e;
         }
 
         try {
             DateTimeFormatter formatter =
                     DateTimeFormatter.ofPattern(pattern);
-            DATE_TO = LocalDate.parse(dateTo, formatter);
+            localDateTo = LocalDate.parse(dateTo, formatter);
         } catch (DateTimeParseException e) {
             throw e;
         }
@@ -44,15 +44,17 @@ public class SalaryInfo {
                 try {
                     DateTimeFormatter formatter =
                             DateTimeFormatter.ofPattern(pattern);
-                    DAY_USER_WORKS = LocalDate.parse(arrayOfEmployees[0], formatter);
+                    employeeWorks = LocalDate.parse(arrayOfEmployees[0], formatter);
                 } catch (DateTimeParseException e) {
                     throw e;
                 }
 
-                if ((DATE_FROM.isBefore(DAY_USER_WORKS) && (DATE_TO.isAfter(DAY_USER_WORKS))
+                if ((localDateFrom.isBefore(employeeWorks) && (localDateTo.isAfter(employeeWorks))
                         && currentUser.equals(arrayOfEmployees[1]))
-                        || (DATE_FROM.isEqual(DAY_USER_WORKS) && currentUser.equals(arrayOfEmployees[1]))
-                        || (DATE_TO.isEqual(DAY_USER_WORKS) && currentUser.equals(arrayOfEmployees[1]))) {
+                        || (localDateFrom.isEqual(employeeWorks)
+                        && currentUser.equals(arrayOfEmployees[1]))
+                        || (localDateTo.isEqual(employeeWorks)
+                        && currentUser.equals(arrayOfEmployees[1]))) {
                     currentUserSumSalary += (Integer.parseInt(arrayOfEmployees[2])
                             * Integer.parseInt(arrayOfEmployees[3]));
                 }
@@ -60,9 +62,9 @@ public class SalaryInfo {
             output.append(currentUser)
                     .append(" - ")
                     .append(currentUserSumSalary);
-                    if (i < names.length - 1) {
-                    output.append(System.lineSeparator());
-                    }
+            if (i < names.length - 1) {
+                output.append(System.lineSeparator());
+            }
         }
 
         return output.toString();
