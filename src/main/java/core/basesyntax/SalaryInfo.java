@@ -7,8 +7,8 @@ import java.time.format.DateTimeParseException;
 public class SalaryInfo {
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        LocalDate DATE_FROM;
-        LocalDate DATE_TO;
+        final LocalDate DATE_FROM;
+        final LocalDate DATE_TO;
         LocalDate DAY_USER_WORKS;
         String pattern = "dd.MM.yyyy";
         StringBuilder output = new StringBuilder();
