@@ -5,7 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 public class SalaryInfo {
-    public LocalDate stringToLocalDate(String currentDateString) {
+    private LocalDate parseDate(String currentDateString) {
         LocalDate localDate;
         try {
             DateTimeFormatter formatter =
@@ -22,8 +22,8 @@ public class SalaryInfo {
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         String title = "Report for period " + dateFrom + " - " + dateTo;
-        LocalDate dateFromLocal = stringToLocalDate(dateFrom);
-        LocalDate dateToLocal = stringToLocalDate(dateTo);
+        LocalDate dateFromLocal = parseDate(dateFrom);
+        LocalDate dateToLocal = parseDate(dateTo);
         StringBuilder sb = new StringBuilder();
         int sum = 0;
         for (int i = 0; i < names.length; i++) {
@@ -32,13 +32,13 @@ public class SalaryInfo {
                     .append(" - ");
             for (int j = 0; j < data.length; j++) {
                 String[] temp = data[j].split(" ");
-                LocalDate t = stringToLocalDate(temp[0]);
+                LocalDate t = parseDate(temp[0]);
                 if (temp[1].equals(names[i]) && t.isAfter(dateFromLocal) && t.isBefore(dateToLocal)
                         || temp[1].equals(names[i]) && t.equals(dateFromLocal)
                         || temp[1].equals(names[i]) && t.equals(dateToLocal)) {
-                    int x = Integer.parseInt(temp[2]);
-                    int y = Integer.parseInt(temp[3]);
-                    sum += x * y;
+                    int hours = Integer.parseInt(temp[2]);
+                    int salary = Integer.parseInt(temp[3]);
+                    sum += hours * salary;
                 }
             }
             sb.append(sum).append(System.lineSeparator());
@@ -48,6 +48,3 @@ public class SalaryInfo {
         return report;
     }
 }
-
-
-
