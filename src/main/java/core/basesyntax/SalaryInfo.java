@@ -15,7 +15,8 @@ public class SalaryInfo {
             LocalDate dataDate = LocalDate.parse(splitData[0], FORMATTER);
             int parsedHours = Integer.parseInt(splitData[2]);
             int parsedMoney = Integer.parseInt(splitData[3]);
-            if (dataDate.isAfter(parsedDateFrom) && dataDate.isBefore(parsedDateTo)) {
+            if ((dataDate.isAfter(parsedDateFrom) || dataDate.isEqual(parsedDateFrom))
+                    && (dataDate.isBefore(parsedDateTo) || dataDate.isEqual(parsedDateTo))) {
                 for (int j = 0; j < names.length; j++) {
                     if (names[j].equals(splitData[1])) {
                         salaryArr[j] = salaryArr[j] + parsedHours * parsedMoney;
@@ -25,7 +26,7 @@ public class SalaryInfo {
         }
         StringBuilder header = new StringBuilder("Report for period ");
         header.append(parsedDateFrom.format(FORMATTER))
-                .append("  - ")
+                .append(" - ")
                 .append(parsedDateTo.format(FORMATTER));
         for (int i = 0; i < names.length; i++) {
             header.append(System.lineSeparator())
@@ -34,5 +35,26 @@ public class SalaryInfo {
                     .append(salaryArr[i]);
         }
         return header.toString();
+    }
+
+    public static void main(String[] args) {
+        String[] names = new String[] {"John", "Andrew", "Kate"};
+        String[] data = new String[] {
+                "13.07.2019 John 60 50",
+                "15.07.2019 Andrew 3 200",
+                "15.07.2019 Kate 10 100",
+
+                "16.07.2019 Andrew 3 200",
+                "16.07.2019 Kate 9 100",
+
+                "10.08.2019 John 7 100",
+                "08.08.2019 Kate 3 80",
+                "11.08.2019 Andrew 8 100"
+        };
+        String dateFrom = "14.07.2019";
+        String dateTo = "10.08.2019";
+
+        SalaryInfo salaryInfo = new SalaryInfo();
+        System.out.println(salaryInfo.getSalaryInfo(names, data, dateFrom, dateTo));
     }
 }
