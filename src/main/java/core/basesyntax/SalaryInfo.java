@@ -1,11 +1,6 @@
 package core.basesyntax;
 
-import javax.swing.text.DateFormatter;
-import java.lang.reflect.Field;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.Month;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
@@ -14,9 +9,7 @@ public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate parsedDateFrom = LocalDate.parse(dateFrom, FORMATTER);
         LocalDate parsedDateTo = LocalDate.parse(dateTo, FORMATTER);
-
         int[] salaryArr = new int [names.length];
-
         for (int i = 0; i < data.length; i++) {
             String[] splitData = data[i].split(" ");
             LocalDate dataDate = LocalDate.parse(splitData[0], FORMATTER);
@@ -30,7 +23,6 @@ public class SalaryInfo {
                 }
             }
         }
-
         StringBuilder header = new StringBuilder("Report for period ");
         header.append(parsedDateFrom.format(FORMATTER))
                 .append("  - ")
@@ -41,44 +33,6 @@ public class SalaryInfo {
                     .append(" - ")
                     .append(salaryArr[i]);
         }
-
         return header.toString();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
 }
