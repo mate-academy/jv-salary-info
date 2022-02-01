@@ -10,23 +10,23 @@ public class SalaryInfo {
         final LocalDate localDateFrom;
         final LocalDate localDateTo;
         LocalDate employeeWorks;
-        String pattern = "dd.MM.yyyy";
+        final String pattern = "dd.MM.yyyy";
         StringBuilder output = new StringBuilder();
 
         try {
-            DateTimeFormatter formatter =
+            final DateTimeFormatter formatter =
                     DateTimeFormatter.ofPattern(pattern);
             localDateFrom = LocalDate.parse(dateFrom, formatter);
         } catch (DateTimeParseException e) {
-            throw e;
+            throw new RuntimeException("Parsing " + dateFrom + " error!", e);
         }
 
         try {
-            DateTimeFormatter formatter =
+            final DateTimeFormatter formatter =
                     DateTimeFormatter.ofPattern(pattern);
             localDateTo = LocalDate.parse(dateTo, formatter);
         } catch (DateTimeParseException e) {
-            throw e;
+            throw new RuntimeException("Parsing " + dateTo + " error!");
         }
 
         output.append("Report for period ");
