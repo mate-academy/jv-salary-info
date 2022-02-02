@@ -25,33 +25,33 @@ public class SalaryInfoTest {
     };
     private static final String[] exceptedReports = {
             "Report for period 24.04.2019 - 24.04.2019" +
-                    System.lineSeparator() +
-                    "John - 0" +
-                    System.lineSeparator() +
-                    "Andrew - 0" +
-                    System.lineSeparator() +
-                    "Kate - 0",
-            "Report for period 24.04.2019 - 25.04.2019" +
-                    System.lineSeparator() +
-                    "John - 3000" +
-                    System.lineSeparator() +
-                    "Andrew - 600" +
-                    System.lineSeparator() +
-                    "Kate - 1000",
-            "Report for period 24.04.2019 - 26.04.2019" +
-                    System.lineSeparator() +
-                    "John - 3000" +
-                    System.lineSeparator() +
-                    "Andrew - 1200" +
-                    System.lineSeparator() +
-                    "Kate - 1900",
-            "Report for period 24.04.2019 - 27.04.2019" +
-                    System.lineSeparator() +
-                    "John - 3700" +
-                    System.lineSeparator() +
-                    "Andrew - 2000" +
-                    System.lineSeparator() +
-                    "Kate - 2140"
+                    System.lineSeparator()
+                    + "John - 0"
+                    + System.lineSeparator()
+                    + "Andrew - 0"
+                    + System.lineSeparator()
+                    + "Kate - 0",
+            "Report for period 24.04.2019 - 25.04.2019"
+                    + System.lineSeparator()
+                    + "John - 3000"
+                    + System.lineSeparator()
+                    + "Andrew - 600"
+                    + System.lineSeparator()
+                    + "Kate - 1000",
+            "Report for period 24.04.2019 - 26.04.2019"
+                    + System.lineSeparator()
+                    + "John - 3000"
+                    + System.lineSeparator()
+                    + "Andrew - 1200"
+                    + System.lineSeparator()
+                    + "Kate - 1900",
+            "Report for period 24.04.2019 - 27.04.2019"
+                    + System.lineSeparator()
+                    + "John - 3700"
+                    + System.lineSeparator()
+                    + "Andrew - 2000"
+                    + System.lineSeparator()
+                    + "Kate - 2140"
     };
 
     private static final String[] secondScriptArray = {
@@ -71,13 +71,13 @@ public class SalaryInfoTest {
             "10.08.2019",
     };
     private static final String secondExceptedReports =
-            "Report for period 14.07.2019 - 10.08.2019" +
-                    System.lineSeparator() +
-                    "John - 700" +
-                    System.lineSeparator() +
-                    "Andrew - 1200" +
-                    System.lineSeparator() +
-                    "Kate - 2140";
+            "Report for period 14.07.2019 - 10.08.2019"
+                    + System.lineSeparator()
+                    + "John - 700"
+                    + System.lineSeparator()
+                    + "Andrew - 1200"
+                    + System.lineSeparator()
+                    + "Kate - 2140";
 
     @Test
     public void getSalaryInfoByMonth() {
@@ -88,8 +88,14 @@ public class SalaryInfoTest {
 
             Assert.assertEquals(
                     "Test failed from date " + dates[0] + " to " + dates[i]
-                            + "\nactual: \n" + actualResult
-                            + "\nexpected: \n" + expectedResult,
+                            + System.lineSeparator()
+                            + "actual: "
+                            + System.lineSeparator()
+                            + actualResult
+                            + System.lineSeparator()
+                            + "expected: "
+                            + System.lineSeparator()
+                            + expectedResult,
                     expectedResult,
                     actualResult);
         }
@@ -104,8 +110,14 @@ public class SalaryInfoTest {
 
         Assert.assertEquals(
                 "Test failed from date " + secondDates[0] + " to " + secondDates[1]
-                        + "\nactual: \n" + actualResult
-                        + "\nexpected: \n" + expectedResult,
+                        + System.lineSeparator()
+                        +  "actual: "
+                        + System.lineSeparator()
+                        + actualResult
+                        + System.lineSeparator()
+                        + "expected: "
+                        + System.lineSeparator()
+                        + expectedResult,
                 expectedResult,
                 actualResult);
     }
