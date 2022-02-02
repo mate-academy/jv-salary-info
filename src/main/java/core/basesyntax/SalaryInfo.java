@@ -5,30 +5,24 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 public class SalaryInfo {
+    static final String PATTERN = "dd.MM.yyyy";
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         final LocalDate localDateFrom;
         final LocalDate localDateTo;
         LocalDate employeeWorks;
-        final String pattern = "dd.MM.yyyy";
+
         StringBuilder output = new StringBuilder();
 
         try {
-            final DateTimeFormatter formatter =
-                    DateTimeFormatter.ofPattern(pattern);
+            DateTimeFormatter formatter =
+                    DateTimeFormatter.ofPattern(PATTERN);
             localDateFrom = LocalDate.parse(dateFrom, formatter);
-        } catch (DateTimeParseException e) {
-            throw new RuntimeException("Parsing " + dateFrom + " error!", e);
-        }
-
-        try {
-            final DateTimeFormatter formatter =
-                    DateTimeFormatter.ofPattern(pattern);
             localDateTo = LocalDate.parse(dateTo, formatter);
         } catch (DateTimeParseException e) {
-            throw new RuntimeException("Parsing " + dateTo + " error!");
+            throw new RuntimeException("Parsing date error!", e);
         }
-
+        
         output.append("Report for period ");
         output.append(dateFrom)
                 .append(" - ")
@@ -43,7 +37,7 @@ public class SalaryInfo {
                 String[] arrayOfEmployees = data[k].split(" ");
                 try {
                     DateTimeFormatter formatter =
-                            DateTimeFormatter.ofPattern(pattern);
+                            DateTimeFormatter.ofPattern(PATTERN);
                     employeeWorks = LocalDate.parse(arrayOfEmployees[0], formatter);
                 } catch (DateTimeParseException e) {
                     throw e;
