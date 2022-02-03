@@ -5,7 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 public class SalaryInfo {
-    static final String PATTERN = "dd.MM.yyyy";
+    private static final String PATTERN = "dd.MM.yyyy";
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         final LocalDate localDateFrom;
@@ -22,7 +22,7 @@ public class SalaryInfo {
         } catch (DateTimeParseException e) {
             throw new RuntimeException("Parsing date error!", e);
         }
-        
+
         output.append("Report for period ");
         output.append(dateFrom)
                 .append(" - ")
