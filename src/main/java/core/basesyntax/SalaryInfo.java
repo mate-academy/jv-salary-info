@@ -1,4 +1,5 @@
 package core.basesyntax;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -12,8 +13,8 @@ public class SalaryInfo {
         int[] payment = new int[names.length];
 
         for (int i = 0; i < names.length; i++) {
-            for (String data_record : data) {
-                String[] arr = data_record.split(" ");
+            for (String dataRecord : data) {
+                String[] arr = dataRecord.split(" ");
                 if ((LocalDate.parse(arr[0], formatter).isEqual(startDate)
                         || LocalDate.parse(arr[0], formatter).isAfter(startDate))
                         && (LocalDate.parse(arr[0], formatter).isEqual(endDate)

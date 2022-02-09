@@ -2,6 +2,7 @@ package core.basesyntax;
 
 public class Application {
     public static void main(String[] args) {
+
         String[] sampleNames = {"John", "Andrew", "Kate"};
         String[] scriptArray = {
                 "25.04.2019 John 60 50",
@@ -22,6 +23,7 @@ public class Application {
                 "27.04.2019"
         };
 
-        System.out.println(new SalaryInfo().getSalaryInfo(sampleNames,scriptArray, dates[0], dates[1]));
+        String result = new SalaryInfo().getSalaryInfo(sampleNames,scriptArray, dates[0], dates[1]);
+        System.out.println(result);
     }
 }
