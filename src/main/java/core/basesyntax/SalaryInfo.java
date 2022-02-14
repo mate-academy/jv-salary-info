@@ -6,7 +6,6 @@ import java.time.format.DateTimeParseException;
 
 public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-
         LocalDate localDateFrom = parseDate(dateFrom);
         LocalDate localDateTo = parseDate(dateTo);
         StringBuilder sb = new StringBuilder("Report for period ")
