@@ -6,7 +6,6 @@ import java.time.format.DateTimeParseException;
 
 public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-
         LocalDate localDateFrom = parseDate(dateFrom);
         LocalDate localDateTo = parseDate(dateTo);
         StringBuilder sb = new StringBuilder("Report for period ")
@@ -18,11 +17,10 @@ public class SalaryInfo {
                 String[] employeeByDates = element.split(" ");
                 LocalDate date = parseDate(employeeByDates[0]);
                 if ((date.isAfter(localDateFrom) || date.isEqual(localDateFrom))
-                        && (date.isBefore(localDateTo) || date.isEqual(localDateTo))) {
-                    if (name.equals(employeeByDates[1])) {
+                        && (date.isBefore(localDateTo) || date.isEqual(localDateTo))
+                        && name.equals(employeeByDates[1])) {
                         salary += Integer.parseInt(employeeByDates[2])
                                 * Integer.parseInt(employeeByDates[3]);
-                    }
                 }
             }
             sb.append(System.lineSeparator()).append(name).append(" - ").append(salary);
