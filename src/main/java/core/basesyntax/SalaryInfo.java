@@ -19,8 +19,8 @@ public class SalaryInfo {
                 if ((date.isAfter(localDateFrom) || date.isEqual(localDateFrom))
                         && (date.isBefore(localDateTo) || date.isEqual(localDateTo))
                         && name.equals(employeeByDates[1])) {
-                        salary += Integer.parseInt(employeeByDates[2])
-                                * Integer.parseInt(employeeByDates[3]);
+                    salary += Integer.parseInt(employeeByDates[2])
+                            * Integer.parseInt(employeeByDates[3]);
                 }
             }
             sb.append(System.lineSeparator()).append(name).append(" - ").append(salary);
