@@ -43,9 +43,8 @@ public class SalaryInfo {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
             return LocalDate.parse(dateTo, formatter);
         } catch (DateTimeParseException e) {
-            System.out.printf("%s is not parsable! Please use \"dd.MM.yyyy\" format. %n", dateTo);
-            throw e;
+            throw new RuntimeException(" "
+                    + dateTo + "is not parsable! Please use \"dd.MM.yyyy\" format.", e);
         }
     }
-
 }
