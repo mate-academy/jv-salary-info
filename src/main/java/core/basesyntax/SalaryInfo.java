@@ -3,7 +3,7 @@ package core.basesyntax;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,27 +14,26 @@ public class SalaryInfo {
         List<Employee> dataToEmployeeList = parseDataToEmployeeList(data);
         LocalDate dateF = LocalDate.parse(dateFrom, dateTimeFormatter);
         LocalDate dateT = LocalDate.parse(dateTo, dateTimeFormatter);
-        HashMap<String, Integer> map = new HashMap<>();
+        Map<String, Integer> map = new LinkedHashMap<>();
 
+        for (String name : names) {
+            map.put(name, 0);
+        }
         for (Employee employee : dataToEmployeeList) {
             if (employee.getDate().compareTo(dateF) >= 0
                     && employee.getDate().compareTo(dateT) <= 0) {
-                for (String name : names) {
-                    if (employee.getName().equals(name)) {
-                        int salary = employee.getWorkingHour() * employee.getSalary();
-                        if (map.containsKey(name)) {
-                            map.put(name, map.get(name) + salary);
-                        } else {
-                            map.put(name, salary);
-                        }
-                    }
+                if (map.containsKey(employee.getName())) {
+                    map.put(employee.getName(), map.get(employee.getName())
+                                                + employee.getWorkingHour() * employee.getSalary());
+                } else {
+                    map.put(employee.getName(), employee.getWorkingHour() * employee.getSalary());
                 }
             }
         }
         return getFormater(map, dateFrom, dateTo);
     }
 
-    private String getFormater(HashMap<String, Integer> hashMap, String dateFrom, String dateTo) {
+    private String getFormater(Map<String, Integer> hashMap, String dateFrom, String dateTo) {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("Report for period ")
                 .append(dateFrom)
