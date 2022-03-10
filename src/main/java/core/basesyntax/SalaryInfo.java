@@ -5,9 +5,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class SalaryInfo {
+    private static final String DATE_FORMAT = "dd.MM.yyyy";
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         int sum;
-        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
+        SimpleDateFormat formatter = new SimpleDateFormat(DATE_FORMAT);
         StringBuilder sb = new StringBuilder();
         sb.append("Report for period ");
         sb.append(dateFrom);
@@ -30,7 +32,7 @@ public class SalaryInfo {
                             sum += Integer.parseInt(s[2]) * Integer.parseInt(s[3]);
                         }
                     } catch (ParseException e) {
-                        System.out.println("Bad date input");
+                        throw new RuntimeException("Bad date input ", e);
                     }
                 }
             }
