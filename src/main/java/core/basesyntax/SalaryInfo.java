@@ -8,16 +8,17 @@ import java.util.List;
 import java.util.Map;
 
 public class SalaryInfo {
-    DateTimeFormatter df = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         List<Employee> dataToEmployeeList = parseDataToEmployeeList(data);
-        LocalDate dateF = LocalDate.parse(dateFrom, df);
-        LocalDate dateT = LocalDate.parse(dateTo, df);
+        LocalDate dateF = LocalDate.parse(dateFrom, dateTimeFormatter);
+        LocalDate dateT = LocalDate.parse(dateTo, dateTimeFormatter);
         HashMap<String, Integer> map = new HashMap<>();
 
         for (Employee employee : dataToEmployeeList) {
-            if (employee.getDate().compareTo(dateF) >= 0 && employee.getDate().compareTo(dateT) <= 0) {
+            if (employee.getDate().compareTo(dateF) >= 0
+                    && employee.getDate().compareTo(dateT) <= 0) {
                 for (String name : names) {
                     if (employee.getName().equals(name)) {
                         int salary = employee.getWorkingHour() * employee.getSalary();
@@ -35,9 +36,16 @@ public class SalaryInfo {
 
     private String getFormater(HashMap<String, Integer> hashMap, String dateFrom, String dateTo) {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
+        stringBuilder.append("Report for period ")
+                .append(dateFrom)
+                .append(" - ")
+                .append(dateTo);
         for (Map.Entry entry : hashMap.entrySet()) {
-            stringBuilder.append("\n").append(entry.getKey()).append(" - ").append(entry.getValue());
+            stringBuilder
+                    .append(System.lineSeparator())
+                    .append(entry.getKey())
+                    .append(" - ")
+                    .append(entry.getValue());
         }
         return stringBuilder.toString();
     }
@@ -53,7 +61,7 @@ public class SalaryInfo {
     private Employee getEmployee(String elem) {
         Employee employee = new Employee();
         String[] emp = elem.split(" ");
-        employee.setDate(LocalDate.parse(emp[0], df));
+        employee.setDate(LocalDate.parse(emp[0], dateTimeFormatter));
         employee.setName(emp[1]);
         employee.setWorkingHour(Integer.parseInt(emp[2]));
         employee.setSalary(Integer.parseInt(emp[3]));
