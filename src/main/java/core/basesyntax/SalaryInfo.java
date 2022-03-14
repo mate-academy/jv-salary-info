@@ -12,16 +12,16 @@ public class SalaryInfo {
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         List<EmployeeData> dataToEmployeeList = parseDataToEmployeeList(data);
-        LocalDate dateF = LocalDate.parse(dateFrom, dateTimeFormatter);
-        LocalDate dateT = LocalDate.parse(dateTo, dateTimeFormatter);
+        LocalDate dateFromOfPattern = LocalDate.parse(dateFrom, dateTimeFormatter);
+        LocalDate dateToOfPattern = LocalDate.parse(dateTo, dateTimeFormatter);
         Map<String, Integer> map = new LinkedHashMap<>();
 
         for (String name : names) {
             map.put(name, 0);
         }
         for (EmployeeData employee : dataToEmployeeList) {
-            if (employee.getDate().compareTo(dateF) >= 0
-                    && employee.getDate().compareTo(dateT) <= 0) {
+            if (employee.getDate().compareTo(dateFromOfPattern) >= 0
+                    && employee.getDate().compareTo(dateToOfPattern) <= 0) {
                 if (map.containsKey(employee.getName())) {
                     map.put(employee.getName(), map.get(employee.getName())
                                                 + employee.getWorkingHour() * employee.getSalary());
