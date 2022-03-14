@@ -2,9 +2,9 @@ package core.basesyntax;
 
 import java.time.LocalDate;
 
-public class Employee {
+public class EmployeeData {
     private String name;
-    private int workingHour;
+    private int workingHours;
     private int salary;
     private LocalDate date;
 
@@ -17,11 +17,11 @@ public class Employee {
     }
 
     public int getWorkingHour() {
-        return workingHour;
+        return workingHours;
     }
 
-    public void setWorkingHour(int workingHour) {
-        this.workingHour = workingHour;
+    public void setWorkingHour(int workingHours) {
+        this.workingHours = workingHours;
     }
 
     public int getSalary() {
@@ -44,7 +44,7 @@ public class Employee {
     public String toString() {
         return "Employee{"
                + "name='" + name + '\''
-               + ", workingHour=" + workingHour
+               + ", workingHour=" + workingHours
                + ", salary=" + salary
                + ", date=" + date
                + '}';

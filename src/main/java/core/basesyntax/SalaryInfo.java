@@ -11,7 +11,7 @@ public class SalaryInfo {
     private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        List<Employee> dataToEmployeeList = parseDataToEmployeeList(data);
+        List<EmployeeData> dataToEmployeeList = parseDataToEmployeeList(data);
         LocalDate dateF = LocalDate.parse(dateFrom, dateTimeFormatter);
         LocalDate dateT = LocalDate.parse(dateTo, dateTimeFormatter);
         Map<String, Integer> map = new LinkedHashMap<>();
@@ -19,7 +19,7 @@ public class SalaryInfo {
         for (String name : names) {
             map.put(name, 0);
         }
-        for (Employee employee : dataToEmployeeList) {
+        for (EmployeeData employee : dataToEmployeeList) {
             if (employee.getDate().compareTo(dateF) >= 0
                     && employee.getDate().compareTo(dateT) <= 0) {
                 if (map.containsKey(employee.getName())) {
@@ -49,16 +49,16 @@ public class SalaryInfo {
         return stringBuilder.toString();
     }
 
-    private List<Employee> parseDataToEmployeeList(String[] data) {
-        List<Employee> employees = new ArrayList<>();
+    private List<EmployeeData> parseDataToEmployeeList(String[] data) {
+        List<EmployeeData> employees = new ArrayList<>();
         for (String element : data) {
             employees.add(getEmployee(element));
         }
         return employees;
     }
 
-    private Employee getEmployee(String element) {
-        Employee employee = new Employee();
+    private EmployeeData getEmployee(String element) {
+        EmployeeData employee = new EmployeeData();
         String[] employeeArray = element.split(" ");
         employee.setDate(LocalDate.parse(employeeArray[0], dateTimeFormatter));
         employee.setName(employeeArray[1]);
