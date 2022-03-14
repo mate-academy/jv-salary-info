@@ -30,10 +30,10 @@ public class SalaryInfo {
                 }
             }
         }
-        return getFormater(map, dateFrom, dateTo);
+        return getReport(map, dateFrom, dateTo);
     }
 
-    private String getFormater(Map<String, Integer> hashMap, String dateFrom, String dateTo) {
+    private String getReport(Map<String, Integer> hashMap, String dateFrom, String dateTo) {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("Report for period ")
                 .append(dateFrom)
@@ -51,19 +51,19 @@ public class SalaryInfo {
 
     private List<Employee> parseDataToEmployeeList(String[] data) {
         List<Employee> employees = new ArrayList<>();
-        for (String elem : data) {
-            employees.add(getEmployee(elem));
+        for (String element : data) {
+            employees.add(getEmployee(element));
         }
         return employees;
     }
 
-    private Employee getEmployee(String elem) {
+    private Employee getEmployee(String element) {
         Employee employee = new Employee();
-        String[] emp = elem.split(" ");
-        employee.setDate(LocalDate.parse(emp[0], dateTimeFormatter));
-        employee.setName(emp[1]);
-        employee.setWorkingHour(Integer.parseInt(emp[2]));
-        employee.setSalary(Integer.parseInt(emp[3]));
+        String[] employeeArray = element.split(" ");
+        employee.setDate(LocalDate.parse(employeeArray[0], dateTimeFormatter));
+        employee.setName(employeeArray[1]);
+        employee.setWorkingHour(Integer.parseInt(employeeArray[2]));
+        employee.setSalary(Integer.parseInt(employeeArray[3]));
         return employee;
     }
 }
