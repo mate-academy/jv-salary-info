@@ -31,7 +31,7 @@ public class SalaryInfo {
                 finishDate = LocalDate.parse(dateTo, FORMATTER);
                 dateOfWorkingDay = LocalDate.parse(splitData[INDEX_FOR_DATE], FORMATTER);
                 if (name.equals(splitData[INDEX_FOR_NAME])
-                        && dateOfWorkingDay.isAfter(startDate)
+                        && dateOfWorkingDay.isAfter(startDate.minusDays(1))
                         && dateOfWorkingDay.isBefore(finishDate.plusDays(1))) {
                     salary += Integer.parseInt(splitData[INDEX_FOR_COUNT_OF_HOURS])
                             * Integer.parseInt(splitData[INDEX_FOR_AMOUNT_OF_MONEY]);
@@ -42,7 +42,6 @@ public class SalaryInfo {
                     .append(" - ")
                     .append(salary)
                     .append(separator);
-
         }
 
         return reportResult.toString().trim();
