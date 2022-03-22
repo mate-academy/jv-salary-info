@@ -38,9 +38,8 @@ public class SalaryInfo {
             date = formatter.parse(dateInString);
             return date;
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new RuntimeException("Can't convert " + dateInString + " in Date object");
         }
-        return date;
     }
 
     public String getOutputString(Employee[] arrayEmployee, String dateFrom, String dateTo) {
