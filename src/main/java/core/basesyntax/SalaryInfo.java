@@ -14,7 +14,6 @@ public class SalaryInfo {
                 + dateFrom + " - "
                 + dateTo + System.lineSeparator());
 
-
         if (localeFrom.isAfter(localeTo)) {
             throw new RuntimeException("Invalid dates");
         }
@@ -25,9 +24,7 @@ public class SalaryInfo {
                 if (((tempData.isBefore(localeTo)
                         && tempData.isAfter(localeFrom))
                         || tempData.equals(localeTo))
-                    && dateName[1].equals(name)) {
-
-
+                        && dateName[1].equals(name)) {
                     salary += Integer.parseInt(dateName[2]) * Integer.parseInt(dateName[3]);
                 }
             }
