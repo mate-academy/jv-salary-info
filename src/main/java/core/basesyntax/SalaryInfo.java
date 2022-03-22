@@ -4,7 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class SalaryInfo {
-    private final SimpleDateFormat FORMATTER = new SimpleDateFormat("dd.MM.yyyy");
+    private SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         Employee[] arrayEmployee = new Employee[names.length];
@@ -35,7 +35,7 @@ public class SalaryInfo {
     public Date getDate(String dateInString) {
         Date date = new Date();
         try {
-            date = FORMATTER.parse(dateInString);
+            date = formatter.parse(dateInString);
             return date;
         } catch (Exception e) {
             e.printStackTrace();
