@@ -4,19 +4,21 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
+    private static final DateTimeFormatter FORMAT = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        StringBuilder builder = new StringBuilder("Report for period " + dateFrom + " - " + dateTo);
+        StringBuilder builder = new StringBuilder("Report for period ")
+                .append(dateFrom).append(" - ").append(dateTo);
         String[] array;
         int salary = 0;
-        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-
+        LocalDate dateFromDateLocalDate = getDateFromString(dateFrom, FORMAT);
+        LocalDate dateToDateLocalDate = getDateFromString(dateTo, FORMAT);
         for (String name : names) {
-
             for (String datum : data) {
                 array = datum.split(" ");
-                if (getDateFromString(dateFrom, format).isAfter(getDateFromString(array[0], format))
-                        || getDateFromString(dateTo, format)
-                        .isBefore(getDateFromString(array[0], format))) {
+                if (dateFromDateLocalDate.isAfter(getDateFromString(array[0], FORMAT))
+                        || dateToDateLocalDate
+                        .isBefore(getDateFromString(array[0], FORMAT))) {
                     continue;
                 }
                 if (array[1].equals(name)) {
