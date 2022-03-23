@@ -1,54 +1,43 @@
 package core.basesyntax;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    private SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
-    private Date date = new Date();
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        Employee[] arrayEmployee = new Employee[names.length];
-        for (int i = 0; i < arrayEmployee.length; i++) {
-            arrayEmployee[i] = new Employee(names[i]);
-        }
+        LocalDate startDate = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate endDate = LocalDate.parse(dateTo, FORMATTER);
+        DateRangeValidator checker = new DateRangeValidator(startDate, endDate);
 
-        Date dateStart = getDate(dateFrom);
-        Date dateEnd = getDate(dateTo);
+        Employee[] employees = new Employee[names.length];
+        for (int i = 0; i < employees.length; i++) {
+            employees[i] = new Employee(names[i]);
+        }
 
         for (int i = 0; i < names.length; i++) {
             int sunSalary = 0;
             for (int j = 0; j < data.length; j++) {
                 String[] arrayData = data[j].split(" ");
-                if (names[i].equals(arrayData[1])
-                        && getDate(arrayData[0]).compareTo(dateStart) >= 0
-                        && getDate(arrayData[0]).compareTo(dateEnd) <= 0) {
-
+                LocalDate testDate = LocalDate.parse(arrayData[0], FORMATTER);
+                if (names[i].equals(arrayData[1]) && checker.isWithinRange(testDate)) {
                     sunSalary += Integer.parseInt(arrayData[2])
                             * Integer.parseInt(arrayData[3]);
                 }
-                arrayEmployee[i].setSalary(sunSalary);
+                employees[i].setSalary(sunSalary);
             }
         }
-        return getOutputString(arrayEmployee, dateFrom, dateTo);
-    }
-
-    public Date getDate(String dateInString) {
-        try {
-            date = formatter.parse(dateInString);
-            return date;
-        } catch (Exception e) {
-            throw new RuntimeException("Can't convert " + dateInString + " in Date object", e);
-        }
+        return getOutputString(employees, dateFrom, dateTo);
     }
 
     public String getOutputString(Employee[] arrayEmployee, String dateFrom, String dateTo) {
         String nextLine = System.lineSeparator();
-        StringBuilder text = new StringBuilder("Report for period "
-                                                + dateFrom
-                                                + " - "
-                                                + dateTo
-                                                + nextLine);
+        StringBuilder text = new StringBuilder();
+        text.append("Report for period ")
+                .append(dateFrom).append(" - ")
+                .append(dateTo)
+                .append(nextLine);
 
         for (int i = 0; i < arrayEmployee.length; i++) {
             text.append(arrayEmployee[i].getName())
