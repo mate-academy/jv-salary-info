@@ -38,7 +38,7 @@ public class SalaryInfo {
             date = formatter.parse(dateInString);
             return date;
         } catch (Exception e) {
-            throw new RuntimeException("Can't convert " + dateInString + " in Date object");
+            throw new RuntimeException("Can't convert " + dateInString + " in Date object", e);
         }
     }
 
