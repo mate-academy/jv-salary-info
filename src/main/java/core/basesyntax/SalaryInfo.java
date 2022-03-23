@@ -56,6 +56,6 @@ public class SalaryInfo {
                     .append(arrayEmployee[i].getSalary())
                     .append(nextLine);
         }
-        return text.substring(0,text.length() - 2);
+        return text.toString().trim();
     }
 }
