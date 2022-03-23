@@ -12,7 +12,6 @@ public class SalaryInfo {
     private static final int INDEX_OF_HOURLY_RATE = 3;
     private LocalDate startDate;
     private LocalDate endDate;
-    private String name;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder builder = new StringBuilder();
@@ -22,10 +21,9 @@ public class SalaryInfo {
         builder.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
         for (String name : names) {
             salary = 0;
-            this.name = name;
             for (String entry : data) {
                 Entry parsedEntry = parseEntry(entry);
-                if (isEligible(parsedEntry)) {
+                if (isEligible(parsedEntry, name)) {
                     salary += parsedEntry.getMoneyEarned();
                 }
             }
@@ -47,7 +45,7 @@ public class SalaryInfo {
         return !(date.isBefore(dateFrom) || date.isAfter(dateTo));
     }
 
-    private boolean isEligible(Entry entry) {
+    private boolean isEligible(Entry entry, String name) {
         return entry.getName().equals(name)
              & isWithinDateRange(entry.getDate(), startDate, endDate);
     }
