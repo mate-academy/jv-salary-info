@@ -13,18 +13,16 @@ public class SalaryInfo {
         StringBuilder resultMessage = new StringBuilder();
         resultMessage.append("Report for period ").append(dateFromString)
                 .append(" - ").append(dateToString);
-        String[] recordValues;
-        int salaryPerHour;
-        int hours;
-        int totalSalary;
         for (String name : names) {
-            totalSalary = 0;
+            int totalSalary = 0;
             for (String record : data) {
-                if (record.contains(name)
-                        && isDateActual(record.substring(0, 10), dateFrom, dateTo)) {
-                    recordValues = record.split(" ");
-                    salaryPerHour = Integer.parseInt(recordValues[2]);
-                    hours = Integer.parseInt(recordValues[3]);
+                if (!record.contains(name)) {
+                    continue;
+                }
+                String[] recordValues = record.split(" ");
+                if (isDateActual(recordValues[0], dateFrom, dateTo)) {
+                    int salaryPerHour = Integer.parseInt(recordValues[2]);
+                    int hours = Integer.parseInt(recordValues[3]);
                     totalSalary += salaryPerHour * hours;
                 }
             }
