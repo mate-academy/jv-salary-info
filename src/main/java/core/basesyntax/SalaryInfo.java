@@ -7,10 +7,6 @@ public class SalaryInfo {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        LocalDate startDate = LocalDate.parse(dateFrom, FORMATTER);
-        LocalDate endDate = LocalDate.parse(dateTo, FORMATTER);
-        DateRangeValidator checker = new DateRangeValidator(startDate, endDate);
-
         Employee[] employees = new Employee[names.length];
         for (int i = 0; i < employees.length; i++) {
             employees[i] = new Employee(names[i]);
@@ -18,10 +14,11 @@ public class SalaryInfo {
 
         for (int i = 0; i < names.length; i++) {
             int sunSalary = 0;
-            for (int j = 0; j < data.length; j++) {
-                String[] arrayData = data[j].split(" ");
-                LocalDate testDate = LocalDate.parse(arrayData[0], FORMATTER);
-                if (names[i].equals(arrayData[1]) && checker.isWithinRange(testDate)) {
+            for (String datum : data) {
+                String[] arrayData = datum.split(" ");
+                if (names[i].equals(arrayData[1])
+                        && isWithinRange(dateFrom, dateTo, arrayData[0])) {
+
                     sunSalary += Integer.parseInt(arrayData[2])
                             * Integer.parseInt(arrayData[3]);
                 }
@@ -29,6 +26,15 @@ public class SalaryInfo {
             }
         }
         return getOutputString(employees, dateFrom, dateTo);
+    }
+
+    private boolean isWithinRange(String dateFrom, String dateTo, String arrayDatum) {
+        LocalDate startDate = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate endDate = LocalDate.parse(dateTo, FORMATTER);
+        LocalDate testDate = LocalDate.parse(arrayDatum, FORMATTER);
+
+        return (testDate.isEqual(startDate) || testDate.isEqual(endDate))
+                || (testDate.isBefore(endDate) && testDate.isAfter(startDate));
     }
 
     public String getOutputString(Employee[] arrayEmployee, String dateFrom, String dateTo) {
@@ -39,10 +45,10 @@ public class SalaryInfo {
                 .append(dateTo)
                 .append(nextLine);
 
-        for (int i = 0; i < arrayEmployee.length; i++) {
-            text.append(arrayEmployee[i].getName())
+        for (Employee employee : arrayEmployee) {
+            text.append(employee.getName())
                     .append(" - ")
-                    .append(arrayEmployee[i].getSalary())
+                    .append(employee.getSalary())
                     .append(nextLine);
         }
         return text.toString().trim();
