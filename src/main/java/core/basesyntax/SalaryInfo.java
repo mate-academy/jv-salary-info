@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder stringBuilder = new StringBuilder();
@@ -26,13 +26,12 @@ public class SalaryInfo {
         return stringBuilder.toString();
     }
 
-    public LocalDate getDate(String inputData) {
+    private LocalDate getDate(String inputData) {
         String[] items = inputData.split(" ");
         return LocalDate.parse(items[0], FORMATTER);
     }
 
-    public int getEarnedMoney(String inputData) {
-
+    private int getEarnedMoney(String inputData) {
         String[] items = inputData.split(" ");
         return Integer.parseInt(items[2]) * Integer.parseInt(items[3]);
     }
