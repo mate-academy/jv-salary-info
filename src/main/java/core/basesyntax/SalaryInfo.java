@@ -13,12 +13,9 @@ public class SalaryInfo {
         for (String name : names) {
             int amount = 0;
             for (String field : data) {
-                if ((getDate(field).isAfter(getDate(dateFrom))
-                        || getDate(field).isEqual(getDate(dateFrom)))
-                        && (getDate(field).isBefore(getDate(dateTo))
-                        || getDate(field).isEqual(getDate(dateTo)))
-                        && field.contains(name)) {
-                    amount += getEarnedMoney(field);
+                String[] items = field.split(" ");
+                if (compareDate(items[0], dateFrom, dateTo) && field.contains(name)) {
+                    amount += getEarnedMoney(items[2], items[3]);
                 }
             }
             stringBuilder.append(System.lineSeparator()).append(name).append(" - ").append(amount);
@@ -27,12 +24,17 @@ public class SalaryInfo {
     }
 
     private LocalDate getDate(String inputData) {
-        String[] items = inputData.split(" ");
-        return LocalDate.parse(items[0], FORMATTER);
+        return LocalDate.parse(inputData, FORMATTER);
     }
 
-    private int getEarnedMoney(String inputData) {
-        String[] items = inputData.split(" ");
-        return Integer.parseInt(items[2]) * Integer.parseInt(items[3]);
+    private int getEarnedMoney(String inputHours, String inputMoney) {
+        return Integer.parseInt(inputHours) * Integer.parseInt(inputMoney);
+    }
+
+    private boolean compareDate(String date, String dateFrom, String dateTo) {
+        return (getDate(date).isAfter(getDate(dateFrom))
+                || getDate(date).isEqual(getDate(dateFrom)))
+                && (getDate(date).isBefore(getDate(dateTo))
+                || getDate(date).isEqual(getDate(dateTo)));
     }
 }
