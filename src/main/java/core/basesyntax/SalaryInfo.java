@@ -30,8 +30,8 @@ public class SalaryInfo {
                                     * Integer.parseInt(processData[3]));
                         }
                     } catch (ParseException e) {
-                        System.out.println("Wrong date format. "
-                                + "Correct date format is: dd.MM.yyyy");
+                        System.out.println("Wrong date format - "
+                                + "correct date format is: dd.MM.yyyy");
                     }
                 }
             }
