@@ -8,11 +8,11 @@ public class SalaryInfo {
     private static final int DATE_ORDER = 0;
     private static final int HOUR_ORDER = 2;
     private static final int SALARY_ORDER = 3;
-    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        LocalDate fromDate = LocalDate.parse(dateFrom, formatter);
-        LocalDate toDate = LocalDate.parse(dateTo, formatter);
+        LocalDate fromDate = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate toDate = LocalDate.parse(dateTo, FORMATTER);
         fromDate = fromDate.minusDays(1);
         toDate = toDate.plusDays(1);
         StringBuilder builder = new StringBuilder();
@@ -25,7 +25,7 @@ public class SalaryInfo {
             int salary = 0;
             for (String datum : data) {
                 String[] array = datum.split(" ");
-                LocalDate check = LocalDate.parse(array[DATE_ORDER], formatter);
+                LocalDate check = LocalDate.parse(array[DATE_ORDER], FORMATTER);
                 if (name.equals(array[NAME_ORDER]) && check.isAfter(fromDate)
                         && check.isBefore(toDate)) {
                     salary += Integer.parseInt(array[HOUR_ORDER])
