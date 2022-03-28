@@ -3,7 +3,7 @@ package core.basesyntax;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-public class SalaryInfo extends Exception {
+public class SalaryInfo {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     private static final int INDEX_OF_NAME = 1;
     private static final int INDEX_OF_DATE = 0;
