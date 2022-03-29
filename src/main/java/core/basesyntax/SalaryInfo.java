@@ -16,7 +16,7 @@ public class SalaryInfo {
         for (String name : names) {
             int salary = 0;
             for (String dat : data) {
-                 getInfoWithDate = dat.split(" ");
+                getInfoWithDate = dat.split(" ");
                 LocalDate currentDate = LocalDate.parse(getInfoWithDate[0], FORMATTER);
                 if (parseDateFrom.compareTo(currentDate) <= 0
                         && parseDateTo.compareTo(currentDate) >= 0
