@@ -11,7 +11,7 @@ public class SalaryInfo {
             Date firstDate = new SimpleDateFormat("dd.MM.yyyy").parse(dateFrom);
             Date secondDate = new SimpleDateFormat("dd.MM.yyyy").parse(dateTo);
             for (String name: names) {
-                builder.append("\n");
+                builder.append(System.lineSeparator());
                 int salary = 0;
                 for (int i = 0; i < data.length; i++) {
                     String[] dataFormat = data[i].split(" ");
