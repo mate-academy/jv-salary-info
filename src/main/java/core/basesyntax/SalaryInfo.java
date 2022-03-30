@@ -26,7 +26,6 @@ public class SalaryInfo {
                             * Integer.parseInt(arrayOfData[2]));
                 }
             }
-
             stringBuilder.append(System.lineSeparator()).append(name).append(" - ").append(salary);
         }
         return stringBuilder.toString();
