@@ -10,7 +10,7 @@ public class SalaryInfo {
         format.applyPattern("dd.MM.yyyy");
         StringBuilder result = new StringBuilder();
         result.append("Report for period ").append(dateFrom).append(" - ").append(dateTo)
-                .append("\n");
+                .append(System.lineSeparator());
         int count = 0;
         for (String name : names) {
             int salary = 0;
@@ -30,13 +30,13 @@ public class SalaryInfo {
                                     * Integer.parseInt(processData[3]));
                         }
                     } catch (ParseException e) {
-                        System.out.println("Wrong date format - "
-                                + "correct date format is: dd.MM.yyyy");
+                        throw new RuntimeException("Wrong date format - "
+                                + "correct date format is: dd.MM.yyyy", e);
                     }
                 }
             }
             if (count < names.length) {
-                result.append(salary).append("\n");
+                result.append(salary).append(System.lineSeparator());
             } else {
                 result.append(salary);
             }
