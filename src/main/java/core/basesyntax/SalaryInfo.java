@@ -4,38 +4,34 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    private static final String PATTERN = "dd.MM.yyyy";
-    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern(PATTERN);
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final int DATE_INDEX = 0;
+    private static final int NAME_INDEX = 1;
+    private static final int HOUR_INDEX = 2;
+    private static final int RATE_INDEX = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate dayFrom = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate dayTo = LocalDate.parse(dateTo, FORMATTER);
         StringBuilder result = new StringBuilder();
         result.append("Report for period ").append(dateFrom).append(" - ").append(dateTo)
                 .append(System.lineSeparator());
-        int count = 0;
         for (String name : names) {
             int salary = 0;
-            count++;
+            result.append(name).append(" - ");
             for (String item : data) {
                 String[] processData = item.split(" ");
-                if (processData[1].equals(name)) {
-                    if (!(result.toString().contains(name))) {
-                        result.append(name).append(" - ");
-                    }
-                    LocalDate dayTo = LocalDate.parse(dateTo, FORMATTER);
-                    LocalDate empDays = LocalDate.parse(processData[0], FORMATTER);
-                    if (empDays.compareTo(dayFrom) >= 0 && (dayTo.compareTo(empDays) >= 0)) {
-                        salary += (Integer.parseInt(processData[2])
-                                * Integer.parseInt(processData[3]));
-                    }
+                LocalDate empDays = LocalDate.parse(processData[DATE_INDEX], FORMATTER);
+                boolean nameInNames = name.equals(processData[NAME_INDEX]);
+                boolean dateInPeriod = ((empDays.isEqual(dayFrom) || empDays.isAfter(dayFrom))
+                        && (empDays.isBefore(dayTo) || empDays.isEqual(dayTo)));
+                if (nameInNames && dateInPeriod) {
+                    salary += (Integer.parseInt(processData[HOUR_INDEX])
+                            * Integer.parseInt(processData[RATE_INDEX]));
                 }
             }
-            if (count < names.length) {
-                result.append(salary).append(System.lineSeparator());
-            } else {
-                result.append(salary);
-            }
+            result.append(salary).append(System.lineSeparator());
         }
-        return result.toString();
+        return result.toString().stripTrailing();
     }
 }
