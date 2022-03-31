@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final int DATE_INDEX = 0;
     private static final int NAME_INDEX = 1;
     private static final int WORKING_HOURS_INDEX = 2;
     private static final int INCOME_PER_HOUR_INDEX = 3;
@@ -18,7 +19,7 @@ public class SalaryInfo {
             int salary = 0;
             for (String line : data) {
                 String[] splittedLine = line.split(" ");
-                LocalDate currentDate = LocalDate.parse(splittedLine[0], FORMATTER);
+                LocalDate currentDate = LocalDate.parse(splittedLine[DATE_INDEX], FORMATTER);
                 if (((currentDate.isAfter(firstDay) || currentDate.equals(firstDay))
                         && (currentDate.isBefore(lastDay) || currentDate.equals(lastDay)))
                         && splittedLine[NAME_INDEX].equals(name)) {
