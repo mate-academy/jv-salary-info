@@ -1,13 +1,13 @@
 package core.basesyntax;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        SimpleDateFormat format = new SimpleDateFormat();
-        format.applyPattern("dd.MM.yyyy");
+        String pattern = "dd.MM.yyyy";
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
+        LocalDate dayFrom = LocalDate.parse(dateFrom, formatter);
         StringBuilder result = new StringBuilder();
         result.append("Report for period ").append(dateFrom).append(" - ").append(dateTo)
                 .append(System.lineSeparator());
@@ -21,17 +21,11 @@ public class SalaryInfo {
                     if (!(result.toString().contains(name))) {
                         result.append(name).append(" - ");
                     }
-                    try {
-                        Date dayFrom = format.parse(dateFrom);
-                        Date dayTo = format.parse(dateTo);
-                        Date empDays = format.parse(processData[0]);
-                        if (empDays.compareTo(dayFrom) >= 0 && (dayTo.compareTo(empDays) >= 0)) {
-                            salary += (Integer.parseInt(processData[2])
-                                    * Integer.parseInt(processData[3]));
-                        }
-                    } catch (ParseException e) {
-                        throw new RuntimeException("Wrong date format - "
-                                + "correct date format is: dd.MM.yyyy", e);
+                    LocalDate dayTo = LocalDate.parse(dateTo, formatter);
+                    LocalDate empDays = LocalDate.parse(processData[0], formatter);
+                    if (empDays.compareTo(dayFrom) >= 0 && (dayTo.compareTo(empDays) >= 0)) {
+                        salary += (Integer.parseInt(processData[2])
+                                * Integer.parseInt(processData[3]));
                     }
                 }
             }
