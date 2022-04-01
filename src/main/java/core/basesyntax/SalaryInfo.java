@@ -11,27 +11,27 @@ public class SalaryInfo {
     private static final int RATE_INDEX = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        LocalDate dayFrom = LocalDate.parse(dateFrom, FORMATTER);
-        LocalDate dayTo = LocalDate.parse(dateTo, FORMATTER);
+        LocalDate startDate = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate endDate = LocalDate.parse(dateTo, FORMATTER);
         StringBuilder result = new StringBuilder();
-        result.append("Report for period ").append(dateFrom).append(" - ").append(dateTo)
-                .append(System.lineSeparator());
+        result.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
         for (String name : names) {
+            result.append(System.lineSeparator());
             int salary = 0;
             result.append(name).append(" - ");
-            for (String item : data) {
-                String[] processData = item.split(" ");
-                LocalDate empDays = LocalDate.parse(processData[DATE_INDEX], FORMATTER);
-                boolean nameInNames = name.equals(processData[NAME_INDEX]);
-                boolean dateInPeriod = ((empDays.isEqual(dayFrom) || empDays.isAfter(dayFrom))
-                        && (empDays.isBefore(dayTo) || empDays.isEqual(dayTo)));
-                if (nameInNames && dateInPeriod) {
+            for (String line : data) {
+                String[] processData = line.split(" ");
+                LocalDate date = LocalDate.parse(processData[DATE_INDEX], FORMATTER);
+                boolean isValidName = name.equals(processData[NAME_INDEX]);
+                boolean isValidDate = ((date.isEqual(startDate) || date.isAfter(startDate))
+                        && (date.isBefore(endDate) || date.isEqual(endDate)));
+                if (isValidName && isValidDate) {
                     salary += (Integer.parseInt(processData[HOUR_INDEX])
                             * Integer.parseInt(processData[RATE_INDEX]));
                 }
             }
-            result.append(salary).append(System.lineSeparator());
+            result.append(salary);
         }
-        return result.toString().stripTrailing();
+        return result.toString();
     }
 }
