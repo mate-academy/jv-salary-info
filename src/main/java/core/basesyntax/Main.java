@@ -12,7 +12,7 @@ public class Main {
                 "13.02.2019 John 7 100",
                 "26.04.2019 Kate 9 100"};
         SalaryInfo salaryInfo = new SalaryInfo();
-        String result = salaryInfo.getSalaryInfo(names, data, "01.04.2019", "30.04.2019");
+        String result = salaryInfo.getSalaryInfo(names, data, "24.04.2019", "24.04.2019");
         System.out.println(result);
     }
 }

@@ -17,8 +17,7 @@ public class SalaryInfo {
             stringBuilder.append("Report for period ")
                          .append(dateFormat.format(startDate))
                          .append(" - ")
-                         .append(dateFormat.format(endDate))
-                         .append("\n");
+                         .append(dateFormat.format(endDate));
             String[] fields = new String[4];
             int salary;
             if (dateFrom != null && dateTo != null) {
@@ -31,10 +30,10 @@ public class SalaryInfo {
                             salary += Integer.parseInt(fields[2]) * Integer.parseInt(fields[3]);
                         }
                     }
-                    stringBuilder.append(name)
+                    stringBuilder.append("\n")
+                            .append(name)
                             .append(" - ")
-                            .append(salary)
-                            .append("\n");
+                            .append(salary);
                 }
             }
         } catch (ParseException e) {
