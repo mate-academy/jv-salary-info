@@ -19,8 +19,7 @@ public class SalaryInfo {
             LocalDate startDate = LocalDate.parse(dateFrom, DATEFORMAT);
             LocalDate endDate = LocalDate.parse(dateTo, DATEFORMAT);
             LocalDate salaryDate = null;
-            boolean isWithinRange = ((salaryDate.equals(startDate) || salaryDate.equals(endDate))
-            || (salaryDate.isAfter(startDate) && salaryDate.isBefore(endDate)));
+            boolean isWithinRange = false;
             reportBuilder.append("Report for period ")
                          .append(DATEFORMAT.format(startDate))
                          .append(" - ")
@@ -32,6 +31,8 @@ public class SalaryInfo {
                 for (String dataStr : data) {
                     fields = dataStr.split(" ");
                     salaryDate = LocalDate.parse(fields[DATE_INDEX], DATEFORMAT);
+                    isWithinRange = ((salaryDate.equals(startDate) || salaryDate.equals(endDate))
+                            || (salaryDate.isAfter(startDate) && salaryDate.isBefore(endDate)));
                     if (isWithinRange && name.equals(fields[NAME_INDEX])) {
                         salary += Integer.parseInt(fields[HOURS_INDEX]) * Integer.parseInt(fields[INCOME_PER_HOUR_INDEX]);
                     }
