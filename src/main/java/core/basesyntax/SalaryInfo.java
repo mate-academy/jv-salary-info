@@ -39,7 +39,7 @@ public class SalaryInfo {
                 }
             }
         } catch (ParseException e) {
-            e.printStackTrace();
+            System.out.println("Failed to parse date");
         }
         return stringBuilder.toString();
     }
