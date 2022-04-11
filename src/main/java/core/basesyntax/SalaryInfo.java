@@ -7,9 +7,11 @@ import java.util.Date;
 
 
 public class SalaryInfo {
-
     private static final DateTimeFormatter DATEFORMAT = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-
+    private static final int DATE_INDEX = 0;
+    private static final int NAME_INDEX = 1;
+    private static final int HOURS_INDEX = 2;
+    private static final int INCOME_PER_HOUR_INDEX = 3;
 
     public boolean isWithinRange(LocalDate salaryDate) {
         boolean result = false;
@@ -40,9 +42,9 @@ public class SalaryInfo {
                     salary = 0;
                     for (String dataStr : data) {
                         fields = dataStr.split(" ");
-                        salaryDate = LocalDate.parse(fields[0], DATEFORMAT);
-                        if (isWithinRange(salaryDate) && name.equals(fields[1])) {
-                            salary += Integer.parseInt(fields[2]) * Integer.parseInt(fields[3]);
+                        salaryDate = LocalDate.parse(fields[DATE_INDEX], DATEFORMAT);
+                        if (isWithinRange(salaryDate) && name.equals(fields[NAME_INDEX])) {
+                            salary += Integer.parseInt(fields[HOURS_INDEX]) * Integer.parseInt(fields[INCOME_PER_HOUR_INDEX]);
                         }
                     }
                     reportBuilder.append(System.lineSeparator())
