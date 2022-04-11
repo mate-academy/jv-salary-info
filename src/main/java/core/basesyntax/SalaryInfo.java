@@ -5,19 +5,21 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class SalaryInfo {
+
+    private static final SimpleDateFormat DATEFORMAT = new SimpleDateFormat("dd.MM.yyyy");
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
 
         StringBuilder stringBuilder = new StringBuilder();
         try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-            Date startDate = dateFormat.parse(dateFrom);
-            Date endDate = dateFormat.parse(dateTo);
+            Date startDate = DATEFORMAT.parse(dateFrom);
+            Date endDate = DATEFORMAT.parse(dateTo);
             Date salaryDate = null;
             DateValidator checker = new DateValidator(startDate, endDate);
             stringBuilder.append("Report for period ")
-                         .append(dateFormat.format(startDate))
+                         .append(DATEFORMAT.format(startDate))
                          .append(" - ")
-                         .append(dateFormat.format(endDate));
+                         .append(DATEFORMAT.format(endDate));
             String[] fields = new String[4];
             int salary;
             if (dateFrom != null && dateTo != null) {
@@ -25,7 +27,7 @@ public class SalaryInfo {
                     salary = 0;
                     for (String dataStr : data) {
                         fields = dataStr.split(" ");
-                        salaryDate = dateFormat.parse(fields[0]);
+                        salaryDate = DATEFORMAT.parse(fields[0]);
                         if (checker.isWithinRange(salaryDate) && name.equals(fields[1])) {
                             salary += Integer.parseInt(fields[2]) * Integer.parseInt(fields[3]);
                         }
