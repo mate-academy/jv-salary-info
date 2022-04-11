@@ -1,22 +1,35 @@
 package core.basesyntax;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
+
 
 public class SalaryInfo {
 
-    private static final SimpleDateFormat DATEFORMAT = new SimpleDateFormat("dd.MM.yyyy");
+    private static final DateTimeFormatter DATEFORMAT = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
+
+    public boolean isWithinRange(LocalDate salaryDate) {
+        boolean result = false;
+        LocalDate startDate = null;
+        LocalDate endDate = null;
+        if ((salaryDate.equals(startDate) || salaryDate.equals(endDate))
+                || (salaryDate.isAfter(startDate) && salaryDate.isBefore(endDate))) {
+            result = true;
+        }
+        return result;
+    }
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
 
-        StringBuilder stringBuilder = new StringBuilder();
+        StringBuilder reportBuilder = new StringBuilder();
         try {
-            Date startDate = DATEFORMAT.parse(dateFrom);
-            Date endDate = DATEFORMAT.parse(dateTo);
-            Date salaryDate = null;
-            DateValidator checker = new DateValidator(startDate, endDate);
-            stringBuilder.append("Report for period ")
+            LocalDate startDate = LocalDate.parse(dateFrom, DATEFORMAT);
+            LocalDate endDate = LocalDate.parse(dateTo, DATEFORMAT);
+            LocalDate salaryDate = null;
+            reportBuilder.append("Report for period ")
                          .append(DATEFORMAT.format(startDate))
                          .append(" - ")
                          .append(DATEFORMAT.format(endDate));
@@ -27,12 +40,12 @@ public class SalaryInfo {
                     salary = 0;
                     for (String dataStr : data) {
                         fields = dataStr.split(" ");
-                        salaryDate = DATEFORMAT.parse(fields[0]);
-                        if (checker.isWithinRange(salaryDate) && name.equals(fields[1])) {
+                        salaryDate = LocalDate.parse(fields[0], DATEFORMAT);
+                        if (isWithinRange(salaryDate) && name.equals(fields[1])) {
                             salary += Integer.parseInt(fields[2]) * Integer.parseInt(fields[3]);
                         }
                     }
-                    stringBuilder.append(System.lineSeparator())
+                    reportBuilder.append(System.lineSeparator())
                             .append(name)
                             .append(" - ")
                             .append(salary);
@@ -41,7 +54,7 @@ public class SalaryInfo {
         } catch (ParseException e) {
             System.out.println("Failed to parse date");
         }
-        return stringBuilder.toString();
+        return reportBuilder.toString();
     }
 }
 
