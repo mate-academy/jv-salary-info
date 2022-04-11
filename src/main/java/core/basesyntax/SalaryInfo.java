@@ -30,7 +30,7 @@ public class SalaryInfo {
                             salary += Integer.parseInt(fields[2]) * Integer.parseInt(fields[3]);
                         }
                     }
-                    stringBuilder.append("\n")
+                    stringBuilder.append(System.lineSeparator())
                             .append(name)
                             .append(" - ")
                             .append(salary);
