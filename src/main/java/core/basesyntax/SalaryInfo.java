@@ -4,33 +4,31 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    public static final int DATE_INDEX = 0;
-    public static final int NAME_INDEX = 1;
-    public static final int HOURS_INDEX = 2;
-    public static final int SALARY_RATE_INDEX = 3;
+    private static final int DATE_INDEX = 0;
+    private static final int NAME_INDEX = 1;
+    private static final int HOURS_INDEX = 2;
+    private static final int SALARY_RATE_INDEX = 3;
     private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate localDateFrom = LocalDate.parse(dateFrom, dateTimeFormatter);
         LocalDate localDateTo = LocalDate.parse(dateTo, dateTimeFormatter);
         int[] salaries = new int[names.length];
-        for (String datum : data) {
-
-            String[] dataParsed = datum.split(" ");
+        for (String line : data) {
+            String[] splittedLine = line.split(" ");
             for (int j = 0; j < names.length; j++) {
-                if (names[j].equals(dataParsed[NAME_INDEX])
-                        && LocalDate.parse(dataParsed[DATE_INDEX],
+                if (names[j].equals(splittedLine[NAME_INDEX])
+                        && LocalDate.parse(splittedLine[DATE_INDEX],
                         dateTimeFormatter).isAfter(localDateFrom)
-                        && (LocalDate.parse(dataParsed[DATE_INDEX],
+                        && (LocalDate.parse(splittedLine[DATE_INDEX],
                         dateTimeFormatter).isBefore(localDateTo)
-                        || (LocalDate.parse(dataParsed[DATE_INDEX],
+                        || (LocalDate.parse(splittedLine[DATE_INDEX],
                         dateTimeFormatter).equals(localDateTo)))) {
-                    salaries[j] += Integer.parseInt(dataParsed[HOURS_INDEX])
-                            * Integer.parseInt(dataParsed[SALARY_RATE_INDEX]);
+                    salaries[j] += Integer.parseInt(splittedLine[HOURS_INDEX])
+                            * Integer.parseInt(splittedLine[SALARY_RATE_INDEX]);
                 }
             }
         }
-
         StringBuilder reportBuilder = new StringBuilder("Report for period ");
         reportBuilder.append(dateFrom);
         reportBuilder.append(" - ");
@@ -40,10 +38,9 @@ public class SalaryInfo {
             reportBuilder.append(names[i]);
             reportBuilder.append(" - ");
             reportBuilder.append(salaries[i]);
-            if (i != names.length - 1) {
-                reportBuilder.append("\n");
-            }
+            reportBuilder.append("\n");
         }
+        reportBuilder.deleteCharAt(reportBuilder.length() - 1);
         return reportBuilder.toString();
     }
 }
