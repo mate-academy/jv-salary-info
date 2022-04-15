@@ -33,14 +33,12 @@ public class SalaryInfo {
         reportBuilder.append(dateFrom);
         reportBuilder.append(" - ");
         reportBuilder.append(dateTo);
-        reportBuilder.append(System.lineSeparator());
         for (int i = 0; i < names.length; i++) {
+            reportBuilder.append(System.lineSeparator());
             reportBuilder.append(names[i]);
             reportBuilder.append(" - ");
             reportBuilder.append(salaries[i]);
-            reportBuilder.append("\n");
         }
-        reportBuilder.deleteCharAt(reportBuilder.length() - 1);
         return reportBuilder.toString();
     }
 }
