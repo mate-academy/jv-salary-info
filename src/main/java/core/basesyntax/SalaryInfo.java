@@ -1,53 +1,44 @@
 package core.basesyntax;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 public class SalaryInfo {
-    private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
+    static final String DATE_FORMAT_PATTERN = "dd.MM.yyyy";
 
     public boolean inPeriod(String date, String dateFrom, String dateTo) {
         try {
-            Date checkDate = simpleDateFormat.parse(date);
-            Date dateStart = simpleDateFormat.parse(dateFrom);
-            Date dateEnd = simpleDateFormat.parse(dateTo);
-            if ((checkDate.after(dateStart)
-                    && checkDate.before(dateEnd))
-                    || checkDate.equals(dateStart)
-                    || checkDate.equals(dateEnd)) {
-                return true;
-            } else {
-                return false;
-            }
-        } catch (ParseException e) {
+            LocalDate checkDate = LocalDate.parse(date,
+                    DateTimeFormatter.ofPattern(DATE_FORMAT_PATTERN));
+            LocalDate dateStart = LocalDate.parse(dateFrom,
+                    DateTimeFormatter.ofPattern(DATE_FORMAT_PATTERN));
+            LocalDate dateEnd = LocalDate.parse(dateTo,
+                    DateTimeFormatter.ofPattern(DATE_FORMAT_PATTERN));
+            return (checkDate.isAfter(dateStart)
+                    && checkDate.isBefore(dateEnd))
+                    || checkDate.isEqual(dateStart)
+                    || checkDate.isEqual(dateEnd);
+        } catch (DateTimeParseException e) {
             throw new RuntimeException("Error of parsing string to date!");
         }
     }
 
-    public int nameIndex(String[] names, String name) {
-        for (int i = 0; i < names.length; i++) {
-            if (name.equals(names[i])) {
-                return i;
-            }
-        }
-        return -1;
-    }
-
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        String result = "Report for period " + dateFrom + " - " + dateTo;
-        int[] sumArray = new int[names.length];
-        String[] row = new String[4];
-        for (String dataRow : data) {
-            row = dataRow.split(" ");
-            if (inPeriod(row[0], dateFrom, dateTo)) {
-                sumArray[nameIndex(names, row[1])] += Integer.parseInt(row[2])
-                        * Integer.parseInt(row[3]);
+        StringBuilder result = new StringBuilder("Report for period ")
+                .append(dateFrom).append(" - ").append(dateTo);
+        int salarySum;
+        for (String name : names) {
+            salarySum = 0;
+            for (String dataRow : data) {
+                if (inPeriod(dataRow.split(" ")[0], dateFrom, dateTo)
+                        && name.equals(dataRow.split(" ")[1])) {
+                    salarySum += Integer.parseInt(dataRow.split(" ")[2])
+                        * Integer.parseInt(dataRow.split(" ")[3]);
+                }
             }
+            result.append(System.lineSeparator()).append(name).append(" - ").append(salarySum);
         }
-        for (int i = 0; i < names.length; i++) {
-            result += System.lineSeparator() + names[i] + " - " + sumArray[i];
-        }
-        return result;
+        return result.toString();
     }
 }
