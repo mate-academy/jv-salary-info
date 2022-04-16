@@ -15,6 +15,22 @@ public class SalaryInfo {
         return null;
     }
 
+    public int[] calculateSalary(ArrayList<Integer> indexes, String[] names, String[] namesArray, int[] hoursArray, int[] wagesArray) {
+        int[] salaries = new int[names.length];
+        if(indexes == null) {
+            return new int[] {0, 0, 0};
+        }
+        for (Integer integer : indexes) {
+            for (int j = 0; j < names.length; j++) {
+                int index = integer;
+                if (names[j].equals(namesArray[index])) {
+                    salaries[j] += hoursArray[index] * wagesArray[index];
+                }
+            }
+        }
+        return salaries;
+    }
+
     public ArrayList<Integer> getIndexesOfSpecifiedDates (LocalDate[]datesBase, LocalDate parsedDateFrom, LocalDate parsedDateTo){
         ArrayList<Integer> indexes = new ArrayList<>();
         for (int i = 0; i < datesBase.length; i++) {
