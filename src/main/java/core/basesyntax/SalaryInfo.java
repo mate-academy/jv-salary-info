@@ -12,7 +12,15 @@ public class SalaryInfo {
     private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        return null;
+        LocalDate[] datesArray = createDatesArray(data);
+        String[] namesArray = createNamesArray(data);
+        int[] hoursArray = createHoursArray(data);
+        int[] wagesArray = createWagesArray(data);
+        LocalDate parsedDateFrom = LocalDate.parse(dateFrom, TIME_FORMATTER);
+        LocalDate parsedDateTo = LocalDate.parse(dateTo, TIME_FORMATTER);
+        ArrayList<Integer> indexes = getIndexesOfSpecifiedDates(datesArray, parsedDateFrom, parsedDateTo);
+        int[] salaries = calculateSalary(indexes, names, namesArray, hoursArray, wagesArray);
+        return createReport(names, salaries, dateFrom, dateTo);
     }
 
     public String createReport(String[] names, int[] salaries, String dateFrom, String dateTo) {
