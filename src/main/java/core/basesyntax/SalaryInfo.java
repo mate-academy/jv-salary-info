@@ -15,6 +15,19 @@ public class SalaryInfo {
         return null;
     }
 
+    public String createReport(String[] names, int[] salaries, String dateFrom, String dateTo) {
+        String string = "Report for period " + dateFrom + " - " + dateTo + System.lineSeparator();
+        StringBuilder builder = new StringBuilder(string);
+        for (int i = 0; i < names.length; i++) {
+            if (i != names.length-1) {
+                builder.append(names[i]).append(" - ").append(salaries[i]).append(System.lineSeparator());
+            } else {
+                builder.append(names[i]).append(" - ").append(salaries[i]);
+            }
+        }
+        return builder.toString();
+    }
+
     public int[] calculateSalary(ArrayList<Integer> indexes, String[] names, String[] namesArray, int[] hoursArray, int[] wagesArray) {
         int[] salaries = new int[names.length];
         if(indexes == null) {
