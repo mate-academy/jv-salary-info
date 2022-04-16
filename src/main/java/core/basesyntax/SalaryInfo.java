@@ -2,6 +2,7 @@ package core.basesyntax;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 public class SalaryInfo {
     private static final int INDEX_OF_DATES = 0;
@@ -13,6 +14,17 @@ public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         return null;
     }
+
+    public ArrayList<Integer> getIndexesOfSpecifiedDates (LocalDate[]datesBase, LocalDate parsedDateFrom, LocalDate parsedDateTo){
+        ArrayList<Integer> indexes = new ArrayList<>();
+        for (int i = 0; i < datesBase.length; i++) {
+            if (!parsedDateFrom.isAfter(datesBase[i]) && !parsedDateTo.isBefore(datesBase[i])) {
+                indexes.add(i);
+            }
+        }
+        return indexes;
+    }
+
     public LocalDate[] createDatesArray(String[]data) {
         LocalDate[] dates = new LocalDate[data.length];
         for (int i = 0; i < data.length; i++) {
