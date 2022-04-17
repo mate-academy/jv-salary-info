@@ -42,7 +42,7 @@ public class SalaryInfo {
         }
         StringBuilder answer = new StringBuilder("Report for period " + dateFrom + " - " + dateTo);
         for (int i = 0; i < names.length; i++) {
-            answer.append("\r\n").append(names[i]).append(" - ").append(salaries[i]);
+            answer.append(System.lineSeparator()).append(names[i]).append(" - ").append(salaries[i]);
         }
         return answer.toString();
     }
