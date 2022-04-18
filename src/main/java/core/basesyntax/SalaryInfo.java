@@ -13,12 +13,12 @@ public class SalaryInfo {
         final SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.y");
 
         try {
-            Date dateFrom_Data = formatter.parse(dateFrom);
-            Date dateTo_Data = formatter.parse(dateTo);
+            Date dateFromDataType = formatter.parse(dateFrom);
+            Date dateToDataType = formatter.parse(dateTo);
 
             for (int i = 0; i < dataList.size(); i++) {
-                if (dateFrom_Data.after(formatter.parse(dataList.get(i).substring(0,
-                        dataList.get(i).indexOf(' ')))) || dateTo_Data.before(formatter.parse(
+                if (dateFromDataType.after(formatter.parse(dataList.get(i).substring(0,
+                        dataList.get(i).indexOf(' ')))) || dateToDataType.before(formatter.parse(
                                 dataList.get(i).substring(0, dataList.get(i).indexOf(' '))))) {
                     dataList.remove(i);
                     i--;
