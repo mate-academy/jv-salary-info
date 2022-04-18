@@ -10,15 +10,15 @@ public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
 
         ArrayList<String> dataList = new ArrayList<>(Arrays.asList(data));
-        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.y");
+        final SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.y");
 
         try {
-            Date dateFrom1 = formatter.parse(dateFrom);
-            Date dateTo1 = formatter.parse(dateTo);
+            Date dateFrom_Data = formatter.parse(dateFrom);
+            Date dateTo_Data = formatter.parse(dateTo);
 
             for (int i = 0; i < dataList.size(); i++) {
-                if (dateFrom1.after(formatter.parse(dataList.get(i).substring(0,
-                        dataList.get(i).indexOf(' ')))) || dateTo1.before(formatter.parse(
+                if (dateFrom_Data.after(formatter.parse(dataList.get(i).substring(0,
+                        dataList.get(i).indexOf(' ')))) || dateTo_Data.before(formatter.parse(
                                 dataList.get(i).substring(0, dataList.get(i).indexOf(' '))))) {
                     dataList.remove(i);
                     i--;
@@ -27,7 +27,7 @@ public class SalaryInfo {
                 }
             }
         } catch (ParseException e) {
-            System.out.println("Oops(");
+            throw new RuntimeException("Sorry, unparseable date");
         }
         int[] salaries = new int[names.length];
         for (int i = 0; i < names.length; i++) {
@@ -42,7 +42,8 @@ public class SalaryInfo {
         }
         StringBuilder answer = new StringBuilder("Report for period " + dateFrom + " - " + dateTo);
         for (int i = 0; i < names.length; i++) {
-            answer.append(System.lineSeparator()).append(names[i]).append(" - ").append(salaries[i]);
+            answer.append(System.lineSeparator()).append(names[i]).append(" - ")
+                    .append(salaries[i]);
         }
         return answer.toString();
     }
