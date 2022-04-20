@@ -26,12 +26,11 @@ public class SalaryInfo {
                 if ((recordDate.isAfter(formattedDateFrom)
                         | recordDate.isEqual(formattedDateFrom))
                         & (recordDate.isBefore(formattedDateTo)
-                        | recordDate.isEqual(formattedDateTo))) {
-                    if (name.equals(parseRecord[1])) {
-                        employeeEarning = employeeEarning
-                                + (Integer.parseInt(parseRecord[2])
-                                * Integer.parseInt(parseRecord[3]));
-                    }
+                        | recordDate.isEqual(formattedDateTo))
+                        && name.equals(parseRecord[1])) {
+                    employeeEarning = employeeEarning
+                            + (Integer.parseInt(parseRecord[2])
+                            * Integer.parseInt(parseRecord[3]));
                 }
             }
             builder.append(name)
