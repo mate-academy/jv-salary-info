@@ -24,7 +24,8 @@ public class SalaryInfo {
                 if (workDay.isAfter(dateStartWork.minusDays(ONE))
                         && workDay.isBefore(dateFinishWork.plusDays(ONE))
                         && name.equals(splittedLine[ONE])) {
-                    salary += Integer.parseInt(splittedLine[TWO]) * Integer.parseInt(splittedLine[THREE]);
+                    salary += Integer.parseInt(splittedLine[TWO])
+                            * Integer.parseInt(splittedLine[THREE]);
                 }
             }
             stringBuilder.append(System.lineSeparator()).append(name)
