@@ -5,10 +5,10 @@ import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-    private static final int DATA_INDEX = 0;
-    private static final int DATE_INDEX = 1;
-    private static final int DATE_DAY_WORK_INDEX = 2;
-    private static final int SALARY_FOR_TIME_INDEX = 3;
+    private static final int DATE_INDEX = 0;
+    private static final int NAME_INDEX = 1;
+    private static final int HOURS_INDEX = 2;
+    private static final int SALARY_PER_HOUR_INDEX = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate dateStartWork = LocalDate.parse(dateFrom, FORMATTER);
@@ -20,12 +20,12 @@ public class SalaryInfo {
             int salary = 0;
             for (String line: data) {
                 String[] splittedLine = line.split(" ");
-                LocalDate workDay = LocalDate.parse(splittedLine[DATA_INDEX], FORMATTER);
-                if (workDay.isAfter(dateStartWork.minusDays(DATE_INDEX))
-                        && workDay.isBefore(dateFinishWork.plusDays(DATE_INDEX))
-                        && name.equals(splittedLine[DATE_INDEX])) {
-                    salary += Integer.parseInt(splittedLine[DATE_DAY_WORK_INDEX])
-                            * Integer.parseInt(splittedLine[SALARY_FOR_TIME_INDEX]);
+                LocalDate workDay = LocalDate.parse(splittedLine[DATE_INDEX], FORMATTER);
+                if (workDay.isAfter(dateStartWork.minusDays(1))
+                        && workDay.isBefore(dateFinishWork.plusDays(1))
+                        && name.equals(splittedLine[NAME_INDEX])) {
+                    salary += Integer.parseInt(splittedLine[HOURS_INDEX])
+                            * Integer.parseInt(splittedLine[SALARY_PER_HOUR_INDEX]);
                 }
             }
             stringBuilder.append(System.lineSeparator()).append(name)
