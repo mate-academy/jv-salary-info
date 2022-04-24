@@ -4,27 +4,31 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final int ZERO = 0;
+    private static final int ONE = 1;
+    private static final int TWO = 2;
+    private static final int THREE = 3;
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        LocalDate dateStartWork = LocalDate.parse(dateFrom, dateTimeFormatter);
-        LocalDate dateFinishWork = LocalDate.parse(dateTo, dateTimeFormatter);
-        StringBuilder stringBuilder = new StringBuilder("Report for period "
-                + dateFrom + " - " + dateTo);
-        String delimiter = " ";
-        int salary = 0;
-        for (int i = 0; i < names.length; i++) {
-            for (int j = 0; j < data.length; j++) {
-                String[] str = data[j].split(delimiter);
-                LocalDate workDay = LocalDate.parse(str[0], dateTimeFormatter);
-                if (workDay.isAfter(dateStartWork.minusDays(1))
-                        && workDay.isBefore(dateFinishWork.plusDays(1))
-                        && names[i].equals(str[1])) {
-                    salary += Integer.parseInt(str[2]) * Integer.parseInt(str[3]);
+        LocalDate dateStartWork = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate dateFinishWork = LocalDate.parse(dateTo, FORMATTER);
+        StringBuilder stringBuilder = new StringBuilder().append("Report for period ")
+                .append(dateFrom).append(" - ").append(dateTo);
+
+        for (String name: names) {
+            int salary = ZERO;
+            for (String line: data) {
+                String[] splittedLine = line.split(" ");
+                LocalDate workDay = LocalDate.parse(splittedLine[ZERO], FORMATTER);
+                if (workDay.isAfter(dateStartWork.minusDays(ONE))
+                        && workDay.isBefore(dateFinishWork.plusDays(ONE))
+                        && name.equals(splittedLine[ONE])) {
+                    salary += Integer.parseInt(splittedLine[TWO]) * Integer.parseInt(splittedLine[THREE]);
                 }
             }
-            stringBuilder.append(System.lineSeparator()).append(names[i])
+            stringBuilder.append(System.lineSeparator()).append(name)
                     .append(" - ").append(salary);
-            salary = 0;
         }
         return stringBuilder.toString();
     }
