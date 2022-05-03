@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
+    private static DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     private int salaryPerHour;
     private int workingHours;
     private LocalDate localDateFrom;
@@ -35,7 +36,7 @@ public class SalaryInfo {
     }
 
     private LocalDate toLocalDate(String date) {
-        return LocalDate.parse(date, DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+        return LocalDate.parse(date, dateTimeFormatter);
     }
 
     private String buildReport(String[] names, int[] salaries, String dateFrom, String dateTo) {
