@@ -5,17 +5,14 @@ import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     private static DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-    private int salaryPerHour;
-    private int workingHours;
-    private LocalDate localDateFrom;
-    private LocalDate localDateTo;
-    private String[] splitData;
-    private int[] salaries;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        localDateFrom = toLocalDate(dateFrom);
-        localDateTo = toLocalDate(dateTo);
-        salaries = new int[names.length];
+        String[] splitData;
+        int salaryPerHour;
+        int workingHours;
+        LocalDate localDateFrom = toLocalDate(dateFrom);
+        LocalDate localDateTo = toLocalDate(dateTo);
+        int[] salaries = new int[names.length];
         for (int i = 0; i < data.length; i++) {
             splitData = data[i].split(" ");
             workingHours = Integer.parseInt(splitData[2]);
