@@ -15,7 +15,7 @@ public class SalaryInfo {
             for (String dat: data) {
                 String[] aboutEmployee = dat.split(" ");
                 long workDate = LocalDate.parse(aboutEmployee[0], formatter).toEpochDay();
-                if (name.equals(aboutEmployee[1]) && workDate >= fromDate && workDate <= toDate) {
+                if (name.equals(aboutEmployee[1]) && (workDate >= fromDate && workDate <= toDate)) {
                     salary += Integer.parseInt(aboutEmployee[3])
                             * Integer.parseInt(aboutEmployee[2]);
                 }
