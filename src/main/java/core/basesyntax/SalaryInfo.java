@@ -14,12 +14,10 @@ public class SalaryInfo {
             int salary = 0;
             for (String dat: data) {
                 String[] aboutEmployee = dat.split(" ");
-                if (name.equals(aboutEmployee[1])) {
-                    long workDate = LocalDate.parse(aboutEmployee[0], formatter).toEpochDay();
-                    if (workDate >= fromDate && workDate <= toDate) {
-                        salary += Integer.parseInt(aboutEmployee[3])
-                                * Integer.parseInt(aboutEmployee[2]);
-                    }
+                long workDate = LocalDate.parse(aboutEmployee[0], formatter).toEpochDay();
+                if (name.equals(aboutEmployee[1]) && workDate >= fromDate && workDate <= toDate) {
+                    salary += Integer.parseInt(aboutEmployee[3])
+                            * Integer.parseInt(aboutEmployee[2]);
                 }
             }
             reportBuilder.append(System.lineSeparator()).append(name).append(" - ")
