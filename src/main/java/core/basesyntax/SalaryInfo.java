@@ -4,10 +4,11 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        LocalDate fromDate = LocalDate.parse(dateFrom, formatter);
-        LocalDate toDate = LocalDate.parse(dateTo, formatter);
+        LocalDate fromDate = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate toDate = LocalDate.parse(dateTo, FORMATTER);
         StringBuilder builderPeriod = new StringBuilder("Report for period ")
                 .append(dateFrom).append(" - ")
                 .append(dateTo);
@@ -16,14 +17,13 @@ public class SalaryInfo {
             int salary = 0;
             for (String dataRecord : data) {
                 String[] dataRecordArray = dataRecord.split(" ");
-                if (dataRecordArray[1].equals(name)) {
-                    if ((LocalDate.parse(dataRecordArray[0], formatter).isAfter(fromDate)
-                            || LocalDate.parse(dataRecordArray[0], formatter).isEqual(fromDate))
-                            && (LocalDate.parse(dataRecordArray[0], formatter).isBefore(toDate)
-                            || LocalDate.parse(dataRecordArray[0], formatter).isEqual(toDate))) {
-                        salary = salary + Integer.parseInt(dataRecordArray[2])
+                if ((dataRecordArray[1].equals(name))
+                        && (LocalDate.parse(dataRecordArray[0], FORMATTER).isAfter(fromDate)
+                        || LocalDate.parse(dataRecordArray[0], FORMATTER).isEqual(fromDate))
+                        && ((LocalDate.parse(dataRecordArray[0], FORMATTER).isBefore(toDate)
+                        || LocalDate.parse(dataRecordArray[0], FORMATTER).isEqual(toDate)))) {
+                    salary = salary + Integer.parseInt(dataRecordArray[2])
                                 * Integer.parseInt(dataRecordArray[3]);
-                    }
                 }
             }
             builderSalaries.append(System.lineSeparator())
