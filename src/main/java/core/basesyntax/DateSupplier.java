@@ -15,9 +15,9 @@ public class DateSupplier {
     }
 
     public boolean isBetween(String currentDate, String fromDate, String toDate) {
-        return convertToDate(currentDate).equals(convertToDate(fromDate)) ||
-                convertToDate(currentDate).equals(convertToDate(toDate)) ||
-                (convertToDate(currentDate).isAfter(convertToDate(fromDate)) &&
-                        convertToDate(currentDate).isBefore(convertToDate(toDate)));
+        return convertToDate(currentDate).equals(convertToDate(fromDate))
+                || convertToDate(currentDate).equals(convertToDate(toDate))
+                || (convertToDate(currentDate).isAfter(convertToDate(fromDate))
+                && convertToDate(currentDate).isBefore(convertToDate(toDate)));
     }
 }

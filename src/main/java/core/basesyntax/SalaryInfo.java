@@ -17,8 +17,8 @@ public class SalaryInfo {
             builder.append("\r\n").append(name).append(" - ");
             sum = 0;
             for (DaySummary daySummary : daySummaries) {
-                if (dateSupplier.isBetween(daySummary.getDate(), dateFrom, dateTo) &&
-                        name.equals(daySummary.getEmployee())) {
+                if (dateSupplier.isBetween(daySummary.getDate(), dateFrom, dateTo)
+                        && name.equals(daySummary.getEmployee())) {
                     sum += daySummary.getDaySumIncome();
                 }
             }
