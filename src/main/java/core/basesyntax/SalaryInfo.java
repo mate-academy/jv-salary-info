@@ -31,10 +31,10 @@ public class SalaryInfo {
     public boolean checkDate(String date, String dateFrom, String dateTo) {
         SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
         try {
-            return (format.parse(date).after(format.parse(dateFrom)) ||
-                    format.parse(date).equals(format.parse(dateFrom))) &&
-                    (format.parse(date).before(format.parse(dateTo)) ||
-                    format.parse(date).equals(format.parse(dateTo)));
+            return (format.parse(date).after(format.parse(dateFrom))
+                    || format.parse(date).equals(format.parse(dateFrom)))
+                    && (format.parse(date).before(format.parse(dateTo))
+                    || format.parse(date).equals(format.parse(dateTo)));
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
