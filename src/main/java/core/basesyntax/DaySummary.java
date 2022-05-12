@@ -3,16 +3,12 @@ package core.basesyntax;
 public class DaySummary {
     private final String date;
     private final String name;
-    private final int hours;
-    private final int incomePerHour;
     private final int daySumIncome;
 
-    public DaySummary(String data) {
-        this.date = data.split(" ")[0];
-        this.name = data.split(" ")[1];
-        this.hours = Integer.valueOf(data.split(" ")[2]);
-        this.incomePerHour = Integer.valueOf(data.split(" ")[3]);
-        this.daySumIncome = this.hours * this.incomePerHour;
+    public DaySummary(String date, String name, int hours, int incomePerHour) {
+        this.date = date;
+        this.name = name;
+        this.daySumIncome = hours * incomePerHour;
     }
 
     public String getDate() {

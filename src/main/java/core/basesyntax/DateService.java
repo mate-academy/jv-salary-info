@@ -2,15 +2,15 @@ package core.basesyntax;
 
 import java.time.LocalDate;
 
-public class DateSupplier {
-    public LocalDate convertToDate(String strDate) {
-        String[] strArray = strDate.split("\\.");
+public class DateService {
+    public LocalDate convertToDate(String stringDate) {
+        String[] dateArray = stringDate.split("\\.");
         try {
-            return LocalDate.of(Integer.parseInt(strArray[2]),
-                    Integer.parseInt(strArray[1]),
-                    Integer.parseInt(strArray[0]));
+            return LocalDate.of(Integer.parseInt(dateArray[2]),
+                    Integer.parseInt(dateArray[1]),
+                    Integer.parseInt(dateArray[0]));
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("Not in date format DD.MM.YYYY", e);
+            throw new IllegalArgumentException("Not in date format DD.MM.YYYY " + stringDate, e);
         }
     }
 
