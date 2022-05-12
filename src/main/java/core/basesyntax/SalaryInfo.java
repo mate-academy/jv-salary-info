@@ -6,7 +6,6 @@ import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        String result = null;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         LocalDate startDate = LocalDate.parse(dateFrom, formatter);
         LocalDate endDate = LocalDate.parse(dateTo, formatter);
@@ -48,8 +47,7 @@ public class SalaryInfo {
             }
             stringBuilder1.append(summary).append(System.lineSeparator());
         }
-
-        result = stringBuilder1.toString().trim();
+        String result = stringBuilder1.toString().trim();
         return result;
 
     }
