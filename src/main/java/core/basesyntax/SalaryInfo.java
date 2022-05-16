@@ -26,14 +26,7 @@ public class SalaryInfo {
                 }
             }
         }
-        StringBuilder salaryInfo = new StringBuilder("Report for period "
-                + dateFrom
-                + " - "
-                + dateTo + "\n");
-        for (int i = 0; i < names.length; i++) {
-            salaryInfo.append(names[i] + " - " + salary[i] + "\n");
-        }
-        return salaryInfo.toString().trim();
+        return getReport(names, salary, dateFrom, dateTo);
     }
 
     private LocalDate parseToLocalDate(String date) {
@@ -43,5 +36,16 @@ public class SalaryInfo {
                         Integer.parseInt(splitDate[MONTH]),
                         Integer.parseInt(splitDate[DAY]));
         return localDate;
+    }
+
+    private String getReport(String[] names, int[] salary, String dateFrom, String dateTo) {
+        StringBuilder salaryInfo = new StringBuilder("Report for period "
+                + dateFrom
+                + " - "
+                + dateTo + "\n");
+        for (int i = 0; i < names.length; i++) {
+            salaryInfo.append(names[i] + " - " + salary[i] + "\n");
+        }
+        return salaryInfo.toString().trim();
     }
 }
