@@ -7,10 +7,10 @@ import java.time.format.DateTimeParseException;
 public class SalaryInfo {
     public static final String DATE_FORMAT = "dd.MM.yyyy";
 
-    private int[] salarySum;
     private LocalDate dateFrom;
     private LocalDate dateTo;
     private String[] names;
+    private int[] salarySum;
     private final DateTimeFormatter dateFormatter =
             DateTimeFormatter.ofPattern(DATE_FORMAT);
 
@@ -64,11 +64,11 @@ public class SalaryInfo {
         }
     }
 
-    public void setDateFrom(String date) throws DateTimeParseException {
+    private void setDateFrom(String date) throws DateTimeParseException {
         this.dateFrom = LocalDate.parse(date, dateFormatter);
     }
 
-    public void setDateTo(String date) throws DateTimeParseException {
+    private void setDateTo(String date) throws DateTimeParseException {
         this.dateTo = LocalDate.parse(date, dateFormatter);
     }
 
