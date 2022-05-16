@@ -1,46 +1,45 @@
 package core.basesyntax;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
+    public static final DateTimeFormatter FORMAT = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
+        LocalDate dataStart = LocalDate.parse(dateFrom, FORMAT);
+        LocalDate dataEnd = LocalDate.parse(dateTo, FORMAT);
         StringBuilder builder = new StringBuilder();
         builder.append("Report for period ")
                 .append(dateFrom)
                 .append(" - ")
                 .append(dateTo)
-                .append("\n");
-        int sum;
+                .append(System.lineSeparator());
+        int salary;
         for (String name: names) {
-            sum = 0;
-            for (String dataStr: data) {
-                String[] dataArray = dataStr.split(" ");
-                if (name.equals(dataArray[1]) && checkDate(dataArray[0], dateFrom, dateTo)) {
-                    sum += getDaySalary(dataArray[2], dataArray[3]);
+            salary = 0;
+            for (String dataString: data) {
+                String[] dataStringArray = dataString.split(" ");
+                if (name.equals(dataStringArray[1])
+                        && checkDate(dataStringArray[0], dataStart, dataEnd)) {
+                    salary += getDaySalary(dataStringArray[2], dataStringArray[3]);
                 }
             }
             builder.append(name)
                     .append(" - ")
-                    .append(sum)
-                    .append("\n");
+                    .append(salary)
+                    .append(System.lineSeparator());
         }
         return builder.toString().trim();
     }
 
-    public boolean checkDate(String date, String dateFrom, String dateTo) {
-        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
-        try {
-            return (format.parse(date).after(format.parse(dateFrom))
-                    || format.parse(date).equals(format.parse(dateFrom)))
-                    && (format.parse(date).before(format.parse(dateTo))
-                    || format.parse(date).equals(format.parse(dateTo)));
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
+    public boolean checkDate(String date, LocalDate dateStart, LocalDate dateEnd) {
+        LocalDate localDate = LocalDate.parse(date, FORMAT);
+        return (localDate.isAfter(dateStart) || localDate.equals(dateStart))
+                && (localDate.isBefore(dateEnd) || localDate.equals(dateEnd));
     }
 
-    public int getDaySalary(String hours, String sph) {
-        return Integer.parseInt(hours) * Integer.parseInt(sph);
+    public int getDaySalary(String hours, String salaryPerHour) {
+        return Integer.parseInt(hours) * Integer.parseInt(salaryPerHour);
     }
 }
