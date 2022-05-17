@@ -15,7 +15,7 @@ public class SalaryInfo {
         LocalDate from = LocalDate.parse(dateFrom, DATE_FORMATTER);
         LocalDate to = LocalDate.parse(dateTo, DATE_FORMATTER);
         int salarySum = 0;
-        StringBuilder result = new StringBuilder("Report for period ")
+        StringBuilder result = new StringBuilder("Report for period  ")
                 .append(dateFrom)
                 .append(" - ")
                 .append(dateTo)
