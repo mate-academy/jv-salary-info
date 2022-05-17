@@ -53,12 +53,12 @@ public class SalaryPerDay {
 
     public void setHours(String hours) throws NumberFormatException {
         this.hours = Integer.parseInt(hours);
-        calcCost();
+        calculateCost();
     }
 
     public void setRate(String rate) throws NumberFormatException {
         this.rate = Integer.parseInt(rate);
-        calcCost();
+        calculateCost();
     }
 
     public int getCost() {
@@ -71,7 +71,7 @@ public class SalaryPerDay {
                 dateFormatter.format(date), name, hours, rate, cost);
     }
 
-    private void calcCost() {
+    private void calculateCost() {
         cost = hours * rate;
     }
 }
