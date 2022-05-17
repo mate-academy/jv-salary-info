@@ -9,28 +9,21 @@ public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate dataStart = LocalDate.parse(dateFrom, FORMAT);
         LocalDate dataEnd = LocalDate.parse(dateTo, FORMAT);
-        StringBuilder builder = new StringBuilder();
-        builder.append("Report for period ")
-                .append(dateFrom)
-                .append(" - ")
-                .append(dateTo)
-                .append(System.lineSeparator());
-        int salary;
-        for (String name: names) {
-            salary = 0;
+        Employee[] employees = new Employee[names.length];
+        for (int i = 0; i < names.length; i++) {
+            employees[i] = new Employee(names[i]);
+        }
+        for (Employee employee: employees) {
             for (String dataString: data) {
                 String[] dataStringArray = dataString.split(" ");
-                if (name.equals(dataStringArray[1])
+                if (employee.getName().equals(dataStringArray[1])
                         && checkDate(dataStringArray[0], dataStart, dataEnd)) {
-                    salary += getDaySalary(dataStringArray[2], dataStringArray[3]);
+                    int salary = getDaySalary(dataStringArray[2], dataStringArray[3]);
+                    employee.addSalary(salary);
                 }
             }
-            builder.append(name)
-                    .append(" - ")
-                    .append(salary)
-                    .append(System.lineSeparator());
         }
-        return builder.toString().trim();
+        return employeesSalary(employees, dateFrom, dateTo);
     }
 
     public boolean checkDate(String date, LocalDate dateStart, LocalDate dateEnd) {
@@ -41,5 +34,21 @@ public class SalaryInfo {
 
     public int getDaySalary(String hours, String salaryPerHour) {
         return Integer.parseInt(hours) * Integer.parseInt(salaryPerHour);
+    }
+
+    public String employeesSalary(Employee[] employees, String dateStart, String dateEnd) {
+        StringBuilder builder = new StringBuilder();
+        builder.append(" Report for period ")
+                .append(dateStart)
+                .append(" - ")
+                .append(dateEnd)
+                .append(System.lineSeparator());
+        for (Employee employee: employees) { // John - 900
+            builder.append(employee.getName())
+                    .append(" - ")
+                    .append(employee.getSalary())
+                    .append(System.lineSeparator());
+        }
+        return builder.toString().trim();
     }
 }
