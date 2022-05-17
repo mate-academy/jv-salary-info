@@ -13,20 +13,16 @@ public class SalaryPerDay {
     private final DateTimeFormatter dateFormatter;
 
     {
-        hours = 0;
-        rate = 0;
-        cost = 0;
         dateFormatter = DateTimeFormatter.ofPattern(SalaryInfo.DATE_FORMAT);
     }
 
     public SalaryPerDay(String data)
             throws DateTimeParseException, NumberFormatException, SalaryPerDayException {
-        String[] parts;
         if (data == null) {
             throw new SalaryPerDayException("Input data is null");
         }
 
-        parts = data.split(" ");
+        String[] parts = data.split(" ");
         if (parts.length != 4) {
             throw new SalaryPerDayException("Input data is wrong format. Split error");
         }
@@ -57,12 +53,12 @@ public class SalaryPerDay {
 
     public void setHours(String hours) throws NumberFormatException {
         this.hours = Integer.parseInt(hours);
-        calcSalaryPerDayCost();
+        calcCost();
     }
 
     public void setRate(String rate) throws NumberFormatException {
         this.rate = Integer.parseInt(rate);
-        calcSalaryPerDayCost();
+        calcCost();
     }
 
     public int getCost() {
@@ -75,7 +71,7 @@ public class SalaryPerDay {
                 dateFormatter.format(date), name, hours, rate, cost);
     }
 
-    private void calcSalaryPerDayCost() {
-        this.cost = this.hours * this.rate;
+    private void calcCost() {
+        cost = hours * rate;
     }
 }

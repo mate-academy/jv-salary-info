@@ -6,73 +6,53 @@ import java.time.format.DateTimeParseException;
 
 public class SalaryInfo {
     public static final String DATE_FORMAT = "dd.MM.yyyy";
-
-    private LocalDate dateFrom;
-    private LocalDate dateTo;
-    private String[] names;
-    private int[] salarySum;
-    private final DateTimeFormatter dateFormatter =
-            DateTimeFormatter.ofPattern(DATE_FORMAT);
+    private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         if (names == null || data == null) {
-            System.out.println("Error! Input parameters are wrong");
-            return "";
+            throw new SalaryDataException("Error! Input parameters are wrong (empty)");
         }
+
+        int[] salarySum = new int[names.length];
+        LocalDate localDateFrom;
+        LocalDate localDateTo;
+
         try {
-            setDateFrom(dateFrom);
-            setDateTo(dateTo);
+            localDateFrom = parseDate(dateFrom);
+            localDateTo = parseDate(dateTo);
         } catch (DateTimeParseException e) {
-            System.out.println("Error! Input parameters are wrong. " + e);
-            return "";
+            throw new SalaryDataException("Error! Input parameters are wrong. " + e);
         }
-        setNames(names);
-        setZeroSalarySum(this.names.length);
 
         for (String line : data) {
             SalaryPerDay salaryPerDay;
             try {
                 salaryPerDay = new SalaryPerDay(line);
             } catch (DateTimeParseException | NumberFormatException | SalaryPerDayException e) {
-                System.out.printf("Error! Input parameters (%s) are wrong. %s\n", line, e);
-                break;
+                throw new SalaryDataException(
+                        String.format("Error! Input parameters (%s) are wrong. %s", line, e));
             }
 
-            if (salaryPerDay.getDate().isBefore(this.dateFrom)
-                    || salaryPerDay.getDate().isAfter(this.dateTo)) {
+            if (salaryPerDay.getDate().isBefore(localDateFrom)
+                    || salaryPerDay.getDate().isAfter(localDateTo)) {
                 continue;
             }
 
-            for (int i = 0; i < this.names.length; i++) {
-                if (salaryPerDay.getName().equals(this.names[i])) {
+            for (int i = 0; i < names.length; i++) {
+                if (salaryPerDay.getName().equals(names[i])) {
                     salarySum[i] += salaryPerDay.getCost();
                     break;
                 }
             }
         }
-        return getInfo();
+        return getInfo(localDateFrom, localDateTo, names, salarySum);
     }
 
-    private void setNames(String[] names) {
-        this.names = names;
+    private LocalDate parseDate(String date) {
+        return LocalDate.parse(date, dateFormatter);
     }
 
-    private void setZeroSalarySum(int dimension) {
-        this.salarySum = new int[dimension];
-        for (int i = 0; i < dimension; i++) {
-            this.salarySum[i] = 0;
-        }
-    }
-
-    private void setDateFrom(String date) throws DateTimeParseException {
-        this.dateFrom = LocalDate.parse(date, dateFormatter);
-    }
-
-    private void setDateTo(String date) throws DateTimeParseException {
-        this.dateTo = LocalDate.parse(date, dateFormatter);
-    }
-
-    private String getInfo() {
+    private String getInfo(LocalDate dateFrom, LocalDate dateTo, String[] names, int[] salarySum) {
         StringBuilder salaryInfo = new StringBuilder();
 
         salaryInfo.append(String.format("Report for period %s - %s",
