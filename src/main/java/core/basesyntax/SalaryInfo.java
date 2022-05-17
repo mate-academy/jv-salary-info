@@ -15,7 +15,8 @@ public class SalaryInfo {
         return builder.toString();
     }
 
-    private static String getEarning(String name, String[] data, LocalDate dateFrom, LocalDate dateTo) {
+    private static String getEarning(String name, String[] data,
+                                     LocalDate dateFrom, LocalDate dateTo) {
         StringBuilder builder = new StringBuilder();
         int workingHours = 0;
         String[] workingDayOfEmployee;
@@ -23,7 +24,8 @@ public class SalaryInfo {
             workingDayOfEmployee = data[i].split(" ");
             if (name.equals(workingDayOfEmployee[1])) {
                 if (dataValidate(getLocalDate(workingDayOfEmployee[0]), dateFrom, dateTo)) {
-                    workingHours += Integer.parseInt(workingDayOfEmployee[2]) * Integer.parseInt(workingDayOfEmployee[3]);
+                    workingHours += Integer.parseInt(workingDayOfEmployee[2])
+                            * Integer.parseInt(workingDayOfEmployee[3]);
                 }
             }
         }
@@ -33,9 +35,12 @@ public class SalaryInfo {
 
     private static LocalDate getLocalDate(String date) {
         String[] dateMassive = date.split("\\.");
-        return LocalDate.of(Integer.parseInt(dateMassive[2]), Integer.parseInt(dateMassive[1]), Integer.parseInt(dateMassive[0]));
+        return LocalDate.of(Integer.parseInt(dateMassive[2]),
+                Integer.parseInt(dateMassive[1]), Integer.parseInt(dateMassive[0]));
     }
-    private static boolean dataValidate(LocalDate dataFromList, LocalDate dateFrom, LocalDate dateTo) {
+
+    private static boolean dataValidate(LocalDate dataFromList,
+                                        LocalDate dateFrom, LocalDate dateTo) {
         return dataFromList.isAfter(dateFrom) && dataFromList.isBefore(dateTo);
     }
 }
