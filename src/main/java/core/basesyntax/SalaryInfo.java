@@ -5,6 +5,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class SalaryInfo {
+    private static final int DATE_FROM_PERSON_ARRAY = 0;
+    private static final int NAME_FROM_PERSON_ARRAY = 1;
+    private static final int HOURS_FROM_PERSON_ARRAY = 2;
+    private static final int INCOME_FROM_PERSON_ARRAY = 3;
+
     private boolean isDateValid(String userDate, String dateFrom, String dateTo) {
         final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
         try {
@@ -20,10 +25,6 @@ public class SalaryInfo {
     }
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        final int dateFromPersonArray = 0;
-        final int nameFromPersonArray = 1;
-        final int hoursFromPersonArray = 2;
-        final int incomeFromPersonArray = 3;
         int[] salary = new int[names.length];
         StringBuilder resultsMessage = new StringBuilder("Report for period ");
         resultsMessage.append(dateFrom).append(" - ").append(dateTo);
@@ -31,10 +32,10 @@ public class SalaryInfo {
         for (int j = 0; j < names.length; j++) {
             for (String datum : data) {
                 String[] person = datum.split(" ");
-                if (names[j].equals(person[nameFromPersonArray])
-                        && isDateValid(person[dateFromPersonArray], dateFrom, dateTo)) {
-                    salary[j] += Integer.parseInt(person[hoursFromPersonArray])
-                            * Integer.parseInt(person[incomeFromPersonArray]);
+                if (names[j].equals(person[NAME_FROM_PERSON_ARRAY])
+                        && isDateValid(person[DATE_FROM_PERSON_ARRAY], dateFrom, dateTo)) {
+                    salary[j] += Integer.parseInt(person[HOURS_FROM_PERSON_ARRAY])
+                            * Integer.parseInt(person[INCOME_FROM_PERSON_ARRAY]);
                 }
             }
         }
