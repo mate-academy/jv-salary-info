@@ -6,31 +6,30 @@ public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder builder = new StringBuilder();
         builder.append("Report for period ").append(dateFrom). append(" - ").append(dateTo);
-        LocalDate lowBound = getLocalDate(dateFrom).minusDays(1);
-        LocalDate topBound = getLocalDate(dateTo).plusDays(1);
         for (String name : names) {
             builder.append(System.lineSeparator());
-            builder.append(getEarning(name, data, lowBound, topBound));
+            builder.append(getEarning(name, data, getLocalDate(dateFrom).minusDays(1),
+                    getLocalDate(dateTo).plusDays(1)));
         }
         return builder.toString();
     }
 
-    private String getEarning(String name, String[] data,
+    private StringBuilder getEarning(String name, String[] data,
                                      LocalDate dateFrom, LocalDate dateTo) {
         StringBuilder builder = new StringBuilder();
-        int workingHours = 0;
-        String[] workingDayOfEmployee;
+        int totalWorkingHours = 0;
+        String[] dayNotations;
         for (int i = 0; i < data.length; i++) {
-            workingDayOfEmployee = data[i].split(" ");
-            if (name.equals(workingDayOfEmployee[1])) {
-                if (dataValidate(getLocalDate(workingDayOfEmployee[0]), dateFrom, dateTo)) {
-                    workingHours += Integer.parseInt(workingDayOfEmployee[2])
-                            * Integer.parseInt(workingDayOfEmployee[3]);
+            dayNotations = data[i].split(" ");
+            if (name.equals(dayNotations[1])) {
+                if (dataValidate(getLocalDate(dayNotations[0]), dateFrom, dateTo)) {
+                    totalWorkingHours += Integer.parseInt(dayNotations[2])
+                            * Integer.parseInt(dayNotations[3]);
                 }
             }
         }
-        builder.append(name).append(" - ").append(workingHours);
-        return builder.toString();
+        builder.append(name).append(" - ").append(totalWorkingHours);
+        return builder;
     }
 
     private LocalDate getLocalDate(String date) {
