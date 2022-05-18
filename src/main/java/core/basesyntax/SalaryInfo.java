@@ -2,42 +2,32 @@ package core.basesyntax;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 public class SalaryInfo {
-    private static final DateTimeFormatter DATE_FORMATTER
-            = DateTimeFormatter.ofPattern("dd.MM.uuuu");
-    private static final int DATE_INDEX = 0;
-    private static final int NAME_INDEX = 1;
-    private static final int HOUR_INDEX = 2;
-    private static final int SALARY_INDEX = 3;
+    private final DateTimeFormatter formatter
+            = DateTimeFormatter.ofPattern("dd.MM.yyyy", Locale.ENGLISH);
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        LocalDate from = LocalDate.parse(dateFrom, DATE_FORMATTER);
-        LocalDate to = LocalDate.parse(dateTo, DATE_FORMATTER);
-        int salarySum = 0;
-        StringBuilder result = new StringBuilder("Report for period  ")
-                .append(dateFrom)
-                .append(" - ")
-                .append(dateTo)
-                .append(System.lineSeparator());
-        for (String name : names) {
-            for (String dataLine : data) {
-                String[] arrayDataLine = dataLine.split(" ");
-                LocalDate today = LocalDate.parse(arrayDataLine[DATE_INDEX], DATE_FORMATTER);
-                int hour = Integer.parseInt(arrayDataLine[HOUR_INDEX]);
-                int salary = Integer.parseInt(arrayDataLine[SALARY_INDEX]);
-                if (name.equals(arrayDataLine[NAME_INDEX])
-                        && !from.isAfter(today)
-                        && !to.isBefore(today)) {
-                    salarySum += hour * salary;
+        StringBuilder reportBuilder = new StringBuilder();
+
+        for (String i : names) {
+            int employeeSalarySum = 0;
+            for (String j : data) {
+                String[] splitData = j.split(" ");
+                LocalDate particularDate = LocalDate.parse(splitData[0], formatter);
+                LocalDate convertedDateFrom = LocalDate.parse(dateFrom, formatter);
+                LocalDate convertedDateTO = LocalDate.parse(dateTo, formatter);
+                int compareDateFrom = particularDate.compareTo(convertedDateFrom);
+                int compareDateTo = particularDate.compareTo(convertedDateTO);
+                if (splitData[1].equals(i) && (compareDateFrom >= 0 && compareDateTo <= 0)) {
+                    employeeSalarySum += Integer.parseInt(splitData[2])
+                            * Integer.parseInt(splitData[3]);
                 }
             }
-            result.append(name)
-                    .append(" - ")
-                    .append(salarySum)
-                    .append(System.lineSeparator());
-            salarySum = 0;
+            reportBuilder.append(System.lineSeparator()).append(i)
+                    .append(" - ").append(employeeSalarySum);
         }
-        return result.toString().trim();
+        return "Report for period " + dateFrom + " - " + dateTo + reportBuilder;
     }
 }
