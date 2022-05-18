@@ -11,14 +11,12 @@ public class SalaryInfo {
         LocalDate dateFromLocalDate = LocalDate.parse(dateFrom, dateTimeFormatter);
         LocalDate dateToLocalDate = LocalDate.parse(dateTo, dateTimeFormatter);
         StringBuilder builder = new StringBuilder();
-        builder.append("Report for period ").append(dateFrom).append(" - ").append(dateTo)
-                .append(System.lineSeparator());
-        int counter = 0;
+        builder.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
         for (String name : names) {
-            counter++;
+            builder.append(System.lineSeparator());
             int salary = 0;
-            for (String d : data) {
-                String[] arrayFromData = d.split(" ");
+            for (String elementFromData : data) {
+                String[] arrayFromData = elementFromData.split(" ");
                 LocalDate dateFromArray = LocalDate.parse(arrayFromData[0], dateTimeFormatter);
                 String nameOfEmployee = arrayFromData[1];
                 int workingHours = Integer.parseInt(arrayFromData[2]);
@@ -31,9 +29,6 @@ public class SalaryInfo {
                 }
             }
             builder.append(name).append(" - ").append(salary);
-            if (counter < names.length) {
-                builder.append(System.lineSeparator());
-            }
         }
         return builder.toString();
     }
