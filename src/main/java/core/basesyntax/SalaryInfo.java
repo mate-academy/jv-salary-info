@@ -36,6 +36,6 @@ public class SalaryInfo {
                 output.append(System.lineSeparator());
             }
         }
-        return output.toString();
+        return output.toString(); // this is a return statement
     }
 }
