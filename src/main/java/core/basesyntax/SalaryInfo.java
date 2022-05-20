@@ -15,12 +15,15 @@ public class SalaryInfo {
             for (String dataInfo: data) {
                 String[] dataSplitted = dataInfo.split(" ");
                 long localDateNow = LocalDate.parse(dataSplitted[0], formatter).toEpochDay();
-                if (name.equals(dataSplitted[1]) && (localDateNow >= localDateFrom && localDateNow <= localDateTo)) {
-                    employeesSalary += Integer.parseInt(dataSplitted[2]) * Integer.parseInt(dataSplitted[3]);
+                if (name.equals(dataSplitted[1])
+                        && (localDateNow >= localDateFrom && localDateNow <= localDateTo)) {
+                    employeesSalary += Integer.parseInt(dataSplitted[2])
+                                    * Integer.parseInt(dataSplitted[3]);
                 }
             }
-            builder.append(System.lineSeparator()).append(name).append(" - ").append(employeesSalary);
+            builder.append(System.lineSeparator()).append(name)
+                   .append(" - ").append(employeesSalary);
         }
-        return  builder.toString();
+        return builder.toString();
     }
 }
