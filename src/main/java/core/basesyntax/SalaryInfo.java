@@ -8,7 +8,7 @@ public class SalaryInfo {
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder getSalaryInfo = new StringBuilder("Report for period "
-                                                            + dateFrom + " - " + dateTo);
+                + dateFrom + " - " + dateTo);
         int[] salariesInfo = new int[names.length];
 
         for (int i = 0; i < names.length; i++) {
