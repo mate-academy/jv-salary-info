@@ -22,11 +22,11 @@ public class SalaryInfo {
                 }
             }
         }
-        for (int i = 0; i < names.length - 1; i++) {
-            output.append(names[i]).append(" - ").append(salaries[i]);
-            output.append(System.lineSeparator());
+        for (int i = 0; i < names.length; i++) {
+            output.append(names[i]).append(" - ")
+                    .append(salaries[i]).append(System.lineSeparator());
         }
-        output.deleteCharAt(output.length() - 1);
+        output.deleteCharAt(output.length() - 2).deleteCharAt(output.length() - 1);
         return output.toString();
     }
 }
