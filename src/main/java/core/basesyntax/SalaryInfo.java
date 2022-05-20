@@ -13,7 +13,7 @@ public class SalaryInfo {
         output.append(dateFrom).append(" - ").append(dateTo).append(System.lineSeparator());
         for (int i = 0; i < names.length; i++) {
             for (String dataLine : data) {
-                LocalDate date = LocalDate.parse(dataLine.split(" ")[0], formatter);
+                final LocalDate date = LocalDate.parse(dataLine.split(" ")[0], formatter);
                 if (dataLine.split(" ")[1].contains(names[i])
                         && (dateDateFrom.isBefore(date) && dateDateTo.isAfter(date)
                         || dateDateFrom.isEqual(date) || dateDateTo.isEqual(date))) {
@@ -26,7 +26,7 @@ public class SalaryInfo {
             output.append(names[i]).append(" - ").append(salaries[i]);
             output.append(System.lineSeparator());
         }
-        output.append(names[names.length - 1]).append(" - ").append(salaries[names.length - 1]);
+        output.deleteCharAt(output.length() - 1);
         return output.toString();
     }
 }
