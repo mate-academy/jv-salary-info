@@ -26,7 +26,7 @@ public class SalaryInfo {
             output.append(names[i]).append(" - ")
                     .append(salaries[i]).append(System.lineSeparator());
         }
-        output.deleteCharAt(output.length() - 2).deleteCharAt(output.length() - 1);
+        output.delete(output.length() - 2, output.length());
         return output.toString();
     }
 }
