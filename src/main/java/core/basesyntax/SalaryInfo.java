@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    private static int salary;
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     private static final int INDEX_OF_CURRENT_DATE = 0;
     private static final int INDEX_OF_WORKER_NAME = 1;
@@ -13,7 +12,7 @@ public class SalaryInfo {
 
     public static String getSalaryInfo(String[] names, String[] data,
                                        String dateFrom, String dateTo) {
-
+        int salary = 0;
         LocalDate fromDate = LocalDate.parse(dateFrom,FORMATTER);
         LocalDate toDate = LocalDate.parse(dateTo,FORMATTER);
         StringBuilder builder = new StringBuilder();
