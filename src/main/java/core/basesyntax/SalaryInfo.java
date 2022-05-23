@@ -4,44 +4,30 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    /*public static void main(String[] args) {
-        String[] names = {"John", "Andrew", "Kate"};
-        String[] data = {
-                "13.07.2019 John 60 50",
-                "15.07.2019 Andrew 3 200",
-                "15.07.2019 Kate 10 100",
+        private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        private static final int INDEX_DATA_IN_ARRAY = 0;
+        private static final int INDEX_NAME_IN_ARRAY = 1;
+        private static final int INDEX_WORKING_HOUR_IN_ARRAY = 2;
+        private static final int INDEX_PER_HOUR_IN_ARRAY = 3;
 
-                "16.07.2019 Andrew 3 200",
-                "16.07.2019 Kate 9 100",
 
-                "10.08.2019 John 7 100",
-                "08.08.2019 Kate 3 80",
-                "11.08.2019 Andrew 8 100"
-        };
-        String dateFrom = "14.07.2019";
-        String dateTo = "10.08.2019";
-        System.out.println(getSalaryInfo(names, data, dateFrom, dateTo));
-    }*/
-
-    public static String getSalaryInfo(String[] names, String[] data,
+        public static String getSalaryInfo(String[] names, String[] data,
                                        String dateFrom, String dateTo) {
         String[] splitDataToArray;
         int[] salaryInfo = new int[names.length];
-        final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        final LocalDate fromDate = LocalDate.parse(dateFrom, dateFormatter);
-        final LocalDate toDate = LocalDate.parse(dateTo, dateFormatter);
+        final LocalDate fromDate = LocalDate.parse(dateFrom, DATE_TIME_FORMATTER);
+        final LocalDate toDate = LocalDate.parse(dateTo, DATE_TIME_FORMATTER);
 
         for (int j = 0; j < names.length; j++) {
             for (String datum : data) {
                 splitDataToArray = datum.split(" ");
-                LocalDate currentDate = LocalDate.parse(splitDataToArray[0], dateFormatter);
-                if (names[j].equals(splitDataToArray[1])
+                LocalDate currentDate = LocalDate.parse(splitDataToArray[INDEX_DATA_IN_ARRAY], DATE_TIME_FORMATTER);
+                if (names[j].equals(splitDataToArray[INDEX_NAME_IN_ARRAY])
                         && (currentDate.isAfter(fromDate) && currentDate.isBefore(toDate)
-                        && names[j].equals(splitDataToArray[1])
                         || currentDate.equals(fromDate)
                         || currentDate.equals(toDate))) {
-                    salaryInfo[j] = salaryInfo[j] + (Integer.parseInt(splitDataToArray[2])
-                            * Integer.parseInt(splitDataToArray[3]));
+                    salaryInfo[j] = salaryInfo[j] + (Integer.parseInt(splitDataToArray[INDEX_WORKING_HOUR_IN_ARRAY])
+                            * Integer.parseInt(splitDataToArray[INDEX_PER_HOUR_IN_ARRAY]));
                 }
             }
         }
