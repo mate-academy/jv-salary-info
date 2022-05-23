@@ -4,14 +4,14 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-        private static final DateTimeFormatter DATE_FORMATTER
-                = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        private static final int INDEX_DATA = 0;
-        private static final int INDEX_NAME = 1;
-        private static final int INDEX_HOUR = 2;
-        private static final int INDEX_PER_HOUR = 3;
+    private static final DateTimeFormatter DATE_FORMATTER
+            = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final int INDEX_DATA = 0;
+    private static final int INDEX_NAME = 1;
+    private static final int INDEX_HOUR = 2;
+    private static final int INDEX_PER_HOUR = 3;
 
-        public static String getSalaryInfo(String[] names, String[] data,
+    public static String getSalaryInfo(String[] names, String[] data,
                                        String dateFrom, String dateTo) {
         String[] splitDataToArray;
         int[] salaryInfo = new int[names.length];
