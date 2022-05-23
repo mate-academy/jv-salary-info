@@ -21,8 +21,6 @@ public class SalaryInfo {
                             * Integer.parseInt(dataLine.split(" ")[3]);
                 }
             }
-        }
-        for (int i = 0; i < names.length; i++) {
             output.append(names[i]).append(" - ")
                     .append(salaries[i]).append(System.lineSeparator());
         }
