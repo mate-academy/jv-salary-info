@@ -15,7 +15,6 @@ public class SalaryInfo {
     private static final String SPACE = " ";
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        int[] totalSalary = new int[names.length];
         int counterForTotalSalary = 0;
         String[] splitedDataForm;
         LocalDate date;
@@ -24,6 +23,7 @@ public class SalaryInfo {
         StringBuilder result = new StringBuilder();
         result.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
         for (String name: names) {
+            int personSalary = 0;
             for (String currentData: data) {
                 splitedDataForm = currentData.split(SPACE);
                 date = stringToDate(splitedDataForm[DATE_FROM_DATA]);
@@ -32,13 +32,13 @@ public class SalaryInfo {
                 }
                 if ((date.isAfter(dateF) || date.isEqual(dateF))
                         && (date.isBefore(dateT) || date.isEqual(dateT))) {
-                    totalSalary[counterForTotalSalary]
+                    personSalary
                             += Integer.parseInt(splitedDataForm[HOURS_FROM_DATA])
                             * Integer.parseInt(splitedDataForm[SALARY_PER_HOUR_FROM_DATA]);
                 }
             }
             result.append(System.lineSeparator()).append(name)
-                    .append(DASH).append(totalSalary[counterForTotalSalary]);
+                    .append(DASH).append(personSalary);
             counterForTotalSalary++;
         }
         return result.toString();
