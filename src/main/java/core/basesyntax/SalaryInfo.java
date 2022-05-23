@@ -1,43 +1,38 @@
 package core.basesyntax;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        String[] splitDateFrom = dateFrom.split("[.]");
-        String[] splitDateTo = dateTo.split("[.]");
-        int datFrom = Integer.parseInt(splitDateFrom[0]);
-        int monthFrom = Integer.parseInt(splitDateFrom[1]);
-        int yearFrom = Integer.parseInt(splitDateFrom[2]);
-        int datTo = Integer.parseInt(splitDateTo[0]);
-        int monthTo = Integer.parseInt(splitDateTo[1]);
-        int yearTo = Integer.parseInt(splitDateTo[2]);
-        LocalDate from = LocalDate.of(yearFrom, monthFrom, datFrom);
-        LocalDate to = LocalDate.of(yearTo, monthTo, datTo);
+    private static final int DATE = 0;
+    private static final int NAME = 1;
+    private static final int HOURS = 2;
+    private static final int INCOME_PER_HOUR = 3;
+    private static final String SEPARATOR = " - ";
+    private static final DateTimeFormatter FORMATTER
+            = DateTimeFormatter.ofPattern("dd[.]MM[.]yyyy");
 
-        String report = "Report for period " + dateFrom + " - " + dateTo + System.lineSeparator();
-        StringBuilder sb = new StringBuilder(report);
+    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
+        LocalDate from = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate to = LocalDate.parse(dateTo, FORMATTER);
+        String report = "Report for period " + dateFrom + " - " + dateTo;
+        StringBuilder reportComplete = new StringBuilder(report);
         for (String name : names) {
-            sb.append(name).append(" - ");
+            reportComplete.append(System.lineSeparator()).append(name).append(SEPARATOR);
             int salary = 0;
             for (String record : data) {
                 String[] splitRecord = record.split(" ");
-                if (splitRecord[1].equals(name)) {
-                    String[] splitRecordDate = splitRecord[0].split("[.]");
-                    int datRecord = Integer.parseInt(splitRecordDate[0]);
-                    int monthRecord = Integer.parseInt(splitRecordDate[1]);
-                    int yearRecord = Integer.parseInt(splitRecordDate[2]);
-                    LocalDate recordDate = LocalDate.of(yearRecord, monthRecord, datRecord);
-                    if (recordDate.isEqual(from) || recordDate.isEqual(to)
-                            || recordDate.isAfter(from) && recordDate.isBefore(to)) {
-                        salary = salary
-                                + (Integer.parseInt(splitRecord[2])
-                                * Integer.parseInt(splitRecord[3]));
-                    }
+                LocalDate recordDate = LocalDate.parse(splitRecord[DATE], FORMATTER);
+                if (splitRecord[NAME].equals(name)
+                        && (recordDate.isEqual(from) || recordDate.isEqual(to)
+                        || (recordDate.isAfter(from) && recordDate.isBefore(to)))) {
+                    salary = salary
+                            + (Integer.parseInt(splitRecord[HOURS])
+                            * Integer.parseInt(splitRecord[INCOME_PER_HOUR]));
                 }
             }
-            sb.append(salary).append(System.lineSeparator());
+            reportComplete.append(salary);
         }
-        return sb.toString().trim();
+        return reportComplete.toString();
     }
 }
