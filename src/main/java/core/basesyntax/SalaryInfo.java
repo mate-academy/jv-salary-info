@@ -10,6 +10,7 @@ public class SalaryInfo {
     private static final int INDEX_NAME = 1;
     private static final int INDEX_HOUR = 2;
     private static final int INDEX_PER_HOUR = 3;
+    private static final String SEPARATOR = " - ";
 
     public static String getSalaryInfo(String[] names, String[] data,
                                        String dateFrom, String dateTo) {
@@ -32,7 +33,10 @@ public class SalaryInfo {
                 }
             }
         }
-        StringBuilder builder = new StringBuilder("Report for period " + dateFrom + " - " + dateTo);
+        StringBuilder builder = new StringBuilder("Report for period "
+                + dateFrom
+                + SEPARATOR
+                + dateTo);
         for (int i = 0; i < names.length; i++) {
             builder.append(System.lineSeparator()).append(names[i])
                     .append(" - ").append(salaryInfo[i]);
