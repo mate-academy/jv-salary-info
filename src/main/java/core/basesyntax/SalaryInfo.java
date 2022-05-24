@@ -22,7 +22,7 @@ public class SalaryInfo {
             int salary = 0;
             for (String line : data) {
                 String[] arrayOfData = line.split(" ");
-                LocalDate currentDate = LocalDate.parse(data[DATE_INDEX],
+                LocalDate currentDate = LocalDate.parse(arrayOfData[DATE_INDEX],
                         DATE_TIME_FORMATTER);
                 if (localDateFrom.compareTo(currentDate) <= 0
                         && localDateTo.compareTo(currentDate) >= 0
