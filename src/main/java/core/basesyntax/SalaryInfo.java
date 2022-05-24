@@ -19,13 +19,13 @@ public class SalaryInfo {
         int[] salariesInfo = new int[names.length];
         for (int i = 0; i < names.length; i++) {
             for (String line : data) {
-                String[] splitLine = line.split(" ");
-                if (dateNotInRange(splitLine[DATE_INDEX], dateFrom, dateTo)) {
+                String[] splittedLine = line.split(" ");
+                if (dateNotInRange(splittedLine[DATE_INDEX], dateFrom, dateTo)) {
                     continue;
                 }
-                if (splitLine[NAME_INDEX].equals(names[i])) {
-                    salariesInfo[i] += Integer.parseInt(splitLine[HOURS_INDEX])
-                            * Integer.parseInt(splitLine[SALARY_PER_HOUR_INDEX]);
+                if (splittedLine[NAME_INDEX].equals(names[i])) {
+                    salariesInfo[i] += Integer.parseInt(splittedLine[HOURS_INDEX])
+                            * Integer.parseInt(splittedLine[SALARY_PER_HOUR_INDEX]);
                 }
             }
             reportBuilder.append(System.lineSeparator())
