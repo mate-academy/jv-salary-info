@@ -17,15 +17,15 @@ public class SalaryInfo {
                 .append(" - ")
                 .append(dateTo);
         int[] salariesInfo = new int[names.length];
-
         for (int i = 0; i < names.length; i++) {
             for (String line : data) {
-                if (dateNotInRange(line.split(" ")[DATE_INDEX], dateFrom, dateTo)) {
+                String[] splitLine = line.split(" ");
+                if (dateNotInRange(splitLine[DATE_INDEX], dateFrom, dateTo)) {
                     continue;
                 }
-                if (line.split(" ")[NAME_INDEX].equals(names[i])) {
-                    salariesInfo[i] += Integer.parseInt(line.split(" ")[HOURS_INDEX])
-                            * Integer.parseInt(line.split(" ")[SALARY_PER_HOUR_INDEX]);
+                if (splitLine[NAME_INDEX].equals(names[i])) {
+                    salariesInfo[i] += Integer.parseInt(splitLine[HOURS_INDEX])
+                            * Integer.parseInt(splitLine[SALARY_PER_HOUR_INDEX]);
                 }
             }
             reportBuilder.append(System.lineSeparator())
@@ -45,4 +45,3 @@ public class SalaryInfo {
         }
     }
 }
-
