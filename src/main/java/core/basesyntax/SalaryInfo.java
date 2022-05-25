@@ -19,17 +19,16 @@ public class SalaryInfo {
                 .append(" - ")
                 .append(dateTo);
 
-        String[] dataArray;
         for (String name : names) {
             int salary = 0;
             for (String line : data) {
-                dataArray = line.split(" ");
-                LocalDate currentDate = LocalDate.parse(dataArray[DATE_INDEX], formatter);
+                String[] splittedLine = line.split(" ");
+                LocalDate currentDate = LocalDate.parse(splittedLine[DATE_INDEX], formatter);
                 if (((localDateFrom.isBefore(currentDate)) || localDateFrom.isEqual(currentDate))
                         && ((localDateTo.isAfter(currentDate)) || localDateTo.isEqual(currentDate))
-                        && (dataArray[NAME_INDEX].equals(name))) {
-                    salary += Integer.parseInt(dataArray[HOURS_INDEX])
-                            * Integer.parseInt(dataArray[SALARY_PER_HOUR_INDEX]);
+                        && (splittedLine[NAME_INDEX].equals(name))) {
+                    salary += Integer.parseInt(splittedLine[HOURS_INDEX])
+                            * Integer.parseInt(splittedLine[SALARY_PER_HOUR_INDEX]);
                 }
             }
             reportBuilder.append(System.lineSeparator()).append(name).append(" - ").append(salary);
