@@ -8,19 +8,11 @@ public class SalaryInfo {
     static final int NAME_INDEX = 1;
     static final int HOURS_OF_WORK_IN_DAY_INDEX = 2;
     static final int SALARY_IN_HOUR_INDEX = 3;
-    private static StringBuilder salaryWorker = new StringBuilder();
     private static final DateTimeFormatter DATE_FORMATTER =
             DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
-    public StringBuilder getSalaryWorker() {
-        return salaryWorker;
-    }
-
-    public void setSalaryWorker(StringBuilder salaryWorker) {
-        this.salaryWorker = salaryWorker;
-    }
-
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
+        StringBuilder salaryWorker = new StringBuilder();
         LocalDate localDateFrom = LocalDate.parse(dateFrom, DATE_FORMATTER);
         LocalDate localDateTo = LocalDate.parse(dateTo, DATE_FORMATTER);
         String name;
