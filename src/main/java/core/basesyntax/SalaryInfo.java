@@ -23,7 +23,8 @@ public class SalaryInfo {
                 LocalDate workStartDate =
                         LocalDate.parse(splitedPersonData[DAY_START_WORK_INDEX], DATE_FORMATTER);
                 String workerName = splitedPersonData[NAME_INDEX];
-                int hoursOfWorkInDay = Integer.parseInt(splitedPersonData[HOURS_OF_WORK_IN_DAY_INDEX]);
+                int hoursOfWorkInDay = Integer
+                        .parseInt(splitedPersonData[HOURS_OF_WORK_IN_DAY_INDEX]);
                 int salaryPerHour = Integer.parseInt(splitedPersonData[SALARY_IN_HOUR_INDEX]);
                 if (name.equals(workerName)
                         && (workStartDate.isAfter(localDateFrom)
