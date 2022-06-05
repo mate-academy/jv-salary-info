@@ -13,10 +13,10 @@ public class SalaryInfo {
         StringBuilder resultString = new StringBuilder();
         for (String datum : data) {
             String[] splitData = datum.split(" ");
-            LocalDate workDate = LocalDate.parse(splitData[0],
+            LocalDate workDay = LocalDate.parse(splitData[0],
                     DateTimeFormatter.ofPattern("dd.MM.yyyy"));
-            if (workDate.isBefore(toDate) && workDate.isAfter(fromDate)
-                    || workDate.equals(toDate) || workDate.equals(fromDate)) {
+            if (workDay.isBefore(toDate) && workDay.isAfter(fromDate)
+                    || workDay.equals(toDate) || workDay.equals(fromDate)) {
                 for (int k = 0; k < names.length; k++) {
                     if (splitData[1].equals(names[k])) {
                         salary[k] += Integer.parseInt(splitData[2])
