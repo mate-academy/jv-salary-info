@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     private static final String formatter = "dd.MM.yyyy";
+    private static final String splitRegex = " ";
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate fromDate = LocalDate.parse(dateFrom, DateTimeFormatter.ofPattern(formatter));
@@ -13,7 +14,7 @@ public class SalaryInfo {
         StringBuilder resultString = new StringBuilder();
         for (int k = 0; k < names.length; k++) {
             for (String datum : data) {
-                String[] splitData = datum.split(" ");
+                String[] splitData = datum.split(splitRegex);
                 LocalDate workDay = LocalDate.parse(splitData[0],
                         DateTimeFormatter.ofPattern("dd.MM.yyyy"));
                 if (workDay.isBefore(toDate) && workDay.isAfter(fromDate)
