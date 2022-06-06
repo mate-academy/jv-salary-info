@@ -4,24 +4,28 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    private static final String formatter = "dd.MM.yyyy";
-    private static final String splitRegex = " ";
+    private static final DateTimeFormatter DATE_FORMATTER =
+            DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final int DAY_POSITION = 0;
+    private static final int NAME_POSITION = 1;
+    private static final int WORK_HOURS_POSITION = 2;
+    private static final int SALARY_PER_HOUR_POSITION = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        LocalDate fromDate = LocalDate.parse(dateFrom, DateTimeFormatter.ofPattern(formatter));
-        LocalDate toDate = LocalDate.parse(dateTo, DateTimeFormatter.ofPattern(formatter));
+        LocalDate fromDate = LocalDate.parse(dateFrom, DATE_FORMATTER);
+        LocalDate toDate = LocalDate.parse(dateTo, DATE_FORMATTER);
         int[] salaryCounter = new int[names.length];
         StringBuilder resultString = new StringBuilder();
         for (int k = 0; k < names.length; k++) {
-            for (String datum : data) {
-                String[] splitData = datum.split(splitRegex);
-                LocalDate workDay = LocalDate.parse(splitData[0],
-                        DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+            for (String line : data) {
+                String[] splittedLine = line.split(" ");
+                LocalDate workDay = LocalDate.parse(splittedLine[DAY_POSITION],
+                        DATE_FORMATTER);
                 if (workDay.isBefore(toDate) && workDay.isAfter(fromDate)
                         || workDay.equals(toDate) || workDay.equals(fromDate)) {
-                    if (splitData[1].equals(names[k])) {
-                        salaryCounter[k] += Integer.parseInt(splitData[2])
-                                * Integer.parseInt(splitData[3]);
+                    if (splittedLine[NAME_POSITION].equals(names[k])) {
+                        salaryCounter[k] += Integer.parseInt(splittedLine[WORK_HOURS_POSITION])
+                                * Integer.parseInt(splittedLine[SALARY_PER_HOUR_POSITION]);
                     }
                 }
             }
