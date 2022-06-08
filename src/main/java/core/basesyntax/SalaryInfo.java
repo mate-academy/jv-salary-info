@@ -10,7 +10,6 @@ public class SalaryInfo {
     private static final int NAME_INDEX = 1;
     private static final int HOURS_OF_WORK_INDEX = 2;
     private static final int INCOME_PER_HOUR_INDEX = 3;
-    private static final String SEPARATOR = System.lineSeparator();
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate fromDate = LocalDate.parse(dateFrom, DATE_TIME_FORMATTER);
@@ -27,12 +26,14 @@ public class SalaryInfo {
                 int hours = Integer.parseInt(splittedLine[HOURS_OF_WORK_INDEX]);
                 int income = Integer.parseInt(splittedLine[INCOME_PER_HOUR_INDEX]);
                 if (splittedLine[NAME_INDEX].equals(name)
-                        && fromDate.compareTo(currentDate) <= 0
-                        && toDate.compareTo(currentDate) >= 0) {
+                        && (currentDate.isAfter(fromDate)
+                        || currentDate.isEqual(fromDate))
+                        && (currentDate.isBefore(toDate)
+                        || currentDate.isEqual(toDate))) {
                     salary += hours * income;
                 }
             }
-            result.append(SEPARATOR).append(name).append(" - ").append(salary);
+            result.append(System.lineSeparator()).append(name).append(" - ").append(salary);
         }
         return result.toString();
     }
