@@ -9,7 +9,6 @@ public class SalaryInfo {
     private static final int NAME_INDEX = 1;
     private static final int WORKING_HOUR_INDEX = 2;
     private static final int INCOME_PER_HOUR_INDEX = 3;
-    private static final String LINE_SEPARATOR = System.lineSeparator();
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate localDateFrom = LocalDate.parse(dateFrom, FORMATTER);
@@ -20,21 +19,21 @@ public class SalaryInfo {
         for (String name : names) {
             int salary = 0;
             for (String line : data) {
-                String[] splittedArrayData = line.split(" ");
-                LocalDate splittedArrayDate
-                        = LocalDate.parse(splittedArrayData[DAY_INDEX], FORMATTER);
-                String splittedArrayName = splittedArrayData[NAME_INDEX];
-                int workingHour = Integer.parseInt(splittedArrayData[WORKING_HOUR_INDEX]);
-                int incomePerHour = Integer.parseInt(splittedArrayData[INCOME_PER_HOUR_INDEX]);
-                if (splittedArrayName.equals(name)
-                        && (splittedArrayDate.isAfter(localDateFrom)
-                        || splittedArrayDate.isEqual(localDateFrom))
-                        && (splittedArrayDate.isBefore(localDateTo)
-                        || splittedArrayDate.isEqual(localDateTo))) {
+                String[] splittedLine = line.split(" ");
+                LocalDate date = LocalDate.parse(splittedLine[DAY_INDEX], FORMATTER);
+                String nameFromLine = splittedLine[NAME_INDEX];
+                int workingHour = Integer.parseInt(splittedLine[WORKING_HOUR_INDEX]);
+                int incomePerHour = Integer.parseInt(splittedLine[INCOME_PER_HOUR_INDEX]);
+                if (nameFromLine.equals(name)
+                        && (date.isAfter(localDateFrom)
+                        || date.isEqual(localDateFrom))
+                        && (date.isBefore(localDateTo)
+                        || date.isEqual(localDateTo))) {
                     salary += workingHour * incomePerHour;
                 }
             }
-            salaryReport.append(LINE_SEPARATOR).append(name).append(" - ").append(salary);
+            String lineSeparator = System.lineSeparator();
+            salaryReport.append(lineSeparator).append(name).append(" - ").append(salary);
         }
         return salaryReport.toString();
     }
