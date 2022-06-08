@@ -13,22 +13,20 @@ public class SalaryInfo {
     private static final String SEPARATOR = System.lineSeparator();
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-
         LocalDate fromDate = LocalDate.parse(dateFrom, DATE_TIME_FORMATTER);
         LocalDate toDate = LocalDate.parse(dateTo, DATE_TIME_FORMATTER);
         StringBuilder result = new StringBuilder().append("Report for period ")
                 .append(dateFrom).append(" - ").append(dateTo);
-        String[] arrayOfData;
 
         for (String name : names) {
             int salary = 0;
             for (String line : data) {
-                arrayOfData = line.split(" ");
-                LocalDate currentDate = LocalDate.parse(arrayOfData[DATE_INDEX],
+                String[] splittedLine = line.split(" ");
+                LocalDate currentDate = LocalDate.parse(splittedLine[DATE_INDEX],
                         DATE_TIME_FORMATTER);
-                int hours = Integer.parseInt(arrayOfData[HOURS_OF_WORK_INDEX]);
-                int income = Integer.parseInt(arrayOfData[INCOME_PER_HOUR_INDEX]);
-                if (arrayOfData[NAME_INDEX].equals(name)
+                int hours = Integer.parseInt(splittedLine[HOURS_OF_WORK_INDEX]);
+                int income = Integer.parseInt(splittedLine[INCOME_PER_HOUR_INDEX]);
+                if (splittedLine[NAME_INDEX].equals(name)
                         && fromDate.compareTo(currentDate) <= 0
                         && toDate.compareTo(currentDate) >= 0) {
                     salary += hours * income;
