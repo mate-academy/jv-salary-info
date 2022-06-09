@@ -28,6 +28,6 @@ public class SalaryInfo {
             reportBuilder.append(System.lineSeparator()).append(i)
                     .append(" - ").append(employeeSalarySum);
         }
-        return "Report for period " + dateFrom + " - " + dateTo + reportBuilder;
+        return " Report for period " + dateFrom + " - " + dateTo + reportBuilder;
     }
 }
