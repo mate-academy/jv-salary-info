@@ -16,13 +16,13 @@ public class SalaryInfo {
         StringBuilder report = new StringBuilder("Report for period ");
         report.append(dateFrom).append(MINUS_SEPARATOR).append(dateTo);
         // initiate date variables
-        LocalDate startDate = LocalDate.now();
-        LocalDate endDate = LocalDate.now();
+        LocalDate startDate;
+        LocalDate endDate;
         try {
             startDate = LocalDate.parse(dateFrom, formatter);
             endDate = LocalDate.parse(dateTo, formatter);
         } catch (DateTimeParseException e) {
-            System.out.printf("%s or %s is not parsable!%n", dateFrom, dateTo);
+            throw new RuntimeException("Date is not parsable.");
         }
         for (String name : names) {
             for (String dataValue : data) {
@@ -31,7 +31,7 @@ public class SalaryInfo {
                 try {
                     LocalDate.parse(splittedData[0], formatter);
                 } catch (DateTimeParseException e) {
-                    System.out.printf("%s is not parsable!%n", splittedData[0]);
+                    throw new RuntimeException("Date is not parsable.");
                 }
                 if (name.equals(splittedData[1]) && currentDate.compareTo(startDate) >= 0
                         && currentDate.compareTo(endDate) <= 0) {
