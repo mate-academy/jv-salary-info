@@ -29,7 +29,7 @@ public class SalaryInfo {
                             * Integer.parseInt(arrayOfData[2]));
                 }
             }
-            result.append("\r\n").append(name).append(" - ").append(salary);
+            result.append("\n").append(name).append(" - ").append(salary);
         }
         return result.toString();
     }
