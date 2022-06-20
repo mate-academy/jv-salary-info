@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder builder = new StringBuilder();
@@ -18,22 +19,28 @@ public class SalaryInfo {
     }
 
     public int getTotalSalory(String name, String[] data, String dateFrom, String dateTo) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        LocalDate dateBegin = LocalDate.parse(dateFrom,formatter);
-        LocalDate dateEnd = LocalDate.parse(dateTo,formatter);
-        dateBegin = dateBegin.minusDays(1);
-        dateEnd = dateEnd.plusDays(1);
         int totalSalary = 0;
         for (int i = 0; i < data.length; i++) {
             String[] temp = data[i].split(" ");
-            if (dateBegin.isBefore(LocalDate.parse(temp[0],formatter))
-                    & dateEnd.isAfter(LocalDate.parse(temp[0], formatter))
-                    & name.equals(temp[1])) {
+            if (checkPeriod(temp[0], dateFrom, dateTo) & name.equals(temp[1])) {
                 int hourSalary = Integer.parseInt(temp[2]);
                 int hours = Integer.parseInt(temp[3]);
                 totalSalary += hourSalary * hours;
             }
         }
         return totalSalary;
+    }
+
+    public boolean checkPeriod(String dateCheck, String dateFrom, String dateTo) {
+        LocalDate dateBegin = LocalDate.parse(dateFrom,formatter);
+        LocalDate dateEnd = LocalDate.parse(dateTo,formatter);
+        dateBegin = dateBegin.minusDays(1);
+        dateEnd = dateEnd.plusDays(1);
+        boolean periodCheck = false;
+        if (dateBegin.isBefore(LocalDate.parse(dateCheck,formatter))
+                & dateEnd.isAfter(LocalDate.parse(dateCheck, formatter))) {
+            periodCheck = true;
+        }
+        return periodCheck;
     }
 }
