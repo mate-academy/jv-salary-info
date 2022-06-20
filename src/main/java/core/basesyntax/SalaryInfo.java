@@ -16,7 +16,8 @@ public class SalaryInfo {
         }
         return builder.toString();
     }
-    public int getTotalSalory(String name, String[] data, String dateFrom, String dateTo){
+
+    public int getTotalSalory(String name, String[] data, String dateFrom, String dateTo) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         LocalDate dateBegin = LocalDate.parse(dateFrom,formatter);
         LocalDate dateEnd = LocalDate.parse(dateTo,formatter);
@@ -25,12 +26,12 @@ public class SalaryInfo {
         int totalSalary = 0;
         for (int i = 0; i < data.length; i++) {
             String[] temp = data[i].split(" ");
-            if(dateBegin.isBefore(LocalDate.parse(temp[0],formatter))
+            if (dateBegin.isBefore(LocalDate.parse(temp[0],formatter))
                     & dateEnd.isAfter(LocalDate.parse(temp[0], formatter))
                     & name.equals(temp[1])) {
                 int hourSalary = Integer.parseInt(temp[2]);
                 int hours = Integer.parseInt(temp[3]);
-                totalSalary +=hourSalary*hours;
+                totalSalary += hourSalary * hours;
             }
         }
         return totalSalary;
