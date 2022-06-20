@@ -12,7 +12,7 @@ public class SalaryInfo {
         for (int i = 0; i < names.length; i++) {
             int totalSalory = 0;
             totalSalory = getTotalSalory(names[i],data,dateFrom,dateTo);
-            builder.append("\n").append(names[i]);
+            builder.append(System.lineSeparator()).append(names[i]);
             builder.append(" - ").append(totalSalory);
         }
         return builder.toString();
