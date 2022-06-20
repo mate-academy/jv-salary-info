@@ -36,11 +36,11 @@ public class SalaryInfo {
         LocalDate dateEnd = LocalDate.parse(dateTo,formatter);
         dateBegin = dateBegin.minusDays(1);
         dateEnd = dateEnd.plusDays(1);
-        boolean periodCheck = false;
+        boolean resultCheck = false;
         if (dateBegin.isBefore(LocalDate.parse(dateCheck,formatter))
                 & dateEnd.isAfter(LocalDate.parse(dateCheck, formatter))) {
-            periodCheck = true;
+            resultCheck = true;
         }
-        return periodCheck;
+        return resultCheck;
     }
 }
