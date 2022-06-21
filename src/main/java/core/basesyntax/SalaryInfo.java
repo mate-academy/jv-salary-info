@@ -5,47 +5,48 @@ import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-    private static final int EMPLOYEE_DAY = 0;
-    private static final int EMPLOYEE_NAME = 1;
-    private static final int EMPLOYEE_HOURS = 2;
-    private static final int EMPLOYEE_HOURS_SALARY = 3;
-    private int totalSalaryEmployee = 0;
+    private static final int DATE_INDEX = 0;
+    private static final int NAME_INDEX = 1;
+    private static final int HOURS_INDEX = 2;
+    private static final int INCOME_PER_HOUR_INDEX = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        StringBuilder builder = new StringBuilder();
-        builder.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
-        for (int i = 0; i < names.length; i++) {
-            totalSalaryEmployee = 0;
-            totalSalaryEmployee = getTotalSalory(names[i],data,dateFrom,dateTo);
-            builder.append(System.lineSeparator()).append(names[i]);
-            builder.append(" - ").append(totalSalaryEmployee);
+        StringBuilder reportBuilder = new StringBuilder();
+        reportBuilder.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
+        for (String nameEmployee:names
+             ) {
+            int totalSalary = 0;
+            totalSalary = getTotalSalory(totalSalary,nameEmployee,data,dateFrom,dateTo);
+            reportBuilder.append(System.lineSeparator()).append(nameEmployee);
+            reportBuilder.append(" - ").append(totalSalary);
         }
-        return builder.toString();
+        return reportBuilder.toString();
     }
 
-    public int getTotalSalory(String name, String[] data, String dateFrom, String dateTo) {
-        for (int i = 0; i < data.length; i++) {
-            String[] temp = data[i].split(" ");
-            if (getPeriod(temp[EMPLOYEE_DAY], dateFrom, dateTo)
-                    & name.equals(temp[EMPLOYEE_NAME])) {
-                int hours = Integer.parseInt(temp[EMPLOYEE_HOURS]);
-                int hoursSalary = Integer.parseInt(temp[EMPLOYEE_HOURS_SALARY]);
-                totalSalaryEmployee += hoursSalary * hours;
+    public int getTotalSalory(int totalSalary,String name, String[] data,
+                              String dateFrom, String dateTo) {
+        for (String line:
+                data) {
+            String[] splittedLine = line.split(" ");
+            if (isValidDate(splittedLine[DATE_INDEX], dateFrom, dateTo)
+                    & name.equals(splittedLine[NAME_INDEX])) {
+                int hours = Integer.parseInt(splittedLine[HOURS_INDEX]);
+                int hoursSalary = Integer.parseInt(splittedLine[INCOME_PER_HOUR_INDEX]);
+                totalSalary += hoursSalary * hours;
             }
         }
-        return totalSalaryEmployee;
+        return totalSalary;
     }
 
-    public boolean getPeriod(String dateCheck, String dateFrom, String dateTo) {
+    public boolean isValidDate(String checkedDate, String dateFrom, String dateTo) {
         LocalDate dateBegin = LocalDate.parse(dateFrom,FORMATTER);
         LocalDate dateEnd = LocalDate.parse(dateTo,FORMATTER);
         dateBegin = dateBegin.minusDays(1);
         dateEnd = dateEnd.plusDays(1);
-        boolean getResultPeriod = false;
-        if (dateBegin.isBefore(LocalDate.parse(dateCheck, FORMATTER))
-                & dateEnd.isAfter(LocalDate.parse(dateCheck, FORMATTER))) {
-            getResultPeriod = true;
+        if (dateBegin.isBefore(LocalDate.parse(checkedDate, FORMATTER))
+                & dateEnd.isAfter(LocalDate.parse(checkedDate, FORMATTER))) {
+            return true;
         }
-        return getResultPeriod;
+        return false;
     }
 }
