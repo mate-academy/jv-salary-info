@@ -5,6 +5,10 @@ import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final int EMPLOYEE_DAY = 0;
+    private static final int EMPLOYEE_NAME = 1;
+    private static final int EMPLOYEE_HOURS = 2;
+    private static final int EMPLOYEE_HOURS_SALARY = 3;
     private int totalSalaryEmployee = 0;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
@@ -22,10 +26,11 @@ public class SalaryInfo {
     public int getTotalSalory(String name, String[] data, String dateFrom, String dateTo) {
         for (int i = 0; i < data.length; i++) {
             String[] temp = data[i].split(" ");
-            if (getPeriod(temp[0], dateFrom, dateTo) & name.equals(temp[1])) {
-                int hourSalary = Integer.parseInt(temp[2]);
-                int hours = Integer.parseInt(temp[3]);
-                totalSalaryEmployee += hourSalary * hours;
+            if (getPeriod(temp[EMPLOYEE_DAY], dateFrom, dateTo)
+                    & name.equals(temp[EMPLOYEE_NAME])) {
+                int hours = Integer.parseInt(temp[EMPLOYEE_HOURS]);
+                int hoursSalary = Integer.parseInt(temp[EMPLOYEE_HOURS_SALARY]);
+                totalSalaryEmployee += hoursSalary * hours;
             }
         }
         return totalSalaryEmployee;
