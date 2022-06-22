@@ -13,20 +13,18 @@ public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder reportBuilder = new StringBuilder();
         reportBuilder.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
-        for (String nameEmployee:names
-             ) {
+        for (String name:names) {
             int totalSalary = 0;
-            totalSalary = getTotalSalory(totalSalary,nameEmployee,data,dateFrom,dateTo);
-            reportBuilder.append(System.lineSeparator()).append(nameEmployee);
+            totalSalary = getTotalSalary(totalSalary,name,data,dateFrom,dateTo);
+            reportBuilder.append(System.lineSeparator()).append(name);
             reportBuilder.append(" - ").append(totalSalary);
         }
         return reportBuilder.toString();
     }
 
-    public int getTotalSalory(int totalSalary,String name, String[] data,
+    public int getTotalSalary(int totalSalary,String name, String[] data,
                               String dateFrom, String dateTo) {
-        for (String line:
-                data) {
+        for (String line: data) {
             String[] splittedLine = line.split(" ");
             if (isValidDate(splittedLine[DATE_INDEX], dateFrom, dateTo)
                     & name.equals(splittedLine[NAME_INDEX])) {
@@ -43,10 +41,8 @@ public class SalaryInfo {
         LocalDate dateEnd = LocalDate.parse(dateTo,FORMATTER);
         dateBegin = dateBegin.minusDays(1);
         dateEnd = dateEnd.plusDays(1);
-        if (dateBegin.isBefore(LocalDate.parse(checkedDate, FORMATTER))
-                & dateEnd.isAfter(LocalDate.parse(checkedDate, FORMATTER))) {
-            return true;
-        }
-        return false;
+        return dateBegin.isBefore(LocalDate.parse(checkedDate, FORMATTER))
+                & dateEnd.isAfter(LocalDate.parse(checkedDate, FORMATTER));
+
     }
 }
