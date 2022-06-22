@@ -5,9 +5,9 @@ import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-    private static final int NUMBER_ONE = 1;
-    private static final int NUMBER_TWO = 2;
-    private static final int NUMBER_THREE = 3;
+    private static final int NAME_INDEX_ONE = 1;
+    private static final int NAME_INDEX_TWO = 2;
+    private static final int NAME_INDEX_THREE = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate localDateFrom = LocalDate.parse(dateFrom, FORMATTER);
@@ -19,11 +19,13 @@ public class SalaryInfo {
             for (String line : data) {
                 String[] splitLine = line.split(" ");
                 LocalDate currentDate = LocalDate.parse(splitLine[0], FORMATTER);
-                if (localDateFrom.compareTo(currentDate) <= 0
-                        && localDateTo.compareTo(currentDate) >= 0
-                        && splitLine[NUMBER_ONE].equals(name)) {
-                    salary += (Integer.parseInt(splitLine[NUMBER_THREE])
-                            * Integer.parseInt(splitLine[NUMBER_TWO]));
+                if (splitLine[NAME_INDEX_ONE].equals(name)
+                        && (currentDate.isAfter(localDateFrom)
+                        || currentDate.isEqual(localDateFrom))
+                        && (currentDate.isBefore(localDateTo)
+                        || currentDate.isEqual(localDateTo))) {
+                    salary += (Integer.parseInt(splitLine[NAME_INDEX_THREE])
+                            * Integer.parseInt(splitLine[NAME_INDEX_TWO]));
                 }
             }
             result.append(System.lineSeparator()).append(name).append(" - ").append(salary);
