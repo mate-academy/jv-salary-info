@@ -5,9 +5,10 @@ import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-    private static final int NAME_INDEX_ONE = 1;
-    private static final int NAME_INDEX_TWO = 2;
-    private static final int NAME_INDEX_THREE = 3;
+    private static final int DATE_INDEX = 0;
+    private static final int NAME_INDEX = 1;
+    private static final int HOURS_OF_WORK_INDEX = 2;
+    private static final int INCOME_PER_HOUR_INDEX = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate localDateFrom = LocalDate.parse(dateFrom, FORMATTER);
@@ -18,14 +19,14 @@ public class SalaryInfo {
             int salary = 0;
             for (String line : data) {
                 String[] splitLine = line.split(" ");
-                LocalDate currentDate = LocalDate.parse(splitLine[0], FORMATTER);
-                if (splitLine[NAME_INDEX_ONE].equals(name)
+                LocalDate currentDate = LocalDate.parse(splitLine[DATE_INDEX], FORMATTER);
+                if (splitLine[NAME_INDEX].equals(name)
                         && (currentDate.isAfter(localDateFrom)
                         || currentDate.isEqual(localDateFrom))
                         && (currentDate.isBefore(localDateTo)
                         || currentDate.isEqual(localDateTo))) {
-                    salary += (Integer.parseInt(splitLine[NAME_INDEX_THREE])
-                            * Integer.parseInt(splitLine[NAME_INDEX_TWO]));
+                    salary += (Integer.parseInt(splitLine[INCOME_PER_HOUR_INDEX])
+                            * Integer.parseInt(splitLine[HOURS_OF_WORK_INDEX]));
                 }
             }
             result.append(System.lineSeparator()).append(name).append(" - ").append(salary);
