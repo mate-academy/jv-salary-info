@@ -4,34 +4,35 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    private static final int INDEX_PERIOD = 0;
-    private static final int INDEX_NAME = 1;
-    private static final int INDEX_SALARY = 2;
-    private static final int INDEX_INCOME = 3;
-    private static final String FORMAT_DATE = "dd.MM.yyyy";
-    private static final DateTimeFormatter formatDate = DateTimeFormatter.ofPattern(FORMAT_DATE);
+    private static final int INDEX_OF_PERIOD = 0;
+    private static final int INDEX_OF_NAME = 1;
+    private static final int INDEX_OF_SALARY = 2;
+    private static final int INDEX_OF_INCOME = 3;
+    private static final String DATE_FORMAT = "dd.MM.yyyy";
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern(DATE_FORMAT);
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        LocalDate startDate = LocalDate.parse(dateFrom, formatDate);
-        LocalDate endDate = LocalDate.parse(dateTo, formatDate);
-        StringBuilder stringPeriod = new StringBuilder();
-        stringPeriod.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
+        LocalDate startDate = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate endDate = LocalDate.parse(dateTo, FORMATTER);
+        StringBuilder reportBuilder = new StringBuilder();
+        reportBuilder.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
         for (String name : names) {
-            int resultSalary = 0;
-            for (String rowData : data) {
-                String[] rowSplit = rowData.split(" ");
-                if (name.equals(rowSplit[INDEX_NAME])) {
-                    LocalDate dateFromData = LocalDate.parse(rowSplit[INDEX_PERIOD], formatDate);
+            int salary = 0;
+            for (String line : data) {
+                String[] splittedLine = line.split(" ");
+                if (name.equals(splittedLine[INDEX_OF_NAME])) {
+                    LocalDate dateFromData = LocalDate.parse(splittedLine[INDEX_OF_PERIOD],
+                            FORMATTER);
                     if ((dateFromData.isAfter(startDate) || dateFromData.isEqual(startDate))
                             && (dateFromData.isBefore(endDate) || dateFromData.isEqual(endDate))) {
-                        resultSalary += Integer.parseInt(rowSplit[INDEX_SALARY])
-                                * Integer.parseInt(rowSplit[INDEX_INCOME]);
+                        salary += Integer.parseInt(splittedLine[INDEX_OF_SALARY])
+                                * Integer.parseInt(splittedLine[INDEX_OF_INCOME]);
                     }
                 }
             }
-            stringPeriod.append(System.lineSeparator()).append(name).append(" - ")
-                    .append(resultSalary);
+            reportBuilder.append(System.lineSeparator()).append(name).append(" - ")
+                    .append(salary);
         }
-        return stringPeriod.toString();
+        return reportBuilder.toString();
     }
 }
