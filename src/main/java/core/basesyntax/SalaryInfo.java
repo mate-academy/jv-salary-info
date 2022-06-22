@@ -37,12 +37,10 @@ public class SalaryInfo {
     }
 
     public boolean isValidDate(String checkedDate, String dateFrom, String dateTo) {
-        LocalDate dateBegin = LocalDate.parse(dateFrom,FORMATTER);
-        LocalDate dateEnd = LocalDate.parse(dateTo,FORMATTER);
-        dateBegin = dateBegin.minusDays(1);
-        dateEnd = dateEnd.plusDays(1);
-        return dateBegin.isBefore(LocalDate.parse(checkedDate, FORMATTER))
-                & dateEnd.isAfter(LocalDate.parse(checkedDate, FORMATTER));
+        return LocalDate.parse(dateFrom,FORMATTER).minusDays(1)
+                .isBefore(LocalDate.parse(checkedDate, FORMATTER))
+                & LocalDate.parse(dateTo,FORMATTER)
+                .plusDays(1).isAfter(LocalDate.parse(checkedDate, FORMATTER));
 
     }
 }
