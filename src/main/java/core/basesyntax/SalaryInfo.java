@@ -41,6 +41,5 @@ public class SalaryInfo {
                 .isBefore(LocalDate.parse(checkedDate, FORMATTER))
                 & LocalDate.parse(dateTo,FORMATTER)
                 .plusDays(1).isAfter(LocalDate.parse(checkedDate, FORMATTER));
-
     }
 }
