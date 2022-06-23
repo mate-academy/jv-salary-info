@@ -17,7 +17,7 @@ public class ApplicationMain {
         String dateTo = "30.04.2019";
 
         SalaryInfo info =  new SalaryInfo();
-        info.getSalaryInfo(names, data, dateFrom, dateTo);
+        System.out.println(info.getSalaryInfo(names, data, dateFrom, dateTo));
 
     }
 }
