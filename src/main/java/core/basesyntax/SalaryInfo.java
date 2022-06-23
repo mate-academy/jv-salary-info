@@ -10,6 +10,7 @@ public class SalaryInfo {
         salaryInfo.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
         for (String name : names) {
             String user = new String(name);
+            int userPayment = 0;
             for (int i = 0; i < data.length; i++) {
                 String[] userData = data[i].split(" ");
                 try {
@@ -19,12 +20,13 @@ public class SalaryInfo {
                     if (userData[1].equals(user)
                             && currentDate.after(startDate)
                             && currentDate.before(endDate)) {
-                        int employeePayment = Integer.valueOf(userData[2]) * Integer.valueOf(userData[3]);
-                        salaryInfo.append(System.lineSeparator()).append(user).append(" - ").append(employeePayment);
+                        userPayment = userPayment +(Integer.valueOf(userData[2]) * Integer.valueOf(userData[3]));
+
                     }
-                } catch (ParseException e)
+                } catch (ParseException e) {
                     e.printStackTrace();
                 }
+                salaryInfo.append(System.lineSeparator()).append(user).append(" - ").append(userPayment);
             }
             salaryInfo.append(System.lineSeparator());
         }
