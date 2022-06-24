@@ -13,10 +13,10 @@ public class ApplicationMain {
                 "27.04.2019 Kate 3 80",
                 "27.04.2019 Andrew 8 100"
         };
-        String  dateFrom = "24.04.2019";
+        String dateFrom = "24.04.2019";
         String dateTo = "25.04.2019";
 
-        SalaryInfo info =  new SalaryInfo();
+        SalaryInfo info = new SalaryInfo();
         System.out.println(info.getSalaryInfo(names, data, dateFrom, dateTo));
 
     }

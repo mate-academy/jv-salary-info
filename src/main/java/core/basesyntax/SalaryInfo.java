@@ -17,12 +17,13 @@ public class SalaryInfo {
                     userPayment = userPayment + calculationPayment(userData, name);
                 }
             }
-            salaryInfo.append(System.lineSeparator()).append(name).append(" - ").append(userPayment);
+            salaryInfo.append(System.lineSeparator())
+                    .append(name).append(" - ").append(userPayment);
         }
         return salaryInfo.toString();
     }
 
-    private int calculationPayment (String[] userData, String name) {
+    private int calculationPayment(String[] userData, String name) {
         int result = 0;
         if (userData[1].equals(name)) {
             result = Integer.valueOf(userData[2]) * Integer.valueOf(userData[3]);
