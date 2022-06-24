@@ -8,28 +8,41 @@ public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder salaryInfo = new StringBuilder();
         salaryInfo.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
-        for (String name : names) {
-            String user = new String(name);
-            int userPayment = 0;
-            for (int i = 0; i < data.length; i++) {
-                String[] userData = data[i].split(" ");
-                try {
-                    Date startDate = new SimpleDateFormat("dd.MM.yyyy").parse(dateFrom);
-                    Date endDate = new SimpleDateFormat("dd.MM.yyyy").parse(dateTo);
-                    Date currentDate = new SimpleDateFormat("dd.MM.yyyy").parse(userData[0]);
-                    if (userData[1].equals(user)
-                            && currentDate.after(startDate)
-                            && currentDate.before(endDate)) {
-                        userPayment = userPayment +(Integer.valueOf(userData[2]) * Integer.valueOf(userData[3]));
 
-                    }
-                } catch (ParseException e) {
-                    e.printStackTrace();
+        for (String name : names) {
+            int userPayment = 0;
+            for (String employeeData : data) {
+                String[] userData = employeeData.split(" ");
+                if (isDateInPeriod(userData[0], dateFrom, dateTo)) {
+                    userPayment = userPayment + calculationPayment(userData, name);
                 }
-                salaryInfo.append(System.lineSeparator()).append(user).append(" - ").append(userPayment);
             }
-            salaryInfo.append(System.lineSeparator());
+            salaryInfo.append(System.lineSeparator()).append(name).append(" - ").append(userPayment);
         }
         return salaryInfo.toString();
+    }
+
+    private int calculationPayment (String[] userData, String name) {
+        int result = 0;
+        if (userData[1].equals(name)) {
+            result = Integer.valueOf(userData[2]) * Integer.valueOf(userData[3]);
+        }
+        return result;
+    }
+
+    private boolean isDateInPeriod(String dataDate, String dateFrom, String dateTo) {
+        Date currentDate = null;
+        Date startDate = null;
+        Date endDate = null;
+
+        try {
+            currentDate = new SimpleDateFormat("dd.MM.yyyy").parse(dataDate);
+            startDate = new SimpleDateFormat("dd.MM.yyyy").parse(dateFrom);
+            endDate = new SimpleDateFormat("dd.MM.yyyy").parse(dateTo);
+        } catch (ParseException e) {
+            System.out.println("Date entry error!");
+            e.printStackTrace();
+        }
+        return endDate != null && currentDate.after(startDate) && currentDate.before(endDate);
     }
 }
