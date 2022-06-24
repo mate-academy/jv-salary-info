@@ -43,6 +43,7 @@ public class SalaryInfo {
             System.out.println("Date entry error!");
             e.printStackTrace();
         }
-        return endDate != null && currentDate.after(startDate) && currentDate.before(endDate);
+        return endDate != null && currentDate.after(startDate)
+                && (currentDate.before(endDate) || currentDate.equals(endDate));
     }
 }
