@@ -1,31 +1,41 @@
 package core.basesyntax;
 
 public class SalaryInfo {
+    private static final int FIRST_POINT_INDEX = 2;
+    private static final int SECOND_POINT_INDEX = 6;
+    private static final int HOURS_OF_WORK = 2;
+    private static final int SALARY_INDEX = 3;
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder salaryInfo = new StringBuilder("Report for period ");
         salaryInfo.append(dateFrom).append(" - ").append(dateTo);
         int[] salaryCount = new int[names.length];
-        double dateFrom_MonthDay = dateToMonthDayFormat(dateFrom.substring(3,6), dateFrom.substring(0,2));
-        double dateTo_MonthDay = dateToMonthDayFormat(dateTo.substring(3,6), dateTo.substring(0,2));
+        double dateFromInMonthDay = dateToMonthDayFormat(dateFrom);
+        double dateToInMonthDay = dateToMonthDayFormat(dateTo);
         for (String personData: data) {
-            double personDateMonthDay = dateToMonthDayFormat(personData.substring(3,6), personData.substring(0,2));
-            if (dateFrom_MonthDay <= personDateMonthDay && personDateMonthDay <= dateTo_MonthDay ) {
+            double personDateInMonthDay =
+                    dateToMonthDayFormat(personData.substring(0,SECOND_POINT_INDEX));
+            if (dateFromInMonthDay <= personDateInMonthDay
+                    && personDateInMonthDay <= dateToInMonthDay) {
                 String[] arrayPersonData = personData.split(" ");
                 for (int j = 0; j < names.length; j++) {
                     if (arrayPersonData[1].equals(names[j])) {
-                        salaryCount[j] += Integer.parseInt(arrayPersonData[2]) * Integer.parseInt(arrayPersonData[3]);
+                        salaryCount[j] += Integer.parseInt(arrayPersonData[HOURS_OF_WORK])
+                                * Integer.parseInt(arrayPersonData[SALARY_INDEX]);
                         j = names.length;
                     }
                 }
             }
         }
         for (int j = 0; j < names.length; j++) {
-            salaryInfo.append(System.lineSeparator()).append(names[j]).append(" - ").append(salaryCount[j]);
+            salaryInfo.append(System.lineSeparator()).append(names[j])
+                    .append(" - ").append(salaryCount[j]);
         }
         return salaryInfo.toString();
     }
 
-    public double dateToMonthDayFormat(String monthOfDate, String dayOfDate) {
-        return Double.parseDouble(monthOfDate + dayOfDate);
+    private double dateToMonthDayFormat(String date) {
+        return Double.parseDouble(date.substring(FIRST_POINT_INDEX + 1, SECOND_POINT_INDEX)
+                + date.substring(0, FIRST_POINT_INDEX));
     }
 }
