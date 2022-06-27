@@ -5,28 +5,31 @@ import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-    private static final int FIRST_ELEMENT_OF_ARRAY = 0;
-    private static final int SECOND_ELEMENT_OF_ARRAY = 1;
-    private static final int THIRD_ELEMENT_OF_ARRAY = 2;
-    private static final int FOURTH_ELEMENT_OF_ARRAY = 3;
+    private static final int DATE_INDEX = 0;
+    private static final int NAME_INDEX = 1;
+    private static final int HOURS_INDEX = 2;
+    private static final int INCOME_PER_HOUR_INDEX = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        StringBuilder employeeSalaryOfPeriod = new StringBuilder("Report for period "
-                + dateFrom + " - " + dateTo);
+        StringBuilder employeeSalaryOfPeriod = new StringBuilder("Report for period ")
+                .append(dateFrom)
+                .append(" - ")
+                .append(dateTo);
         LocalDate dateBegin = LocalDate.parse(dateFrom, FORMATTER);
         LocalDate dateEnd = LocalDate.parse(dateTo, FORMATTER);
-        dateBegin = dateBegin.minusDays(1);
-        dateEnd = dateEnd.plusDays(1);
         for (String name : names) {
             int totalSalary = 0;
-            for (int i = 0; i < data.length; i++) {
-                String[] temp = data[i].split(" ");
-                if (LocalDate.parse(temp[FIRST_ELEMENT_OF_ARRAY], FORMATTER).isAfter(dateBegin)
-                        && LocalDate.parse(temp[FIRST_ELEMENT_OF_ARRAY], FORMATTER)
-                        .isBefore(dateEnd)
-                        && name.equals(temp[SECOND_ELEMENT_OF_ARRAY])) {
-                    int hours = Integer.parseInt(temp[THIRD_ELEMENT_OF_ARRAY]);
-                    int hourSalary = Integer.parseInt(temp[FOURTH_ELEMENT_OF_ARRAY]);
+            for (String lineOfData : data) {
+                String[] splittedLineOfData = lineOfData.split(" ");
+                if (((LocalDate.parse(splittedLineOfData[DATE_INDEX], FORMATTER).isAfter(dateBegin))
+                        || (LocalDate.parse(splittedLineOfData[DATE_INDEX], FORMATTER)
+                        .equals(dateBegin)))
+                        & ((LocalDate.parse(splittedLineOfData[DATE_INDEX], FORMATTER)
+                        .isBefore(dateEnd) || LocalDate.parse(splittedLineOfData[DATE_INDEX],
+                                FORMATTER).equals(dateEnd)))
+                        & (name.equals(splittedLineOfData[NAME_INDEX]))) {
+                    int hours = Integer.parseInt(splittedLineOfData[HOURS_INDEX]);
+                    int hourSalary = Integer.parseInt(splittedLineOfData[INCOME_PER_HOUR_INDEX]);
                     totalSalary = totalSalary + hourSalary * hours;
                 }
             }
