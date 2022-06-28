@@ -13,7 +13,9 @@ public class SalaryInfo {
             Date dateEnd = new SimpleDateFormat("dd.MM.yyyy").parse(dateTo);
             for (String name : names) {
                 resultSalaryReport.append(
-                        "\r\n").append(name).append(" - ").append(salaryCounter(name, data, dateBegin, dateEnd));
+                        "\r\n").append(name)
+                        .append(" - ")
+                        .append(salaryCounter(name, data, dateBegin, dateEnd));
             }
         } catch (ParseException e) {
             System.out.println("bad data parameters format");
@@ -25,7 +27,6 @@ public class SalaryInfo {
 
     int salaryCounter(String name, String[] data, Date dateBegin, Date dateEnd) {
         int result = 0;
-//        String[] dataParsedString = new String[]{"","","",""};
         for (String jobInfo : data) {
             String[] dataParsedString = jobInfo.split(" ");
             try {
