@@ -13,8 +13,9 @@ public class SalaryInfo {
             Date dateBegin = new SimpleDateFormat("dd.MM.yyyy").parse(dateFrom);
             Date dateEnd = new SimpleDateFormat("dd.MM.yyyy").parse(dateTo);
             for (String name : names) {
-                resultSalaryReport.append(
-                        "\r\n").append(name)
+                resultSalaryReport
+                        .append("\r\n")
+                        .append(name)
                         .append(" - ")
                         .append(salaryCounter(name, data, dateBegin, dateEnd));
             }
