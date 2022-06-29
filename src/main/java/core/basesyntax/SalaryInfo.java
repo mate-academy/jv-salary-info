@@ -6,10 +6,10 @@ import java.util.Date;
 
 public class SalaryInfo {
 
-    private static final byte DATE = 0;
-    private static final byte WORKERNAME = 1;
-    private static final byte HOURS = 2;
-    private static final byte PAYPERHOUR = 3;
+    private static final byte DATE_INDEX = 0;
+    private static final byte WORKER_NAME_INDEX = 1;
+    private static final byte HOURS_INDEX = 2;
+    private static final byte PAY_PER_HOUR_INDEX = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder resultSalaryReport =
@@ -42,12 +42,13 @@ public class SalaryInfo {
             String[] dataParsedString = workerJobInfo.split(" ");
             try {
                 Date salaryDate = new SimpleDateFormat("dd.MM.yyyy")
-                        .parse(dataParsedString[DATE]);
-                totalWorkerSalary += ((salaryDate.after(dateBegin) || salaryDate.equals(dateBegin))
+                        .parse(dataParsedString[DATE_INDEX]);
+                if ((salaryDate.after(dateBegin) || salaryDate.equals(dateBegin))
                         && (salaryDate.before(dateEnd) || salaryDate.equals(dateEnd))
-                        && workerName.equals(dataParsedString[WORKERNAME])) ?
-                        Integer.parseInt(dataParsedString[HOURS])
-                        * Integer.parseInt(dataParsedString[PAYPERHOUR]) : 0 ;
+                        && workerName.equals(dataParsedString[WORKER_NAME_INDEX])) {
+                    totalWorkerSalary += Integer.parseInt(dataParsedString[HOURS_INDEX])
+                            * Integer.parseInt(dataParsedString[PAY_PER_HOUR_INDEX]);
+                }
             } catch (ParseException e) {
                 System.out.println("bad user data format");
             }
