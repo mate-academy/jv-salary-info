@@ -30,7 +30,7 @@ public class SalaryInfo {
             report.append(" - ");
             report.append(sumSalary[i]);
         }
-        return new String(report);
+        return report.toString();
     }
 
 }
