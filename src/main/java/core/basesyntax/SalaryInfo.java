@@ -1,7 +1,7 @@
 package core.basesyntax;
 
-import java.time.format.DateTimeFormatter;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     private static final DateTimeFormatter DATE_PATTERN = DateTimeFormatter.ofPattern("dd.MM.yyyy");
@@ -10,9 +10,7 @@ public class SalaryInfo {
     private static final int INDEX_OF_HOUR = 2;
     private static final int INDEX_OF_INCOME_PER_HOUR = 3;
 
-
-
-    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo){
+    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate startDate = LocalDate.parse(dateFrom, DATE_PATTERN);
         LocalDate endDate = LocalDate.parse(dateTo, DATE_PATTERN);
         StringBuilder result = new StringBuilder();
