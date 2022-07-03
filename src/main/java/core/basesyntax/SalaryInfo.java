@@ -1,5 +1,9 @@
 package core.basesyntax;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class SalaryInfo {
     private static final int DATA_TO_CHECK = 0;
     private static final int NAME = 1;
@@ -21,28 +25,29 @@ public class SalaryInfo {
                 if (!oneLineOfData[NAME].equals(names[i])) {
                     continue;
                 }
-                if (isDataRelevant(oneLineOfData[DATA_TO_CHECK], dateFrom, dateTo)) {
+                if (isDateRelevant(oneLineOfData[DATA_TO_CHECK], dateFrom, dateTo)) {
                     totalSalaryOfAPerson += Integer.parseInt(oneLineOfData[HOURS])
                             * Integer.parseInt(oneLineOfData[INCOME_PER_HOUR]);
                 }
             }
-            builder.append(names[i]).append(" - ").append(totalSalaryOfAPerson).append("\n");
+            builder.append(names[i]).append(" - ").append(totalSalaryOfAPerson);
+            if (i != names.length - 1) {
+                builder.append("\n");
+            }
         }
         return builder.toString();
     }
 
-    private boolean isDataRelevant(String dataToCheck, String dataFrom, String dataTo) {
-        String[] splitedDataToCheck = dataToCheck.split(".");
-        String[] splitedDataFrom = dataFrom.split(".");
-        String[] splitedDataTo = dataTo.split(".");
-        if (Integer.parseInt(splitedDataToCheck[2]) < Integer.parseInt(splitedDataFrom[2])
-                || Integer.parseInt(splitedDataToCheck[2]) > Integer.parseInt(splitedDataTo[2])
-                || Integer.parseInt(splitedDataToCheck[1]) < Integer.parseInt(splitedDataFrom[1])
-                || Integer.parseInt(splitedDataToCheck[1]) > Integer.parseInt(splitedDataFrom[1])
-                || Integer.parseInt(splitedDataToCheck[0]) < Integer.parseInt(splitedDataFrom[0])
-                || Integer.parseInt(splitedDataToCheck[0]) > Integer.parseInt(splitedDataFrom[0])) {
-            return false;
+    private boolean isDateRelevant(String dataToCheck, String dataFrom, String dataTo) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+        try {
+            Date toCheck = sdf.parse(dataToCheck);
+            Date from = sdf.parse(dataFrom);
+            Date to = sdf.parse(dataTo);
+            return (toCheck.compareTo(from) < 0 || toCheck.compareTo(to) > 0) ? false : true;
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
-        return true;
+        return false;
     }
 }
