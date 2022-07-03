@@ -17,7 +17,7 @@ public class SalaryInfo {
                 .append(dateFrom)
                 .append(" - ")
                 .append(dateTo)
-                .append("\n");
+                .append(System.lineSeparator());
         for (int i = 0; i < names.length; i++) {
             int totalSalaryOfAPerson = 0;
             for (int j = 0; j < data.length; j++) {
@@ -32,7 +32,7 @@ public class SalaryInfo {
             }
             builder.append(names[i]).append(" - ").append(totalSalaryOfAPerson);
             if (i != names.length - 1) {
-                builder.append("\n");
+                builder.append(System.lineSeparator());
             }
         }
         return builder.toString();
