@@ -1,14 +1,15 @@
 package core.basesyntax;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     private static final int DATA_TO_CHECK = 0;
     private static final int NAME = 1;
     private static final int HOURS = 2;
     private static final int INCOME_PER_HOUR = 3;
+    private static final String PATTERN_OF_DATE = "dd.MM.yyyy";
+    private static final String DELIMITER = " ";
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
 
@@ -21,7 +22,7 @@ public class SalaryInfo {
         for (int i = 0; i < names.length; i++) {
             int totalSalaryOfAPerson = 0;
             for (int j = 0; j < data.length; j++) {
-                String[] oneLineOfData = data[j].split(" ");
+                String[] oneLineOfData = data[j].split(DELIMITER);
                 if (!oneLineOfData[NAME].equals(names[i])) {
                     continue;
                 }
@@ -39,15 +40,11 @@ public class SalaryInfo {
     }
 
     private boolean isDateRelevant(String dataToCheck, String dataFrom, String dataTo) {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
-        try {
-            Date toCheck = sdf.parse(dataToCheck);
-            Date from = sdf.parse(dataFrom);
-            Date to = sdf.parse(dataTo);
-            return (toCheck.compareTo(from) < 0 || toCheck.compareTo(to) > 0) ? false : true;
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return false;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(PATTERN_OF_DATE);
+        LocalDate timeToCheck = LocalDate.parse(dataToCheck, formatter);
+        LocalDate timeFrom = LocalDate.parse(dataFrom, formatter);
+        LocalDate timeTo = LocalDate.parse(dataTo, formatter);
+        return (timeToCheck.compareTo(timeFrom) < 0 || timeToCheck.compareTo(timeTo) > 0)
+                ? false : true;
     }
 }
