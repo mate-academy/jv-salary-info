@@ -80,7 +80,7 @@ public class SalaryInfoTest {
                     "Kate - 2140";
 
     @Test
-    public void getSalaryInfoByMonth() {
+    public void getSalaryInfoByMonth() throws ParseException {
         SalaryInfo salary = new SalaryInfo();
         for (int i = 0; i < dates.length; i++) {
             String actualResult = salary.getSalaryInfo(sampleNames, scriptArray, dates[0], dates[i]);
@@ -96,7 +96,7 @@ public class SalaryInfoTest {
     }
 
     @Test
-    public void getSalaryInfoByTwoMonths() {
+    public void getSalaryInfoByTwoMonths() throws ParseException {
         SalaryInfo salary = new SalaryInfo();
         String actualResult = salary.getSalaryInfo(sampleNames, secondScriptArray,
                 secondDates[0], secondDates[1]);
