@@ -5,48 +5,38 @@ import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-    static final int DATE = 0;
-    static final int NAME = 1;
-    static final int HOURS = 2;
-    static final int INCOME = 3;
+    private static final int DATE_INDEX = 0;
+    private static final int NAME_INDEX = 1;
+    private static final int HOURS_INDEX = 2;
+    private static final int INCOME_PER_HOUR_INDEX = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        LocalDate dateFromdate = getDate(dateFrom);
-        LocalDate dateTodate = getDate(dateTo);
-        StringBuilder salaryInfo = new StringBuilder();
-        for (String name: names) {
+        LocalDate localDateFrom = getDate(dateFrom);
+        LocalDate localDateTo = getDate(dateTo);
+        StringBuilder salaryInfoBuilder = new StringBuilder();
+        StringBuilder reportForPeriod = new StringBuilder("Report for period ");
+        for (String name : names) {
             int salary = 0;
             for (int i = 0; i < data.length; i++) {
-                WorkingDay day = getInfoAboutWork(data[i]);
-                String nameFromData = day.getName();
-                int workinghours = day.getWorkingHours();
-                int income = day.getIncome();
-                LocalDate date = day.getWorkingDay();
-                if (name.equals(nameFromData) && (date.isAfter(dateFromdate)
-                        || date.equals(dateFromdate)) && (date.isBefore(dateTodate)
-                        || date.equals(dateTodate))) {
+                String[] day = data[i].split(" ");
+                String nameFromData = day[NAME_INDEX];
+                int workinghours = Integer.parseInt(day[HOURS_INDEX]);
+                int income = Integer.parseInt(day[INCOME_PER_HOUR_INDEX]);
+                LocalDate date = getDate(day[DATE_INDEX]);
+                if (name.equals(nameFromData) && (date.isAfter(localDateFrom)
+                        || date.equals(localDateFrom)) && (date.isBefore(localDateTo)
+                        || date.equals(localDateTo))) {
                     salary = salary + workinghours * income;
                 }
             }
-            salaryInfo = salaryInfo.append(System.lineSeparator())
+            salaryInfoBuilder = salaryInfoBuilder.append(System.lineSeparator())
                             .append(name).append(" - ").append(salary);
         }
-        return "Report for period " + dateFrom + " - " + dateTo + salaryInfo;
-    }
-
-    private WorkingDay getInfoAboutWork(String data) {
-        String[] day = data.split(" ");
-        LocalDate date = getDate(day[DATE]);
-        String name = day[NAME];
-        int hours = Integer.parseInt(day[HOURS]);
-        int income = Integer.parseInt(day[INCOME]);
-
-        return new WorkingDay(date,name,hours,income);
+        return reportForPeriod.append(dateFrom).append(" - ").append(dateTo)
+                .append(salaryInfoBuilder).toString();
     }
 
     private LocalDate getDate(String date) {
         return LocalDate.parse(date, FORMATTER);
-
     }
 }
-
