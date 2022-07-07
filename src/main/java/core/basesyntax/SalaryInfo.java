@@ -1,15 +1,19 @@
-
 package core.basesyntax;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
-            throws ParseException {
-        Date dateFromdate = getDate(dateFrom);
-        Date dateTodate = getDate(dateTo);
-        String salaryInfo = "";
+    static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    static final int DATE = 0;
+    static final int NAME = 1;
+    static final int HOURS = 2;
+    static final int INCOME = 3;
+
+    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
+        LocalDate dateFromdate = getDate(dateFrom);
+        LocalDate dateTodate = getDate(dateTo);
+        StringBuilder salaryInfo = new StringBuilder();
         for (String name: names) {
             int salary = 0;
             for (int i = 0; i < data.length; i++) {
@@ -17,33 +21,32 @@ public class SalaryInfo {
                 String nameFromData = day.getName();
                 int workinghours = day.getWorkingHours();
                 int income = day.getIncome();
-                Date date = day.getWorkingDay();
-                if (name.equals(nameFromData) && (date.after(dateFromdate)
-                        || date.equals(dateFromdate)) && (date.before(dateTodate)
+                LocalDate date = day.getWorkingDay();
+                if (name.equals(nameFromData) && (date.isAfter(dateFromdate)
+                        || date.equals(dateFromdate)) && (date.isBefore(dateTodate)
                         || date.equals(dateTodate))) {
                     salary = salary + workinghours * income;
                 }
             }
-            salaryInfo = salaryInfo + System.lineSeparator() + name + " - " + salary;
+            salaryInfo = salaryInfo.append(System.lineSeparator())
+                            .append(name).append(" - ").append(salary);
         }
         return "Report for period " + dateFrom + " - " + dateTo + salaryInfo;
     }
 
-    private WorkingDay getInfoAboutWork(String data) throws ParseException {
+    private WorkingDay getInfoAboutWork(String data) {
         String[] day = data.split(" ");
-        Date date = getDate(day[0]);
-        String name = day[1];
-        int hours = Integer.parseInt(day[2]);
-        int income = Integer.parseInt(day[3]);
+        LocalDate date = getDate(day[DATE]);
+        String name = day[NAME];
+        int hours = Integer.parseInt(day[HOURS]);
+        int income = Integer.parseInt(day[INCOME]);
 
         return new WorkingDay(date,name,hours,income);
     }
 
-    private Date getDate(String date) throws ParseException {
-        try {
-            return new SimpleDateFormat("dd.MM.yyyy").parse(date);
-        } catch (java.text.ParseException e) {
-            throw new ParseException("Please Entry data in dd.MM.yyyy format");
-        }
+    private LocalDate getDate(String date) {
+        return LocalDate.parse(date, FORMATTER);
+
     }
 }
+

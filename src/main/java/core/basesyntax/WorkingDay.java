@@ -1,25 +1,25 @@
 package core.basesyntax;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class WorkingDay {
-    private Date workingDay;
+    private LocalDate workingDay;
     private String name;
     private int workingHours;
     private int income;
 
-    public WorkingDay(Date workingDay, String name, int workingHours, int income) {
+    public WorkingDay(LocalDate workingDay, String name, int workingHours, int income) {
         this.workingDay = workingDay;
         this.name = name;
         this.workingHours = workingHours;
         this.income = income;
     }
 
-    public Date getWorkingDay() {
+    public LocalDate getWorkingDay() {
         return workingDay;
     }
 
-    public void setWorkingDay(Date workingDay) {
+    public void setWorkingDay(LocalDate workingDay) {
         this.workingDay = workingDay;
     }
 
