@@ -8,7 +8,7 @@ public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         final String dateFormat = "dd.MM.yyyy";
         final String headMessage = "Report for period ";
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(dateFormat);
+        final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(dateFormat);
         StringBuilder totalSalaryInfo = new StringBuilder();
         totalSalaryInfo.delete(0, totalSalaryInfo.length());
         totalSalaryInfo.append(headMessage + dateFrom + " - " + dateTo);
