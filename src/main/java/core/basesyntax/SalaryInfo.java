@@ -7,10 +7,12 @@ import java.time.format.DateTimeParseException;
 public class SalaryInfo {
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        final String FORMAT_STRING ="dd.MM.yyyy";
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(FORMAT_STRING);
+        final String formatString = "dd.MM.yyyy";
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(formatString);
         String [] parsedData;
-        LocalDate dateFromD, dateToD, Day;
+        LocalDate dateFromD;
+        LocalDate dateToD;
+        LocalDate day;
         int employeeSalary;
 
         try {
@@ -20,7 +22,8 @@ public class SalaryInfo {
             System.out.println("Not correct date!");
             return null;
         }
-        StringBuilder salaryInfo = new StringBuilder("Report for period " + dateFrom + " - " + dateTo);
+        StringBuilder salaryInfo = new StringBuilder("Report for period " + dateFrom
+                + " - " + dateTo);
 
         for (String name : names) {
             employeeSalary = 0;
@@ -28,16 +31,19 @@ public class SalaryInfo {
                 parsedData = str.split(" ");
                 if (name.equals(parsedData[1])) {
                     try {
-                        Day = LocalDate.parse(parsedData[0], formatter);
-                        if ((dateFromD.isBefore(Day) || dateFromD.equals(Day)) && (dateToD.isAfter(Day) || dateToD.equals(Day))) {
-                            employeeSalary = employeeSalary + Integer.parseInt(parsedData[2]) * Integer.parseInt(parsedData[3]);
+                        day = LocalDate.parse(parsedData[0], formatter);
+                        if ((dateFromD.isBefore(day) || dateFromD.equals(day))
+                                && (dateToD.isAfter(day) || dateToD.equals(day))) {
+                            employeeSalary = employeeSalary + Integer.parseInt(parsedData[2])
+                                    * Integer.parseInt(parsedData[3]);
                         }
                     } catch (DateTimeParseException ex) {
                         System.out.println("Not correct day!");
                     }
                 }
             }
-            salaryInfo.append(System.lineSeparator()).append(name).append(" - ").append(employeeSalary);
+            salaryInfo.append(System.lineSeparator()).append(name).append(" - ")
+                    .append(employeeSalary);
         }
         return salaryInfo.toString();
     }
