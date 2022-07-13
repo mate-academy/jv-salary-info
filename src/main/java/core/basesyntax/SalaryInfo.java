@@ -51,8 +51,8 @@ public class SalaryInfo {
                         * Integer.parseInt(delimitedString[INCOME_PER_HOUR_INDEX]);
             }
         } catch (ParseException e) {
-            throw new RuntimeException("The date format is incorrect. " +
-                    "The date must be in dd.MM.yyyy format");
+            throw new RuntimeException("The date format is incorrect. "
+                    + "The date must be in dd.MM.yyyy format");
         }
         return payForCheckedDay;
     }
