@@ -5,6 +5,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class SalaryInfo {
+    private final byte DATE_INDEX = 0;
+    private final byte NAME_INDEX = 1;
+    private final byte WORKING_HOUR_INDEX = 2;
+    private final byte INCOME_PER_HOUR_INDEX = 3;
+    private final String DATE_FORMAT = "dd.MM.yyyy";
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder salaryInfo = new StringBuilder();
         salaryInfo.append("Report for period ")
@@ -34,17 +40,19 @@ public class SalaryInfo {
     private int payForCheckedDay(String dataForProcessing, String dateFrom, String dateTo) {
         String[] delimitedString = dataForProcessing.split(" ");
         int payForCheckedDay = 0;
+        SimpleDateFormat parseDate = new SimpleDateFormat(DATE_FORMAT);
         try {
-            Date startDate = new SimpleDateFormat("dd.MM.yyyy").parse(dateFrom);
-            Date endDate = new SimpleDateFormat("dd.MM.yyyy").parse(dateTo);
-            Date checkedDate = new SimpleDateFormat("dd.MM.yyyy").parse(delimitedString[0]);
+            Date startDate = parseDate.parse(dateFrom);
+            Date endDate = parseDate.parse(dateTo);
+            Date checkedDate = parseDate.parse(delimitedString[DATE_INDEX]);
             if ((checkedDate.equals(startDate) || checkedDate.after(startDate))
                     && (checkedDate.before(endDate) || checkedDate.equals(endDate))) {
-                payForCheckedDay = Integer.parseInt(delimitedString[2])
-                        * Integer.parseInt(delimitedString[3]);
+                payForCheckedDay = Integer.parseInt(delimitedString[WORKING_HOUR_INDEX])
+                        * Integer.parseInt(delimitedString[INCOME_PER_HOUR_INDEX]);
             }
         } catch (ParseException e) {
-            System.out.println("Date parsing error");
+            throw new RuntimeException("The date format is incorrect. " +
+                    "The date must be in dd.MM.yyyy format");
         }
         return payForCheckedDay;
     }
