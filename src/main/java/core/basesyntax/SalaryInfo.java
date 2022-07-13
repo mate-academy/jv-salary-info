@@ -5,11 +5,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class SalaryInfo {
-    private final byte DATE_INDEX = 0;
-    private final byte NAME_INDEX = 1;
-    private final byte WORKING_HOUR_INDEX = 2;
-    private final byte INCOME_PER_HOUR_INDEX = 3;
-    private final String DATE_FORMAT = "dd.MM.yyyy";
+    final byte DATE_INDEX = 0;
+    final byte NAME_INDEX = 1;
+    final byte WORKING_HOUR_INDEX = 2;
+    final byte INCOME_PER_HOUR_INDEX = 3;
+    final String DATE_FORMAT = "dd.MM.yyyy";
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder salaryInfo = new StringBuilder();
