@@ -52,7 +52,7 @@ public class SalaryInfo {
             }
         } catch (ParseException e) {
             throw new RuntimeException("The date format is incorrect. "
-                    + "The date must be in dd.MM.yyyy format");
+                    + "The date must be in dd.MM.yyyy format", e);
         }
         return payForCheckedDay;
     }
