@@ -24,7 +24,7 @@ public class SalaryInfo {
                     .append(System.lineSeparator());
         }
         salaryInfo.setLength(salaryInfo.length() - System.lineSeparator().length());
-        return String.valueOf(salaryInfo);
+        return salaryInfo.toString();
     }
 
     private String getSalaryAmount(String name, String[] data, String dateFrom, String dateTo) {
