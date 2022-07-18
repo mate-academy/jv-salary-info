@@ -4,15 +4,16 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
+    static final byte dateIndex = 0;
+    static final byte nameIndex = 1;
+    static final byte workingDaysIndex = 2;
+    static final byte hourlyRateIndex = 3;
+    static final DateTimeFormatter formatter =
+            DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder report = new StringBuilder("Report for period " + dateFrom
                 + " - " + dateTo);
-        final byte dateIndex = 0;
-        final byte nameIndex = 1;
-        final byte workingDaysIndex = 2;
-        final byte hourlyRateIndex = 3;
-        DateTimeFormatter formatter =
-                DateTimeFormatter.ofPattern("dd.MM.yyyy");
         LocalDate dtFrom = LocalDate.parse(dateFrom, formatter).minusDays(1);
         LocalDate dtTo = LocalDate.parse(dateTo, formatter).plusDays(1);
         int[] salary = new int[names.length];
