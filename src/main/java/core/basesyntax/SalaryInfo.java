@@ -6,6 +6,9 @@ import java.time.format.DateTimeFormatter;
 public class SalaryInfo {
     private static final String PATTERN_OF_DATE = "dd.MM.yyyy";
     private static final String REGEX_OF_DATA = " ";
+    private static final int INDEX_DATE = 0;
+    private static final int INDEX_NAME_EMPLOYEE = 1;
+    private static final int INDEX_SALARY = 2;
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern(PATTERN_OF_DATE);
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
@@ -29,18 +32,18 @@ public class SalaryInfo {
 
     public String getNameFromData(String dataOfEmployee) {
         String[] arrayOfData = dataOfEmployee.split(REGEX_OF_DATA);
-        return arrayOfData[1];
+        return arrayOfData[INDEX_NAME_EMPLOYEE];
 
     }
 
     public LocalDate getDateFromData(String dataOfEmployee) {
         String[] arrayOfData = dataOfEmployee.split(REGEX_OF_DATA);
-        return LocalDate.parse(arrayOfData[0], formatter);
+        return LocalDate.parse(arrayOfData[INDEX_DATE], formatter);
 
     }
 
     public int getSalaryFromDay(String dataOfEmployee) {
         String[] arrayOfData = dataOfEmployee.split(REGEX_OF_DATA);
-        return Integer.valueOf(arrayOfData[2]) * Integer.valueOf(arrayOfData[3]);
+        return Integer.valueOf(arrayOfData[INDEX_SALARY]) * Integer.valueOf(arrayOfData[3]);
     }
 }
