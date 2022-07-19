@@ -15,7 +15,7 @@ public class SalaryInfo {
         resultBuilder.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
         for (String name : names) {
             int userSalary = 0;
-            resultBuilder.append(System.lineSeparator()).append(name).append(" - ");
+            resultBuilder.append("\r\n").append(name).append(" - ");
             for (String line : data) {
                 String[] arrayDateLine = line.split(" ");
                 LocalDate checkedDate = LocalDate.parse(arrayDateLine[INDEX_DATE], FORMATTER);
