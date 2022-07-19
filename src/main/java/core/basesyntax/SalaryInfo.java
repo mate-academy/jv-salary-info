@@ -12,7 +12,7 @@ public class SalaryInfo {
     private static final int INDEX_OF_SALARY = 3;
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern(PATTERN_OF_DATE);
 
-    public static String getSalaryInfo(String[] names, String[] data, String dateFrom,
+    public String getSalaryInfo(String[] names, String[] data, String dateFrom,
                                        String dateTo) {
         LocalDate startDate = LocalDate.parse(dateFrom, FORMATTER);
         LocalDate endDate = LocalDate.parse(dateTo, FORMATTER);
@@ -24,12 +24,12 @@ public class SalaryInfo {
                 String[] dataOfEmployee = line.split(LINE_SEPARATOR);
                 LocalDate dateOfWork = LocalDate.parse(dataOfEmployee[INDEX_OF_DATE], FORMATTER);
                 String employeeName = dataOfEmployee[INDEX_OF_NAME];
-                int amountHoursWork = Integer.parseInt(dataOfEmployee[INDEX_OF_HOURS]);
+                int amountOfHours = Integer.parseInt(dataOfEmployee[INDEX_OF_HOURS]);
                 int salaryPerHour = Integer.parseInt(dataOfEmployee[INDEX_OF_SALARY]);
                 if (employeeName.equals(name) && (dateOfWork.isEqual(startDate)
                         || dateOfWork.isAfter(startDate)) && (dateOfWork.isBefore(endDate)
                         || dateOfWork.isEqual(endDate))) {
-                    salary += amountHoursWork * salaryPerHour;
+                    salary += amountOfHours * salaryPerHour;
                 }
             }
             reportBuilder.append(System.lineSeparator()).append(name).append(" - ").append(salary);
