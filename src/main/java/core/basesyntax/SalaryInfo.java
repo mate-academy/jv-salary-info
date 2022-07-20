@@ -5,13 +5,11 @@ import static java.lang.Integer.parseInt;
 import java.time.LocalDate;
 
 public class SalaryInfo {
-    private int salary;
-    private final String newLine = System.lineSeparator();
-    private StringBuilder stringBuilder = new StringBuilder("Report for period ");
-
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        stringBuilder.append(dateFrom).append(" - ").append(dateTo).append(newLine);
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
         for (String name : names) {
+            int salary = 0;
             for (String periodFromData : data) {
                 int indexDate = periodFromData.indexOf(" ");
                 int indexName = periodFromData.substring(indexDate + 1)
@@ -27,13 +25,12 @@ public class SalaryInfo {
                         && (getLocalDate(dateTo).isAfter(workday)
                         || getLocalDate(dateTo).isEqual(workday))) {
                     if (name.equals(nameUser)) {
-                        this.salary = salary + (parseInt(salaryFromArray)
-                                * parseInt(hourFromArray));
+                        salary = salary + parseInt(salaryFromArray)
+                                * parseInt(hourFromArray);
                     }
                 }
             }
-            stringBuilder.append(name).append(" - ").append(salary).append(newLine);
-            this.salary = 0;
+            stringBuilder.append(System.lineSeparator()).append(name).append(" - ").append(salary);
         }
         return stringBuilder.toString();
     }
