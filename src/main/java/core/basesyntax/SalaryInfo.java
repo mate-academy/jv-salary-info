@@ -14,16 +14,15 @@ public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder report = new StringBuilder("Report for period ")
                 .append(dateFrom).append(" - ").append(dateTo);
-        // minus and plus one day because we need theese days inclusively,
-        // and I think it's better than to use two more .equals() in if() statement in a doubleloop
-        LocalDate localDateFrom = LocalDate.parse(dateFrom, DATE_FORMATTER).minusDays(1);
-        LocalDate localDateTo = LocalDate.parse(dateTo, DATE_FORMATTER).plusDays(1);
+        LocalDate localDateFrom = LocalDate.parse(dateFrom, DATE_FORMATTER);
+        LocalDate localDateTo = LocalDate.parse(dateTo, DATE_FORMATTER);
         for (String name : names) {
             int salary = 0;
             for (String line : data) {
                 String[] splittedLine = line.split(" ");
                 LocalDate currentDate = LocalDate.parse(splittedLine[DATE_INDEX], DATE_FORMATTER);
-                if (currentDate.isAfter(localDateFrom) && currentDate.isBefore(localDateTo)
+                if ((currentDate.isAfter(localDateFrom) && currentDate.isBefore(localDateTo)
+                        || currentDate.equals(localDateFrom) || currentDate.equals(localDateTo))
                         && name.equals(splittedLine[NAME_INDEX])) {
                     salary += Integer.parseInt(splittedLine[WORKING_DAYS_INDEX])
                             * Integer.parseInt(splittedLine[HOURLY_RATE_INDEX]);
