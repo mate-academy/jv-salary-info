@@ -1,8 +1,15 @@
 package core.basesyntax;
 
+import core.basesyntax.db.Storage;
+import core.basesyntax.model.EmployeeWorkDayInfo;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
+import java.util.stream.Collectors;
 
 public class SalaryInfo {
     private static final int INDEX_OF_DATES = 0;
@@ -13,92 +20,62 @@ public class SalaryInfo {
             = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        LocalDate[] datesArray = createDatesArray(data);
-        String[] namesArray = createNamesArray(data);
-        int[] hoursArray = createHoursArray(data);
-        int[] wagesArray = createWagesArray(data);
-        LocalDate parsedDateFrom = LocalDate.parse(dateFrom, TIME_FORMATTER);
-        LocalDate parsedDateTo
-                = LocalDate.parse(dateTo, TIME_FORMATTER);
-        ArrayList<Integer> indexes
-                = getIndexesOfSpecifiedDates(datesArray, parsedDateFrom, parsedDateTo);
-        int[] salaries = calculateSalary(indexes, names, namesArray, hoursArray, wagesArray);
-        return createReport(names, salaries, dateFrom, dateTo);
+        List<EmployeeWorkDayInfo> employeeWorkDayInfoList = parseData(data);
+        filterByDate(employeeWorkDayInfoList, dateFrom, dateTo);
+        Queue<String> statistic = calculate(names);
+        Storage.getEmployeeWorkDayInfo().clear();
+        return makeReport(statistic, names, dateFrom, dateTo);
     }
 
-    public String createReport(String[] names, int[] salaries, String dateFrom, String dateTo) {
-        String string = "Report for period " + dateFrom + " - " + dateTo + System.lineSeparator();
-        StringBuilder builder = new StringBuilder(string);
-        for (int i = 0; i < names.length; i++) {
-            if (i != names.length - 1) {
-                builder.append(names[i]).append(" - ")
-                        .append(salaries[i])
-                        .append(System.lineSeparator());
-            } else {
-                builder.append(names[i]).append(" - ").append(salaries[i]);
+    public String makeReport(Queue<String> statistic, String[] names,
+                             String dateFrom, String dateTo) {
+        String header = "Report for period " + dateFrom + " - " + dateTo + System.lineSeparator();
+        StringBuilder builder = new StringBuilder(header);
+        Arrays.stream(names).forEach(name -> {
+            builder.append(statistic.poll());
+            if (statistic.peek() != null) {
+                builder.append(System.lineSeparator());
             }
-        }
+        });
         return builder.toString();
     }
 
-    public int[] calculateSalary(ArrayList<Integer> indexes, String[] names,
-                                 String[] namesArray, int[] hoursArray, int[] wagesArray) {
-        int[] salaries = new int[names.length];
-        if (indexes == null) {
-            return new int[] {0, 0, 0};
-        }
-        for (Integer integer : indexes) {
-            for (int j = 0; j < names.length; j++) {
-                int index = integer;
-                if (names[j].equals(namesArray[index])) {
-                    salaries[j] += hoursArray[index] * wagesArray[index];
-                }
-            }
-        }
-        return salaries;
+    public Queue<String> calculate(String[] names) {
+        Queue<String> salaryStatistic = new LinkedList<>();
+        Arrays.stream(names).forEach(name -> {
+            Integer salary = Storage.getEmployeeWorkDayInfo().stream()
+                    .filter(employeeWorkDayInfo ->
+                            employeeWorkDayInfo.getEmployeeName().equals(name))
+                    .map(employeeWorkDayInfo -> employeeWorkDayInfo.getHours()
+                            * employeeWorkDayInfo.getIncomePerHour())
+                    .reduce(0, Integer::sum);
+            String employeeSalary = name + " - " + salary;
+            salaryStatistic.add(employeeSalary);
+        });
+        return salaryStatistic;
     }
 
-    public ArrayList<Integer> getIndexesOfSpecifiedDates(LocalDate[]datesBase,
-                                                         LocalDate parsedDateFrom,
-                                                         LocalDate parsedDateTo) {
-        ArrayList<Integer> indexes = new ArrayList<>();
-        for (int i = 0; i < datesBase.length; i++) {
-            if (!parsedDateFrom.isAfter(datesBase[i]) && !parsedDateTo.isBefore(datesBase[i])) {
-                indexes.add(i);
-            }
-        }
-        return indexes;
+    public void filterByDate(List<EmployeeWorkDayInfo> employeeWorkDayInfoList,
+                                                  String dateFrom, String dateTo) {
+        LocalDate parsedDateFrom = LocalDate.parse(dateFrom, TIME_FORMATTER);
+        LocalDate parsedDateTo = LocalDate.parse(dateTo, TIME_FORMATTER);
+        List<EmployeeWorkDayInfo> filteredInfo = employeeWorkDayInfoList.stream()
+                .filter(employeeWorkDayInfo ->
+                        (!parsedDateFrom.isAfter(employeeWorkDayInfo.getDate()))
+                        && !parsedDateTo.isBefore(employeeWorkDayInfo.getDate()))
+                .collect(Collectors.toList());
+        Storage.getEmployeeWorkDayInfo().addAll(filteredInfo);
     }
 
-    public LocalDate[] createDatesArray(String[]data) {
-        LocalDate[] dates = new LocalDate[data.length];
-        for (int i = 0; i < data.length; i++) {
-            dates[i] = LocalDate.parse(data[i].split(" ")[INDEX_OF_DATES], TIME_FORMATTER);
+    public List<EmployeeWorkDayInfo> parseData(String[] data) {
+        List<EmployeeWorkDayInfo> employeeWorkDayInfoList = new ArrayList<>();
+        for (String datum : data) {
+            String[] split = datum.split(" ");
+            employeeWorkDayInfoList.add(new EmployeeWorkDayInfo(split[INDEX_OF_NAMES],
+                    LocalDate.parse(split[INDEX_OF_DATES], TIME_FORMATTER),
+                    Integer.parseInt(split[INDEX_OF_HOURS]),
+                    Integer.parseInt(split[INDEX_OF_WAGES])));
         }
-        return dates;
-    }
-
-    public String[] createNamesArray(String[]data) {
-        String[] names = new String[data.length];
-        for (int i = 0; i < data.length; i++) {
-            names[i] = data[i].split(" ")[INDEX_OF_NAMES];
-        }
-        return names;
-    }
-
-    public int[] createHoursArray(String[]data) {
-        int[] hours = new int[data.length];
-        for (int i = 0; i < data.length; i++) {
-            hours[i] = Integer.parseInt(data[i].split(" ")[INDEX_OF_HOURS]);
-        }
-        return hours;
-    }
-
-    public int[] createWagesArray(String[]data) {
-        int[] wages = new int[data.length];
-        for (int i = 0; i < data.length; i++) {
-            wages[i] = Integer.parseInt(data[i].split(" ")[INDEX_OF_WAGES]);
-        }
-        return wages;
+        return employeeWorkDayInfoList;
     }
 }
