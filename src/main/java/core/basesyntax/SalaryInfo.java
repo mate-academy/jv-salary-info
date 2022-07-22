@@ -5,10 +5,10 @@ import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-    private static final int DATA_WORK_DATE = 0;
-    private static final int DATA_NAME_OF_WORKER = 1;
-    private static final int DATA_HOURS_PER_DAY = 2;
-    private static final int DATA_SALARY_PER_HOUR = 3;
+    private static final int WORK_DATE_INDEX = 0;
+    private static final int NAME_OF_WORKER_INDEX = 1;
+    private static final int HOURS_PER_DAY_INDEX = 2;
+    private static final int SALARY_PER_HOUR_INDEX = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder reportBuilder = new StringBuilder();
