@@ -18,10 +18,11 @@ public class SalaryInfo {
             = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        List<EmployeeWorkDayInfo> parsedData = parseData(data);
-        List<EmployeeWorkDayInfo> filteredData = filterByDate(parsedData, dateFrom, dateTo);
-        List<Employee> calculatedInfo = calculate(filteredData, names);
-        return makeReport(calculatedInfo, names, dateFrom, dateTo);
+        List<EmployeeWorkDayInfo> employeesInfo = parseData(data);
+        List<EmployeeWorkDayInfo> filteredEmployeesInfo =
+                filterByDate(employeesInfo, dateFrom, dateTo);
+        List<Employee> employees = calculate(filteredEmployeesInfo, names);
+        return makeReport(employees, names, dateFrom, dateTo);
     }
 
     public String makeReport(List<Employee> employees, String[] names,
@@ -41,25 +42,24 @@ public class SalaryInfo {
         return reportBuilder.toString();
     }
 
-    public List<Employee> calculate(List<EmployeeWorkDayInfo> filteredData, String[] names) {
-        List<Employee> employeesInfo = new ArrayList<>();
-        Arrays.stream(names).forEach(name -> {
-            Integer salary = filteredData.stream()
-                    .filter(employeeWorkDayInfo ->
-                            employeeWorkDayInfo.getEmployeeName().equals(name))
-                    .map(employeeWorkDayInfo -> employeeWorkDayInfo.getHours()
-                            * employeeWorkDayInfo.getIncomePerHour())
-                    .reduce(0, Integer::sum);
-            employeesInfo.add(new Employee(name, salary));
-        });
-        return employeesInfo;
+    public List<Employee> calculate(List<EmployeeWorkDayInfo> employeesInfo, String[] names) {
+        return Arrays.stream(names)
+                .map(name -> {
+                    Integer salary = employeesInfo.stream()
+                            .filter(employeeWorkDayInfo ->
+                                    employeeWorkDayInfo.getEmployeeName().equals(name))
+                            .map(employeeWorkDayInfo -> employeeWorkDayInfo.getHours()
+                                    * employeeWorkDayInfo.getIncomePerHour())
+                            .reduce(0, Integer::sum);
+                    return new Employee(name, salary);
+                }).collect(Collectors.toList());
     }
 
-    public List<EmployeeWorkDayInfo> filterByDate(List<EmployeeWorkDayInfo> employeeWorkDayInfoList,
+    public List<EmployeeWorkDayInfo> filterByDate(List<EmployeeWorkDayInfo> employeesInfo,
                                                   String dateFrom, String dateTo) {
         LocalDate parsedDateFrom = LocalDate.parse(dateFrom, DATE_FORMATTER);
         LocalDate parsedDateTo = LocalDate.parse(dateTo, DATE_FORMATTER);
-        return employeeWorkDayInfoList.stream()
+        return employeesInfo.stream()
                 .filter(employeeWorkDayInfo ->
                         (!parsedDateFrom.isAfter(employeeWorkDayInfo.getDate()))
                         && !parsedDateTo.isBefore(employeeWorkDayInfo.getDate()))
@@ -69,11 +69,11 @@ public class SalaryInfo {
     public List<EmployeeWorkDayInfo> parseData(String[] data) {
         List<EmployeeWorkDayInfo> employeeWorkDayInfoList = new ArrayList<>();
         for (String line : data) {
-            String[] splitLine = line.split(" ");
-            employeeWorkDayInfoList.add(new EmployeeWorkDayInfo(splitLine[INDEX_OF_NAME],
-                    LocalDate.parse(splitLine[INDEX_OF_DATE], DATE_FORMATTER),
-                    Integer.parseInt(splitLine[INDEX_OF_HOUR]),
-                    Integer.parseInt(splitLine[INDEX_OF_WAGE])));
+            String[] splittedLine = line.split(" ");
+            employeeWorkDayInfoList.add(new EmployeeWorkDayInfo(splittedLine[INDEX_OF_NAME],
+                    LocalDate.parse(splittedLine[INDEX_OF_DATE], DATE_FORMATTER),
+                    Integer.parseInt(splittedLine[INDEX_OF_HOUR]),
+                    Integer.parseInt(splittedLine[INDEX_OF_WAGE])));
         }
         return employeeWorkDayInfoList;
     }
