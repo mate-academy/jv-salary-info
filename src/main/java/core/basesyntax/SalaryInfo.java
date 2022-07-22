@@ -11,7 +11,7 @@ public class SalaryInfo {
     private static final int DATA_SALARY_PER_HOUR = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        StringBuilder builderListOfWorkers = new StringBuilder();
+        StringBuilder reportBuilder = new StringBuilder();
         builderListOfWorkers.append("Report for period ").append(dateFrom)
                 .append(" - ").append(dateTo);
         int index = 0;
