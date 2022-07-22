@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    private static final String DATE_PATTERN = "dd.MM.yyyy";
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     private static final int DATA_WORK_DATE = 0;
     private static final int DATA_NAME_OF_WORKER = 1;
     private static final int DATA_HOURS_PER_DAY = 2;
@@ -19,12 +19,13 @@ public class SalaryInfo {
             int salaryTotalAtWorkPeriod = 0;
             for (String dataRow : data) {
                 String[] dataArrayRow = dataRow.split(" ");
-                LocalDate workDate = getFormatDate(dataArrayRow[DATA_WORK_DATE]);
+                LocalDate workDate = LocalDate.parse(dataArrayRow[DATA_WORK_DATE], FORMATTER);
                 String nameOfWorker = dataArrayRow[DATA_NAME_OF_WORKER];
                 int hoursPerDay = Integer.parseInt(dataArrayRow[DATA_HOURS_PER_DAY]);
                 int salaryPerHour = Integer.parseInt(dataArrayRow[DATA_SALARY_PER_HOUR]);
-                boolean atWorkPeriod = workDate.isAfter(getFormatDate(dateFrom).minusDays(1))
-                        & workDate.isBefore(getFormatDate(dateTo).plusDays(1));
+                boolean atWorkPeriod = workDate.isAfter(LocalDate.parse(dateFrom, FORMATTER)
+                        .minusDays(1)) && workDate.isBefore(LocalDate.parse(dateTo, FORMATTER)
+                        .plusDays(1));
                 if (name.equals(nameOfWorker) && atWorkPeriod) {
                     salaryTotalAtWorkPeriod += hoursPerDay * salaryPerHour;
                 }
@@ -34,10 +35,5 @@ public class SalaryInfo {
             index++;
         }
         return builderListOfWorkers.toString();
-    }
-
-    private LocalDate getFormatDate(String date) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_PATTERN);
-        return LocalDate.parse(date, formatter);
     }
 }
