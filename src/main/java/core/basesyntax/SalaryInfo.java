@@ -22,7 +22,7 @@ public class SalaryInfo {
                 String nameOfWorker = dataArrayRow[NAME_OF_WORKER_INDEX];
                 int hoursPerDay = Integer.parseInt(dataArrayRow[HOURS_PER_DAY_INDEX]);
                 int salaryPerHour = Integer.parseInt(dataArrayRow[SALARY_PER_HOUR_INDEX]);
-                boolean atWorkPeriod = workDate.isAfter(LocalDate.parse(dateFrom, FORMATTER)
+                boolean isValidDate = workDate.isAfter(LocalDate.parse(dateFrom, FORMATTER)
                         .minusDays(1)) && workDate.isBefore(LocalDate.parse(dateTo, FORMATTER)
                         .plusDays(1));
                 if (name.equals(nameOfWorker) && atWorkPeriod) {
