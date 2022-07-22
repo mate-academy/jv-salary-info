@@ -15,7 +15,7 @@ public class SalaryInfo {
         reportBuilder.append("Report for period ").append(dateFrom)
                 .append(" - ").append(dateTo);
         for (String name : names) {
-            int salaryTotalAtWorkPeriod = 0;
+            int salary = 0;
             for (String dataRow : data) {
                 String[] dataArrayRow = dataRow.split(" ");
                 LocalDate workDate = LocalDate.parse(dataArrayRow[WORK_DATE_INDEX], FORMATTER);
