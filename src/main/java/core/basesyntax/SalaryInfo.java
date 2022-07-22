@@ -18,19 +18,20 @@ public class SalaryInfo {
             int salary = 0;
             for (String line : data) {
                 String[] splittedLine = line.split(" ");
-                LocalDate workDate = LocalDate.parse(dataArrayRow[WORK_DATE_INDEX], FORMATTER);
-                String nameOfWorker = dataArrayRow[NAME_OF_WORKER_INDEX];
-                int hoursPerDay = Integer.parseInt(dataArrayRow[HOURS_PER_DAY_INDEX]);
-                int salaryPerHour = Integer.parseInt(dataArrayRow[SALARY_PER_HOUR_INDEX]);
-                boolean isValidDate = workDate.isAfter(LocalDate.parse(dateFrom, FORMATTER)
-                        .minusDays(1)) && workDate.isBefore(LocalDate.parse(dateTo, FORMATTER)
-                        .plusDays(1));
-                if (name.equals(nameOfWorker) && atWorkPeriod) {
-                    salaryTotalAtWorkPeriod += hoursPerDay * salaryPerHour;
+                LocalDate workDate = LocalDate.parse(splittedLine[WORK_DATE_INDEX], FORMATTER);
+                String nameOfWorker = splittedLine[NAME_OF_WORKER_INDEX];
+                int hoursPerDay = Integer.parseInt(splittedLine[HOURS_PER_DAY_INDEX]);
+                int salaryPerHour = Integer.parseInt(splittedLine[SALARY_PER_HOUR_INDEX]);
+                boolean isValidDate = workDate.isAfter(LocalDate.parse(dateFrom, FORMATTER))
+                        && workDate.isBefore(LocalDate.parse(dateTo, FORMATTER))
+                        || workDate.isEqual(LocalDate.parse(dateFrom, FORMATTER))
+                        || workDate.isEqual(LocalDate.parse(dateTo, FORMATTER));
+                if (name.equals(nameOfWorker) && isValidDate) {
+                    salary += hoursPerDay * salaryPerHour;
                 }
             }
             reportBuilder.append(System.lineSeparator()).append(name)
-                    .append(" - ").append(salaryTotalAtWorkPeriod);
+                    .append(" - ").append(salary);
         }
         return reportBuilder.toString();
     }
