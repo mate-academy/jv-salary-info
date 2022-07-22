@@ -12,17 +12,16 @@ public class SalaryInfo {
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder reportBuilder = new StringBuilder();
-        builderListOfWorkers.append("Report for period ").append(dateFrom)
+        reportBuilder.append("Report for period ").append(dateFrom)
                 .append(" - ").append(dateTo);
-        int index = 0;
         for (String name : names) {
             int salaryTotalAtWorkPeriod = 0;
             for (String dataRow : data) {
                 String[] dataArrayRow = dataRow.split(" ");
-                LocalDate workDate = LocalDate.parse(dataArrayRow[DATA_WORK_DATE], FORMATTER);
-                String nameOfWorker = dataArrayRow[DATA_NAME_OF_WORKER];
-                int hoursPerDay = Integer.parseInt(dataArrayRow[DATA_HOURS_PER_DAY]);
-                int salaryPerHour = Integer.parseInt(dataArrayRow[DATA_SALARY_PER_HOUR]);
+                LocalDate workDate = LocalDate.parse(dataArrayRow[WORK_DATE_INDEX], FORMATTER);
+                String nameOfWorker = dataArrayRow[NAME_OF_WORKER_INDEX];
+                int hoursPerDay = Integer.parseInt(dataArrayRow[HOURS_PER_DAY_INDEX]);
+                int salaryPerHour = Integer.parseInt(dataArrayRow[SALARY_PER_HOUR_INDEX]);
                 boolean atWorkPeriod = workDate.isAfter(LocalDate.parse(dateFrom, FORMATTER)
                         .minusDays(1)) && workDate.isBefore(LocalDate.parse(dateTo, FORMATTER)
                         .plusDays(1));
@@ -30,10 +29,9 @@ public class SalaryInfo {
                     salaryTotalAtWorkPeriod += hoursPerDay * salaryPerHour;
                 }
             }
-            builderListOfWorkers.append(System.lineSeparator()).append(names[index])
+            reportBuilder.append(System.lineSeparator()).append(name)
                     .append(" - ").append(salaryTotalAtWorkPeriod);
-            index++;
         }
-        return builderListOfWorkers.toString();
+        return reportBuilder.toString();
     }
 }
