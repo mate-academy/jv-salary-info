@@ -16,8 +16,8 @@ public class SalaryInfo {
                 .append(" - ").append(dateTo);
         for (String name : names) {
             int salary = 0;
-            for (String dataRow : data) {
-                String[] dataArrayRow = dataRow.split(" ");
+            for (String line : data) {
+                String[] splittedLine = line.split(" ");
                 LocalDate workDate = LocalDate.parse(dataArrayRow[WORK_DATE_INDEX], FORMATTER);
                 String nameOfWorker = dataArrayRow[NAME_OF_WORKER_INDEX];
                 int hoursPerDay = Integer.parseInt(dataArrayRow[HOURS_PER_DAY_INDEX]);
