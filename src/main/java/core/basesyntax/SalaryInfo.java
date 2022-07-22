@@ -12,7 +12,7 @@ public class SalaryInfo {
         StringBuilder builder = new StringBuilder();
         builder.append("Report for period ").append(dateFrom)
                 .append(" - ").append(dateTo).append(System.lineSeparator());
-        for (String name : names) {
+        for (int i = 0; i < names.length; i++) {
             int workerWage = 0;
             for (String dt : data) {
                 String[] workerInfo = dt.split(" ");
@@ -20,14 +20,18 @@ public class SalaryInfo {
                 if ((localDate.isAfter(fromDate) && localDate.isBefore(tillDate)
                         || localDate.equals(fromDate)
                         || localDate.equals(tillDate))
-                        && name.equals(workerInfo[1])) {
+                        && names[i].equals(workerInfo[1])) {
                     int wagePerHour = Integer.parseInt(workerInfo[3]);
                     int workingHours = Integer.parseInt(workerInfo[2]);
                     workerWage = workerWage + (wagePerHour * workingHours);
                 }
             }
-            builder.append(name).append(" - ")
-                    .append(workerWage).append(System.lineSeparator());
+            if (i == (names.length - 1)) {
+                builder.append(names[i]).append(" - ")
+                        .append(workerWage);
+            } else
+                builder.append(names[i]).append(" - ")
+                        .append(workerWage).append(System.lineSeparator());
         }
         return builder.toString();
     }
