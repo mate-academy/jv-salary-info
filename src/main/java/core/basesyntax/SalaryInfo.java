@@ -5,6 +5,10 @@ import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     private static final String DATE_PATTERN = "dd.MM.yyyy";
+    private static final int DATA_WORK_DATE = 0;
+    private static final int DATA_NAME_OF_WORKER = 1;
+    private static final int DATA_HOURS_PER_DAY = 2;
+    private static final int DATA_SALARY_PER_HOUR = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder builderListOfWorkers = new StringBuilder();
@@ -15,10 +19,10 @@ public class SalaryInfo {
             int salaryTotalAtWorkPeriod = 0;
             for (String dataRow : data) {
                 String[] dataArrayRow = dataRow.split(" ");
-                LocalDate workDate = getFormatDate(dataArrayRow[0]);
-                String nameOfWorker = dataArrayRow[1];
-                int hoursPerDay = Integer.parseInt(dataArrayRow[2]);
-                int salaryPerHour = Integer.parseInt(dataArrayRow[3]);
+                LocalDate workDate = getFormatDate(dataArrayRow[DATA_WORK_DATE]);
+                String nameOfWorker = dataArrayRow[DATA_NAME_OF_WORKER];
+                int hoursPerDay = Integer.parseInt(dataArrayRow[DATA_HOURS_PER_DAY]);
+                int salaryPerHour = Integer.parseInt(dataArrayRow[DATA_SALARY_PER_HOUR]);
                 boolean atWorkPeriod = workDate.isAfter(getFormatDate(dateFrom).minusDays(1))
                         & workDate.isBefore(getFormatDate(dateTo).plusDays(1));
                 if (name.equals(nameOfWorker) && atWorkPeriod) {
