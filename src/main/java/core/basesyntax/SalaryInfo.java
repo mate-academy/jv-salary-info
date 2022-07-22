@@ -29,9 +29,10 @@ public class SalaryInfo {
             if (i == (names.length - 1)) {
                 builder.append(names[i]).append(" - ")
                         .append(workerWage);
-            } else
+            } else {
                 builder.append(names[i]).append(" - ")
                         .append(workerWage).append(System.lineSeparator());
+            }
         }
         return builder.toString();
     }
