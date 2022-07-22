@@ -4,11 +4,11 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        LocalDate fromDate = LocalDate.parse(dateFrom, FORMATTER);
-        LocalDate tillDate = LocalDate.parse(dateTo, FORMATTER);
+        LocalDate fromDate = LocalDate.parse(dateFrom, formatter);
+        LocalDate tillDate = LocalDate.parse(dateTo, formatter);
         StringBuilder builder = new StringBuilder();
         builder.append("Report for period ").append(dateFrom)
                 .append(" - ").append(dateTo).append(System.lineSeparator());
@@ -16,9 +16,11 @@ public class SalaryInfo {
             int workerWage = 0;
             for (String dt : data) {
                 String[] workerInfo = dt.split(" ");
-                LocalDate localDate = LocalDate.parse(workerInfo[0], FORMATTER);
-                if ((localDate.isAfter(fromDate) && localDate.isBefore(tillDate) || localDate.equals(fromDate)
-                        || localDate.equals(tillDate)) && name.equals(workerInfo[1])) {
+                LocalDate localDate = LocalDate.parse(workerInfo[0], formatter);
+                if ((localDate.isAfter(fromDate) && localDate.isBefore(tillDate)
+                        || localDate.equals(fromDate)
+                        || localDate.equals(tillDate))
+                        && name.equals(workerInfo[1])) {
                     int wagePerHour = Integer.parseInt(workerInfo[3]);
                     int workingHours = Integer.parseInt(workerInfo[2]);
                     workerWage = workerWage + (wagePerHour * workingHours);
