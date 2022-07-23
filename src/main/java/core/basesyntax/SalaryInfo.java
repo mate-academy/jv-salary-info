@@ -20,9 +20,9 @@ public class SalaryInfo {
             int workerWage = 0;
             for (String dt : data) {
                 String[] workerInfo = dt.split(" ");
-                LocalDate localDate = LocalDate.parse(workerInfo[DATE], DATE_FORMATTER);
-                if ((localDate.isAfter(fromDate) && localDate.isBefore(tillDate)
-                        || localDate.equals(fromDate) || localDate.equals(tillDate))
+                LocalDate workingDate = LocalDate.parse(workerInfo[DATE], DATE_FORMATTER);
+                if ((workingDate.isAfter(fromDate) && workingDate.isBefore(tillDate)
+                        || workingDate.equals(fromDate) || workingDate.equals(tillDate))
                         && names[i].equals(workerInfo[NAME])) {
                     int wagePerHour = Integer.parseInt(workerInfo[WAGE_PER_HOUR]);
                     int workingHours = Integer.parseInt(workerInfo[WORKING_HOURS]);
