@@ -4,11 +4,15 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    static final int DATE = 0;
+    static final int NAME = 1;
+    static final int WORKING_HOURS = 2;
+    static final int WAGE_PER_HOUR = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        LocalDate fromDate = LocalDate.parse(dateFrom, formatter);
-        LocalDate tillDate = LocalDate.parse(dateTo, formatter);
+        LocalDate fromDate = LocalDate.parse(dateFrom, DATE_FORMATTER);
+        LocalDate tillDate = LocalDate.parse(dateTo, DATE_FORMATTER);
         StringBuilder builder = new StringBuilder();
         builder.append("Report for period ").append(dateFrom)
                 .append(" - ").append(dateTo).append(System.lineSeparator());
@@ -16,13 +20,12 @@ public class SalaryInfo {
             int workerWage = 0;
             for (String dt : data) {
                 String[] workerInfo = dt.split(" ");
-                LocalDate localDate = LocalDate.parse(workerInfo[0], formatter);
+                LocalDate localDate = LocalDate.parse(workerInfo[DATE], DATE_FORMATTER);
                 if ((localDate.isAfter(fromDate) && localDate.isBefore(tillDate)
-                        || localDate.equals(fromDate)
-                        || localDate.equals(tillDate))
-                        && names[i].equals(workerInfo[1])) {
-                    int wagePerHour = Integer.parseInt(workerInfo[3]);
-                    int workingHours = Integer.parseInt(workerInfo[2]);
+                        || localDate.equals(fromDate) || localDate.equals(tillDate))
+                        && names[i].equals(workerInfo[NAME])) {
+                    int wagePerHour = Integer.parseInt(workerInfo[WAGE_PER_HOUR]);
+                    int workingHours = Integer.parseInt(workerInfo[WORKING_HOURS]);
                     workerWage = workerWage + (wagePerHour * workingHours);
                 }
             }
