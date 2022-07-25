@@ -8,7 +8,7 @@ public class SalaryInfo {
     private static final int DATE = 0;
     private static final int NAME = 1;
     private static final int WORK_HOURS = 2;
-    private static int PAYMENT = 3;
+    private static final int PAYMENT = 3;
 
     public static String getSalaryInfo(String[] names, String[] data, String dateFrom,
                                        String dateTo) {
@@ -48,6 +48,11 @@ public class SalaryInfo {
         return reportForPeriod
                 .delete(reportForPeriod.length() - 1, reportForPeriod.length())
                 .toString();
+
+        //with this code tests are passing in github, but not in idea.
+        //return reportForPeriod
+        //                .delete(reportForPeriod.length() - 1, reportForPeriod.length())
+        //                .toString();
 
     }
 }
