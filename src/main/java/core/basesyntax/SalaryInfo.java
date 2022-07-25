@@ -12,19 +12,18 @@ public class SalaryInfo {
         String[] salaryData;
         StringBuilder result = new StringBuilder().append("Report for period ")
                 .append(dateFrom).append(" - ").append(dateTo);
-
         for (String name : names) {
             int salary = 0;
             for (String currentLine : data) {
                 salaryData = currentLine.split(" ");
-                LocalDate currentDate = LocalDate.parse(salaryData[0], FORMATTER);
-                String currentName = salaryData[1];
-                int workingHours = Integer.parseInt(salaryData[2]);
-                int incomePerHour = Integer.parseInt(salaryData[3]);
-                if (localDateFrom.compareTo(currentDate) <= 0
-                        && localDateTo.compareTo(currentDate) >= 0
-                        && currentName.equals(name)) {
-                    salary += (workingHours * incomePerHour);
+                final LocalDate date = LocalDate.parse(salaryData[0], FORMATTER);
+                final String employeeName = salaryData[1];
+                final int workingHours = Integer.parseInt(salaryData[2]);
+                final int salaryPerHour = Integer.parseInt(salaryData[3]);
+                if (localDateFrom.compareTo(date) <= 0
+                        && localDateTo.compareTo(date) >= 0
+                        && employeeName.equals(name)) {
+                    salary += (workingHours * salaryPerHour);
                 }
             }
             result.append(System.lineSeparator()).append(name).append(" - ").append(salary);
