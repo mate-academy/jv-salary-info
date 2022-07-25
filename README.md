@@ -13,7 +13,7 @@ Method should return info in the following format:
 Here is sample of input data.
 Dates format:
 ```
-   date from = `01.04.2019 `
+   date from = `01.04.2019`
    date to = `30.04.2019` 
 ``` 
 
@@ -38,7 +38,7 @@ data:
 
 Method execution result:
 ```
-   Report for period 01.04.2019  - 30.04.2019  
+   Report for period 01.04.2019 - 30.04.2019  
    John - 900
    Andrew - 1050
    Kate - 1800
