@@ -48,11 +48,5 @@ public class SalaryInfo {
         return reportForPeriod
                 .delete(reportForPeriod.length() - 1, reportForPeriod.length())
                 .toString();
-
-        //with this code tests are passing in github, but not in idea.
-        //return reportForPeriod
-        //                .delete(reportForPeriod.length() - 1, reportForPeriod.length())
-        //                .toString();
-
     }
 }
