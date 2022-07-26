@@ -1,12 +1,12 @@
 package core.basesyntax;
 
-import java.util.Date;
-
 public class SalaryInfo {
+    private static final short NAME_INDEX = 0;
+    private static final short SALARY_INDEX = 1;
+    private static final short DATE_INDEX = 0;
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        final  short NAME_INDEX = 0;
-        final short SALARY_INDEX = 1;
-        final short DATE_INDEX = 0;
+
         String[][] salary = new String[names.length][2];
         for (int i = 0; i < names.length; i++) {
             salary[i][NAME_INDEX] = names[i];
@@ -53,8 +53,8 @@ public class SalaryInfo {
         int year = Integer.valueOf(stringDate[2]);
         int res = 0;
         for (int i = 1; i < mounth; i++) {
-            /** formula for calculating the number of days in a month */
-            res += (28 + (i + i / 8) % 2 + 2 % i + 1 / i * 2)+1;
+            res += (28 + (i + i / 8) % 2 + 2 % i + 1 / i * 2) + 1;
+            //formula for calculating the number of days in a month
         }
         res += day + (year * 365);
         return res;
