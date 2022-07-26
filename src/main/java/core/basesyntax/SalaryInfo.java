@@ -21,8 +21,8 @@ public class SalaryInfo {
             for (String currentLine : data) {
                 salaryData = currentLine.split(" ");
                 LocalDate date = LocalDate.parse(salaryData[INDEX_OF_DATA], FORMATTER);
-                if (!date.isAfter(localDateFrom)
-                        && date.isAfter(localDateTo)
+                if (date.isAfter(localDateFrom)
+                        && !date.isAfter(localDateTo)
                         && name.equals(salaryData[INDEX_OF_NAME])) {
                     salary += (Integer.parseInt(salaryData[INDEX_OF_HOURES])
                             * Integer.parseInt(salaryData[INDEX_OF_INCOME_PER_HOUR]));
