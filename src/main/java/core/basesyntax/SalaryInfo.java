@@ -1,19 +1,27 @@
 package core.basesyntax;
 
+import java.util.Date;
+
 public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
+        final  short NAME_INDEX = 0;
+        final short SALARY_INDEX = 1;
+        final short DATE_INDEX = 0;
         String[][] salary = new String[names.length][2];
         for (int i = 0; i < names.length; i++) {
-            salary[i][0] = names[i];
-            salary[i][1] = "0";
+            salary[i][NAME_INDEX] = names[i];
+            salary[i][SALARY_INDEX] = "0";
         }
         int digitDateFrom = this.digitalDate(dateFrom);
         int digitDateTo = this.digitalDate(dateTo);
         for (String dat: data) {
-            if (digitDateFrom <= this.digitalDate(dat.split(" ")[0])
-                    && digitDateTo >= this.digitalDate(dat.split(" ")[0])) {
+            if (digitDateFrom <= this.digitalDate(dat.split(" ")[DATE_INDEX])
+                    && digitDateTo >= this.digitalDate(dat.split(" ")[DATE_INDEX])) {
                 for (int i = 0; i < salary.length; i++) {
-                    if (salary[i][0].equals(dat.split(" ")[1])) {
+                    /** Index "1" - date of working hours
+                    Index "2" - working hours
+                    Index "3" - hourly pay **/
+                    if (salary[i][NAME_INDEX].equals(dat.split(" ")[1])) {
                         salary[i][1] = String.valueOf(Integer.parseInt(salary[i][1])
                                 + (Integer.parseInt(dat.split(" ")[2])
                                 * Integer.parseInt(dat.split(" ")[3])));
@@ -43,9 +51,12 @@ public class SalaryInfo {
         int day = Integer.valueOf(stringDate[0]);
         int mounth = Integer.valueOf(stringDate[1]);
         int year = Integer.valueOf(stringDate[2]);
-        int res = day
-                + (mounth * 31)
-                + (year * 365);
+        int res = 0;
+        for (int i = 1; i < mounth; i++) {
+            /** formula for calculating the number of days in a month */
+            res += (28 + (i + i / 8) % 2 + 2 % i + 1 / i * 2)+1;
+        }
+        res += day + (year * 365);
         return res;
     }
 }
