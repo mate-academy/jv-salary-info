@@ -4,33 +4,29 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    private static final int DATES_LIST = 0;
-    private static final int NAMES_LIST = 1;
-    private static final int WORKING_HOURS = 2;
-    private static final int INCOME_PER_HOUR = 3;
+    private static final int DATE_INDEX = 0;
+    private static final int NAME_INDEX = 1;
+    private static final int WORKING_HOURS_INDEX = 2;
+    private static final int INCOME_PER_HOUR_INDEX = 3;
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        LocalDate dateFromFormated = LocalDate.parse(dateFrom,formatter);
-        LocalDate dateToFormated = LocalDate.parse(dateTo, formatter);
+        LocalDate dateFromFormated = LocalDate.parse(dateFrom,FORMATTER);
+        LocalDate dateToFormated = LocalDate.parse(dateTo, FORMATTER);
         StringBuilder result = new StringBuilder().append("Report for period ")
                 .append(dateFrom).append(" - ").append(dateTo);
-
-        for (int j = 0; j < names.length; j++) {
-            String name = names[j];
+        for (String name : names) {
             int salary = 0;
-
-            for (int i = 0; i < data.length; i++) {
-                String[] dataSeparate = data[i].split(" ");
-                LocalDate dateFromData = LocalDate.parse(dataSeparate[DATES_LIST], formatter);
-
-                if (name.equals(dataSeparate[NAMES_LIST])
+            for (String datum : data) {
+                String[] dataSeparate = datum.split(" ");
+                LocalDate dateFromData = LocalDate.parse(dataSeparate[DATE_INDEX], FORMATTER);
+                if (name.equals(dataSeparate[NAME_INDEX])
                         && (dateFromData.isBefore(dateToFormated)
                         || dateFromData.isEqual(dateToFormated))
                         && (dateFromData.isAfter(dateFromFormated)
                         || dateFromData.isEqual(dateFromFormated))) {
-                    salary += Integer.parseInt(dataSeparate[WORKING_HOURS])
-                            * Integer.parseInt(dataSeparate[INCOME_PER_HOUR]);
+                    salary += Integer.parseInt(dataSeparate[WORKING_HOURS_INDEX])
+                            * Integer.parseInt(dataSeparate[INCOME_PER_HOUR_INDEX]);
                 }
             }
             result.append(System.lineSeparator()).append(name).append(" - ").append(salary);
