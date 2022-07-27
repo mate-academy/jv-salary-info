@@ -13,7 +13,7 @@ Method should return info in the following format:
 Here is sample of input data.
 Dates format:
 ```
-   date from = `01.04.2019`
+   date from = `01.04.2019 `
    date to = `30.04.2019` 
 ``` 
 
