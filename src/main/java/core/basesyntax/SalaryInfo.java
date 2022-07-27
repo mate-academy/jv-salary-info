@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 public class SalaryInfo {
     private static final DateConvertor DATE_CONVERTOR = new DateConvertor();
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate fromDate = DATE_CONVERTOR.convert(dateFrom);
         LocalDate toDate = DATE_CONVERTOR.convert(dateTo);
