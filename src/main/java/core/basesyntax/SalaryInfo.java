@@ -28,8 +28,8 @@ public class SalaryInfo {
             int workingHour = Integer.parseInt(dataInfo[2]);
             int incomePerHour = Integer.parseInt(dataInfo[3]);
             if (nameWorker.equals(name)) {
-                salaryEmployeeByDay = checkWorkingDay(workingDay, dateFrom, dateTo) ? workingHour * incomePerHour
-                        : salaryEmployeeByDay;
+                salaryEmployeeByDay = checkWorkingDay(workingDay, dateFrom, dateTo)
+                        ? salaryEmployeeByDay + workingHour * incomePerHour : salaryEmployeeByDay;
             }
         }
         return name + " - " + salaryEmployeeByDay;
