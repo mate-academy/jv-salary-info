@@ -4,6 +4,10 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
+    private static final int DATE = 0;
+    private static final int NAME = 1;
+    private static final int HOURS = 2;
+    private static final int SALARY = 3;
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     private static final String REGEX = " ";
 
@@ -16,12 +20,12 @@ public class SalaryInfo {
             int salary = 0;
             for (String account : data) {
                 String[] records = account.split(REGEX);
-                LocalDate workDate = LocalDate.parse(records[0], DATE_FORMAT);
-                if (name.equals(records[1])
+                LocalDate workDate = LocalDate.parse(records[DATE], DATE_FORMAT);
+                if (name.equals(records[NAME])
                         && (workDate.isAfter(fromDate) || workDate.equals(fromDate))
                         && (workDate.isBefore(toDate) || workDate.equals(toDate))) {
-                    salary += Integer.parseInt(records[2])
-                            * Integer.parseInt(records[3]);
+                    salary += Integer.parseInt(records[HOURS])
+                            * Integer.parseInt(records[SALARY]);
                 }
             }
             stringBuilder.append(System.lineSeparator()).append(name)
