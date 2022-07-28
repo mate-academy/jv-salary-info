@@ -9,7 +9,6 @@ public class SalaryInfo {
     private static final int NAME_WORKER = 1;
     private static final int WORKING_HOUR = 2;
     private static final int INCOME_PER_DAY = 3;
-
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
@@ -39,18 +38,17 @@ public class SalaryInfo {
 
     private boolean checkWorkingDay(String workingDay, String dateFrom, String dateTo,
                                     String nameWorker, String name) {
-        if (nameWorker.equals(name)) {
-            try {
-                Date workDate = DATE_FORMAT.parse(workingDay);
-                Date dateStart = DATE_FORMAT.parse(dateFrom);
-                Date dateEnd = DATE_FORMAT.parse(dateTo);
-                return workDate.after(dateStart) && workDate.before(dateEnd)
-                        || workDate.equals(dateEnd);
-            } catch (ParseException e) {
-                throw new RuntimeException("Date format isn't correct (dd.MM.yyyy)", e);
-            }
-        } else {
-            return false;
+        try {
+            Date workDate = DATE_FORMAT.parse(workingDay);
+            Date dateStart = DATE_FORMAT.parse(dateFrom);
+            Date dateEnd = DATE_FORMAT.parse(dateTo);
+            return nameWorker.equals(name)
+                    && (workDate.after(dateStart)
+                    && workDate.before(dateEnd)
+                    || workDate.equals(dateEnd)
+                    || workDate.equals(dateStart));
+        } catch (ParseException e) {
+            throw new RuntimeException("Date format isn't correct (dd.MM.yyyy)", e);
         }
     }
 }
