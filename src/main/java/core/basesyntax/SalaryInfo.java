@@ -14,14 +14,14 @@ public class SalaryInfo {
         LocalDate toDate = LocalDate.parse(dateTo, DATE_FORMAT);
         for (String name : names) {
             int salary = 0;
-            for (int j = 0; j < data.length; j++) {
-                String[] accounts = data[j].split(REGEX);
-                LocalDate workDate = LocalDate.parse(accounts[0], DATE_FORMAT);
-                if (name.equals(accounts[1])
+            for (String account : data) {
+                String[] records = account.split(REGEX);
+                LocalDate workDate = LocalDate.parse(records[0], DATE_FORMAT);
+                if (name.equals(records[1])
                         && (workDate.isAfter(fromDate) || workDate.equals(fromDate))
                         && (workDate.isBefore(toDate) || workDate.equals(toDate))) {
-                    salary += Integer.parseInt(accounts[2])
-                            * Integer.parseInt(accounts[3]);
+                    salary += Integer.parseInt(records[2])
+                            * Integer.parseInt(records[3]);
                 }
             }
             stringBuilder.append(System.lineSeparator()).append(name)
