@@ -12,23 +12,20 @@ public class SalaryInfo {
                 .append(dateFrom).append(" - ").append(dateTo);
         LocalDate fromDate = LocalDate.parse(dateFrom, DATE_FORMAT);
         LocalDate toDate = LocalDate.parse(dateTo, DATE_FORMAT);
-        String[][] accounts = new String[data.length][4];
-        for (int i = 0; i < data.length; i++) {
-            accounts[i] = data[i].split(REGEX);
-        }
         for (String name : names) {
             int salary = 0;
             for (int j = 0; j < data.length; j++) {
-                LocalDate workDate = LocalDate.parse(accounts[j][0], DATE_FORMAT);
-                if (name.equals(accounts[j][1])
+                String[] accounts = data[j].split(REGEX);
+                LocalDate workDate = LocalDate.parse(accounts[0], DATE_FORMAT);
+                if (name.equals(accounts[1])
                         && (workDate.isAfter(fromDate) || workDate.equals(fromDate))
                         && (workDate.isBefore(toDate) || workDate.equals(toDate))) {
-                    salary += Integer.parseInt(accounts[j][2])
-                            * Integer.parseInt(accounts[j][3]);
+                    salary += Integer.parseInt(accounts[2])
+                            * Integer.parseInt(accounts[3]);
                 }
             }
-            stringBuilder.append(System.lineSeparator()).append(name).append(" - ")
-                    .append(salary);
+            stringBuilder.append(System.lineSeparator()).append(name)
+                    .append(" - ").append(salary);
         }
         return stringBuilder.toString();
     }
