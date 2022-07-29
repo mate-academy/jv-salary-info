@@ -7,7 +7,7 @@ public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder string = new StringBuilder();
         string.append("Report for period ").append(dateFrom).append(" - ")
-                .append(dateTo).append(System.lineSeparator());
+                .append(dateTo);
         for (int i = 0; i < names.length; i++) {
             int money = 0;
             for (String eachData : data) {
@@ -21,9 +21,8 @@ public class SalaryInfo {
                             * Integer.parseInt(eachDataArray[3]);
                 }
             }
-            string.append(names[i]).append(" - ").append(money).append(System.lineSeparator());
+            string.append(System.lineSeparator()).append(names[i]).append(" - ").append(money);
         }
-        string.deleteCharAt(string.length() - 1).deleteCharAt(string.length() - 1);
         return string.toString();
     }
 
