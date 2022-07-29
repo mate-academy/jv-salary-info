@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    private static final String DATE_FORMAT = "dd.MM.yyyy";
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     private static final short DATE_INDEX = 0;
     private static final short NAME_INDEX = 1;
     private static final short NUMBER_OF_HOURS_INDEX = 2;
@@ -12,9 +12,9 @@ public class SalaryInfo {
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder report = new StringBuilder();
-        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
-        LocalDate digitDateFrom = LocalDate.parse(dateFrom, dateFormatter);
-        LocalDate digitDateTo = LocalDate.parse(dateTo, dateFormatter);
+        LocalDate digitDateFrom = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate digitDateTo = LocalDate.parse(dateTo, FORMATTER);
+        LocalDate currentDate;
         report.append("Report for period ")
                 .append(dateFrom)
                 .append(" - ")
@@ -23,15 +23,16 @@ public class SalaryInfo {
             int salary = 0;
             for (String dataElement: data) {
                 String[] dataFields = dataElement.split(" ");
+                currentDate = LocalDate.parse(dataFields[DATE_INDEX], FORMATTER);
                 if (name.equals(dataFields[NAME_INDEX])
-                        && ((LocalDate.parse(dataFields[DATE_INDEX],dateFormatter)
+                        && ((currentDate
                         .isAfter(digitDateFrom)
-                        && LocalDate.parse(dataFields[DATE_INDEX],dateFormatter)
+                        && currentDate
                         .isBefore(digitDateTo))
-                        || (LocalDate.parse(dataFields[DATE_INDEX],dateFormatter)
+                        || currentDate
                         .equals(digitDateFrom)
-                        || LocalDate.parse(dataFields[DATE_INDEX],dateFormatter)
-                        .equals(digitDateTo)))) {
+                        || currentDate
+                        .equals(digitDateTo))) {
                     salary += Integer.parseInt(dataFields[NUMBER_OF_HOURS_INDEX])
                             * Integer.parseInt(dataFields[HOURLY_PAY_INDEX]);
                 }
