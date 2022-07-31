@@ -4,12 +4,16 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    private static final String stringSeparator = " ";
+    private static final String dataSeparator = " ";
     private static final DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-    private static String dateFromData;
-    private static String employeeName;
-    private static int hoursWorkedPerDay;
-    private static int incomePerHour;
+    private static final int DATE_FROM_DATA_INDEX = 0;
+    private static final int EMPLOYEE_NAME_INDEX = 1;
+    private static final int HOURS_WORKED_PER_DAY_INDEX = 2;
+    private static final int INCOME_PER_HOUR_INDEX = 3;
+    private String dateFromData;
+    private String employeeName;
+    private int hoursWorkedPerDay;
+    private int incomePerHour;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder salaryInfo = new StringBuilder("Report for period "
@@ -44,10 +48,10 @@ public class SalaryInfo {
     }
 
     private void splitData(String data) {
-        String[] infoData = data.split(stringSeparator);
-        dateFromData = infoData[0];
-        employeeName = infoData[1];
-        hoursWorkedPerDay = Integer.parseInt(infoData[2]);
-        incomePerHour = Integer.parseInt(infoData[3]);
+        String[] infoData = data.split(dataSeparator);
+        dateFromData = infoData[DATE_FROM_DATA_INDEX];
+        employeeName = infoData[EMPLOYEE_NAME_INDEX];
+        hoursWorkedPerDay = Integer.parseInt(infoData[HOURS_WORKED_PER_DAY_INDEX]);
+        incomePerHour = Integer.parseInt(infoData[INCOME_PER_HOUR_INDEX]);
     }
 }
