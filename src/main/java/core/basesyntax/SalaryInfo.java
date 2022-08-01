@@ -16,9 +16,9 @@ public class SalaryInfo {
         stringBuilder.append("Report for period ")
                 .append(dateFrom)
                 .append(" - ")
-                .append(dateTo)
-                .append(System.lineSeparator());
+                .append(dateTo);
         for (String name : names) {
+            stringBuilder.append(System.lineSeparator());
             int totalSalary = 0;
             for (String dataRow : data) {
                 String[] spitedDataRow = dataRow.split(" ");
@@ -28,10 +28,10 @@ public class SalaryInfo {
                     LocalDate workingDate = LocalDate.parse(spitedDataRow[DATE_COLUMN], formatter);
 
                     if (name.equals(spitedDataRow[NAME_COLUMN])
-                            && (workingDate.isAfter(parseDateFrom) || workingDate.isEqual(parseDateFrom)
-                            && (workingDate.isBefore(parseDateTo) || workingDate.isEqual(parseDateTo)))) {
-                        totalSalary += Integer.parseInt(spitedDataRow[WORKING_HOUR_COLUMN])
-                                * Integer.parseInt(spitedDataRow[INCOME_PER_HOUR_COLUMN]);
+                            && isDateBetween(workingDate, parseDateFrom, parseDateTo)) {
+                        int hour = Integer.parseInt(spitedDataRow[WORKING_HOUR_COLUMN]);
+                        int income = Integer.parseInt(spitedDataRow[INCOME_PER_HOUR_COLUMN]);
+                        totalSalary += hour * income;
                     }
                 } catch (DateTimeParseException e) {
                     System.out.println("Wrong date");
@@ -40,9 +40,16 @@ public class SalaryInfo {
             stringBuilder
                     .append(name)
                     .append(" - ")
-                    .append(totalSalary)
-                    .append(System.lineSeparator());
+                    .append(totalSalary);
         }
         return stringBuilder.toString();
     }
+
+    private boolean isDateBetween(LocalDate date, LocalDate dateFrom, LocalDate dateTo) {
+        return (date.isAfter(dateFrom)
+                || date.isEqual(dateFrom))
+                && ((date.isBefore(dateTo)
+                || date.isEqual(dateTo)));
+    }
 }
+
