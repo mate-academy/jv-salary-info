@@ -23,12 +23,12 @@ public class SalaryInfo {
             for (String dataRow : data) {
                 String[] spitedDataRow = dataRow.split(" ");
                 try {
-                    LocalDate parseDateFrom = LocalDate.parse(dateFrom, formatter);
-                    LocalDate parseDateTo = LocalDate.parse(dateTo, formatter);
+                    LocalDate parsedDateFrom = LocalDate.parse(dateFrom, formatter);
+                    LocalDate parsedDateTo = LocalDate.parse(dateTo, formatter);
                     LocalDate workingDate = LocalDate.parse(spitedDataRow[DATE_COLUMN], formatter);
 
                     if (name.equals(spitedDataRow[NAME_COLUMN])
-                            && isDateBetween(workingDate, parseDateFrom, parseDateTo)) {
+                            && isDateBetween(workingDate, parsedDateFrom, parsedDateTo)) {
                         int hour = Integer.parseInt(spitedDataRow[WORKING_HOUR_COLUMN]);
                         int income = Integer.parseInt(spitedDataRow[INCOME_PER_HOUR_COLUMN]);
                         totalSalary += hour * income;
