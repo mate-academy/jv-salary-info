@@ -34,7 +34,7 @@ public class SalaryInfo {
                         totalSalary += hour * income;
                     }
                 } catch (DateTimeParseException e) {
-                    System.out.println("Wrong date");
+                    throw new RuntimeException("Wrong date", e);
                 }
             }
             stringBuilder
