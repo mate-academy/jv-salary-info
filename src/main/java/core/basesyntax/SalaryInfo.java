@@ -5,6 +5,12 @@ import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    public static final String COMMA = ",";
+    public static final String SPACE = " ";
+    public static final int FIRST_INDEX = 0;
+    public static final int SECOND_INDEX = 1;
+    public static final int THIRD_INDEX = 2;
+    public static final int FORTH_INDEX = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder builder = new StringBuilder("Report for period ")
@@ -15,10 +21,10 @@ public class SalaryInfo {
             int currentSalary = 0;
             for (String currentData : data) {
                 String[] splitValues = currentData.split(" ");
-                LocalDate currentDate = LocalDate.parse(splitValues[0], FORMATTER);
-                String currentName = splitValues[1];
-                int hoursCounter = Integer.parseInt(splitValues[2]);
-                int cashPerHour = Integer.parseInt(splitValues[3]);
+                LocalDate currentDate = LocalDate.parse(splitValues[FIRST_INDEX], FORMATTER);
+                String currentName = splitValues[SECOND_INDEX];
+                int hoursCounter = Integer.parseInt(splitValues[THIRD_INDEX]);
+                int cashPerHour = Integer.parseInt(splitValues[FORTH_INDEX]);
 
                 if (currentName.equals(name)
                         && (currentDate.equals(fromDate) || currentDate.isAfter(fromDate))
