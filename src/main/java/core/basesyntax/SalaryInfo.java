@@ -5,12 +5,12 @@ import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-    public static final String DASH = " - ";
-    public static final String SPACE = " ";
-    public static final int FIRST_INDEX = 0;
-    public static final int SECOND_INDEX = 1;
-    public static final int THIRD_INDEX = 2;
-    public static final int FORTH_INDEX = 3;
+    private static final String DASH = " - ";
+    private static final String SPACE = " ";
+    private static final int FIRST_INDEX = 0;
+    private static final int SECOND_INDEX = 1;
+    private static final int THIRD_INDEX = 2;
+    private static final int FORTH_INDEX = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder builder = new StringBuilder("Report for period ")
