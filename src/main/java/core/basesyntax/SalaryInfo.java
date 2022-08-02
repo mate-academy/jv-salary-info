@@ -5,7 +5,7 @@ import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-    public static final String COMMA = ",";
+    public static final String DASH = " - ";
     public static final String SPACE = " ";
     public static final int FIRST_INDEX = 0;
     public static final int SECOND_INDEX = 1;
@@ -14,13 +14,13 @@ public class SalaryInfo {
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder builder = new StringBuilder("Report for period ")
-                .append(dateFrom).append(" - ").append(dateTo);
+                .append(dateFrom).append(DASH).append(dateTo);
         LocalDate fromDate = LocalDate.parse(dateFrom, FORMATTER);
         LocalDate toDate = LocalDate.parse(dateTo, FORMATTER);
         for (String name : names) {
             int currentSalary = 0;
             for (String currentData : data) {
-                String[] splitValues = currentData.split(" ");
+                String[] splitValues = currentData.split(SPACE);
                 LocalDate currentDate = LocalDate.parse(splitValues[FIRST_INDEX], FORMATTER);
                 String currentName = splitValues[SECOND_INDEX];
                 int hoursCounter = Integer.parseInt(splitValues[THIRD_INDEX]);
@@ -32,7 +32,7 @@ public class SalaryInfo {
                     currentSalary += hoursCounter * cashPerHour;
                 }
             }
-            builder.append(System.lineSeparator()).append(name).append(" - ").append(currentSalary);
+            builder.append(System.lineSeparator()).append(name).append(DASH).append(currentSalary);
         }
         return builder.toString();
     }
