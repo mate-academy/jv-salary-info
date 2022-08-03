@@ -3,12 +3,15 @@ package core.basesyntax;
 import java.time.LocalDate;
 
 public class SalaryInfo {
-    private static final DateConverter DATE_CONVERTOR = new DateConverter();
+    private static final int DATE = 0;
+    private static final int NAME = 1;
+    private static final int HOURS_WORKED = 2;
+    private static final int RATE_PER_HOUR = 3;
+    private final DateConverter dateConverter = new DateConverter();
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-
-        LocalDate fromDate = DATE_CONVERTOR.convert(dateFrom);
-        LocalDate toDate = DATE_CONVERTOR.convert(dateTo);
+        LocalDate fromDate = dateConverter.convert(dateFrom);
+        LocalDate toDate = dateConverter.convert(dateTo);
 
         StringBuilder report = new StringBuilder("Report for period ")
                 .append(dateFrom)
@@ -18,11 +21,11 @@ public class SalaryInfo {
         for (String name : names) {
             int salary = 0;
             for (String dataElement : data) {
-                String[] dataItem = dataElement.split(" ");
-                final String employeeName = dataItem[1];
-                final int hoursWorked = Integer.parseInt(dataItem[2]);
-                final int ratePerHour = Integer.parseInt(dataItem[3]);
-                LocalDate dateElement = DATE_CONVERTOR.convert(dataItem[0]);
+                String[] dataItems = dataElement.split(" ");
+                final String employeeName = dataItems[NAME];
+                final int hoursWorked = Integer.parseInt(dataItems[HOURS_WORKED]);
+                final int ratePerHour = Integer.parseInt(dataItems[RATE_PER_HOUR]);
+                LocalDate dateElement = dateConverter.convert(dataItems[DATE]);
                 if (name.equals(employeeName)
                         && (dateElement.isAfter(fromDate)
                         && dateElement.isBefore(toDate)
