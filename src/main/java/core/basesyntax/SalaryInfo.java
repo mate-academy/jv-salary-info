@@ -11,6 +11,8 @@ public class SalaryInfo {
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder string = new StringBuilder();
+        Calendar dateFirst = getDate(dateFrom);
+        Calendar dateLast = getDate(dateTo);
         string.append("Report for period ").append(dateFrom).append(" - ")
                 .append(dateTo);
         for (String name : names) {
@@ -19,10 +21,8 @@ public class SalaryInfo {
                 String[] eachDataArray = eachData.split(" ");
                 Calendar dateNeed = getDate(eachDataArray[DATE_INDEX]);
                 if (name.equals(eachDataArray[NAME_INDEX])
-                        && (dateNeed.equals(getDate(dateFrom))
-                        || dateNeed.after(getDate(dateFrom)))
-                        && (dateNeed.equals(getDate(dateTo))
-                        || dateNeed.before(getDate(dateTo)))) {
+                        && (dateNeed.equals(dateFirst) || dateNeed.after(dateFirst))
+                        && (dateNeed.equals(dateLast) || dateNeed.before(dateLast))) {
                     money += Integer.parseInt(eachDataArray[HOURS_INDEX])
                             * Integer.parseInt(eachDataArray[MPH_INDEX]);
                 }
