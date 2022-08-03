@@ -28,7 +28,7 @@ public class SalaryInfo {
 
         }
         for (String name : names) {
-            res.append("\r\n").append(name).append(" - ").append(employees.get(name));
+            res.append(System.lineSeparator()).append(name).append(" - ").append(employees.get(name));
         }
         return res.toString();
     }
