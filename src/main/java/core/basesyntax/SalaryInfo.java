@@ -4,6 +4,11 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 public class SalaryInfo {
+    private static final int DATE_INDEX = 0;
+    private static final int NAME_INDEX = 1;
+    private static final int HOURS_INDEX = 2;
+    private static final int MPH_INDEX = 3;
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder string = new StringBuilder();
         string.append("Report for period ").append(dateFrom).append(" - ")
@@ -12,13 +17,13 @@ public class SalaryInfo {
             int money = 0;
             for (String eachData : data) {
                 String[] eachDataArray = eachData.split(" ");
-                if (name.equals(eachDataArray[1])
-                        && (getDate(eachDataArray[0]).equals(getDate(dateFrom))
-                        || getDate(eachDataArray[0]).after(getDate(dateFrom)))
-                        && (getDate(eachDataArray[0]).equals(getDate(dateTo))
-                        || getDate(eachDataArray[0]).before(getDate(dateTo)))) {
-                    money += Integer.parseInt(eachDataArray[2])
-                            * Integer.parseInt(eachDataArray[3]);
+                if (name.equals(eachDataArray[NAME_INDEX])
+                        && (getDate(eachDataArray[DATE_INDEX]).equals(getDate(dateFrom))
+                        || getDate(eachDataArray[DATE_INDEX]).after(getDate(dateFrom)))
+                        && (getDate(eachDataArray[DATE_INDEX]).equals(getDate(dateTo))
+                        || getDate(eachDataArray[DATE_INDEX]).before(getDate(dateTo)))) {
+                    money += Integer.parseInt(eachDataArray[HOURS_INDEX])
+                            * Integer.parseInt(eachDataArray[MPH_INDEX]);
                 }
             }
             string.append(System.lineSeparator()).append(name).append(" - ").append(money);
