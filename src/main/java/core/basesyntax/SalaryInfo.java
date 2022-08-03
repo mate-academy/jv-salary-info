@@ -32,7 +32,7 @@ public class SalaryInfo {
         return string.toString();
     }
 
-    private static Calendar getDate(String string) {
+    private Calendar getDate(String string) {
         String[] date = string.split("\\.");
         return new GregorianCalendar(Integer.parseInt(date[1]),
                 Integer.parseInt(date[1]), Integer.parseInt(date[0]));
