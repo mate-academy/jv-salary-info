@@ -8,6 +8,7 @@ public class SalaryInfo {
     private static final int NAME_INDEX = 1;
     private static final int HOURS_INDEX = 2;
     private static final int MPH_INDEX = 3;
+    private static final String DOT_MILLIMETRE = "\\.";
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder string = new StringBuilder();
@@ -33,8 +34,8 @@ public class SalaryInfo {
     }
 
     private Calendar getDate(String string) {
-        String[] date = string.split("\\.");
-        return new GregorianCalendar(Integer.parseInt(date[1]),
+        String[] date = string.split(DOT_MILLIMETRE);
+        return new GregorianCalendar(Integer.parseInt(date[2]),
                 Integer.parseInt(date[1]), Integer.parseInt(date[0]));
     }
 }
