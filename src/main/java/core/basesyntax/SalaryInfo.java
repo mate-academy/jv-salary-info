@@ -17,11 +17,12 @@ public class SalaryInfo {
             int money = 0;
             for (String eachData : data) {
                 String[] eachDataArray = eachData.split(" ");
+                Calendar dateNeed = getDate(eachDataArray[DATE_INDEX]);
                 if (name.equals(eachDataArray[NAME_INDEX])
-                        && (getDate(eachDataArray[DATE_INDEX]).equals(getDate(dateFrom))
-                        || getDate(eachDataArray[DATE_INDEX]).after(getDate(dateFrom)))
-                        && (getDate(eachDataArray[DATE_INDEX]).equals(getDate(dateTo))
-                        || getDate(eachDataArray[DATE_INDEX]).before(getDate(dateTo)))) {
+                        && (dateNeed.equals(getDate(dateFrom))
+                        || dateNeed.after(getDate(dateFrom)))
+                        && (dateNeed.equals(getDate(dateTo))
+                        || dateNeed.before(getDate(dateTo)))) {
                     money += Integer.parseInt(eachDataArray[HOURS_INDEX])
                             * Integer.parseInt(eachDataArray[MPH_INDEX]);
                 }
