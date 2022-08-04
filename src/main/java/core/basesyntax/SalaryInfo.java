@@ -4,19 +4,15 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    public static final char DATE_DELIMITER_IN_FILE = '.';
-    public static final char DATE_DELIMITER_FOR_PARSE = '-';
-    public static final String DATE_FORMAT_PATTERN = "dd-MM-yyyy";
+    public static final String DATE_FORMAT_PATTERN = "dd.MM.yyyy";
     public static final int DATE_POSITION = 0;
     public static final int NAME_POSITION = 1;
     public static final int HOUR_POSITION = 2;
     public static final int INCOME_POSITION = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        LocalDate fromDate = getDate(dateFrom
-                .replace(DATE_DELIMITER_IN_FILE, DATE_DELIMITER_FOR_PARSE));
-        LocalDate toDate = getDate(dateTo
-                .replace(DATE_DELIMITER_IN_FILE, DATE_DELIMITER_FOR_PARSE));
+        LocalDate fromDate = getDate(dateFrom);
+        LocalDate toDate = getDate(dateTo);
         StringBuilder result = new StringBuilder("Report for period ")
                 .append(dateFrom)
                 .append(" - ")
@@ -26,8 +22,7 @@ public class SalaryInfo {
             int salary = 0;
             for (String dataRow : data) {
                 String[] rowElements = dataRow.split(" ");
-                LocalDate date = getDate(rowElements[DATE_POSITION]
-                        .replace(DATE_DELIMITER_IN_FILE, DATE_DELIMITER_FOR_PARSE));
+                LocalDate date = getDate(rowElements[DATE_POSITION]);
                 if (name.equals(rowElements[NAME_POSITION])
                         && (date.isEqual(fromDate) || date.isAfter(fromDate))
                         && (date.isEqual(toDate) || date.isBefore(toDate))) {
