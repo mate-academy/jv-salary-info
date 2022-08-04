@@ -16,9 +16,6 @@ public class SalaryInfo {
         int[] salaries = new int[names.length];
         for (String datum : data) {
             String[] temp = datum.split(" ");
-            if (temp[DATE].length() < 10) {
-                temp[DATE] = "0" + temp[DATE];
-            }
             LocalDate date = LocalDate.parse(temp[0], FORMATTER);
             if (date.compareTo(startDate) >= 0 && (date.compareTo(endDate) <= 0)) {
                 for (int i = 0; i < names.length; i++) {
