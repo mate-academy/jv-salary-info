@@ -1,40 +1,49 @@
 package core.basesyntax;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
 
 public class SalaryInfo {
+    public static final int DAY_POSITION = 0;
+    public static final int MONTH_POSITION = 1;
+    public static final int YEAR_POSITION = 2;
+    public static final int DATE_POSITION = 0;
+    public static final int NAME_POSITION = 1;
+    public static final int HOUR_POSITION = 2;
+    public static final int INCOME_POSITION = 3;
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        Date fromDate = null;
-        Date toDate = null;
-        String result = "Report for period " + dateFrom + " - " + dateTo;
-        fromDate = getDate(dateFrom);
-        toDate = getDate(dateTo);
+        LocalDate fromDate = getDate(dateFrom);
+        LocalDate toDate = getDate(dateTo);
+        StringBuilder result = new StringBuilder("Report for period ")
+                .append(dateFrom)
+                .append(" - ")
+                .append(dateTo);
+
         for (String name : names) {
             int salary = 0;
-            for (String str : data) {
-                String[] split = str.split(" ");
-                Date date = getDate(split[0]);
-                if (date.getTime() >= fromDate.getTime() && date.getTime() <= toDate.getTime()) {
-                    if (name.equals(split[1])) {
-                        salary += Integer.parseInt(split[2]) * Integer.parseInt(split[3]);
-                    }
+            for (String dataRow : data) {
+                String[] rowElements = dataRow.split(" ");
+                LocalDate date = getDate(rowElements[DATE_POSITION]);
+                if (name.equals(rowElements[NAME_POSITION])
+                        && (date.isEqual(fromDate) || date.isAfter(fromDate))
+                        && (date.isEqual(toDate) || date.isBefore(toDate))) {
+                    salary += Integer.parseInt(rowElements[HOUR_POSITION])
+                            * Integer.parseInt(rowElements[INCOME_POSITION]);
                 }
             }
-            result += System.lineSeparator() + name + " - " + salary;
+            result.append(System.lineSeparator())
+                    .append(name)
+                    .append(" - ")
+                    .append(salary);
         }
-        return result;
+        return result.toString();
     }
 
-    private Date getDate(String dateString) {
-        Date date = null;
-        try {
-            date = new SimpleDateFormat("dd.MM.yyyy").parse(dateString);
-        } catch (ParseException e) {
-            System.out.println("date not in valid format");
-            throw new RuntimeException(e);
-        }
-        return date;
+    private LocalDate getDate(String dateString) {
+        String[] dateSplit = dateString.split("\\.");
+        int day = Integer.parseInt(dateSplit[DAY_POSITION]);
+        int mounse = Integer.parseInt(dateSplit[MONTH_POSITION]);
+        int year = Integer.parseInt(dateSplit[YEAR_POSITION]);
+        return LocalDate.of(year, mounse, day);
     }
 }
