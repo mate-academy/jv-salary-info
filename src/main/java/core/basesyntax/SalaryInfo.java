@@ -1,19 +1,22 @@
 package core.basesyntax;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    public static final int DAY_POSITION = 0;
-    public static final int MONTH_POSITION = 1;
-    public static final int YEAR_POSITION = 2;
+    public static final char DATE_DELIMITER_IN_FILE = '.';
+    public static final char DATE_DELIMITER_FOR_PARSE = '-';
+    public static final String DATE_FORMAT_PATTERN = "dd-MM-yyyy";
     public static final int DATE_POSITION = 0;
     public static final int NAME_POSITION = 1;
     public static final int HOUR_POSITION = 2;
     public static final int INCOME_POSITION = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        LocalDate fromDate = getDate(dateFrom);
-        LocalDate toDate = getDate(dateTo);
+        LocalDate fromDate = getDate(dateFrom
+                .replace(DATE_DELIMITER_IN_FILE, DATE_DELIMITER_FOR_PARSE));
+        LocalDate toDate = getDate(dateTo
+                .replace(DATE_DELIMITER_IN_FILE, DATE_DELIMITER_FOR_PARSE));
         StringBuilder result = new StringBuilder("Report for period ")
                 .append(dateFrom)
                 .append(" - ")
@@ -23,7 +26,8 @@ public class SalaryInfo {
             int salary = 0;
             for (String dataRow : data) {
                 String[] rowElements = dataRow.split(" ");
-                LocalDate date = getDate(rowElements[DATE_POSITION]);
+                LocalDate date = getDate(rowElements[DATE_POSITION]
+                        .replace(DATE_DELIMITER_IN_FILE, DATE_DELIMITER_FOR_PARSE));
                 if (name.equals(rowElements[NAME_POSITION])
                         && (date.isEqual(fromDate) || date.isAfter(fromDate))
                         && (date.isEqual(toDate) || date.isBefore(toDate))) {
@@ -40,10 +44,7 @@ public class SalaryInfo {
     }
 
     private LocalDate getDate(String dateString) {
-        String[] dateSplit = dateString.split("\\.");
-        int day = Integer.parseInt(dateSplit[DAY_POSITION]);
-        int mounse = Integer.parseInt(dateSplit[MONTH_POSITION]);
-        int year = Integer.parseInt(dateSplit[YEAR_POSITION]);
-        return LocalDate.of(year, mounse, day);
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(DATE_FORMAT_PATTERN);
+        return LocalDate.parse(dateString, dateTimeFormatter);
     }
 }
