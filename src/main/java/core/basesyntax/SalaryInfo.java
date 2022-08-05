@@ -24,7 +24,8 @@ public class SalaryInfo {
         return salaryInfo.toString();
     }
 
-    private int getSalary(String[]data, String name, LocalDate dateInRangeFrom, LocalDate dateInRangeTo) {
+    private int getSalary(
+            String[]data, String name, LocalDate dateInRangeFrom, LocalDate dateInRangeTo) {
         int salary = 0;
         for (String dataPiece : data) {
             String[] splitData = dataPiece.split(DATA_SEPARATOR);
