@@ -2,7 +2,6 @@ package core.basesyntax;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
 import java.util.Locale;
 
 public class SalaryInfo {
@@ -13,17 +12,14 @@ public class SalaryInfo {
         LocalDate startDate = LocalDate.parse(dateFrom.replaceAll(" ", ""), formatter);
         LocalDate endDate = LocalDate.parse(dateTo.replaceAll(" ", ""), formatter);
         int[] salary = new int[names.length];
-        Arrays.fill(salary, 0);
-        for (String el: data) {
-            LocalDate thisDate = LocalDate.parse(el.substring(0, 10), formatter);
-            if (thisDate.compareTo(startDate) >= 0 && thisDate.compareTo(endDate) <= 0) {
-                String temp = el.substring(11);
-                String tname = temp.substring(0, temp.indexOf(' '));
+        for (String line : data) {
+            LocalDate currentDate = LocalDate.parse(line.substring(0, 10), formatter);
+            if (currentDate.compareTo(startDate) >= 0 && currentDate.compareTo(endDate) <= 0) {
+                String[] info = line.split(" ");
                 for (int i = 0; i < names.length; i++) {
-                    if (tname.equals(names[i])) {
-                        temp = temp.substring(tname.length() + 1);
-                        salary[i] += Integer.parseInt(temp.substring(0,temp.indexOf(' ')))
-                                * Integer.parseInt(temp.substring(temp.indexOf(' ') + 1));
+                    if (info[1].equals(names[i])) {
+                        salary[i] += Integer.parseInt(info[2])
+                                * Integer.parseInt(info[3]);
                         break;
                     }
                 }
