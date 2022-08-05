@@ -10,7 +10,7 @@ public class SalaryInfo {
     private static final int DATE = 0;
     private static final int NAME = 1;
     private static final int HOURS = 2;
-    private static final int INCOME_PER_OUR = 3;
+    private static final int INCOME_PER_HOUR = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate from = LocalDate.parse(dateFrom, FORMATTER);
@@ -27,7 +27,7 @@ public class SalaryInfo {
                     LocalDate date = LocalDate.parse(info[DATE], FORMATTER);
                     if (date.compareTo(from) >= 0 && date.compareTo(to) <= 0) {
                         salary += Integer.parseInt(info[HOURS])
-                                * Integer.parseInt(info[INCOME_PER_OUR]);
+                                * Integer.parseInt(info[INCOME_PER_HOUR]);
                     }
                 }
             }
