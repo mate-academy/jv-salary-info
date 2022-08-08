@@ -19,7 +19,6 @@ public class SalaryInfo {
         StringBuilder result = new StringBuilder().append("Report for period ")
                 .append(dateFrom).append(" - ").append(dateTo);
         for (String name : names) {
-
             int salary = 0;
             for (String dates : data) {
                 arrDates = dates.split(" ");
