@@ -23,8 +23,8 @@ public class SalaryInfo {
                 dataLines = line.split(" ");
                 LocalDate currentDate = LocalDate.parse(dataLines[0], FORMATTER);
                 if (dateFromInDate.compareTo(currentDate) <= 0
-                && dateToInDate.compareTo(currentDate) >= 0
-                && dataLines[1].equals(name)) {
+                    && dateToInDate.compareTo(currentDate) >= 0
+                    && dataLines[1].equals(name)) {
                     salary += (Integer.parseInt(dataLines[2])
                             * Integer.parseInt(dataLines[3]));
                 }
