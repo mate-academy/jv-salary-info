@@ -1,6 +1,14 @@
 package core.basesyntax;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class SalaryInfo {
+    public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    public static final int DATE_POSITION = 0;
+    public static final int HOURS_POSITION = 2;
+    public static final int SALARY_POSITION = 3;
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder builder = new StringBuilder();
         builder.append("Report for period ")
@@ -8,81 +16,27 @@ public class SalaryInfo {
                 .append(" - ")
                 .append(dateTo)
                 .append(System.lineSeparator());
-
-        int yearFrom = Integer.parseInt(dateFrom.split("\\.")[2]);
-        int monthFrom = Integer.parseInt(dateFrom.split("\\.")[1]);
-        int dayFrom = Integer.parseInt(dateFrom.split("\\.")[0]);
-
-        int yearTo = Integer.parseInt(dateTo.split("\\.")[2]);
-        int monthTo = Integer.parseInt(dateTo.split("\\.")[1]);
-        int dayTo = Integer.parseInt(dateTo.split("\\.")[0]);
-
-        for (int i = 0; i < names.length; i++) {
+        LocalDate dayFrom = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate dayTo = LocalDate.parse(dateTo, FORMATTER);
+        for (String name : names) {
             int counter = 0;
             for (String datum : data) {
                 String[] parts = datum.split(" ");
-                if (!parts[1].equals(names[i])) {
+                if (!datum.contains(name)) {
                     continue;
                 }
-                int year = Integer.parseInt(parts[0].split("\\.")[2]);
-                int month = Integer.parseInt(parts[0].split("\\.")[1]);
-                int day = Integer.parseInt(parts[0].split("\\.")[0]);
-                if (year == yearFrom && year == yearTo) {
-                    if (month == monthFrom && month == monthTo) {
-                        if (day < dayFrom || day > dayTo) {
-                            continue;
-                        } else {
-                            if (parts[1].equals(names[i])) {
-                                counter += Integer.parseInt(parts[2]) * Integer.parseInt(parts[3]);
-                            }
-                        }
-                    } else {
-                        if (month < monthFrom || month > monthTo) {
-                            continue;
-                        } else {
-                            if (month == monthFrom) {
-                                if (day < dayFrom) {
-                                    continue;
-                                } else {
-                                    if (parts[1].equals(names[i])) {
-                                        counter += Integer.parseInt(parts[2])
-                                                * Integer.parseInt(parts[3]);
-                                    }
-                                }
-                            } else if (month == monthTo) {
-                                if (day > dayTo) {
-                                    continue;
-                                } else {
-                                    if (parts[1].equals(names[i])) {
-                                        counter += Integer.parseInt(parts[2])
-                                                * Integer.parseInt(parts[3]);
-                                    }
-                                }
-                            } else {
-                                if (parts[1].equals(names[i])) {
-                                    counter += Integer.parseInt(parts[2])
-                                            * Integer.parseInt(parts[3]);
-                                }
-                            }
-                        }
-                    }
-                } else {
-                    if (year < yearFrom || year > yearTo) {
-                        continue;
-                    } else {
-                        if (parts[1].equals(names[i])) {
-                            counter += Integer.parseInt(parts[2]) * Integer.parseInt(parts[3]);
-                        }
-                    }
+                LocalDate workingDay = LocalDate.parse(parts[DATE_POSITION], FORMATTER);
+                if (workingDay.isAfter(dayFrom) && workingDay.isBefore(dayTo)
+                        || workingDay.isEqual(dayFrom) || workingDay.isEqual(dayTo)) {
+                    counter += Integer.parseInt(parts[HOURS_POSITION])
+                            * Integer.parseInt(parts[SALARY_POSITION]);
                 }
             }
-            builder.append(names[i])
+            builder.append(name)
                     .append(" - ")
-                    .append(counter);
-            if (i != names.length - 1) {
-                builder.append(System.lineSeparator());
-            }
+                    .append(counter)
+                    .append(System.lineSeparator());
         }
-        return builder.toString();
+        return builder.toString().trim();
     }
 }
