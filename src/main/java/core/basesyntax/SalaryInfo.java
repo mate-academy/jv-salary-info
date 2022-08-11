@@ -21,6 +21,9 @@ public class SalaryInfo {
             int counter = 0;
             for (String datum : data) {
                 String[] parts = datum.split(" ");
+                if (!parts[1].equals(names[i])) {
+                    continue;
+                }
                 int year = Integer.parseInt(parts[0].split("\\.")[2]);
                 int month = Integer.parseInt(parts[0].split("\\.")[1]);
                 int day = Integer.parseInt(parts[0].split("\\.")[0]);
