@@ -21,12 +21,13 @@ public class SalaryInfo {
             int salary = 0;
             for (String strings : data) {
                 arrayOfData = strings.split(" ");
-                LocalDate currentDate = LocalDate.parse(arrayOfData[ORDER_DATE_OF_STRING], FORMATTER);
+                LocalDate currentDate = LocalDate.parse(arrayOfData[ORDER_DATE_OF_STRING],
+                        FORMATTER);
                 if (localDateFrom.compareTo(currentDate) <= 0
-                && localDateTo.compareTo(currentDate) >= 0
-                && arrayOfData[ORDER_NAME_OF_STRING].equals(name)) {
+                    && localDateTo.compareTo(currentDate) >= 0
+                    && arrayOfData[ORDER_NAME_OF_STRING].equals(name)) {
                     salary += (Integer.parseInt(arrayOfData[ORDER_SALARY_OF_HOUR_OF_STRING])
-                    * Integer.parseInt(arrayOfData[ORDER_WORKING_HOURS_OF_STRING]));
+                        * Integer.parseInt(arrayOfData[ORDER_WORKING_HOURS_OF_STRING]));
                 }
             }
             result.append(System.lineSeparator()).append(name).append(" - ").append(salary);
