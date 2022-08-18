@@ -5,7 +5,6 @@ import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-    private static final int COLUMNS_IN_DATA = 4;
     private static final int COLUMN_WITH_DATE = 0;
     private static final int COLUMN_WITH_NAME = 1;
     private static final int COLUMN_WITH_HOURS = 2;
@@ -13,46 +12,39 @@ public class SalaryInfo {
     private static final String DATA_SEPARATOR = " ";
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        int[] salaries = new int[names.length];
-        String[] splitData = new String[COLUMNS_IN_DATA];
+        LocalDate dateFromFormatted = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate dateToFormatted = LocalDate.parse(dateTo, FORMATTER);
         StringBuilder stringBuilder = new StringBuilder("Report for period ")
                 .append(dateFrom)
                 .append(" - ")
                 .append(dateTo)
                 .append(System.lineSeparator());
-        for (int i = 0; i < names.length; i++) {
+        String[] splitData;
+        int salaryOfName;
+        for (String name : names) {
+            salaryOfName = 0;
             for (String dayData : data) {
                 splitData = dayData.split(DATA_SEPARATOR);
-                if (splitData[COLUMN_WITH_NAME].equals(names[i])) {
-                    if (checkDates(splitData[COLUMN_WITH_DATE], dateFrom, dateTo)) {
-                        salaries[i] += Integer.valueOf(splitData[COLUMN_WITH_HOURS])
-                                * Integer.valueOf(splitData[COLUMN_WITH_SALARY_PER_HOUR]);
+                if (splitData[COLUMN_WITH_NAME].equals(name)) {
+                    if (checkDates(splitData[COLUMN_WITH_DATE], dateFromFormatted, dateToFormatted)) {
+                        salaryOfName += Integer.parseInt(splitData[COLUMN_WITH_HOURS])
+                                * Integer.parseInt(splitData[COLUMN_WITH_SALARY_PER_HOUR]);
                     }
                 }
             }
-            stringBuilder.append(names[i])
+            stringBuilder.append(name)
                     .append(" - ")
-                    .append(salaries[i]);
-            if (i != names.length - 1) {
-                stringBuilder.append(System.lineSeparator());
-            }
+                    .append(salaryOfName)
+                    .append(System.lineSeparator());
         }
-        return stringBuilder.toString();
+        return stringBuilder.toString().trim();
     }
 
-    private boolean checkDates(String currentDate, String dateFrom, String dateTo) {
-        String[] checkFrom = dateFrom.split(DATA_SEPARATOR);
-        LocalDate dateFromFormatted = LocalDate.parse(checkFrom[0], FORMATTER);
-        String[] checkTo = dateTo.split(DATA_SEPARATOR);
-        LocalDate dateToFormatted = LocalDate.parse(checkTo[0], FORMATTER);
+    private boolean checkDates(String currentDate, LocalDate dateFromFormatted, LocalDate dateToFormatted) {
         LocalDate dataFormatted = LocalDate.parse(currentDate, FORMATTER);
-
-        if (dataFormatted.isEqual(dateFromFormatted)
+        return (dataFormatted.isEqual(dateFromFormatted)
                 || dataFormatted.isEqual(dateToFormatted)
                 || dataFormatted.isAfter(dateFromFormatted)
-                && dataFormatted.isBefore(dateToFormatted)) {
-            return true;
-        }
-        return false;
+                && dataFormatted.isBefore(dateToFormatted));
     }
 }
