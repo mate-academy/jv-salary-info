@@ -13,24 +13,26 @@ public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate localDateFrom = LocalDate.parse(dateFrom, FORMATTER);
         LocalDate localDateTo = LocalDate.parse(dateTo, FORMATTER);
-        StringBuilder result = new StringBuilder().append("Report for period ")
+        StringBuilder resultBuilder = new StringBuilder().append("Report for period ")
                 .append(dateFrom).append(" - ").append(dateTo);
         for (String name : names) {
             int salary = 0;
             for (String strings : data) {
-                String[] splitted = strings.split(" ");
-                LocalDate currentDate = LocalDate.parse(splitted[DATE_INDEX],
+                String[] splittedLine = strings.split(" ");
+                LocalDate currentDate = LocalDate.parse(splittedLine[DATE_INDEX],
                         FORMATTER);
-                if (localDateFrom.compareTo(currentDate) <= 0
-                        && localDateTo.compareTo(currentDate) >= 0
-                        && splitted[NAME_INDEX].equals(name)) {
-                    salary += (Integer.parseInt(splitted[SALARY_INDEX])
-                        * Integer.parseInt(splitted[WORKING_HOURS_INDEX]));
+                if ((currentDate.isAfter(localDateFrom)
+                        || currentDate.isEqual(localDateFrom))
+                        && (currentDate.isBefore(localDateTo)
+                        || currentDate.isEqual(localDateTo))
+                        && splittedLine[NAME_INDEX].equals(name)) {
+                    salary += (Integer.parseInt(splittedLine[SALARY_INDEX])
+                        * Integer.parseInt(splittedLine[WORKING_HOURS_INDEX]));
                 }
             }
-            result.append(System.lineSeparator()).append(name).append(" - ").append(salary);
+            resultBuilder.append(System.lineSeparator()).append(name).append(" - ").append(salary);
         }
-        return result.toString();
+        return resultBuilder.toString();
     }
 }
 
