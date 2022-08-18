@@ -26,7 +26,8 @@ public class SalaryInfo {
             for (String dayData : data) {
                 splitData = dayData.split(DATA_SEPARATOR);
                 if (splitData[COLUMN_WITH_NAME].equals(name)) {
-                    if (checkDates(splitData[COLUMN_WITH_DATE], dateFromFormatted, dateToFormatted)) {
+                    if (checkDates(splitData[COLUMN_WITH_DATE],
+                            dateFromFormatted, dateToFormatted)) {
                         salaryOfName += Integer.parseInt(splitData[COLUMN_WITH_HOURS])
                                 * Integer.parseInt(splitData[COLUMN_WITH_SALARY_PER_HOUR]);
                     }
@@ -40,7 +41,8 @@ public class SalaryInfo {
         return stringBuilder.toString().trim();
     }
 
-    private boolean checkDates(String currentDate, LocalDate dateFromFormatted, LocalDate dateToFormatted) {
+    private boolean checkDates(String currentDate, LocalDate dateFromFormatted,
+                               LocalDate dateToFormatted) {
         LocalDate dataFormatted = LocalDate.parse(currentDate, FORMATTER);
         return (dataFormatted.isEqual(dateFromFormatted)
                 || dataFormatted.isEqual(dateToFormatted)
