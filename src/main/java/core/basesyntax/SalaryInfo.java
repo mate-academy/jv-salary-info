@@ -13,8 +13,8 @@ public class SalaryInfo {
         LocalDate endDate = LocalDate.parse(dateTo, FORMATTER);
         result.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
         for (int i = 0; i < names.length; i++) {
-            for (String rowData : data) {
-                String[] valuesData = rowData.split(" ");
+            for (String record : data) {
+                String[] valuesData = record.split(" ");
                 boolean isNull = false;
                 for (String value : valuesData) {
                     if (value == null) {
@@ -25,10 +25,9 @@ public class SalaryInfo {
                 if (isNull) {
                     continue;
                 }
-
                 LocalDate currentDate = LocalDate.parse(valuesData[0], FORMATTER);
-                if (names[i].equals(valuesData[1]) && !currentDate.isBefore(startDate)
-                        && !currentDate.isAfter(endDate)) {
+                if (names[i].equals(valuesData[1])
+                        && !currentDate.isBefore(startDate) && !currentDate.isAfter(endDate)) {
                     resultSalary[i] += Integer.parseInt(valuesData[2])
                             * Integer.parseInt(valuesData[3]);
                 }
