@@ -17,8 +17,8 @@ public class SalaryInfo {
                 .append(dateFrom).append(" - ").append(dateTo);
         for (String name : names) {
             int salary = 0;
-            for (String strings : data) {
-                String[] splittedLine = strings.split(" ");
+            for (String line : data) {
+                String[] splittedLine = line.split(" ");
                 LocalDate currentDate = LocalDate.parse(splittedLine[DATE_INDEX],
                         FORMATTER);
                 if ((currentDate.isAfter(localDateFrom)
