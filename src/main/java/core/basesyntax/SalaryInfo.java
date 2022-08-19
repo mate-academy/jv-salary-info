@@ -15,16 +15,6 @@ public class SalaryInfo {
         for (String name : names) {
             for (String record : data) {
                 String[] valuesData = record.split(" ");
-                boolean isNull = false;
-                for (String value : valuesData) {
-                    if (value == null) {
-                        isNull = true;
-                        break;
-                    }
-                }
-                if (isNull) {
-                    continue;
-                }
                 LocalDate currentDate = LocalDate.parse(valuesData[0], FORMATTER);
                 if (name.equals(valuesData[1])
                         && !currentDate.isBefore(startDate) && !currentDate.isAfter(endDate)) {
