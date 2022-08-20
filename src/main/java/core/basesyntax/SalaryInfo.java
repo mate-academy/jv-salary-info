@@ -12,6 +12,8 @@ public class SalaryInfo {
     private static final int SALARY_INDEX = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
+        LocalDate dateFromFormatted = LocalDate.parse(dateFrom, DATE_FORMATTER);
+        LocalDate dateToFormatted = LocalDate.parse(dateTo, DATE_FORMATTER);
         StringBuilder salaryInfo = new StringBuilder("Report for period ")
                 .append(dateFrom)
                 .append(" - ")
@@ -20,11 +22,12 @@ public class SalaryInfo {
             int salarySum = 0;
             for (String datas : data) {
                 String[] datasSplitted = datas.split(" ");
-                String dataSalary = datasSplitted[DATE_INDEX];
+                LocalDate dateSalary = LocalDate.parse(datasSplitted[DATE_INDEX], DATE_FORMATTER);
                 String dataName = datasSplitted[NAME_INDEX];
                 int datasHours = Integer.parseInt(datasSplitted[HOURS_INDEX]);
                 int salaryPerHour = Integer.parseInt(datasSplitted[SALARY_INDEX]);
-                if (name.equals(dataName) && isDateBetween(dataSalary, dateFrom, dateTo)) {
+                if (name.equals(dataName)
+                        && isDateBetween(dateSalary, dateFromFormatted, dateToFormatted)) {
                     salarySum += datasHours * salaryPerHour;
                 }
             }
@@ -36,12 +39,8 @@ public class SalaryInfo {
         return salaryInfo.toString();
     }
 
-    private boolean isDateBetween(String dataSalary, String dateFrom, String dateTo) {
-        LocalDate dateFromFormatted = LocalDate.parse(dateFrom, DATE_FORMATTER);
-        LocalDate dateToFormatted = LocalDate.parse(dateTo, DATE_FORMATTER);
-        LocalDate dataSalaryFormatted = LocalDate.parse(dataSalary, DATE_FORMATTER);
-        boolean dateFromCompare = dateFromFormatted.compareTo(dataSalaryFormatted) < 1;
-        boolean dateToCompare = dateToFormatted.compareTo(dataSalaryFormatted) > -1;
-        return dateFromCompare && dateToCompare;
+    private boolean isDateBetween(LocalDate dateSalary, LocalDate dateFrom, LocalDate dateTo) {
+        return dateSalary.isAfter(dateFrom) && dateSalary.isBefore(dateTo)
+                || (dateSalary.isEqual(dateFrom) || dateSalary.isEqual(dateTo));
     }
 }
