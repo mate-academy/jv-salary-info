@@ -1,22 +1,26 @@
 package core.basesyntax;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     private static final int DATE = 0;
     private static final int NAME = 1;
     private static final int HOURS = 2;
     private static final int SALARY = 3;
+    private static final String DATE_TIME_PATTERN = "dd.MM.yyyy";
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
+        LocalDate fromDate = formatData(dateFrom);
+        LocalDate toDate = formatData(dateTo);
         StringBuilder builder = new StringBuilder("Report for period ").append(dateFrom)
                 .append(" - ").append(dateTo).append(System.lineSeparator());
         for (String name : names) {
             int income = 0;
             for (String dataInfo : data) {
                 String[] dataParts = dataInfo.split(" ");
-                if (formatData(dataParts[DATE]).isAfter(formatData(dateFrom).minusDays(1))
-                        && formatData(dataParts[DATE]).isBefore(formatData(dateTo).plusDays(1))
+                if (formatData(dataParts[DATE]).isAfter(fromDate.minusDays(1))
+                        && formatData(dataParts[DATE]).isBefore(toDate.plusDays(1))
                         && dataParts[NAME].equals(name)) {
                     income += calculateSalary(dataParts[HOURS], dataParts[SALARY]);
                 }
@@ -31,8 +35,6 @@ public class SalaryInfo {
     }
 
     private LocalDate formatData(String data) {
-        String[] arrData = data.split("\\.");
-        return LocalDate.of(Integer.parseInt(arrData[2]),
-                Integer.parseInt(arrData[1]), Integer.parseInt(arrData[0]));
+        return LocalDate.parse(data, DateTimeFormatter.ofPattern(DATE_TIME_PATTERN));
     }
 }
