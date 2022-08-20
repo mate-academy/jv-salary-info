@@ -22,11 +22,13 @@ public class SalaryInfo {
                 LocalDate currentDate = LocalDate
                         .parse(record.split(SPACE)[DATE_INDEX], DATE_FORMAT);
                 String currentName = record.split(SPACE)[NAME_INDEX];
+                String currentHours = record.split(SPACE)[HOURS_INDEX];
+                String currentSalary = record.split(SPACE)[SALARY_INDEX];
                 if (name.equals(currentName)
                         && (currentDate.isAfter(fromDate) || currentDate.equals(fromDate))
                         && (currentDate.isBefore(toDate) || currentDate.equals(toDate))) {
-                    salary += Integer.parseInt(record.split(SPACE)[HOURS_INDEX])
-                            * Integer.parseInt(record.split(SPACE)[SALARY_INDEX]);
+                    salary += Integer.parseInt(currentHours)
+                            * Integer.parseInt(currentSalary);
                 }
             }
             stringBuilder.append(System.lineSeparator())
