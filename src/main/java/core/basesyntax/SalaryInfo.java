@@ -5,17 +5,16 @@ import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-    private static final int DATA = 0;
-    private static final int NAME = 1;
-    private static final int HOUR = 2;
-    private static final int SALARY_PER_HOUR = 3;
+    private static final int DATE_INDEX= 0;
+    private static final int NAME_INDEX = 1;
+    private static final int HOUR_INDEX = 2;
+    private static final int SALARY_PER_HOUR_INDEX = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-
         LocalDate from = LocalDate.parse(dateFrom, FORMATTER);
         LocalDate to = LocalDate.parse(dateTo, FORMATTER);
-        StringBuilder builder = new StringBuilder();
-        builder.append("Report for period ")
+        StringBuilder reportBuilder = new StringBuilder();
+        reportBuilder.append("Report for period ")
                 .append(dateFrom)
                 .append(" - ")
                 .append(dateTo);
@@ -24,20 +23,20 @@ public class SalaryInfo {
             int salary = 0;
             for (String lineOfData: data) {
                 String[] line = lineOfData.split(" ");
-                if (name.equals(line[NAME])) {
-                    LocalDate date = LocalDate.parse(line[DATA], FORMATTER);
+                if (name.equals(line[NAME_INDEX])) {
+                    LocalDate date = LocalDate.parse(line[DATE_INDEX], FORMATTER);
                     if (date.compareTo(from) >= 0 && date.compareTo(to) <= 0) {
-                        salary += (Integer.parseInt(line[HOUR])
-                                * Integer.parseInt(line[SALARY_PER_HOUR]));
+                        salary += (Integer.parseInt(line[HOUR_INDEX])
+                                * Integer.parseInt(line[SALARY_PER_HOUR_INDEX]));
                     }
                 }
 
             }
-            builder.append(System.lineSeparator())
+            reportBuilder.append(System.lineSeparator())
                     .append(name)
                     .append(" - ")
                     .append(salary);
         }
-        return builder.toString();
+        return reportBuilder.toString();
     }
 }
