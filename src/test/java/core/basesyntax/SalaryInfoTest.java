@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public class SalaryInfoTest {
+
     private static final String[] sampleNames = {"John", "Andrew", "Kate"};
     private static final String[] scriptArray = {
             "25.04.2019 John 60 50",
