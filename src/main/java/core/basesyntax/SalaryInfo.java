@@ -29,14 +29,14 @@ public class SalaryInfo {
                     if (date.compareTo(from) >= 0 && date.compareTo(to) <= 0) {
                         salary += (Integer.parseInt(line[HOUR])
                                 * Integer.parseInt(line[SALARY_PER_HOUR]));
-                        builder.append(System.lineSeparator())
-                                .append(name)
-                                .append(" - ")
-                                .append(salary);
                     }
                 }
 
             }
+            builder.append(System.lineSeparator())
+                    .append(name)
+                    .append(" - ")
+                    .append(salary);
         }
         return builder.toString();
     }
