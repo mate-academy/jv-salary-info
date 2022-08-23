@@ -26,8 +26,9 @@ public class SalaryInfo {
                 String[] line = lineOfData.split(" ");
                 if (name.equals(line[NAME])) {
                     LocalDate date = LocalDate.parse(line[DATA], FORMATTER);
-                    if (date.compareTo(from) >= 0 && date.compareTo(to) <=0) {
-                        salary += (Integer.parseInt(line[HOUR]) * Integer.parseInt(line[SALARY_PER_HOUR]));
+                    if (date.compareTo(from) >= 0 && date.compareTo(to) <= 0) {
+                        salary += (Integer.parseInt(line[HOUR])
+                                * Integer.parseInt(line[SALARY_PER_HOUR]));
                         builder.append(System.lineSeparator())
                                 .append(name)
                                 .append(" - ")
