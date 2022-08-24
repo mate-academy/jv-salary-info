@@ -26,7 +26,8 @@ public class SalaryInfo {
                 if (name.equals(line[NAME_INDEX])) {
                     LocalDate date = LocalDate.parse(line[DATE_INDEX],FORMATTER);
                     if (date.compareTo(from) >= 0 && date.compareTo(to) <= 0) {
-                        salary += Integer.parseInt(line[HOURS_INDEX]) * Integer.parseInt(line[SALARY_INDEX]);
+                        salary += Integer.parseInt(line[HOURS_INDEX])
+                                * Integer.parseInt(line[SALARY_INDEX]);
                     }
                 }
             }
