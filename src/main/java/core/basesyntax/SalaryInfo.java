@@ -19,9 +19,9 @@ public class SalaryInfo {
         for (String name: names) {
             int salary = 0;
             for (String record: data) {
+                String[] currentRecord = record.split(SPACE);
                 LocalDate currentDate = LocalDate
                         .parse(record.split(SPACE)[DATE_INDEX], DATE_FORMAT);
-                String[] currentRecord = record.split(SPACE);
                 if (name.equals(currentRecord[NAME_INDEX])
                         && (currentDate.isAfter(fromDate) || currentDate.equals(fromDate))
                         && (currentDate.isBefore(toDate) || currentDate.equals(toDate))) {
