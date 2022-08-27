@@ -6,7 +6,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SalaryInfo {
-    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final String SPLITTER = " ";
+    private static final String HYPHEN = " - ";
     private final Map<String, Integer> employees = new HashMap<>();
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
@@ -14,9 +16,9 @@ public class SalaryInfo {
             employees.put(name, 0);
         }
         StringBuilder reportForPeriod = new StringBuilder("Report for period ").append(dateFrom)
-                .append(" - ").append(dateTo);
+                .append(HYPHEN).append(dateTo);
         for (String employeeData : data) {
-            String[] details = employeeData.split(" ");
+            String[] details = employeeData.split(SPLITTER);
             LocalDate date = getDate(details[0]);
             String nameOfEmployee = details[1];
             int dailySalary;
@@ -24,16 +26,15 @@ public class SalaryInfo {
                 dailySalary = Integer.parseInt(details[2]) * Integer.parseInt(details[3]);
                 employees.put(nameOfEmployee, employees.get(nameOfEmployee) + dailySalary);
             }
-
         }
         for (String name : names) {
             reportForPeriod.append(System.lineSeparator()).append(name)
-                    .append(" - ").append(employees.get(name));
+                    .append(HYPHEN).append(employees.get(name));
         }
         return reportForPeriod.toString();
     }
 
     private LocalDate getDate(String input) {
-        return LocalDate.parse(input, formatter);
+        return LocalDate.parse(input, FORMATTER);
     }
 }
