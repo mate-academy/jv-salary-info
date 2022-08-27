@@ -6,8 +6,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SalaryInfo {
-    private static final String DATE_FORMAT = "dd.MM.yyyy";
-    private Map<String, Integer> employees = new HashMap<>();
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private final Map<String, Integer> employees = new HashMap<>();
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         for (String name : names) {
@@ -34,9 +34,6 @@ public class SalaryInfo {
     }
 
     private LocalDate getDate(String input) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
-        LocalDate date;
-        date = LocalDate.parse(input, formatter);
-        return date;
+        return LocalDate.parse(input, formatter);
     }
 }
