@@ -2,34 +2,33 @@ package core.basesyntax;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
 
 public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate fromDate = parseDate(dateFrom);
         LocalDate toDate = parseDate(dateTo);
-        var result = new StringBuilder();
-        int[] salariesArr = new int[names.length];
-
-        for (String person : data) {
-            String[] personData = person.split(" ");
-            LocalDate dataDate = parseDate(personData[0]);
-            int salary = Integer.parseInt(personData[2]) * Integer.parseInt(personData[3]);
-            if (dataDate.compareTo(fromDate) >= 0
-                    && dataDate.compareTo(toDate) <= 0) {
-                salariesArr[Arrays.asList(names).indexOf(personData[1])] += salary;
-            }
-        }
-
-        result.append("Report for period ").append(dateFrom).append(" - ")
+        StringBuilder salaryInfoBuilder = new StringBuilder();
+        salaryInfoBuilder.append("Report for period ").append(dateFrom).append(" - ")
                 .append(dateTo);
 
-        for (int i = 0; i < names.length; i++) {
-            result.append(System.lineSeparator()).append(names[i])
-                    .append(" - ").append(salariesArr[i]);
+        for (String name : names) {
+            int salary = 0;
+            for (String record : data) {
+                String[] recordSplitted = record.split(" ");
+                LocalDate dataDate = parseDate(recordSplitted[0]);
+                if (name.equals(recordSplitted[1])
+                        && dataDate.compareTo(fromDate) >= 0
+                        && dataDate.compareTo(toDate) <= 0) {
+                    int currentSalary = Integer.parseInt(recordSplitted[2])
+                            * Integer.parseInt(recordSplitted[3]);
+                    salary += currentSalary;
+                }
+            }
+            salaryInfoBuilder.append(System.lineSeparator())
+                    .append(name).append(" - ").append(salary);
         }
 
-        return result.toString();
+        return salaryInfoBuilder.toString();
     }
 
     public static LocalDate parseDate(String date) {
