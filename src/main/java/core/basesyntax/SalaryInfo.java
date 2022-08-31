@@ -22,12 +22,12 @@ public class SalaryInfo {
         for (String name: names) {
             int salary = 0;
             for (String lineOfData: data) {
-                String[] line = lineOfData.split(" ");
-                if (name.equals(line[NAME_INDEX])) {
-                    LocalDate date = LocalDate.parse(line[DATE_INDEX], FORMATTER);
+                String[] lineData = lineOfData.split(" ");
+                if (name.equals(lineData[NAME_INDEX])) {
+                    LocalDate date = LocalDate.parse(lineData[DATE_INDEX], FORMATTER);
                     if (date.compareTo(from) >= 0 && date.compareTo(to) <= 0) {
-                        salary += (Integer.parseInt(line[HOUR_INDEX])
-                                * Integer.parseInt(line[SALARY_PER_HOUR_INDEX]));
+                        salary += (Integer.parseInt(lineData[HOUR_INDEX])
+                                * Integer.parseInt(lineData[SALARY_PER_HOUR_INDEX]));
                     }
                 }
             }
