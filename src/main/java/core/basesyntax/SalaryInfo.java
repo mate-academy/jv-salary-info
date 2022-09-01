@@ -4,6 +4,11 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
+    private static final int DATE_INDEX = 0;
+    private static final int NAME_INDEX = 1;
+    private static final int HOURS_INDEX = 2;
+    private static final int PER_HOUR_INDEX = 3;
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate fromDate = parseDate(dateFrom);
         LocalDate toDate = parseDate(dateTo);
@@ -15,12 +20,12 @@ public class SalaryInfo {
             int salary = 0;
             for (String record : data) {
                 String[] recordSplitted = record.split(" ");
-                LocalDate dataDate = parseDate(recordSplitted[0]);
-                if (name.equals(recordSplitted[1])
+                LocalDate dataDate = parseDate(recordSplitted[DATE_INDEX]);
+                if (name.equals(recordSplitted[NAME_INDEX])
                         && dataDate.compareTo(fromDate) >= 0
                         && dataDate.compareTo(toDate) <= 0) {
-                    int currentSalary = Integer.parseInt(recordSplitted[2])
-                            * Integer.parseInt(recordSplitted[3]);
+                    int currentSalary = Integer.parseInt(recordSplitted[HOURS_INDEX])
+                            * Integer.parseInt(recordSplitted[PER_HOUR_INDEX]);
                     salary += currentSalary;
                 }
             }
