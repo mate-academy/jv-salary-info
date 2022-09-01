@@ -21,8 +21,8 @@ public class SalaryInfo {
         for (final String name : names) {
             result.append(System.lineSeparator());
             int salary = 0;
-            for (final String datum : data) {
-                String[] datumSplit = datum.split(" ");
+            for (final String line : data) {
+                String[] datumSplit = line.split(" ");
                 LocalDate current = LocalDate.parse(datumSplit[DATE_INDEX], formatter);
                 if (name.equals(datumSplit[NAME_INDEX])) {
                     if ((current.isAfter(from) || current.isEqual(from))
