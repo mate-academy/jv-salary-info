@@ -40,7 +40,7 @@ public class SalaryInfo {
                     }
                 }
             }
-            salaryInfo.append("\r\n").append(nameItem).append(" - ").append(moneyEarned);
+            salaryInfo.append("\n").append(nameItem).append(" - ").append(moneyEarned);
         }
         return salaryInfo.toString();
     }
