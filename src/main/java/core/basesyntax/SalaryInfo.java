@@ -23,12 +23,15 @@ public class SalaryInfo {
             int salary = 0;
             for (String lineOfData: data) {
                 String[] lineData = lineOfData.split(" ");
-                if (name.equals(lineData[NAME_INDEX])) {
-                    LocalDate date = LocalDate.parse(lineData[DATE_INDEX], FORMATTER);
-                    if (date.compareTo(from) >= 0 && date.compareTo(to) <= 0) {
-                        salary += (Integer.parseInt(lineData[HOUR_INDEX])
+                if (!lineOfData.contains(name)) {
+                    continue;
+                }
+                LocalDate date = LocalDate.parse(lineData[DATE_INDEX], FORMATTER);
+                if (date.isAfter(from) && date.isBefore(to)
+                        || date.isEqual(from)
+                        || date.isEqual(to)) {
+                    salary += (Integer.parseInt(lineData[HOUR_INDEX])
                                 * Integer.parseInt(lineData[SALARY_PER_HOUR_INDEX]));
-                    }
                 }
             }
             reportBuilder.append(System.lineSeparator())
