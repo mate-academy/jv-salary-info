@@ -5,7 +5,8 @@ import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
 
-    private static final DateTimeFormatter DATE_TIME_FORMAT = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final DateTimeFormatter DATE_TIME_FORMAT
+            = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     private static final String REPORT_FOR_PERIOD = "Report for period ";
     private static final String DATE_TIME_SEPARATOR = " - ";
 
@@ -35,7 +36,8 @@ public class SalaryInfo {
                 if (employee.getName().equals(name)
                         && employee.getDayOfWorkStart().compareTo(from) >= 0
                         && employee.getDayOfWorkStart().compareTo(to) <= 0) {
-                    int salaryForDay = employee.getNumberOfWorkingDays() * employee.getWorkingHours();
+                    int salaryForDay = employee.getNumberOfWorkingDays()
+                            * employee.getWorkingHours();
                     salary = salary + salaryForDay;
                 }
             }
