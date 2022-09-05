@@ -22,10 +22,10 @@ public class SalaryInfo {
             Employee employee = new Employee();
             String[] info = data[i].split(" ");
             LocalDate parsedDate = LocalDate.parse(info[0], DATE_TIME_FORMAT);
-            employee.setStartDataWork(parsedDate);
+            employee.setDayOfWorkStart(parsedDate);
             employee.setName(info[1]);
-            employee.setDayOfWork(Integer.parseInt(info[2]));
-            employee.setSalaryOur(Integer.parseInt(info[3]));
+            employee.setNumberOfWorkingDays(Integer.parseInt(info[2]));
+            employee.setWorkingHours(Integer.parseInt(info[3]));
             employees[i] = employee;
         }
 
@@ -33,9 +33,9 @@ public class SalaryInfo {
             int salary = 0;
             for (Employee employee : employees) {
                 if (employee.getName().equals(name)
-                        && employee.getStartDataWork().compareTo(from) >= 0
-                        && employee.getStartDataWork().compareTo(to) <= 0) {
-                    int salaryForDay = employee.getDayOfWork() * employee.getSalaryOur();
+                        && employee.getDayOfWorkStart().compareTo(from) >= 0
+                        && employee.getDayOfWorkStart().compareTo(to) <= 0) {
+                    int salaryForDay = employee.getNumberOfWorkingDays() * employee.getWorkingHours();
                     salary = salary + salaryForDay;
                 }
             }

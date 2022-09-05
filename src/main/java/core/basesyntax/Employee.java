@@ -3,17 +3,17 @@ package core.basesyntax;
 import java.time.LocalDate;
 
 public class Employee {
-    private LocalDate startDataWork;
+    private LocalDate dayOfWorkStart;
     private String name;
-    private int dayOfWork;
-    private int salaryOur;
+    private int numberOfWorkingDays;
+    private int workingHours;
 
-    public LocalDate getStartDataWork() {
-        return startDataWork;
+    public LocalDate getDayOfWorkStart() {
+        return dayOfWorkStart;
     }
 
-    public void setStartDataWork(LocalDate startDataWork) {
-        this.startDataWork = startDataWork;
+    public void setDayOfWorkStart(LocalDate dayOfWorkStart) {
+        this.dayOfWorkStart = dayOfWorkStart;
     }
 
     public String getName() {
@@ -24,19 +24,19 @@ public class Employee {
         this.name = name;
     }
 
-    public int getDayOfWork() {
-        return dayOfWork;
+    public int getNumberOfWorkingDays() {
+        return numberOfWorkingDays;
     }
 
-    public void setDayOfWork(int dayOfWork) {
-        this.dayOfWork = dayOfWork;
+    public void setNumberOfWorkingDays(int numberOfWorkingDays) {
+        this.numberOfWorkingDays = numberOfWorkingDays;
     }
 
-    public int getSalaryOur() {
-        return salaryOur;
+    public int getWorkingHours() {
+        return workingHours;
     }
 
-    public void setSalaryOur(int salaryOur) {
-        this.salaryOur = salaryOur;
+    public void setWorkingHours(int workingHours) {
+        this.workingHours = workingHours;
     }
 }
