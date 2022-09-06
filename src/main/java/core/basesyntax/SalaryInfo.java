@@ -37,7 +37,8 @@ public class SalaryInfo {
                 if ((date.after(dateFromDate) || date.equals(dateFromDate))
                         && (date.before(dateToDate) || date.equals(dateToDate))
                         && dataRowArray[1].equals(name)) {
-                    totalSallery += Integer.parseInt(dataRowArray[2]) * Integer.parseInt(dataRowArray[3]);
+                    totalSallery += Integer.parseInt(dataRowArray[2])
+                            * Integer.parseInt(dataRowArray[3]);
                 }
             }
             builder.append(totalSallery);
