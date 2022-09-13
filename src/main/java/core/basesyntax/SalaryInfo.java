@@ -1,12 +1,10 @@
 package core.basesyntax;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-
 public class SalaryInfo {
     static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("d.MM.yyyy");
-
-    public static String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
+    public static String getSalaryInfo(String[] names, String[] data,
+                                       String dateFrom, String dateTo) {
         LocalDate from = LocalDate.parse(dateFrom, dateTimeFormatter);
         LocalDate to = LocalDate.parse(dateTo, dateTimeFormatter);
         StringBuilder builder = new StringBuilder("Report for period ");
