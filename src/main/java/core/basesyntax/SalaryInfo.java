@@ -1,5 +1,6 @@
 package core.basesyntax;
 
+import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -14,19 +15,32 @@ public class SalaryInfo {
                                        String dateFrom, String dateTo) {
         StringBuilder stringBuilder = new StringBuilder("Report for period "
                 + dateFrom + " - " + dateTo);
-        LocalDate dateFromFormatted = LocalDate.parse(dateFrom, FORMATTER);
-        LocalDate dateToFormatted = LocalDate.parse(dateTo, FORMATTER);
+        LocalDate dateFromFormatted = null;
+        LocalDate dateToFormatted = null;
+        try {
+            dateFromFormatted = LocalDate.parse(dateFrom, FORMATTER);
+            dateToFormatted = LocalDate.parse(dateTo, FORMATTER);
+        } catch (DateTimeException e) {
+            throw new DateTimeException("Invalid parsed dates. Params: dateFrom="
+                    + dateFromFormatted + ", dateTo=" + dateToFormatted, e);
+        }
         String[] employeeInfo;
         for (String name : names) {
             int income = 0;
             for (String value : data) {
                 employeeInfo = value.split(" ");
                 if (name.equals(employeeInfo[NAME_INDEX])) {
-                    LocalDate currentDate = LocalDate.parse(employeeInfo[DATE_INDEX], FORMATTER);
-                    if ((currentDate.isBefore(dateToFormatted)
-                            || currentDate.isEqual(dateToFormatted))
-                            && (currentDate.isAfter(dateFromFormatted)
-                                || currentDate.isEqual(dateFromFormatted))) {
+                    LocalDate workDate = null;
+                    try {
+                        workDate = LocalDate.parse(employeeInfo[DATE_INDEX], FORMATTER);
+                    } catch (DateTimeException e) {
+                        throw new DateTimeException("Invalid parsed dates. Params: workDate="
+                                + workDate, e);
+                    }
+                    if ((workDate.isBefore(dateToFormatted)
+                            || workDate.isEqual(dateToFormatted))
+                            && (workDate.isAfter(dateFromFormatted)
+                            || workDate.isEqual(dateFromFormatted))) {
                         income += Integer.parseInt(employeeInfo[WORK_HOUR_INDEX])
                                 * Integer.parseInt(employeeInfo[INCOME_PER_HOUR_INDEX]);
                     }
