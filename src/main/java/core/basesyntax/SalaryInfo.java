@@ -36,12 +36,12 @@ public class SalaryInfo {
                 }
             }
         }
-        return "Report for period " + dateFrom + " - " + dateTo +
-                System.lineSeparator() +
-                names[0] + " - " + salary[0] +
-                System.lineSeparator() +
-                names[1] + " - " + salary[1] +
-                System.lineSeparator() +
-                names[2] + " - " + salary[2];
+        return "Report for period " + dateFrom + " - " + dateTo
+                + System.lineSeparator()
+                + names[0] + " - " + salary[0]
+                + System.lineSeparator()
+                + names[1] + " - " + salary[1]
+                + System.lineSeparator()
+                + names[2] + " - " + salary[2];
     }
 }
