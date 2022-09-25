@@ -11,7 +11,7 @@ public class SalaryInfo {
     public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        StringBuilder sallaryOfEmploye = new StringBuilder("Report for period ")
+        StringBuilder reportBuilder = new StringBuilder("Report for period ")
                 .append(dateFrom)
                 .append(" - ")
                 .append(dateTo);
@@ -31,13 +31,13 @@ public class SalaryInfo {
                         && name.equals(splittedUserData[NAME_INDEX])) {
                     int hours = Integer.parseInt(splittedUserData[HOUR_INDEX]);
                     int salary = Integer.parseInt(splittedUserData[SALARY_INDEX]);
-                    totalSallary = totalSallary + (hours * salary);
+                    totalSallary += hours * salary;
                 }
             }
-            sallaryOfEmploye.append(System.lineSeparator())
+            reportBuilder.append(System.lineSeparator())
                     .append(name).append(" - ")
                     .append(totalSallary);
         }
-        return sallaryOfEmploye.toString();
+        return reportBuilder.toString();
     }
 }
