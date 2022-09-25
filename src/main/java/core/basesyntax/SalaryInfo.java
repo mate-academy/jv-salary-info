@@ -25,7 +25,8 @@ public class SalaryInfo {
                 if (name.equals(datum[NAME_INDEX])
                         && (LocalDate.parse(datum[DATE_INDEX], FORMATTER).isAfter(startDate)
                         && LocalDate.parse(datum[DATE_INDEX], FORMATTER).isBefore(endDate))) {
-                    salary = salary + Integer.parseInt(datum[HOUR_INDEX]) * Integer.parseInt(datum[RATE_INDEX]);
+                    salary = salary + Integer.parseInt(datum[HOUR_INDEX])
+                            * Integer.parseInt(datum[RATE_INDEX]);
                 }
             }
             builder.append(System.lineSeparator())
