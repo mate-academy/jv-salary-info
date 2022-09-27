@@ -4,10 +4,10 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class DateConvertor {
-    public LocalDate convert(String strDate) {
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        LocalDate beginningOfThePeriod = LocalDate.parse(strDate, dateTimeFormatter);
-        return beginningOfThePeriod;
-    }
+    public static final DateTimeFormatter DT_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
+    public LocalDate convert(String strDate) {
+        LocalDate localDate = LocalDate.parse(strDate, DT_FORMATTER);
+        return localDate;
+    }
 }

@@ -3,6 +3,9 @@ package core.basesyntax;
 import java.time.LocalDate;
 
 public class SalaryInfo {
+    private static final int EMPLOYEE_NAME_INDEX = 1;
+    private static final int HOURS_WORKED_INDEX = 2;
+    private static final int RATE_HOUR_INDEX = 3;
     private static final DateConvertor DATE_CONVERTOR = new DateConvertor();
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
@@ -17,9 +20,9 @@ public class SalaryInfo {
             int salary = 0;
             for (String elementOfData : data) {
                 String[] dataItem = elementOfData.split(" ");
-                final String employeeName = dataItem[1];
-                final int hoursWorked = Integer.parseInt(dataItem[2]);
-                final int ratePerHour = Integer.parseInt(dataItem[3]);
+                final String employeeName = dataItem[EMPLOYEE_NAME_INDEX];
+                final int hoursWorked = Integer.parseInt(dataItem[HOURS_WORKED_INDEX]);
+                final int ratePerHour = Integer.parseInt(dataItem[RATE_HOUR_INDEX]);
                 LocalDate dateElement = DATE_CONVERTOR.convert(dataItem[0]);
                 if (name.equals(employeeName)
                         && (dateElement.isAfter(fromDate)
