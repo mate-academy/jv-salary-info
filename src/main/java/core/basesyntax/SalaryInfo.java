@@ -19,7 +19,8 @@ public class SalaryInfo {
                     continue;
                 }
                 String[] dataArray = dataLine.split(" ");
-                if (LocalDate.parse(dataArray[DATE_POSITION], DTF).compareTo(LocalDate.parse(dateTo, DTF)) > 0
+                if (LocalDate.parse(dataArray[DATE_POSITION], DTF)
+                        .compareTo(LocalDate.parse(dateTo, DTF)) > 0
                         || LocalDate.parse(dataArray[DATE_POSITION], DTF)
                         .compareTo(LocalDate.parse(dateFrom, DTF)) < 0) {
                     continue;
