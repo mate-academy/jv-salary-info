@@ -32,7 +32,6 @@ public class SalaryInfo {
                         || dateElement.equals(toDate))) {
                     salary += hoursWorked * ratePerHour;
                 }
-
             }
             salaryList.append(System.lineSeparator())
                     .append(name)
