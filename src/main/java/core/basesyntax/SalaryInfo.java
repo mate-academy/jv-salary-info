@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 public class SalaryInfo {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     private static final int INDEX_FOR_ARRAY_ZERO = 0;
+    private static final int INDEX_FOR_ARRAY_ONE = 1;
     private static final int INDEX_FOR_ARRAY_TWO = 2;
     private static final int INDEX_FOR_ARRAY_THREE = 3;
 
@@ -23,7 +24,7 @@ public class SalaryInfo {
                         FORMATTER);
                 if (localDateFrom.compareTo(currentDate) <= 0
                         && localDateTo.compareTo(currentDate) >= 0
-                        && arrayOfData[1].equals(name)) {
+                        && arrayOfData[INDEX_FOR_ARRAY_ONE].equals(name)) {
                     salary += (Integer.parseInt(arrayOfData[INDEX_FOR_ARRAY_THREE])
                             * Integer.parseInt(arrayOfData[INDEX_FOR_ARRAY_TWO]));
                 }
