@@ -12,37 +12,38 @@ public class SalaryInfo {
     private static final String SPACE = " ";
     private static final String REPORT_MESSAGE = "Report for period ";
     private static final String SEPARATE = " - ";
-    private StringBuilder sb = new StringBuilder();
-    private int salary = 0;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
+        StringBuilder sb = new StringBuilder();
+        int salary;
         LocalDate dateStart = LocalDate.parse(dateFrom, FORMATTER);
         LocalDate dateLast = LocalDate.parse(dateTo, FORMATTER);
         String[] resultToReport = new String[names.length];
 
         for (int i = 0; i < names.length; i++) {
             salary = 0;
-            for (String dataArr : data) {
-                if (dataArr.contains(names[i])) {
+            for (String dataElement : data) {
+                if (dataElement.contains(names[i])) {
                     LocalDate currentDate = LocalDate
-                            .parse(dataArr.substring(START_OF_RANGE, DATE_OF_PAY), FORMATTER);
+                            .parse(dataElement.substring(START_OF_RANGE, DATE_OF_PAY), FORMATTER);
                     sb.delete(START_OF_RANGE, sb.length());
                     if (!dateLast.isBefore(currentDate) && !dateStart.isAfter(currentDate)) {
-                        String[] splittedData = dataArr.split(SPACE);
+                        String[] splittedData = dataElement.split(SPACE);
                         salary += Integer.parseInt(splittedData[HOURS_WORKED])
                                 * Integer.parseInt(splittedData[SALARY_PER_HOUR]);
                     }
-                    resultToReport[i] = sb.append(names[i])
+                    resultToReport[i] = sb.append(System.lineSeparator()).append(names[i])
                             .append(SEPARATE).append(salary).toString();
                 }
             }
         }
 
-        sb = new StringBuilder(REPORT_MESSAGE).append(dateFrom).append(SEPARATE).append(dateTo);
-        for (String result : resultToReport) {
-            sb.append(System.lineSeparator()).append(result);
+        String result = REPORT_MESSAGE + dateFrom + SEPARATE + dateTo;
+        for (String res : resultToReport) {
+            result += res;
         }
 
-        return sb.toString();
+
+        return result;
     }
 }
