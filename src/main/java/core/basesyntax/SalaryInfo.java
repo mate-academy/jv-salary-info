@@ -2,7 +2,6 @@ package core.basesyntax;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 public class SalaryInfo {
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd.MM.yyyy");
@@ -14,32 +13,34 @@ public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder result = new StringBuilder();
         result.append(String.format("Report for period %s - %s", dateFrom, dateTo));
-        List<String> nameList = List.of(names);
         LocalDate startDate = parseDate(dateFrom);
         LocalDate endDate = parseDate(dateTo);
-        int[] salaries = new int[names.length];
-        for (String record : data) {
-            String[] recordParts = record.split("\\s+");
-            LocalDate recordDate = parseDate(recordParts[DATE_INDEX]);
-            if (recordDate.isBefore(startDate) || recordDate.isAfter(endDate)) {
-                continue;
+        for (String name : names) {
+            int income = 0;
+            for (String record : data) {
+                income += incomeFor(name, record, startDate, endDate);
             }
-            String name = recordParts[NAME_INDEX];
-            int hours = Integer.parseInt(recordParts[HOURS_INDEX]);
-            int incomePerHour = Integer.parseInt(recordParts[INCOME_INDEX]);
-            int income = hours * incomePerHour;
-            int nameIndex = nameList.indexOf(name);
-            if (nameIndex != -1) {
-                salaries[nameIndex] += income;
-            }
-        }
-        for (int i = 0; i < nameList.size(); i++) {
             result.append(System.lineSeparator())
-                    .append(nameList.get(i))
+                    .append(name)
                     .append(" - ")
-                    .append(salaries[i]);
+                    .append(income);
         }
         return result.toString();
+    }
+
+    private int incomeFor(String name, String record, LocalDate dareFrom, LocalDate dateTo) {
+        String[] recordParts = record.split("\\s+");
+        String recordName = recordParts[NAME_INDEX];
+        if (!recordName.equals(name)) {
+            return 0;
+        }
+        LocalDate date = parseDate(recordParts[DATE_INDEX]);
+        if (date.isBefore(dareFrom) || date.isAfter(dateTo)) {
+            return 0;
+        }
+        int incomePerHour = Integer.parseInt(recordParts[INCOME_INDEX]);
+        int hours = Integer.parseInt(recordParts[HOURS_INDEX]);
+        return incomePerHour * hours;
     }
 
     private LocalDate parseDate(String date) {
