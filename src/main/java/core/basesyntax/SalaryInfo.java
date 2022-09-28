@@ -9,6 +9,10 @@ public class SalaryInfo {
             = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     private static final String REPORT_FOR_PERIOD = "Report for period ";
     private static final String DATE_TIME_SEPARATOR = " - ";
+    private static final int DATE_OF_START_WORK = 0;
+    private static final int WORKER_NAME = 1;
+    private static final int WORKDAY = 2;
+    private static final int WORKING_HOURS = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate from = LocalDate.parse(dateFrom, DATE_TIME_FORMAT);
@@ -22,11 +26,11 @@ public class SalaryInfo {
         for (int i = 0; i < data.length; i++) {
             Employee employee = new Employee();
             String[] info = data[i].split(" ");
-            LocalDate parsedDate = LocalDate.parse(info[0], DATE_TIME_FORMAT);
+            LocalDate parsedDate = LocalDate.parse(info[DATE_OF_START_WORK], DATE_TIME_FORMAT);
             employee.setDayOfWorkStart(parsedDate);
-            employee.setName(info[1]);
-            employee.setNumberOfWorkingDays(Integer.parseInt(info[2]));
-            employee.setWorkingHours(Integer.parseInt(info[3]));
+            employee.setName(info[WORKER_NAME]);
+            employee.setNumberOfWorkingDays(Integer.parseInt(info[WORKDAY]));
+            employee.setWorkingHours(Integer.parseInt(info[WORKING_HOURS]));
             employees[i] = employee;
         }
 
