@@ -12,10 +12,8 @@ public class SalaryInfo {
         final int indexOfName = 1;
         final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         int summ = 0;
-        
         LocalDate localDateFrom = LocalDate.parse(dateFrom, formatter);
         LocalDate localDateTo = LocalDate.parse(dateTo, formatter);
-        
         String[] masString;
         String[] dataAfter;
         
