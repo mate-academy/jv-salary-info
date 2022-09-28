@@ -6,9 +6,9 @@ import java.time.format.DateTimeFormatter;
 public class SalaryInfo {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     private static final int DATE_INDEX = 0;
-    private static final int DATE_INDEX1 = 1;
-    private static final int DATE_INDEX2 = 2;
-    private static final int DATE_INDEX3 = 3;
+    private static final int NAME_INDEX = 1;
+    private static final int NAME_INDEX2 = 2;
+    private static final int NAME_INDEX3 = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate localDateFrom = LocalDate.parse(dateFrom, FORMATTER);
@@ -24,9 +24,9 @@ public class SalaryInfo {
                         FORMATTER);
                 if (localDateFrom.compareTo(currentDate) <= 0
                         && localDateTo.compareTo(currentDate) >= 0
-                        && arrayOfData[DATE_INDEX1].equals(name)) {
-                    salary += (Integer.parseInt(arrayOfData[DATE_INDEX3])
-                            * Integer.parseInt(arrayOfData[DATE_INDEX2]));
+                        && arrayOfData[NAME_INDEX].equals(name)) {
+                    salary += (Integer.parseInt(arrayOfData[NAME_INDEX3])
+                            * Integer.parseInt(arrayOfData[NAME_INDEX2]));
                 }
             }
             result.append(System.lineSeparator()).append(name).append(" - ").append(salary);
