@@ -8,7 +8,6 @@ public class SalaryInfo {
     private static final int DATE_OF_PAY = 10;
     private static final int HOURS_WORKED = 2;
     private static final int SALARY_PER_HOUR = 3;
-    private static final int DAY_TO_ADD = 1;
     private static final int START_OF_RANGE = 0;
     private static final String SPACE = " ";
     private static final String REPORT_MESSAGE = "Report for period ";
@@ -28,8 +27,7 @@ public class SalaryInfo {
                     LocalDate currentDate = LocalDate
                             .parse(dataArr.substring(START_OF_RANGE, DATE_OF_PAY), FORMATTER);
                     sb.delete(START_OF_RANGE, sb.length());
-                    if (dateLast.plusDays(DAY_TO_ADD).isAfter(currentDate)
-                            && dateStart.minusDays(DAY_TO_ADD).isBefore(currentDate)) {
+                    if (!dateLast.isBefore(currentDate) && !dateStart.isAfter(currentDate)) {
                         String[] splittedData = dataArr.split(SPACE);
                         salary += Integer.parseInt(splittedData[HOURS_WORKED])
                                 * Integer.parseInt(splittedData[SALARY_PER_HOUR]);
