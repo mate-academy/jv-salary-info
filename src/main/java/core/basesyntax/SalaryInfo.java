@@ -7,6 +7,7 @@ public class SalaryInfo {
     public static final int DATE_INDEX = 0;
     public static final int HOURS_WORKED_INDEX = 2;
     public static final int INCOME_PER_HOUR_INDEX = 3;
+    public static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate dateFromFormat = parseDate(dateFrom);
@@ -37,7 +38,6 @@ public class SalaryInfo {
     }
 
     public static LocalDate parseDate(String date) {
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        return LocalDate.parse(date, dateTimeFormatter);
+        return LocalDate.parse(date, dateFormatter);
     }
 }
