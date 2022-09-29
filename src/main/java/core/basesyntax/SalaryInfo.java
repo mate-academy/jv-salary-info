@@ -16,7 +16,7 @@ public class SalaryInfo {
             beginDate = dateFormat.parse(dateFrom);
             endDate = dateFormat.parse(dateTo);
         } catch (ParseException e) {
-            throw new RuntimeException("Wrong date format", e);
+            throw new RuntimeException("Wrong date format in argument dateFrom or dateTo", e);
         }
 
         for (String name : names) {
@@ -29,7 +29,7 @@ public class SalaryInfo {
                 try {
                     workDay = dateFormat.parse(info[0]);
                 } catch (ParseException e) {
-                    throw new RuntimeException("Wrong date format", e);
+                    throw new RuntimeException("Wrong date format in data array", e);
                 }
 
                 if (info[1].equals(name)
