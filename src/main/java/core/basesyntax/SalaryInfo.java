@@ -6,16 +6,16 @@ import java.time.format.DateTimeFormatter;
 public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         int[] salaryOfEmployee = new int[names.length];
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        LocalDate dateFromCalendar = LocalDate.parse(dateFrom, formatter).minusDays(1);
-        LocalDate dateToCalendar = LocalDate.parse(dateTo, formatter).plusDays(1);
+        final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        LocalDate dateFromCalendar = LocalDate.parse(dateFrom, FORMATTER).minusDays(1);
+        LocalDate dateToCalendar = LocalDate.parse(dateTo, FORMATTER).plusDays(1);
 
         for (int i = 0; i < names.length; i++) {
             for (int j = 0; j < data.length; j++) {
                 String[] splitData = data[j].split("\\s");
-                if ((names[i].equals(splitData[1])) && LocalDate.parse(splitData[0], formatter)
+                if ((names[i].equals(splitData[1])) && LocalDate.parse(splitData[0], FORMATTER)
                         .isAfter(dateFromCalendar)
-                        && LocalDate.parse(splitData[0], formatter).isBefore(dateToCalendar)) {
+                        && LocalDate.parse(splitData[0], FORMATTER).isBefore(dateToCalendar)) {
                     salaryOfEmployee[i] += Integer.parseInt(splitData[2])
                             * Integer.parseInt(splitData[3]);
                 }
