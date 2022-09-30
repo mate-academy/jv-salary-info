@@ -1,6 +1,5 @@
 package core.basesyntax;
 
-import java.time.DateTimeException;
 import java.time.LocalDate;
 
 public class SalaryInfo {
@@ -11,15 +10,14 @@ public class SalaryInfo {
     private static final int NAME = 1;
     private static final int HOURS_OF_WORK = 2;
     private static final int PAYMENT_PER_HOUR = 3;
+    private static final String DATE_FORMAT_SEPARATOR = "-";
     private int[] salary;
+    private StringBuilder report;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        salaryCalculate(names, data, dateFrom, dateTo);
-        StringBuilder report = new StringBuilder("Report for period ");
+        report = new StringBuilder("Report for period ");
         report.append(dateFrom).append(" - ").append(dateTo).append(System.lineSeparator());
-        for (int i = 0; i < names.length; i++) {
-            report.append(names[i]).append(" - ").append(salary[i]).append(System.lineSeparator());
-        }
+        salaryCalculate(names, data, dateFrom, dateTo);
         return report.toString().trim();
     }
 
@@ -36,20 +34,16 @@ public class SalaryInfo {
                             * getIntValue(parseData[PAYMENT_PER_HOUR]);
                 }
             }
+            report.append(names[i]).append(" - ").append(salary[i]).append(System.lineSeparator());
         }
     }
 
     public LocalDate getDate(String date) {
         String[] dateFormatting = date.split(SPLIT_FOR_CONVERT_DATE);
         StringBuilder rightDateFormat = new StringBuilder(dateFormatting[2]);
-        rightDateFormat.append("-").append(dateFormatting[1]);
-        rightDateFormat.append("-").append(dateFormatting[0]);
-        LocalDate localDate;
-        try {
-            localDate = LocalDate.parse(rightDateFormat.toString());
-        } catch (DateTimeException e) {
-            throw new RuntimeException("Can`t parse date", e);
-        }
+        rightDateFormat.append(DATE_FORMAT_SEPARATOR).append(dateFormatting[1]);
+        rightDateFormat.append(DATE_FORMAT_SEPARATOR).append(dateFormatting[0]);
+        LocalDate localDate = LocalDate.parse(rightDateFormat.toString());
         return localDate;
     }
 
