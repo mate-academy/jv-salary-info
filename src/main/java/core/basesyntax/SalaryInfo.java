@@ -18,9 +18,10 @@ public class SalaryInfo {
             for (int i = 0; i < data.length; i++) {
                 String[] slrInfo = data[i].split(" ");
                 LocalDate slrDate = LocalDate.parse(slrInfo[0], formatter);
+                String employerName = slrInfo[1];
                 int hoursOfWork = Integer.parseInt(slrInfo[2]);
                 int salaryPerHour = Integer.parseInt(slrInfo[3]);
-                if (name.equals(slrInfo[1])
+                if (name.equals(employerName)
                         && !slrDate.isAfter(toDate) && !slrDate.isBefore(fromDate)) {
                     salary += hoursOfWork * salaryPerHour;
                 }
