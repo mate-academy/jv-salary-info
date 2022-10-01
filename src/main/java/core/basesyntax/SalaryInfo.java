@@ -8,7 +8,7 @@ public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder salaries = new StringBuilder(" Report for period "
                 + dateFrom + " - " + dateTo + "\r\n");
-        for (int b = 0; b < names.length; b++) {
+        for (int c = 0; c < names.length; c++) {
             int lengthSalery = 0;
             for (int a = 0; a < data.length; a++) {
                 String [] splittedData = data[a].split(" ");
@@ -25,14 +25,14 @@ public class SalaryInfo {
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                if (names[b].equals(splittedData[1]) && ((docDate.after(normaldateFrom)
+                if (names[c].equals(splittedData[1]) && ((docDate.after(normaldateFrom)
                         && docDate.before(normalDateAfter)) || docDate.equals(normalDateAfter)
                         || docDate.equals(normaldateFrom))) {
                     lengthSalery += Integer.parseInt(splittedData[2])
                             * Integer.parseInt(splittedData[3]);
                 }
             }
-            salaries.append(names[b] + " - " + lengthSalery + "\r\n");
+            salaries.append(names[c] + " - " + lengthSalery + "\r\n");
         }
         return salaries.toString().trim();
     }
