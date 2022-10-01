@@ -22,6 +22,7 @@ public class SalaryInfo {
                 // converted from string date in data to Date
                 int salaryPerDay = Integer.parseInt(dataInArray[2])
                             * Integer.parseInt(dataInArray[3]);
+
                 // product of hours and pay
                 if (startWorkDate.getDayOfYear() < certainDay.getDayOfYear()
                         && certainDay.getDayOfYear() <= finishWorkDate.getDayOfYear()) {
