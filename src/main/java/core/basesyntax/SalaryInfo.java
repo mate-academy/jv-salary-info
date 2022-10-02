@@ -21,7 +21,7 @@ public class SalaryInfo {
         for (String record : data) {
             if (record.isBlank()) {
                 continue;
-            };
+            }
             String[] parts = record.split(DELIMITER);
             LocalDate dateRecord = LocalDate.parse(parts[POSITION_DATE], formatter);
             if ((dateRecord.isAfter(dateFromLocalDate) && dateRecord.isBefore(dateToLocalDate))
