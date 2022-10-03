@@ -11,18 +11,19 @@ public class SalaryInfo {
     private static final int HOURS_OF_WORK = 2;
     private static final int PAYMENT_PER_HOUR = 3;
     private static final String DATE_FORMAT_SEPARATOR = "-";
-    private int[] salary;
+    private static final String NEW_LINE = System.lineSeparator();
     private StringBuilder report;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         report = new StringBuilder("Report for period ");
-        report.append(dateFrom).append(" - ").append(dateTo).append(System.lineSeparator());
+        report.append(dateFrom).append(SPLIT_FOR_DATA).append(DATE_FORMAT_SEPARATOR)
+                .append(SPLIT_FOR_DATA).append(dateTo).append(NEW_LINE);
         salaryCalculate(names, data, dateFrom, dateTo);
         return report.toString().trim();
     }
 
     private void salaryCalculate(String[] names, String[] data, String dateFrom, String dateTo) {
-        salary = new int[names.length];
+        int[] salary = new int[names.length];
         for (int i = 0; i < names.length; i++) {
             for (int j = 0; j < data.length; j++) {
                 String[] parseData = data[j].split(SPLIT_FOR_DATA);
@@ -34,17 +35,16 @@ public class SalaryInfo {
                             * getIntValue(parseData[PAYMENT_PER_HOUR]);
                 }
             }
-            report.append(names[i]).append(" - ").append(salary[i]).append(System.lineSeparator());
+            report.append(names[i]).append(SPLIT_FOR_DATA).append(DATE_FORMAT_SEPARATOR)
+                    .append(SPLIT_FOR_DATA).append(salary[i]).append(NEW_LINE);
         }
     }
 
     public LocalDate getDate(String date) {
         String[] dateFormatting = date.split(SPLIT_FOR_CONVERT_DATE);
-        StringBuilder rightDateFormat = new StringBuilder(dateFormatting[2]);
-        rightDateFormat.append(DATE_FORMAT_SEPARATOR).append(dateFormatting[1]);
-        rightDateFormat.append(DATE_FORMAT_SEPARATOR).append(dateFormatting[0]);
-        LocalDate localDate = LocalDate.parse(rightDateFormat.toString());
-        return localDate;
+        String rightDateFormat = dateFormatting[2] + DATE_FORMAT_SEPARATOR
+                + dateFormatting[1] + DATE_FORMAT_SEPARATOR + dateFormatting[0];
+        return LocalDate.parse(rightDateFormat);
     }
 
     private int getIntValue(String data) {
