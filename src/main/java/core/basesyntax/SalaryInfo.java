@@ -27,5 +27,4 @@ public class SalaryInfo {
         }
         return tempSB.toString();
     }
-
 }
