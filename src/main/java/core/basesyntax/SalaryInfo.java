@@ -4,13 +4,13 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    private final StringBuilder tempSB = new StringBuilder();
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("d.MM.yyyy");
     private LocalDate currentDate;
     private String[] userData;
     private int income;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
+        StringBuilder tempSB = new StringBuilder();
         tempSB.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
         for (String name : names) {
             for (String info : data) {
