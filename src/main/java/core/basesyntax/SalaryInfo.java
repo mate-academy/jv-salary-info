@@ -1,6 +1,8 @@
 package core.basesyntax;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
@@ -39,15 +41,16 @@ public class SalaryInfo {
     }
 
     private LocalDate getDateFrom(String input) {
-        String[] inputArray = input.split("\\.");
-        StringBuilder stringBuilder = new StringBuilder();
-
-        stringBuilder.append(inputArray[2].strip())
-                .append("-")
-                .append(inputArray[1].strip())
-                .append("-")
-                .append(inputArray[0].strip());
-
-        return LocalDate.parse(stringBuilder.toString());
+        LocalDate date;
+        try {
+            DateTimeFormatter formatter =
+                    DateTimeFormatter.ofPattern("dd.MM.yyyy");
+            date = LocalDate.parse(input, formatter);
+        }
+        catch (DateTimeParseException exc) {
+            System.out.printf("%s is not parsable!%n", input);
+            throw exc;
+        }
+        return date;
     }
 }
