@@ -5,6 +5,9 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 public class SalaryInfo {
+    public static final String PATTERN = "dd.MM.yyyy";
+    public static final String PARSING_ERROR = "Wrong input data";
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("Report for period ")
@@ -27,11 +30,11 @@ public class SalaryInfo {
                         salarySum += Integer.parseInt(dayDataArray[2])
                                 * Integer.parseInt(dayDataArray[3]);
                     } catch (NumberFormatException e) {
-                        System.out.println("Wrong input data");
+                        System.out.println(PARSING_ERROR);
                     }
                 }
             }
-            stringBuilder.append("\r\n")
+            stringBuilder.append(System.lineSeparator())
                     .append(name)
                     .append(" - ")
                     .append(salarySum);
@@ -43,12 +46,10 @@ public class SalaryInfo {
     private LocalDate getDateFrom(String input) {
         LocalDate date;
         try {
-            DateTimeFormatter formatter =
-                    DateTimeFormatter.ofPattern("dd.MM.yyyy");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(PATTERN);
             date = LocalDate.parse(input, formatter);
-        }
-        catch (DateTimeParseException exc) {
-            System.out.printf("%s is not parsable!%n", input);
+        } catch (DateTimeParseException exc) {
+            System.out.println(PARSING_ERROR + " " + exc);
             throw exc;
         }
         return date;
