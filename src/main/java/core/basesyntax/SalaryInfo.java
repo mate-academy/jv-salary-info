@@ -6,6 +6,7 @@ import java.time.format.DateTimeParseException;
 
 public class SalaryInfo {
     private static final String DATE_FORM = "d.M.yyyy";
+    private static final String SEPARATOR = " - ";
     private static final int DATE_INDEX = 0;
     private static final int NAME_INDEX = 1;
     private static final int COUNT_SALARY_INDEX = 2;
@@ -28,14 +29,14 @@ public class SalaryInfo {
             System.out.println(e1.getMessage());
             return "";
         }
-        StringBuilder st = new StringBuilder("Report for period ");
-        st.append(dateFrom).append(" - ").append(dateTo);
+        StringBuilder stringBuilder = new StringBuilder("Report for period ");
+        stringBuilder.append(dateFrom).append(SEPARATOR).append(dateTo);
         for (String employer : names) {
-            st.append(System.lineSeparator()).append(employer).append(" - ");
+            stringBuilder.append(System.lineSeparator()).append(employer).append(" - ");
             int totalSalary = getSumSalary(employer, data, from, to);
-            st.append(totalSalary);
+            stringBuilder.append(totalSalary);
         }
-        return st.toString();
+        return stringBuilder.toString();
     }
 
     private int getSumSalary(String name, String[] date, LocalDate dateFrom, LocalDate dateTo) {
