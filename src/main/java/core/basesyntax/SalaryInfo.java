@@ -16,9 +16,9 @@ public class SalaryInfo {
             for (String info : data) {
                 userData = info.split(" ");
                 currentDate = LocalDate.parse(userData[0], formatter);
-                if (userData[1].equals(name) && dateFrom != null && dateTo != null &&
-                        (!currentDate.isBefore(LocalDate.parse(dateFrom, formatter)) &&
-                        !currentDate.isAfter(LocalDate.parse(dateTo, formatter)))) {
+                if (userData[1].equals(name) && dateFrom != null && dateTo != null
+                        && (!currentDate.isBefore(LocalDate.parse(dateFrom, formatter))
+                        && !currentDate.isAfter(LocalDate.parse(dateTo, formatter)))) {
                     income += Integer.parseInt(userData[2]) * Integer.parseInt(userData[3]);
                 }
             }
