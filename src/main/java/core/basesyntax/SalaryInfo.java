@@ -5,7 +5,7 @@ import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     private final StringBuilder tempSB = new StringBuilder();
-    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d.MM.yyyy");
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("d.MM.yyyy");
     private LocalDate currentDate;
     private String[] userData;
     private int income;
@@ -15,10 +15,10 @@ public class SalaryInfo {
         for (String name : names) {
             for (String info : data) {
                 userData = info.split(" ");
-                currentDate = LocalDate.parse(userData[0], formatter);
+                currentDate = LocalDate.parse(userData[0], FORMATTER);
                 if (userData[1].equals(name) && dateFrom != null && dateTo != null
-                        && (!currentDate.isBefore(LocalDate.parse(dateFrom, formatter))
-                        && !currentDate.isAfter(LocalDate.parse(dateTo, formatter)))) {
+                        && (!currentDate.isBefore(LocalDate.parse(dateFrom, FORMATTER))
+                        && !currentDate.isAfter(LocalDate.parse(dateTo, FORMATTER)))) {
                     income += Integer.parseInt(userData[2]) * Integer.parseInt(userData[3]);
                 }
             }
