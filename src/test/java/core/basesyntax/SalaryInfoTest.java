@@ -82,7 +82,8 @@ public class SalaryInfoTest {
     @Test
     public void getSalaryInfoByMonth() {
         SalaryInfo salary = new SalaryInfo();
-        for (int i = 0; i < dates.length; i++) {String actualResult = salary.getSalaryInfo(sampleNames, scriptArray, dates[0], dates[i]);
+        for (int i = 0; i < dates.length; i++) {
+            String actualResult = salary.getSalaryInfo(sampleNames, scriptArray, dates[0], dates[i]);
             String expectedResult = SalaryInfoTest.exceptedReports[i];
 
             Assert.assertEquals(
