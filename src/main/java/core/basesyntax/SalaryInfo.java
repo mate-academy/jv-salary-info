@@ -10,10 +10,7 @@ public class SalaryInfo {
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("Report for period ")
-                .append(dateFrom)
-                .append(" - ")
-                .append(dateTo);
+        stringBuilder.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
 
         LocalDate localDateFrom = getDateFrom(dateFrom);
         LocalDate localDateTo = getDateFrom(dateTo);
@@ -30,7 +27,7 @@ public class SalaryInfo {
                         salarySum += Integer.parseInt(dayDataArray[2])
                                 * Integer.parseInt(dayDataArray[3]);
                     } catch (NumberFormatException e) {
-                        System.out.println(PARSING_ERROR);
+                        System.out.println(PARSING_ERROR + " " + e);
                     }
                 }
             }
@@ -39,18 +36,16 @@ public class SalaryInfo {
                     .append(" - ")
                     .append(salarySum);
         }
-
         return stringBuilder.toString();
     }
 
     private LocalDate getDateFrom(String input) {
-        LocalDate date;
+        LocalDate date = null;
         try {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern(PATTERN);
             date = LocalDate.parse(input, formatter);
-        } catch (DateTimeParseException exc) {
-            System.out.println(PARSING_ERROR + " " + exc);
-            throw exc;
+        } catch (DateTimeParseException e) {
+            System.out.println(PARSING_ERROR + " " + e);
         }
         return date;
     }
