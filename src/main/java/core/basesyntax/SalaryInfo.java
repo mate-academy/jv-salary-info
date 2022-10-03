@@ -10,14 +10,14 @@ public class SalaryInfo {
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder sb = new StringBuilder("Report for period " + dateFrom + " - " + dateTo);
-        String[] date = dateFrom.split("\\.");
-        String[] dateA = dateTo.split("\\.");
-        Date dateBefore = new Date(Integer.parseInt(date[THIRD_ARRAY_ELEMENT]),
-                Integer.parseInt(date[SECOND_ARRAY_ELEMENT]),
-                Integer.parseInt(date[FIRST_ARRAY_ELEMENT]));
-        Date dateAfter = new Date(Integer.parseInt(dateA[THIRD_ARRAY_ELEMENT]),
-                Integer.parseInt(dateA[SECOND_ARRAY_ELEMENT]),
-                Integer.parseInt(dateA[FIRST_ARRAY_ELEMENT]));
+        String[] splitDateFrom = dateFrom.split("\\.");
+        String[] splitDateTo = dateTo.split("\\.");
+        Date dateBefore = new Date(Integer.parseInt(splitDateFrom[THIRD_ARRAY_ELEMENT]),
+                Integer.parseInt(splitDateFrom[SECOND_ARRAY_ELEMENT]),
+                Integer.parseInt(splitDateFrom[FIRST_ARRAY_ELEMENT]));
+        Date dateAfter = new Date(Integer.parseInt(splitDateTo[THIRD_ARRAY_ELEMENT]),
+                Integer.parseInt(splitDateTo[SECOND_ARRAY_ELEMENT]),
+                Integer.parseInt(splitDateTo[FIRST_ARRAY_ELEMENT]));
 
         for (String name:names) {
             int sumSalary = 0;
