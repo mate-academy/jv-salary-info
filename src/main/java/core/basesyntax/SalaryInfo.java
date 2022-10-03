@@ -7,6 +7,11 @@ import java.util.Date;
 import java.util.Locale;
 
 public class SalaryInfo {
+    private static final int POSITION_OF_DATE = 0;
+    private static final int POSITION_OF_NAME = 1;
+    private static final int POSITION_OF_WORKED_HOURS = 2;
+    private static final int POSITION_OF_SALARY_PER_HOURS = 3;
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         String[] dataSplit;
         String[] dataOutput = new String[names.length];
@@ -15,21 +20,19 @@ public class SalaryInfo {
             int sum = 0;
             for (String oneData : data) {
                 dataSplit = oneData.split(" ");
-                if (dataSplit[1].equals(name)) {
-                    if (getDate(dataSplit[0]).getTime() >= getDate(dateFrom).getTime()) {
-                        if (getDate(dataSplit[0]).getTime() <= getDate(dateTo).getTime()) {
-                            sum = sum + Integer.parseInt(dataSplit[2])
-                                    * Integer.parseInt(dataSplit[3]);
+                if (dataSplit[POSITION_OF_NAME].equals(name)) {
+                    if (getDate(dataSplit[POSITION_OF_DATE]).getTime()
+                            >= getDate(dateFrom).getTime()) {
+                        if (getDate(dataSplit[POSITION_OF_DATE]).getTime()
+                                <= getDate(dateTo).getTime()) {
+                            sum += Integer.parseInt(dataSplit[POSITION_OF_WORKED_HOURS])
+                                    * Integer.parseInt(dataSplit[POSITION_OF_SALARY_PER_HOURS]);
                         }
                     }
                 }
             }
             dataOutput[j] = names[j] + " - " + sum;
             j++;
-        }
-        System.out.println("Report for period " + dateFrom + " - " + dateTo);
-        for (String oneDataOutput : dataOutput) {
-            System.out.println(oneDataOutput);
         }
         return "Report for period " + dateFrom + " - " + dateTo
                 + System.lineSeparator() + getStringFromNewLine(dataOutput);
