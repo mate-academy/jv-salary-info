@@ -23,7 +23,7 @@ public class SalaryInfo {
                 throw new DateTimeErrorPosition("Date from is bigger than date to");
             }
         } catch (DateTimeParseException e) {
-            System.out.println("Date format error. Needed - " + DATE_FORM);
+            System.out.println("Date format error. Needed" + SEPARATOR + DATE_FORM);
             return "";
         } catch (DateTimeErrorPosition e1) {
             System.out.println(e1.getMessage());
@@ -32,7 +32,7 @@ public class SalaryInfo {
         StringBuilder stringBuilder = new StringBuilder("Report for period ");
         stringBuilder.append(dateFrom).append(SEPARATOR).append(dateTo);
         for (String employer : names) {
-            stringBuilder.append(System.lineSeparator()).append(employer).append(" - ");
+            stringBuilder.append(System.lineSeparator()).append(employer).append(SEPARATOR);
             int totalSalary = getSumSalary(employer, data, from, to);
             stringBuilder.append(totalSalary);
         }
