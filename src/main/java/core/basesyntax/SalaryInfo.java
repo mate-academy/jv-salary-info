@@ -5,13 +5,16 @@ import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-    private static LocalDate workingDay;
-    private static LocalDate parseDateFrom;
-    private static LocalDate parseDateTo;
+    private static final int ZERO_INDEX = 0;
+    private static final int FIRST_INDEX = 1;
+    private static final int SECOND_INDEX = 2;
+    private static final int THIRD_INDEX = 3;
+    private static final int DAYS_BOUNDS = 1;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        parseDateFrom = LocalDate.parse(dateFrom, FORMATTER);
-        parseDateTo = LocalDate.parse(dateTo, FORMATTER);
+        LocalDate parseDateFrom = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate parseDateTo = LocalDate.parse(dateTo, FORMATTER);
+        LocalDate workingDay;
         StringBuilder builder = new StringBuilder("Report for period ");
         builder.append(dateFrom).append(" - ").append(dateTo);
         for (String name : names) {
@@ -19,12 +22,13 @@ public class SalaryInfo {
             int total = 0;
             for (String line : data) {
                 String[] lines = line.split(" ");
-                workingDay = LocalDate.parse(lines[0], FORMATTER);
+                workingDay = LocalDate.parse(lines[ZERO_INDEX], FORMATTER);
                 int salary = 0;
-                if (name.equals(lines[1])
-                        && parseDateFrom.minusDays(1).isBefore(workingDay)
-                        && workingDay.isBefore(parseDateTo.plusDays(1))) {
-                    salary = Integer.parseInt(lines[2]) * Integer.parseInt(lines[3]);
+                if (name.equals(lines[FIRST_INDEX])
+                        && parseDateFrom.minusDays(DAYS_BOUNDS).isBefore(workingDay)
+                        && workingDay.isBefore(parseDateTo.plusDays(DAYS_BOUNDS))) {
+                    salary = Integer.parseInt(lines[SECOND_INDEX])
+                            * Integer.parseInt(lines[THIRD_INDEX]);
                 }
                 total = total + salary;
             }
