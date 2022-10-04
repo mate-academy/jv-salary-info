@@ -22,18 +22,14 @@ public class SalaryInfo {
             int sum = 0;
             for (String row : data) {
                 String[] info = row.split(DATA_SEPARATOR);
-                if (!info[NAME_INDEX].equals(name)) {
-                    continue;
+                if (info[NAME_INDEX].equals(name)) {
+                    LocalDate date = LocalDate.parse(info[DATE_INDEX], DATE_TIME_FORMATTER);
+                    if ((date.isAfter(dateFromParsed) || date.isEqual(dateFromParsed))
+                            && (date.isBefore(dateToParsed) || date.isEqual(dateToParsed))) {
+                        sum += Integer.parseInt(info[SALARY_INDEX])
+                                * Integer.parseInt(info[SALARY_MULTIPLIER_INDEX]);
+                    }
                 }
-                LocalDate date = LocalDate.parse(info[DATE_INDEX], DATE_TIME_FORMATTER);
-                boolean gte = date.isAfter(dateFromParsed) || date.isEqual(dateFromParsed);
-                boolean lessThenOrEqual = date.isBefore(dateToParsed) || date.isEqual(dateToParsed);
-                boolean dateBetween = gte && lessThenOrEqual;
-                if (!dateBetween) {
-                    continue;
-                }
-                sum += Integer.parseInt(info[SALARY_INDEX])
-                        * Integer.parseInt(info[SALARY_MULTIPLIER_INDEX]);
             }
             appender
                     .append(System.lineSeparator())
