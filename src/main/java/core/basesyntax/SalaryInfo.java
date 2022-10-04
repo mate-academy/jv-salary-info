@@ -1,6 +1,6 @@
 package core.basesyntax;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class SalaryInfo {
     private static final int FIRST_ARRAY_ELEMENT = 0;
@@ -12,10 +12,10 @@ public class SalaryInfo {
         StringBuilder sb = new StringBuilder("Report for period " + dateFrom + " - " + dateTo);
         String[] splitDateFrom = dateFrom.split("\\.");
         String[] splitDateTo = dateTo.split("\\.");
-        Date dateBefore = new Date(Integer.parseInt(splitDateFrom[THIRD_ARRAY_ELEMENT]),
+        LocalDate dateBefore = LocalDate.of(Integer.parseInt(splitDateFrom[THIRD_ARRAY_ELEMENT]),
                 Integer.parseInt(splitDateFrom[SECOND_ARRAY_ELEMENT]),
                 Integer.parseInt(splitDateFrom[FIRST_ARRAY_ELEMENT]));
-        Date dateAfter = new Date(Integer.parseInt(splitDateTo[THIRD_ARRAY_ELEMENT]),
+        LocalDate dateAfter = LocalDate.of(Integer.parseInt(splitDateTo[THIRD_ARRAY_ELEMENT]),
                 Integer.parseInt(splitDateTo[SECOND_ARRAY_ELEMENT]),
                 Integer.parseInt(splitDateTo[FIRST_ARRAY_ELEMENT]));
 
@@ -24,16 +24,17 @@ public class SalaryInfo {
             for (String dataLine:data) {
                 String[] dataLineParts = dataLine.split(" ");
                 String[] dataLinePartWithDate = dataLineParts[FIRST_ARRAY_ELEMENT].split("\\.");
-                Date workDate = new Date(Integer
+                LocalDate workDate = LocalDate.of(Integer
                         .parseInt(dataLinePartWithDate[THIRD_ARRAY_ELEMENT]),
                         Integer.parseInt(dataLinePartWithDate[SECOND_ARRAY_ELEMENT]),
                         Integer.parseInt(dataLinePartWithDate[FIRST_ARRAY_ELEMENT]));
                 if (dataLineParts[SECOND_ARRAY_ELEMENT].equals(name)
-                        && dateBefore.getTime() < workDate.getTime()
-                        && dateAfter.getTime() >= workDate.getTime()) {
+                        && dateBefore.isBefore(workDate)
+                        && dateAfter.isAfter(workDate)) {
                     sumSalary = sumSalary + Integer.parseInt(dataLineParts[THIRD_ARRAY_ELEMENT])
                             * Integer.parseInt(dataLineParts[FOURTH_ARRAY_ELEMENT]);
                 }
+
             }
             sb.append(System.lineSeparator()).append(name).append(" - ").append(sumSalary);
         }
