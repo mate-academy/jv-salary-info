@@ -5,9 +5,10 @@ import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     public static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    public static final int DATE_INDEX = 0;
+    public static final int NAME_INDEX = 1;
     public static final int SALARY_INDEX = 2;
     public static final int SALARY_MULTIPLIER_INDEX = 3;
-    public static final int DATE_INDEX = 0;
     public static final String DATA_SEPARATOR = " ";
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
@@ -21,7 +22,7 @@ public class SalaryInfo {
             for (String row : data) {
                 String[] info = row.split(DATA_SEPARATOR);
 
-                if (!info[1].equals(name)) {
+                if (!info[NAME_INDEX].equals(name)) {
                     continue;
                 }
 
