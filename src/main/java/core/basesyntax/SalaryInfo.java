@@ -8,7 +8,7 @@ public class SalaryInfo {
     private static final int NAME_INDEX = 1;
     private static final int HOURS_INDEX = 2;
     private static final int PER_HOUR_INDEX = 3;
-    private static final String WHITESPACE = " ";
+    private static final String SEPARATOR = " ";
     private final DateTimeFormatter format = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
@@ -19,7 +19,7 @@ public class SalaryInfo {
             int salary = 0;
 
             for (String eachData : data) {
-                String[] info = eachData.split(WHITESPACE);
+                String[] info = eachData.split(SEPARATOR);
 
                 if (!info[NAME_INDEX].equals(name)) {
                     continue;
