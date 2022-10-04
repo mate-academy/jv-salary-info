@@ -32,7 +32,7 @@ public class SalaryInfo {
             dataOutput[j] = names[j] + HYPHEN_WITH_SPACES + sum;
             j++;
         }
-        return "Report for period " + dateFrom + " - " + dateTo
+        return "Report for period " + dateFrom + HYPHEN_WITH_SPACES + dateTo
                 + SEPARATOR + getStringFromNewLine(dataOutput);
     }
 
