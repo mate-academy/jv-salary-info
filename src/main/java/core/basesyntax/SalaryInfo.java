@@ -7,6 +7,7 @@ public class SalaryInfo {
     private static final int SECOND_ARRAY_ELEMENT = 1;
     private static final int THIRD_ARRAY_ELEMENT = 2;
     private static final int FOURTH_ARRAY_ELEMENT = 3;
+    private static final int ONE_DAY = 1;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder sb = new StringBuilder("Report for period " + dateFrom + " - " + dateTo);
@@ -29,12 +30,11 @@ public class SalaryInfo {
                         Integer.parseInt(dataLinePartWithDate[SECOND_ARRAY_ELEMENT]),
                         Integer.parseInt(dataLinePartWithDate[FIRST_ARRAY_ELEMENT]));
                 if (dataLineParts[SECOND_ARRAY_ELEMENT].equals(name)
-                        && dateBefore.isBefore(workDate)
-                        && dateAfter.isAfter(workDate)) {
+                        && workDate.isAfter(dateBefore)
+                        && workDate.isBefore(dateAfter.plusDays(ONE_DAY))) {
                     sumSalary = sumSalary + Integer.parseInt(dataLineParts[THIRD_ARRAY_ELEMENT])
                             * Integer.parseInt(dataLineParts[FOURTH_ARRAY_ELEMENT]);
                 }
-
             }
             sb.append(System.lineSeparator()).append(name).append(" - ").append(sumSalary);
         }
