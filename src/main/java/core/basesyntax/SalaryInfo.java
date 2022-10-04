@@ -7,31 +7,16 @@ public class SalaryInfo {
     private static final String HYPHEN = " - ";
     private static final String WHITE_SPACE = " ";
     private static final String LINE_SEPARATOR = System.lineSeparator();
-    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-    private static final int THERO_INDEX = 0;
-    private static final int FIRST_INDEX = 1;
-    private static final int SECOND_INDEX = 2;
-    private static final int THIRD_INDEX = 3;
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter
+            .ofPattern("dd.MM.yyyy");
+    private static final int PARSE_DATA_INDEX_0 = 0;
+    private static final int PARSE_DATA_INDEX_1 = 1;
+    private static final int PARSE_DATA_INDEX_2 = 2;
+    private static final int PARSE_DATA_INDEX_3 = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        LocalDate parsedDateFrom = LocalDate.parse(dateFrom, FORMATTER);
-        LocalDate parsedDateTo = LocalDate.parse(dateTo, FORMATTER);
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(concatTopPart(dateFrom, dateTo));
-        for (String name : names) {
-            int countMoney = 0;
-            for (String info : data) {
-                String[] parsedInfo = info.split(WHITE_SPACE);
-                LocalDate infoDate = LocalDate.parse(parsedInfo[THERO_INDEX], FORMATTER);
-                if (parsedInfo[FIRST_INDEX].equals(name)
-                        && compareData(parsedDateFrom, parsedDateTo, infoDate)) {
-                    countMoney += Integer.parseInt(parsedInfo[SECOND_INDEX])
-                            * Integer.parseInt(parsedInfo[THIRD_INDEX]);
-                }
-            }
-            stringBuilder.append(concatBottomPart(name, countMoney));
-        }
-        return stringBuilder.toString().trim();
+        return concatTopPart(dateFrom, dateTo)
+                + personsSalaryInfo(names, data, dateFrom, dateTo).trim();
     }
 
     public boolean compareData(LocalDate dateFrom, LocalDate dateTo, LocalDate comparedDate) {
@@ -45,5 +30,26 @@ public class SalaryInfo {
 
     public String concatBottomPart(String name, int count) {
         return name + HYPHEN + count + LINE_SEPARATOR;
+    }
+
+    public String personsSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
+        StringBuilder stringBuilder = new StringBuilder();
+        LocalDate parsedDateFrom = LocalDate.parse(dateFrom, DATE_FORMATTER);
+        LocalDate parsedDateTo = LocalDate.parse(dateTo, DATE_FORMATTER);
+        for (String name : names) {
+            int countMoney = 0;
+            for (String info : data) {
+                String[] parsedInfo = info.split(WHITE_SPACE);
+                LocalDate infoDate = LocalDate.parse(parsedInfo[PARSE_DATA_INDEX_0],
+                        DATE_FORMATTER);
+                if (parsedInfo[PARSE_DATA_INDEX_1].equals(name)
+                        && compareData(parsedDateFrom, parsedDateTo, infoDate)) {
+                    countMoney += Integer.parseInt(parsedInfo[PARSE_DATA_INDEX_2])
+                            * Integer.parseInt(parsedInfo[PARSE_DATA_INDEX_3]);
+                }
+            }
+            stringBuilder.append(concatBottomPart(name, countMoney));
+        }
+        return stringBuilder.toString();
     }
 }
