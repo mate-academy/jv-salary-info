@@ -30,17 +30,16 @@ public class SalaryInfo {
                 if ((dateRecord.isAfter(dateFromLocalDate) && dateRecord.isBefore(dateToLocalDate))
                         || (dateRecord.equals(dateFromLocalDate))
                         || (dateRecord.equals(dateToLocalDate))) {
-
-                        if (names[i].equals(parts[POSITION_NAME])) {
-                            resultSalary += Integer.parseInt(parts[POSITION_WORKING_HOUR])
-                                    * Integer.parseInt(parts[POSITION_INCOME_PER_HOUR]);
-                        }
+                    if (names[i].equals(parts[POSITION_NAME])) {
+                        resultSalary += Integer.parseInt(parts[POSITION_WORKING_HOUR])
+                                * Integer.parseInt(parts[POSITION_INCOME_PER_HOUR]);
                     }
+                }
             }
-        report.append(System.lineSeparator()).append(names[i]).append(SEPARATOR)
+            report.append(System.lineSeparator()).append(names[i]).append(SEPARATOR)
                 .append(String.valueOf(resultSalary));
 
         }
-    return report.toString();
+        return report.toString();
     }
 }
