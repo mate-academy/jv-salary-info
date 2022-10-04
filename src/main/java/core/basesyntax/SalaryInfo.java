@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 public class SalaryInfo {
     private static final String HYPHEN = " - ";
     private static final String WHITE_SPACE = " ";
+    private static final String LINE_SEPARATOR = System.lineSeparator();
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     private static final int THERO_INDEX = 0;
     private static final int FIRST_INDEX = 1;
@@ -39,10 +40,10 @@ public class SalaryInfo {
     }
 
     public String concatTopPart(String first, String second) {
-        return "Report for period " + first + HYPHEN + second + System.lineSeparator();
+        return "Report for period " + first + HYPHEN + second + LINE_SEPARATOR;
     }
 
     public String concatBottomPart(String name, int count) {
-        return name + HYPHEN + count + System.lineSeparator();
+        return name + HYPHEN + count + LINE_SEPARATOR;
     }
 }
