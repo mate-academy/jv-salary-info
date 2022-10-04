@@ -5,7 +5,13 @@ import java.time.format.DateTimeFormatter;
 import java.util.stream.IntStream;
 
 public class SalaryInfo {
-    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    public static final int INDEX_DATE = 0;
+    public static final int INDEX_NAME = 1;
+    public static final int INDEX_NUMBER_OF_AMOUNT = 2;
+    public static final int INDEX_AMOUNT = 3;
+    public static final int INDEX_DATE_FROM = 0;
+    public static final int INDEX_DATE_TO = 1;
 
     private int getNameIndex(String[] names, String name) {
         return IntStream.range(0, names.length)
@@ -15,12 +21,14 @@ public class SalaryInfo {
     }
 
     private int getPayout(String[] record) {
-        return Integer.valueOf(record[2]) * Integer.valueOf(record[3]);
+        return Integer.valueOf(record[INDEX_NUMBER_OF_AMOUNT])
+                * Integer.valueOf(record[INDEX_AMOUNT]);
     }
 
     private boolean isDateInPeriod(LocalDate date, LocalDate[] period) {
-        return date.isAfter(period[0])
-                && date.isBefore(period[1]) || date.isEqual(period[1]);
+        return date.isAfter(period[INDEX_DATE_FROM])
+                && date.isBefore(period[INDEX_DATE_TO])
+                || date.isEqual(period[INDEX_DATE_TO]);
     }
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
@@ -31,9 +39,9 @@ public class SalaryInfo {
         int[] salary = new int[names.length];
         for (String record : data) {
             String[] recordArray = record.split(" ");
-            LocalDate dateInRecord = LocalDate.parse(recordArray[0], FORMATTER);
+            LocalDate dateInRecord = LocalDate.parse(recordArray[INDEX_DATE], FORMATTER);
             if (isDateInPeriod(dateInRecord, period)) {
-                salary[getNameIndex(names, recordArray[1])] += getPayout(recordArray);
+                salary[getNameIndex(names, recordArray[INDEX_NAME])] += getPayout(recordArray);
             }
         }
         StringBuilder stringBuilder = new StringBuilder("Report for period ");
