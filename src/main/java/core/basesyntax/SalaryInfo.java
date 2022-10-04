@@ -5,13 +5,16 @@ import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    static final int NAME_INDEX = 1;
+    static final int WORKING_HOURS_INDEX = 2;
+    static final int INCOME_PER_HOUR_INDEX = 3;
     private LocalDate dateFrom;
     private LocalDate dateTo;
     private LocalDate currentDate;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        StringBuilder builder = new StringBuilder("Report for period ");
-        builder.append(dateFrom).append(" - ").append(dateTo);
+        StringBuilder result = new StringBuilder("Report for period ");
+        result.append(dateFrom).append(" - ").append(dateTo);
         this.dateFrom = LocalDate.parse(dateFrom, DATE_FORMATTER);
         this.dateTo = LocalDate.parse(dateTo, DATE_FORMATTER);
         String[] details;
@@ -23,15 +26,16 @@ public class SalaryInfo {
                 continue;
             }
             for (int n = 0; n < names.length; n++) {
-                if (details[1].equals(names[n])) {
-                    salaries[n] += Integer.parseInt(details[2]) * Integer.parseInt(details[3]);
+                if (details[NAME_INDEX].equals(names[n])) {
+                    salaries[n] += Integer.parseInt(details[WORKING_HOURS_INDEX])
+                            * Integer.parseInt(details[INCOME_PER_HOUR_INDEX]);
                 }
             }
         }
         for (int j = 0; j < names.length; j++) {
-            builder.append(System.lineSeparator()).append(names[j]).append(" - ")
+            result.append(System.lineSeparator()).append(names[j]).append(" - ")
                     .append(salaries[j]);
         }
-        return builder.toString();
+        return result.toString();
     }
 }
