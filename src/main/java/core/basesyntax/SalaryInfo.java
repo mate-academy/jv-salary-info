@@ -4,47 +4,38 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private final int dataIndex = 0;
+    private final int nameIndex = 1;
+    private final int indexOfHour = 2;
+    private final int salaryIndex = 3;
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         LocalDate localDateFrom = LocalDate.parse(dateFrom, formatter);
         LocalDate localDateTo = LocalDate.parse(dateTo, formatter);
-        int sum = 0;
-        int sum2 = 0;
-        int sum3 = 0;
         StringBuilder builder = new StringBuilder();
-        for (String str : data) {
-            String[] strSplit = str.split(" ");
-            LocalDate localStrSplit = LocalDate.parse(strSplit[0], formatter);
-            if (strSplit[1].equals(names[0]) && localStrSplit.isAfter(localDateFrom)
-                    && (localStrSplit.isAfter(localDateFrom)
-                    || localStrSplit.isEqual(localDateFrom))
-                    && (localStrSplit.isBefore(localDateTo)
-                    || localStrSplit.isEqual(localDateTo))) {
-                sum += Integer.parseInt(strSplit[2])
-                        * Integer.parseInt(strSplit[3]);
+        builder.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
+        for (String name: names) {
+            int salaryForPeriod = 0;
+            for (String eachData : data) {
+                String[] dataNameSalary = eachData.split(" ");
+                final String employerName = dataNameSalary[nameIndex];
+                final int hoursOfWork = Integer.parseInt(dataNameSalary[indexOfHour]);
+                final int salaryPerHour = Integer.parseInt(dataNameSalary[salaryIndex]);
+                LocalDate localDateOfWork = LocalDate.parse(dataNameSalary[dataIndex], formatter);
+                if (name.equals(employerName)
+                            && (localDateOfWork.isAfter(localDateFrom)
+                            && localDateOfWork.isBefore(localDateTo)
+                            || localDateOfWork.isEqual(localDateFrom)
+                            || localDateOfWork.isEqual(localDateTo))) {
+                    salaryForPeriod += hoursOfWork * salaryPerHour;
+                }
             }
-            if (strSplit[1].equals(names[1])
-                    && (localStrSplit.isAfter(localDateFrom)
-                    || localStrSplit.isEqual(localDateFrom))
-                    && (localStrSplit.isBefore(localDateTo)
-                    || localStrSplit.isEqual(localDateTo))) {
-                sum2 += Integer.parseInt(strSplit[2])
-                        * Integer.parseInt(strSplit[3]);
-            }
-            if (strSplit[1].equals(names[2]) && localStrSplit.isAfter(localDateFrom)
-                    && (localStrSplit.isAfter(localDateFrom)
-                    || localStrSplit.isEqual(localDateFrom))
-                    && (localStrSplit.isBefore(localDateTo)
-                    || localStrSplit.isEqual(localDateTo))) {
-                sum3 += Integer.parseInt(strSplit[2])
-                        * Integer.parseInt(strSplit[3]);
-            }
+            builder.append(System.lineSeparator())
+                    .append(name)
+                    .append(" - ")
+                    .append(salaryForPeriod);
         }
-        builder.append("Report for period " + dateFrom + " - " + dateTo)
-                .append(System.lineSeparator())
-                .append("John - " + sum).append(System.lineSeparator())
-                .append("Andrew - " + sum2).append(System.lineSeparator())
-                .append("Kate - " + sum3);
         return builder.toString();
     }
 }
