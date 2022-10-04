@@ -4,32 +4,31 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
+    private static final String HYPHEN = " - ";
+    private static final String WHITE_SPACE = " ";
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final int THERO_INDEX = 0;
+    private static final int FIRST_INDEX = 1;
+    private static final int SECOND_INDEX = 2;
+    private static final int THIRD_INDEX = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        LocalDate parsedDateFrom = LocalDate.parse(dateFrom, formatter);
-        LocalDate parsedDateTo = LocalDate.parse(dateTo, formatter);
+        LocalDate parsedDateFrom = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate parsedDateTo = LocalDate.parse(dateTo, FORMATTER);
         StringBuilder stringBuilder = new StringBuilder();
-
-        stringBuilder.append("Report for period ")
-                .append(dateFrom).append(" - ")
-                .append(dateTo)
-                .append(System.lineSeparator());
+        stringBuilder.append(concatTopPart(dateFrom, dateTo));
         for (String name : names) {
             int countMoney = 0;
             for (String info : data) {
-                String[] parsedInfo = info.split(" ");
-                LocalDate infoDate = LocalDate.parse(parsedInfo[0], formatter);
-                if (parsedInfo[1].equals(name)
+                String[] parsedInfo = info.split(WHITE_SPACE);
+                LocalDate infoDate = LocalDate.parse(parsedInfo[THERO_INDEX], FORMATTER);
+                if (parsedInfo[FIRST_INDEX].equals(name)
                         && compareData(parsedDateFrom, parsedDateTo, infoDate)) {
-                    countMoney += Integer.parseInt(parsedInfo[2]) * Integer.parseInt(parsedInfo[3]);
+                    countMoney += Integer.parseInt(parsedInfo[SECOND_INDEX])
+                            * Integer.parseInt(parsedInfo[THIRD_INDEX]);
                 }
             }
-            stringBuilder
-                    .append(name)
-                    .append(" - ")
-                    .append(countMoney)
-                    .append(System.lineSeparator());
+            stringBuilder.append(concatBottomPart(name, countMoney));
         }
         return stringBuilder.toString().trim();
     }
@@ -37,5 +36,13 @@ public class SalaryInfo {
     public boolean compareData(LocalDate dateFrom, LocalDate dateTo, LocalDate comparedDate) {
         return (dateFrom.isBefore(comparedDate) || dateFrom.equals(comparedDate))
                 && (dateTo.isAfter(comparedDate) || dateTo.equals(comparedDate));
+    }
+
+    public String concatTopPart(String first, String second) {
+        return "Report for period " + first + HYPHEN + second + System.lineSeparator();
+    }
+
+    public String concatBottomPart(String name, int count) {
+        return name + HYPHEN + count + System.lineSeparator();
     }
 }
