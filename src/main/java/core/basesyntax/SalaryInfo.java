@@ -10,6 +10,7 @@ public class SalaryInfo {
     private static final int INDEX_OF_HOURS = 2;
     private static final int INDEX_OF_PAYMENT = 3;
     private static final int DEFAULT_SALARY = 0;
+    private static final String SPLITTER = " ";
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder builder = new StringBuilder("Report for period " + dateFrom + " - " + dateTo);
@@ -20,7 +21,7 @@ public class SalaryInfo {
         for (String name: names) {
             int salary = DEFAULT_SALARY;
             for (String employeeData : data) {
-                dataOfEmployee = employeeData.split(" ");
+                dataOfEmployee = employeeData.split(SPLITTER);
                 if (dataOfEmployee[INDEX_OF_NAME].equals(name)) {
                     dayOfWork = LocalDate.parse(dataOfEmployee[INDEX_OF_DAY], formatter);
                     if ((dayOfWork.isAfter(startOfPayment) || dayOfWork.isEqual(startOfPayment))
