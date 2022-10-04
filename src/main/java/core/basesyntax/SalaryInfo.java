@@ -13,6 +13,7 @@ public class SalaryInfo {
     public static final String DASH = "-";
     public static final String DASH_WITH_SPAСES = " - ";
     public static final String DOT = ".";
+    public static final String SEPARATOR = System.lineSeparator();
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate dateF = LocalDate.parse(dateFrom.replace(DOT, DASH), FORMATTER);
@@ -34,11 +35,15 @@ public class SalaryInfo {
                 }
             }
             StringBuilder builder = new StringBuilder();
-            builder.append(name).append(DASH_WITH_SPAСES).append(totalSalary);
-            result += builder.toString() + System.lineSeparator();
+            builder
+                    .append(name)
+                    .append(DASH_WITH_SPAСES)
+                    .append(totalSalary);
+            result += builder.toString()
+                    + SEPARATOR;
         }
         return "Report for period " + dateFrom + DASH_WITH_SPAСES + dateTo
-                + System.lineSeparator()
+                + SEPARATOR
                 + result.trim();
     }
 }
