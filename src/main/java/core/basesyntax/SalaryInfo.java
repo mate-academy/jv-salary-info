@@ -13,24 +13,6 @@ public class SalaryInfo {
     public static final int INDEX_DATE_FROM = 0;
     public static final int INDEX_DATE_TO = 1;
 
-    private int getNameIndex(String[] names, String name) {
-        return IntStream.range(0, names.length)
-                .filter(i -> name.equals(names[i]))
-                .findFirst()
-                .orElse(-1);
-    }
-
-    private int getPayout(String[] record) {
-        return Integer.valueOf(record[INDEX_NUMBER_OF_AMOUNT])
-                * Integer.valueOf(record[INDEX_AMOUNT]);
-    }
-
-    private boolean isDateInPeriod(LocalDate date, LocalDate[] period) {
-        return date.isAfter(period[INDEX_DATE_FROM])
-                && date.isBefore(period[INDEX_DATE_TO])
-                || date.isEqual(period[INDEX_DATE_TO]);
-    }
-
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate[] period = new LocalDate[]{
                 LocalDate.parse(dateFrom, FORMATTER),
@@ -44,16 +26,28 @@ public class SalaryInfo {
                 salary[getNameIndex(names, recordArray[INDEX_NAME])] += getPayout(recordArray);
             }
         }
-        StringBuilder stringBuilder = new StringBuilder("Report for period ");
-        stringBuilder.append(dateFrom)
-                .append(" - ")
-                .append(dateTo);
+        StringBuilder result = new StringBuilder("Report for period ");
+        result.append(dateFrom).append(" - ").append(dateTo);
         for (int i = 0; i < names.length; i++) {
-            stringBuilder.append(System.lineSeparator())
-                    .append(names[i])
-                    .append(" - ")
-                    .append(salary[i]);
+            result.append(System.lineSeparator()).append(names[i]).append(" - ").append(salary[i]);
         }
-        return stringBuilder.toString();
+        return result.toString();
+    }
+
+    private int getNameIndex(String[] names, String name) {
+        return IntStream.range(0, names.length)
+                .filter(i -> name.equals(names[i]))
+                .findFirst()
+                .orElse(-1);
+    }
+
+    private int getPayout(String[] record) {
+        return Integer.valueOf(record[INDEX_NUMBER_OF_AMOUNT])
+                * Integer.valueOf(record[INDEX_AMOUNT]);
+    }
+
+    private boolean isDateInPeriod(LocalDate date, LocalDate[] period) {
+        return date.isAfter(period[INDEX_DATE_FROM]) && date.isBefore(period[INDEX_DATE_TO])
+                || date.isEqual(period[INDEX_DATE_TO]);
     }
 }
