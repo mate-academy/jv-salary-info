@@ -27,7 +27,8 @@ public class SalaryInfo {
             int salary = 0;
             for (String record : data) {
                 String[] info = record.split(" ");
-                LocalDate parsedDate = LocalDate.parse(info[DATE_OF_START_WORK_INDEX], DATE_TIME_FORMAT);
+                LocalDate parsedDate = LocalDate.parse(info[DATE_OF_START_WORK_INDEX],
+                        DATE_TIME_FORMAT);
                 if (info[WORKER_NAME_INDEX].equals(name)
                         && (parsedDate.compareTo(from) >= 0
                         && parsedDate.compareTo(to) <= 0)) {
