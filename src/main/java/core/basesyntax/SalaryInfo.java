@@ -22,31 +22,21 @@ public class SalaryInfo {
                 .append(dateFrom)
                 .append(DATE_TIME_SEPARATOR)
                 .append(dateTo);
-        Employee[] employees = new Employee[data.length];
-        for (int i = 0; i < data.length; i++) {
-            Employee employee = new Employee();
-            String[] info = data[i].split(" ");
-            LocalDate parsedDate = LocalDate.parse(info[DATE_OF_START_WORK], DATE_TIME_FORMAT);
-            employee.setDayOfWorkStart(parsedDate);
-            employee.setName(info[WORKER_NAME]);
-            employee.setNumberOfWorkingDays(Integer.parseInt(info[WORKDAY]));
-            employee.setWorkingHours(Integer.parseInt(info[WORKING_HOURS]));
-            employees[i] = employee;
-        }
 
         for (String name : names) {
             int salary = 0;
-            for (Employee employee : employees) {
-                if (employee.getName().equals(name)
-                        && employee.getDayOfWorkStart().compareTo(from) >= 0
-                        && employee.getDayOfWorkStart().compareTo(to) <= 0) {
-                    int salaryForDay = employee.getNumberOfWorkingDays()
-                            * employee.getWorkingHours();
+            for (String record : data) {
+                String[] info = record.split(" ");
+                LocalDate parsedDate = LocalDate.parse(info[DATE_OF_START_WORK], DATE_TIME_FORMAT);
+                if (info[WORKER_NAME].equals(name)
+                        && (parsedDate.compareTo(from) >= 0
+                        && parsedDate.compareTo(to) <= 0)) {
+                    int salaryForDay = Integer.parseInt(info[WORKDAY])
+                            * Integer.parseInt(info[WORKING_HOURS]);
                     salary = salary + salaryForDay;
                 }
             }
-            stringBuilder.append(System
-                            .lineSeparator())
+            stringBuilder.append(System.lineSeparator())
                     .append(name)
                     .append(DATE_TIME_SEPARATOR)
                     .append(salary);
