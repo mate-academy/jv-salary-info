@@ -34,8 +34,8 @@ public class SalaryInfo {
                 }
                 int wordData = getDataToIntFormat(builder.substring(0, indexSeparator1));
                 String wordName = builder.substring(indexSeparator1 + 1, indexSeparator2);
-                boolean isBetween = (wordData >= dateFromFormat) && (wordData <= dateToFormat);
-                if ((wordNameAr.equals(wordName)) && (isBetween || (wordData < dateFromFormat))) {
+                if ((wordNameAr.equals(wordName)) && (wordData >= dateFromFormat)
+                        && (wordData <= dateToFormat)) {
                     int indexSeparator3 = builder.indexOf(SEPARATOR_DATA, indexSeparator2 + 1);
                     if (indexSeparator3 < 0) {
                         continue;
