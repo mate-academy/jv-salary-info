@@ -4,11 +4,11 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
+    private static final int DATA_INDEX = 0;
+    private static final int NAME_INDEX = 1;
+    private static final int INDEX_OF_HOUR = 2;
+    private static final int SALARY_INDEX = 3;
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-    private final int dataIndex = 0;
-    private final int nameIndex = 1;
-    private final int indexOfHour = 2;
-    private final int salaryIndex = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate localDateFrom = LocalDate.parse(dateFrom, formatter);
@@ -19,10 +19,10 @@ public class SalaryInfo {
             int salaryForPeriod = 0;
             for (String eachData : data) {
                 String[] dataNameSalary = eachData.split(" ");
-                final String employerName = dataNameSalary[nameIndex];
-                final int hoursOfWork = Integer.parseInt(dataNameSalary[indexOfHour]);
-                final int salaryPerHour = Integer.parseInt(dataNameSalary[salaryIndex]);
-                LocalDate localDateOfWork = LocalDate.parse(dataNameSalary[dataIndex], formatter);
+                final String employerName = dataNameSalary[NAME_INDEX];
+                final int hoursOfWork = Integer.parseInt(dataNameSalary[INDEX_OF_HOUR]);
+                final int salaryPerHour = Integer.parseInt(dataNameSalary[SALARY_INDEX]);
+                LocalDate localDateOfWork = LocalDate.parse(dataNameSalary[DATA_INDEX], formatter);
                 if (name.equals(employerName)
                             && (localDateOfWork.isAfter(localDateFrom)
                             && localDateOfWork.isBefore(localDateTo)
