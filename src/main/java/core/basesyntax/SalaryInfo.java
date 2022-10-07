@@ -1,6 +1,11 @@
 package core.basesyntax;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+
 public class SalaryInfo {
+    private final static DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     private String salaryInfo;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
@@ -13,25 +18,11 @@ public class SalaryInfo {
         for (int i = 0; i < names.length; i++) {
             for (int j = 0; j < data.length; j++) {
                 if (names[i].equals(getName(data[j]))
-                        && getMonth(data[j]) == getMonth(dateFrom)
-                        && getMonth(data[j]) == getMonth(dateTo)
-                        && getDay(data[j]) >= getDay(dateFrom)
-                        && getDay(data[j]) <= getDay(dateTo)
-                        && !dateFrom.equals(dateTo)) {
-                    salary += getIndex(data[j]) * getSum(data[j]);
-                } else if (names[i].equals(getName(data[j]))
-                        && getMonth(data[j]) == getMonth(dateFrom)
-                        && getMonth(data[j]) < getMonth(dateTo)
-                        && getDay(data[j]) >= getDay(dateFrom)) {
-                    salary += getIndex(data[j]) * getSum(data[j]);
-                } else if (names[i].equals(getName(data[j]))
-                        && getMonth(data[j]) > getMonth(dateFrom)
-                        && getMonth(data[j]) < getMonth(dateTo)) {
-                    salary += getIndex(data[j]) * getSum(data[j]);
-                } else if (names[i].equals(getName(data[j]))
-                        && getMonth(data[j]) == getMonth(dateTo)
-                        && getMonth(data[j]) > getMonth(dateFrom)
-                        && getDay(data[j]) <= getDay(dateTo)) {
+                        && !getDate(dateFrom).isEqual(getDate(dateTo))
+                        && (getDate(data[j]).isAfter(getDate(dateFrom))
+                        || getDate(data[j]).isEqual(getDate(dateFrom)))
+                        && (getDate(data[j]).isBefore(getDate(dateTo))
+                        || getDate(data[j]).isEqual(getDate(dateTo)))) {
                     salary += getIndex(data[j]) * getSum(data[j]);
                 }
             }
@@ -46,16 +37,9 @@ public class SalaryInfo {
         return salaryInfo;
     }
 
-    public int getDay(String dataString) {
+    public LocalDate getDate(String dataString) {
         String[] array = dataString.split(" ");
-        String[] day = array[0].split("\\.");
-        return Integer.parseInt(day[0]);
-    }
-
-    public int getMonth(String dataString) {
-        String[] array = dataString.split(" ");
-        String[] month = array[0].split("\\.");
-        return Integer.parseInt(month[1]);
+        return LocalDate.parse(array[0], FORMATTER);
     }
 
     public String getName(String dataString) {
