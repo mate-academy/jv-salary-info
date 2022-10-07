@@ -2,10 +2,9 @@ package core.basesyntax;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
 
 public class SalaryInfo {
-    private final static DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     private String salaryInfo;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
@@ -39,7 +38,7 @@ public class SalaryInfo {
 
     public LocalDate getDate(String dataString) {
         String[] array = dataString.split(" ");
-        return LocalDate.parse(array[0], FORMATTER);
+        return LocalDate.parse(array[0], formatter);
     }
 
     public String getName(String dataString) {
