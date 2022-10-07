@@ -5,54 +5,35 @@ import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-    private String salaryInfo;
+    private static final int[] INDEX = {0, 1, 2, 3};
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        StringBuilder builder = new StringBuilder("Report for period "
-                + dateFrom
-                + " - "
-                + dateTo
-                + System.lineSeparator());
+        StringBuilder builder = new StringBuilder("Report for period ");
+        builder.append(dateFrom);
+        builder.append(" - ");
+        builder.append(dateTo);
         int salary = 0;
-        for (int i = 0; i < names.length; i++) {
-            for (int j = 0; j < data.length; j++) {
-                if (names[i].equals(getName(data[j]))
-                        && !getDate(dateFrom).isEqual(getDate(dateTo))
-                        && (getDate(data[j]).isAfter(getDate(dateFrom))
-                        || getDate(data[j]).isEqual(getDate(dateFrom)))
-                        && (getDate(data[j]).isBefore(getDate(dateTo))
-                        || getDate(data[j]).isEqual(getDate(dateTo)))) {
-                    salary += getIndex(data[j]) * getSum(data[j]);
+        LocalDate dateF = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate dateT = LocalDate.parse(dateTo, FORMATTER);
+        for (String name : names) {
+            for (String strData : data) {
+                String[] array = strData.split(" ");
+                LocalDate date = LocalDate.parse(array[INDEX[0]], FORMATTER);
+                if (name.equals(array[INDEX[1]])
+                        && !dateF.isEqual(dateT)
+                        && (date.isAfter(dateF)
+                        || date.isEqual(dateF))
+                        && (date.isBefore(dateT)
+                        || date.isEqual(dateT))) {
+                    salary += Integer.parseInt(array[INDEX[2]]) * Integer.parseInt(array[INDEX[3]]);
                 }
             }
-            if (i == 2) {
-                builder.append(names[i] + " - " + salary);
-            } else {
-                builder.append(names[i] + " - " + salary + System.lineSeparator());
-                salary = 0;
-            }
+            builder.append(System.lineSeparator());
+            builder.append(name);
+            builder.append(" - ");
+            builder.append(salary);
+            salary = 0;
         }
-        salaryInfo = builder.toString();
-        return salaryInfo;
-    }
-
-    public LocalDate getDate(String dataString) {
-        String[] array = dataString.split(" ");
-        return LocalDate.parse(array[0], FORMATTER);
-    }
-
-    public String getName(String dataString) {
-        String[] array = dataString.split(" ");
-        return array[1];
-    }
-
-    public int getIndex(String dataString) {
-        String[] array = dataString.split(" ");
-        return Integer.parseInt(array[2]);
-    }
-
-    public int getSum(String dataString) {
-        String[] array = dataString.split(" ");
-        return Integer.parseInt(array[3]);
+        return builder.toString();
     }
 }
