@@ -24,7 +24,8 @@ public class SalaryInfo {
                 if (currentDate.compareTo(localDateFrom) >= 0
                         && currentDate.compareTo(localDateTo) <= 0
                         && names[i].equals(splitData[NAME_INDEX])) {
-                    salary += Integer.parseInt(splitData[HOURS_INDEX]) * Integer.parseInt(splitData[SALARY_INDEX]);
+                    salary += Integer.parseInt(splitData[HOURS_INDEX])
+                            * Integer.parseInt(splitData[SALARY_INDEX]);
                 }
             }
             builder.append('\n').append(names[i]).append(" - ").append(salary);
