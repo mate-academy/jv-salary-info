@@ -1,39 +1,37 @@
 package core.basesyntax;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final int ZERO = 0;
+    private static final int ONE = 1;
+    private static final int TWO = 2;
+    private static final int THREE = 3;
+    private static final String HYPHEN = " - ";
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        LocalDate dateFromDate = LocalDate.of(Integer.parseInt(dateFrom.substring(6, 10)),
-                Integer.parseInt(dateFrom.substring(3, 5)),
-                Integer.parseInt(dateFrom.substring(0, 2)));
-
-        LocalDate dateToDate = LocalDate.of(Integer.parseInt(dateTo.substring(6, 10)),
-                Integer.parseInt(dateTo.substring(3, 5)),
-                Integer.parseInt(dateTo.substring(0, 2)));
-
+        LocalDate dateFromDate = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate dateToDate = LocalDate.parse(dateTo, FORMATTER);
         StringBuilder result = new StringBuilder("Report for period ").append(dateFrom)
-                .append(" - ")
+                .append(HYPHEN)
                 .append(dateTo);
-
         for (String name : names) {
             int salary = 0;
-            for (String datum : data) {
-                String[] dataFromFile = datum.split(" ");
-                if (name.equals(dataFromFile[1])) {
-                    LocalDate dateCurrent = LocalDate.of(Integer.parseInt(dataFromFile[0]
-                                    .substring(6, 10)),
-                            Integer.parseInt(dataFromFile[0].substring(3, 5)),
-                            Integer.parseInt(dataFromFile[0].substring(0, 2)));
+            for (String line : data) {
+                String[] dataFromFile = line.split(" ");
+                if (name.equals(dataFromFile[ONE])) {
+                    LocalDate dateCurrent = LocalDate.parse(dataFromFile[ZERO], FORMATTER);
                     if ((dateFromDate.equals(dateCurrent) || dateFromDate.isBefore(dateCurrent))
                             && (dateToDate.equals(dateCurrent)
                             || dateToDate.isAfter(dateCurrent))) {
-                        salary = salary + (Integer.parseInt(dataFromFile[2])
-                                * Integer.parseInt(dataFromFile[3]));
+                        salary = salary + (Integer.parseInt(dataFromFile[TWO])
+                                * Integer.parseInt(dataFromFile[THREE]));
                     }
                 }
             }
-            result.append(System.lineSeparator()).append(name).append(" - ").append(salary);
+            result.append(System.lineSeparator()).append(name).append(HYPHEN).append(salary);
         }
         return result.toString();
     }
