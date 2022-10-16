@@ -6,43 +6,29 @@ import java.time.format.DateTimeFormatter;
 public class SalaryInfo {
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
+        final int date = 0;
+        final int hours = 2;
+        final int hourlyPay = 3;
         final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         final LocalDate dateFromFormatted = LocalDate.parse(dateFrom, formatter);
         final LocalDate dateToFormatted = LocalDate.parse(dateTo, formatter);
-        final int[] employeesSalaryCount = new int[names.length];
-        int countOfNames = 0;
         StringBuilder reportBuilder = new StringBuilder();
-        reportBuilder.append("Report for period " + dateFrom + " - " + dateTo);
+        reportBuilder.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
         for (String name : names) {
+            int salary = 0;
             for (String datum : data) {
-                LocalDate currentDate = LocalDate.parse(
-                        datum.substring(0, datum.indexOf(" ")), formatter);
-                if (dateCheck(dateFromFormatted, dateToFormatted, currentDate)) {
-                    if (datum.contains(name)) {
-                        employeesSalaryCount[countOfNames] += dailySalaryCalculation(datum);
+                if (datum.contains(name)) {
+                    String[] employeeData = datum.split(" ");
+                    LocalDate currentDate = LocalDate.parse(employeeData[date], formatter);
+                    if (currentDate.compareTo(dateFromFormatted) >= 0
+                            && dateToFormatted.compareTo(currentDate) >= 0) {
+                        salary += Integer.parseInt(employeeData[hours])
+                                * Integer.parseInt(employeeData[hourlyPay]);
                     }
                 }
             }
-            reportBuilder.append(
-                    System.lineSeparator() + name + " - " + employeesSalaryCount[countOfNames]);
-            countOfNames++;
+            reportBuilder.append(System.lineSeparator()).append(name).append(" - ").append(salary);
         }
         return reportBuilder.toString();
-    }
-
-    private boolean dateCheck(LocalDate dateFrom, LocalDate dateTo, LocalDate date) {
-        return date.compareTo(dateFrom) >= 0 && dateTo.compareTo(date) >= 0;
-    }
-
-    private int dailySalaryCalculation(String employeeData) {
-        int hours;
-        int hourlyPay;
-        final int firstIndex = employeeData.indexOf(" ") + 1;
-        int indexData = employeeData.indexOf(" ", firstIndex);
-        hours = Integer.parseInt(employeeData.substring(++indexData,
-                employeeData.indexOf(" ", indexData)));
-        indexData = employeeData.indexOf(" ", indexData);
-        hourlyPay = Integer.parseInt(employeeData.substring(++indexData));
-        return hours * hourlyPay;
     }
 }
