@@ -4,14 +4,14 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
+    private static final int DATE_INDEX = 0;
+    private static final int HOURS_INDEX = 2;
+    private static final int HOURLY_PAY_INDEX = 3;
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        final int date = 0;
-        final int hours = 2;
-        final int hourlyPay = 3;
-        final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        final LocalDate dateFromFormatted = LocalDate.parse(dateFrom, formatter);
-        final LocalDate dateToFormatted = LocalDate.parse(dateTo, formatter);
+        final LocalDate dateFromFormatted = LocalDate.parse(dateFrom, FORMATTER);
+        final LocalDate dateToFormatted = LocalDate.parse(dateTo, FORMATTER);
         StringBuilder reportBuilder = new StringBuilder();
         reportBuilder.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
         for (String name : names) {
@@ -19,11 +19,11 @@ public class SalaryInfo {
             for (String datum : data) {
                 if (datum.contains(name)) {
                     String[] employeeData = datum.split(" ");
-                    LocalDate currentDate = LocalDate.parse(employeeData[date], formatter);
+                    LocalDate currentDate = LocalDate.parse(employeeData[DATE_INDEX], FORMATTER);
                     if (currentDate.compareTo(dateFromFormatted) >= 0
                             && dateToFormatted.compareTo(currentDate) >= 0) {
-                        salary += Integer.parseInt(employeeData[hours])
-                                * Integer.parseInt(employeeData[hourlyPay]);
+                        salary += Integer.parseInt(employeeData[HOURS_INDEX])
+                                * Integer.parseInt(employeeData[HOURLY_PAY_INDEX]);
                     }
                 }
             }
