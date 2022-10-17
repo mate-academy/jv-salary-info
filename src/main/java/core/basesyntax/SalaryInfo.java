@@ -7,18 +7,20 @@ public class SalaryInfo {
     private static final int DATE_INDEX = 0;
     private static final int HOURS_INDEX = 2;
     private static final int PAY_FOR_HOUR_INDEX = 3;
-    private static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final DateTimeFormatter dateTimeFormatter =
+            DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data,
                                 String dateFrom, String dateTo) {
-        LocalDate parseDateFrom = LocalDate.parse(dateFrom, dtf);
-        LocalDate parseDateTo = LocalDate.parse(dateTo, dtf);
+        LocalDate parseDateFrom = LocalDate.parse(dateFrom, dateTimeFormatter);
+        LocalDate parseDateTo = LocalDate.parse(dateTo, dateTimeFormatter);
         StringBuilder builder = new StringBuilder();
         builder.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
         for (String name : names) {
             int salary = 0;
             for (String element : data) {
-                LocalDate date = LocalDate.parse(element.split(" ")[DATE_INDEX], dtf);
+                LocalDate date = LocalDate.parse(element.split(" ")[DATE_INDEX],
+                        dateTimeFormatter);
                 String[] splitData = element.split(" ");
                 if (element.contains(name)) {
                     if (date.compareTo(parseDateFrom) >= 0
