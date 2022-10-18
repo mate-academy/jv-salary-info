@@ -19,9 +19,9 @@ public class SalaryInfo {
         for (String name : names) {
             int salary = 0;
             for (String element : data) {
-                LocalDate date = LocalDate.parse(element.split(" ")[DATE_INDEX],
-                        dateTimeFormatter);
                 String[] splitData = element.split(" ");
+                LocalDate date = LocalDate.parse(splitData[DATE_INDEX],
+                        dateTimeFormatter);
                 if (element.contains(name)) {
                     if (date.compareTo(parseDateFrom) >= 0
                             && parseDateTo.compareTo(date) >= 0) {
