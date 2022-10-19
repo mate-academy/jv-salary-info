@@ -13,8 +13,7 @@ public class SalaryInfo {
         LocalDate fromDate = DATE_CONVERTOR.convert(dateFrom);
         LocalDate toDate = DATE_CONVERTOR.convert(dateTo);
         StringBuilder salaryList = new StringBuilder();
-        salaryList.append("Report for period ")
-                .append(dateFrom)
+        salaryList.append("Report for period ").append(dateFrom)
                 .append(" - ")
                 .append(dateTo);
         for (String name : names) {
