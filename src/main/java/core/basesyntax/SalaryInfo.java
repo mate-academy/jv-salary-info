@@ -6,35 +6,36 @@ import java.time.format.DateTimeFormatter;
 public class SalaryInfo {
     private static final DateTimeFormatter DATE_FORMATTER =
             DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final int DATE_INDEX = 0;
+    private static final int NAME_INDEX = 1;
+    private static final int WORKING_HOURS_INDEX = 2;
+    private static final int INCOME_PER_HOUR_INDEX = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        String[][] salariesList = new String[names.length][2];
-        for (String record : data) {
-            String[] parcedRecord = record.split(" ");
-            for (int i = 0; i < names.length; i++) {
-                salariesList[i][0] = names[i];
-                if (salariesList[i][1] == null) {
-                    salariesList[i][1] = "0";
-                }
-                if (names[i].equals(parcedRecord[1])
-                        && dateLimitsChecker(parcedRecord[0], dateFrom, dateTo)) {
-                    salariesList[i][1] = calculateSalary(salariesList[i][1], parcedRecord[2],
-                            parcedRecord[3]);
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("Report for period ")
+                .append(dateFrom)
+                .append(" - ")
+                .append(dateTo);
+        for (String name : names) {
+            int employeeSalary = 0;
+            for (String record : data) {
+                String[] parcedRecord = record.split(" ");
+                if (name.equals(parcedRecord[NAME_INDEX])
+                        && isDateBetween(parcedRecord[DATE_INDEX], dateFrom, dateTo)) {
+                    employeeSalary += Integer.parseInt(parcedRecord[WORKING_HOURS_INDEX])
+                            * Integer.parseInt(parcedRecord[INCOME_PER_HOUR_INDEX]);
                 }
             }
-
+            stringBuilder.append(System.lineSeparator())
+                    .append(name)
+                    .append(" - ")
+                    .append(employeeSalary);
         }
-        return getInfoString(salariesList, dateFrom, dateTo);
+        return stringBuilder.toString();
     }
 
-    private String calculateSalary(String initialSalary,
-                                   String workingHours,
-                                   String incomePerHour) {
-        return String.valueOf(Integer.parseInt(initialSalary)
-                + Integer.parseInt(workingHours) * Integer.parseInt(incomePerHour));
-    }
-
-    private boolean dateLimitsChecker(String salaryDate, String dateFrom, String dateTo) {
+    private boolean isDateBetween(String salaryDate, String dateFrom, String dateTo) {
         LocalDate salaryDateFormatted = LocalDate.parse(salaryDate, DATE_FORMATTER);
         LocalDate dateFromFormatted = LocalDate.parse(dateFrom, DATE_FORMATTER);
         LocalDate dateToFormatted = LocalDate.parse(dateTo, DATE_FORMATTER);
@@ -42,20 +43,5 @@ public class SalaryInfo {
                 && salaryDateFormatted.isBefore(dateToFormatted)
                 || salaryDate.equals(dateFrom)
                 || salaryDate.equals(dateTo);
-    }
-
-    private String getInfoString(String[][] salaries, String dateFrom, String dateTo) {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("Report for period ")
-                .append(dateFrom)
-                .append(" - ")
-                .append(dateTo);
-        for (String[] record : salaries) {
-            stringBuilder.append(System.lineSeparator())
-                    .append(record[0])
-                    .append(" - ")
-                    .append(record[1]);
-        }
-        return stringBuilder.toString();
     }
 }
