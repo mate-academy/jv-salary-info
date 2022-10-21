@@ -2,10 +2,13 @@ package core.basesyntax;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 
 public class SalaryInfo {
-    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final int DATE_STRING_INDEX = 0;
+    private static final int NAME_INDEX = 1;
+    private static final int HOURS_INDEX = 2;
+    private static final int INCOME_PER_HOUR_INDEX = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         String[] tmpStrArr;
@@ -17,47 +20,28 @@ public class SalaryInfo {
         LocalDate convertDate;
         LocalDate convertDateFrom;
         LocalDate convertDateTo;
-        try {
-            convertDateFrom = LocalDate.parse(dateFrom, formatter);
-        } catch (DateTimeParseException e) {
-            convertDateFrom = LocalDate.EPOCH;
-        }
-        try {
-            convertDateTo = LocalDate.parse(dateTo, formatter);
-        } catch (DateTimeParseException e) {
-            convertDateTo = LocalDate.EPOCH;
-        }
+        convertDateFrom = LocalDate.parse(dateFrom, FORMATTER);
+        convertDateTo = LocalDate.parse(dateTo, FORMATTER);
 
         int index = 0;
         for (String name: names) {
             for (String record: data) {
                 tmpStrArr = record.split(" ");
-                if (tmpStrArr[1].equals(name)) {
-                    try {
-                        convertDate = LocalDate.parse(tmpStrArr[0], formatter);
-                    } catch (DateTimeParseException e) {
-                        convertDate = LocalDate.EPOCH;
-                    }
+                if (tmpStrArr[NAME_INDEX].equals(name)) {
+                    convertDate = LocalDate.parse(tmpStrArr[DATE_STRING_INDEX], FORMATTER);
                     if (convertDate.isAfter(convertDateFrom) && convertDate.isBefore(convertDateTo)
                             || convertDate.isEqual(convertDateFrom)
                             || convertDate.isEqual(convertDateTo)) {
-                        try {
-                            tmpIntArr[index] +=
-                                    Integer.parseInt(tmpStrArr[2]) * Integer.parseInt(tmpStrArr[3]);
-                        } catch (NumberFormatException e) {
-                            tmpIntArr[index] += 0;
-                        }
+                        tmpIntArr[index] += Integer.parseInt(tmpStrArr[HOURS_INDEX])
+                                * Integer.parseInt(tmpStrArr[INCOME_PER_HOUR_INDEX]);
                     }
                 }
             }
-            ++index;
-        }
-
-        for (int i = 0; i < len; ++i) {
-            stringBuilder.append(System.lineSeparator())
-                    .append(names[i])
+            stringBuilder
+                    .append(System.lineSeparator())
+                    .append(name)
                     .append(" - ")
-                    .append(tmpIntArr[i]);
+                    .append(tmpIntArr[index++]);
         }
         return stringBuilder.toString();
     }
