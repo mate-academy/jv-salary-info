@@ -42,7 +42,7 @@ public class SalaryInfo {
                     .append(System.lineSeparator())
                     .append(name)
                     .append(" - ")
-                    .append(tmpIntArr[index++]);
+                    .append(salary);
         }
         return stringBuilder.toString();
     }
