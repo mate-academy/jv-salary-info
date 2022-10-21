@@ -33,7 +33,7 @@ public class SalaryInfo {
                     if (convertDate.isAfter(convertDateFrom) && convertDate.isBefore(convertDateTo)
                             || convertDate.isEqual(convertDateFrom)
                             || convertDate.isEqual(convertDateTo)) {
-                        tmpIntArr[index] += Integer.parseInt(tmpStrArr[HOURS_INDEX])
+                        salary += Integer.parseInt(tmpStrArr[HOURS_INDEX])
                                 * Integer.parseInt(tmpStrArr[INCOME_PER_HOUR_INDEX]);
                     }
                 }
