@@ -12,8 +12,6 @@ public class SalaryInfo {
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         String[] tmpStrArr;
-        int len = names.length;
-        int[] tmpIntArr = new int[len];
         StringBuilder stringBuilder =
                 new StringBuilder("Report for period " + dateFrom + " - " + dateTo);
 
@@ -23,7 +21,6 @@ public class SalaryInfo {
         convertDateFrom = LocalDate.parse(dateFrom, FORMATTER);
         convertDateTo = LocalDate.parse(dateTo, FORMATTER);
 
-        int index = 0;
         for (String name: names) {
             int salary = 0;
             for (String record: data) {
