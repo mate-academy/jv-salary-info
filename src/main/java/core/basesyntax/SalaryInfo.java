@@ -25,6 +25,7 @@ public class SalaryInfo {
 
         int index = 0;
         for (String name: names) {
+            int salary = 0;
             for (String record: data) {
                 tmpStrArr = record.split(" ");
                 if (tmpStrArr[NAME_INDEX].equals(name)) {
