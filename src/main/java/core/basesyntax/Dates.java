@@ -5,7 +5,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Dates {
-    public boolean isWorked (String strDateFrom, String strDateTo, String workDay) throws ParseException {
+    public boolean isWorked(String strDateFrom, String strDateTo, String workDay)
+            throws ParseException {
         SimpleDateFormat formatDate = new SimpleDateFormat("dd.MM.yyyy");
 
         Date dateFromWork = formatDate.parse(strDateFrom);
