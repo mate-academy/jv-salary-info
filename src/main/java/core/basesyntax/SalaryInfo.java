@@ -3,29 +3,35 @@ package core.basesyntax;
 import java.text.ParseException;
 
 public class SalaryInfo {
+    private static final int WORK_DAY = 0;
+    private static final int NAME = 1;
+    private static final int WORK_HOURS = 2;
+    private static final int PAY_PER_HOUR = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        SalaryCalculator salaryCalculator = new SalaryCalculator();
         Dates dates = new Dates();
-        StringBuilder builder = new StringBuilder();
-        builder.append("Report for period " + dateFrom + " - " + dateTo);
+        StringBuilder reportBuilder = new StringBuilder();
+        reportBuilder.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
         for (String name : names) {
             int salaryForPeriod = 0;
             for (String dataEmployees : data) {
                 String [] personalData = dataEmployees.split(" ");
                 try {
-                    if (name.equals(personalData[1]) && dates.isWorked(dateFrom,
-                            dateTo, personalData[0])) {
-                        salaryForPeriod += salaryCalculator
-                                .daySalary(Integer.parseInt(personalData[2]),
-                                        Integer.parseInt(personalData[3]));
+                    if (name.equals(personalData[NAME]) && dates.isWorked(dateFrom,
+                            dateTo, personalData[WORK_DAY])) {
+                        salaryForPeriod += dates
+                                .daySalary(Integer.parseInt(personalData[WORK_HOURS]),
+                                        Integer.parseInt(personalData[PAY_PER_HOUR]));
                     }
                 } catch (ParseException e) {
                     System.out.println("Incorrect data.");
                 }
             }
-            builder.append(System.lineSeparator() + name + " - " + salaryForPeriod);
+            reportBuilder.append(System.lineSeparator())
+                    .append(name)
+                    .append(" - ")
+                    .append(salaryForPeriod);
         }
-        return builder.toString();
+        return reportBuilder.toString();
     }
 }
