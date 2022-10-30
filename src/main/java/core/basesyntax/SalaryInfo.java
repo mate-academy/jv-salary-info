@@ -1,6 +1,8 @@
 package core.basesyntax;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class SalaryInfo {
     private static final int WORK_DAY = 0;
@@ -9,7 +11,6 @@ public class SalaryInfo {
     private static final int PAY_PER_HOUR = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        Dates dates = new Dates();
         StringBuilder reportBuilder = new StringBuilder();
         reportBuilder.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
         for (String name : names) {
@@ -17,10 +18,9 @@ public class SalaryInfo {
             for (String dataEmployees : data) {
                 String [] personalData = dataEmployees.split(" ");
                 try {
-                    if (name.equals(personalData[NAME]) && dates.isWorked(dateFrom,
+                    if (name.equals(personalData[NAME]) && isWorked(dateFrom,
                             dateTo, personalData[WORK_DAY])) {
-                        salaryForPeriod += dates
-                                .daySalary(Integer.parseInt(personalData[WORK_HOURS]),
+                        salaryForPeriod += daySalary(Integer.parseInt(personalData[WORK_HOURS]),
                                         Integer.parseInt(personalData[PAY_PER_HOUR]));
                     }
                 } catch (ParseException e) {
@@ -33,5 +33,22 @@ public class SalaryInfo {
                     .append(salaryForPeriod);
         }
         return reportBuilder.toString();
+    }
+
+    public boolean isWorked(String dateFrom, String dateTo, String workDay)
+            throws ParseException {
+        SimpleDateFormat formatDate = new SimpleDateFormat("dd.MM.yyyy");
+
+        Date dateFromWork = formatDate.parse(dateFrom);
+        Date dateToWork = formatDate.parse(dateTo);
+        Date jobDay = formatDate.parse(workDay);
+        return (jobDay.compareTo(dateFromWork) >= 0 && jobDay.compareTo(dateToWork) <= 0);
+    }
+
+    public int daySalary(int hours, int pay) {
+        if (hours == 0 || pay == 0) {
+            return 0;
+        }
+        return hours * pay;
     }
 }
