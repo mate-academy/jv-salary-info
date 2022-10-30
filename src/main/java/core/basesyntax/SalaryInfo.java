@@ -4,10 +4,10 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    private static final int POSITION_OF_DATE= 0;
+    private static final int POSITION_OF_DATE = 0;
     private static final int POSITION_OF_NAME = 1;
     private static final int POSITION_OF_HOURS = 2;
-    private static final int POSITION_OF_SALARY= 3;
+    private static final int POSITION_OF_SALARY = 3;
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
