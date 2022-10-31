@@ -33,7 +33,7 @@ public class SalaryInfo {
             if (i == names.length - 1) {
                 sb.append(sumName);
             } else {
-                sb.append(sumName).append("\r\n");
+                sb.append(sumName).append(System.lineSeparator());
             }
         }
         return sb.toString();
