@@ -1,8 +1,8 @@
 package core.basesyntax;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     private static final int WORK_DAY = 0;
@@ -37,11 +37,11 @@ public class SalaryInfo {
 
     public boolean isWorked(String dateFrom, String dateTo, String workDay)
             throws ParseException {
-        SimpleDateFormat formatDate = new SimpleDateFormat("dd.MM.yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d.MM.yyyy");
 
-        Date dateFromWork = formatDate.parse(dateFrom);
-        Date dateToWork = formatDate.parse(dateTo);
-        Date jobDay = formatDate.parse(workDay);
+        LocalDate dateFromWork = LocalDate.parse(dateFrom, formatter);
+        LocalDate dateToWork = LocalDate.parse(dateTo, formatter);
+        LocalDate jobDay = LocalDate.parse(workDay, formatter);
         return (jobDay.compareTo(dateFromWork) >= 0 && jobDay.compareTo(dateToWork) <= 0);
     }
 
