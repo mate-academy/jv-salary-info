@@ -36,7 +36,6 @@ public class SalaryInfo {
                 sb.append(sumName).append("\r\n");
             }
         }
-        System.out.println(sb);
         return sb.toString();
     }
 
