@@ -14,11 +14,8 @@ public class SalaryInfo {
                                        String dateFrom, String dateTo) {
         StringBuilder stringBuilder = new StringBuilder("Report for period ")
                 .append(dateFrom).append(" - ").append(dateTo);
-        LocalDate dateFromFormatted = null;
-        LocalDate dateToFormatted = null;
-
-        dateFromFormatted = LocalDate.parse(dateFrom, FORMATTER);
-        dateToFormatted = LocalDate.parse(dateTo, FORMATTER);
+        LocalDate dateFromFormatted = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate dateToFormatted = LocalDate.parse(dateTo, FORMATTER);
 
         String[] employeeInfo;
         for (String name : names) {
@@ -26,8 +23,7 @@ public class SalaryInfo {
             for (String value : data) {
                 employeeInfo = value.split(" ");
                 if (name.equals(employeeInfo[NAME_INDEX])) {
-                    LocalDate workDate = null;
-                    workDate = LocalDate.parse(employeeInfo[DATE_INDEX], FORMATTER);
+                    LocalDate workDate = LocalDate.parse(employeeInfo[DATE_INDEX], FORMATTER);
 
                     if ((workDate.isBefore(dateToFormatted)
                             || workDate.isEqual(dateToFormatted))
