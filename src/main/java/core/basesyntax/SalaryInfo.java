@@ -24,7 +24,6 @@ public class SalaryInfo {
                 employeeInfo = value.split(" ");
                 if (name.equals(employeeInfo[NAME_INDEX])) {
                     LocalDate workDate = LocalDate.parse(employeeInfo[DATE_INDEX], FORMATTER);
-
                     if ((workDate.isBefore(dateToFormatted)
                             || workDate.isEqual(dateToFormatted))
                             && (workDate.isAfter(dateFromFormatted)
