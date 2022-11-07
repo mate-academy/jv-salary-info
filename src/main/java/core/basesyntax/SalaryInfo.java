@@ -6,6 +6,9 @@ import java.time.format.DateTimeFormatter;
 public class SalaryInfo {
     private static final DateTimeFormatter FORMATTER =
             DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final int NAME_INDEX = 1;
+    private static final int WORKING_HOUR_INDEX = 2;
+    private static final int INCOME_PER_HOUR_INDEX = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom,
                                 String dateTo) {
@@ -20,9 +23,9 @@ public class SalaryInfo {
                 LocalDate workingDayOfEmployee = LocalDate.parse(partsOfData[0], FORMATTER);
                 boolean isDayInThePeriod = workingDayOfEmployee.compareTo(periodFrom) >= 0
                         && workingDayOfEmployee.compareTo(periodTo) <= 0;
-                if (isDayInThePeriod && names[i].equals(partsOfData[1])) {
-                    int workingHours = Integer.parseInt(partsOfData[2]);
-                    int incomePerHour = Integer.parseInt(partsOfData[3]);
+                if (isDayInThePeriod && names[i].equals(partsOfData[NAME_INDEX])) {
+                    int workingHours = Integer.parseInt(partsOfData[WORKING_HOUR_INDEX]);
+                    int incomePerHour = Integer.parseInt(partsOfData[INCOME_PER_HOUR_INDEX]);
                     salary += workingHours * incomePerHour;
                 }
             }
