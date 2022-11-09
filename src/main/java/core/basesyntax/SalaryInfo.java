@@ -3,65 +3,53 @@ package core.basesyntax;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.Arrays;
 
 public class SalaryInfo {
     public String getSalaryInfo(
             String[] names, String[] data,
             String dateFrom, String dateTo) {
 
-        StringBuilder stringBuilder = new StringBuilder("Report for period ");
+        StringBuilder reportForPeriod = new StringBuilder("Report for period ");
+        reportForPeriod.append(dateFrom).append(" - ").append(dateTo);
+        SalaryInfo dateParser = new SalaryInfo();
+        LocalDate dateStringFrom = dateParser.dateParsing(dateFrom);
+        LocalDate dateStringTo = dateParser.dateParsing(dateTo);
 
-        stringBuilder.append(dateFrom)
-                .append(" - ").append(dateTo)
-                .append(System.lineSeparator());
+        for (String name : names) {
+            int amount = 0;
+            for (String each1 : data) {
+                String[] dataEach = each1.split(" ");
+                LocalDate dateTempFromData = dateParser.dateParsing(dataEach[0]);
+                String nameTemp = dataEach[1];
+                int hours = Integer.parseInt(dataEach[2]);
+                int salaryPerHour = Integer.parseInt(dataEach[3]);
 
-        DateTimeFormatter formatter =
-                DateTimeFormatter.ofPattern("dd.MM.yyyy");
-
-        LocalDate dateStringFrom;
-        LocalDate dateStringTo;
-
-        try {
-            dateStringFrom = LocalDate.parse(dateFrom, formatter);
-        }
-        catch (DateTimeParseException exc) {
-            System.out.printf("%s is not parsable!%n", dateFrom);
-            throw exc;      // Rethrow the exception.
-        }
-
-        try {
-            dateStringTo = LocalDate.parse(dateFrom, formatter);
-        }
-        catch (DateTimeParseException exc) {
-            System.out.printf("%s is not parsable!%n", dateTo);
-            throw exc;      // Rethrow the exception.
-        }
-
-        for (String each: data) {
-            String[] dataResult = each.split(" ");
-            LocalDate dateFromData;
-            try {
-                dateFromData = LocalDate.parse(dataResult[0], formatter);
-            } catch (DateTimeParseException exc) {
-                System.out.printf("%s is not parsable!%n", dataResult[0]);
-                throw exc;      // Rethrow the exception.
-            }
-
-            if (dateFromData.isAfter(dateStringFrom) && dateFromData.isBefore(dateStringTo)) {
-                String tempName = dataResult[1];
-                stringBuilder.append(tempName).append(" - ");
-                int resultSalary = 0;
-                for (String each1 : data){
-                    String[] dataEach = each.split(" ");
-                    if (dataEach[1].equals(tempName)){
-                        int amount = Integer.parseInt(dataEach[2]) * Integer.parseInt(dataEach[3]);
-                        resultSalary += amount;
+                if ((dateTempFromData.isAfter(dateStringFrom)
+                        && dateTempFromData.isBefore(dateStringTo)
+                        || dateTempFromData.equals(dateStringFrom)
+                        || dateTempFromData.equals(dateStringTo))
+                        && nameTemp.equals(name)) {
+                    {
+                        amount += hours * salaryPerHour;
                     }
                 }
-                stringBuilder.append(resultSalary).append(System.lineSeparator());
             }
+            reportForPeriod.append(System.lineSeparator())
+                    .append(name).append(" - ").append(amount);
         }
-        return stringBuilder.toString();
+        return reportForPeriod.toString();
+    }
+
+    public LocalDate dateParsing(String date) {
+        DateTimeFormatter formatter =
+                DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        LocalDate resultDate;
+        try {
+            resultDate = LocalDate.parse(date, formatter);
+        } catch (DateTimeParseException exc) {
+            System.out.printf("%s is not parsable!%n", date);
+            throw exc; // Rethrow the exception.
+        }
+        return resultDate;
     }
 }
