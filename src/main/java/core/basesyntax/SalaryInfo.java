@@ -18,8 +18,8 @@ public class SalaryInfo {
             int theCurrentDate = getDateInNumbers.getDateInNumbers(arrayAllInformationData[0]);
 
             if (theCurrentDate >= dateMin && theCurrentDate <= dateMax) {
-                int counter = parseInt(arrayAllInformationData[2]) *
-                        parseInt(arrayAllInformationData[3]);
+                int counter = parseInt(arrayAllInformationData[2])
+                        * parseInt(arrayAllInformationData[3]);
                 for (String name : names) {
                     if (arrayAllInformationData[1].equals(name)) {
                         String cc = (counter + " " + name);
