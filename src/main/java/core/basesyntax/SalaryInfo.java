@@ -26,7 +26,7 @@ public class SalaryInfo {
                         || employeeWorkingDay.isAfter(fromDate))
                         && (employeeWorkingDay.isEqual(toDate)
                         || employeeWorkingDay.isBefore(toDate))) {
-                    result += Integer.valueOf(dataSplit[2]) * Integer.valueOf(dataSplit[3]);
+                    result += Integer.parseInt(dataSplit[2]) * Integer.parseInt(dataSplit[3]);
                 }
             }
             builder.append(System.lineSeparator()).append(name).append(" - ").append(result);
