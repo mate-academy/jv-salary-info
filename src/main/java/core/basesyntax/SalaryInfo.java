@@ -8,11 +8,12 @@ public class SalaryInfo {
     private static final int DATE_INDEX = 0;
     private static final int NAME_INDEX = 1;
     private static final int WORKING_HOURS_INDEX = 2;
-    public static final int SALARY_PER_HOUR_INDEX = 3;
+    private static final int SALARY_PER_HOUR_INDEX = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate employeeWorkingDay;
-        StringBuilder reportBuilder = new StringBuilder("Report for period " + dateFrom + " - " + dateTo);
+        StringBuilder reportBuilder
+                = new StringBuilder("Report for period " + dateFrom + " - " + dateTo);
         LocalDate fromDate = LocalDate.parse(dateFrom, FORMATTER);
         LocalDate toDate = LocalDate.parse(dateTo, FORMATTER);
 
