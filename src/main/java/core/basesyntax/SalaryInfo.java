@@ -4,34 +4,35 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d.MM.yyyy");
-    private LocalDate fromDate;
-    private LocalDate toDate;
-    private StringBuilder builder = new StringBuilder();
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("d.MM.yyyy");
+    private static final int DATE_INDEX = 0;
+    private static final int NAME_INDEX = 1;
+    private static final int WORKING_HOURS_INDEX = 2;
+    public static final int SALARY_PER_HOUR_INDEX = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        int result = 0;
-        StringBuilder builder = new StringBuilder("Report for period " + dateFrom + " - " + dateTo);
         LocalDate employeeWorkingDay;
-        fromDate = LocalDate.parse(dateFrom, formatter);
-        toDate = LocalDate.parse(dateTo, formatter);
+        StringBuilder reportBuilder = new StringBuilder("Report for period " + dateFrom + " - " + dateTo);
+        LocalDate fromDate = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate toDate = LocalDate.parse(dateTo, FORMATTER);
 
         for (String name : names) {
+            int result = 0;
             for (String date : data) {
                 String [] dataSplit = date.split(" ");
-                employeeWorkingDay = LocalDate.parse(dataSplit[0], formatter);
+                employeeWorkingDay = LocalDate.parse(dataSplit[DATE_INDEX], FORMATTER);
 
-                if ((name.equals(dataSplit[1]))
+                if ((name.equals(dataSplit[NAME_INDEX]))
                         && (employeeWorkingDay.isEqual(fromDate)
                         || employeeWorkingDay.isAfter(fromDate))
                         && (employeeWorkingDay.isEqual(toDate)
                         || employeeWorkingDay.isBefore(toDate))) {
-                    result += Integer.parseInt(dataSplit[2]) * Integer.parseInt(dataSplit[3]);
+                    result += Integer.parseInt(dataSplit[WORKING_HOURS_INDEX])
+                            * Integer.parseInt(dataSplit[SALARY_PER_HOUR_INDEX]);
                 }
             }
-            builder.append(System.lineSeparator()).append(name).append(" - ").append(result);
-            result = 0;
+            reportBuilder.append(System.lineSeparator()).append(name).append(" - ").append(result);
         }
-        return builder.toString();
+        return reportBuilder.toString();
     }
 }
