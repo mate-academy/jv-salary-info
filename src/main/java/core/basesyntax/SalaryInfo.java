@@ -4,12 +4,15 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("d.MM.yyyy");
+    private static final int INDEX_DATE = 0;
+    private static final int INDEX_NAME = 1;
+    private static final int INDEX_HOURS = 2;
+    private static final int INDEX_INCOME = 3;
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d.MM.yyyy");
-        LocalDate dateFromLocal = LocalDate.parse(dateFrom, formatter);
-        dateFromLocal = dateFromLocal.minusDays(1);
-        LocalDate dateToLocal = LocalDate.parse(dateTo, formatter);
-        dateToLocal = dateToLocal.plusDays(1);
+        LocalDate dateFromLocal = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate dateToLocal = LocalDate.parse(dateTo, FORMATTER);
         String[] dataNew;
         StringBuilder statistic = new StringBuilder();
 
@@ -17,12 +20,13 @@ public class SalaryInfo {
             int salary = 0;
             for (String date : data) {
                 dataNew = date.split(" ");
-                LocalDate dateLocal = LocalDate.parse(dataNew[0], formatter);
-                String nameData = dataNew[1];
+                LocalDate dateLocal = LocalDate.parse(dataNew[INDEX_DATE], FORMATTER);
+                String nameData = dataNew[INDEX_NAME];
                 if (name.equals(nameData)
-                        && dateLocal.isAfter(dateFromLocal) && dateLocal.isBefore(dateToLocal)) {
-                    salary = salary + Integer.parseInt(dataNew[2].trim())
-                            * Integer.parseInt(dataNew[3].trim());
+                        && (dateLocal.isEqual(dateFromLocal) || dateLocal.isAfter(dateFromLocal))
+                        && (dateLocal.isEqual(dateToLocal) || dateLocal.isBefore(dateToLocal))) {
+                    salary = salary + Integer.parseInt(dataNew[INDEX_HOURS].trim())
+                            * Integer.parseInt(dataNew[INDEX_INCOME].trim());
                 }
             }
             statistic.append(System.lineSeparator()).append(name)
