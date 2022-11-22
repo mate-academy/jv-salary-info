@@ -11,11 +11,16 @@ public class SalaryInfo {
             int salarySum = 0;
             for (String s : data) {
                 String[] splitData = s.split(" ");
-                if (dateRange(dateFrom, splitData[0], dateTo) == true && splitData[1].equals(names[i])) {
+                if (dateRange(dateFrom, splitData[0], dateTo) == true
+                        && splitData[1].equals(names[i])) {
                     salarySum += getMonthSalary(splitData[2], splitData[3]);
                 }
             }
-            nameAndSalarySum = names[i] + "-" + salarySum + "\n";
+            if (i == names.length - 1) {
+                nameAndSalarySum += names[i] + " - " + salarySum;
+            } else {
+                nameAndSalarySum += names[i] + " - " + salarySum + "\n";
+            }
         }
         return String.format("Report for period %s - %s\n%s", dateFrom, dateTo, nameAndSalarySum);
     }
@@ -31,10 +36,11 @@ public class SalaryInfo {
     }
 
     private boolean dateRange(String dateFrom, String correctDate, String dateTo) {
-        return getDateFormat(dateFrom).after(getDateFormat(correctDate)) && getDateFormat(correctDate).before(getDateFormat(dateTo));
+        return !getDateFormat(correctDate).before(getDateFormat(dateFrom))
+                && !getDateFormat(correctDate).after(getDateFormat(dateTo));
     }
 
-    private int getMonthSalary(String splitData2, String splitData3){
-       return Integer.parseInt(splitData2) * Integer.parseInt(splitData3);
+    private int getMonthSalary(String splitData2, String splitData3) {
+        return Integer.parseInt(splitData2) * Integer.parseInt(splitData3);
     }
 }
