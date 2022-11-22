@@ -2,43 +2,36 @@ package core.basesyntax;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 
 public class SalaryInfo {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final int DATA_DATE_INDEX = 0;
+    private static final int DATA_NAME_INDEX = 1;
+    private static final int DATA_WORKING_HOURS_INDEX = 2;
+    private static final int DATA_PER_HOUR_SALARY_INDEX = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        LocalDate localDateFrom;
-        LocalDate localDateTo;
+        LocalDate localDateFrom = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate localDateTo = LocalDate.parse(dateTo, FORMATTER);
         StringBuilder builder = new StringBuilder();
-
-        try {
-            localDateFrom = LocalDate.parse(dateFrom, FORMATTER);
-            localDateTo = LocalDate.parse(dateTo, FORMATTER);
-        } catch (DateTimeParseException e) {          
-            throw new RuntimeException("Input date has incorrect format");
-        }
+           
         builder.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
-        try {
-            for (String name : names) {
-                int salary = 0;
-    
-                for (String record : data) {
-                    String[] dataLineArray = record.split(" ");               
-                    LocalDate dataBaseDate = LocalDate.parse(dataLineArray[0], FORMATTER);
-    
-                    if (dataBaseDate.compareTo(localDateFrom) >= 0 
-                            && dataBaseDate.compareTo(localDateTo) <= 0 
-                            && dataLineArray[1].equals(name)) {
-                        salary += Integer.parseInt(dataLineArray[2]) 
-                                * Integer.parseInt(dataLineArray[3]);
-                    }
+        for (String name : names) {
+            int salary = 0;
+
+            for (String record : data) {
+                String[] dataLineArray = record.split(" ");               
+                LocalDate dataBaseDate = LocalDate.parse(dataLineArray[DATA_DATE_INDEX], FORMATTER);
+
+                if (dataBaseDate.compareTo(localDateFrom) >= 0 
+                        && dataBaseDate.compareTo(localDateTo) <= 0 
+                        && dataLineArray[DATA_NAME_INDEX].equals(name)) {
+                    salary += Integer.parseInt(dataLineArray[DATA_PER_HOUR_SALARY_INDEX]) 
+                            * Integer.parseInt(dataLineArray[DATA_WORKING_HOURS_INDEX]);
                 }
-                builder.append(System.lineSeparator()).append(name).append(" - ").append(salary);
-            }         
-        } catch (DateTimeParseException | NumberFormatException e) {
-            throw new RuntimeException("Data has incorrect format", e);
-        }
+            }
+            builder.append(System.lineSeparator()).append(name).append(" - ").append(salary);
+        }         
         return builder.toString();
     }
 }
