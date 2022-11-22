@@ -5,10 +5,11 @@ import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     private static final int DATE = 0;
+    private static final int NAME = 1;
     private static final int NUMBER_OF_MONTH = 2;
     private static final int SALARY = 3;
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-    
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder nameAndSalarySum = new StringBuilder();
         for (int i = 0; i < names.length; i++) {
@@ -16,7 +17,7 @@ public class SalaryInfo {
             for (String record : data) {
                 String[] splitData = record.split(" ");
                 if (dateRange(dateFrom, splitData[DATE], dateTo) == true
-                        && splitData[1].equals(names[i])) {
+                        && splitData[NAME].equals(names[i])) {
                     salarySum += getMonthSalary(splitData[NUMBER_OF_MONTH], splitData[SALARY]);
                 }
             }
