@@ -15,25 +15,25 @@ public class SalaryInfo {
         LocalDate dateFromLocal = LocalDate.parse(dateFrom, timeFormater);
 
         StringBuilder builder = new StringBuilder();
-        builder.append("Report for period").append(dateFrom).append(" - ").append(dateTo);
-
-        int salaryCount = 0;
+        builder.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
 
         for (String name : names) {
+            builder.append(System.lineSeparator()).append(name).append(" - ");
+            int salaryCount = 0;
             for (String el : data) {
                 LocalDate date = LocalDate.parse(el.split(" ")[INDEX_OF_DATE], timeFormater);
                 String[] inputData = el.split(" ");
                 String nameParsed = el.split(" ")[INDEX_OF_NAME];
-                if (nameParsed.contains(name) && (date.isBefore(dateToLocal)) || date.isAfter(dateFromLocal)
-                        || date.isEqual(dateFromLocal) || date.isEqual(dateToLocal)) {
+                if ((nameParsed.contains(name) && (date.isBefore(dateToLocal))
+                        && date.isAfter(dateFromLocal))
+                        || nameParsed.contains(name) && (date.isEqual(dateFromLocal)
+                        || date.isEqual(dateToLocal))) {
                     salaryCount += Integer.parseInt(inputData[INDEX_OF_HOURS])
                             * Integer.parseInt(inputData[INDEX_OF_SALARY]);
                 }
             }
-            builder.append(System.lineSeparator()).append(name).append(" - ").append(salaryCount);
+            builder.append(salaryCount);
         }
-
-
-        return null;
+        return builder.toString();
     }
 }
