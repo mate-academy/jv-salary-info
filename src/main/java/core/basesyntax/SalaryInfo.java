@@ -29,7 +29,6 @@ public class SalaryInfo {
                             * Integer.parseInt(dataNew[PAY_HOURS]);
                 }
             }
-
             array.append(System.lineSeparator())
                     .append(name)
                     .append(" - ")
