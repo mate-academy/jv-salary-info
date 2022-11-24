@@ -14,7 +14,7 @@ public class SalaryInfo {
         int[] salaries = new int[names.length];
         for (String dataRow : data) {
             String[] dataArr = dataRow.split(" ");
-            if (namesList.contains(dataArr[1]) && checkDate(dataArr[0], dateFrom, dateTo)) {
+            if (namesList.contains(dataArr[1]) && isDateInRange(dataArr[0], dateFrom, dateTo)) {
                 int hours = Integer.parseInt(dataArr[2]);
                 int amount = Integer.parseInt(dataArr[3]);
                 int index = namesList.indexOf(String.valueOf(dataArr[1]));
@@ -30,7 +30,7 @@ public class SalaryInfo {
         return sb.toString();
     }
 
-    private boolean checkDate(String dateToCheck, String dateFrom, String dateTo) {
+    private boolean isDateInRange(String dateToCheck, String dateFrom, String dateTo) {
         SimpleDateFormat dateFormat = new SimpleDateFormat();
         dateFormat.applyPattern(pattern);
         try {
@@ -39,8 +39,7 @@ public class SalaryInfo {
             Date date = dateFormat.parse(dateToCheck);
             return date.getTime() >= from.getTime() && date.getTime() <= to.getTime();
         } catch (ParseException e) {
-            System.out.println("Wrong date format " + e);
-            return false;
+            throw new RuntimeException("Date doesn't match " + pattern + " pattern " + e);
         }
     }
 }
