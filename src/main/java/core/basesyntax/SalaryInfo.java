@@ -10,14 +10,18 @@ public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder salariesAndNames = new StringBuilder();
         StringBuilder sbDone = new StringBuilder();
+        int dataNum = 0;
+        int nameNum = 1;
+        int monthNum = 2;
+        int salaryNum = 3;
 
-        for (int i = 0; i < data.length; i++) {
-            if (compareDates(dateFrom, dateTo, data[i].split(" ")[0])) {
-                String[] oneDateArray = data[i].split(" ");
-                int salaryAmount = parseInt(oneDateArray[2]) * parseInt(oneDateArray[3]);
+        for (String datum : data) {
+            if (compareDates(dateFrom, dateTo, datum.split(" ")[dataNum])) {
+                String[] oneDateArray = datum.split(" ");
+                int salaryAmount = parseInt(oneDateArray[monthNum]) * parseInt(oneDateArray[salaryNum]);
 
                 for (String name : names) {
-                    if (oneDateArray[1].equals(name)) {
+                    if (oneDateArray[nameNum].equals(name)) {
                         salariesAndNames.append(salaryAmount)
                                 .append(" ").append(name).append("/");
                     }
