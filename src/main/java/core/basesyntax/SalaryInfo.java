@@ -18,7 +18,8 @@ public class SalaryInfo {
         for (String datum : data) {
             if (compareDates(dateFrom, dateTo, datum.split(" ")[dataNum])) {
                 String[] oneDateArray = datum.split(" ");
-                int salaryAmount = parseInt(oneDateArray[monthNum]) * parseInt(oneDateArray[salaryNum]);
+                int salaryAmount = parseInt(oneDateArray[monthNum])
+                        * parseInt(oneDateArray[salaryNum]);
 
                 for (String name : names) {
                     if (oneDateArray[nameNum].equals(name)) {
@@ -83,9 +84,9 @@ public class SalaryInfo {
         return true;
     }
 
-    public int getTheFullAmount(String[] arrayInfo, String[] names, int counter) {
+    public int getTheFullAmount(String[] arrayOfCorrectValues, String[] names, int counter) {
         int generalNumber = 0;
-        for (String s : arrayInfo) {
+        for (String s : arrayOfCorrectValues) {
             if (s.contains(names[counter])) {
                 generalNumber += parseInt(s.replaceAll("[^0-9]", ""));
             }
