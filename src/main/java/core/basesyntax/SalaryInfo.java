@@ -18,7 +18,8 @@ public class SalaryInfo {
 
                 for (String name : names) {
                     if (oneDateArray[1].equals(name)) {
-                        salariesAndNames.append(salaryAmount).append(" ").append(name).append("/");
+                        salariesAndNames.append(salaryAmount)
+                                .append(" ").append(name).append("/");
                     }
                 }
             }
