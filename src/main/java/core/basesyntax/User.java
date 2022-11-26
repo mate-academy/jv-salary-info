@@ -2,7 +2,7 @@ package core.basesyntax;
 
 public class User {
     private String name;
-    private int earned;
+    private int earned = 0;
 
     public User(String name) {
         this.name = name;
