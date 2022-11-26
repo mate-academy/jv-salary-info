@@ -33,7 +33,8 @@ public class SalaryInfo {
                     || (dynamicDate.isEqual(fromDate)) || (dynamicDate.isEqual(toDate))) {
                 for (User user: users) {
                     if (array[NAME].equals(user.getName())) {
-                        user.addMoney(Integer.parseInt(array[HOURS]), Integer.parseInt(array[PRICE]));
+                        user.addMoney(Integer.parseInt(array[HOURS]),
+                                Integer.parseInt(array[PRICE]));
                     }
                 }
             }
