@@ -7,6 +7,7 @@ public class SalaryInfo {
     static final int NAME = 1;
     static final int HOURS = 2;
     static final int PRICE = 3;
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate fromDate = LocalDate.of(Integer.parseInt(dateFrom.substring(6)),
                 Integer.parseInt(dateFrom.substring(3, 5)),
@@ -29,8 +30,8 @@ public class SalaryInfo {
                     Integer.parseInt(element.substring(3, 5)),
                     Integer.parseInt(element.substring(0, 2)));
             array = element.split(" ");
-            if ((dynamicDate.isAfter(fromDate) && dynamicDate.isBefore(toDate)) ||
-                    (dynamicDate.isEqual(fromDate)) || (dynamicDate.isEqual(toDate))) {
+            if ((dynamicDate.isAfter(fromDate) && dynamicDate.isBefore(toDate))
+                    || (dynamicDate.isEqual(fromDate)) || (dynamicDate.isEqual(toDate))) {
                 for (User user: users) {
                     if (array[1].equals(user.getName())) {
                         user.addMoney(Integer.parseInt(array[2]), Integer.parseInt(array[3]));
