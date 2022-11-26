@@ -8,12 +8,12 @@ import static java.lang.Integer.parseInt;
 
 public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        StringBuilder salariesAndNames = new StringBuilder();
-        StringBuilder sbDone = new StringBuilder();
+
         int dataNum = 0;
         int nameNum = 1;
         int monthNum = 2;
         int salaryNum = 3;
+        StringBuilder salariesAndNames = new StringBuilder();
 
         for (String datum : data) {
             if (compareDates(dateFrom, dateTo, datum.split(" ")[dataNum])) {
@@ -30,6 +30,7 @@ public class SalaryInfo {
             }
         }
         String[] arrayOfCorrectValues = salariesAndNames.toString().split("/");
+        StringBuilder sbDone = new StringBuilder();
         sbDone.append("Report for period ")
                 .append(dateFrom)
                 .append(" - ")
