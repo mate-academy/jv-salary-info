@@ -1,10 +1,10 @@
 package core.basesyntax;
 
+import static java.lang.Integer.parseInt;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import static java.lang.Integer.parseInt;
 
 public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
