@@ -21,6 +21,7 @@ public class SalaryInfo {
         final StringBuilder builder = new StringBuilder(title)
                 .append(System.lineSeparator());
         int salary = 0;
+        int separatorIndex = names.length - 1;
         for (String name : names) {
             for (String dataElement : data) {
                 String[] splitLine = dataElement.split(DATA_SEPARATOR);
@@ -34,11 +35,13 @@ public class SalaryInfo {
                 }
             }
             String formattedString = String.format(PERSON_DESCRIPTION_PATTERN, name, salary);
-            builder.append(formattedString)
-                    .append(System.lineSeparator());
+            builder.append(formattedString);
+            if (separatorIndex != 0) {
+                builder.append(System.lineSeparator());
+                separatorIndex--;
+            }
             salary = 0;
         }
-        builder.delete(builder.length() - 1, builder.length());
         return builder.toString();
     }
 
