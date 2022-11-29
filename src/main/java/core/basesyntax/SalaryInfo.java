@@ -38,7 +38,7 @@ public class SalaryInfo {
                     .append(System.lineSeparator());
             salary = 0;
         }
-        builder.delete(builder.length() - 2, builder.length());
+        builder.delete(builder.length() - 1, builder.length());
         return builder.toString();
     }
 
