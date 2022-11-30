@@ -12,16 +12,15 @@ public class SalaryInfo {
     public static final int NAME_POSITION = 1;
     public static final int HOURS_POSITION = 2;
     public static final int INCOME_POSITION = 3;
-    private static final DateTimeFormatter D_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final DateTimeFormatter DATE_FORMATTER =
+            DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        final LocalDate from = LocalDate.parse(dateFrom, D_FORMATTER);
-        final LocalDate to = LocalDate.parse(dateTo, D_FORMATTER);
+        final LocalDate from = LocalDate.parse(dateFrom, DATE_FORMATTER);
+        final LocalDate to = LocalDate.parse(dateTo, DATE_FORMATTER);
         final String title = String.format(REPORT_TITLE_PATTERN, dateFrom, dateTo);
-        final StringBuilder builder = new StringBuilder(title)
-                .append(System.lineSeparator());
+        final StringBuilder builder = new StringBuilder(title);
         int salary = 0;
-        int separatorIndex = names.length - 1;
         for (String name : names) {
             for (String dataElement : data) {
                 String[] splitLine = dataElement.split(DATA_SEPARATOR);
@@ -31,15 +30,12 @@ public class SalaryInfo {
                         salary += getSalary(splitLine[INCOME_POSITION], splitLine[HOURS_POSITION]);
                     }
                 } catch (ParseException e) {
-                    e.printStackTrace();
+                    throw new RuntimeException(
+                            "Invalid input data format. Check if they match the template.", e);
                 }
             }
             String formattedString = String.format(PERSON_DESCRIPTION_PATTERN, name, salary);
-            builder.append(formattedString);
-            if (separatorIndex != 0) {
-                builder.append(System.lineSeparator());
-                separatorIndex--;
-            }
+            builder.append(System.lineSeparator()).append(formattedString);
             salary = 0;
         }
         return builder.toString();
@@ -47,7 +43,7 @@ public class SalaryInfo {
 
     private boolean isBetween(LocalDate from, LocalDate to, String splitDate)
             throws ParseException {
-        LocalDate date = LocalDate.parse(splitDate, D_FORMATTER);
+        LocalDate date = LocalDate.parse(splitDate, DATE_FORMATTER);
         return date.isAfter(from)
                 && date.isBefore(to)
                 || date.isEqual(from)
