@@ -36,6 +36,6 @@ public class SalaryInfo {
                     .append(salaryCounter)
                     .append(System.lineSeparator());
         }
-        return report.toString();
+        return report.toString().substring(0,report.length() - 1);
     }
 }
