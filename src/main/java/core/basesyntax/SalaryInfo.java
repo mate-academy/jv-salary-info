@@ -4,7 +4,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final DateTimeFormatter DATE_FORMATTER
+            = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data,
                                 String dateFrom, String dateTo) {
@@ -17,22 +18,22 @@ public class SalaryInfo {
                 .append(System.lineSeparator());
         for (String name :
                 names) {
-            int SalaryCounter = 0;
+            int salaryCounter = 0;
             for (String line :
                     data) {
                 String [] arrayOfData = line.split(" ");
                 LocalDate currentDate = LocalDate.parse(arrayOfData[0], DATE_FORMATTER);
-                if (arrayOfData[1].equals(name) &&
-                        ((currentDate.isAfter(firstDate)) || (currentDate.isEqual(firstDate))) &&
-                        (currentDate.isBefore(lastDate) || currentDate.isEqual(lastDate))) {
-                    SalaryCounter = SalaryCounter +
-                            Integer.parseInt(arrayOfData[2]) *
-                                    Integer.parseInt(arrayOfData[3]);
+                if (arrayOfData[1].equals(name)
+                        && ((currentDate.isAfter(firstDate)) || (currentDate.isEqual(firstDate)))
+                        && (currentDate.isBefore(lastDate) || currentDate.isEqual(lastDate))) {
+                    salaryCounter = salaryCounter
+                            + Integer.parseInt(arrayOfData[2])
+                                    * Integer.parseInt(arrayOfData[3]);
                 }
             }
             report.append(name)
                     .append(" - ")
-                    .append(SalaryCounter)
+                    .append(salaryCounter)
                     .append(System.lineSeparator());
         }
         return report.toString();
