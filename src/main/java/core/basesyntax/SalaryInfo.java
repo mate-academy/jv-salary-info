@@ -7,7 +7,6 @@ public class SalaryInfo {
         StringBuilder builder = new StringBuilder();
         String infoSalary = null;
         int[] salary = new int[names.length];
-
         int yearFrom = Integer.parseInt(dateFrom.substring(6, 10));
         int yearTo = Integer.parseInt(dateTo.substring(6, 10));
         int monthFrom = Integer.parseInt(dateFrom.substring(3, 5));
