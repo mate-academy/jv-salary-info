@@ -14,7 +14,6 @@ public class SalaryInfo {
         int monthTo = Integer.parseInt(dateTo.substring(3, 5));
         int dayFrom = Integer.parseInt(dateFrom.substring(0, 2));
         int dayTo = Integer.parseInt(dateTo.substring(0, 2));
-
         for (int i = 0; i < data.length; i++) {
             int dataYear = Integer.parseInt(data[i].substring(6, 10));
             int dataMonth = Integer.parseInt(data[i].substring(3, 5));
