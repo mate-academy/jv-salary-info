@@ -26,7 +26,8 @@ public class SalaryInfo {
                 LocalDate dateWhenWorked =
                         LocalDate.parse(sortArrayData[DATE_INDEX], DATE_FORMATTER);
                 if (sortArrayData[NAME_INDEX].equals(name)
-                        && ((dateWhenWorked.isAfter(startDate)) || (dateWhenWorked.isEqual(startDate)))
+                        && ((dateWhenWorked.isAfter(startDate))
+                        || (dateWhenWorked.isEqual(startDate)))
                         && (dateWhenWorked.isBefore(endDate) || dateWhenWorked.isEqual(endDate))) {
                     salary += Integer.parseInt(sortArrayData[OPENING_HOURS])
                             * Integer.parseInt(sortArrayData[SALARY_PER_HOR]);
