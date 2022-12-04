@@ -9,6 +9,7 @@ public class SalaryInfo {
     private static final int HOURS = 2;
     private static final int PAY_HOURS = 3;
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("d.MM.yyyy");
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder stringBuilder = new StringBuilder();
         LocalDate dateFromLocal = LocalDate.parse(dateFrom, FORMATTER);
