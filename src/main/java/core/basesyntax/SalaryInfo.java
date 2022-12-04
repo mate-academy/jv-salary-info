@@ -16,8 +16,8 @@ public class SalaryInfo {
         LocalDate dateToLocal = LocalDate.parse(dateTo, FORMATTER);
         for (String name: names) {
             int salary = 0;
-            for (String date: data) {
-                String [] dataNew = date.split(" ");
+            for (String line: data) {
+                String [] dataNew = line.split(" ");
                 LocalDate dateLocal = LocalDate.parse(dataNew[DAY], FORMATTER);
                 String nameData = dataNew[NAME];
                 if (name.equals(nameData)
