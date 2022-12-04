@@ -10,23 +10,25 @@ public class SalaryInfo {
         for (String name: names) {
             int salary = 0;
             for (String record: data) {
-                if (name.equals(getName(record)) && compareDates(record, dateFrom, dateTo)) {
+                if (name.equals(getName(record)) && validateDate(record, dateFrom, dateTo)) {
                     salary += getDailySalary(record);
                 }
             }
-            stringBuilder.append("\n").append(name).append(" - ").append(salary);
+            stringBuilder.append(System.lineSeparator()).append(name).append(" - ").append(salary);
         }
 
         return stringBuilder.toString();
     }
 
     private String getName(String data) {
-        return data.split(" ")[1];
+        final int namePosition = 1;
+        return data.split(" ")[namePosition];
     }
 
-    private boolean compareDates(String data, String dateFrom, String dateTo) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        String dateString = data.split(" ")[0];
+    private boolean validateDate(String data, String dateFrom, String dateTo) {
+        final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        final int datePosition = 0;
+        String dateString = data.split(" ")[datePosition];
         LocalDate date = LocalDate.parse(dateString, formatter);
         LocalDate dateStart = LocalDate.parse(dateFrom, formatter);
         LocalDate dateEnd = LocalDate.parse(dateTo, formatter);
@@ -35,8 +37,10 @@ public class SalaryInfo {
     }
 
     private int getDailySalary(String data) {
-        int numberOfHoursWorked = Integer.parseInt(data.split(" ")[2]);
-        int salaryPerHour = Integer.parseInt(data.split(" ")[3]);
+        final int hoursWorkedPosition = 2;
+        final int salaryPerHourPosition = 3;
+        int numberOfHoursWorked = Integer.parseInt(data.split(" ")[hoursWorkedPosition]);
+        int salaryPerHour = Integer.parseInt(data.split(" ")[salaryPerHourPosition]);
         return numberOfHoursWorked * salaryPerHour;
     }
 }
