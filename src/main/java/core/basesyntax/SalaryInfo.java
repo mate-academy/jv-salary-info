@@ -6,6 +6,8 @@ import java.time.format.DateTimeFormatter;
 public class SalaryInfo {
     private static final DateTimeFormatter FORMATTER =
             DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final String HYPHEN = "-";
+    private static final String SPACE = " ";
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate fromDate = LocalDate.parse(dateFrom, FORMATTER);
@@ -13,10 +15,13 @@ public class SalaryInfo {
         int[] salarySum = calculateSalary(names, data, fromDate, toDate);
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("Report for period ")
-                .append(fromDate.format(FORMATTER)).append(" - ")
+                .append(fromDate.format(FORMATTER))
+                .append(SPACE).append(HYPHEN).append(SPACE)
                 .append(toDate.format(FORMATTER)).append(System.lineSeparator());
         for (int i = 0; i < names.length; i++) {
-            stringBuilder.append(names[i]).append(" - ").append(salarySum[i]);
+            stringBuilder.append(names[i])
+                    .append(SPACE).append(HYPHEN).append(SPACE)
+                    .append(salarySum[i]);
             if (i != names.length - 1) {
                 stringBuilder.append(System.lineSeparator());
             }
@@ -29,7 +34,7 @@ public class SalaryInfo {
         int[] salarySum = new int[names.length];
         for (int i = 0; i < names.length; i++) {
             for (int j = 0; j < data.length; j++) {
-                String[] strings = data[j].split(" ");
+                String[] strings = data[j].split(SPACE);
                 if (strings[1].equals(names[i])
                         && (LocalDate.parse(strings[0], FORMATTER).isAfter(fromDate)
                         || LocalDate.parse(strings[0], FORMATTER).equals(fromDate))
