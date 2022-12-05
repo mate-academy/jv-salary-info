@@ -4,6 +4,12 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final int datePosition = 0;
+    private static final int namePosition = 1;
+    private static final int hoursWorkedPosition = 2;
+    private static final int salaryPerHourPosition = 3;
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder stringBuilder = new StringBuilder("Report for period "
                 + dateFrom + " - " + dateTo);
@@ -21,13 +27,10 @@ public class SalaryInfo {
     }
 
     private String getName(String data) {
-        final int namePosition = 1;
         return data.split(" ")[namePosition];
     }
 
     private boolean validateDate(String data, String dateFrom, String dateTo) {
-        final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        final int datePosition = 0;
         String dateString = data.split(" ")[datePosition];
         LocalDate date = LocalDate.parse(dateString, formatter);
         LocalDate dateStart = LocalDate.parse(dateFrom, formatter);
@@ -37,8 +40,6 @@ public class SalaryInfo {
     }
 
     private int getDailySalary(String data) {
-        final int hoursWorkedPosition = 2;
-        final int salaryPerHourPosition = 3;
         int numberOfHoursWorked = Integer.parseInt(data.split(" ")[hoursWorkedPosition]);
         int salaryPerHour = Integer.parseInt(data.split(" ")[salaryPerHourPosition]);
         return numberOfHoursWorked * salaryPerHour;
