@@ -8,6 +8,7 @@ import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder report = new StringBuilder("Report for period ").append(dateFrom)
                 .append(" - ").append(dateTo);
