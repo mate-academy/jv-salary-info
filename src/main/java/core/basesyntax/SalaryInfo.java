@@ -39,7 +39,7 @@ public class SalaryInfo {
             Date date = dateFormat.parse(dateToCheck);
             return date.getTime() >= from.getTime() && date.getTime() <= to.getTime();
         } catch (ParseException e) {
-            throw new RuntimeException("Date doesn't match " + pattern + " pattern " + e);
+            throw new RuntimeException("Date doesn't match " + pattern + " pattern ", e);
         }
     }
 }
