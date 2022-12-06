@@ -11,23 +11,22 @@ public class SalaryInfo {
         LocalDate localDateFrom = LocalDate.parse(dateFrom, FORMATTER);
         LocalDate localDateTo = LocalDate.parse(dateTo, FORMATTER);
         String infoSalary = null;
-        int[] salary = new int[names.length];
-
-        for (int i = 0; i < names.length; i++) {
-            for (int j = 0; j < data.length; j++) {
-                String[] splitData = data[j].split(" ");
+        for (String name : names) {
+            int salary = 0;
+            for (String infoData : data) {
+                String[] splitData = infoData.split(" ");
                 LocalDate localSplitDate = LocalDate.parse(splitData[0], FORMATTER);
                 if ((localDateFrom.isBefore(localSplitDate)
                         || localDateTo.isEqual(localSplitDate))
                         && (localDateTo.isAfter(localSplitDate)
                         || localDateTo.isEqual(localSplitDate))
-                        && names[i].equals(splitData[1])) {
-                    salary[i] = salary[i]
+                        && name.equals(splitData[1])) {
+                    salary = salary
                             + Integer.parseInt(splitData[2]) * Integer.parseInt(splitData[3]);
                 }
             }
-            infoSalary = builder.append(System.lineSeparator()).append(names[i])
-                    .append(" - ").append(salary[i]).toString();
+            infoSalary = builder.append(System.lineSeparator()).append(name)
+                    .append(" - ").append(salary).toString();
         }
         return builder.toString();
     }
