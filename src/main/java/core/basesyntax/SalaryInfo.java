@@ -5,51 +5,45 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 public class SalaryInfo {
+    private static final String DATE_TIME_PATTERN = "dd.MM.yyyy";
+    private static final DateTimeFormatter formatter =
+            DateTimeFormatter.ofPattern(DATE_TIME_PATTERN);
+
     public String getSalaryInfo(
             String[] names, String[] data,
             String dateFrom, String dateTo) {
-
-        StringBuilder reportForPeriod = new StringBuilder("Report for period ");
-        reportForPeriod.append(dateFrom).append(" - ").append(dateTo);
-        SalaryInfo dateParser = new SalaryInfo();
-        LocalDate dateStringFrom = dateParser.dateParsing(dateFrom);
-        LocalDate dateStringTo = dateParser.dateParsing(dateTo);
-
+        StringBuilder reportBuilder = new StringBuilder("Report for period ");
+        reportBuilder.append(dateFrom).append(" - ").append(dateTo);
+        LocalDate from = dateParsing(dateFrom);
+        LocalDate to = dateParsing(dateTo);
         for (String name : names) {
-            int amount = 0;
-            for (String each1 : data) {
-                String[] dataEach = each1.split(" ");
-                LocalDate dateTempFromData = dateParser.dateParsing(dataEach[0]);
-                String nameTemp = dataEach[1];
-                int hours = Integer.parseInt(dataEach[2]);
-                int salaryPerHour = Integer.parseInt(dataEach[3]);
+            int salary = 0;
+            for (String line : data) {
+                String[] splittedLine = line.split(" ");
+                LocalDate dateTempFromData = dateParsing(splittedLine[0]);
+                String nameTemp = splittedLine[1];
+                final int hours = Integer.parseInt(splittedLine[2]);
+                final int salaryPerHour = Integer.parseInt(splittedLine[3]);
 
-                if ((dateTempFromData.isAfter(dateStringFrom)
-                        && dateTempFromData.isBefore(dateStringTo)
-                        || dateTempFromData.equals(dateStringFrom)
-                        || dateTempFromData.equals(dateStringTo))
+                if ((dateTempFromData.isAfter(from)
+                        && dateTempFromData.isBefore(to)
+                        || dateTempFromData.equals(from)
+                        || dateTempFromData.equals(to))
                         && nameTemp.equals(name)) {
                     {
-                        amount += hours * salaryPerHour;
+                        salary += hours * salaryPerHour;
                     }
                 }
             }
-            reportForPeriod.append(System.lineSeparator())
-                    .append(name).append(" - ").append(amount);
+            reportBuilder.append(System.lineSeparator())
+                    .append(name).append(" - ").append(salary);
         }
-        return reportForPeriod.toString();
+        return reportBuilder.toString();
     }
 
-    public LocalDate dateParsing(String date) {
-        DateTimeFormatter formatter =
-                DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    public LocalDate dateParsing(String date) throws DateTimeParseException {
         LocalDate resultDate;
-        try {
-            resultDate = LocalDate.parse(date, formatter);
-        } catch (DateTimeParseException exc) {
-            System.out.printf("%s is not parsable!%n", date);
-            throw exc; // Rethrow the exception.
-        }
+        resultDate = LocalDate.parse(date, formatter);
         return resultDate;
     }
 }
