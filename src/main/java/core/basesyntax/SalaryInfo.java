@@ -11,25 +11,24 @@ public class SalaryInfo {
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        var fromDate = LocalDate.parse(dateFrom, formatter);
-        var toDate = LocalDate.parse(dateTo, formatter);
-        var report = new StringBuilder();
+        LocalDate fromDate = LocalDate.parse(dateFrom, formatter);
+        LocalDate toDate = LocalDate.parse(dateTo, formatter);
+        StringBuilder report = new StringBuilder();
 
         report.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
 
-        for (var name : names) {
+        for (String name : names) {
             report.append(System.lineSeparator()).append(name).append(" - ");
             int count = 0;
-            for (var row : data) {
+            for (String row : data) {
                 String[] values = row.split(" ");
                 if (name.equals(values[NAME_INDEX])) {
-                    var date = LocalDate.parse(values[DATE_INDEX], formatter);
+                    LocalDate date = LocalDate.parse(values[DATE_INDEX], formatter);
                     if (isInPeriod(date, fromDate, toDate)) {
                         count += Integer.valueOf(values[HOURS_INDEX]) 
                                 * Integer.valueOf(values[PAY_RATE_INDEX]);
                     }
                 }
-
             }
             report.append(count);
         }
