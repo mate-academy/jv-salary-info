@@ -21,7 +21,7 @@ public class SalaryInfo {
                     + " "
                     + getSalaryForAllEmployees(names, data, dateFrom, dateTo)[i]);
         }
-        String intro = "Report for period " +  dateFrom + " " + "-" + " " + dateTo;
+        String intro = "Report for period " + dateFrom + " " + "-" + " " + dateTo;
         String result = intro + stb.toString();
         return result;
     }
@@ -51,7 +51,7 @@ public class SalaryInfo {
     private String [] getSortedDateArray(String [] data, String dateFrom, String dateTo) {
         StringBuilder stb = new StringBuilder();
         for (int i = 0; i < data.length; i++) {
-             String dateOfEmployee = data[i].split(" ")[0];
+            String dateOfEmployee = data[i].split(" ")[0];
             if (isValidForDate(dateFrom, dateTo, dateOfEmployee)) {
                 stb.append(data[i] + ":");
             }
@@ -60,16 +60,19 @@ public class SalaryInfo {
         return str;
     }
 
-    private String getSalaryForOneEmployee(String name, String [] data, String dateFrom, String dateTo) {
+    private String getSalaryForOneEmployee(String name,
+                                           String [] data,
+                                           String dateFrom,
+                                           String dateTo) {
         int workingHourse = 0;
         int salaryPerHour = 0;
         int salaryForEmplyee = 0;
         int countMatchesOfNames = 0;
         try {
-        String [] sortedArray = getSortedDateArray(data, dateFrom, dateTo);
-        if (Arrays.toString(sortedArray).equals("[]")) {
-            return "0";
-        }
+            String [] sortedArray = getSortedDateArray(data, dateFrom, dateTo);
+            if (Arrays.toString(sortedArray).equals("[]")) {
+                return "0";
+            }
             for (int i = 0; i < sortedArray.length; i++) {
                 if (name.equals(sortedArray[i].split(" ")[1])) {
                     workingHourse = Integer.parseInt(sortedArray[i].split(" ")[2]);
@@ -88,7 +91,10 @@ public class SalaryInfo {
         }
     }
 
-    private String [] getSalaryForAllEmployees(String[] names, String[] data, String dateFrom, String dateTo) {
+    private String [] getSalaryForAllEmployees(String[] names,
+                                               String[] data,
+                                               String dateFrom,
+                                               String dateTo) {
         String [] infoForNames = new String[names.length];
         String [] sortedArray = getSortedDateArray(data, dateFrom, dateTo);
         for (int i = 0; i < names.length; i++) {
