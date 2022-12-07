@@ -13,21 +13,21 @@ public class SalaryInfo {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern(DATE_PATTERN);
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        int[] salaries = new int[names.length];
         StringBuilder reportBuilder = new StringBuilder("Report for period ");
         reportBuilder.append(dateFrom).append(" - ").append(dateTo);
-        for (int i = 0; i < names.length; i++) {
+        for (String name : names) {
+            int salary = 0;
             for (String line : data) {
                 String[] splittedLine = line.split(DATA_SEPARATOR);
-                if (names[i].equals(splittedLine[NAME_INDEX])
+                if (name.equals(splittedLine[NAME_INDEX])
                         && isDateInRange(splittedLine[DATE_INDEX], dateFrom, dateTo)) {
                     int workingHours = Integer.parseInt(splittedLine[WORKING_HOURS_INDEX]);
                     int incomePerHour = Integer.parseInt(splittedLine[INCOME_PER_HOUR_INDEX]);
-                    salaries[i] += workingHours * incomePerHour;
+                    salary += workingHours * incomePerHour;
                 }
             }
             reportBuilder.append(System.lineSeparator());
-            reportBuilder.append(names[i]).append(" - ").append(salaries[i]);
+            reportBuilder.append(name).append(" - ").append(salary);
         }
         return reportBuilder.toString();
     }
