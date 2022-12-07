@@ -15,14 +15,18 @@ public class SalaryInfo {
             int salary = 0;
             for (String infoData : data) {
                 String[] splitData = infoData.split(" ");
-                LocalDate localSplitDate = LocalDate.parse(splitData[0], FORMATTER);
+                final int WORK_DATE = 0;
+                final int EMPLOYEE_NAME = 1;
+                final int WORK_HOURS = 2;
+                final int SALARY_HOUR = 3;
+                LocalDate localSplitDate = LocalDate.parse(splitData[WORK_DATE], FORMATTER);
                 if ((localDateFrom.isBefore(localSplitDate)
                         || localDateTo.isEqual(localSplitDate))
                         && (localDateTo.isAfter(localSplitDate)
                         || localDateTo.isEqual(localSplitDate))
-                        && name.equals(splitData[1])) {
+                        && name.equals(splitData[EMPLOYEE_NAME])) {
                     salary = salary
-                            + Integer.parseInt(splitData[2]) * Integer.parseInt(splitData[3]);
+                            + Integer.parseInt(splitData[WORK_HOURS]) * Integer.parseInt(splitData[SALARY_HOUR]);
                 }
             }
             infoSalary = builder.append(System.lineSeparator()).append(name)
