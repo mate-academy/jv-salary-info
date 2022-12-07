@@ -14,7 +14,7 @@ public class SalaryInfo {
         String [] salaryForAllEmployees =
                 getSalaryForAllEmployees(names, data, dateFrom, dateTo);
         for (int i = 0; i < salaryForAllEmployees.length; i++) {
-            stb.append("\r\n"
+            stb.append(System.lineSeparator()
                     + names[i]
                     + " "
                     + "-"
