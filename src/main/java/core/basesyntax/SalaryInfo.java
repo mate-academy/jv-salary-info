@@ -17,11 +17,10 @@ public class SalaryInfo {
         StringBuilder reportBuilder = new StringBuilder();
         reportBuilder.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
         for (String name : names) {
-            LocalDate dateFromData;
             int salary = 0;
             for (String datum : data) {
                 String[] dataLine = datum.split(" ");
-                dateFromData = LocalDate.parse(dataLine[DATE_INDEX_IN_DATA], FORMATTER);
+                LocalDate dateFromData = LocalDate.parse(dataLine[DATE_INDEX_IN_DATA], FORMATTER);
                 if (dataLine[NAME_INDEX_IN_DATA].equals(name)
                         && (dateFromData.isAfter(firstDate) || dateFromData.equals(firstDate))
                         && (dateFromData.isBefore(lastDate) || dateFromData.equals(lastDate))) {
