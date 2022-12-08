@@ -6,45 +6,31 @@ import java.time.format.DateTimeFormatter;
 public class SalaryInfo {
     private static final DateTimeFormatter FORMATTER =
             DateTimeFormatter.ofPattern("dd.MM.yyyy");
-    private static final String HYPHEN = "-";
-    private static final String SPACE = " ";
+    private static final int DATE_INDEX_IN_DATA = 0;
+    private static final int NAME_INDEX_IN_DATA = 1;
+    private static final int HOURS_INDEX_IN_DATA = 2;
+    private static final int SALARY_INDEX_IN_DATA = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        LocalDate fromDate = LocalDate.parse(dateFrom, FORMATTER);
-        LocalDate toDate = LocalDate.parse(dateTo, FORMATTER);
-        int[] salarySum = calculateSalary(names, data, fromDate, toDate);
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("Report for period ")
-                .append(fromDate.format(FORMATTER))
-                .append(SPACE).append(HYPHEN).append(SPACE)
-                .append(toDate.format(FORMATTER)).append(System.lineSeparator());
-        for (int i = 0; i < names.length; i++) {
-            stringBuilder.append(names[i])
-                    .append(SPACE).append(HYPHEN).append(SPACE)
-                    .append(salarySum[i]);
-            if (i != names.length - 1) {
-                stringBuilder.append(System.lineSeparator());
-            }
-        }
-        return stringBuilder.toString();
-    }
-
-    private int[] calculateSalary(
-            String[] names, String[] data, LocalDate fromDate, LocalDate toDate) {
-        int[] salarySum = new int[names.length];
-        for (int i = 0; i < names.length; i++) {
-            for (int j = 0; j < data.length; j++) {
-                String[] strings = data[j].split(SPACE);
-                if (strings[1].equals(names[i])
-                        && (LocalDate.parse(strings[0], FORMATTER).isAfter(fromDate)
-                        || LocalDate.parse(strings[0], FORMATTER).equals(fromDate))
-                        && (LocalDate.parse(strings[0], FORMATTER).isBefore(toDate)
-                        || LocalDate.parse(strings[0], FORMATTER).equals(toDate))) {
-                    salarySum[i] += (Integer.parseInt(strings[2])
-                            * Integer.parseInt(strings[3]));
+        LocalDate firstDate = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate lastDate = LocalDate.parse(dateTo, FORMATTER);
+        StringBuilder reportBuilder = new StringBuilder();
+        reportBuilder.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
+        for (String name : names) {
+            LocalDate dateFromData;
+            int salary = 0;
+            for (String datum : data) {
+                String[] dataLine = datum.split(" ");
+                dateFromData = LocalDate.parse(dataLine[DATE_INDEX_IN_DATA], FORMATTER);
+                if (dataLine[NAME_INDEX_IN_DATA].equals(name)
+                        && (dateFromData.isAfter(firstDate) || dateFromData.equals(firstDate))
+                        && (dateFromData.isBefore(lastDate) || dateFromData.equals(lastDate))) {
+                    salary += Integer.parseInt(dataLine[HOURS_INDEX_IN_DATA])
+                            * Integer.parseInt(dataLine[SALARY_INDEX_IN_DATA]);
                 }
             }
+            reportBuilder.append(System.lineSeparator()).append(name).append(" - ").append(salary);
         }
-        return salarySum;
+        return reportBuilder.toString();
     }
 }
