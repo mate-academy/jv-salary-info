@@ -7,10 +7,10 @@ public class SalaryInfo {
     private static final String DATE_TIME_PATTERN = "dd.MM.yyyy";
     private static final DateTimeFormatter formatter =
             DateTimeFormatter.ofPattern(DATE_TIME_PATTERN);
-    private static final int DATE_COLUMN_NUMBER = 0;
-    private static final int NAME_COLUMN_NUMBER = 1;
-    private static final int HOURS_COLUMN_NUMBER = 2;
-    private static final int SALARY_COLUMN_NUMBER = 3;
+    private static final int DATE_INDEX = 0;
+    private static final int NAME_INDEX = 1;
+    private static final int HOURS_INDEX = 2;
+    private static final int SALARY_PER_HOUR_INDEX = 3;
 
     public String getSalaryInfo(
             String[] names,
@@ -25,12 +25,11 @@ public class SalaryInfo {
         for (String name : names) {
             int salary = 0;
             for (String line : data) {
-                String[] splitLine = line.split(" ");
-                LocalDate date = LocalDate.parse(splitLine[DATE_COLUMN_NUMBER], formatter);
-                String nameFromLine = splitLine[NAME_COLUMN_NUMBER];
-                int hours = Integer.parseInt(splitLine[HOURS_COLUMN_NUMBER]);
-                int salaryPerHour = Integer.parseInt(splitLine[SALARY_COLUMN_NUMBER]);
-
+                String[] splittedLine = line.split(" ");
+                LocalDate date = LocalDate.parse(splittedLine[DATE_INDEX], formatter);
+                String nameFromLine = splittedLine[NAME_INDEX];
+                int hours = Integer.parseInt(splittedLine[HOURS_INDEX]);
+                int salaryPerHour = Integer.parseInt(splittedLine[SALARY_PER_HOUR_INDEX]);
                 if ((date.isAfter(from)
                         && date.isBefore(to)
                         || date.equals(from)
