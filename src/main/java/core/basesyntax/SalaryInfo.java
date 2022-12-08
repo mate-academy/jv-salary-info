@@ -6,10 +6,10 @@ import java.time.format.DateTimeFormatter;
 public class SalaryInfo {
     private static final DateTimeFormatter FORMATTER =
             DateTimeFormatter.ofPattern("dd.MM.yyyy");
-    private static final int DATE_INDEX_IN_DATA = 0;
-    private static final int NAME_INDEX_IN_DATA = 1;
-    private static final int HOURS_INDEX_IN_DATA = 2;
-    private static final int SALARY_INDEX_IN_DATA = 3;
+    private static final int DATE_INDEX = 0;
+    private static final int NAME_INDEX = 1;
+    private static final int HOURS_INDEX = 2;
+    private static final int SALARY_INDEX = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate firstDate = LocalDate.parse(dateFrom, FORMATTER);
@@ -20,12 +20,12 @@ public class SalaryInfo {
             int salary = 0;
             for (String datum : data) {
                 String[] dataLine = datum.split(" ");
-                LocalDate dateFromData = LocalDate.parse(dataLine[DATE_INDEX_IN_DATA], FORMATTER);
-                if (dataLine[NAME_INDEX_IN_DATA].equals(name)
+                LocalDate dateFromData = LocalDate.parse(dataLine[DATE_INDEX], FORMATTER);
+                if (dataLine[NAME_INDEX].equals(name)
                         && (dateFromData.isAfter(firstDate) || dateFromData.equals(firstDate))
                         && (dateFromData.isBefore(lastDate) || dateFromData.equals(lastDate))) {
-                    salary += Integer.parseInt(dataLine[HOURS_INDEX_IN_DATA])
-                            * Integer.parseInt(dataLine[SALARY_INDEX_IN_DATA]);
+                    salary += Integer.parseInt(dataLine[HOURS_INDEX])
+                            * Integer.parseInt(dataLine[SALARY_INDEX]);
                 }
             }
             reportBuilder.append(System.lineSeparator()).append(name).append(" - ").append(salary);
