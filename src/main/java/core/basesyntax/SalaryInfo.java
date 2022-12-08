@@ -1,65 +1,52 @@
 package core.basesyntax;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    private Date newDateTo;
-    private int salary = 0;
-    private String stringResult = "";
+    public static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         try {
-            stringResult = "Report for period " + dateFrom + " - " + dateTo;
-            Date newDateFrom = getParseDate(dateFrom);
-            newDateTo = getParseDate(dateTo);
+            int salary = 0;
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append("Report for period ")
+                    .append(dateFrom)
+                    .append(" - ")
+                    .append(dateTo);
+            LocalDate newDateFrom = getParseDate(dateFrom);
+            LocalDate newDateTo = getParseDate(dateTo);
 
             if (!dateFrom.equals(dateTo)) {
-                addOneDayDateTo();
+                newDateTo = newDateTo.plusDays(1);
             }
 
-            for (int i = 0; i <= names.length; i++) {
-                if (i > 0) {
-                    stringResult += "\n" + names[i - 1] + " - " + salary;
-                    salary = 0;
-                    if (i == names.length) {
-                        salary = 0;
-                        break;
-                    }
-                }
+            for (int i = 0; i < names.length; i++) {
                 for (int j = 0; j < data.length; j++) {
                     String[] tempArray = data[j].split(" ");
-                    Date employeeDate = getParseDate(tempArray[0]);
+                    LocalDate employeeDate = getParseDate(tempArray[0]);
                     if (names[i].equals(tempArray[1])) {
-                        if (employeeDate.after(newDateFrom)
-                                && employeeDate.before(newDateTo)) {
+                        if (employeeDate.isAfter(newDateFrom)
+                                && employeeDate.isBefore(newDateTo)) {
                             salary += Integer.parseInt(tempArray[2])
                                     * Integer.parseInt(tempArray[3]);
                         }
                     }
                 }
+                stringBuilder.append("\n")
+                        .append(names[i])
+                        .append(" - ")
+                        .append(salary);
+                salary = 0;
             }
-            return stringResult;
+            return stringBuilder.toString();
         } catch (ParseException exp) {
             throw new RuntimeException("Wrong date", exp);
         }
     }
 
-    private static Date getParseDate(String dateFrom) throws ParseException {
-        return new SimpleDateFormat("dd.MM.yyyy").parse(dateFrom);
-    }
-
-    private void addOneDayDateTo() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(newDateTo);
-        calendar.add(Calendar.DAY_OF_MONTH, 1);
-        newDateTo = calendar.getTime();
-    }
-
-    @Override
-    public String toString() {
-        return stringResult;
+    private LocalDate getParseDate(String dateFrom) throws ParseException {
+        return LocalDate.parse(dateFrom, formatter);
     }
 }
