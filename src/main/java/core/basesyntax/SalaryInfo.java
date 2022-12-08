@@ -4,8 +4,11 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    public static final int indexOfArray = 0;
-    public static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    public static final int DATE_INDEX = 0;
+    public static final int NAME_INDEX = 1;
+    public static final int HOURS_INDEX = 2;
+    public static final int SALARY_PER_HOUR = 3;
+    public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder stringBuilder = new StringBuilder();
@@ -13,8 +16,8 @@ public class SalaryInfo {
                 .append(dateFrom)
                 .append(" - ")
                 .append(dateTo);
-        LocalDate newDateFrom = getParseDate(dateFrom);
-        LocalDate newDateTo = getParseDate(dateTo);
+        LocalDate newDateFrom = parseDate(dateFrom);
+        LocalDate newDateTo = parseDate(dateTo);
 
         if (!dateFrom.equals(dateTo)) {
             newDateTo = newDateTo.plusDays(1);
@@ -24,12 +27,12 @@ public class SalaryInfo {
             int salary = 0;
             for (int j = 0; j < data.length; j++) {
                 String[] tempArray = data[j].split(" ");
-                LocalDate employeeDate = getParseDate(tempArray[indexOfArray]);
-                if (names[i].equals(tempArray[indexOfArray + 1])) {
+                LocalDate employeeDate = parseDate(tempArray[DATE_INDEX]);
+                if (names[i].equals(tempArray[NAME_INDEX])) {
                     if (employeeDate.isAfter(newDateFrom)
                             && employeeDate.isBefore(newDateTo)) {
-                        salary += Integer.parseInt(tempArray[indexOfArray + 2])
-                                * Integer.parseInt(tempArray[indexOfArray + 3]);
+                        salary += Integer.parseInt(tempArray[HOURS_INDEX])
+                                * Integer.parseInt(tempArray[SALARY_PER_HOUR]);
                     }
                 }
             }
@@ -41,7 +44,7 @@ public class SalaryInfo {
         return stringBuilder.toString();
     }
 
-    private LocalDate getParseDate(String dateFrom) {
-        return LocalDate.parse(dateFrom, formatter);
+    private LocalDate parseDate(String dateFrom) {
+        return LocalDate.parse(dateFrom, FORMATTER);
     }
 }
