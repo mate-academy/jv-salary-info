@@ -19,24 +19,20 @@ public class SalaryInfo {
         LocalDate newDateFrom = parseDate(dateFrom);
         LocalDate newDateTo = parseDate(dateTo);
 
-        if (!dateFrom.equals(dateTo)) {
-            newDateTo = newDateTo.plusDays(1);
-        }
-
         for (int i = 0; i < names.length; i++) {
             int salary = 0;
             for (int j = 0; j < data.length; j++) {
                 String[] tempArray = data[j].split(" ");
                 LocalDate employeeDate = parseDate(tempArray[DATE_INDEX]);
                 if (names[i].equals(tempArray[NAME_INDEX])) {
-                    if (employeeDate.isAfter(newDateFrom)
-                            && employeeDate.isBefore(newDateTo)) {
+                    if (!employeeDate.isBefore(newDateFrom)
+                            && !employeeDate.isAfter(newDateTo)) {
                         salary += Integer.parseInt(tempArray[HOURS_INDEX])
                                 * Integer.parseInt(tempArray[SALARY_PER_HOUR]);
                     }
                 }
             }
-            stringBuilder.append("\n")
+            stringBuilder.append(System.lineSeparator())
                     .append(names[i])
                     .append(" - ")
                     .append(salary);
