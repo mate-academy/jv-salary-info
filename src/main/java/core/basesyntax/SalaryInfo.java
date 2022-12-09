@@ -1,6 +1,5 @@
 package core.basesyntax;
 
-import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -22,10 +21,10 @@ public class SalaryInfo {
                     String[] arrDataSplit = data[j].split(" ");
                     LocalDate userDate = getParsedDate(arrDataSplit[0]);
                     if (names[i].equals(arrDataSplit[1]) && (
-                            userDate.isAfter(dateFromFormat) &&
-                                    userDate.isBefore(dateToFormat) ||
-                                    userDate.equals(dateFromFormat) ||
-                                    userDate.equals(dateToFormat))) {
+                            userDate.isAfter(dateFromFormat)
+                                    && userDate.isBefore(dateToFormat)
+                                    || userDate.equals(dateFromFormat)
+                                    || userDate.equals(dateToFormat))) {
                         totalSalary += (Integer.parseInt(arrDataSplit[2]))
                                 * (Integer.parseInt(arrDataSplit[3]));
                     }
@@ -43,7 +42,7 @@ public class SalaryInfo {
     }
 
     private LocalDate getParsedDate(String dateForm) throws DateTimeParseException {
-        DateTimeFormatter myDateFormat = DateTimeFormatter.ofPattern("dd.MM.yyyy");//set format we need
-        return LocalDate.parse(dateForm, myDateFormat); //dateForm - get this, myDateFormat - make this
+        DateTimeFormatter myDateFormat = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        return LocalDate.parse(dateForm, myDateFormat);
     }
 }
