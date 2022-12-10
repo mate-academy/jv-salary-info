@@ -5,10 +5,10 @@ import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-    private static final int INDEX_ZERO = 0;
-    private static final int INDEX_ONE = 1;
-    private static final int INDEX_TWO = 2;
-    private static final int INDEX_THREE = 3;
+    private static final int INPUT_DATE = 0;
+    private static final int INPUT_NAME = 1;
+    private static final int INPUT_DAYS = 2;
+    private static final int INPUT_RATE = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate dateFromFormat = LocalDate.parse(dateFrom, DATE_FORMAT);
@@ -21,14 +21,14 @@ public class SalaryInfo {
             int totalSalary = 0;
             for (int j = 0; j < data.length; j++) {
                 String[] arrDataSplit = data[j].split(" ");
-                LocalDate userDate = LocalDate.parse(arrDataSplit[INDEX_ZERO], DATE_FORMAT);
-                if (name.equals(arrDataSplit[INDEX_ONE]) && (
+                LocalDate userDate = LocalDate.parse(arrDataSplit[INPUT_DATE], DATE_FORMAT);
+                if (name.equals(arrDataSplit[INPUT_NAME]) && (
                         userDate.isAfter(dateFromFormat)
                                 && userDate.isBefore(dateToFormat)
                                 || userDate.equals(dateFromFormat)
                                 || userDate.equals(dateToFormat))) {
-                    totalSalary += (Integer.parseInt(arrDataSplit[INDEX_TWO]))
-                            * (Integer.parseInt(arrDataSplit[INDEX_THREE]));
+                    totalSalary += (Integer.parseInt(arrDataSplit[INPUT_DAYS]))
+                            * (Integer.parseInt(arrDataSplit[INPUT_RATE]));
                 }
                 userInfo = (name + " - " + totalSalary);
             }
