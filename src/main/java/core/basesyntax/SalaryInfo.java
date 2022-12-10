@@ -16,7 +16,7 @@ public class SalaryInfo {
 
         builder.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
 
-        for (String name: names) {
+        for (String name : names) {
             int totalSalary = 0;
             for (int j = 0; j < data.length; j++) {
                 String[] arrDataSplit = data[j].split(" ");
