@@ -2,8 +2,6 @@ package core.basesyntax;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 public class SalaryInfo {
     private static final int DATE_INDEX = 0;
@@ -16,37 +14,28 @@ public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate toDate = LocalDate.parse(dateTo, dateFormatter);
         LocalDate fromDate = LocalDate.parse(dateFrom, dateFormatter);
-        Map<String, Integer> salaryMap = new LinkedHashMap<>();
+        StringBuilder reportBuilder = new StringBuilder("Report for period "
+                + dateFrom + " - " + dateTo);
         for (String name : names) {
-            salaryMap.put(name, 0);
-        }
-        for (String dat : data) {
-            String[] splitData = dat.split(" ");
-            LocalDate date = LocalDate.parse(splitData[DATE_INDEX], dateFormatter);
-            if (fromDate.isBefore(date) && toDate.isAfter(date)
-                    || fromDate.equals(date) || toDate.equals(date)) {
-                int hours = Integer.parseInt(splitData[HOURS_INDEX]);
-                int perHour = Integer.parseInt(splitData[PER_HOUR_INDEX]);
-                int salaryThatDate = hours * perHour;
-                salaryMap.merge(splitData[NAME_INDEX], salaryThatDate, Integer::sum);
-            }
-        }
-        return resultToString(salaryMap, dateFrom, dateTo);
-    }
-
-    public String resultToString(Map<String, Integer> result, String dateFrom, String dateTo) {
-        StringBuilder stringBuilder = new StringBuilder();
-
-        stringBuilder.append("Report for period ")
-                .append(dateFrom)
-                .append(" - ")
-                .append(dateTo);
-        for (String name : result.keySet()) {
-            stringBuilder.append(lineSeparator)
+            reportBuilder.append(lineSeparator)
                     .append(name)
-                    .append(" - ")
-                    .append(result.get(name));
+                    .append(" - ");
+            int salary = 0;
+            for (String datum : data) {
+                String[] datumSplit = datum.split(" ");
+                if (datumSplit[NAME_INDEX].equals(name)) {
+                    LocalDate date = LocalDate.parse(datumSplit[DATE_INDEX], dateFormatter);
+                    int hours = Integer.parseInt(datumSplit[HOURS_INDEX]);
+                    int perHour = Integer.parseInt(datumSplit[PER_HOUR_INDEX]);
+                    int salaryThatDate = hours * perHour;
+                    if (date.isAfter(fromDate) && date.isBefore(toDate)
+                            || date.isEqual(fromDate) || date.isEqual(toDate)) {
+                        salary += salaryThatDate;
+                    }
+                }
+            }
+            reportBuilder.append(salary);
         }
-        return stringBuilder.toString();
+        return reportBuilder.toString();
     }
 }
