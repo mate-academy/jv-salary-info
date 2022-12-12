@@ -4,6 +4,10 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
+    private static final int DIFFERENCE_DAY = 1;
+    private static  final int CURRENT_NAME = 1;
+    private static final int WORKING_HOURS = 2;
+    private static  final int HOURLY_INCOME = 3;
     private static final DateTimeFormatter DATE_TIME_FORMATTER
             = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
@@ -14,12 +18,12 @@ public class SalaryInfo {
                 .append(dateTo);
         int[] resultSalary = new int[names.length];
         for (int i = 0; i < names.length; i++) {
-            for (String datum : data) {
-                String[] inputData = datum.split(" ");
-                if (names[i].equals(inputData[1])
-                        && isRightTime(datum, dateFrom, dateTo)) {
-                    resultSalary[i] += Integer.parseInt(inputData[2])
-                            * Integer.parseInt(inputData[3]);
+            for (String date : data) {
+                String[] inputData = date.split(" ");
+                if (names[i].equals(inputData[CURRENT_NAME])
+                        && isRightTime(date, dateFrom, dateTo)) {
+                    resultSalary[i] += Integer.parseInt(inputData[WORKING_HOURS])
+                            * Integer.parseInt(inputData[HOURLY_INCOME]);
                 }
             }
         }
@@ -30,14 +34,14 @@ public class SalaryInfo {
         return printResult.toString();
     }
 
-    private LocalDate stringData(String date) {
+    private LocalDate toLocalDate(String date) {
         return LocalDate.parse(date, DATE_TIME_FORMATTER);
     }
 
     private boolean isRightTime(String data, String dateFrom, String dateTo) {
         String[] inputData = data.split(" ");
-        return stringData(inputData[0]).isAfter(stringData(dateFrom).minusDays(1))
-                && stringData(inputData[0]).isBefore(stringData(dateTo).plusDays(1));
+        return toLocalDate(inputData[0]).isAfter(toLocalDate(dateFrom).minusDays(DIFFERENCE_DAY))
+                && toLocalDate(inputData[0]).isBefore(toLocalDate(dateTo).plusDays(DIFFERENCE_DAY));
     }
 }
 
