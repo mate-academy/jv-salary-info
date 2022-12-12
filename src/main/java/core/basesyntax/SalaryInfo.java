@@ -8,7 +8,8 @@ public class SalaryInfo {
     private static final int NAME_INDEX = 1;
     private static final int HOURS_INDEX = 2;
     private static final int PER_HOUR_INDEX = 3;
-    private static final String lineSeparator = System.lineSeparator();
+    private static final String LINE_SEPARATOR = System.lineSeparator();
+    private static final String SPACE = " ";
     private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
@@ -17,12 +18,12 @@ public class SalaryInfo {
         StringBuilder reportBuilder = new StringBuilder("Report for period "
                 + dateFrom + " - " + dateTo);
         for (String name : names) {
-            reportBuilder.append(lineSeparator)
+            reportBuilder.append(LINE_SEPARATOR)
                     .append(name)
                     .append(" - ");
             int salary = 0;
             for (String datum : data) {
-                String[] datumSplit = datum.split(" ");
+                String[] datumSplit = datum.split(SPACE);
                 if (datumSplit[NAME_INDEX].equals(name)) {
                     LocalDate date = LocalDate.parse(datumSplit[DATE_INDEX], dateFormatter);
                     int hours = Integer.parseInt(datumSplit[HOURS_INDEX]);
