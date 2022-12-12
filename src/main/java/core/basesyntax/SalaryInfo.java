@@ -5,9 +5,9 @@ import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     private static final int DIFFERENCE_DAY = 1;
-    private static  final int CURRENT_NAME = 1;
+    private static final int CURRENT_NAME = 1;
     private static final int WORKING_HOURS = 2;
-    private static  final int HOURLY_INCOME = 3;
+    private static final int HOURLY_INCOME = 3;
     private static final DateTimeFormatter DATE_TIME_FORMATTER
             = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
