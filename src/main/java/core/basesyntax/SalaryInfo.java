@@ -16,15 +16,14 @@ public class SalaryInfo {
         StringBuilder builder = new StringBuilder();
         builder.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
         String[] dataArray = new String[4];
-        int[] salaryInfo = new int[names.length];
-        int salary
+        int salary;
         for (int i = 0; i < names.length; i++) {
             salary = 0;
             for (String dataInfo : data) {
                 dataArray = dataInfo.split(" ");
                 LocalDate workDate = LocalDate.parse(dataArray[DATE_INDEX], dateTimeFormatter);
-                if (names[i].equals(dataArray[NAME_INDEX]) && !workDate.isBefore(dateT)
-                        && !workDate.isAfter(dateF)) {
+                if (names[i].equals(dataArray[NAME_INDEX]) && !workDate.isBefore(dateF)
+                        && !workDate.isAfter(dateT)) {
                     salary += Integer.valueOf(dataArray[WORKING_HOURS_INDEX])
                             * Integer.valueOf(dataArray[INCOME_PER_HOUR_INDEX]);
                 }
