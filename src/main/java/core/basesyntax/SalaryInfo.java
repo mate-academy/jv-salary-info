@@ -19,7 +19,8 @@ public class SalaryInfo {
             LocalDate dateNow = parseDate(timeless[TIME_INDEX]);
             if (dateNow.isAfter(startDate) && dateNow.isBefore(endDate)) {
                 summarySalaryInfo[indexOf] = summarySalaryInfo[indexOf]
-                        + (Integer.parseInt(timeless[HOUR_INDEX]) * Integer.parseInt(timeless[MONEY_PER_HOUR_INDEX]));
+                        + (Integer.parseInt(timeless[HOUR_INDEX]) * Integer
+                        .parseInt(timeless[MONEY_PER_HOUR_INDEX]));
             }
         }
         StringBuilder builder = new StringBuilder();
@@ -31,7 +32,7 @@ public class SalaryInfo {
         return builder.toString();
     }
 
-    private LocalDate parseDate (String date) {
+    private LocalDate parseDate(String date) {
         LocalDate dateResult = LocalDate.of(Integer.parseInt(date.split("[.]")[2]),
                 Integer.parseInt(date.split("[.]")[1]),Integer.parseInt(date
                         .split("[.]")[0]));
