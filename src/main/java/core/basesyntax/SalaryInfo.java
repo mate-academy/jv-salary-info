@@ -8,6 +8,9 @@ public class SalaryInfo {
     private static final int NAME_INDEX = 1;
     private static final int HOUR_INDEX = 2;
     private static final int MONEY_PER_HOUR_INDEX = 3;
+    private static final int MONTH_INDEX = 1;
+    private static final int YEAR_INDEX = 2;
+    private static final int DAY_INDEX = 0;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate startDate = parseDate(dateFrom);
@@ -33,9 +36,9 @@ public class SalaryInfo {
     }
 
     private LocalDate parseDate(String date) {
-        LocalDate dateResult = LocalDate.of(Integer.parseInt(date.split("[.]")[2]),
-                Integer.parseInt(date.split("[.]")[1]),Integer.parseInt(date
-                        .split("[.]")[0]));
+        LocalDate dateResult = LocalDate.of(Integer.parseInt(date.split("[.]")[YEAR_INDEX]),
+                Integer.parseInt(date.split("[.]")[MONTH_INDEX]),Integer.parseInt(date
+                        .split("[.]")[DAY_INDEX]));
         return dateResult;
     }
 }
