@@ -22,12 +22,7 @@ public class SalaryInfo {
                                 String dateFrom, String dateTo) {
         LocalDate fromDate = LocalDate.parse(dateFrom, DATE_TIME_FORMATTER);
         LocalDate toDate = LocalDate.parse(dateTo, DATE_TIME_FORMATTER);
-        List<EmployeeWorkingDay> peoplesSalaries = parseEmployeeWorkingDay(data);
-        return getSalary(names, peoplesSalaries, fromDate, toDate);
-    }
-
-    private String getSalary(String[] names, List<EmployeeWorkingDay> peoplesSalaries,
-                             LocalDate fromDate, LocalDate toDate) {
+        List<EmployeeWorkingDay> peoplesSalaries = getEmployeeWorkingDays(data);
         StringBuilder report = new StringBuilder(TITLE_FOR_REPORT);
         report.append(fromDate.format(DATE_TIME_FORMATTER))
                 .append(DASH_FOR_REPORT)
@@ -38,7 +33,7 @@ public class SalaryInfo {
                     .filter(s -> name.equals(s.getName())
                             && s.getDate().isAfter(fromDate.minusDays(NUMBER_FOR_CORRECTLY_DATE))
                             && s.getDate().isBefore(toDate.plusDays(NUMBER_FOR_CORRECTLY_DATE)))
-                    .map(EmployeeWorkingDay::getSalaryPerDay)
+                    .map(EmployeeWorkingDay::getSalary)
                     .mapToInt(s -> s).sum();
             report.append(name).append(DASH_FOR_REPORT).append(salary)
                     .append(System.lineSeparator());
@@ -46,15 +41,15 @@ public class SalaryInfo {
         return report.toString().trim();
     }
 
-    private List<EmployeeWorkingDay> parseEmployeeWorkingDay(String[] data) {
+    private List<EmployeeWorkingDay> getEmployeeWorkingDays(String[] data) {
         List<EmployeeWorkingDay> salaries = new ArrayList<>();
         for (String datum : data) {
-            salaries.add(writeDataToPeoplesSalary(datum));
+            salaries.add(parseEmployeeWorkingDay(datum));
         }
         return salaries;
     }
 
-    private EmployeeWorkingDay writeDataToPeoplesSalary(String data) {
+    private EmployeeWorkingDay parseEmployeeWorkingDay(String data) {
         String[] dataArray = data.split(STRING_FOR_SPLIT);
         EmployeeWorkingDay peoplesSalary = new EmployeeWorkingDay();
         peoplesSalary.setDate(LocalDate.parse(dataArray[DATE_INDEX], DATE_TIME_FORMATTER));

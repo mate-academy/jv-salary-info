@@ -40,7 +40,7 @@ public class EmployeeWorkingDay {
         this.salaryPerHour = salaryPerHour;
     }
 
-    public int getSalaryPerDay() {
-        return getSalaryPerHour() * getNumberOfHours();
+    public int getSalary() {
+        return numberOfHours * salaryPerHour;
     }
 }
