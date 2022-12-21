@@ -12,13 +12,15 @@ public class SalaryInfo {
     private LocalDate dateOfEmployeeLD = null;
     private LocalDate dateFromLD = null;
     private LocalDate dateToLD = null;
+    private StringBuilder stb = null;
+    private StringBuilder stb2 = null;
 
     public String getSalaryInfo(String[] names,
                                 String[] data,
                                 String dateFrom,
                                 String dateTo) {
-        StringBuilder stb = new StringBuilder();
-        StringBuilder stb2 = new StringBuilder();
+        stb = new StringBuilder();
+        stb2 = new StringBuilder();
         dateFromLD = LocalDate.parse(dateFrom, FORMATTER).minusDays(1);
         dateToLD = LocalDate.parse(dateTo, FORMATTER).plusDays(1);
         int [] salaryNumbers = new int [names.length];
