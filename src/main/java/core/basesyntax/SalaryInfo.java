@@ -9,7 +9,7 @@ public class SalaryInfo {
     private static final int INDEX_OF_NAME = 1;
     private static final int INDEX_OF_HOURS = 2;
     private static final int INDEX_OF_SALARY = 3;
-    LocalDate dateOfEmployeeLD = null;
+    private LocalDate dateOfEmployeeLD = null;
 
     public String getSalaryInfo(String[] names,
                                 String[] data,
