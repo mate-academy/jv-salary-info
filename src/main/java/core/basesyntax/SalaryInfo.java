@@ -23,7 +23,7 @@ public class SalaryInfo {
                         int workedHours = Integer.parseInt(split[2]);
                         int payPerHour = Integer.parseInt(split[3]);
                         int result = workedHours * payPerHour;
-                        employeeSalary += result; // Подсчет
+                        employeeSalary += result;
                         if (!testString.equals(name)) {
                             testString += name;
                             builder.append(System.lineSeparator())
