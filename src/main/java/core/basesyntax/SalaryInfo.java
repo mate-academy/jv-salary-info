@@ -11,11 +11,11 @@ public class SalaryInfo {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < names.length; i++) {
             for (String datum : data) {
-                if (names[i].equals(datum.split(" ")[1]) &&
-                        dateParser.date(datum.split(" ")[0]).compareTo(startDate) >= 0 &&
-                        dateParser.date(datum.split(" ")[0]).compareTo(stopDate) <= 0) {
-                    salaries[i] += Integer.parseInt(datum.split(" ")[2]) *
-                            Integer.parseInt(datum.split(" ")[3]);
+                if (names[i].equals(datum.split(" ")[1])
+                        && dateParser.date(datum.split(" ")[0]).compareTo(startDate) >= 0
+                        && dateParser.date(datum.split(" ")[0]).compareTo(stopDate) <= 0) {
+                    salaries[i] += Integer.parseInt(datum.split(" ")[2])
+                            * Integer.parseInt(datum.split(" ")[3]);
                 }
             }
             sb.append(names[i]).append(" - ").append(salaries[i]);
@@ -23,7 +23,7 @@ public class SalaryInfo {
                 sb.append(System.lineSeparator());
             }
         }
-        return "Report for period " + dateFrom + " - " + dateTo +
-                System.lineSeparator() + sb;
+        return "Report for period " + dateFrom + " - " + dateTo
+                + System.lineSeparator() + sb;
     }
 }

@@ -1,14 +1,14 @@
 package core.basesyntax;
 
-import java.util.Date;
-import java.text.SimpleDateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class DateParser {
     public Date date(String date) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
-        Date correctDate = new Date();
-// try-catch may be rewritten, here is just a simple plug for current task
+        Date correctDate;
+        // try-catch may be rewritten, here is just a simple plug for current task
         try {
             correctDate = simpleDateFormat.parse(date);
         } catch (ParseException e) {
