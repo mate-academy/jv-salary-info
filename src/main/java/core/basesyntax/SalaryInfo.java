@@ -24,7 +24,7 @@ public class SalaryInfo {
             }
             result.append(name).append(" - ").append(salary).append(System.lineSeparator());
         }
-        return result.substring(0, result.length() - 2);
+        return result.toString().trim();
     }
 
     public static LocalDate parseToLocalDate(String dateIn) {
