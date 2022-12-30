@@ -47,4 +47,3 @@ public class SalaryInfo {
         return report.toString();
     }
 }
-
