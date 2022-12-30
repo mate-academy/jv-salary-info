@@ -14,16 +14,14 @@ public class SalaryInfo {
         for (String name: names) {
             int salary = 0;
             for (String strData : data) {
-                dataDate = LocalDate.parse(strData.substring(0, strData.indexOf(' ')), formatter);
+                String[] arrayOfData = strData.split(" ");
+                dataDate = LocalDate.parse(arrayOfData[0], formatter);
                 if ((dataDate.isAfter(dateFromLocal) || dataDate.isEqual(dateFromLocal))
                         && (dataDate.isBefore(dateToLocal) || dataDate.isEqual(dateToLocal))) {
-                    if (name.equals(strData.substring(strData.indexOf(' ') + 1,
-                            strData.indexOf(' ') + 1 + name.length()))) {
-                        int workHours = Integer.parseInt(strData.substring(strData.indexOf(' ') + 2
-                                + name.length(), strData.lastIndexOf(' ')));
-                        int salaryPerHour = Integer.parseInt(strData.substring(strData
-                                .lastIndexOf(' ') + 1));
-                        salary = workHours * salaryPerHour + salary;
+                    if (name.equals(arrayOfData[1])) {
+                        int workHours = Integer.parseInt(arrayOfData[2]);
+                        int salaryPerHour = Integer.parseInt(arrayOfData[3]);
+                        salary += workHours * salaryPerHour;
                     }
                 }
             }
