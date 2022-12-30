@@ -6,10 +6,10 @@ public class SalaryInfo {
         int employSalary;
         String[] parsedDateTo = dateTo.split("\\.");
         String[] parsedDateFrom = dateFrom.split("\\.");
-        int startWorkMonth = Integer.parseInt(parsedDateFrom[1]);
-        int startWorkDay = Integer.parseInt(parsedDateFrom[0]);
-        int finishWorkMonth = Integer.parseInt(parsedDateTo[1]);
-        int finishWorkDay = Integer.parseInt(parsedDateTo[0]);
+        int startWorkMonth = Integer.valueOf(parsedDateFrom[1]);
+        int startWorkDay = Integer.valueOf(parsedDateFrom[0]);
+        int finishWorkMonth = Integer.valueOf(parsedDateTo[1]);
+        int finishWorkDay = Integer.valueOf(parsedDateTo[0]);
         int actualCurrentDay;
         int actualCurrentMonth;
         report.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
@@ -26,18 +26,18 @@ public class SalaryInfo {
                     if (startWorkMonth == finishWorkMonth) {
                         if (startWorkDay <= actualCurrentDay && actualCurrentDay <= finishWorkDay) {
                             employSalary += Integer.parseInt(parsedEmployData[2])
-                                    * Integer.parseInt(parsedEmployData[3]);
+                                    * Integer.valueOf(parsedEmployData[3]);
                         }
                     } else {
-                        if ((startWorkMonth == actualCurrentMonth)
-                                && (startWorkDay <= actualCurrentDay)) {
+                        if ((startWorkMonth == actualCurrentMonth) &&
+                                (startWorkDay <= actualCurrentDay)) {
                             employSalary += Integer.parseInt(parsedEmployData[2])
-                                    * Integer.parseInt(parsedEmployData[3]);
+                                    * Integer.valueOf(parsedEmployData[3]);
                         }
-                        if ((finishWorkMonth == actualCurrentMonth)
-                                && (finishWorkDay >= actualCurrentDay)) {
+                        if ((finishWorkMonth == actualCurrentMonth) &&
+                                (finishWorkDay >= actualCurrentDay)) {
                             employSalary += Integer.parseInt(parsedEmployData[2])
-                                    * Integer.parseInt(parsedEmployData[3]);
+                                    * Integer.valueOf(parsedEmployData[3]);
                         }
                     }
                 }
@@ -47,3 +47,4 @@ public class SalaryInfo {
         return report.toString();
     }
 }
+
