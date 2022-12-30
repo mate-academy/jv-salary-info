@@ -29,8 +29,8 @@ public class SalaryInfo {
                                     * Integer.valueOf(parsedEmployData[3]);
                         }
                     } else {
-                        if ((startWorkMonth == actualCurrentMonth) &&
-                                (startWorkDay <= actualCurrentDay)) {
+                        if ((startWorkMonth == actualCurrentMonth)
+                                && (startWorkDay <= actualCurrentDay)) {
                             employSalary += Integer.parseInt(parsedEmployData[2])
                                     * Integer.valueOf(parsedEmployData[3]);
                         }
