@@ -25,16 +25,19 @@ public class SalaryInfo {
                     actualCurrentMonth = Integer.parseInt(parsedEmployBusyDate[1]);
                     if (startWorkMonth == finishWorkMonth) {
                         if (startWorkDay <= actualCurrentDay && actualCurrentDay <= finishWorkDay) {
-                            employSalary += Integer.parseInt(parsedEmployData[2]) * Integer.parseInt(parsedEmployData[3]);
+                            employSalary += Integer.parseInt(parsedEmployData[2]) *
+                                    Integer.parseInt(parsedEmployData[3]);
                         }
                     } else {
                         if ((startWorkMonth == actualCurrentMonth) &&
                                 (startWorkDay <= actualCurrentDay)) {
-                            employSalary += Integer.parseInt(parsedEmployData[2]) * Integer.parseInt(parsedEmployData[3]);
+                            employSalary += Integer.parseInt(parsedEmployData[2]) *
+                                    Integer.parseInt(parsedEmployData[3]);
                         }
                         if ((finishWorkMonth == actualCurrentMonth) &&
                                 (finishWorkDay >= actualCurrentDay)) {
-                            employSalary += Integer.parseInt(parsedEmployData[2]) * Integer.parseInt(parsedEmployData[3]);
+                            employSalary += Integer.parseInt(parsedEmployData[2]) *
+                                    Integer.parseInt(parsedEmployData[3]);
                         }
                     }
                 }
