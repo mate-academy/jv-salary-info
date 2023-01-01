@@ -1,50 +1,34 @@
 package core.basesyntax;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class SalaryInfo {
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder report = new StringBuilder();
         int employSalary;
-        String[] parsedDateTo = dateTo.split("\\.");
-        String[] parsedDateFrom = dateFrom.split("\\.");
-        int startWorkMonth = Integer.parseInt(parsedDateFrom[1]);
-        int startWorkDay = Integer.parseInt(parsedDateFrom[0]);
-        int finishWorkMonth = Integer.parseInt(parsedDateTo[1]);
-        int finishWorkDay = Integer.parseInt(parsedDateTo[0]);
-        int actualCurrentDay;
-        int actualCurrentMonth;
-        report.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
+        LocalDate localDateTo = LocalDate.parse(dateTo, FORMATTER);
+        LocalDate localDateFrom = LocalDate.parse(dateFrom, FORMATTER);
         String[] parsedEmployData;
-        String[] parsedEmployBusyDate;
+        LocalDate localEmployDate;
+        report.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
         for (String employName : names) {
             employSalary = 0;
             for (String employData : data) {
                 parsedEmployData = employData.split(" ");
                 if (employName.equals(parsedEmployData[1])) {
-                    parsedEmployBusyDate = parsedEmployData[0].split("\\.");
-                    actualCurrentDay = Integer.parseInt(parsedEmployBusyDate[0]);
-                    actualCurrentMonth = Integer.parseInt(parsedEmployBusyDate[1]);
-                    if (startWorkMonth == finishWorkMonth) {
-                        if (startWorkDay <= actualCurrentDay && actualCurrentDay <= finishWorkDay) {
-                            employSalary += Integer.parseInt(parsedEmployData[2])
-                                    * Integer.parseInt(parsedEmployData[3]);
-                        }
-                    } else {
-                        if ((startWorkMonth == actualCurrentMonth)
-                                && (startWorkDay <= actualCurrentDay)) {
-                            employSalary += Integer.parseInt(parsedEmployData[2])
-                                    * Integer.parseInt(parsedEmployData[3]);
-                        }
-                        if ((finishWorkMonth == actualCurrentMonth)
-                                && (finishWorkDay >= actualCurrentDay)) {
-                            employSalary += Integer.parseInt(parsedEmployData[2])
-                                    * Integer.parseInt(parsedEmployData[3]);
-                        }
+                    localEmployDate = LocalDate.parse(parsedEmployData[0], FORMATTER);
+                    if ((localEmployDate.compareTo(localDateFrom) >= 0)
+                            & (localEmployDate.compareTo(localDateTo) <= 0)) {
+                        employSalary += Integer.parseInt(parsedEmployData[2])
+                                * Integer.parseInt(parsedEmployData[3]);
                     }
                 }
             }
-            report.append("\r\n").append(employName).append(" - ").append(employSalary);
+            report.append(System.lineSeparator()).append(employName).append(" - ").append(employSalary);
         }
         return report.toString();
     }
 }
-
