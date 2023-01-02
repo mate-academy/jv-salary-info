@@ -22,7 +22,7 @@ public class SalaryInfo {
                 String[] dataNameHoursSalary = dateData.split(" ");
                 LocalDate day = LocalDate.parse(dataNameHoursSalary[HOURS_INDEX], DATE_FORMATTER);
                 if (dataNameHoursSalary[NAME_INDEX].equals(name)
-                    && ((day.isAfter(from) || day.isEqual(from))
+                        && ((day.isAfter(from) || day.isEqual(from))
                         && ((day.isBefore(to)) || day.isEqual(to)))) {
                     nameSalary += Integer.parseInt(dataNameHoursSalary[HOURS_INDEX])
                             * Integer.parseInt(dataNameHoursSalary[INCOME_PER_HOUR_INDEX]);
