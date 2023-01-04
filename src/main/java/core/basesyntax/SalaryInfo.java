@@ -28,7 +28,6 @@ public class SalaryInfo {
                                 + Integer.parseInt(split[2]) * Integer.parseInt(split[3]));
                     }
                 }
-
             }
         }
         for (Employee employee:employees) {
@@ -36,7 +35,5 @@ public class SalaryInfo {
         }
         return REPORT_PERIOD_MESSAGE + dateFrom + " - " + dateTo
                 + System.lineSeparator() + stringBuilder.substring(0, stringBuilder.length() - 2);
-
     }
-
 }

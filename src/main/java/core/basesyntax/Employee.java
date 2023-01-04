@@ -24,5 +24,4 @@ public class Employee {
     public String toString() {
         return name + " - " + salary + System.lineSeparator();
     }
-
 }
