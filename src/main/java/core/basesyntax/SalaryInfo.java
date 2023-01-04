@@ -33,7 +33,7 @@ public class SalaryInfo {
         }
         String result = "Report for period " + dateFrom + " - " + dateTo;
         for (int i = 0; i < res.length; i++) {
-            result += "\r\n" + names[i] + " - " + res[i];
+            result += System.lineSeparator() + names[i] + " - " + res[i];
         }
         return result.trim();
     }
