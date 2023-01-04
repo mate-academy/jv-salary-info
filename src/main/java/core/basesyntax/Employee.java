@@ -22,7 +22,7 @@ public class Employee {
 
     @Override
     public String toString() {
-        return name + "-" + salary + System.lineSeparator();
+        return name + " - " + salary + System.lineSeparator();
     }
 
 }
