@@ -5,7 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 
 public class SalaryInfo {
-    static final String REPORT_PERIOD_MESSAGE = "Report for period ";
+    static final String REPORT_PERIOD_MSG = "Report for period ";
     static final DateTimeFormatter formatter = new DateTimeFormatterBuilder()
             .appendPattern("dd.MM.yyyy").toFormatter();
 
@@ -33,7 +33,7 @@ public class SalaryInfo {
         for (Employee employee:employees) {
             stringBuilder.append(employee);
         }
-        return REPORT_PERIOD_MESSAGE + dateFrom + " - " + dateTo
+        return REPORT_PERIOD_MSG + dateFrom + " - " + dateTo
                 + System.lineSeparator() + stringBuilder.substring(0, stringBuilder.length() - 2);
     }
 }
