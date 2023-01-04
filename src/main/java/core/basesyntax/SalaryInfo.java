@@ -21,7 +21,8 @@ public class SalaryInfo {
             for (String datum : data) {
                 String[] dates = datum.split(" ");
                 try {
-                    if (names[i].equals(dates[1]) && format.parse(dates[0]).getTime() >= date1.getTime()
+                    if (names[i].equals(dates[1])
+                            && format.parse(dates[0]).getTime() >= date1.getTime()
                             && format.parse(dates[0]).getTime() <= date2.getTime()) {
                         res[i] += (Integer.parseInt(dates[2]) * Integer.parseInt(dates[3]));
                     }
