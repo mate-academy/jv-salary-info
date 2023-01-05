@@ -17,7 +17,6 @@ public class SalaryInfo {
         final LocalDate dateLast = LocalDate.parse(dateTo, FORMATTER);
         final LocalDate dateFirst = LocalDate.parse(dateFrom, FORMATTER);
         StringBuilder stringBuilder = new StringBuilder();
-        int[] income = new int[names.length];
         String[] dataRow;
         stringBuilder.append(INTRO + dateFrom + DASH + dateTo + System.lineSeparator());
         for (int j = 0; j < names.length; j++) {
