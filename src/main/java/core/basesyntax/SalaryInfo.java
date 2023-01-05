@@ -18,22 +18,23 @@ public class SalaryInfo {
         final LocalDate dateFirst = LocalDate.parse(dateFrom, FORMATTER);
         StringBuilder stringBuilder = new StringBuilder();
         String[] dataRow;
-        stringBuilder.append(INTRO + dateFrom + DASH + dateTo);
+        stringBuilder.append(INTRO).append(dateFrom).append(DASH).append(dateTo);
         for (int j = 0; j < names.length; j++) {
             stringBuilder.append(System.lineSeparator());
             int salary = 0;
             for (int i = 0; i < data.length; i++) {
                 dataRow = data[i].split(REGEX);
-                if ((dataRow[NAME_INDEX].equals(names[j]))
-                        && (LocalDate.parse(dataRow[DATE_INDEX], FORMATTER).isAfter(dateFirst)
-                        || LocalDate.parse(dataRow[DATE_INDEX], FORMATTER).isEqual(dateFirst))
-                        && (LocalDate.parse(dataRow[DATE_INDEX], FORMATTER).isBefore(dateLast)
-                        || LocalDate.parse(dataRow[DATE_INDEX], FORMATTER).isEqual(dateLast))) {
+                LocalDate dateData = LocalDate.parse(dataRow[DATE_INDEX], FORMATTER);
+                if (((dataRow[NAME_INDEX].equals(names[j]))
+                        && (dateData.isAfter(dateFirst)
+                        || dateData.isEqual(dateFirst))
+                        && (dateData.isBefore(dateLast)
+                        || dateData.isEqual(dateLast)))) {
                     salary += Integer.parseInt(dataRow[HOURS_INDEX])
                         * Integer.parseInt(dataRow[INCOME_INDEX]);
                 }
             }
-            stringBuilder.append(names[j] + DASH + salary);
+            stringBuilder.append(names[j]).append(DASH).append(salary);
         }
         return stringBuilder.toString();
     }
