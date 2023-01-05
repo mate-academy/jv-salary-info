@@ -9,14 +9,14 @@ public class SalaryInfo {
     private static final int HOURS_INDEX = 2;
     private static final int PER_HOUR_INDEX = 3;
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-    private LocalDate beginDate;
-    private LocalDate endDate;
-    private LocalDate particularDate;
-    private int hours;
-    private int salaryHour;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        StringBuilder builder = new StringBuilder();
+        StringBuilder infoEmployee = new StringBuilder();
+        LocalDate beginDate;
+        LocalDate endDate;
+        LocalDate particularDate;
+        int hours;
+        int salaryHour;
         int salary;
         beginDate = LocalDate.parse(dateFrom, FORMATTER);
         endDate = LocalDate.parse(dateTo, FORMATTER);
@@ -34,8 +34,10 @@ public class SalaryInfo {
                     salary += hours * salaryHour;
                 }
             }
-            builder.append(System.lineSeparator()).append(names[i]).append(" - ").append(salary);
+            infoEmployee.append(System.lineSeparator())
+                    .append(names[i]).append(" - ").append(salary);
         }
-        return "Report for period " + dateFrom + " - " + dateTo + builder;
+        StringBuilder result = new StringBuilder("Report for period " + dateFrom + " - " + dateTo);
+        return result.append(infoEmployee).toString();
     }
 }
