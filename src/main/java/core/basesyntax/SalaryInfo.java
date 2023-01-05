@@ -21,6 +21,7 @@ public class SalaryInfo {
         String[] dataRow;
         stringBuilder.append(INTRO + dateFrom + DASH + dateTo + System.lineSeparator());
         for (int j = 0; j < names.length; j++) {
+        int salary = 0;
             for (int i = 0; i < data.length; i++) {
                 dataRow = data[i].split(REGEX);
                 if ((dataRow[NAME_INDEX].equals(names[j]))
