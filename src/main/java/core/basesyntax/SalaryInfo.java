@@ -11,33 +11,31 @@ public class SalaryInfo {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        StringBuilder infoEmployee = new StringBuilder();
-        LocalDate beginDate;
-        LocalDate endDate;
+        StringBuilder result = new StringBuilder("Report for period " + dateFrom + " - " + dateTo);
+        LocalDate beginDate = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate endDate = LocalDate.parse(dateTo, FORMATTER);
         LocalDate particularDate;
         int hours;
         int salaryHour;
         int salary;
-        beginDate = LocalDate.parse(dateFrom, FORMATTER);
-        endDate = LocalDate.parse(dateTo, FORMATTER);
         String[] separateData;
-        for (int i = 0; i < names.length; i++) {
+        for (String name: names) {
             salary = 0;
-            for (int j = 0; j < data.length; j++) {
-                separateData = data[j].split(" ");
+            for (String dataSet: data) {
+                separateData = dataSet.split(" ");
                 particularDate = LocalDate.parse(separateData[DATE_INDEX], FORMATTER);
                 hours = Integer.parseInt(separateData[HOURS_INDEX]);
                 salaryHour = Integer.parseInt(separateData[PER_HOUR_INDEX]);
-                if (names[i].equals(separateData[NAME_INDEX]) && ((particularDate.isAfter(beginDate)
+                if (name.equals(separateData[NAME_INDEX]) && ((particularDate.isAfter(beginDate)
                         || particularDate.equals(beginDate)) && ((particularDate.isBefore(endDate)
                         || particularDate.equals(endDate))))) {
                     salary += hours * salaryHour;
                 }
             }
-            infoEmployee.append(System.lineSeparator())
-                    .append(names[i]).append(" - ").append(salary);
+            result.append(System.lineSeparator())
+                    .append(name).append(" - ").append(salary);
         }
-        StringBuilder result = new StringBuilder("Report for period " + dateFrom + " - " + dateTo);
-        return result.append(infoEmployee).toString();
+
+        return result.toString();
     }
 }
