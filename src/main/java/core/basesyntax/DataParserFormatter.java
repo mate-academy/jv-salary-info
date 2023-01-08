@@ -19,6 +19,7 @@ public class DataParserFormatter {
             throw new DateTimeParseException("Illegal data format!", date, 1);
         }
     }
+
     public int parseInt(String number) {
         try {
             return Integer.parseInt(number);
