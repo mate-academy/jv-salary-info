@@ -28,8 +28,8 @@ public class SalaryInfo {
                             dateParserFormatter);
                     if (inputDate.compareTo(localDateFrom) >= 0
                             && inputDate.compareTo(localDateTo) <= 0) {
-                        totalSum += Integer.valueOf(input[HOUR_INDEX])
-                                * Integer.valueOf(input[SALARY_INDEX]);
+                        totalSum += Integer.parseInt(input[HOUR_INDEX])
+                                * Integer.parseInt(input[SALARY_INDEX]);
                     }
                 }
             }
