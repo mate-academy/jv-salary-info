@@ -28,23 +28,22 @@ public class SalaryInfo {
             String name = splitData[NAME_INDEX];
             int hours = Integer.parseInt(splitData[HOURS_INDEX]);
             int incomePerHour = Integer.parseInt(splitData[INCOME_PER_HOUR_INDEX]);
-            int isDateAfter = date.compareTo(startDate);
-            int isDateBefore = date.compareTo(endDate);
+            boolean isDateInPeriod = !date.isBefore(startDate) && !date.isAfter(endDate);
 
-            if (isDateAfter >= 0 && isDateBefore <= 0) {
+            if (isDateInPeriod) {
                 int salary = hours * incomePerHour;
                 employeesSalary.computeIfPresent(name, (key, value) -> value + salary);
             }
         }
 
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
+        StringBuilder salaryInfo = new StringBuilder();
+        salaryInfo.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
 
         for (Map.Entry<String, Integer> entry : employeesSalary.entrySet()) {
-            stringBuilder.append(System.lineSeparator()).append(entry.getKey()).append(" - ");
-            stringBuilder.append(entry.getValue());
+            salaryInfo.append(System.lineSeparator()).append(entry.getKey()).append(" - ");
+            salaryInfo.append(entry.getValue());
         }
 
-        return stringBuilder.toString();
+        return salaryInfo.toString();
     }
 }
