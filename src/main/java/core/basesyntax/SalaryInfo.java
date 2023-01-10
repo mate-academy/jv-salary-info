@@ -28,7 +28,8 @@ public class SalaryInfo {
                             * Integer.parseInt(dataNameHoursSalary[INCOME_PER_HOUR_INDEX]);
                 }
             }
-            salaryResultBuilder.append(System.lineSeparator()).append(name).append(" - ").append(nameSalary);
+            salaryResultBuilder.append(System.lineSeparator())
+                    .append(name).append(" - ").append(nameSalary);
         }
         return salaryResultBuilder.toString();
     }
