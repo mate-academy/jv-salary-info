@@ -2,6 +2,7 @@ package core.basesyntax;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+
 public class SalaryInfo {
     private static final int DATE_INDEX = 0;
     private static final int NAME_INDEX = 1;
