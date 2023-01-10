@@ -9,7 +9,7 @@ public class SalaryInfo {
     private static final int HOURS_INDEX = 2;
     private static final int INCOME_PER_HOUR_INDEX = 3;
     private static final DateTimeFormatter DATE_FORMATTER =
-            DateTimeFormatter.ofPattern("DD.MM.YYYY");
+            DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dataFrom, String dateTo) {
         LocalDate from = LocalDate.parse(dataFrom, DATE_FORMATTER);
@@ -20,7 +20,7 @@ public class SalaryInfo {
             int nameSalary = 0;
             for (String dateData : data) {
                 String[] dataNameHoursSalary = dateData.split(" ");
-                LocalDate day = LocalDate.parse(dataNameHoursSalary[HOURS_INDEX], DATE_FORMATTER);
+                LocalDate day = LocalDate.parse(dataNameHoursSalary[DATE_INDEX], DATE_FORMATTER);
                 if (dataNameHoursSalary[NAME_INDEX].equals(name)
                         && ((day.isAfter(from) || day.isEqual(from))
                         && ((day.isBefore(to)) || day.isEqual(to)))) {
@@ -28,7 +28,7 @@ public class SalaryInfo {
                             * Integer.parseInt(dataNameHoursSalary[INCOME_PER_HOUR_INDEX]);
                 }
             }
-            salaryResultBuilder.append("\n").append(name).append(" - ").append(nameSalary);
+            salaryResultBuilder.append(System.lineSeparator()).append(name).append(" - ").append(nameSalary);
         }
         return salaryResultBuilder.toString();
     }
