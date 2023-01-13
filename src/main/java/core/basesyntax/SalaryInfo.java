@@ -15,16 +15,16 @@ public class SalaryInfo {
         LocalDate localDateTo;
 
         if (names.length == 0 || data.length == 0) {
-            throw new RuntimeException("Report data and employees list should not be empty!");
+            throw new IllegalArgumentException("Report data and employees list should not be empty!");
         }
 
         try {
             localDateFrom = LocalDate.parse(dateFrom, dateTimeFormatter);
             localDateTo = LocalDate.parse(dateTo, dateTimeFormatter);
         } catch (DateTimeParseException e) {
-            throw new RuntimeException("Range dates should be valid dates in dd.MM.yyyy format!");
+            throw new IllegalArgumentException("Range dates should be valid dates in dd.MM.yyyy format!");
         } catch (NullPointerException e) {
-            throw new RuntimeException("Range dates should not be null!");
+            throw new IllegalArgumentException("Range dates should not be null!");
         }
 
         reportBuilder.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
