@@ -23,7 +23,8 @@ public class SalaryInfo {
             LocalDate date = LocalDate.parse(str[ARRAY_INDEX_ZERO], FORMATTER);
             LocalDate localDateFrom = LocalDate.parse(dateFrom, FORMATTER);
             LocalDate localDateTo = LocalDate.parse(dateTo, FORMATTER);
-            int salaryInDay = (Integer.parseInt(str[ARRAY_INDEX_TWO]) * Integer.parseInt(str[ARRAY_INDEX_TREE]));
+            int salaryInDay = (Integer.parseInt(str[ARRAY_INDEX_TWO])
+                    * Integer.parseInt(str[ARRAY_INDEX_TREE]));
 
             if ((date.isAfter(localDateFrom) || date.isEqual(localDateFrom))
                     && (date.isBefore(localDateTo) || date.isEqual(localDateTo))) {
