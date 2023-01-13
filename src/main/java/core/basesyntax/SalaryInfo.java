@@ -7,7 +7,8 @@ import java.util.regex.Pattern;
 
 public class SalaryInfo {
     private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-    private final Pattern dataEntryPattern = Pattern.compile("^(\\d{2}.\\d{2}.\\d{4}) (\\w+) (\\d+) (\\d+)$");
+    private final Pattern dataEntryPattern =
+            Pattern.compile("^(\\d{2}.\\d{2}.\\d{4}) (\\w+) (\\d+) (\\d+)$");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder reportBuilder = new StringBuilder();
@@ -15,14 +16,14 @@ public class SalaryInfo {
         LocalDate localDateTo;
 
         if (names.length == 0 || data.length == 0) {
-            throw new IllegalArgumentException("Report data and employees list should not be empty!");
+            throw new IllegalArgumentException("Data and employees list should not be empty!");
         }
 
         try {
             localDateFrom = LocalDate.parse(dateFrom, dateTimeFormatter);
             localDateTo = LocalDate.parse(dateTo, dateTimeFormatter);
         } catch (DateTimeParseException e) {
-            throw new IllegalArgumentException("Range dates should be valid dates in dd.MM.yyyy format!");
+            throw new IllegalArgumentException("Dates should be valid dates in dd.MM.yyyy format!");
         } catch (NullPointerException e) {
             throw new IllegalArgumentException("Range dates should not be null!");
         }
@@ -42,7 +43,7 @@ public class SalaryInfo {
                     continue;
                 }
 
-                String[] dataItems = dataEntry.split( " ");
+                String[] dataItems = dataEntry.split(" ");
 
                 if (name.equals(dataItems[1])) {
                     try {
