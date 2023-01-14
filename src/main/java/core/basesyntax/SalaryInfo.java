@@ -12,6 +12,10 @@ public class SalaryInfo {
             Pattern.compile("^(\\d{2}.\\d{2}.\\d{4}) (\\w+) (\\d+) (\\d+)$");
     private static final String DATA_ITEMS_SEPARATOR = " ";
     private static final String REPORT_DATA_SEPARATOR = " - ";
+    private static final int DATA_ITEM_DATE = 0;
+    private static final int DATA_ITEM_NAME = 1;
+    private static final int DATA_ITEM_HOURS = 2;
+    private static final int DATA_ITEM_RATE = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder reportBuilder = new StringBuilder();
@@ -47,14 +51,14 @@ public class SalaryInfo {
                 String[] dataItems = dataEntry.split(DATA_ITEMS_SEPARATOR);
 
                 try {
-                    date = LocalDate.parse(dataItems[0], DATE_TIME_FORMATTER);
+                    date = LocalDate.parse(dataItems[DATA_ITEM_DATE], DATE_TIME_FORMATTER);
                 } catch (DateTimeParseException e) {
-                    continue;
+                    throw new IllegalArgumentException(dataItems[DATA_ITEM_DATE] + " - invalid date!");
                 }
 
-                if (name.equals(dataItems[1]) && date.isAfter(localDateFrom.minusDays(1))
+                if (name.equals(dataItems[DATA_ITEM_NAME]) && date.isAfter(localDateFrom.minusDays(1))
                         && date.isBefore(localDateTo.plusDays(1))) {
-                    salary += Integer.parseInt(dataItems[2]) * Integer.parseInt(dataItems[3]);
+                    salary += Integer.parseInt(dataItems[DATA_ITEM_HOURS]) * Integer.parseInt(dataItems[DATA_ITEM_RATE]);
                 }
             }
             reportBuilder.append(System.lineSeparator()).append(name)
