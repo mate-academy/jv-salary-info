@@ -6,7 +6,8 @@ import java.time.format.DateTimeParseException;
 import java.util.regex.Pattern;
 
 public class SalaryInfo {
-    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final DateTimeFormatter DATE_TIME_FORMATTER =
+            DateTimeFormatter.ofPattern("dd.MM.yyyy");
     private static final Pattern dataEntryPattern =
             Pattern.compile("^(\\d{2}.\\d{2}.\\d{4}) (\\w+) (\\d+) (\\d+)$");
     private static final String DATA_ITEMS_SEPARATOR = " ";
