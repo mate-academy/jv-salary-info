@@ -53,12 +53,15 @@ public class SalaryInfo {
                 try {
                     date = LocalDate.parse(dataItems[DATA_ITEM_DATE], DATE_TIME_FORMATTER);
                 } catch (DateTimeParseException e) {
-                    throw new IllegalArgumentException(dataItems[DATA_ITEM_DATE] + " - invalid date!");
+                    throw new IllegalArgumentException(dataItems[DATA_ITEM_DATE]
+                            + " - invalid date!");
                 }
 
-                if (name.equals(dataItems[DATA_ITEM_NAME]) && date.isAfter(localDateFrom.minusDays(1))
+                if (name.equals(dataItems[DATA_ITEM_NAME])
+                        && date.isAfter(localDateFrom.minusDays(1))
                         && date.isBefore(localDateTo.plusDays(1))) {
-                    salary += Integer.parseInt(dataItems[DATA_ITEM_HOURS]) * Integer.parseInt(dataItems[DATA_ITEM_RATE]);
+                    salary += Integer.parseInt(dataItems[DATA_ITEM_HOURS])
+                            * Integer.parseInt(dataItems[DATA_ITEM_RATE]);
                 }
             }
             reportBuilder.append(System.lineSeparator()).append(name)
