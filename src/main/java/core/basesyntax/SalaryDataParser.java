@@ -1,33 +1,43 @@
 package core.basesyntax;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
 public class SalaryDataParser {
-    private final String[] data;
-    private final HashMap<String, Employee> employees;
+    private final String [] data;
+    private final ArrayList<String[]> splittedData = new ArrayList<>();
 
-    public SalaryDataParser(String[] data, HashMap<String, Employee> employees) {
+    public SalaryDataParser(String [] data) {
         this.data = data;
-        this.employees = employees;
+        parseData();
     }
 
-    public void parseData() {
-        for (String singleData : data) {
-            String[] splittedData = singleData.split(" ");
-            addData(splittedData);
+    public void addData(HashMap<String, Employee> employees) {
+        Employee employee;
+        String name;
+        int [] date;
+        int hoursPerDay, dayIncome;
+        for (String[] data : splittedData) {
+            date = parseDate(data[0]);
+            hoursPerDay = Integer.parseInt(data[2]);
+            dayIncome = Integer.parseInt(data[3]);
+            name = data[1];
+            employee = employees.get(name);
+            employee.addToSalaryData(new DailySalaryData(date, hoursPerDay, dayIncome));
         }
     }
 
-    private void addData(String[] splittedData) {
-        int [] date = Arrays.stream(splittedData[0].split("\\."))
-                .mapToInt(Integer::parseInt).toArray();
-        String name = splittedData[1];
-        int hoursPerDay = Integer.parseInt(splittedData[2]);
-        int dayIncome = Integer.parseInt(splittedData[3]);
-        Employee employee =  employees.get(name);
-        employee.setDate(date);
-        employee.setDayIncome(dayIncome);
-        employee.setHoursPerDay(hoursPerDay);
+    public int[] parseDate(String date){
+        return Arrays.stream(date.split("\\.")).mapToInt(Integer::parseInt).toArray();
+    }
+    public CalendarDay arrayToCalendarDay(int[] date){
+        return new CalendarDay (date[0], date [1],date[2]);
+    }
+
+    private void parseData() {
+        for (String singleData : data) {
+            splittedData.add(singleData.split(" "));
+        }
     }
 }

@@ -1,16 +1,13 @@
 package core.basesyntax;
 
-public abstract class SalaryData {
-    private int[] date;
+public class DailySalaryData extends CalendarDay {
     private int hoursPerDay;
     private int dayIncome;
 
-    public int[] getDate() {
-        return date;
-    }
-
-    public void setDate(int[] date) {
-        this.date = date;
+    public DailySalaryData(int[] date, int hoursPerDay, int dayIncome) {
+        super(date[0],date[1],date[2]);
+        this.hoursPerDay = hoursPerDay;
+        this.dayIncome = dayIncome;
     }
 
     public int getHoursPerDay() {
