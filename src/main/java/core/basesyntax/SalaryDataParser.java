@@ -5,10 +5,10 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 public class SalaryDataParser {
-    private final String [] data;
+    private final String[] data;
     private final ArrayList<String[]> splittedData = new ArrayList<>();
 
-    public SalaryDataParser(String [] data) {
+    public SalaryDataParser(String[] data) {
         this.data = data;
         parseData();
     }
@@ -16,7 +16,7 @@ public class SalaryDataParser {
     public void addData(HashMap<String, Employee> employees) {
         Employee employee;
         String name;
-        int [] date;
+        int[] date;
         int hoursPerDay, dayIncome;
         for (String[] data : splittedData) {
             date = parseDate(data[0]);
@@ -28,11 +28,12 @@ public class SalaryDataParser {
         }
     }
 
-    public int[] parseDate(String date){
+    public int[] parseDate(String date) {
         return Arrays.stream(date.split("\\.")).mapToInt(Integer::parseInt).toArray();
     }
-    public CalendarDay arrayToCalendarDay(int[] date){
-        return new CalendarDay (date[0], date [1],date[2]);
+
+    public CalendarDay arrayToCalendarDay(int[] date) {
+        return new CalendarDay(date[0], date[1], date[2]);
     }
 
     private void parseData() {

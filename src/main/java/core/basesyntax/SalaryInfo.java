@@ -7,7 +7,7 @@ public class SalaryInfo extends SalaryCalculator {
     private CalendarDay dateTo;
     private HashMap<String, Employee> employees;
 
-    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo){
+    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         SalaryDataParser dataParser = new SalaryDataParser(data);
         addEmployees(names);
         dataParser.addData(employees);
@@ -19,7 +19,7 @@ public class SalaryInfo extends SalaryCalculator {
                 .append(dateFrom)
                 .append(" - ")
                 .append(dateTo);
-        for (String name: names ) {
+        for (String name : names) {
             result.append("\n").append(name)
                     .append(" - ")
                     .append(calculate(employees.get(name), this.dateFrom, this.dateTo));
@@ -31,14 +31,14 @@ public class SalaryInfo extends SalaryCalculator {
 
     private void sortSalaryData() {
         SalaryDataSorter sorter = new SalaryDataSorter();
-        for (String name: employees.keySet()){
+        for (String name : employees.keySet()) {
             sorter.sortData(employees.get(name).getSalaryData());
         }
     }
 
     private void addEmployees(String[] names) {
         employees = new HashMap<>();
-        for (String name : names){
+        for (String name : names) {
             this.employees.put(name, new Employee(name));
         }
     }
