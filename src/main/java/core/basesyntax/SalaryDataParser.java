@@ -2,7 +2,6 @@ package core.basesyntax;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 
 public class SalaryDataParser {
     private final String[] data;
@@ -13,7 +12,7 @@ public class SalaryDataParser {
         parseData();
     }
 
-    public void addData(HashMap<String, Employee> employees) {
+    public void addData(ArrayList<Employee> employees) {
         Employee employee;
         String name;
         int[] date;
@@ -24,9 +23,18 @@ public class SalaryDataParser {
             hoursPerDay = Integer.parseInt(data[2]);
             dayIncome = Integer.parseInt(data[3]);
             name = data[1];
-            employee = employees.get(name);
-            employee.addToSalaryData(new DailySalaryData(date, hoursPerDay, dayIncome));
+            employee = getEmployee(name, employees);
+            employee.addDailySalary(new DailySalaryData(date, hoursPerDay, dayIncome));
         }
+    }
+
+    // TODO: 15.01.2023  Exception no such employee
+    private Employee getEmployee(String name, ArrayList<Employee> employees) {
+        for (Employee employee: employees){
+            if (employee.getName().equals(name)){
+                return employee;
+            }
+        }return null;
     }
 
     public int[] parseDate(String date) {

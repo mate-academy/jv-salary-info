@@ -15,7 +15,7 @@ public class Employee {
         return name;
     }
 
-    public void addToSalaryData(DailySalaryData data) {
+    public void addDailySalary(DailySalaryData data) {
         this.salaryData.add(data);
     }
 
