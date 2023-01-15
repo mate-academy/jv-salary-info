@@ -2,7 +2,7 @@ package core.basesyntax;
 
 import java.time.LocalDate;
 
-public class DailySalaryData {
+public class DailySalaryData implements Comparable<DailySalaryData> {
     private int hoursPerDay;
     private int dayIncome;
     private LocalDate calendarDay;
@@ -23,5 +23,11 @@ public class DailySalaryData {
 
     public LocalDate getCalendarDay() {
         return calendarDay;
+    }
+
+    @Override
+    public int compareTo(DailySalaryData data) {
+        return calendarDay.isAfter(data.calendarDay) ? 1
+                : calendarDay.isBefore(data.calendarDay) ? -1 : 0;
     }
 }

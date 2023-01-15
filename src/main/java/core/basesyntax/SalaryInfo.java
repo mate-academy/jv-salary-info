@@ -2,18 +2,19 @@ package core.basesyntax;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class SalaryInfo extends SalaryCalculator {
-    private final SalaryDataParser dataParser = new SalaryDataParser();
+    private final SalaryDataParser parser = new SalaryDataParser();
     private LocalDate dateFrom;
     private LocalDate dateTo;
     private ArrayList<Employee> employees;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
+        this.dateFrom = parser.parseDate(dateFrom);
+        this.dateTo = parser.parseDate(dateTo);
         addEmployees(names);
-        addData(dataParser.splitData(data), employees);
-        this.dateFrom = dataParser.parseDate(dateFrom);
-        this.dateTo = dataParser.parseDate(dateTo);
+        addData(parser.splitData(data), employees);
         sortSalaryData();
         StringBuilder result = new StringBuilder();
         result.append("Report for period ")
@@ -31,9 +32,8 @@ public class SalaryInfo extends SalaryCalculator {
     }
 
     private void sortSalaryData() {
-        SalaryDataSorter sorter = new SalaryDataSorter();
         for (Employee employee : employees) {
-            sorter.sortData(employee.getSalaryData());
+            Collections.sort(employee.getSalaryData());
         }
     }
 
@@ -49,7 +49,7 @@ public class SalaryInfo extends SalaryCalculator {
         int hoursPerDay;
         int dayIncome;
         for (String[] data : splittedData) {
-            date = dataParser.parseDate(data[0]);
+            date = parser.parseDate(data[0]);
             hoursPerDay = Integer.parseInt(data[2]);
             dayIncome = Integer.parseInt(data[3]);
             name = data[1];
