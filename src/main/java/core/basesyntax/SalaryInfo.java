@@ -14,7 +14,11 @@ public class SalaryInfo extends SalaryCalculator {
         this.dateFrom = parser.parseDate(dateFrom);
         this.dateTo = parser.parseDate(dateTo);
         addEmployees(names);
-        addData(parser.splitData(data), employees);
+        try {
+            addData(parser.splitData(data), employees);
+        } catch (NoSuchEmployeeException e) {
+            System.err.println("Can't add a salary data for the employee");
+        }
         sortSalaryData();
         StringBuilder result = new StringBuilder();
         result.append("Report for period ")
@@ -25,7 +29,6 @@ public class SalaryInfo extends SalaryCalculator {
             result.append(System.lineSeparator()).append(employee.getName())
                     .append(" - ")
                     .append(calculate(employee, this.dateFrom, this.dateTo));
-
         }
         System.out.println(result);
         return result.toString();
@@ -44,9 +47,11 @@ public class SalaryInfo extends SalaryCalculator {
         }
     }
 
-    public void addData(ArrayList<String[]> splittedData, ArrayList<Employee> employees) {
+    public void addData(ArrayList<String[]> splittedData, ArrayList<Employee> employees)
+            throws NoSuchEmployeeException {
         String name;
         LocalDate date;
+        Employee employee;
         int hoursPerDay;
         int dayIncome;
         for (String[] data : splittedData) {
@@ -54,12 +59,14 @@ public class SalaryInfo extends SalaryCalculator {
             hoursPerDay = Integer.parseInt(data[2]);
             dayIncome = Integer.parseInt(data[3]);
             name = data[1];
-            getEmployee(name, employees)
-                    .addDailySalary(new DailySalaryData(date, hoursPerDay, dayIncome));
+            employee = getEmployee(name, employees);
+            if (employee == null) {
+                throw new NoSuchEmployeeException(name);
+            }
+            employee.addDailySalary(new DailySalaryData(date, hoursPerDay, dayIncome));
         }
     }
 
-    // TODO: 15.01.2023  Exception no such employee
     private Employee getEmployee(String name, ArrayList<Employee> employees) {
         for (Employee employee : employees) {
             if (employee.getName().equals(name)) {
