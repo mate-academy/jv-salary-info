@@ -43,6 +43,7 @@ public class SalaryInfo extends SalaryCalculator {
             this.employees.add(new Employee(name));
         }
     }
+
     public void addData(ArrayList<String[]> splittedData, ArrayList<Employee> employees) {
         String name;
         LocalDate date;
@@ -60,10 +61,11 @@ public class SalaryInfo extends SalaryCalculator {
 
     // TODO: 15.01.2023  Exception no such employee
     private Employee getEmployee(String name, ArrayList<Employee> employees) {
-        for (Employee employee: employees){
-            if (employee.getName().equals(name)){
+        for (Employee employee : employees) {
+            if (employee.getName().equals(name)) {
                 return employee;
             }
-        }return null;
+        }
+        return null;
     }
 }

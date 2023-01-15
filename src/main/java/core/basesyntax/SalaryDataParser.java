@@ -7,7 +7,6 @@ import java.util.ArrayList;
 public class SalaryDataParser {
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
-
     public LocalDate parseDate(String date) {
         return LocalDate.parse(date, formatter);
     }
