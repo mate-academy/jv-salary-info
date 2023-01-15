@@ -1,16 +1,15 @@
 package core.basesyntax;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class SalaryDataParser {
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
-    public int[] parseDate(String date) {
-        return Arrays.stream(date.split("\\.")).mapToInt(Integer::parseInt).toArray();
-    }
 
-    public CalendarDay arrayToCalendarDay(int[] date) {
-        return new CalendarDay(date[0], date[1], date[2]);
+    public LocalDate parseDate(String date) {
+        return LocalDate.parse(date, formatter);
     }
 
     public ArrayList<String[]> splitData(String[] data) {

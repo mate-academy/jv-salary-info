@@ -1,16 +1,17 @@
 package core.basesyntax;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class SalaryCalculator {
     private ArrayList<DailySalaryData> employeeSalaryData;
 
-    public int calculate(Employee employee, CalendarDay dateFrom, CalendarDay dateTo) {
+    public int calculate(Employee employee, LocalDate dateFrom, LocalDate dateTo) {
         employeeSalaryData = employee.getSalaryData();
         int incomes = 0;
         for (int i = 0; i < employeeSalaryData.size(); i++) {
-            if (isDateGreater(employeeSalaryData.get(i), dateFrom)
-                    && isDateGreater(dateTo, employeeSalaryData.get(i))) {
+            if (isDateGreater(employeeSalaryData.get(i).getCalendarDay(), dateFrom)
+                    && isDateGreater(dateTo, employeeSalaryData.get(i).getCalendarDay())) {
                 incomes += employeeSalaryData.get(i).getDayIncome()
                         * employeeSalaryData.get(i).getHoursPerDay();
             }
@@ -18,9 +19,8 @@ public class SalaryCalculator {
         return incomes;
     }
 
-    private boolean isDateGreater(CalendarDay origin, CalendarDay compareTo) {
-        return origin.getYear() > compareTo.getYear()
-                || origin.getMonth() > compareTo.getMonth()
-                || origin.getDay() >= compareTo.getDay();
+    // TODO: 15.01.2023 implement 
+    private boolean isDateGreater(LocalDate origin, LocalDate compareTo) {
+        return true;
     }
 }

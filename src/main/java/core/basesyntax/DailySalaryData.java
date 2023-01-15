@@ -1,11 +1,14 @@
 package core.basesyntax;
 
-public class DailySalaryData extends CalendarDay {
+import java.time.LocalDate;
+
+public class DailySalaryData {
     private int hoursPerDay;
     private int dayIncome;
+    private LocalDate calendarDay;
 
-    public DailySalaryData(int[] date, int hoursPerDay, int dayIncome) {
-        super(date[0], date[1], date[2]);
+    public DailySalaryData(LocalDate calendarDay, int hoursPerDay, int dayIncome) {
+        this.calendarDay = calendarDay;
         this.hoursPerDay = hoursPerDay;
         this.dayIncome = dayIncome;
     }
@@ -14,15 +17,11 @@ public class DailySalaryData extends CalendarDay {
         return hoursPerDay;
     }
 
-    public void setHoursPerDay(int hoursPerDay) {
-        this.hoursPerDay = hoursPerDay;
-    }
-
     public int getDayIncome() {
         return dayIncome;
     }
 
-    public void setDayIncome(int dayIncome) {
-        this.dayIncome = dayIncome;
+    public LocalDate getCalendarDay() {
+        return calendarDay;
     }
 }

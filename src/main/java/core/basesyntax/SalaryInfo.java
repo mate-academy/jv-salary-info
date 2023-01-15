@@ -1,18 +1,19 @@
 package core.basesyntax;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class SalaryInfo extends SalaryCalculator {
     private final SalaryDataParser dataParser = new SalaryDataParser();
-    private CalendarDay dateFrom;
-    private CalendarDay dateTo;
+    private LocalDate dateFrom;
+    private LocalDate dateTo;
     private ArrayList<Employee> employees;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         addEmployees(names);
         addData(dataParser.splitData(data), employees);
-        this.dateFrom = dataParser.arrayToCalendarDay(dataParser.parseDate(dateFrom));
-        this.dateTo = dataParser.arrayToCalendarDay(dataParser.parseDate(dateTo));
+        this.dateFrom = dataParser.parseDate(dateFrom);
+        this.dateTo = dataParser.parseDate(dateTo);
         sortSalaryData();
         StringBuilder result = new StringBuilder();
         result.append("Report for period ")
@@ -43,9 +44,8 @@ public class SalaryInfo extends SalaryCalculator {
         }
     }
     public void addData(ArrayList<String[]> splittedData, ArrayList<Employee> employees) {
-        Employee employee;
         String name;
-        int[] date;
+        LocalDate date;
         int hoursPerDay;
         int dayIncome;
         for (String[] data : splittedData) {
@@ -53,8 +53,8 @@ public class SalaryInfo extends SalaryCalculator {
             hoursPerDay = Integer.parseInt(data[2]);
             dayIncome = Integer.parseInt(data[3]);
             name = data[1];
-            employee = getEmployee(name, employees);
-            employee.addDailySalary(new DailySalaryData(date, hoursPerDay, dayIncome));
+            getEmployee(name, employees)
+                    .addDailySalary(new DailySalaryData(date, hoursPerDay, dayIncome));
         }
     }
 
