@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Employee {
     private final String name;
-    private ArrayList<DailySalaryData> salaryData;
+    private final ArrayList<DailySalaryData> salaryData;
 
     public Employee(String name) {
         this.name = name;

@@ -9,9 +9,10 @@ public class SalaryCalculator {
     public int calculate(Employee employee, LocalDate dateFrom, LocalDate dateTo) {
         employeeSalaryData = employee.getSalaryData();
         int incomes = 0;
+        LocalDate date;
         for (int i = 0; i < employeeSalaryData.size(); i++) {
-            if (isDateGreater(employeeSalaryData.get(i).getCalendarDay(), dateFrom)
-                    && isDateGreater(dateTo, employeeSalaryData.get(i).getCalendarDay())) {
+            date = employeeSalaryData.get(i).getCalendarDay();
+            if (isDayInPeriod(date, dateFrom, dateTo)) {
                 incomes += employeeSalaryData.get(i).getDayIncome()
                         * employeeSalaryData.get(i).getHoursPerDay();
             }
@@ -19,8 +20,7 @@ public class SalaryCalculator {
         return incomes;
     }
 
-    // TODO: 15.01.2023 implement 
-    private boolean isDateGreater(LocalDate origin, LocalDate compareTo) {
-        return true;
+    private boolean isDayInPeriod(LocalDate thisDate, LocalDate dateFrom, LocalDate dateTo) {
+        return thisDate.isEqual(dateTo) || thisDate.isAfter(dateFrom) && thisDate.isBefore(dateTo);
     }
 }
