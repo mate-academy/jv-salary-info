@@ -20,7 +20,7 @@ public class SalaryInfo extends SalaryCalculator {
                 .append(" - ")
                 .append(dateTo);
         for (String name : names) {
-            result.append("\n").append(name)
+            result.append(System.lineSeparator()).append(name)
                     .append(" - ")
                     .append(calculate(employees.get(name), this.dateFrom, this.dateTo));
 

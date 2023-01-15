@@ -17,7 +17,8 @@ public class SalaryDataParser {
         Employee employee;
         String name;
         int[] date;
-        int hoursPerDay, dayIncome;
+        int hoursPerDay;
+        int dayIncome;
         for (String[] data : splittedData) {
             date = parseDate(data[0]);
             hoursPerDay = Integer.parseInt(data[2]);
