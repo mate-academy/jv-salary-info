@@ -8,7 +8,8 @@ public class SalaryInfo extends SalaryCalculator {
     private ArrayList<Employee> employees;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        SalaryDataParser dataParser = new SalaryDataParser(data);
+        SalaryDataParser dataParser = new SalaryDataParser();
+        dataParser.parseData(data);
         addEmployees(names);
         dataParser.addData(employees);
         this.dateFrom = dataParser.arrayToCalendarDay(dataParser.parseDate(dateFrom));

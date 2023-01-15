@@ -4,13 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class SalaryDataParser {
-    private final String[] data;
-    private final ArrayList<String[]> splittedData = new ArrayList<>();
-
-    public SalaryDataParser(String[] data) {
-        this.data = data;
-        parseData();
-    }
+    private ArrayList<String[]> splittedData;
 
     public void addData(ArrayList<Employee> employees) {
         Employee employee;
@@ -45,7 +39,8 @@ public class SalaryDataParser {
         return new CalendarDay(date[0], date[1], date[2]);
     }
 
-    private void parseData() {
+    public void parseData(String[] data) {
+        splittedData = new ArrayList<>();
         for (String singleData : data) {
             splittedData.add(singleData.split(" "));
         }
