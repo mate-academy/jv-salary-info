@@ -5,15 +5,15 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-
-    private static final String White_Space = " ";
-    private static final int Date_Index = 0;
-    private static final int Name_Index = 1;
-    private static final int Hours_Index = 2;
-    private static final int Salary_Index = 3;
+    static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    static final String White_Space = " ";
+    static final int Date_Index = 0;
+    static final int Name_Index = 1;
+    static final int Hours_Index = 2;
+    static final int Salary_Index = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
         LocalDate currentDateFrom = LocalDate.parse(dateFrom, formatter);
         LocalDate currentDateTo = LocalDate.parse(dateTo, formatter);
         StringBuilder report = new StringBuilder("Report for period ")
