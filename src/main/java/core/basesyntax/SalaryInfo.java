@@ -5,17 +5,17 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-    static final String White_Space = " ";
-    static final int Date_Index = 0;
-    static final int Name_Index = 1;
-    static final int Hours_Index = 2;
-    static final int Salary_Index = 3;
+    static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    static final String WHITE_SPACE = " ";
+    static final int DATE_INDEX = 0;
+    static final int NAME_INDEX = 1;
+    static final int HOURS_INDEX = 2;
+    static final int SALARY_INDEX = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
 
-        LocalDate currentDateFrom = LocalDate.parse(dateFrom, formatter);
-        LocalDate currentDateTo = LocalDate.parse(dateTo, formatter);
+        LocalDate currentDateFrom = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate currentDateTo = LocalDate.parse(dateTo, FORMATTER);
         StringBuilder report = new StringBuilder("Report for period ")
                 .append(dateFrom)
                 .append(" - ")
@@ -24,15 +24,15 @@ public class SalaryInfo {
         for (String name : names) {
             int salaryCount = 0;
             for (String line : data) {
-                String[] splitData = line.split(White_Space);
-                final LocalDate currentDate = LocalDate.parse(splitData[Date_Index], formatter);
-                if (splitData[Name_Index].equals(name)
+                String[] splitData = line.split(WHITE_SPACE);
+                final LocalDate currentDate = LocalDate.parse(splitData[DATE_INDEX], FORMATTER);
+                if (splitData[NAME_INDEX].equals(name)
                         && ((currentDate.isAfter(currentDateFrom))
                         || (currentDate.isEqual(currentDateFrom)))
                         && (currentDate.isBefore(currentDateTo)
                         || currentDate.isEqual(currentDateTo))) {
-                    salaryCount = salaryCount + Integer.parseInt(splitData[Hours_Index])
-                            * Integer.parseInt(splitData[Salary_Index]);
+                    salaryCount = salaryCount + Integer.parseInt(splitData[HOURS_INDEX])
+                            * Integer.parseInt(splitData[SALARY_INDEX]);
                 }
             }
             report.append(System.lineSeparator()).append(name).append(" - ").append(salaryCount);
