@@ -3,15 +3,14 @@ package core.basesyntax;
 import java.util.ArrayList;
 
 public class SalaryInfo extends SalaryCalculator {
+    private final SalaryDataParser dataParser = new SalaryDataParser();
     private CalendarDay dateFrom;
     private CalendarDay dateTo;
     private ArrayList<Employee> employees;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        SalaryDataParser dataParser = new SalaryDataParser();
-        dataParser.parseData(data);
         addEmployees(names);
-        dataParser.addData(employees);
+        addData(dataParser.splitData(data), employees);
         this.dateFrom = dataParser.arrayToCalendarDay(dataParser.parseDate(dateFrom));
         this.dateTo = dataParser.arrayToCalendarDay(dataParser.parseDate(dateTo));
         sortSalaryData();
@@ -42,5 +41,29 @@ public class SalaryInfo extends SalaryCalculator {
         for (String name : names) {
             this.employees.add(new Employee(name));
         }
+    }
+    public void addData(ArrayList<String[]> splittedData, ArrayList<Employee> employees) {
+        Employee employee;
+        String name;
+        int[] date;
+        int hoursPerDay;
+        int dayIncome;
+        for (String[] data : splittedData) {
+            date = dataParser.parseDate(data[0]);
+            hoursPerDay = Integer.parseInt(data[2]);
+            dayIncome = Integer.parseInt(data[3]);
+            name = data[1];
+            employee = getEmployee(name, employees);
+            employee.addDailySalary(new DailySalaryData(date, hoursPerDay, dayIncome));
+        }
+    }
+
+    // TODO: 15.01.2023  Exception no such employee
+    private Employee getEmployee(String name, ArrayList<Employee> employees) {
+        for (Employee employee: employees){
+            if (employee.getName().equals(name)){
+                return employee;
+            }
+        }return null;
     }
 }
