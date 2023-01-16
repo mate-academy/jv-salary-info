@@ -19,18 +19,13 @@ public class SalaryInfo {
                 .append(" - ")
                 .append(dateTo);
         for (String name : names) {
-            int incomePerHour;
-            int hoursPerDay;
             int dayIncome = 0;
             for (String dailyData : data) {
                 String[] splittedData = dailyData.split(" ");
-                ;
                 LocalDate workingDay = LocalDate.parse(splittedData[DATE_INDEX], formatter);
-                ;
                 if (dailyData.contains(name) && isDayInPeriod(workingDay, dayFrom, dayTo)) {
-                    incomePerHour = Integer.parseInt(splittedData[INCOME_INDEX]);
-                    hoursPerDay = Integer.parseInt(splittedData[HOURS_INDEX]);
-                    dayIncome += incomePerHour * hoursPerDay;
+                    dayIncome += Integer.parseInt(splittedData[INCOME_INDEX])
+                            * Integer.parseInt(splittedData[HOURS_INDEX]);;
                 }
             }
             result.append(System.lineSeparator())
