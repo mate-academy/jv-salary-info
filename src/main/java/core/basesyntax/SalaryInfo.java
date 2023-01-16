@@ -1,78 +1,47 @@
 package core.basesyntax;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.time.format.DateTimeFormatter;
 
-public class SalaryInfo extends SalaryCalculator {
-    private final SalaryDataParser parser = new SalaryDataParser();
-    private LocalDate dateFrom;
-    private LocalDate dateTo;
-    private ArrayList<Employee> employees;
+public class SalaryInfo {
+
+    private static final int DATE_INDEX = 0;
+    private static final int HOURS_INDEX = 2;
+    private static final int INCOME_INDEX = 3;
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        this.dateFrom = parser.parseDate(dateFrom);
-        this.dateTo = parser.parseDate(dateTo);
-        addEmployees(names);
-        try {
-            addData(parser.splitData(data), employees);
-        } catch (NoSuchEmployeeException e) {
-            System.err.println("Can't add a salary data for the employee");
-        }
-        sortSalaryData();
+        LocalDate dayFrom = LocalDate.parse(dateFrom, formatter);
+        LocalDate dayTo = LocalDate.parse(dateTo, formatter);
         StringBuilder result = new StringBuilder();
         result.append("Report for period ")
                 .append(dateFrom)
                 .append(" - ")
                 .append(dateTo);
-        for (Employee employee : employees) {
-            result.append(System.lineSeparator()).append(employee.getName())
+        for (String name : names) {
+            int incomePerHour;
+            int hoursPerDay;
+            int dayIncome = 0;
+            for (String dailyData : data) {
+                String[] splittedData = dailyData.split(" ");
+                ;
+                LocalDate workingDay = LocalDate.parse(splittedData[DATE_INDEX], formatter);
+                ;
+                if (dailyData.contains(name) && isDayInPeriod(workingDay, dayFrom, dayTo)) {
+                    incomePerHour = Integer.parseInt(splittedData[INCOME_INDEX]);
+                    hoursPerDay = Integer.parseInt(splittedData[HOURS_INDEX]);
+                    dayIncome += incomePerHour * hoursPerDay;
+                }
+            }
+            result.append(System.lineSeparator())
+                    .append(name)
                     .append(" - ")
-                    .append(calculate(employee, this.dateFrom, this.dateTo));
+                    .append(dayIncome);
         }
-        System.out.println(result);
         return result.toString();
     }
 
-    private void sortSalaryData() {
-        for (Employee employee : employees) {
-            Collections.sort(employee.getSalaryData());
-        }
-    }
-
-    private void addEmployees(String[] names) {
-        employees = new ArrayList<>();
-        for (String name : names) {
-            this.employees.add(new Employee(name));
-        }
-    }
-
-    public void addData(ArrayList<String[]> splittedData, ArrayList<Employee> employees)
-            throws NoSuchEmployeeException {
-        String name;
-        LocalDate date;
-        Employee employee;
-        int hoursPerDay;
-        int dayIncome;
-        for (String[] data : splittedData) {
-            date = parser.parseDate(data[0]);
-            hoursPerDay = Integer.parseInt(data[2]);
-            dayIncome = Integer.parseInt(data[3]);
-            name = data[1];
-            employee = getEmployee(name, employees);
-            if (employee == null) {
-                throw new NoSuchEmployeeException(name);
-            }
-            employee.addDailySalary(new DailySalaryData(date, hoursPerDay, dayIncome));
-        }
-    }
-
-    private Employee getEmployee(String name, ArrayList<Employee> employees) {
-        for (Employee employee : employees) {
-            if (employee.getName().equals(name)) {
-                return employee;
-            }
-        }
-        return null;
+    private boolean isDayInPeriod(LocalDate thisDate, LocalDate dateFrom, LocalDate dateTo) {
+        return thisDate.isEqual(dateTo) || thisDate.isAfter(dateFrom) && thisDate.isBefore(dateTo);
     }
 }
