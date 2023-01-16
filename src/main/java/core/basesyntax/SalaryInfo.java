@@ -6,31 +6,37 @@ import java.util.Collections;
 
 public class SalaryInfo extends SalaryCalculator {
     private final SalaryDataParser parser = new SalaryDataParser();
-    private LocalDate dateFrom;
-    private LocalDate dateTo;
     private ArrayList<Employee> employees;
+    private LocalDate dayTo;
+    private LocalDate dayFrom;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        this.dateFrom = parser.parseDate(dateFrom);
-        this.dateTo = parser.parseDate(dateTo);
+        dayFrom = parser.parseDate(dateFrom);
+        dayTo = parser.parseDate(dateTo);
+        ArrayList<String[]> splittedData = parser.splitData(data);
         addEmployees(names);
         try {
-            addData(parser.splitData(data), employees);
+            addData(splittedData, employees);
         } catch (NoSuchEmployeeException e) {
             System.err.println("Can't add a salary data for the employee");
         }
         sortSalaryData();
+        return infoToString(dateFrom, dateTo);
+    }
+
+    private String infoToString(String dateFrom, String dateTo) {
         StringBuilder result = new StringBuilder();
+        int totalEarnings = 0;
         result.append("Report for period ")
                 .append(dateFrom)
                 .append(" - ")
                 .append(dateTo);
         for (Employee employee : employees) {
+            totalEarnings = calculate(employee, dayFrom, dayTo);
             result.append(System.lineSeparator()).append(employee.getName())
                     .append(" - ")
-                    .append(calculate(employee, this.dateFrom, this.dateTo));
+                    .append(totalEarnings);
         }
-        System.out.println(result);
         return result.toString();
     }
 
