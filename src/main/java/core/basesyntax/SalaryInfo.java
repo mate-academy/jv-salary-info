@@ -9,9 +9,8 @@ public class SalaryInfo {
     private static final int INDEX_OF_NAME = 1;
     private static final int INDEX_OF_TIME_WORK = 2;
     private static final int INDEX_OF_SALARY = 3;
-    private int salary = 0;
 
-    public String getSalaryInfo(String[]names, String[]data, String dateFrom, String dateTo) {
+    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate dateFromFormat = LocalDate.parse(dateFrom, FORMATTER);
         LocalDate dateToFormat = LocalDate.parse(dateTo, FORMATTER);
         StringBuilder builder = new StringBuilder()
@@ -22,6 +21,7 @@ public class SalaryInfo {
                 .append(System.lineSeparator());
 
         for (int i = 0; i < names.length; i++) {
+            int salary = 0;
             for (int k = 0; k < data.length; k++) {
                 String[] workingDay = data[k].split(" ");
                 LocalDate newData = LocalDate.parse(workingDay[INDEX_OF_DATA], FORMATTER);
@@ -38,7 +38,6 @@ public class SalaryInfo {
             if (i != names.length - 1) {
                 builder.append(System.lineSeparator());
             }
-            salary = 0;
         }
         return builder.toString();
     }
