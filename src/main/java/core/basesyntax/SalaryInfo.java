@@ -7,8 +7,7 @@ import java.util.Date;
 import java.util.Locale;
 
 public class SalaryInfo {
-    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
-            throws ParseException {
+    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder res = new StringBuilder();
         try {
             SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
