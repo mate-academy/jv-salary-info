@@ -19,7 +19,7 @@ public class SalaryInfo {
             DateFormat dateFormat;
             dateFormat = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.GERMANY);
             res.append("Report for period " + dateFormat.format(date1) + " - "
-                    + dateFormat.format(date2) + "\n");
+                    + dateFormat.format(date2));
             for (String n: names) {
                 int money = 0;
                 for (String d: data) {
@@ -32,7 +32,7 @@ public class SalaryInfo {
                         money += Integer.parseInt(temp[2]) * Integer.parseInt(temp[3]);
                     }
                 }
-                res.append(n.trim() + " - " + String.format("%d", money) + "\n");
+                res.append("\n" + n.trim() + " - " + String.format("%d", money));
             }
         } catch (NumberFormatException e) {
             System.out.println(e.getMessage());
