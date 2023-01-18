@@ -1,5 +1,11 @@
 package core.basesyntax;
 
+import java.text.SimpleDateFormat;
+import java.text.ParseException;
+import java.util.Date;
+import java.text.DateFormat;
+import java.util.Locale;
+
 public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
     throws ParseException {
