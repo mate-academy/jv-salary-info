@@ -25,7 +25,7 @@ public class SalaryInfo {
                 if (datawithsplit[1].equals(name)) {
                     datadate = info(datawithsplit[0]);
                     calendarX.set(datadate[2], datadate[1], datadate[0]);
-                    if (calendarX.after(calendarmin) && calendarX.before(calendarmax)){
+                    if (calendarX.after(calendarmin) && calendarX.before(calendarmax)) {
                         startbalance = startbalance + Integer.parseInt(datawithsplit[2])
                                 * Integer.parseInt(datawithsplit[3]);
                     }
