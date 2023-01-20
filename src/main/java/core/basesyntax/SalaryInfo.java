@@ -1,48 +1,42 @@
 package core.basesyntax;
 
-import java.util.Calendar;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
+    private static final DateTimeFormatter DATE_TIME_FORMATTER
+            = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final int ONE_DAY = 1;
+    private static final int DATE_INDEX = 0;
+    private static final int NAME_INDEX = 1;
+    private static final int HOURS_INDEX = 2;
+    private static final int SALARY_INDEX = 3;
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        StringBuilder builder =
-                new StringBuilder("Report for period" + " " + dateFrom + " - " + dateTo);
-        int[] datefromint = info(dateFrom);
-        int[] datetoint = info(dateTo);
-        Calendar calendarmin = Calendar.getInstance();
-        calendarmin.set(datefromint[2], datefromint[1], datefromint[0]);
-        Calendar calendarmax = Calendar.getInstance();
-        calendarmax.set(datetoint[2], datetoint[1], datetoint[0]);
-        calendarmax.add(Calendar.DATE, 1);
-        String[] datawithsplit = new String[4];
-        int[] datadate = new int[3];
-        Calendar calendarX = Calendar.getInstance();
-        int startbalance = 0;
+        StringBuilder builder = new StringBuilder("Report for period");
+        builder.append(" ").append(dateFrom).append(" - ").append(dateTo);
+        LocalDate from = LocalDate.parse(dateFrom, DATE_TIME_FORMATTER);
+        LocalDate fromNew = from.minusDays(ONE_DAY);
+        LocalDate to = LocalDate.parse(dateTo, DATE_TIME_FORMATTER);
+        LocalDate toNew = to.plusDays(ONE_DAY);
+        String[] dataArray;
+        LocalDate dateX;
+        int balance = 0;
 
         for (String name : names) {
-            startbalance = 0;
-            for (String datas : data) {
-                datawithsplit = datas.split(" ");
-                if (datawithsplit[1].equals(name)) {
-                    datadate = info(datawithsplit[0]);
-                    calendarX.set(datadate[2], datadate[1], datadate[0]);
-                    if (calendarX.after(calendarmin) && calendarX.before(calendarmax)) {
-                        startbalance = startbalance + Integer.parseInt(datawithsplit[2])
-                                * Integer.parseInt(datawithsplit[3]);
+            balance = 0;
+            for (String line : data) {
+                dataArray = line.split(" ");
+                if (dataArray[NAME_INDEX ].equals(name)) {
+                    dateX = LocalDate.parse(dataArray[DATE_INDEX], DATE_TIME_FORMATTER);
+                    if (dateX.isAfter(fromNew) && dateX.isBefore(toNew)) {
+                        balance += Integer.parseInt(dataArray[HOURS_INDEX])
+                                * Integer.parseInt(dataArray[SALARY_INDEX]);
                     }
                 }
             }
-            builder.append("\n").append(name).append(" - ").append(startbalance);
+            builder.append(System.lineSeparator()).append(name).append(" - ").append(balance);
         }
         return builder.toString();
-    }
-
-    public int[] info(String array) {
-        String[] datefrom = array.split("\\.");
-        int[] result = new int[3];
-
-        for (int i = 0; i < 3; i++) {
-            result[i] = Integer.parseInt(datefrom[i]);
-        }
-        return result;
     }
 }
