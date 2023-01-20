@@ -6,7 +6,6 @@ import java.time.format.DateTimeFormatter;
 public class SalaryInfo {
     private static final DateTimeFormatter DATE_TIME_FORMATTER =
             DateTimeFormatter.ofPattern("dd.MM.yyyy");
-    private static final int ONE_DAY = 1;
     private static final int DATE_INDEX = 0;
     private static final int NAME_INDEX = 1;
     private static final int HOURS_INDEX = 2;
