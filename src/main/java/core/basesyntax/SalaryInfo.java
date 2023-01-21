@@ -5,6 +5,10 @@ import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final int DATE_INDEX = 0;
+    private static final int NAME_INDEX = 1;
+    private static final int HOURS_INDEX = 2;
+    private static final int SALARY_PER_HOUR_INDEX = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder stringBuilder = new StringBuilder();
@@ -13,23 +17,22 @@ public class SalaryInfo {
                 .append(dateTo);
         LocalDate fromDate = LocalDate.parse(dateFrom, formatter);
         LocalDate toDate = LocalDate.parse(dateTo, formatter);
-        int salary = 0;
         for (String name : names) {
+            int salary = 0;
             stringBuilder.append(System.lineSeparator())
                     .append(name)
                     .append(" - ");
             for (String info : data) {
                 String[] arrayInfo = info.split(" ");
-                LocalDate date = LocalDate.parse(arrayInfo[0], formatter);
-                if (name.equals(arrayInfo[1])
+                LocalDate date = LocalDate.parse(arrayInfo[DATE_INDEX], formatter);
+                if (name.equals(arrayInfo[NAME_INDEX])
                         && date.compareTo(fromDate) >= 0
                         && date.compareTo(toDate) <= 0) {
-                    salary += Integer.parseInt(arrayInfo[2])
-                            * Integer.parseInt(arrayInfo[3]);
+                    salary += Integer.parseInt(arrayInfo[HOURS_INDEX])
+                            * Integer.parseInt(arrayInfo[SALARY_PER_HOUR_INDEX]);
                 }
             }
             stringBuilder.append(salary);
-            salary = 0;
         }
         return stringBuilder.toString();
     }
