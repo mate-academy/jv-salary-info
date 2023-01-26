@@ -9,9 +9,9 @@ public class SalaryInfo {
 
         for (String name : names) {
             for (String getData : data) {
-                if (getData.contains(name) && (dateFrom.contains(getData.substring(0,10))
-                            || dateTo.contains(getData.substring(0, 10))
-                            || dateFrom.substring(3, 10).contains(getData.substring(3, 10)))) {
+                if (getData.contains(name) && (dateFrom.equals(getData.substring(0,10))
+                            || dateTo.equals(getData.substring(0, 10))
+                            || dateFrom.substring(3, 10).equals(getData.substring(3, 10)))) {
                     sallary += Integer.parseInt(getData.substring(getData
                                 .lastIndexOf(' ') + 1, getData.length()));
                 }
