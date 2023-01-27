@@ -17,13 +17,14 @@ public class SalaryInfo {
                 .append(" - ")
                 .append(dateTo);
 
+        LocalDate startDate = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate endDate = LocalDate.parse(dateTo, FORMATTER);
+
         for (String name : names) {
             int salary = 0;
             for (String content : data) {
                 String[] dataContent = content.split(" ");
                 LocalDate workDay = LocalDate.parse(dataContent[DATE_INDEX], FORMATTER);
-                LocalDate startDate = LocalDate.parse(dateFrom, FORMATTER);
-                LocalDate endDate = LocalDate.parse(dateTo, FORMATTER);
                 boolean validDate = ((workDay.isAfter(startDate) || workDay.isEqual(startDate))
                         && (workDay.isBefore(endDate) || workDay.isEqual(endDate)));
                 if (dataContent[NAME_INDEX].equals(name) && validDate) {
