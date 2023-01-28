@@ -25,7 +25,8 @@ public class SalaryInfo {
                 }
             }
             if (salary > 0) {
-                STRING_BUILDER.append(System.lineSeparator()).append(name).append(" - ").append(salary);
+                STRING_BUILDER.append(System.lineSeparator()).append(name)
+                        .append(" - ").append(salary);
             }
         }
         return STRING_BUILDER.toString();
