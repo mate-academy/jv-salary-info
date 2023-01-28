@@ -20,8 +20,7 @@ public class SalaryInfo {
                 if ((localDateFrom.equals(localDate) || localDate.equals(localDateTo)
                         || (localDate.isAfter(localDateTo) && localDate.isBefore(localDateFrom)))
                         && line.contains(name)) {
-                    salary += Integer.parseInt(line.substring(line
-                                .lastIndexOf(' ') + 1, line.length()));
+                    salary += getSalaryOfDay(line, name);
                 }
             }
             if (salary > 0) {
@@ -34,5 +33,11 @@ public class SalaryInfo {
 
     public LocalDate getLocalDate(String date) {
         return localDate = LocalDate.parse(date, FORMATTER);
+    }
+
+    public int getSalaryOfDay(String line, String name) {
+        return Integer.parseInt(line.substring(line.lastIndexOf(' ')
+                + 1, line.length())) * Integer.parseInt(line.substring(line
+                .indexOf(name) + name.length() + 1, line.lastIndexOf(' ')));
     }
 }
