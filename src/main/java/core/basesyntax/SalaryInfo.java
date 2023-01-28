@@ -1,23 +1,38 @@
 package core.basesyntax;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class SalaryInfo {
+    static final StringBuilder STRING_BUILDER = new StringBuilder();
+    static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd MM yyyy");
+
+    private LocalDate localDate;
+    private LocalDate localDateFrom;
+    private LocalDate localDateTo;
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        String sallaryInfo = "";
-        int sallary = 0;
-        dateFrom = dateFrom.trim();
-        dateTo = dateTo.trim();
+        localDateFrom = getLocalDate(dateFrom);
+        localDateTo = getLocalDate(dateTo);
+        int salary = 0;
+        STRING_BUILDER.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
 
         for (String name : names) {
-            for (String getData : data) {
-                if (getData.contains(name) && (dateFrom.equals(getData.substring(0,10))
-                            || dateTo.equals(getData.substring(0, 10))
-                            || dateFrom.substring(3, 10).equals(getData.substring(3, 10)))) {
-                    sallary += Integer.parseInt(getData.substring(getData
-                                .lastIndexOf(' ') + 1, getData.length()));
+            for (String line : data) {
+                localDate = getLocalDate(line.substring(0, 10));
+                if ((localDateFrom.equals(localDate) || localDate.equals(localDateTo)
+                        || (localDate.isAfter(localDateTo) && localDate.isBefore(localDateFrom)))
+                        && line.contains(name)) {
+                    salary += Integer.parseInt(line.substring(line
+                                .lastIndexOf(' ') + 1, line.length()));
                 }
             }
-            sallaryInfo = name + " - " + sallary + "\n";
+            STRING_BUILDER.append(System.lineSeparator()).append(name).append(" - ").append(salary);
         }
-        return "Report of period " + dateFrom + " - " + dateTo + "\n" + sallaryInfo;
+        return STRING_BUILDER.toString();
+    }
+
+    public LocalDate getLocalDate(String date) {
+        return localDate = LocalDate.parse(date.substring(0, 10), FORMATTER);
     }
 }
