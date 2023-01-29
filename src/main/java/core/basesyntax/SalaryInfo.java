@@ -17,8 +17,7 @@ public class SalaryInfo {
         for (String name : names) {
             for (String line : data) {
                 localDate = getLocalDate(line);
-                if ((localDateFrom.equals(localDate) || localDate.equals(localDateTo)
-                        || (localDate.isAfter(localDateTo) && localDate.isBefore(localDateFrom)))
+                if (!localDate.isAfter(localDateTo) && !localDate.isBefore(localDateFrom)
                         && line.contains(name)) {
                     salary += getSalaryOfDay(line, name);
                 }
