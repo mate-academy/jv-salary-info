@@ -23,6 +23,7 @@ public class SalaryInfo {
                 }
             }
             builder.append(System.lineSeparator()).append(name).append(" - ").append(salary);
+            salary = 0;
         }
         return builder.toString();
     }
