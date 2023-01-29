@@ -12,14 +12,14 @@ public class SalaryInfo {
     private static final int INDEX_OF_NAME = 1;
     private static final int INDEX_OF_WORKED_HOURES = 2;
     private static final int INDEX_OF_SALARY = 3;
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public static String getSalaryInfo(String[] names, String[] data,
                                        String dateFrom, String dateTo) {
         StringBuilder stringBuilder = new StringBuilder("Report for period "
                 + dateFrom + " - " + dateTo);
-        int[] salary = new int[names.length];
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         try {
+            int[] salary = new int[names.length];
             LocalDate startedDate = LocalDate.parse(dateFrom, formatter);
             LocalDate finishedDate = LocalDate.parse(dateTo, formatter);
             for (int i = 0; i < data.length; i++) {
