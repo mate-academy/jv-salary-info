@@ -34,7 +34,8 @@ public class SalaryInfo {
                             * Integer.parseInt(employeeSplitInfo[SALARY_PER_HOUR_INDEX]);
                 }
             }
-            reportFromPeriod.append(System.lineSeparator()).append(name).append(" - ").append(salary);
+            reportFromPeriod.append(System.lineSeparator()).append(name).append(" - ")
+                    .append(salary);
         }
         return reportFromPeriod.toString();
     }
