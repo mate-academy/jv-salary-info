@@ -22,8 +22,8 @@ public class SalaryInfo {
             for (int i = 0; i < data.length; i++) {
                 String row = data[i];
                 String [] rowData = row.split(" ");
-                if(inRange(rowData[DATE_INDEX], dateFrom, dateTo) &&
-                        name.equals(rowData[USER_NAME_INDEX])) {
+                if (inRange(rowData[DATE_INDEX], dateFrom, dateTo)
+                        && name.equals(rowData[USER_NAME_INDEX])) {
                     salary += calculateSalary(Integer.parseInt(rowData[WORK_HOURS_INDEX]),
                             Integer.parseInt(rowData[INCOME_PER_HOUR_INDEX]));
                 }
@@ -37,13 +37,13 @@ public class SalaryInfo {
         return finalResult.toString();
     }
 
-    public boolean inRange(String date, String dForm, String dTo) {
+    public boolean inRange(String date, String dateStringForm, String dateStringTo) {
         DateTimeFormatter format = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        LocalDate dateFrom = LocalDate.parse(dForm, format);
-        LocalDate dateTo = LocalDate.parse(dTo, format);
+        LocalDate dateFrom = LocalDate.parse(dateStringForm, format);
+        LocalDate dateTo = LocalDate.parse(dateStringTo, format);
         LocalDate currentDate = LocalDate.parse(date,format);
-        return (currentDate.equals(dateFrom) || currentDate.isAfter(dateFrom)) &&
-                (currentDate.isEqual(dateTo) || currentDate.isBefore(dateTo));
+        return (currentDate.equals(dateFrom) || currentDate.isAfter(dateFrom))
+                && (currentDate.isEqual(dateTo) || currentDate.isBefore(dateTo));
     }
 
     public int calculateSalary(int hours, int incomePerHour) {
