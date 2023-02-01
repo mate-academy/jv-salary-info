@@ -15,15 +15,19 @@ public class SalaryInfo {
         int dateToOfYear = localDateTo.getDayOfYear();
         String[] dataArrays;
         LocalDate workDay;
+        int workDayOfYear;
+        int salary;
+        int workingHours;
+        int incomePerHour;
 
         for (int i = 0; i < names.length; i++) {
-            int salary = 0;
+            salary = 0;
             for (int j = 0; j < data.length; j++) {
                 dataArrays = data[j].split(" ");
                 workDay = LocalDate.parse(dataArrays[0], DATE_TIME_FORMATTER);
-                int workDayOfYear = workDay.getDayOfYear();
-                int workingHours = Integer.parseInt(dataArrays[2]);
-                int incomePerHour = Integer.parseInt(dataArrays[3]);
+                workDayOfYear = workDay.getDayOfYear();
+                workingHours = Integer.parseInt(dataArrays[2]);
+                incomePerHour = Integer.parseInt(dataArrays[3]);
                 if (dateFromOfYear <= workDayOfYear
                         && dateToOfYear >= workDayOfYear
                         && names[i].equals(dataArrays[1])) {
