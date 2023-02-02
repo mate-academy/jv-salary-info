@@ -16,8 +16,10 @@ public class SalaryInfo {
         String name;
         int hours;
         int salaryHour;
-        rezalt.append("Report for period ").append(dateFrom);
-        rezalt.append(" - ").append(dateTo);
+        rezalt.append("Report for period ")
+                .append(dateFrom);
+        rezalt.append(" - ")
+                .append(dateTo);
         for (int i = 0; i < names.length; i++) {
             rezalt.append(System.lineSeparator());
             rezalt.append(names[i]).append(" - ");
