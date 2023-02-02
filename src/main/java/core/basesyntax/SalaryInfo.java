@@ -38,17 +38,12 @@ public class SalaryInfo {
                                     Map<String, Integer> mapWithFilteredData,
                                     String[] names) {
         return stringBuilder
-                .append(
-                        Arrays.stream(names)
-                                .map(name ->
-                                        System.lineSeparator()
-                                                + name
-                                                + " - "
-                                                + (mapWithFilteredData.getOrDefault(
-                                                        name, ZERO_INCOME))
-                                )
-                                .collect(Collectors.joining())
-                ).toString();
+                .append(Arrays.stream(names)
+                        .map(name -> System.lineSeparator()
+                                + name + " - "
+                                + (mapWithFilteredData.getOrDefault(name, ZERO_INCOME)))
+                        .collect(Collectors.joining()))
+                .toString();
     }
 
     private Map<String, Integer> getHashMapWithFilteredData(String[] names, String[] data,
@@ -71,12 +66,11 @@ public class SalaryInfo {
                                         .plusDays(EXTRA_WORKING_DAY)))
                                 && List.of(names)
                                 .contains(stringArray[INDEX_OF_NAME]))
-                .collect(Collectors.toMap(stringArray -> stringArray[INDEX_OF_NAME],
+                .collect(Collectors.toMap(
+                        stringArray -> stringArray[INDEX_OF_NAME],
                         stringArray ->
-                                Integer.parseInt(
-                                        stringArray[INDEX_OF_WORK_HOURS])
-                                        * Integer.parseInt(
-                                                stringArray[INDEX_OF_INCOME]),
+                                Integer.parseInt(stringArray[INDEX_OF_WORK_HOURS])
+                                * Integer.parseInt(stringArray[INDEX_OF_INCOME]),
                         Integer::sum));
     }
 }
