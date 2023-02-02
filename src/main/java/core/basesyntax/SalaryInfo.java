@@ -7,6 +7,9 @@ public class SalaryInfo {
     private static final DateTimeFormatter DATE_TIME_FORMATTER
             = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     private static final int ZERO = 0;
+    private static final int ONE = 1;
+    private static final int TWO = 2;
+    private static final int THREE = 3;
     private static final String SPLIT_BY_SPACE = " ";
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
@@ -23,14 +26,14 @@ public class SalaryInfo {
             salary = ZERO;
             for (int j = ZERO; j < data.length; j++) {
                 dataArrays = data[j].split(SPLIT_BY_SPACE);
-                workDay = LocalDate.parse(dataArrays[0], DATE_TIME_FORMATTER);
-                workingHours = Integer.parseInt(dataArrays[2]);
-                incomePerHour = Integer.parseInt(dataArrays[3]);
+                workDay = LocalDate.parse(dataArrays[ZERO], DATE_TIME_FORMATTER);
+                workingHours = Integer.parseInt(dataArrays[TWO]);
+                incomePerHour = Integer.parseInt(dataArrays[THREE]);
 
                 if (localDateFrom.isBefore(workDay)
                         && (localDateTo.isAfter(workDay)
                         || localDateTo.equals(workDay))
-                        && names[i].equals(dataArrays[1])) {
+                        && names[i].equals(dataArrays[ONE])) {
                     salary += workingHours * incomePerHour;
                 }
             }
