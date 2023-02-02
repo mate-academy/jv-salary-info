@@ -19,58 +19,56 @@ public class SalaryInfo {
     private static final int INDEX_OF_INCOME = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        Map<String, Integer> mapWithFilteredData =
-                getHashMapWithFilteredData(names, data, dateFrom, dateTo);
-        StringBuilder stringBuilder = getReportStringBuilder(dateFrom, dateTo);
-        return getReportMessage(stringBuilder, mapWithFilteredData, names);
+        Map<String, Integer> hashMapOfPersonAndCalculatedSalary =
+                getHashMapOfPersonAndCalculatedSalary(names, data, dateFrom, dateTo);
+        StringBuilder reportHeader = getReportHeader(dateFrom, dateTo);
+        return getFullReport(reportHeader, hashMapOfPersonAndCalculatedSalary, names);
     }
 
-    private StringBuilder getReportStringBuilder(String dateFrom, String dateTo) {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder
+    private StringBuilder getReportHeader(String dateFrom, String dateTo) {
+        StringBuilder reportHeader = new StringBuilder();
+        reportHeader
                 .append("Report for period ")
                 .append(dateFrom).append(" - ")
                 .append(dateTo);
-        return stringBuilder;
+        return reportHeader;
     }
 
-    private String getReportMessage(StringBuilder stringBuilder,
-                                    Map<String, Integer> mapWithFilteredData,
-                                    String[] names) {
-        return stringBuilder
+    private String getFullReport(StringBuilder reportHeader,
+                                 Map<String, Integer> hashMapOfPersonAndCalculatedSalary,
+                                 String[] names) {
+        return reportHeader
                 .append(Arrays.stream(names)
                         .map(name -> System.lineSeparator()
                                 + name + " - "
-                                + (mapWithFilteredData.getOrDefault(name, ZERO_INCOME)))
+                                + (hashMapOfPersonAndCalculatedSalary
+                                .getOrDefault(name, ZERO_INCOME)))
                         .collect(Collectors.joining()))
                 .toString();
     }
 
-    private Map<String, Integer> getHashMapWithFilteredData(String[] names, String[] data,
-                                                            String dateFrom, String dateTo) {
+    private Map<String, Integer> getHashMapOfPersonAndCalculatedSalary(String[] names,
+                                                                       String[] data,
+                                                                       String dateFrom,
+                                                                       String dateTo) {
+        LocalDate localDateFrom = LocalDate.parse(dateFrom, DATE_TIME_FORMATTER);
+        LocalDate localDateTo = LocalDate.parse(dateTo, DATE_TIME_FORMATTER)
+                .plusDays(EXTRA_WORKING_DAY);
+        final LocalDate[] dateOfSalary = new LocalDate[1]; // buffer
         return Stream.of(data)
                 .map(string -> string.split(" "))
-                .filter(stringArray ->
-                        LocalDate.parse(
-                                stringArray[INDEX_OF_DATE],
-                                        DATE_TIME_FORMATTER)
-                                .isAfter(LocalDate.parse(
-                                        dateFrom,
-                                        DATE_TIME_FORMATTER))
-                                && LocalDate.parse(
-                                        stringArray[INDEX_OF_DATE],
-                                        DATE_TIME_FORMATTER)
-                                .isBefore((LocalDate.parse(
-                                        dateTo,
-                                        DATE_TIME_FORMATTER)
-                                        .plusDays(EXTRA_WORKING_DAY)))
+                .filter(personsDataArray ->
+                (dateOfSalary[0] = LocalDate.parse(
+                                personsDataArray[INDEX_OF_DATE],
+                                DATE_TIME_FORMATTER)).isAfter(localDateFrom)
+                                && dateOfSalary[0].isBefore(localDateTo)
                                 && List.of(names)
-                                .contains(stringArray[INDEX_OF_NAME]))
+                                .contains(personsDataArray[INDEX_OF_NAME]))
                 .collect(Collectors.toMap(
-                        stringArray -> stringArray[INDEX_OF_NAME],
-                        stringArray ->
-                                Integer.parseInt(stringArray[INDEX_OF_WORK_HOURS])
-                                * Integer.parseInt(stringArray[INDEX_OF_INCOME]),
+                        personsDataArray -> personsDataArray[INDEX_OF_NAME],
+                        personsDataArray ->
+                                Integer.parseInt(personsDataArray[INDEX_OF_WORK_HOURS])
+                                * Integer.parseInt(personsDataArray[INDEX_OF_INCOME]),
                         Integer::sum));
     }
 }
