@@ -4,6 +4,10 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
+    static final int DATE_INDEX = 0;
+    static final int NAME_INDEX = 1;
+    static final int RATE_INDEX = 2;
+    static final int TIME_INDEX = 3;
     private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data,
@@ -27,10 +31,10 @@ public class SalaryInfo {
             sumSalary = 0;
             for (int j = 0; j < data.length; j++) {
                 String[] words = data[j].split(" ");
-                workDate = LocalDate.parse(words[0], dateTimeFormatter);
-                name = words[1];
-                hours = Integer.parseInt(words[2]);
-                salaryHour = Integer.parseInt(words[3]);
+                workDate = LocalDate.parse(words[DATE_INDEX], dateTimeFormatter);
+                name = words[NAME_INDEX];
+                hours = Integer.parseInt(words[TIME_INDEX]);
+                salaryHour = Integer.parseInt(words[RATE_INDEX]);
                 if (name.equals(names[i])) {
                     if (workDate.compareTo(localDate1) <= 0 && workDate.compareTo(localDate) >= 0) {
                         sumSalary += salaryHour * hours;
