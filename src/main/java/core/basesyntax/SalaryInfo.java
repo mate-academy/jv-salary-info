@@ -25,6 +25,5 @@ public class SalaryInfo {
                 names[0] + " - " + salaryAll[0] + System.lineSeparator() +
                 names[1] + " - " + salaryAll[1] + System.lineSeparator() +
                 names[2] + " - " + salaryAll[2];
-
     }
 }
