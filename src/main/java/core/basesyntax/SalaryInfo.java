@@ -12,14 +12,7 @@ public class SalaryInfo {
 
     public String getSalaryInfo(String[] names, String[] data,
                                 String dateFrom, String dateTo) {
-        LocalDate localDate = LocalDate.parse(dateFrom, dateTimeFormatter);
-        LocalDate localDate1 = LocalDate.parse(dateTo, dateTimeFormatter);
         StringBuilder result = new StringBuilder();
-        int sumSalary;
-        LocalDate workDate;
-        String name;
-        int hours;
-        int salaryHour;
         result.append("Report for period ")
                 .append(dateFrom);
         result.append(" - ")
@@ -28,7 +21,13 @@ public class SalaryInfo {
             result.append(System.lineSeparator());
             result.append(names[i])
                     .append(" - ");
-            sumSalary = 0;
+            LocalDate localDate = LocalDate.parse(dateFrom, dateTimeFormatter);
+            LocalDate localDate1 = LocalDate.parse(dateTo, dateTimeFormatter);
+            int sumSalary = 0;
+            LocalDate workDate;
+            String name;
+            int hours;
+            int salaryHour;
             for (int j = 0; j < data.length; j++) {
                 String[] words = data[j].split(" ");
                 workDate = LocalDate.parse(words[DATE_INDEX], dateTimeFormatter);
