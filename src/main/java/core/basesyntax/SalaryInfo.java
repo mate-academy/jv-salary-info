@@ -4,10 +4,10 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    static final int DATE_INDEX = 0;
-    static final int NAME_INDEX = 1;
-    static final int RATE_INDEX = 2;
-    static final int TIME_INDEX = 3;
+    private static final int DATE_INDEX = 0;
+    private static final int NAME_INDEX = 1;
+    private static final int RATE_INDEX = 2;
+    private static final int TIME_INDEX = 3;
     private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data,
@@ -24,19 +24,14 @@ public class SalaryInfo {
             LocalDate localDate = LocalDate.parse(dateFrom, dateTimeFormatter);
             LocalDate localDate1 = LocalDate.parse(dateTo, dateTimeFormatter);
             int sumSalary = 0;
-            LocalDate workDate;
-            String name;
-            int hours;
-            int salaryHour;
             for (int j = 0; j < data.length; j++) {
                 String[] words = data[j].split(" ");
-                workDate = LocalDate.parse(words[DATE_INDEX], dateTimeFormatter);
-                name = words[NAME_INDEX];
-                hours = Integer.parseInt(words[TIME_INDEX]);
-                salaryHour = Integer.parseInt(words[RATE_INDEX]);
+                LocalDate workDate = LocalDate.parse(words[DATE_INDEX], dateTimeFormatter);
+                String name = words[NAME_INDEX];
                 if (name.equals(names[i])) {
                     if (workDate.compareTo(localDate1) <= 0 && workDate.compareTo(localDate) >= 0) {
-                        sumSalary += salaryHour * hours;
+                        sumSalary += Integer.parseInt(words[RATE_INDEX])
+                                * Integer.parseInt(words[TIME_INDEX]);
                     }
                 }
             }
@@ -45,4 +40,3 @@ public class SalaryInfo {
         return result.toString();
     }
 }
-
