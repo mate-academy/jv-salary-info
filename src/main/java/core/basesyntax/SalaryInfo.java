@@ -12,11 +12,8 @@ public class SalaryInfo {
 
     public String getSalaryInfo(String[] names, String[] data,
                                 String dateFrom, String dateTo) {
-        StringBuilder result = new StringBuilder();
-        result.append("Report for period ")
-                .append(dateFrom);
-        result.append(" - ")
-                .append(dateTo);
+        StringBuilder result = new StringBuilder().append("Report for period ")
+                .append(dateFrom).append(" - ").append(dateTo);
         for (int i = 0; i < names.length; i++) {
             result.append(System.lineSeparator());
             result.append(names[i])
