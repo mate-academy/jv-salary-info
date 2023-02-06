@@ -3,7 +3,7 @@ package core.basesyntax;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.LocalDate;
+import java.time.LocalDate;
 import java.util.Locale;
 
 public class SalaryInfo {
