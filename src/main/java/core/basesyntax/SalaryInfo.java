@@ -4,11 +4,11 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
-        LocalDate dateFromFormatted = LocalDate.parse(dateFrom, formatter);
-        LocalDate dateToFormatted = LocalDate.parse(dateTo, formatter);
+    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
+        LocalDate dateFromFormatted = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate dateToFormatted = LocalDate.parse(dateTo, FORMATTER);
 
         StringBuilder reportForPeriod = new StringBuilder();
         reportForPeriod.append("Report for period ").append(dateFrom)
@@ -18,14 +18,12 @@ public class SalaryInfo {
 
         for (int i = 0; i < names.length; i++) {
             for (String dataLoop : data) {
-                if ((LocalDate.parse(dataLoop.split(" ")[0], formatter)
-                        .isAfter(dateFromFormatted)
-                        || LocalDate.parse(dataLoop.split(" ")[0], formatter)
-                        .isEqual(dateFromFormatted))
-                        && (LocalDate.parse(dataLoop.split(" ")[0], formatter)
-                        .isBefore(dateToFormatted)
-                        || LocalDate.parse(dataLoop.split(" ")[0], formatter)
-                        .isEqual(dateToFormatted))
+                String dataLoopSplit = dataLoop.split(" ")[0];
+                LocalDate LocalDateParse = LocalDate.parse(dataLoopSplit, FORMATTER);
+                if ((LocalDateParse.isAfter(dateFromFormatted)
+                        || LocalDateParse.isEqual(dateFromFormatted))
+                        && (LocalDateParse.isBefore(dateToFormatted)
+                        || LocalDateParse.isEqual(dateToFormatted))
                         && names[i].equals(dataLoop.split(" ")[1])) {
                     salary[i] += Integer.parseInt(dataLoop.split(" ")[2])
                             * Integer.parseInt(dataLoop.split(" ")[3]);
