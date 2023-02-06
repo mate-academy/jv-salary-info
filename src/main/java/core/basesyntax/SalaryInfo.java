@@ -11,8 +11,8 @@ public class SalaryInfo {
         StringBuilder res = new StringBuilder();
         try {
             SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
-            LocalDate date1 = formatter.parse(dateFrom);
-            LocalDate date2 = formatter.parse(dateTo);
+            LocalDate date1 = formatter.parse(dateFrom).toInstant();
+            LocalDate date2 = formatter.parse(dateTo).toInstant();
             if (date2.compareTo(date1) < 0) {
                 throw new ParseException("DateFrom occurs after DateTo", 0);
             }
