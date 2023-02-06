@@ -5,7 +5,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.Locale;
 
@@ -15,16 +14,16 @@ public class SalaryInfo {
         try {
             SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
             final LocalDate date1 = formatter.parse(dateFrom).toInstant()
-                .atZone(ZoneId.systemDefault()).toLocalDate();
+                    .atZone(ZoneId.systemDefault()).toLocalDate();
             final LocalDate date2 = formatter.parse(dateTo).toInstant()
-                .atZone(ZoneId.systemDefault()).toLocalDate();
+                    .atZone(ZoneId.systemDefault()).toLocalDate();
             if (date2.compareTo(date1) < 0) {
                 throw new ParseException("DateFrom occurs after DateTo", 0);
             }
             DateFormat dateFormat;
             dateFormat = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.GERMANY);
             res.append("Report for period " + dateFormat.format(Date.from(date1.atStartOfDay()
-                .atZone(ZoneId.systemDefault()).toInstant())) + " - "
+                    .atZone(ZoneId.systemDefault()).toInstant())) + " - "
                     + dateFormat.format(Date.from(date2.atStartOfDay()
                     .atZone(ZoneId.systemDefault()).toInstant())));
             for (String n: names) {
@@ -32,7 +31,7 @@ public class SalaryInfo {
                 for (String d: data) {
                     var temp = d.split(" ");
                     var dtmp = formatter.parse(temp[0]).toInstant().atZone(ZoneId.systemDefault())
-                        .toLocalDate();
+                            .toLocalDate();
                     if ((date1.compareTo(dtmp) < 0 || date1.compareTo(dtmp) == 0) 
                             && (date2.compareTo(dtmp) > 0 || date2.compareTo(dtmp) == 0)
                             && n.trim().equals(temp[1].trim())) {
