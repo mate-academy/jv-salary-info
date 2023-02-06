@@ -3,7 +3,7 @@ package core.basesyntax;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.LocalDate;
 import java.util.Locale;
 
 public class SalaryInfo {
@@ -11,8 +11,8 @@ public class SalaryInfo {
         StringBuilder res = new StringBuilder();
         try {
             SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
-            Date date1 = formatter.parse(dateFrom);
-            Date date2 = formatter.parse(dateTo);
+            LocalDate date1 = formatter.parse(dateFrom);
+            LocalDate date2 = formatter.parse(dateTo);
             if (date2.compareTo(date1) < 0) {
                 throw new ParseException("DateFrom occurs after DateTo", 0);
             }
