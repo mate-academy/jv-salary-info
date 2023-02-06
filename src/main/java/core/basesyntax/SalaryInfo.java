@@ -23,8 +23,8 @@ public class SalaryInfo {
                 }
             }
         }
-        StringBuilder builder=new StringBuilder();
-        for (int i=0; i < names.length; i++) {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < names.length; i++) {
             builder.append(System.lineSeparator()).append(names[i])
                     .append(" - ").append(salaryAll[i]);
         }
