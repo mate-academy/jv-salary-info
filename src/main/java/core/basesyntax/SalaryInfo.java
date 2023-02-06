@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 public class SalaryInfo {
     private static String whiteSpace = " ";
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d.MM.yyyy");
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate dateFromLocal = LocalDate.parse(dateFrom, formatter);
         LocalDate dateToLocal = LocalDate.parse(dateTo, formatter);
@@ -22,9 +23,10 @@ public class SalaryInfo {
                 }
             }
         }
-        StringBuilder builder = new StringBuilder();
+        StringBuilder builder=new StringBuilder();
         for (int i=0; i < names.length; i++) {
-            builder.append(System.lineSeparator()).append(names[i]).append(" - ").append(salaryAll[i]);
+            builder.append(System.lineSeparator()).append(names[i])
+                    .append(" - ").append(salaryAll[i]);
         }
         return "Report for period" + dateFrom + " - " + dateTo + builder.toString();
     }
