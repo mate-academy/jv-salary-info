@@ -21,8 +21,8 @@ public class SalaryInfo {
                 int countMonths = Integer.parseInt(employeeData[2]);
                 int salary = Integer.parseInt(employeeData[3]);
                 if (names[i].equals(employeeName)
-                        && (date.isAfter(firstLimit) || date.isEqual(firstLimit))
-                        && (date.isBefore(secondLimit) || date.isEqual(secondLimit))) {
+                        && date.isAfter(firstLimit.minusDays(1))
+                        && date.isBefore(secondLimit.plusDays(1))) {
                     generalEmployeeSalary += countMonths * salary;
                 }
             }
