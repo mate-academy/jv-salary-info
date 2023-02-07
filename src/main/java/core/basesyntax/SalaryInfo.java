@@ -24,7 +24,7 @@ public class SalaryInfo {
                             * Integer.parseInt(datPart[3]);
                 }
             }
-            builder.append(System.lineSeparator()).append(names[i]+" - "+salary);
+            builder.append(System.lineSeparator()).append(names[i] + " - " + salary);
         }
         return "Report for period " + dateFrom + " - " + dateTo + builder;
     }
