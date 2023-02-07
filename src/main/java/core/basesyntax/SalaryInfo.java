@@ -8,16 +8,17 @@ public class SalaryInfo {
     private static final int NAME_INDEX = 1;
     private static final int RATE_INDEX = 2;
     private static final int TIME_INDEX = 3;
+    private static final String DASH = " - ";
     private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data,
                                 String dateFrom, String dateTo) {
         StringBuilder result = new StringBuilder().append("Report for period ")
-                .append(dateFrom).append(" - ").append(dateTo);
+                .append(dateFrom).append(DASH).append(dateTo);
         for (int i = 0; i < names.length; i++) {
             result.append(System.lineSeparator());
             result.append(names[i])
-                    .append(" - ");
+                    .append(DASH);
             LocalDate localDate = LocalDate.parse(dateFrom, dateTimeFormatter);
             LocalDate localDate1 = LocalDate.parse(dateTo, dateTimeFormatter);
             int sumSalary = 0;
