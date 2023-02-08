@@ -18,8 +18,8 @@ public class SalaryInfo {
             int salary = 0;
             for (String infSalary : data) {
                 String[] datPart = infSalary.split(WHITESPACE);
-                String date_index = datPart[0];
-                LocalDate dateData = LocalDate.parse(date_index, DATETIMEFORMATTER);
+                String dateIndex = datPart[0];
+                LocalDate dateData = LocalDate.parse(dateIndex, DATETIMEFORMATTER);
                 if ((names[i].equals(datPart[1])) && (dateFromLocal.isBefore(dateData)
                         || dateFromLocal.equals(dateData)) && ((dateData.isBefore(dateToLocal)
                         || (dateToLocal.equals(dateData))))) {
