@@ -25,8 +25,8 @@ public class SalaryInfo {
             result.append(names[i]).append(" - ");
             for (String record: data) {
                 String [] dates = record.split(" ");
-                LocalDate currentDate = convertStringToLocalDate(dates[INDEX_DATE]);
                 try {
+                    LocalDate currentDate = convertStringToLocalDate(dates[INDEX_DATE]);
                     if (!currentDate.isBefore(from) && !currentDate.isAfter(to)
                             && dates[INDEX_NAME].equals(names[i])) {
                         salary += Integer.parseInt(dates[INDEX_HOURS])
