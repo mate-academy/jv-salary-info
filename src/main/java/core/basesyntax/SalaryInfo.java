@@ -5,7 +5,8 @@ import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     private static final String WHITESPACE = " ";
-    private static final DateTimeFormatter DATETIMEFORMATTER = DateTimeFormatter.ofPattern("d.MM.yyyy");
+    private static final DateTimeFormatter DATETIMEFORMATTER = DateTimeFormatter
+            .ofPattern("d.MM.yyyy");
     private static final String HYPHEN = " - ";
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
@@ -15,10 +16,10 @@ public class SalaryInfo {
         outputNamesSalary.append("Report for period " + dateFrom + HYPHEN + dateTo);
         for (int i = 0; i < names.length; i++) {
             int salary = 0;
-            for (String InfSalary : data) {
-                String[] datPart = InfSalary.split(WHITESPACE);
-                String DATE_INDEX = datPart[0];
-                LocalDate dateData = LocalDate.parse(DATE_INDEX, DATETIMEFORMATTER);
+            for (String infSalary : data) {
+                String[] datPart = infSalary.split(WHITESPACE);
+                String date_index = datPart[0];
+                LocalDate dateData = LocalDate.parse(date_index, DATETIMEFORMATTER);
                 if ((names[i].equals(datPart[1])) && (dateFromLocal.isBefore(dateData)
                         || dateFromLocal.equals(dateData)) && ((dateData.isBefore(dateToLocal)
                         || (dateToLocal.equals(dateData))))) {
