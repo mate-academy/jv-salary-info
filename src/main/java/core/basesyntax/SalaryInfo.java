@@ -10,9 +10,8 @@ import java.util.stream.Stream;
 
 public class SalaryInfo {
     private static final DateTimeFormatter
-            DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.uuuu");
+            DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     private static final int ZERO_INCOME = 0;
-    private static final int EXTRA_WORKING_DAY = 1;
     private static final int INDEX_OF_DATE = 0;
     private static final int INDEX_OF_NAME = 1;
     private static final int INDEX_OF_WORK_HOURS = 2;
@@ -20,7 +19,7 @@ public class SalaryInfo {
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         Map<String, Integer> hashMapOfPersonAndCalculatedSalary =
-                getHashMapOfPersonAndCalculatedSalary(names, data, dateFrom, dateTo);
+                getMapOfEmployeeAndCalculatedSalary(names, data, dateFrom, dateTo);
         StringBuilder reportHeader = getReportHeader(dateFrom, dateTo);
         return getFullReport(reportHeader, hashMapOfPersonAndCalculatedSalary, names);
     }
@@ -47,28 +46,27 @@ public class SalaryInfo {
                 .toString();
     }
 
-    private Map<String, Integer> getHashMapOfPersonAndCalculatedSalary(String[] names,
-                                                                       String[] data,
-                                                                       String dateFrom,
-                                                                       String dateTo) {
+    private Map<String, Integer> getMapOfEmployeeAndCalculatedSalary(String[] names,
+                                                                     String[] data,
+                                                                     String dateFrom,
+                                                                     String dateTo) {
         LocalDate localDateFrom = LocalDate.parse(dateFrom, DATE_TIME_FORMATTER);
-        LocalDate localDateTo = LocalDate.parse(dateTo, DATE_TIME_FORMATTER)
-                .plusDays(EXTRA_WORKING_DAY);
+        LocalDate localDateTo = LocalDate.parse(dateTo, DATE_TIME_FORMATTER);
         final LocalDate[] dateOfSalary = new LocalDate[1]; // buffer
         return Stream.of(data)
-                .map(string -> string.split(" "))
-                .filter(personsDataArray ->
-                (dateOfSalary[0] = LocalDate.parse(
-                                personsDataArray[INDEX_OF_DATE],
-                                DATE_TIME_FORMATTER)).isAfter(localDateFrom)
-                                && dateOfSalary[0].isBefore(localDateTo)
+                .map(employeeData -> employeeData.split(" "))
+                .filter(employeeDataArray ->
+                !(dateOfSalary[0] = LocalDate.parse(
+                                employeeDataArray[INDEX_OF_DATE],
+                                DATE_TIME_FORMATTER)).isBefore(localDateFrom)
+                                && !dateOfSalary[0].isAfter(localDateTo)
                                 && List.of(names)
-                                .contains(personsDataArray[INDEX_OF_NAME]))
+                                .contains(employeeDataArray[INDEX_OF_NAME]))
                 .collect(Collectors.toMap(
-                        personsDataArray -> personsDataArray[INDEX_OF_NAME],
-                        personsDataArray ->
-                                Integer.parseInt(personsDataArray[INDEX_OF_WORK_HOURS])
-                                * Integer.parseInt(personsDataArray[INDEX_OF_INCOME]),
+                        employeeDataArray -> employeeDataArray[INDEX_OF_NAME],
+                        employeeDataArray ->
+                                Integer.parseInt(employeeDataArray[INDEX_OF_WORK_HOURS])
+                                * Integer.parseInt(employeeDataArray[INDEX_OF_INCOME]),
                         Integer::sum));
     }
 }
