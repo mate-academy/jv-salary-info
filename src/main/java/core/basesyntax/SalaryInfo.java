@@ -19,11 +19,11 @@ public class SalaryInfo {
         for (int i = 0; i < names.length; i++) {
             for (String dataLoop : data) {
                 String dataLoopSplit = dataLoop.split(" ")[0];
-                LocalDate LocalDateParse = LocalDate.parse(dataLoopSplit, FORMATTER);
-                if ((LocalDateParse.isAfter(dateFromFormatted)
-                        || LocalDateParse.isEqual(dateFromFormatted))
-                        && (LocalDateParse.isBefore(dateToFormatted)
-                        || LocalDateParse.isEqual(dateToFormatted))
+                LocalDate localDateParse = LocalDate.parse(dataLoopSplit, FORMATTER);
+                if ((localDateParse.isAfter(dateFromFormatted)
+                        || localDateParse.isEqual(dateFromFormatted))
+                        && (localDateParse.isBefore(dateToFormatted)
+                        || localDateParse.isEqual(dateToFormatted))
                         && names[i].equals(dataLoop.split(" ")[1])) {
                     salary[i] += Integer.parseInt(dataLoop.split(" ")[2])
                             * Integer.parseInt(dataLoop.split(" ")[3]);
