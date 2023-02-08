@@ -7,15 +7,17 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.Locale;
-
+pattern
 public class SalaryInfo {
+    private final String pattern = "dd.MM.yyyy";
+    private final SimpleDateFormat formatter = new SimpleDateFormat(pattern);
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder res = new StringBuilder();
         try {
-            SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
-            final LocalDate date1 = formatter.parse(dateFrom).toInstant()
+            LocalDate date1 = formatter.parse(dateFrom).toInstant()
                     .atZone(ZoneId.systemDefault()).toLocalDate();
-            final LocalDate date2 = formatter.parse(dateTo).toInstant()
+            LocalDate date2 = formatter.parse(dateTo).toInstant()
                     .atZone(ZoneId.systemDefault()).toLocalDate();
             if (date2.compareTo(date1) < 0) {
                 throw new ParseException("DateFrom occurs after DateTo", 0);
