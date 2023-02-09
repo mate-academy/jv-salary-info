@@ -1,14 +1,20 @@
 package core.basesyntax;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class SalaryInfo {
+    private final DateParser dateParser = new DateParser();
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        DateParser dateParser = new DateParser();
-        Date startDate = dateParser.date(dateFrom);
-        Date stopDate = dateParser.date(dateTo);
+        LocalDate startDate = dateParser.date(dateFrom);
+        LocalDate stopDate = dateParser.date(dateTo);
         int [] salaries = new int[names.length];
         StringBuilder sb = new StringBuilder();
+        /*
+          Checking every date for every name;
+          Validating name; checking date to fit boundaries; calculating total salary for each date;
+          Filling StringBuilder with every valid entry separately;
+        */
         for (int i = 0; i < names.length; i++) {
             for (String datum : data) {
                 if (names[i].equals(datum.split(" ")[1])
