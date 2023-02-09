@@ -25,9 +25,16 @@ public class SalaryInfo {
     }
 
     private boolean isTrueDate(String dateNow, String dateFrom, String dateTo) {
-        LocalDate localDateTemp = LocalDate.parse(dateNow, format);
-        LocalDate localDateFrom = LocalDate.parse(dateFrom, format).minusDays(1);
-        LocalDate localDateTo = LocalDate.parse(dateTo, format).plusDays(1);
+        LocalDate localDateTemp;
+        LocalDate localDateFrom;
+        LocalDate localDateTo;
+        try {
+            localDateTemp = LocalDate.parse(dateNow, format);
+            localDateFrom = LocalDate.parse(dateFrom, format).minusDays(1);
+            localDateTo = LocalDate.parse(dateTo, format).plusDays(1);
+        } catch (RuntimeException e) {
+            throw new RuntimeException("Invalid date format " + e);
+        }
         return localDateTemp.isAfter(localDateFrom) && localDateTemp.isBefore(localDateTo);
     }
 }
