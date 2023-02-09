@@ -1,41 +1,33 @@
 package core.basesyntax;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
+    private final DateTimeFormatter format = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        int[] res = new int[names.length];
-        DateFormat format = new SimpleDateFormat("dd.MM.yyyy");
-        Date date1;
-        Date date2;
-        try {
-            date1 = format.parse(dateFrom);
-            date2 = format.parse(dateTo);
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
+        StringBuilder result = new StringBuilder("Report for period " + dateFrom + " - " + dateTo);
+        int[] resultArray = new int[names.length];
+        String[] dates;
         for (int i = 0; i < names.length; i++) {
-            for (String datum : data) {
-                String[] dates = datum.split(" ");
-                try {
-                    if (names[i].equals(dates[1])
-                            && format.parse(dates[0]).getTime() >= date1.getTime()
-                            && format.parse(dates[0]).getTime() <= date2.getTime()) {
-                        res[i] += (Integer.parseInt(dates[2]) * Integer.parseInt(dates[3]));
-                    }
-                } catch (ParseException e) {
-                    throw new RuntimeException(e);
+            for (String infoPerDay : data) {
+                dates = infoPerDay.split(" ");
+                if (names[i].equals(dates[1]) && isTrueDate(dates[0], dateFrom, dateTo)) {
+                    resultArray[i] += (Integer.parseInt(dates[2]) * Integer.parseInt(dates[3]));
                 }
             }
+            result.append(System.lineSeparator())
+                    .append(names[i]).append(" - ")
+                    .append(resultArray[i]);
         }
-        String result = "Report for period " + dateFrom + " - " + dateTo;
-        for (int i = 0; i < res.length; i++) {
-            result += System.lineSeparator() + names[i] + " - " + res[i];
-        }
-        return result.trim();
+        return result.toString();
+    }
+
+    private boolean isTrueDate(String dateNow, String dateFrom, String dateTo) {
+        LocalDate localDateTemp = LocalDate.parse(dateNow, format);
+        LocalDate localDateFrom = LocalDate.parse(dateFrom, format).minusDays(1);
+        LocalDate localDateTo = LocalDate.parse(dateTo, format).plusDays(1);
+        return localDateTemp.isAfter(localDateFrom) && localDateTemp.isBefore(localDateTo);
     }
 }
-
