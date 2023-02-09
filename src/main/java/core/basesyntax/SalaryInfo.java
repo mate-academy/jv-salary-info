@@ -5,6 +5,9 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 public class SalaryInfo {
+    private static final DateTimeFormatter FORMATTER =
+            DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         int[] salariesInfo = new int[names.length];
         StringBuilder result = new StringBuilder()
@@ -33,11 +36,9 @@ public class SalaryInfo {
         LocalDate dateToCheck = null;
 
         try {
-            DateTimeFormatter formatter =
-                    DateTimeFormatter.ofPattern("dd.MM.yyyy");
-            dateFrom = LocalDate.parse(dateFromString, formatter);
-            dateTo = LocalDate.parse(dateToString, formatter);
-            dateToCheck = LocalDate.parse(dateToCheckString, formatter);
+            dateFrom = LocalDate.parse(dateFromString, FORMATTER);
+            dateTo = LocalDate.parse(dateToString, FORMATTER);
+            dateToCheck = LocalDate.parse(dateToCheckString, FORMATTER);
         } catch (DateTimeParseException exc) {
             System.out.println("Error while parsing date");
         }
