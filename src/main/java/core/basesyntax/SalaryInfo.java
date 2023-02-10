@@ -13,19 +13,16 @@ public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate dateFromFormatted = LocalDate.parse(dateFrom, FORMATTER);
         LocalDate dateToFormatted = LocalDate.parse(dateTo, FORMATTER);
-
         StringBuilder reportForPeriod = new StringBuilder();
-        reportForPeriod.append("Report for period ").append(dateFrom)
-                .append(" - ").append(dateTo);
-
         int[] salary = new int[names.length];
 
+        reportForPeriod.append("Report for period ").append(dateFrom)
+                .append(" - ").append(dateTo);
         for (int i = 0; i < names.length; i++) {
             for (String row : data) {
                 String date = row.split(" ")[DATE_INDEX_0];
                 LocalDate localDateParse = LocalDate.parse(date, FORMATTER);
-                if ((localDateParse.isAfter(dateFromFormatted)
-                        || localDateParse.isEqual(dateFromFormatted))
+                if ((localDateParse.isAfter(dateFromFormatted))
                         && (localDateParse.isBefore(dateToFormatted)
                         || localDateParse.isEqual(dateToFormatted))
                         && names[i].equals(row.split(" ")[DATE_INDEX_1])) {
