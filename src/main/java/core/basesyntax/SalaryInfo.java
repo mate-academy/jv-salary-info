@@ -1,31 +1,32 @@
 package core.basesyntax;
 
 public class SalaryInfo {
-    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)  {
+    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         Employee[] employees = new Employee[names.length];
-            for (int i = 0; i < names.length; i++) {
-                Employee employee = new Employee();
-                for (int j = 0; j < data.length; j++) {
-                    if (names[i].contains(getNameWithData(data[j]))) {
-                        if (containDate(data[j], dateFrom, dateTo)) {
-                            employee.add_info(getNameWithData(data[j]),
-                                    getSalaryWithData(data[j]), getHourWithData(data[j]));
-                        } else {
-                            employee.add_info(getNameWithData(data[j]));
-                        }
+        for (int i = 0; i < names.length; i++) {
+            Employee employee = new Employee();
+            for (int j = 0; j < data.length; j++) {
+                if (names[i].contains(getNameWithData(data[j]))) {
+                    if (containDate(data[j], dateFrom, dateTo)) {
+                        employee.add_info(getNameWithData(data[j]),
+                                getSalaryWithData(data[j]), getHourWithData(data[j]));
+                    } else {
+                        employee.add_info(getNameWithData(data[j]));
                     }
                 }
-                employees[i] = employee;
             }
+            employees[i] = employee;
+        }
         return printData(employees, dateFrom, dateTo);
     }
 
-    private boolean IsDateValid(String dateFrom, String dateTo) {
+    private boolean isDateValid(String dateFrom, String dateTo) {
         int[] dateFrom1 = new int[3];
         dateFrom1 = getIntWithChar(dateFrom.toCharArray());
         int[] dateTo1 = new int[3];
         dateTo1 = getIntWithChar(dateTo.toCharArray());
-        if(dateFrom1[2] <= dateTo1[2] && dateFrom1[1] <= dateTo1[1] && dateFrom1[0] <= dateTo1[0]) {
+        if (dateFrom1[2] <= dateTo1[2] && dateFrom1[1]
+                <= dateTo1[1] && dateFrom1[0] <= dateTo1[0]) {
             return true;
         } else {
             return false;
