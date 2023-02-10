@@ -20,7 +20,7 @@ public class SalaryInfo {
         return printData(employees, dateFrom, dateTo);
     }
 
-    private boolean isDateValid(String dateFrom, String dateTo) {
+    /*private boolean isDateValid(String dateFrom, String dateTo) {
         int[] dateFrom1 = new int[3];
         dateFrom1 = getIntWithChar(dateFrom.toCharArray());
         int[] dateTo1 = new int[3];
@@ -31,12 +31,9 @@ public class SalaryInfo {
         } else {
             return false;
         }
-    }
+    }*/
 
     private boolean containDate(String data, String dateFrom, String dateTo) {
-        /*char[] charDate = getDateWithData(data).toCharArray();
-        char[] charFrom = dateFrom.toCharArray();
-        char[] charTo = dateTo.toCharArray();*/
         int[] valueDate = new int[3];
         int[] valueFrom = new int[3];
         int[] valueTo = new int[3];
