@@ -10,10 +10,9 @@ public class SalaryInfo {
     private static final int THIRD_ELEMENT_ARRAY = 2;
     private static final int FOURTH_ELEMENT_ARRAY = 3;
 
-
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder message = new StringBuilder("Report for period " 
-            + dateFrom + " - " + dateTo);
+                + dateFrom + " - " + dateTo);
         for (String name : names) {
             message.append(System.lineSeparator()).append(name).append(" - ");
             int earned = 0;
