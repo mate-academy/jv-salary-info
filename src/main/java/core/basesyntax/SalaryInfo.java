@@ -1,73 +1,40 @@
 package core.basesyntax;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class SalaryInfo {
     private static final String DATA_SEPARATOR = " ";
-    private static final String DATE_SEPARATOR = "\\.";
+    private static final byte DATA_DATE_SLOT = 0;
+    private static final byte DATA_NAME_SLOT = 1;
+    private static final byte DATA_WORK_HOURS_SLOT = 2;
+    private static final byte DATA_MONEY_PER_HOUR_SLOT = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
-        System.out.println(System.lineSeparator() + "Starting to look for given names");
-        for (String n : names) {
-            //for each name
-            System.out.println(System.lineSeparator() + "       Searching for " + n);
+        for (String name : names) {
             int sumForThisName = 0;
-            for (String d : data) {
-                //name is searched within database and all the results are stored
-                String[] recordData = d.split(DATA_SEPARATOR);
-                if (n.equals(recordData[1]) && datesMatch(recordData[0],dateFrom,dateTo)) {
-                    int toAdd = Integer.parseInt(recordData[2]) * Integer.parseInt(recordData[3]);
+            for (String lineData : data) {
+                String[] recordData = lineData.split(DATA_SEPARATOR);
+                if (name.equals(recordData[DATA_NAME_SLOT]) && datesMatch(recordData[DATA_DATE_SLOT],dateFrom,dateTo)) {
+                    int toAdd = Integer.parseInt(recordData[DATA_WORK_HOURS_SLOT]) * Integer.parseInt(recordData[DATA_MONEY_PER_HOUR_SLOT]);
                     sumForThisName += toAdd;
-                    System.out.println("adding " + toAdd
-                            + " for " + n + ", total is now " + sumForThisName);
                 }
             }
-            stringBuilder.append(System.lineSeparator()).append(n)
+            stringBuilder.append(System.lineSeparator()).append(name)
                     .append(" - ").append(sumForThisName);
         }
-        System.out.println(System.lineSeparator() + "________________________________________");
         return stringBuilder.toString();
     }
 
     private boolean datesMatch(String date, String dateFrom, String dateTo) {
-        int[] intDate = dateToIntArray(date);
-        int[] intDateFrom = dateToIntArray(dateFrom);
-        int[] intDateTo = dateToIntArray(dateTo);
-        boolean afterFrom = compareDate(intDate, intDateFrom);
-        boolean beforeTo = compareDate(intDateTo, intDate);
-        if (beforeTo || afterFrom) {
-            System.out.println(System.lineSeparator());
-        }
-        System.out.println(afterFrom ? date
-                + " is after " + dateFrom : date
-                + " isn't after " + dateFrom);
-        System.out.println(beforeTo ? date
-                + " is before " + dateFrom : date
-                + " isn't before " + dateFrom);
-        return afterFrom && beforeTo;
-    }
-
-    private int[] dateToIntArray(String date) {
-        String[] dateParts = date.split(DATE_SEPARATOR);
-        for (int i = 0; i < dateParts.length; i++) {
-            dateParts[i] = removeZero(dateParts[i]);
-        }
-        return new int[]{Integer.parseInt(dateParts[0]),
-                Integer.parseInt(dateParts[1]),
-                Integer.parseInt(dateParts[2])};
-    }
-
-    private String removeZero(String str) {
-        int i = 0;
-        while (i < str.length() && str.charAt(i) == '0') {
-            i++;
-        }
-        StringBuilder sb = new StringBuilder(str);
-        sb.replace(0, i, "");
-        return sb.toString();
-    }
-
-    private boolean compareDate(int[] more, int[] less) {
-        return more[2] > less[2] || more[1] > less[1] || more[0] >= less[0];
+        DateTimeFormatter dateFormatter
+                = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        LocalDate dateNow = LocalDate.parse(date, dateFormatter);
+        LocalDate compareFrom = LocalDate.parse(dateFrom, dateFormatter);
+        LocalDate compareTo = LocalDate.parse(dateTo, dateFormatter);
+        return dateNow.isAfter(compareFrom)
+                && compareTo.isAfter(dateNow) || compareTo.isEqual(dateNow);
     }
 }
