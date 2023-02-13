@@ -8,19 +8,20 @@ public class SalaryInfo {
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder result = new StringBuilder("Report for period " + dateFrom + " - " + dateTo);
-        int[] resultArray = new int[names.length];
+        int resultOfOnePerson = 0;
         String[] dates;
-        for (int i = 0; i < names.length; i++) {
+        for (String name : names) {
             for (String infoPerDay : data) {
                 dates = infoPerDay.split(" ");
-                if (names[i].equals(dates[1]) && isDateTrue(dates[0], dateFrom, dateTo)) {
-                    resultArray[i] += (Integer.parseInt(dates[2]) * Integer.parseInt(dates[3]));
+                if (name.equals(dates[1]) && isDateTrue(dates[0], dateFrom, dateTo)) {
+                    resultOfOnePerson += (Integer.parseInt(dates[2]) * Integer.parseInt(dates[3]));
                 }
             }
             result.append(System.lineSeparator())
-                    .append(names[i])
+                    .append(name)
                     .append(" - ")
-                    .append(resultArray[i]);
+                    .append(resultOfOnePerson);
+            resultOfOnePerson = 0;
         }
         return result.toString();
     }
