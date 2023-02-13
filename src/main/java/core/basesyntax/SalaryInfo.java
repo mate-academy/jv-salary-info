@@ -12,8 +12,7 @@ public class SalaryInfo {
     private static final short LINE_SALARY = 3;
     private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATE_PATTERN);
 
-    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
-            throws ParseException {
+    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder report = new StringBuilder("Report for period ")
                 .append(dateFrom).append(" - ").append(dateTo).append(System.lineSeparator());
         for (String name : names) {
@@ -23,8 +22,7 @@ public class SalaryInfo {
         return report.toString().trim();
     }
 
-    private int getSalary(String name, String[] data, String fromDate, String toDate)
-            throws ParseException {
+    private int getSalary(String name, String[] data, String fromDate, String toDate) {
         int salary = 0;
         String[] table;
         for (String tableLine : data) {
@@ -37,11 +35,18 @@ public class SalaryInfo {
         return salary;
     }
 
-    private boolean isSuitableDate(String lineString, String fromString, String toString)
-            throws ParseException {
-        Date lineDate = simpleDateFormat.parse(lineString);
-        Date fromDate = simpleDateFormat.parse(fromString.trim());
-        Date toDate = simpleDateFormat.parse(toString.trim());
+    private boolean isSuitableDate(String lineString, String fromString, String toString) {
+        Date lineDate;
+        Date fromDate;
+        Date toDate;
+        try {
+            lineDate = simpleDateFormat.parse(lineString);
+            fromDate = simpleDateFormat.parse(fromString.trim());
+            toDate = simpleDateFormat.parse(toString.trim());
+        } catch (ParseException e) {
+            System.out.println("Date parse error!");
+            return false;
+        }
         return ((lineDate.getTime() >= fromDate.getTime())
                 && (lineDate.getTime() <= toDate.getTime()));
     }
