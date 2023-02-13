@@ -17,8 +17,10 @@ public class SalaryInfo {
             int sumForThisName = 0;
             for (String lineData : data) {
                 String[] recordData = lineData.split(DATA_SEPARATOR);
-                if (name.equals(recordData[DATA_NAME_SLOT]) && datesMatch(recordData[DATA_DATE_SLOT],dateFrom,dateTo)) {
-                    int toAdd = Integer.parseInt(recordData[DATA_WORK_HOURS_SLOT]) * Integer.parseInt(recordData[DATA_MONEY_PER_HOUR_SLOT]);
+                if (name.equals(recordData[DATA_NAME_SLOT])
+                        && datesMatch(recordData[DATA_DATE_SLOT],dateFrom,dateTo)) {
+                    int toAdd = Integer.parseInt(recordData[DATA_WORK_HOURS_SLOT])
+                            * Integer.parseInt(recordData[DATA_MONEY_PER_HOUR_SLOT]);
                     sumForThisName += toAdd;
                 }
             }
