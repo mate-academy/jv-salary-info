@@ -6,8 +6,6 @@ public class Employee {
 
     public Employee(String name) {
         this.name = new String(name);
-        salary = 0;
-
     }
 
     public void addSalary(int salaryByDay, int hour) {

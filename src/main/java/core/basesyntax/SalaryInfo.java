@@ -9,68 +9,65 @@ public class SalaryInfo {
     private static final int INDEX_NAME = 1;
     private static final int INDEX_HOUR = 2;
     private static final int INDEX_SALARY = 3;
+    private static final String DELIMITER = " ";
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         Employee[] employees = new Employee[names.length];
+        LocalDate from = convertStringToDate(dateFrom);
+        LocalDate to = convertStringToDate(dateTo);
         for (int i = 0; i < names.length; i++) {
             Employee employee = new Employee(names[i]);
             for (int j = 0; j < data.length; j++) {
-                if (names[i].contains(extractName(data[j]))) {
-                    if (containDate(extractDate(data[j]), dateFrom, dateTo)) {
-                        employee.addSalary(extractSalary(data[j]), extractHour(data[j]));
+                String[] cutData = data[j].split(DELIMITER);
+                if (names[i].contains(extractName(cutData))) {
+                    LocalDate workday = convertStringToDate(extractDate(cutData));
+                    if (containDate(workday, from, to)) {
+                        employee.addSalary(extractSalary(cutData), extractHour(cutData));
                     }
                 }
             }
             employees[i] = employee;
         }
-        return printData(employees, dateFrom, dateTo);
+        return reportData(employees, dateFrom, dateTo);
     }
 
-    private boolean containDate(String date, String dateFrom, String dateTo) {
-        LocalDate dateFrom1 = convertStringToDate(dateFrom);
-        LocalDate dateTo1 = convertStringToDate(dateTo);
-        LocalDate date1 = convertStringToDate(date);
-        if (!date1.isBefore(dateFrom1) && !date1.isAfter(dateTo1)) {
-            return true;
-        } else {
-            return false;
-        }
+    private boolean containDate(LocalDate date, LocalDate dateFrom, LocalDate dateTo) {
+        return !date.isBefore(dateFrom) && !date.isAfter(dateTo);
     }
 
     private LocalDate convertStringToDate(String date) {
         return LocalDate.parse(date, FORMATTER);
     }
 
-    private String extractDate(String data) {
-        String[] strings = data.split(" ");
-        return strings[INDEX_DATE];
+    private String extractDate(String[] data) {
+        return data[INDEX_DATE];
     }
 
-    private String extractName(String data) {
-        String[] strings = data.split(" ");
-        return strings[INDEX_NAME];
+    private String extractName(String[] data) {
+        return data[INDEX_NAME];
     }
 
-    private int extractSalary(String data) {
-        String[] strings = data.split(" ");
-        return Integer.parseInt(strings[INDEX_SALARY]);
+    private int extractSalary(String[] data) {
+        return Integer.parseInt(data[INDEX_SALARY]);
     }
 
-    private int extractHour(String data) {
-        String[] strings = data.split(" ");
-        return Integer.parseInt(strings[INDEX_HOUR]);
+    private int extractHour(String[] data) {
+        return Integer.parseInt(data[INDEX_HOUR]);
     }
 
-    private String printData(Employee[] employee, String dateFrom, String dateTo) {
-        String string = "Report for period " + dateFrom + " - " + dateTo + "\n";
+    private String reportData(Employee[] employee, String dateFrom, String dateTo) {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("Report for period ").append(dateFrom)
+                .append(" - ").append(dateTo).append("\n");
         if (employee.length == 0) {
-            return string;
+            return stringBuilder.toString();
         }
         for (int i = 0; i < employee.length - 1; i++) {
-            string += (employee[i].getName() + " - " + employee[i].getSalary() + "\n");
+            stringBuilder.append(employee[i].getName()).append(" - ")
+                    .append(employee[i].getSalary()).append("\n");
         }
-        string += (employee[employee.length - 1].getName() + " - "
-                + employee[employee.length - 1].getSalary());
-        return string;
+        stringBuilder.append(employee[employee.length - 1].getName())
+                .append(" - ").append(employee[employee.length - 1].getSalary());
+        return stringBuilder.toString();
     }
 }
