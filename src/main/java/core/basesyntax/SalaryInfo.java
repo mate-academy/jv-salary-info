@@ -1,41 +1,53 @@
 package core.basesyntax;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class SalaryInfo {
+    private static final String FORMATTER_PATTERN = "dd.MM.yyyy";
+    private static final String HYPHEN_WITH_SPACES = " - ";
+    private static final String ENTRY_PHRASE = "Report for period ";
+    private static final int DATE_ROW_INDEX = 0;
+    private static final int NAME_ROW_INDEX = 1;
+    private static final int NUMBER_OF_DAYS_ROW_INDEX = 2;
+    private static final int SALARY_ROW_INDEX = 3;
+    private int employeeSalary;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder salaryInfo = new StringBuilder();
-        salaryInfo.append("Report for period ")
+        salaryInfo.append(ENTRY_PHRASE)
                 .append(dateFrom)
-                .append(" - ")
+                .append(HYPHEN_WITH_SPACES)
                 .append(dateTo);
         for (String name: names) {
             salaryInfo.append(System.lineSeparator())
                     .append(name)
-                    .append(" - ")
+                    .append(HYPHEN_WITH_SPACES)
                     .append(getEmployeeSalary(data, name, dateFrom, dateTo));
         }
         return salaryInfo.toString();
     }
 
-    private String getEmployeeSalary(String[] data, String name, String dateFrom, String dateTo) {
-        int result = 0;
+    private int getEmployeeSalary(String[] data, String name, String dateFrom, String dateTo) {
+        employeeSalary = 0;
         for (int i = 0; i < data.length; i++) {
-            String[] oneData = data[i].split(" ");
-            if (oneData[1].equals(name) && isDateCorrect(dateFrom, dateTo, oneData[0])) {
-                result += Integer.valueOf(oneData[2]) * Integer.valueOf(oneData[3]);
+            String[] row = data[i].split(" ");
+            if (row[NAME_ROW_INDEX].equals(name)
+                    && isDateInRange(dateFrom, dateTo, row[DATE_ROW_INDEX])) {
+                employeeSalary += Integer.valueOf(row[NUMBER_OF_DAYS_ROW_INDEX])
+                        * Integer.valueOf(row[SALARY_ROW_INDEX]);
             }
         }
-        return Integer.toString(result);
+        return employeeSalary;
     }
 
-    private boolean isDateCorrect(String dateFrom, String dateTo, String actualDate) {
-        return getDateValue(dateTo) >= getDateValue(actualDate)
-                && getDateValue(actualDate) >= getDateValue(dateFrom);
-    }
-
-    private int getDateValue(String date) {
-        return Integer.valueOf(date.split("\\.")[2]
-                + date.split("\\.")[1]
-                + date.split("\\.")[0]);
+    private boolean isDateInRange(String dateFrom, String dateTo, String actualDate) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(FORMATTER_PATTERN);
+        return LocalDate.parse(dateFrom, formatter)
+                .isBefore(LocalDate.parse(actualDate, formatter))
+                && LocalDate.parse(dateTo, formatter)
+                .isAfter(LocalDate.parse(actualDate, formatter))
+                || dateFrom.equals(actualDate)
+                || dateTo.equals(actualDate);
     }
 }
