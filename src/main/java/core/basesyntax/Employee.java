@@ -1,25 +1,17 @@
 package core.basesyntax;
 
 public class Employee {
-    private String name = new String();
+    private String name;
     private int salary;
 
-    public void add_info(String names, int salaryByDay, int hour) {
-        if (name.equals(names)) {
-            this.salary += salaryByDay * hour;
-        } else {
-            name = names;
-            this.salary = salaryByDay * hour;
-        }
+    public Employee(String name) {
+        this.name = new String(name);
+        salary = 0;
+
     }
 
-    public void add_info(String names) {
-        if (name.equals(names)) {
-            this.salary += 0;
-        } else {
-            name = names;
-            this.salary = 0;
-        }
+    public void addSalary(int salaryByDay, int hour) {
+        salary += salaryByDay * hour;
     }
 
     public String getName() {

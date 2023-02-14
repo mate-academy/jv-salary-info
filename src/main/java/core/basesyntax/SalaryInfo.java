@@ -1,17 +1,23 @@
 package core.basesyntax;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class SalaryInfo {
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("d.MM.yyyy");
+    private static final int INDEX_DATE = 0;
+    private static final int INDEX_NAME = 1;
+    private static final int INDEX_HOUR = 2;
+    private static final int INDEX_SALARY = 3;
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         Employee[] employees = new Employee[names.length];
         for (int i = 0; i < names.length; i++) {
-            Employee employee = new Employee();
+            Employee employee = new Employee(names[i]);
             for (int j = 0; j < data.length; j++) {
-                if (names[i].contains(getNameWithData(data[j]))) {
-                    if (containDate(data[j], dateFrom, dateTo)) {
-                        employee.add_info(getNameWithData(data[j]),
-                                getSalaryWithData(data[j]), getHourWithData(data[j]));
-                    } else {
-                        employee.add_info(getNameWithData(data[j]));
+                if (names[i].contains(extractName(data[j]))) {
+                    if (containDate(extractDate(data[j]), dateFrom, dateTo)) {
+                        employee.addSalary(extractSalary(data[j]), extractHour(data[j]));
                     }
                 }
             }
@@ -20,81 +26,51 @@ public class SalaryInfo {
         return printData(employees, dateFrom, dateTo);
     }
 
-    /*private boolean isDateValid(String dateFrom, String dateTo) {
-        int[] dateFrom1 = new int[3];
-        dateFrom1 = getIntWithChar(dateFrom.toCharArray());
-        int[] dateTo1 = new int[3];
-        dateTo1 = getIntWithChar(dateTo.toCharArray());
-        if (dateFrom1[2] <= dateTo1[2] && dateFrom1[1]
-                <= dateTo1[1] && dateFrom1[0] <= dateTo1[0]) {
+    private boolean containDate(String date, String dateFrom, String dateTo) {
+        LocalDate dateFrom1 = convertStringToDate(dateFrom);
+        LocalDate dateTo1 = convertStringToDate(dateTo);
+        LocalDate date1 = convertStringToDate(date);
+        if (!date1.isBefore(dateFrom1) && !date1.isAfter(dateTo1)) {
             return true;
         } else {
             return false;
         }
-    }*/
-
-    private boolean containDate(String data, String dateFrom, String dateTo) {
-        int[] valueDate = new int[3];
-        int[] valueFrom = new int[3];
-        int[] valueTo = new int[3];
-        valueDate = getIntWithChar(getDateWithData(data).toCharArray());
-        valueFrom = getIntWithChar(dateFrom.toCharArray());
-        valueTo = getIntWithChar(dateTo.toCharArray());
-        if (valueTo[2] >= valueDate[2] && valueDate[2] >= valueFrom[2]) {
-            if (((valueTo[1] * 30) + valueTo[0]) >= ((valueDate[1] * 30) + valueDate[0])
-                    && ((valueDate[1] * 30) + valueDate[0])
-                    >= ((valueFrom[1] * 30) + valueFrom[0])) {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return false;
-        }
     }
 
-    private String getDateWithData(String data) {
+    private LocalDate convertStringToDate(String date) {
+        return LocalDate.parse(date, FORMATTER);
+    }
+
+    private String extractDate(String data) {
         String[] strings = data.split(" ");
-        return strings[0];
+        return strings[INDEX_DATE];
     }
 
-    private int[] getIntWithChar(char[] arr) {
-        int[] result = new int[3];
-        result[0] = ((arr[0] - '0') * 10) + (arr[1] - '0');
-        result[1] = ((arr[3] - '0') * 10) + (arr[4] - '0');
-        result[2] = ((arr[6] - '0') * 1000) + ((arr[7] - '0') * 100)
-                + ((arr[8] - '0') * 10) + (arr[9] - '0');
-        return result;
-    }
-
-    private String getNameWithData(String data) {
+    private String extractName(String data) {
         String[] strings = data.split(" ");
-        return strings[1];
+        return strings[INDEX_NAME];
     }
 
-    private int getSalaryWithData(String data) {
+    private int extractSalary(String data) {
         String[] strings = data.split(" ");
-        return Integer.parseInt(strings[3]);
+        return Integer.parseInt(strings[INDEX_SALARY]);
     }
 
-    private int getHourWithData(String data) {
+    private int extractHour(String data) {
         String[] strings = data.split(" ");
-        return Integer.parseInt(strings[2]);
+        return Integer.parseInt(strings[INDEX_HOUR]);
     }
 
     private String printData(Employee[] employee, String dateFrom, String dateTo) {
-        String string = new String("Report for period " + dateFrom + " - " + dateTo + "\n");
+        String string = "Report for period " + dateFrom + " - " + dateTo + "\n";
         if (employee.length == 0) {
             return string;
-        } else {
-            for (int i = 0; i < employee.length; i++) {
-                if (i == employee.length - 1) {
-                    string += (employee[i].getName() + " - " + employee[i].getSalary());
-                    break;
-                }
-                string += (employee[i].getName() + " - " + employee[i].getSalary() + "\n");
-            }
-            return string;
         }
+        for (int i = 0; i < employee.length - 1; i++) {
+            string += (employee[i].getName() + " - " + employee[i].getSalary() + "\n");
+        }
+        string += (employee[employee.length - 1].getName() + " - "
+                + employee[employee.length - 1].getSalary());
+        return string;
     }
 }
