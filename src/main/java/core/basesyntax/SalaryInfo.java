@@ -10,7 +10,7 @@ public class SalaryInfo {
     private static final byte DATA_WORK_HOURS_SLOT = 2;
     private static final byte DATA_MONEY_PER_HOUR_SLOT = 3;
 
-    DateTimeFormatter dateFormatter
+    private DateTimeFormatter dateFormatter
             = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
