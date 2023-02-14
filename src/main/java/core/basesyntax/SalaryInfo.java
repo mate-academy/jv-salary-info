@@ -49,9 +49,9 @@ public class SalaryInfo {
 
     private String buildReport(String[] salaryInfo, String dateFrom, String dateTo) {
         StringBuilder builder = new StringBuilder("Report for period "
-                + dateFrom + " - " + dateTo + "\n");
+                + dateFrom + " - " + dateTo + System.lineSeparator());
         for (String info : salaryInfo) {
-            builder.append(info).append("\n");
+            builder.append(info).append(System.lineSeparator());
         }
         return builder.toString().trim();
     }
