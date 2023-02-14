@@ -12,10 +12,10 @@ public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder builder = new StringBuilder("Report for period "
                 + dateFrom + " - " + dateTo + System.lineSeparator());
-        int days = 0;
-        int workerName = 1;
-        int hours = 2;
-        int hourlyPay = 3;
+        final int days = 0;
+        final int workerName = 1;
+        final int hours = 2;
+        final int hourlyPay = 3;
         String regex = " ";
         for (String employee : names) {
             int salary = 0;
