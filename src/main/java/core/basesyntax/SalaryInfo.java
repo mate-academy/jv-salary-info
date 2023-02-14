@@ -15,25 +15,20 @@ public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate startDate = dateParser.date(dateFrom);
         LocalDate stopDate = dateParser.date(dateTo);
-        int [] salaries = new int[names.length];
         StringBuilder sb = new StringBuilder();
-        /*
-          Checking every date for every name;
-          Validating name; checking date to fit boundaries; calculating total salary for each date;
-          Filling StringBuilder with every valid entry separately;
-        */
         for (int i = 0; i < names.length; i++) {
-            for (String datum : data) {
-                String[] entries = datum.split(INFO_SEPARATOR);
+            int oneDaySalary = 0;
+            for (String singleData : data) {
+                String[] entries = singleData.split(INFO_SEPARATOR);
                 LocalDate currentDate = dateParser.date(entries[DATE_INDEX]);
                 if (names[i].equals(entries[NAME_INDEX])
                         && currentDate.compareTo(startDate) >= 0
                         && currentDate.compareTo(stopDate) <= 0) {
-                    salaries[i] += Integer.parseInt(entries[HOURS_INDEX])
+                    oneDaySalary += Integer.parseInt(entries[HOURS_INDEX])
                             * Integer.parseInt(entries[SALARY_INDEX]);
                 }
             }
-            sb.append(names[i]).append(EXPECTED_SEPARATOR).append(salaries[i]);
+            sb.append(names[i]).append(EXPECTED_SEPARATOR).append(oneDaySalary);
             if (i < names.length - 1) {
                 sb.append(System.lineSeparator());
             }
