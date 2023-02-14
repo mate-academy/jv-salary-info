@@ -1,19 +1,16 @@
 package core.basesyntax;
 
 public class DataField {
-
     private final int workingHour;
     private final int incomePerHour;
     private final String date;
     private final String employeeName;
 
-    public DataField(String data) {
-        String[] datas = data.split(" ");
-        date = datas[0];
-        employeeName = datas[1];
-        workingHour = Integer.parseInt(datas[2]);
-        incomePerHour = Integer.parseInt(datas[3]);
-
+    public DataField(String date, String employeeName, int workingHour, int incomePerHour) {
+        this.workingHour = workingHour;
+        this.incomePerHour = incomePerHour;
+        this.date = date;
+        this.employeeName = employeeName;
     }
 
     public int getWorkingHour() {

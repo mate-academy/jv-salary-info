@@ -1,13 +1,11 @@
 package core.basesyntax;
 
 public class Employee implements SalaryCalculator {
-    public static final int STARTING_SALARY = 0;
     private final String name;
     private int currentSalary;
 
     public Employee(String name) {
         this.name = name;
-        this.currentSalary = STARTING_SALARY;
     }
 
     public String getName() {
@@ -20,10 +18,6 @@ public class Employee implements SalaryCalculator {
     }
 
     public String getSalaryInfo() {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(name)
-                .append(" - ")
-                .append(currentSalary);
-        return stringBuilder.toString();
+        return name + " - " + currentSalary;
     }
 }

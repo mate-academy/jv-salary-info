@@ -4,8 +4,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    private static final DateTimeFormatter FORMATTER =
-            DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         Employee[] employees = createEmployees(names);
@@ -19,7 +18,7 @@ public class SalaryInfo {
         for (Employee employee : employees) {
             String employeeName = employee.getName();
             for (String d : data) {
-                DataField dataField = new DataField(d);
+                DataField dataField = createDataField(d);
                 String nameInData = dataField.getEmployeeName();
                 LocalDate dateInData = LocalDate.parse(dataField.getDate(), FORMATTER);
                 if (nameInData.equals(employeeName)
@@ -42,5 +41,13 @@ public class SalaryInfo {
             employees[i] = new Employee(names[i]);
         }
         return employees;
+    }
+
+    private DataField createDataField(String data) {
+        String[] datas = data.split(" ");
+        return new DataField(datas[0],
+                            datas[1],
+                            Integer.parseInt(datas[2]),
+                            Integer.parseInt(datas[3]));
     }
 }
