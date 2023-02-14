@@ -1,38 +1,39 @@
 package core.basesyntax;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder result = new StringBuilder();
-        int[] salaries = new int[names.length];
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+        int salary;
 
         result.append(String.format("Report for period %s - %s", dateFrom, dateTo))
                 .append(System.lineSeparator());
         for (int i = 0; i < names.length; i++) {
+            salary = 0;
             for (String nameFromData : data) {
-                try {
-                    if (names[i].equals(nameFromData.split(" ")[1])
-                            && dateFormat.parse(dateFrom).getTime()
-                            <= dateFormat.parse(nameFromData.split(" ")[0]).getTime()
-                            && dateFormat.parse(dateTo).getTime()
-                            >= dateFormat.parse(nameFromData.split(" ")[0]).getTime()) {
-                        salaries[i] += Integer.parseInt(nameFromData.split(" ")[2])
-                                * Integer.parseInt(nameFromData.split(" ")[3]);
 
-                    }
-                } catch (ParseException e) {
-                    System.out.println("Incorrect date");
+                if (names[i].equals(nameFromData.split(" ")[1])
+                        && validate(dateFrom, dateTo, nameFromData.split(" ")[0])) {
+                    salary += Integer.parseInt(nameFromData.split(" ")[2])
+                            * Integer.parseInt(nameFromData.split(" ")[3]);
                 }
             }
-            result.append(String.format("%s - %d", names[i], salaries[i]));
+            result.append(String.format("%s - %d", names[i], salary));
             if (i < names.length - 1) {
                 result.append(System.lineSeparator());
             }
         }
 
         return result.toString();
+    }
+    private boolean validate(String dateFrom, String dateTo, String dateFromData) {
+        return LocalDate.parse(dateFromData, formatter)
+                .isAfter(LocalDate.parse(dateFrom, formatter).minusDays(1))
+                && LocalDate.parse(dateFromData, formatter)
+                .isBefore(LocalDate.parse(dateTo, formatter).plusDays(1));
     }
 }
