@@ -30,6 +30,7 @@ public class SalaryInfo {
 
         return result.toString();
     }
+
     private boolean validate(String dateFrom, String dateTo, String dateFromData) {
         return LocalDate.parse(dateFromData, formatter)
                 .isAfter(LocalDate.parse(dateFrom, formatter).minusDays(1))
