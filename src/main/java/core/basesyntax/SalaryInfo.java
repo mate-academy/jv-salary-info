@@ -4,16 +4,16 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
+
+    static final String DASH = " - ";
+    static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         // Initialize a StringBuilder to store the report
         StringBuilder stringBuilder = new StringBuilder();
-
-        // Create a DateTimeFormatter to parse the date strings
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-
         // Parse the dateFrom and dateTo strings into LocalDate objects
-        LocalDate fromDate = LocalDate.parse(dateFrom, formatter);
-        LocalDate toDate = LocalDate.parse(dateTo, formatter);
+        LocalDate fromDate = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate toDate = LocalDate.parse(dateTo, FORMATTER);
 
         // Initialize an array to hold the LocalDate objects for each day in the data array
         LocalDate[] dataArr = new LocalDate[data.length];
@@ -21,13 +21,13 @@ public class SalaryInfo {
         // Convert the dates in the data array into LocalDate objects
         // and store them in the dataArr array
         for (int i = 0; i < data.length; i++) {
-            dataArr[i] = LocalDate.parse(data[i].substring(0, 10), formatter);
+            dataArr[i] = LocalDate.parse(data[i].substring(0, 10), FORMATTER);
         }
 
         // Add a header to the report with the time period for which the report is being generated
         stringBuilder.append("Report for period ")
                 .append(dateFrom)
-                .append(" - ")
+                .append(DASH)
                 .append(dateTo)
                 .append(System.lineSeparator());
 
@@ -54,10 +54,10 @@ public class SalaryInfo {
 
         for (int i = 0; i < names.length; i++) {
             stringBuilder.append(names[i])
-                    .append(" - ")
+                    .append(DASH)
                     .append(result[i])
                     .append(System.lineSeparator());
         }
-        return stringBuilder.substring(0, stringBuilder.length() - 1);
+        return stringBuilder.toString().trim();
     }
 }
