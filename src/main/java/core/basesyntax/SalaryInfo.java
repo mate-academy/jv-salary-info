@@ -1,78 +1,38 @@
 package core.basesyntax;
 
-public class SalaryInfo {
-    static final int INDEX_START_DAY_DATE = 0;
-    static final int INDEX_END_DAY_DATE = 2;
-    static final int INDEX_START_MONTH_DATE = 3;
-    static final int INDEX_END_MONTH_DATE = 5;
-    static final int INDEX_START_YEAR_DATE = 6;
-    static final int INDEX_END_YEAR_DATE = 10;
 
-    int parseInt(int index1, int index2, String s) {
-        return Integer.parseInt(s.substring(index1, index2));
-    }
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.Map;
+
+public class SalaryInfo {
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder result = new StringBuilder();
-        int[] salary = new int[names.length];
-
-        int dayInDate = parseInt(INDEX_START_DAY_DATE, INDEX_END_DAY_DATE, dateFrom);
-        int monthInDate = parseInt(INDEX_START_MONTH_DATE, INDEX_END_MONTH_DATE, dateFrom);
-        int yearInDate = parseInt(INDEX_START_YEAR_DATE, INDEX_END_YEAR_DATE, dateFrom);
-        int dayInToDate = parseInt(INDEX_START_DAY_DATE, INDEX_END_DAY_DATE, dateTo);
-        int monthInToDate = parseInt(INDEX_START_MONTH_DATE, INDEX_END_MONTH_DATE, dateTo);
-        int yearInToDate = parseInt(INDEX_START_YEAR_DATE, INDEX_END_YEAR_DATE, dateTo);
-
+        Map<String, Integer> salary = new HashMap<>();
+        for (String name : names) {
+            salary.put(name, 0);
+        }
+        LocalDate startDate = LocalDate.parse(dateFrom, formatter);
+        LocalDate endDate = LocalDate.parse(dateTo, formatter);
         for (String s : data) {
-            StringBuilder stringBuilder = new StringBuilder();
-            char[] datum = s.toCharArray();
-            int length = datum.length - 1;
+            String[] split = s.split(" ");
+            LocalDate localDate = LocalDate.parse(split[0], formatter);
+            if ((localDate.isAfter(startDate) || localDate.isEqual(startDate))
+                    && (localDate.isBefore(endDate) || localDate.isEqual(endDate))) {
+                Integer salarySum = Integer.parseInt(split[2]) * Integer.parseInt(split[3]);
+                salary.compute(split[1], (k, v) -> v + salarySum);
 
-            int indexStartName = s.indexOf(" ") + 1;
-            int indexEndName = s.indexOf(" ", indexStartName);
-            String nameInData = s.substring(indexStartName, indexEndName);
-            int dayInData = parseInt(INDEX_START_DAY_DATE, INDEX_END_DAY_DATE, s);
-            int monthInData = parseInt(INDEX_START_MONTH_DATE, INDEX_END_MONTH_DATE, s);
-            int yearInData = parseInt(INDEX_START_YEAR_DATE, INDEX_END_YEAR_DATE, s);
-
-            if (((((dayInData >= dayInDate && monthInData <= monthInDate)
-                    || ((dayInData <= dayInDate && monthInData > monthInDate)))
-                    && ((dayInData <= dayInToDate && monthInData == monthInToDate)
-                    || dayInData >= dayInToDate && monthInData < monthInToDate)))
-                    && (yearInData >= yearInDate && yearInData <= yearInToDate)) {
-
-                do {
-                    stringBuilder.append(datum[length]);
-                    length--;
-                } while (datum[length] != ' ');
-                int hours = Integer.parseInt(s.substring(indexEndName + 1, length));
-
-                for (int i = 0; i < names.length; i++) {
-                    if (names[i].equals(nameInData)) {
-                        String reversed = String.valueOf(stringBuilder.reverse());
-                        int sum = Integer.parseInt(reversed) * hours;
-
-                        salary[i] += sum;
-                    }
-                }
             }
         }
-
-        for (int i = 0; i < names.length; i++) {
-
-            if (i == 0) {
-                result.append("Report for period ")
-                        .append(dateFrom).append(" - ").append(dateTo).append("\r\n");
-            }
-
-            if (i == names.length - 1) {
-                result.append(names[i]).append(" - ").append(salary[i]);
-            } else {
-                result.append(names[i]).append(" - ").append(salary[i]).append("\r\n");
-            }
-
+        result.append("Report for period ")
+                .append(dateFrom).append(" - ").append(dateTo).append(System.lineSeparator());
+        for (String name : names) {
+            result.append(name).append(" - ").append(salary.get(name)).append(System.lineSeparator());
         }
-        return result.toString();
+        return result.toString().trim();
     }
 
 }
