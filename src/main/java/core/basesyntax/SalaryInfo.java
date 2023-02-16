@@ -4,8 +4,13 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-
+    static final String SPACE = " ";
     static final String DASH = " - ";
+    static final int ZERO = 0;
+    static final int ONE = 1;
+    static final int TWO = 2;
+    static final int THREE = 3;
+
     static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
@@ -14,16 +19,14 @@ public class SalaryInfo {
         // Parse the dateFrom and dateTo strings into LocalDate objects
         LocalDate fromDate = LocalDate.parse(dateFrom, FORMATTER);
         LocalDate toDate = LocalDate.parse(dateTo, FORMATTER);
-
         // Initialize an array to hold the LocalDate objects for each day in the data array
         LocalDate[] dataArr = new LocalDate[data.length];
-
         // Convert the dates in the data array into LocalDate objects
         // and store them in the dataArr array
         for (int i = 0; i < data.length; i++) {
-            dataArr[i] = LocalDate.parse(data[i].substring(0, 10), FORMATTER);
+            String[] subData = data[i].split(SPACE); // assuming comma as delimiter
+            dataArr[i] = LocalDate.parse(subData[ZERO], FORMATTER);
         }
-
         // Add a header to the report with the time period for which the report is being generated
         stringBuilder.append("Report for period ")
                 .append(dateFrom)
@@ -37,16 +40,17 @@ public class SalaryInfo {
             // Loop through the data array
             for (int j = 0; j < dataArr.length; j++) {
                 // Split the current data entry into its components
-                tempSplit = data[j].split(" ");
+                tempSplit = data[j].split(SPACE);
                 // Check if the current data entry is for the current employee
-                if (tempSplit[1].equals(names[i])) {
+                if (tempSplit[ONE].equals(names[i])) {
                     // Get the date of the current data entry
                     LocalDate date = dataArr[j];
                     // Check if the date falls within the specified time period
-                    if (date.isAfter(fromDate.minusDays(1)) && date.isBefore(toDate.plusDays(1))) {
+                    if (date.isAfter(fromDate.minusDays(ONE))
+                            && date.isBefore(toDate.plusDays(ONE))) {
                         // Add the salary earned on this day to the running total
-                        result[i] += Integer.parseInt(tempSplit[2])
-                                * Integer.parseInt(tempSplit[3]);
+                        result[i] += Integer.parseInt(tempSplit[TWO])
+                                * Integer.parseInt(tempSplit[THREE]);
                     }
                 }
             }
