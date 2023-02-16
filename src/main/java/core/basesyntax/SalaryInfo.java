@@ -5,9 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class SalaryInfo {
-
     public static final String EMPTY_SPACE = " ";
-
     public static final String REPORT_STRING = "Report for period ";
     public static final String DASH = " - ";
     public static final int INDEX_OF_DATE = 0;
