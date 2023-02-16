@@ -17,33 +17,25 @@ public class SalaryInfo {
         StringBuilder builder = new StringBuilder();
         LocalDate startDate = LocalDate.parse(dateFrom, FORMATTER);
         LocalDate endDate = LocalDate.parse(dateTo, FORMATTER);
-        for (int i = 0; i < names.length; i++) {
+        for (String name : names) {
             int salary = 0;
             for (String currentData : data) {
                 String[] array = currentData.split(WHITE_SPACE);
                 LocalDate currentDate = LocalDate.parse(array[INDEX_OF_DATE], FORMATTER);
-                if (names[i].equals(array[INDEX_OF_NAME])
+                if (name.equals(array[INDEX_OF_NAME])
                         && currentDate.compareTo(startDate) >= 0
                         && currentDate.compareTo(endDate) <= 0) {
                     salary += Integer.parseInt(array[INDEX_OF_HOURS])
                             * Integer.parseInt(array[INDEX_OF_SALARY_PER_HOUR]);
                 }
             }
-            if (i < names.length - 1) {
-                builder.append(names[i])
-                        .append(ROW).append(salary)
-                        .append(System.lineSeparator());
-            } else if (i == names.length - 1) {
-                builder.append(names[i])
-                        .append(ROW)
-                        .append(salary);
-            }
+            builder.append(System.lineSeparator()).append(name)
+                    .append(ROW).append(salary);
         }
         return "Report for period "
                 + dateFrom
                 + ROW
                 + dateTo
-                + System.lineSeparator()
                 + builder;
     }
 }
