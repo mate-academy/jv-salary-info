@@ -14,28 +14,25 @@ public class SalaryInfo {
             = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        StringBuilder builder = new StringBuilder();
         LocalDate startDate = LocalDate.parse(dateFrom, FORMATTER);
         LocalDate endDate = LocalDate.parse(dateTo, FORMATTER);
+        StringBuilder salaryInfo = new StringBuilder("Report for period "
+                + dateFrom + ROW + dateTo);
         for (String name : names) {
             int salary = 0;
             for (String currentData : data) {
                 String[] array = currentData.split(WHITE_SPACE);
                 LocalDate currentDate = LocalDate.parse(array[INDEX_OF_DATE], FORMATTER);
                 if (name.equals(array[INDEX_OF_NAME])
-                        && currentDate.compareTo(startDate) >= 0
-                        && currentDate.compareTo(endDate) <= 0) {
+                        && !currentDate.isBefore(startDate)
+                        && !currentDate.isAfter(endDate)) {
                     salary += Integer.parseInt(array[INDEX_OF_HOURS])
                             * Integer.parseInt(array[INDEX_OF_SALARY_PER_HOUR]);
                 }
             }
-            builder.append(System.lineSeparator()).append(name)
+            salaryInfo.append(System.lineSeparator()).append(name)
                     .append(ROW).append(salary);
         }
-        return "Report for period "
-                + dateFrom
-                + ROW
-                + dateTo
-                + builder;
+        return salaryInfo.toString();
     }
 }
