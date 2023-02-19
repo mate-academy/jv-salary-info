@@ -17,19 +17,30 @@ public class SalaryInfo {
             String[] splitValue = value.split(SPACE_SEPARATOR);
             for (Employee employee : employees) {
                 if (splitValue[NAME_INDEX].equals(employee.getName())
-                        && isDateWithinLimits(splitValue[DATE_INDEX], dateFrom, dateTo,
-                        FORMATTER)) {
-                    employee.addIncome(Integer.parseInt(splitValue[INCOME_PER_HOUR_INDEX]),
+                        && isDateWithinLimits(
+                                splitValue[DATE_INDEX],
+                                dateFrom,
+                                dateTo,
+                                FORMATTER)) {
+                    employee.addIncome(
+                            Integer.parseInt(splitValue[INCOME_PER_HOUR_INDEX]),
                             Integer.parseInt(splitValue[WORKING_HOURS_INDEX]));
                 }
             }
         }
 
+        return getReport(employees, dateFrom, dateTo);
+    }
+
+    public String getReport(Employee[] employees, String dateFrom, String dateTo) {
         StringBuilder builder = new StringBuilder("Report for period " + dateFrom + " - " + dateTo);
         for (Employee employee : employees) {
-            builder.append(System.lineSeparator()).append(employee.getName())
-                    .append(" - ").append(employee.getIncome());
+            builder.append(System.lineSeparator())
+                    .append(employee.getName())
+                    .append(" - ")
+                    .append(employee.getIncome());
         }
+
         return builder.toString();
     }
 
@@ -38,14 +49,18 @@ public class SalaryInfo {
         for (int i = 0; i < names.length; i++) {
             employees[i] = new Employee(names[i]);
         }
+
         return employees;
     }
 
-    public boolean isDateWithinLimits(String date, String dateFrom, String dateTo,
+    public boolean isDateWithinLimits(String date,
+                                      String dateFrom,
+                                      String dateTo,
                                       DateTimeFormatter formatter) {
         LocalDate from = LocalDate.parse(dateFrom, formatter);
         LocalDate to = LocalDate.parse(dateTo, formatter);
         LocalDate currentValue = LocalDate.parse(date, formatter);
+
         return currentValue.isEqual(from) || currentValue.isEqual(to)
                 || (currentValue.isAfter(from) && currentValue.isBefore(to));
     }
