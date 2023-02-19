@@ -6,8 +6,8 @@ import java.time.format.DateTimeFormatter;
 public class SalaryInfo {
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        StringBuilder report = new StringBuilder(String.format("Report for period %s - %s%s",
-                dateFrom, dateTo, System.lineSeparator()));
+        StringBuilder report = new StringBuilder(String.format("Report for period %s - %s",
+                dateFrom, dateTo));
 
         String[] foundData;
         int[] salaries = new int[names.length];
@@ -26,8 +26,8 @@ public class SalaryInfo {
         }
 
         for (int i = 0; i < names.length; i++) {
-            report.append(String.format("%s - %d%s",
-                    names[i], salaries[i], System.lineSeparator()));
+            report.append(String.format("%s%s - %d",
+                    System.lineSeparator(), names[i], salaries[i]));
         }
 
         return report.toString();
