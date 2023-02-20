@@ -7,7 +7,8 @@ public class SalaryInfo {
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder result = new StringBuilder();
-        result.append("Report for period ").append(dateFrom).append(" - ").append(dateTo).append(System.lineSeparator());
+        result.append("Report for period ").append(dateFrom).append(" - ")
+                .append(dateTo).append(System.lineSeparator());
         Date date1 = convertStringToDate(dateFrom);
         Date date2 = convertStringToDate(dateTo);
 
@@ -17,12 +18,15 @@ public class SalaryInfo {
                 if (data[k].contains(names[i])) {
                     String[] separateData = data[k].split(" ");
                     Date date = convertStringToDate(separateData[0]);
-                    if (date.compareTo(date1) >= 0 && date.compareTo(date2) <= 0) {
-                        totalSalary += Integer.parseInt(separateData[2]) * Integer.parseInt(separateData[3]);
+                    if (date.compareTo(date1) >= 0
+                            && date.compareTo(date2) <= 0) {
+                        totalSalary += Integer.parseInt(separateData[2])
+                                * Integer.parseInt(separateData[3]);
                     }
                 }
             }
-            result.append(names[i]).append(" - ").append(totalSalary).append(System.lineSeparator());
+            result.append(names[i]).append(" - ")
+                    .append(totalSalary).append(System.lineSeparator());
         }
         result.delete(result.length() - 2, result.length());
         return result.toString();
