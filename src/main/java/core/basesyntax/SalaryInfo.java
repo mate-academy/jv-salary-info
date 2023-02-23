@@ -28,7 +28,7 @@ public class SalaryInfo {
                         * Integer.valueOf(split[INDEX_SALARY_PER_HOUR]);
                 }
             }
-            salaryInfo.append("\n").append(name).append(DELIMITER_FOR_BUILDER)
+            salaryInfo.append(System.lineSeparator()).append(name).append(DELIMITER_FOR_BUILDER)
                     .append(Integer.valueOf(salary).toString());
         }
         return salaryInfo.toString();
