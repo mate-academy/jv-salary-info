@@ -4,6 +4,10 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
+    private static final int INDEX_ZERO = 0;
+    private static final int INDEX_FIRST = 1;
+    private static final int INDEX_SECOND = 2;
+    private static final int INDEX_THIRD = 3;
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
@@ -13,29 +17,32 @@ public class SalaryInfo {
         result.append("Report for period ").append(dateFrom)
                 .append(" - ").append(dateTo).append(System.lineSeparator());
         for (String name : names) {
-            int salary = sumInfoByName(data, name, localDateFrom, localDateTo);
+            int salary = getSalaryByName(data, name, localDateFrom, localDateTo);
             result.append(name).append(" - ").append(salary).append(System.lineSeparator());
         }
         return result.toString().trim();
     }
 
-    public int sumInfoByName(String[] data, String name,
-                             LocalDate localDateFrom, LocalDate localDateTo) {
+    private int getSalaryByName(String[] data, String name,
+                                LocalDate localDateFrom, LocalDate localDateTo) {
         int sum = 0;
         for (String string : data) {
             String[] salaryInfo = string.split(" ");
-            if (salaryInfo[1].equals(name)
-                    && checkPeriod(localDateFrom, localDateTo, salaryInfo[0])) {
-                sum += Integer.parseInt(salaryInfo[2]) * Integer.parseInt(salaryInfo[3]);
+            LocalDate verifiable = LocalDate.parse(salaryInfo[INDEX_ZERO], formatter);
+            if (salaryInfo[INDEX_FIRST].equals(name)
+                    && isInRange(verifiable, localDateFrom, localDateTo)) {
+                sum += Integer.parseInt(salaryInfo[INDEX_SECOND])
+                        * Integer.parseInt(salaryInfo[INDEX_THIRD]);
             }
         }
         return sum;
     }
 
-    private boolean checkPeriod(LocalDate localDateFrom, LocalDate localDateTo, String text) {
-        return (LocalDate.parse(text, formatter).isAfter(localDateFrom)
-                || LocalDate.parse(text, formatter).equals(localDateFrom))
-                && (LocalDate.parse(text, formatter).isBefore(localDateTo)
-                || LocalDate.parse(text, formatter).equals(localDateTo));
+    private boolean isInRange(LocalDate verifiable,
+                              LocalDate localDateFrom, LocalDate localDateTo) {
+        return (verifiable.isAfter(localDateFrom)
+                || verifiable.equals(localDateFrom))
+                && (verifiable.isBefore(localDateTo)
+                || verifiable.equals(localDateTo));
     }
 }
