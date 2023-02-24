@@ -4,10 +4,10 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    private final static int DATE = 0;
-    private final static int NAME = 1;
-    private final static int NUMBER_OF_HOURS = 2;
-    private final static int INCOME_PER_HOUR = 3;
+    private static final int DATE = 0;
+    private static final int NAME = 1;
+    private static final int NUMBER_OF_HOURS = 2;
+    private static final int INCOME_PER_HOUR = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
@@ -16,20 +16,20 @@ public class SalaryInfo {
         for (String name : names) {
             report.append(System.lineSeparator());
             report.append(name).append(" - ");
-            int Salary = 0;
+            int salary = 0;
             for (String dates : data) {
                 String[] arrayOfData = dates.split(" ");
-                LocalDate firstDate = LocalDate.parse(dateFrom, formatter);
-                LocalDate secondDate = LocalDate.parse(dateTo, formatter);
+                LocalDate startDate = LocalDate.parse(dateFrom, formatter);
+                LocalDate lastDate = LocalDate.parse(dateTo, formatter);
                 LocalDate currentDate = LocalDate.parse(arrayOfData[DATE], formatter);
                 if (name.equals(arrayOfData[NAME])
-                        && ((currentDate.isAfter(firstDate)) || currentDate.isEqual(firstDate))
-                        && ((currentDate.isBefore(secondDate)) || currentDate.isEqual(secondDate))){
-                    Salary += Integer.valueOf(arrayOfData[NUMBER_OF_HOURS])
+                        && ((currentDate.isAfter(startDate)) || currentDate.isEqual(startDate))
+                        && ((currentDate.isBefore(lastDate)) || currentDate.isEqual(lastDate))) {
+                    salary += Integer.valueOf(arrayOfData[NUMBER_OF_HOURS])
                             * Integer.valueOf(arrayOfData[INCOME_PER_HOUR]);
                 }
             }
-            report.append(Salary);
+            report.append(salary);
         }
         return report.toString();
     }
