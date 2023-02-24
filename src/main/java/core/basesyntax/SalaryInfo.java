@@ -14,16 +14,17 @@ public class SalaryInfo {
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder salaryInfo = new StringBuilder("Report for period "
-                + dateFrom + " - " + dateTo);
+                + dateFrom + DELIMITER_FOR_BUILDER + dateTo);
+        LocalDate datFrom = LocalDate.parse(dateFrom, DATE_FORMAT);
+        LocalDate datTo = LocalDate.parse(dateTo, DATE_FORMAT);
         for (String name : names) {
             int salary = 0;
             for (String date : data) {
                 String[] split = date.split(DELIMITER);
-                if (name.equals(split[INDEX_NAME]) && (parserDate(split[INDEX_DATE])
-                        .isAfter(parserDate(dateFrom)) || parserDate(split[INDEX_DATE])
-                        .equals(parserDate(dateFrom))) && (parserDate(split[INDEX_DATE])
-                        .isBefore(parserDate(dateTo)) || parserDate(split[INDEX_DATE])
-                        .equals(parserDate(dateTo)))) {
+                LocalDate parseData = LocalDate.parse(split[INDEX_DATE], DATE_FORMAT);
+                if (name.equals(split[INDEX_NAME]) && (parseData.isAfter(datFrom)
+                        || parseData.equals(datFrom)) && (parseData.isBefore(datTo)
+                        || parseData.equals(datTo))) {
                     salary = salary + Integer.valueOf(split[INDEX_HOUR])
                         * Integer.valueOf(split[INDEX_SALARY_PER_HOUR]);
                 }
@@ -32,9 +33,5 @@ public class SalaryInfo {
                     .append(Integer.valueOf(salary).toString());
         }
         return salaryInfo.toString();
-    }
-
-    public static LocalDate parserDate(String date) {
-        return LocalDate.parse(date, DATE_FORMAT);
     }
 }
