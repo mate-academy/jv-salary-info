@@ -4,10 +4,10 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    private static final int INDEX_ZERO = 0;
-    private static final int INDEX_FIRST = 1;
-    private static final int INDEX_SECOND = 2;
-    private static final int INDEX_THIRD = 3;
+    private static final int INDEX_PERIOD = 0;
+    private static final int INDEX_NAME = 1;
+    private static final int INDEX_HOUR = 2;
+    private static final int INDEX_HOUR_RATE = 3;
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
@@ -26,13 +26,13 @@ public class SalaryInfo {
     private int getSalaryByName(String[] data, String name,
                                 LocalDate localDateFrom, LocalDate localDateTo) {
         int sum = 0;
-        for (String string : data) {
-            String[] salaryInfo = string.split(" ");
-            LocalDate verifiable = LocalDate.parse(salaryInfo[INDEX_ZERO], formatter);
-            if (salaryInfo[INDEX_FIRST].equals(name)
+        for (String dataLine : data) {
+            String[] salaryInfo = dataLine.split(" ");
+            LocalDate verifiable = LocalDate.parse(salaryInfo[INDEX_PERIOD], formatter);
+            if (salaryInfo[INDEX_NAME].equals(name)
                     && isInRange(verifiable, localDateFrom, localDateTo)) {
-                sum += Integer.parseInt(salaryInfo[INDEX_SECOND])
-                        * Integer.parseInt(salaryInfo[INDEX_THIRD]);
+                sum += Integer.parseInt(salaryInfo[INDEX_HOUR])
+                        * Integer.parseInt(salaryInfo[INDEX_HOUR_RATE]);
             }
         }
         return sum;
