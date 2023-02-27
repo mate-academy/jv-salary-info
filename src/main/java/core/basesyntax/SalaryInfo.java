@@ -1,15 +1,13 @@
 package core.basesyntax;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
+    private static final DateTimeFormatter DATE_TIME_FORMATTER
+            = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        Date dateF = strToDate(dateFrom);
-        Date dateT = strToDate(dateTo);
 
         StringBuilder builder = new StringBuilder("Report for period "
                 + dateFrom + " - " + dateTo);
@@ -21,25 +19,18 @@ public class SalaryInfo {
                 String[] employeeInfo = info.split(" ");
 
                 if (name.equals(employeeInfo[1])
-                        && strToDate(employeeInfo[0]).getTime() >= dateF.getTime()
-                        && strToDate(employeeInfo[0]).getTime() <= dateT.getTime()) {
+                        && LocalDate.parse(employeeInfo[0], DATE_TIME_FORMATTER).plusDays(1)
+                            .isAfter(LocalDate.parse(dateFrom, DATE_TIME_FORMATTER))
+                        && LocalDate.parse(employeeInfo[0], DATE_TIME_FORMATTER).minusDays(1)
+                            .isBefore(LocalDate.parse(dateTo, DATE_TIME_FORMATTER))) {
+
                     salary += Integer.parseInt(employeeInfo[2]) * Integer.parseInt(employeeInfo[3]);
                 }
             }
 
-            builder.append("\n").append(name).append(" - ").append(salary);
+            builder.append(System.lineSeparator()).append(name).append(" - ").append(salary);
         }
 
         return builder.toString();
-    }
-
-    public Date strToDate(String inputData) {
-        Date date = null;
-        try {
-            date = DATE_FORMAT.parse(inputData);
-        } catch (ParseException e) {
-            System.out.println("Invalid date format");
-        }
-        return date;
     }
 }
