@@ -2,35 +2,45 @@ package core.basesyntax;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 public class SalaryInfo {
-    private static final DateTimeFormatter DATE_TIME_FORMATTER
-            = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private int salary = 0;
+    private LocalDate localDate;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
 
-        StringBuilder builder = new StringBuilder("Report for period "
-                + dateFrom + " - " + dateTo);
+        StringBuilder builder =
+                new StringBuilder("Report for period " + dateFrom + " - " + dateTo);
 
         for (String name : names) {
-            int salary = 0;
 
             for (String info : data) {
                 String[] employeeInfo = info.split(" ");
 
                 if (name.equals(employeeInfo[1])
-                        && LocalDate.parse(employeeInfo[0], DATE_TIME_FORMATTER).plusDays(1)
-                            .isAfter(LocalDate.parse(dateFrom, DATE_TIME_FORMATTER))
-                        && LocalDate.parse(employeeInfo[0], DATE_TIME_FORMATTER).minusDays(1)
-                            .isBefore(LocalDate.parse(dateTo, DATE_TIME_FORMATTER))) {
+                        && strToDate(employeeInfo[0]).plusDays(1).isAfter(strToDate(dateFrom))
+                        && strToDate(employeeInfo[0]).minusDays(1).isBefore(strToDate(dateTo))) {
 
                     salary += Integer.parseInt(employeeInfo[2]) * Integer.parseInt(employeeInfo[3]);
                 }
             }
 
             builder.append(System.lineSeparator()).append(name).append(" - ").append(salary);
+            salary = 0;
         }
 
         return builder.toString();
+    }
+
+    private LocalDate strToDate(String inputDate) {
+        try {
+            localDate = LocalDate.parse(inputDate, FORMATTER);
+        } catch (DateTimeParseException e) {
+            System.out.println("Invalid date format");
+        }
+
+        return localDate;
     }
 }
