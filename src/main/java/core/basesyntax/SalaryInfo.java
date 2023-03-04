@@ -4,10 +4,10 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    private static final int ZERO = 0;
-    private static final int ONE = 1;
-    private static final int TWO = 2;
-    private static final int THREE = 3;
+    private static final int FIRST_COLUMN = 0;
+    private static final int SECOND_COLUMN = 1;
+    private static final int THIRD_COLUMN = 2;
+    private static final int FOURTH_COLUMN = 3;
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
@@ -24,15 +24,15 @@ public class SalaryInfo {
             for (int i = 0; i < data.length; i++) {
                 if (data[i].contains(name)) {
                     String[] splitData = data[i].split(" ");
-                    String[][] dat = new String[data.length][4];
+                    String[][] matrixDate = new String[data.length][4];
                     // just to have possibility to call each element;
-                    dat[i][ZERO] = splitData[ZERO];
-                    dat[i][ONE] = splitData[ONE];
-                    dat[i][TWO] = splitData[TWO];
-                    dat[i][THREE] = splitData[THREE];
-                    int hoursWorking = Integer.parseInt(dat[i][TWO]);
-                    int moneyPerHour = Integer.parseInt(dat[i][THREE]);
-                    LocalDate date = LocalDate.parse(dat[i][ZERO], formatter);
+                    matrixDate[i][FIRST_COLUMN] = splitData[FIRST_COLUMN];
+                    matrixDate[i][SECOND_COLUMN] = splitData[SECOND_COLUMN];
+                    matrixDate[i][THIRD_COLUMN] = splitData[THIRD_COLUMN];
+                    matrixDate[i][FOURTH_COLUMN] = splitData[FOURTH_COLUMN];
+                    int hoursWorking = Integer.parseInt(matrixDate[i][FOURTH_COLUMN]);
+                    int moneyPerHour = Integer.parseInt(matrixDate[i][THIRD_COLUMN]);
+                    LocalDate date = LocalDate.parse(matrixDate[i][FIRST_COLUMN], formatter);
                     if (!date.isBefore(startDate) && !date.isAfter(endDate)) {
                         salary += hoursWorking * moneyPerHour;
                     }
