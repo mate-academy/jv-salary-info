@@ -37,7 +37,7 @@ public class SalaryInfo {
         return report.toString();
     }
 
-    public static boolean compareDates(LocalDate dateFrom, LocalDate dataDate, LocalDate dateTo) {
+    public boolean compareDates(LocalDate dateFrom, LocalDate dataDate, LocalDate dateTo) {
         boolean compareResult = dateFrom.compareTo(dataDate) <= 0
                 && dateTo.compareTo(dataDate) >= 0;
 
