@@ -28,7 +28,7 @@ public class SalaryInfo {
             }
         }
         for (int i = 0; i < names.length; i++) {
-            result.append(System.lineSeparator() + names[i] + " - " + sum[i]);
+            result.append(System.lineSeparator()).append(names[i]).append(" - ").append(sum[i]);
         }
         return result.toString();
     }
