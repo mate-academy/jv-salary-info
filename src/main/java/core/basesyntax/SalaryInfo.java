@@ -31,7 +31,6 @@ public class SalaryInfo {
             }
             info.append(System.lineSeparator()).append(employee).append(" - ").append(workerSalary);
         }
-
         return info.toString();
     }
 }
