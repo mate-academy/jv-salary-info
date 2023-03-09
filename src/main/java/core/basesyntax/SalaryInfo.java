@@ -7,6 +7,7 @@ public class SalaryInfo {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     private static final String SPACE_REGEX = "\\s";
     private static final int INDEX_OF_DATE = 0;
+    private static final int INDEX_OF_NAME = 1;
     private static final int INDEX_OF_HOURS = 2;
     private static final int INDEX_OF_SALARY_PER_HOUR = 3;
 
@@ -22,29 +23,29 @@ public class SalaryInfo {
 
             for (String stringFromData : data) {
                 String[] splitArray = stringFromData.split(SPACE_REGEX);
-                boolean existInDateRange =
-                        existInDateRange(splitArray[INDEX_OF_DATE], startDate, endDate);
-                boolean existName = stringFromData.contains(name);
+                boolean isDateInRange =
+                        isDateInRange(splitArray[INDEX_OF_DATE], startDate, endDate);
+                boolean existName = name.equals(splitArray[INDEX_OF_NAME]);
 
-                if (existName && existInDateRange) {
+                if (existName && isDateInRange) {
                     sumOfSalaryPerHour +=
-                            calcSalary(splitArray[INDEX_OF_HOURS],
-                                        splitArray[INDEX_OF_SALARY_PER_HOUR]);
+                        calculateSalary(splitArray[INDEX_OF_HOURS],
+                            splitArray[INDEX_OF_SALARY_PER_HOUR]);
                 }
             }
             reportResult.append(System.lineSeparator()).append(name).append(" - ")
-                    .append(sumOfSalaryPerHour);
+                .append(sumOfSalaryPerHour);
         }
         return reportResult.toString();
     }
 
-    public boolean existInDateRange(String date, LocalDate startDate, LocalDate endDate) {
+    public boolean isDateInRange(String date, LocalDate startDate, LocalDate endDate) {
         LocalDate localDate = LocalDate.parse(date, FORMATTER);
         return localDate.isAfter(startDate) && localDate.isBefore(endDate)
             || localDate.isEqual(startDate) || localDate.isEqual(endDate);
     }
 
-    public int calcSalary(String numOfHoursString, String salaryPerHourString) {
+    public int calculateSalary(String numOfHoursString, String salaryPerHourString) {
         int numOfHours = Integer.parseInt(numOfHoursString);
         int salaryPerHour = Integer.parseInt(salaryPerHourString);
         return numOfHours * salaryPerHour;
