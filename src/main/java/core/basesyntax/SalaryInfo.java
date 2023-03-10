@@ -14,20 +14,18 @@ public class SalaryInfo {
         LocalDate from = LocalDate.parse(dateFrom, formatter);
         LocalDate to = LocalDate.parse(dateTo, formatter);
         StringBuilder salaryInfo = new StringBuilder();
-
         salaryInfo.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
 
         for (String name : names) {
             int salary = 0;
-            for (String d : data) {
-                String[] emData = d.split(" ");
-                if (name.equals(emData[NAME]) && isInPeriod(emData[DATE], from, to)) {
-                    salary += Integer.parseInt(emData[WORK_HOURS]) * Integer.parseInt(emData[RATE]);
+            for (String employee : data) {
+                String[] employeeData = employee.split(" ");
+                if (name.equals(employeeData[NAME]) && isInPeriod(employeeData[DATE], from, to)) {
+                    salary += Integer.parseInt(employeeData[WORK_HOURS]) * Integer.parseInt(employeeData[RATE]);
                 }
             }
             salaryInfo.append('\n').append(name).append(" - ").append(salary);
         }
-
         return salaryInfo.toString();
     }
 
