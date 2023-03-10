@@ -21,7 +21,8 @@ public class SalaryInfo {
             for (String employee : data) {
                 String[] employeeData = employee.split(" ");
                 if (name.equals(employeeData[NAME]) && isInPeriod(employeeData[DATE], from, to)) {
-                    salary += Integer.parseInt(employeeData[WORK_HOURS]) * Integer.parseInt(employeeData[RATE]);
+                    salary += Integer.parseInt(employeeData[WORK_HOURS])
+                            * Integer.parseInt(employeeData[RATE]);
                 }
             }
             salaryInfo.append('\n').append(name).append(" - ").append(salary);
