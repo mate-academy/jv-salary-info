@@ -27,7 +27,9 @@ public class SalaryInfo {
                             * Integer.valueOf(workerInfo[INCOME_PER_HOUR]));
                 }
             }
-            builder.append(System.lineSeparator()).append(employee).append(" - ").append(workerSalary);
+            builder.append(System.lineSeparator())
+                    .append(employee).append(" - ")
+                    .append(workerSalary);
         }
         return builder.toString();
     }
