@@ -8,11 +8,12 @@ public class SalaryInfo {
     private static final int NAME = 1;
     private static final int HOURS = 2;
     private static final int HOURLY_WAGE = 3;
+    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final String SEPARATOR = " ";
     
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        LocalDate startDate = LocalDate.parse(dateFrom, formatter);
-        LocalDate lastDate = LocalDate.parse(dateTo, formatter);
+        LocalDate startDate = LocalDate.parse(dateFrom, DATE_FORMAT);
+        LocalDate lastDate = LocalDate.parse(dateTo, DATE_FORMAT);
 
         StringBuilder result = new StringBuilder("Report for period ").append(dateFrom)
                 .append(" - ").append(dateTo);
@@ -21,8 +22,8 @@ public class SalaryInfo {
             int totalSalary = 0;
 
             for (int i = 0; i < data.length; i++) {
-                String[] employeeInformation = data[i].split(" ");
-                LocalDate workDayDate = LocalDate.parse(employeeInformation[DATE], formatter);
+                String[] employeeInformation = data[i].split(SEPARATOR);
+                LocalDate workDayDate = LocalDate.parse(employeeInformation[DATE], DATE_FORMAT);
                 
                 if (employeeInformation[NAME].equals(name)
                         && (workDayDate.isAfter(startDate) || workDayDate.isEqual(startDate))
