@@ -4,40 +4,38 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        LocalDate fromDate = LocalDate.parse(dateFrom, formatter);
-        LocalDate toDate = LocalDate.parse(dateTo, formatter);
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter
+            .ofPattern("dd.MM.yyyy");
+    private static final int DATE_INDEX = 0;
+    private static final int NAME_INDEX = 1;
+    private static final int HOURS_INDEX = 2;
+    private static final int RATE_INDEX = 3;
 
-        int[] totalSalary = new int[names.length];
+    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
+        LocalDate fromDate = LocalDate.parse(dateFrom, DATE_FORMATTER);
+        LocalDate toDate = LocalDate.parse(dateTo, DATE_FORMATTER);
+
         StringBuilder result = new StringBuilder();
         result.append("Report for period ")
             .append(dateFrom).append(" - ").append(dateTo).append("\n");
 
-        for (String line : data) {
-            String[] parts = line.split(" ");
-            LocalDate date = LocalDate.parse(parts[0], formatter);
-            String name = parts[1];
-            int hours = Integer.parseInt(parts[2]);
-            int rate = Integer.parseInt(parts[3]);
-
-            if (!date.isBefore(fromDate) && !date.isAfter(toDate)) {
-                int index = -1;
-                for (int i = 0; i < names.length; i++) {
-                    if (names[i].equals(name)) {
-                        index = i;
-                        break;
-                    }
-                }
-                int salary = hours * rate;
-                totalSalary[index] += salary;
-            }
-        }
         for (int i = 0; i < names.length; i++) {
-            result.append(names[i]).append(" - ").append(totalSalary[i]);
-            if (i != names.length - 1) {
-                result.append("\n");
+            int totalSalary = 0;
+            for (String line : data) {
+                String[] parts = line.split(" ");
+                LocalDate date = LocalDate.parse(parts[DATE_INDEX], DATE_FORMATTER);
+                String employeeName = parts[NAME_INDEX];
+                int hours = Integer.parseInt(parts[HOURS_INDEX]);
+                int rate = Integer.parseInt(parts[RATE_INDEX]);
+
+                if (employeeName.equals(names[i])
+                        && !date.isBefore(fromDate) && !date.isAfter(toDate)) {
+                    int salary = hours * rate;
+                    totalSalary += salary;
+                }
             }
+            result.append(names[i]).append(" - ")
+                .append(totalSalary).append(i != names.length - 1 ? "\n" : "");
         }
         return result.toString();
     }
