@@ -20,8 +20,8 @@ public class SalaryInfo {
         int i = 0;
         for (String date : data) {
             compareDate = simpleDateFormat.parse(date.substring(0, 10));
-            if (fromDate.getTime() <= compareDate.getTime() &&
-            compareDate.getTime() <= toDate.getTime()) {
+            if (fromDate.getTime() <= compareDate.getTime()
+                    && compareDate.getTime() <= toDate.getTime()) {
                 countData[i] = date.substring(10);
                 i++;
             }
@@ -32,7 +32,8 @@ public class SalaryInfo {
                 if (s.contains(name)) {
                     withoutName = s.substring(name.length()).trim();
                     hours = Integer.parseInt(withoutName.substring(0, withoutName.indexOf(' ')));
-                    money = Integer.parseInt(withoutName.substring(withoutName.indexOf(' ')).trim());
+                    money = Integer.parseInt(withoutName
+                            .substring(withoutName.indexOf(' ')).trim());
                     wage = hours * money;
                     wages[i] = wage;
                     i++;
@@ -40,7 +41,8 @@ public class SalaryInfo {
             }
         }
         StringBuilder output = new StringBuilder();
-        output.append("Report for period ").append(dateFrom).append(" - ").append(dateTo).append('\n');
+        output.append("Report for period ").append(dateFrom).append(" - ")
+                .append(dateTo).append('\n');
         for (int j = 0; j < names.length; j++) {
             output.append(names[j]).append(" - ").append(wages[j]).append('\n');
         }
