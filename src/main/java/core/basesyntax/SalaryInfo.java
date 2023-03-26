@@ -5,13 +5,22 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class SalaryInfo {
-    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
-            throws ParseException {
+    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         String[] countData = new String[data.length];
         int[] wages = new int[names.length];
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
-        Date fromDate = simpleDateFormat.parse(dateFrom);
-        Date toDate = simpleDateFormat.parse(dateTo);
+        Date fromDate;
+        try {
+            fromDate = simpleDateFormat.parse(dateFrom);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+        Date toDate;
+        try {
+            toDate = simpleDateFormat.parse(dateTo);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
         Date compareDate;
         String withoutName;
         int hours;
@@ -19,7 +28,11 @@ public class SalaryInfo {
         int wage;
         int i = 0;
         for (String date : data) {
-            compareDate = simpleDateFormat.parse(date.substring(0, 10));
+            try {
+                compareDate = simpleDateFormat.parse(date.substring(0, 10));
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
             if (fromDate.getTime() <= compareDate.getTime()
                     && compareDate.getTime() <= toDate.getTime()) {
                 countData[i] = date.substring(10);
