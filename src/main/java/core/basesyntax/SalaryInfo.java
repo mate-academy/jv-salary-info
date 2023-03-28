@@ -28,7 +28,8 @@ public class SalaryInfo {
                         && (toDate.isAfter(compareDate) || toDate.isEqual(compareDate))) {
                     if (shift.contains(name)) {
                         withoutName = shift.substring(name.length() + DATE_WITH_SPACES).trim();
-                        hours = Integer.parseInt(withoutName.substring(0, withoutName.indexOf(" ")));
+                        hours = Integer.parseInt(withoutName.substring(0,
+                                withoutName.indexOf(" ")));
                         money = Integer.parseInt(withoutName
                                 .substring(withoutName.indexOf(" ")).trim());
                         wage += hours * money;
