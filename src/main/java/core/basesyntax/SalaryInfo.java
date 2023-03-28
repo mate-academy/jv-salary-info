@@ -28,7 +28,8 @@ public class SalaryInfo {
                     if (shift.contains(name)) {
                         rate = shift.substring(name.length() + DATE_WITH_SPACES).trim();
                         hoursAndMoney = rate.split(" ");
-                        wage += Integer.parseInt(hoursAndMoney[0]) * Integer.parseInt(hoursAndMoney[1]);
+                        wage += Integer.parseInt(hoursAndMoney[0]) *
+                                Integer.parseInt(hoursAndMoney[1]);
                     }
                 }
             }
