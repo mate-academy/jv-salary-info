@@ -17,9 +17,8 @@ public class SalaryInfo {
         LocalDate fromDate = LocalDate.parse(dateFrom, DATE_TIME_FORMATTER);
         LocalDate toDate = LocalDate.parse(dateTo, DATE_TIME_FORMATTER);
         LocalDate compareDate;
-        String withoutName;
-        int hours;
-        int money;
+        String rate;
+        String[] hoursAndMoney;
         int wage = 0;
         for (String name : names) {
             for (String shift : data) {
@@ -27,12 +26,9 @@ public class SalaryInfo {
                 if ((fromDate.isBefore(compareDate) || fromDate.isEqual(compareDate))
                         && (toDate.isAfter(compareDate) || toDate.isEqual(compareDate))) {
                     if (shift.contains(name)) {
-                        withoutName = shift.substring(name.length() + DATE_WITH_SPACES).trim();
-                        hours = Integer.parseInt(withoutName.substring(0,
-                                withoutName.indexOf(" ")));
-                        money = Integer.parseInt(withoutName
-                                .substring(withoutName.indexOf(" ")).trim());
-                        wage += hours * money;
+                        rate = shift.substring(name.length() + DATE_WITH_SPACES).trim();
+                        hoursAndMoney = rate.split(" ");
+                        wage += Integer.parseInt(hoursAndMoney[0]) * Integer.parseInt(hoursAndMoney[1]);
                     }
                 }
             }
