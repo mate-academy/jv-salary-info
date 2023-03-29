@@ -14,25 +14,21 @@ public class SalaryInfo {
         int salary = 0;
         StringBuilder salaryInfo = new StringBuilder();
         for (String name : names) {
-            if (name != null) {
-                for (String datum : data) {
-                    String[] dataEntry = datum.split(" ");
-                    if (name.equals(dataEntry[ARRAY_INDEX_FOR_NAME])
-                            && isDatePass(dataEntry[ARRAY_INDEX_FOR_DATE], dateFrom, dateTo)) {
-
-                        salary += Integer.parseInt(dataEntry[ARRAY_INDEX_FOR_WORKING_HOURS])
-                                * Integer.parseInt(dataEntry[ARRAY_INDEX_FOR_INCOME_PER_HOUR]);
-                    }
+            for (String datum : data) {
+                String[] dataEntry = datum.split(" ");
+                if (name != null && name.equals(dataEntry[ARRAY_INDEX_FOR_NAME])
+                        && isDatePass(dataEntry[ARRAY_INDEX_FOR_DATE], dateFrom, dateTo)) {
+                    salary += Integer.parseInt(dataEntry[ARRAY_INDEX_FOR_WORKING_HOURS])
+                            * Integer.parseInt(dataEntry[ARRAY_INDEX_FOR_INCOME_PER_HOUR]);
                 }
-                StringBuilder stringBuilder = new StringBuilder(name);
-                if (name.equals(names[names.length - 1])) {
-                    salaryInfo.append(stringBuilder.append(" - ").append(salary));
-                } else {
-                    salaryInfo.append(stringBuilder.append(" - ").append(salary))
-                            .append(System.lineSeparator());
-                }
-                salary = 0;
             }
+            if (name != null && name.equals(names[names.length - 1])) {
+                salaryInfo.append(name).append(" - ").append(salary);
+            } else if (name != null) {
+                salaryInfo.append(name).append(" - ").append(salary)
+                        .append(System.lineSeparator());
+            }
+            salary = 0;
         }
         return "Report for period " + dateFrom + " - " + dateTo + System.lineSeparator()
                 + salaryInfo;
