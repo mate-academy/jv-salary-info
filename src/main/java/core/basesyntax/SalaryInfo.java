@@ -32,7 +32,7 @@ public class SalaryInfo {
         StringBuilder stringBuilder = new StringBuilder("Report for period "
                 + dateFrom + " - " + dateTo);
         for (Employee employee : employees) {
-            stringBuilder.append("\n");
+            stringBuilder.append(System.lineSeparator());
             stringBuilder.append(employee.getName()).append(" - ")
                     .append(employee.getEarnedMoney());
         }
