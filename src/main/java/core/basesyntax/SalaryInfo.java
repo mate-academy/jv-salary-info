@@ -8,7 +8,7 @@ public class SalaryInfo {
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
     private static final String WHITE_SPASE = " ";
     private static final int DATE = 0;
-    private static final int HOUR  = 2;
+    private static final int HOUR = 2;
     private static final int INCOME_PER_HOUR = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
@@ -27,7 +27,8 @@ public class SalaryInfo {
 
                     if (currentDate.compareTo(beginDate) == 0 || currentDate.compareTo(endDate) == 0
                             || (currentDate.isAfter(beginDate) && currentDate.isBefore(endDate))) {
-                        sum += Integer.parseInt(record[HOUR]) * Integer.parseInt(record[INCOME_PER_HOUR]);
+                        sum += Integer.parseInt(record[HOUR])
+                                * Integer.parseInt(record[INCOME_PER_HOUR]);
                     }
                 }
             }
