@@ -1,44 +1,33 @@
 package core.basesyntax;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    private static SimpleDateFormat format = new SimpleDateFormat();
+    private static final String pattern = "dd.MM.yyyy";
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
-        format.applyPattern("dd.MM.yyyy");
-        Date beginDate = null;
-        Date endDate = null;
-        try {
-            beginDate = format.parse(dateFrom);
-            endDate = format.parse(dateTo);
-        } catch (ParseException e) {
-            return "Format dates is unknown";
-        }
-        Date currentDate = null;
+        StringBuilder sb = new StringBuilder().append("Report for period ")
+                .append(dateFrom).append(" - ").append(dateTo);
+        LocalDate beginDate = LocalDate.parse(dateFrom, formatter);
+        LocalDate endDate = LocalDate.parse(dateTo, formatter);
+        LocalDate currentDate;
 
         for (String name: names) {
             int sum = 0;
             for (String dateLine: data) {
                 if (dateLine.contains(name)) {
                     String[] record = dateLine.split(" ");
-                    try {
-                        currentDate = format.parse(record[0]);
-                    } catch (ParseException e) {
-                        return "Format data record is unknown";
-                    }
+                    currentDate = LocalDate.parse(record[0], formatter);
+
                     if (currentDate.compareTo(beginDate) == 0 || currentDate.compareTo(endDate) == 0
-                            || (currentDate.after(beginDate) && currentDate.before(endDate))) {
+                            || (currentDate.isAfter(beginDate) && currentDate.isBefore(endDate))) {
                         sum += Integer.parseInt(record[2]) * Integer.parseInt(record[3]);
                     }
                 }
-
             }
-            sb.append("\r\n").append(name).append(" - ").append(sum);
+            sb.append(System.lineSeparator()).append(name).append(" - ").append(sum);
         }
         return sb.toString();
     }
