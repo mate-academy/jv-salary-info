@@ -33,14 +33,14 @@ public class SalaryInfo {
             }
         }
 
-        StringBuilder builder = new StringBuilder();
-        builder.append("Report for period ").append(dateFrom).append(LINE_SEPARATOR).append(dateTo)
+        StringBuilder reportBuilder = new StringBuilder();
+        reportBuilder.append("Report for period ").append(dateFrom).append(LINE_SEPARATOR).append(dateTo)
                 .append(System.lineSeparator());
         for (String name : names) {
-            builder.append(name).append(LINE_SEPARATOR)
+            reportBuilder.append(name).append(LINE_SEPARATOR)
                     .append(earnings.get(name))
                     .append(System.lineSeparator());
         }
-        return builder.toString().trim();
+        return reportBuilder.toString().trim();
     }
 }
