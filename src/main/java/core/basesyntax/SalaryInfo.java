@@ -6,20 +6,19 @@ import java.util.Date;
 
 public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
+        String pattern = "dd.MM.yyyy";
         try {
-            String[] salaryWorkers = new String[names.length];
-            String pattern = "dd.MM.yyyy";
             SimpleDateFormat sdf = new SimpleDateFormat(pattern);
             Date startWork = sdf.parse(dateFrom);
             Date finishWork = sdf.parse(dateTo);
             String[] returnStrings = new String[names.length];
             int[] sums = new int[names.length];
             for (int a = 0; a < names.length; a++) {
-                String someName = names[a];
+                String nameAtIndex  = names[a];
                 sums[a] = 0;
                 for (int b = 0; b < data.length; b++) {
                     String dataString = data[b];
-                    if (dataString.contains(someName)) {
+                    if (dataString.contains(nameAtIndex )) {
                         String[] someData = dataString.split(" ");
                         Date dayWork = sdf.parse(someData[0]);
                         int ret1 = dayWork.compareTo(startWork);
@@ -33,14 +32,16 @@ public class SalaryInfo {
                 }
                 String output1 = names[a];
                 int output2 = sums[a];
-                String outputString = output1.toString() + " - " + output2;
-                returnStrings[a] = outputString;
+                StringBuilder outputStringBuilder = new StringBuilder();
+                outputStringBuilder.append(output1).append(" - ").append(output2);
+                returnStrings[a] = outputStringBuilder.toString();
             }
-            String answer = "Report for period " + dateFrom + " - " + dateTo;
+            StringBuilder outputAnswer = new StringBuilder();
+            outputAnswer.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
             for (int f = 0; f < returnStrings.length; f++) {
-                answer = answer + System.lineSeparator() + returnStrings[f];
+                outputAnswer.append(System.lineSeparator()).append(returnStrings[f]);
             }
-            return answer;
+            return outputAnswer.toString();
         } catch (ParseException pe) {
             return "exception-wrecker" + pe;
         }
