@@ -4,12 +4,12 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-    private final StringBuilder result = new StringBuilder();
-    private final int dateIndex = 0;
-    private final int nameIndex = 1;
-    private final int workingHourIndex = 2;
-    private final int incomePerDayIndex = 3;
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final StringBuilder result = new StringBuilder();
+    private static final int dateIndex = 0;
+    private static final int nameIndex = 1;
+    private static final int workingHourIndex = 2;
+    private static final int incomePerDayIndex = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         int moneyEarned = 0;
