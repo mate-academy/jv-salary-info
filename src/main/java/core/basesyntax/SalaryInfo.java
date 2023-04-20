@@ -8,22 +8,22 @@ public class SalaryInfo {
     private static final int NAME_INDEX = 1;
     private static final int RATE_INDEX = 2;
     private static final int TIME_INDEX = 3;
-    private final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder builderResult = new StringBuilder().append("Report for period ")
                 .append(dateFrom)
-                .append(" - ").
-                append(dateTo);
+                .append(" - ")
+                .append(dateTo);
         for (String iterationName : names) {
             builderResult.append(System.lineSeparator());
             builderResult.append(iterationName).append(" - ");
-            LocalDate localDateFrom = LocalDate.parse(dateFrom, DATE_TIME_FORMATTER);
-            LocalDate localDateTo = LocalDate.parse(dateTo, DATE_TIME_FORMATTER);
+            LocalDate localDateFrom = LocalDate.parse(dateFrom, timeFormatter);
+            LocalDate localDateTo = LocalDate.parse(dateTo, timeFormatter);
             int sumSalary = 0;
-            for (String IterationDate : data) {  // iteration by date
-                String[] whiteSpace = IterationDate.split(" ");
-                LocalDate workDay = LocalDate.parse(whiteSpace[DATE_INDEX], DATE_TIME_FORMATTER);
+            for (String iterationDate : data) {
+                String[] whiteSpace = iterationDate.split(" ");
+                LocalDate workDay = LocalDate.parse(whiteSpace[DATE_INDEX], timeFormatter);
                 String name = whiteSpace[NAME_INDEX];
                 if (name.equals(iterationName)) {
                     if (!workDay.isAfter(localDateTo) && !workDay.isBefore(localDateFrom)) {
