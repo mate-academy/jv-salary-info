@@ -17,13 +17,15 @@ public class SalaryInfo {
         for (int namesIndex = 0; namesIndex < names.length; namesIndex++) {
             for (int dataIndex = 0; dataIndex < data.length; dataIndex++) {
                 if (names[namesIndex].equals(getNameFromData(data[dataIndex]))) {
-                    if (compareDates(dateFrom, data[dataIndex].substring(0, data[dataIndex].indexOf(SPACE)), dateTo)) {
+                    String dataArray = data[dataIndex].substring(0, data[dataIndex].indexOf(SPACE));
+                    if (compareDates(dateFrom, dataArray, dateTo)) {
                         periodSalary += getSalary(data[dataIndex]);
                     }
                 }
             }
             if (namesIndex < names.length - 1) {
-                builder.append(names[namesIndex]).append(DASH).append(periodSalary).append(System.lineSeparator());
+                builder.append(names[namesIndex]).append(DASH)
+                        .append(periodSalary).append(System.lineSeparator());
             } else {
                 builder.append(names[namesIndex]).append(DASH).append(periodSalary);
             }
@@ -39,7 +41,7 @@ public class SalaryInfo {
         if (dateOne.isBefore(dateTwo)
                 && (dateTwo.isBefore(dateThree) || dateTwo.equals(dateThree))) {
             return true;
-            }
+        }
         return false;
     }
 
