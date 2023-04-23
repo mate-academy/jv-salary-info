@@ -1,6 +1,11 @@
 package core.basesyntax;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class SalaryInfo {
+    private static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder builder = new StringBuilder();
@@ -16,31 +21,27 @@ public class SalaryInfo {
                     }
                 }
             }
-            builder.append(names[i]).append(" - ").append(sum).append("\n");
+            if (i < names.length - 1) {
+                builder.append(names[i]).append(" - ").append(sum).append("\n");
+            } else {
+                builder.append(names[i]).append(" - ").append(sum);
+            }
             sum = 0;
         }
         return builder.toString();
     }
 
     public boolean compareDates(String dateFrom, String dateFromArray, String dateTo) {
-        int dayFirstData = Integer.parseInt(dateFrom.substring(0, 2));
-        int monthFirstData = Integer.parseInt(dateFrom.substring(3, 5));
-        int yearFirstData = Integer.parseInt(dateFrom.substring(6, 10));
-        int daySecondData = Integer.parseInt(dateFromArray.substring(0, 2));
-        int monthSecondData = Integer.parseInt(dateFromArray.substring(3, 5));
-        int yearSecondData = Integer.parseInt(dateFromArray.substring(6, 10));
-        int dayThirdData = Integer.parseInt(dateTo.substring(0, 2));
-        int monthThirdData = Integer.parseInt(dateTo.substring(3, 5));
-        int yearThirdData = Integer.parseInt(dateTo.substring(6, 10));
-
-        if (yearFirstData <= yearSecondData
-                && monthFirstData <= monthSecondData
-                && dayFirstData <= daySecondData) {
-            if (yearSecondData <= yearThirdData
-                    && monthSecondData <= monthThirdData
-                    && daySecondData <= dayThirdData) {
+        try {
+            Date dateOne = simpleDateFormat.parse(dateFrom);
+            Date dateTwo = simpleDateFormat.parse(dateFromArray);
+            Date dateThree = simpleDateFormat.parse(dateTo);
+            if (dateOne.before(dateTwo)
+                    && (dateTwo.before(dateThree) || dateTwo.equals(dateThree))) {
                 return true;
             }
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
         return false;
     }
