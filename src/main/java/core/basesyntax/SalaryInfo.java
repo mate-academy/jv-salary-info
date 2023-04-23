@@ -1,69 +1,62 @@
 package core.basesyntax;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    private static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final String MASSAGE_FOR_REPORT = "Report for period ";
+    private static final String DASH = " - ";
+    private static final String SPACE = " ";
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
+        int periodSalary = 0;
         StringBuilder builder = new StringBuilder();
-        builder.append("Report for period ").append(dateFrom)
-                .append(" - ").append(dateTo).append("\n");
-        int sum = 0;
-        for (int i = 0; i < names.length; i++) {
-            for (int b = 0; b < data.length; b++) {
-                if (names[i].equals(getNameFromData(data[b]))) {
-                    String dataFromArray = data[b].substring(0, data[b].indexOf(" "));
-                    if (compareDates(dateFrom, dataFromArray, dateTo)) {
-                        sum += getSalary(data[b]);
+        builder.append(MASSAGE_FOR_REPORT).append(dateFrom)
+                .append(DASH).append(dateTo).append(System.lineSeparator());
+        for (int namesIndex = 0; namesIndex < names.length; namesIndex++) {
+            for (int dataIndex = 0; dataIndex < data.length; dataIndex++) {
+                if (names[namesIndex].equals(getNameFromData(data[dataIndex]))) {
+                    if (compareDates(dateFrom, data[dataIndex].substring(0, data[dataIndex].indexOf(SPACE)), dateTo)) {
+                        periodSalary += getSalary(data[dataIndex]);
                     }
                 }
             }
-            if (i < names.length - 1) {
-                builder.append(names[i]).append(" - ").append(sum).append("\n");
+            if (namesIndex < names.length - 1) {
+                builder.append(names[namesIndex]).append(DASH).append(periodSalary).append(System.lineSeparator());
             } else {
-                builder.append(names[i]).append(" - ").append(sum);
+                builder.append(names[namesIndex]).append(DASH).append(periodSalary);
             }
-            sum = 0;
+            periodSalary = 0;
         }
         return builder.toString();
     }
 
     public boolean compareDates(String dateFrom, String dateFromArray, String dateTo) {
-        try {
-            Date dateOne = simpleDateFormat.parse(dateFrom);
-            Date dateTwo = simpleDateFormat.parse(dateFromArray);
-            Date dateThree = simpleDateFormat.parse(dateTo);
-            if (dateOne.before(dateTwo)
-                    && (dateTwo.before(dateThree) || dateTwo.equals(dateThree))) {
-                return true;
+        LocalDate dateOne = LocalDate.from(formatter.parse(dateFrom));
+        LocalDate dateTwo = LocalDate.from(formatter.parse(dateFromArray));
+        LocalDate dateThree = LocalDate.from(formatter.parse(dateTo));
+        if (dateOne.isBefore(dateTwo)
+                && (dateTwo.isBefore(dateThree) || dateTwo.equals(dateThree))) {
+            return true;
             }
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
         return false;
     }
 
     public String getNameFromData(String name) {
-        int index = name.indexOf(" ");
+        int index = name.indexOf(SPACE);
         String infoWithoutData = name.substring(index + 1);
-        index = infoWithoutData.indexOf(" ");
+        index = infoWithoutData.indexOf(SPACE);
         return infoWithoutData.substring(0, index);
     }
 
     public int getSalary(String data) {
-        int index = data.indexOf(" ");
-        String dataSubstring = data.substring(index + 1);
-        index = dataSubstring.indexOf(" ");
-        dataSubstring = dataSubstring.substring(index + 1);
-        index = dataSubstring.indexOf(" ");
-        int hour = Integer.parseInt(dataSubstring.substring(0, index));
-        dataSubstring = dataSubstring.substring(index + 1);
-        int rate = Integer.parseInt(dataSubstring);
+        int index1 = data.lastIndexOf(SPACE);
+        int rate = Integer.parseInt(data.substring(index1 + 1));
+        data = data.substring(0, index1);
+        index1 = data.lastIndexOf(SPACE);
+        int hour = Integer.parseInt(data.substring(index1 + 1));
         return hour * rate;
-
     }
 }
 
