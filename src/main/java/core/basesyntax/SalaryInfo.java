@@ -71,7 +71,7 @@ public class SalaryInfo {
 
         StringBuilder sb = new StringBuilder();
         sb.append("Report for period ")
-                .append(dateFrom).append(" - ").append(dateTo).append("\r\n");
+                .append(dateFrom).append(" - ").append(dateTo).append(System.lineSeparator());
         Arrays.stream(names)
                 .forEach(name -> sb
                         .append(name)
@@ -80,7 +80,7 @@ public class SalaryInfo {
                                 ? String.valueOf(salaryMap.get(name))
                                 : "0"
                         )
-                        .append("\r\n")
+                        .append(System.lineSeparator())
                 );
         return sb.toString().strip();
     }
