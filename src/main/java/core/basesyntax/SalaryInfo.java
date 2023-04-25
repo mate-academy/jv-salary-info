@@ -9,7 +9,34 @@ import java.util.stream.Collectors;
 
 public class SalaryInfo {
 
-    record DataRow(LocalDate date, String name, int hours, int rate) {
+    static final class DataRow {
+        private final LocalDate date;
+        private final String name;
+        private final int hours;
+        private final int rate;
+
+        DataRow(LocalDate date, String name, int hours, int rate) {
+            this.date = date;
+            this.name = name;
+            this.hours = hours;
+            this.rate = rate;
+        }
+
+        public LocalDate date() {
+            return date;
+        }
+
+        public String name() {
+            return name;
+        }
+
+        public int hours() {
+            return hours;
+        }
+
+        public int rate() {
+            return rate;
+        }
     }
 
     public static final DateTimeFormatter DDMMYYYY = DateTimeFormatter.ofPattern("dd.MM.yyyy");
