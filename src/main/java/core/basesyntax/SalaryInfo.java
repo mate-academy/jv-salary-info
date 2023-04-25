@@ -59,5 +59,3 @@ public class SalaryInfo {
         return result.toString();
     }
 }
-
-
