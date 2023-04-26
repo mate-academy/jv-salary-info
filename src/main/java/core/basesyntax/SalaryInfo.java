@@ -7,13 +7,12 @@ public class SalaryInfo {
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(String.format("Report for period %s - %s%s", dateFrom, dateTo,
-                System.lineSeparator()));
+        stringBuilder.append(String.format("Report for period %s - %s", dateFrom, dateTo));
 
         for (String name : names) {
             int salaryForPeriod = getSalaryForPeriodByName(name, data, dateFrom, dateTo);
-            stringBuilder.append(String.format("%s - %s%s", name, salaryForPeriod,
-                    System.lineSeparator()));
+            stringBuilder.append(String.format("%s%s - %s", System.lineSeparator(),
+                    name, salaryForPeriod));
         }
         return stringBuilder.toString().trim();
     }
