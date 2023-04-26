@@ -14,7 +14,7 @@ public class SalaryInfo {
             stringBuilder.append(String.format("%s%s - %s", System.lineSeparator(),
                     name, salaryForPeriod));
         }
-        return stringBuilder.toString().trim();
+        return stringBuilder.toString();
     }
 
     private int getSalaryForPeriodByName(String name, String[] data,
