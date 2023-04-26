@@ -8,8 +8,29 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class SalaryInfo {
+    public static final DateTimeFormatter DATE_FORMAT =
+            DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
-    static final class DataRow {
+    private DataRow parse(String line) {
+        String[] cols = line.split("\\s+");
+        int DATE_INDEX = 0;
+        int NAME_INDEX = 1;
+        int WORK_HOURS_INDEX = 2;
+        int SALARY_PER_HOUR_INDEX = 3;
+        return new DataRow(
+                LocalDate.parse(cols[DATE_INDEX], DATE_FORMAT),
+                cols[NAME_INDEX],
+                Integer.parseInt(cols[WORK_HOURS_INDEX]),
+                Integer.parseInt(cols[SALARY_PER_HOUR_INDEX])
+        );
+    }
+
+    private boolean isDateInPeriod(LocalDate date, LocalDate from, LocalDate to) {
+        return (date.isAfter(from) || date.isEqual(from))
+                && (date.isBefore(to) || date.isEqual(to));
+    }
+
+    private static final class DataRow {
         private final LocalDate date;
         private final String name;
         private final int hours;
@@ -22,51 +43,24 @@ public class SalaryInfo {
             this.rate = rate;
         }
 
-        public LocalDate date() {
-            return date;
-        }
-
         public String name() {
             return name;
         }
-
-        public int hours() {
-            return hours;
-        }
-
-        public int rate() {
-            return rate;
-        }
-    }
-
-    public static final DateTimeFormatter DDMMYYYY = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-
-    public static DataRow parse(String str) {
-        String[] cols = str.split("\\s+");
-        return new DataRow(
-                LocalDate.parse(cols[0], DDMMYYYY),
-                cols[1],
-                Integer.parseInt(cols[2]),
-                Integer.parseInt(cols[3])
-        );
-    }
-
-    public static boolean between(LocalDate d, LocalDate from, LocalDate to) {
-        return (d.isAfter(from) || d.isEqual(from)) && (d.isBefore(to) || d.isEqual(to));
     }
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        LocalDate from = LocalDate.parse(dateFrom, DDMMYYYY);
-        LocalDate to = LocalDate.parse(dateTo, DDMMYYYY);
+
+        LocalDate from = LocalDate.parse(dateFrom, DATE_FORMAT);
+        LocalDate to = LocalDate.parse(dateTo, DATE_FORMAT);
 
         Set<String> set = Set.of(names);
 
         Map<String, Integer> salaryMap = Arrays.stream(data)
-                .map(SalaryInfo::parse)
-                .filter(row -> set.contains(row.name()) && between(row.date(), from, to))
+                .map(this::parse)
+                .filter(row -> set.contains(row.name) && isDateInPeriod(row.date, from, to))
                 .collect(Collectors.groupingBy(
                         DataRow::name,
-                        Collectors.summingInt(row -> row.hours() * row.rate())
+                        Collectors.summingInt(row -> row.hours * row.rate)
                 ));
 
         StringBuilder sb = new StringBuilder();
