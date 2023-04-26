@@ -1,16 +1,24 @@
 package core.basesyntax;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     private static final String SPACE_SEPARATOR = " ";
+    private static final DateTimeFormatter DATE_FORMATTER =
+            DateTimeFormatter.ofPattern("d.MM.yyyy");
+    private static final int INDEX_OF_DATE = 0;
+    private static final int INDEX_OF_NAME = 1;
+    private static final int INDEX_OF_WORKING_HOURS = 2;
+    private static final int INDEX_OF_INCOME_PER_HOUR = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(String.format("Report for period %s - %s", dateFrom, dateTo));
-
+        LocalDate dateFromLD = parseStringDate(dateFrom);
+        LocalDate dateToLD = parseStringDate(dateTo);
         for (String name : names) {
-            int salaryForPeriod = getSalaryForPeriodByName(name, data, dateFrom, dateTo);
+            int salaryForPeriod = getSalaryForPeriodByName(name, data, dateFromLD, dateToLD);
             stringBuilder.append(String.format("%s%s - %s", System.lineSeparator(),
                     name, salaryForPeriod));
         }
@@ -18,18 +26,18 @@ public class SalaryInfo {
     }
 
     private int getSalaryForPeriodByName(String name, String[] data,
-                                         String dateFromString, String dateToString) {
+                                         LocalDate dateFrom, LocalDate dateTo) {
         int salaryForPeriod = 0;
-        LocalDate dateFrom = parseStringDate(dateFromString);
-        LocalDate dateTo = parseStringDate(dateToString);
-
         for (int i = 0; i < data.length; i++) {
-            String[] dataOfCurrentEmployee = data[i].split(SPACE_SEPARATOR);
-            LocalDate currentDate = parseStringDate(dataOfCurrentEmployee[0]);
-            String nameOfCurrentEmployee = dataOfCurrentEmployee[1];
-            int workingHoursOfCurrentEmployee = Integer.parseInt(dataOfCurrentEmployee[2]);
-            int incomePerHourOfCurrentEmployee = Integer.parseInt(dataOfCurrentEmployee[3]);
-
+            String[] dataOfCurrentEmployee =
+                    data[i].split(SPACE_SEPARATOR);
+            LocalDate currentDate =
+                    LocalDate.parse(dataOfCurrentEmployee[INDEX_OF_DATE], DATE_FORMATTER);
+            String nameOfCurrentEmployee = dataOfCurrentEmployee[INDEX_OF_NAME];
+            int workingHoursOfCurrentEmployee =
+                    Integer.parseInt(dataOfCurrentEmployee[INDEX_OF_WORKING_HOURS]);
+            int incomePerHourOfCurrentEmployee =
+                    Integer.parseInt(dataOfCurrentEmployee[INDEX_OF_INCOME_PER_HOUR]);
             if (nameOfCurrentEmployee.equals(name)
                     && checkIfDateIsInRange(currentDate, dateFrom, dateTo)) {
                 salaryForPeriod += workingHoursOfCurrentEmployee * incomePerHourOfCurrentEmployee;
@@ -45,6 +53,6 @@ public class SalaryInfo {
     }
 
     private LocalDate parseStringDate(String dateToString) {
-        return new DateParser().parseDate(dateToString);
+        return LocalDate.parse(dateToString, DATE_FORMATTER);
     }
 }
