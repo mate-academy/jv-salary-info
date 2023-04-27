@@ -1,51 +1,56 @@
 package core.basesyntax;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
+    private static final String SEPARATOR = " ";
+    private static final String DELIMITER = " - ";
+    private static final String DATE_FORMAT = "dd.MM.yyyy";
+    private static final String ABOUT_PERIOD = "Report for period ";
+    private static final int INDEX_IN_PARS_STRING_DATA_DATE = 0;
+    private static final int INDEX_IN_PARS_STRING_DATA_NAME = 1;
+    private static final int INDEX_IN_PARS_STRING_DATA_HOURS = 2;
+    private static final int INDEX_IN_PARS_STRING_DATA_SALARY = 3;
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        String[] dataOne;
-        int [] namesSalary = new int[names.length];
-        for (String personData : data) {
-            dataOne = personData.split(" ");
-            if (compareDate(getLocalDate(dataOne[0]),getLocalDate(dateFrom),getLocalDate(dateTo))) {
-                for (int i = 0; i < names.length; i++) {
-                    if (dataOne[1].equals(names[i])) {
-                        namesSalary[i] += Integer.parseInt(dataOne[3])
-                                * Integer.parseInt(dataOne[2]);
+        DateTimeFormatter format = DateTimeFormatter.ofPattern(DATE_FORMAT);
+        LocalDate localDateFrom = LocalDate.parse(dateFrom, format);
+        LocalDate localDateTo = LocalDate.parse(dateTo, format);
+        LocalDate dateToCheck;
+        String[] employeInfo;
+        Employee[] employees = new Employee[names.length];
+        for (int i = 0; i < names.length; i++) {
+            employees[i] = new Employee(names[i]);
+            for (String personData : data) {
+                employeInfo = personData.split(SEPARATOR);
+                dateToCheck = LocalDate.parse(employeInfo[INDEX_IN_PARS_STRING_DATA_DATE], format);
+                if (dateToCheck.isEqual(localDateFrom) || dateToCheck.isEqual(localDateTo)
+                        || (dateToCheck.isAfter(localDateFrom)
+                        && dateToCheck.isBefore(localDateTo))) {
+                    if (employeInfo[INDEX_IN_PARS_STRING_DATA_NAME]
+                            .equals(employees[i].getName())) {
+                        employees[i].setSalary(employees[i].getSalary()
+                                + Integer.parseInt(employeInfo[INDEX_IN_PARS_STRING_DATA_SALARY])
+                                * Integer.parseInt(employeInfo[INDEX_IN_PARS_STRING_DATA_HOURS]));
                     }
                 }
             }
         }
-        return getResultNameAndSalary(names,namesSalary,dateFrom,dateTo).toString();
+        return createReport(employees,dateFrom,dateTo);
     }
 
-    public StringBuilder getResultNameAndSalary(String[] names,
-                                                int[] namesSalary,String dateFrom, String dateTo) {
+    public String createReport(Employee[] employees, String dateFrom, String dateTo) {
         StringBuilder result = new StringBuilder();
-        result.append("Report for period ").append(dateFrom).append(" - ")
-                .append(dateTo).append(System.lineSeparator());
-        for (int i = 0; i < names.length; i++) {
-            result.append(names[i]).append(" - ").append(namesSalary[i]);
-            if (i < names.length - 1) {
+        result.append(ABOUT_PERIOD).append(dateFrom).append(DELIMITER)
+               .append(dateTo).append(System.lineSeparator());
+        for (int i = 0; i < employees.length; i++) {
+            result.append(employees[i].getName())
+                    .append(DELIMITER).append(employees[i].getSalary());
+            if (i < employees.length - 1) {
                 result.append(System.lineSeparator());
             }
         }
-        return result;
-    }
-
-    public LocalDate getLocalDate(String date) {
-        LocalDate localDate;
-        String[] dayMonthYear;
-        dayMonthYear = date.split("\\.");
-        localDate = LocalDate.of(Integer.parseInt(dayMonthYear[2]),
-                Integer.parseInt(dayMonthYear[1]), Integer.parseInt(dayMonthYear[0]));
-        return localDate;
-    }
-
-    public boolean compareDate(LocalDate date, LocalDate dateFrom, LocalDate dateTo) {
-        return date.isAfter(dateFrom) && date.isBefore(dateTo)
-                || date.equals(dateFrom) && date.isBefore(dateTo)
-                || date.isAfter(dateFrom) && date.equals(dateTo);
+        return result.toString();
     }
 }
