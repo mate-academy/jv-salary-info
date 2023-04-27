@@ -8,6 +8,32 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class SalaryInfo {
+    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
+        LocalDate from = LocalDate.parse(dateFrom, DATE_FORMAT);
+        LocalDate to = LocalDate.parse(dateTo, DATE_FORMAT);
+        Set<String> set = Set.of(names);
+        Map<String, Integer> salaryMap = Arrays.stream(data)
+                .map(this::parse)
+                .filter(row -> set.contains(row.name) && isDateInPeriod(row.date, from, to))
+                .collect(Collectors.groupingBy(
+                        DataRow::name,
+                        Collectors.summingInt(row -> row.hours * row.rate)
+                ));
+        StringBuilder sb = new StringBuilder();
+        sb.append("Report for period ")
+                .append(dateFrom).append(" - ").append(dateTo)
+                .append(System.lineSeparator());
+        Arrays.stream(names)
+                .forEach(name -> sb
+                        .append(name)
+                        .append(" - ").append(salaryMap
+                                .getOrDefault(name, 0)
+                        )
+                        .append(System.lineSeparator())
+                );
+        return sb.toString().strip();
+    }
+
     public static final DateTimeFormatter DATE_FORMAT =
             DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
@@ -46,37 +72,6 @@ public class SalaryInfo {
         public String name() {
             return name;
         }
-    }
-
-    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-
-        LocalDate from = LocalDate.parse(dateFrom, DATE_FORMAT);
-        LocalDate to = LocalDate.parse(dateTo, DATE_FORMAT);
-
-        Set<String> set = Set.of(names);
-
-        Map<String, Integer> salaryMap = Arrays.stream(data)
-                .map(this::parse)
-                .filter(row -> set.contains(row.name) && isDateInPeriod(row.date, from, to))
-                .collect(Collectors.groupingBy(
-                        DataRow::name,
-                        Collectors.summingInt(row -> row.hours * row.rate)
-                ));
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("Report for period ")
-                .append(dateFrom).append(" - ").append(dateTo).append(System.lineSeparator());
-        Arrays.stream(names)
-                .forEach(name -> sb
-                        .append(name)
-                        .append(" - ")
-                        .append(salaryMap.containsKey(name)
-                                ? String.valueOf(salaryMap.get(name))
-                                : "0"
-                        )
-                        .append(System.lineSeparator())
-                );
-        return sb.toString().strip();
     }
 }
 
