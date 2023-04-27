@@ -39,15 +39,15 @@ public class SalaryInfo {
 
     private DataRow parse(String line) {
         String[] cols = line.split("\\s+");
-        int DATE_INDEX = 0;
-        int NAME_INDEX = 1;
-        int HOURS_INDEX = 2;
-        int PERHOUR_INDEX = 3;
+        final int dateIndex = 0;
+        final int nameIndex = 1;
+        final int workHoursIndex = 2;
+        final int salaryPerHourIndex = 3;
         return new DataRow(
-                LocalDate.parse(cols[DATE_INDEX], DATE_FORMAT),
-                cols[NAME_INDEX],
-                Integer.parseInt(cols[HOURS_INDEX]),
-                Integer.parseInt(cols[PERHOUR_INDEX])
+                LocalDate.parse(cols[dateIndex], DATE_FORMAT),
+                cols[nameIndex],
+                Integer.parseInt(cols[workHoursIndex]),
+                Integer.parseInt(cols[salaryPerHourIndex])
         );
     }
 
