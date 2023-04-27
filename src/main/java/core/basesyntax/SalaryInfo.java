@@ -11,14 +11,16 @@ public class SalaryInfo {
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         int periodSalary = 0;
+        LocalDate dateOne = LocalDate.from(formatter.parse(dateFrom));
+        LocalDate dateThree = LocalDate.from(formatter.parse(dateTo));
         StringBuilder builder = new StringBuilder();
         builder.append(MASSAGE_FOR_REPORT).append(dateFrom)
                 .append(DASH).append(dateTo).append(System.lineSeparator());
         for (int namesIndex = 0; namesIndex < names.length; namesIndex++) {
             for (int dataIndex = 0; dataIndex < data.length; dataIndex++) {
                 if (names[namesIndex].equals(getNameFromData(data[dataIndex]))) {
-                    String dataArray = data[dataIndex].substring(0, data[dataIndex].indexOf(SPACE));
-                    if (compareDates(dateFrom, dataArray, dateTo)) {
+                    String[] dataArray = data[dataIndex].split(" ");
+                    if (compareDates(dateOne, dataArray[0], dateThree)) {
                         periodSalary += getSalary(data[dataIndex]);
                     }
                 }
@@ -34,25 +36,22 @@ public class SalaryInfo {
         return builder.toString();
     }
 
-    public boolean compareDates(String dateFrom, String dateFromArray, String dateTo) {
-        LocalDate dateOne = LocalDate.from(formatter.parse(dateFrom));
+    private boolean compareDates(LocalDate dateOne, String dateFromArray, LocalDate dateThree) {
         LocalDate dateTwo = LocalDate.from(formatter.parse(dateFromArray));
-        LocalDate dateThree = LocalDate.from(formatter.parse(dateTo));
-        if (dateOne.isBefore(dateTwo)
-                && (dateTwo.isBefore(dateThree) || dateTwo.equals(dateThree))) {
+        if (dateOne.isBefore(dateTwo) && dateTwo.compareTo(dateThree) <= 0) {
             return true;
         }
         return false;
     }
 
-    public String getNameFromData(String name) {
+    private String getNameFromData(String name) {
         int index = name.indexOf(SPACE);
         String infoWithoutData = name.substring(index + 1);
         index = infoWithoutData.indexOf(SPACE);
         return infoWithoutData.substring(0, index);
     }
 
-    public int getSalary(String data) {
+    private int getSalary(String data) {
         int index1 = data.lastIndexOf(SPACE);
         int rate = Integer.parseInt(data.substring(index1 + 1));
         data = data.substring(0, index1);
