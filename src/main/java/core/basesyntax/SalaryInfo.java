@@ -8,6 +8,9 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class SalaryInfo {
+    public static final DateTimeFormatter DATE_FORMAT =
+            DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate from = LocalDate.parse(dateFrom, DATE_FORMAT);
         LocalDate to = LocalDate.parse(dateTo, DATE_FORMAT);
@@ -33,9 +36,6 @@ public class SalaryInfo {
                 );
         return sb.toString().strip();
     }
-
-    public static final DateTimeFormatter DATE_FORMAT =
-            DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     private DataRow parse(String line) {
         String[] cols = line.split("\\s+");
