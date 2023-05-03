@@ -32,7 +32,7 @@ public class SalaryInfo {
                 if (name.equals(names[i])
                         && workDate.compareTo(endDate) <= 0
                         && workDate.compareTo(startDate) >= 0) {
-                        sumSalary += Integer.parseInt(recordData[RATE_INDEX])
+                            sumSalary += Integer.parseInt(recordData[RATE_INDEX])
                                 * Integer.parseInt(recordData[TIME_INDEX]);
                 }
             }
