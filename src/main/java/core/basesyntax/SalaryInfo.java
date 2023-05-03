@@ -29,7 +29,9 @@ public class SalaryInfo {
                 String[] recordData = data[j].split(" ");
                 LocalDate workDate = LocalDate.parse(recordData[DATE_INDEX], dateTimeFormatter);
                 String name = recordData [NAME_INDEX];
-                if (name.equals(names[i]) && workDate.compareTo(endDate) <= 0 && workDate.compareTo(startDate) >= 0) {
+                if (name.equals(names[i]) &&
+                        workDate.compareTo(endDate) <= 0 &&
+                        workDate.compareTo(startDate) >= 0) {
                         sumSalary += Integer.parseInt(recordData[RATE_INDEX])
                                 * Integer.parseInt(recordData[TIME_INDEX]);
                 }
