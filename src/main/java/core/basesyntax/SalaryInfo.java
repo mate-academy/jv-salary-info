@@ -29,11 +29,9 @@ public class SalaryInfo {
                 String[] words = data[j].split(" ");
                 LocalDate workDate = LocalDate.parse(words[DATE_INDEX], dateTimeFormatter);
                 String name = words[NAME_INDEX];
-                if (name.equals(names[i])) {
-                    if (workDate.compareTo(localDate1) <= 0 && workDate.compareTo(localDate) >= 0) {
+                if (name.equals(names[i]) && workDate.compareTo(localDate1) <= 0 && workDate.compareTo(localDate) >= 0) {
                         sumSalary += Integer.parseInt(words[RATE_INDEX])
                                 * Integer.parseInt(words[TIME_INDEX]);
-                    }
                 }
             }
             result.append(sumSalary);
