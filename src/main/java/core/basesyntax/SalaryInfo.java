@@ -14,11 +14,11 @@ public class SalaryInfo {
                                 String dateFrom, String dateTo) {
         LocalDate localDate = LocalDate.parse(dateFrom, dateTimeFormatter);
         LocalDate localDate1 = LocalDate.parse(dateTo, dateTimeFormatter);
-        StringBuilder result = new StringBuilder().
-                append("Report for period ").
-                append(dateFrom).
-                append(" - ").
-                append(dateTo);
+        StringBuilder result = new StringBuilder()
+                .append("Report for period ")
+                .append(dateFrom)
+                .append(" - ")
+                .append(dateTo);
         int sumSalary;
 
         for (int i = 0; i < names.length; i++) {
