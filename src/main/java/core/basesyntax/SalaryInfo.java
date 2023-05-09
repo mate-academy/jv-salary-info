@@ -4,65 +4,36 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-
-    private static final int DATE = 0;
-    private static final int NAME = 1;
-    private static final int HOURS = 2;
+    private static final int DATE_INDEX = 0;
+    private static final int NAME_INDEX = 1;
+    private static final int HOURS_INDEX = 2;
     private static final int AMOUNT_PER_HOUR = 3;
-
+    private LocalDate dateFrom;
+    private LocalDate dateTo;
+    private LocalDate currentDate;
+    private int salary;
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder builder = new StringBuilder();
-        String[][] personsInfo = getData(data);
-        Person[] persons = getNames(names);
-        LocalDate theDateFrom = getDate(dateFrom);
-        LocalDate theDateTo = getDate(dateTo);
-
+        String[] personsInfo;
+        this.dateFrom = LocalDate.parse(dateFrom, formatter);
+        this.dateTo = LocalDate.parse(dateTo, formatter);
         builder.append("Report for period ").append(dateFrom)
                 .append(" - ").append(dateTo).append(System.lineSeparator());
-
-        for (int i = 0; i < persons.length; i++) {
-            for (int j = 0; j < personsInfo.length; j++) {
-                LocalDate date = getDate(personsInfo[j][DATE]);
-                if (!date.isBefore(theDateFrom) && !date.isAfter(theDateTo)
-                        && persons[i].getName().equals(personsInfo[j][NAME])) {
-                    persons[i].setSalary(persons[i].getSalary()
-                            + getSum(personsInfo[j][HOURS], personsInfo[j][AMOUNT_PER_HOUR]));
+        for (int i = 0; i < names.length; i++) {
+            salary = 0;
+            for (int j = 0; j < data.length; j++) {
+                personsInfo = data[j].split(" ");
+                currentDate = LocalDate.parse(personsInfo[DATE_INDEX], formatter);
+                if (!currentDate.isBefore(this.dateFrom) && !currentDate.isAfter(this.dateTo)
+                        && personsInfo[NAME_INDEX].equals(names[i])) {
+                    salary = salary + (Integer.parseInt(personsInfo[HOURS_INDEX])
+                            * Integer.parseInt(personsInfo[AMOUNT_PER_HOUR]));
                 }
             }
-
+            builder.append(names[i]).append(" - ").append(salary).append(System.lineSeparator());
         }
-
-        for (Person person: persons) {
-            builder.append(person.toString()).append(System.lineSeparator());
-        }
-        System.out.println(builder.toString().trim());
         return builder.toString().trim();
-    }
-
-    private int getSum(String hours, String income) {
-        return Integer.parseInt(hours) * Integer.parseInt(income);
-    }
-
-    private LocalDate getDate(String date) {
-        return LocalDate.parse(date, formatter);
-    }
-
-    private String[][] getData(String[] data) {
-        String[][] personsData = new String[data.length][4];
-        for (int i = 0; i < data.length; i++) {
-            personsData[i] = data[i].split(" ");
-        }
-        return personsData;
-    }
-
-    private Person[] getNames(String[] names) {
-        Person[] persons = new Person[names.length];
-        for (int i = 0; i < names.length; i++) {
-            Person person = new Person(names[i]);
-            persons[i] = person;
-        }
-        return persons;
     }
 }
