@@ -46,6 +46,7 @@ public class SalaryInfo {
             }
         }
         String toReturn = builder.toString();
+
         return toReturn.substring(0, toReturn.length() - 1);
     }
 }
