@@ -12,7 +12,6 @@ public class SalaryInfo {
         String[] end = dateTo.split("\\.");
         LocalDate startToWork = LocalDate.of(Integer.valueOf(start[2]), Integer.valueOf(start[1]), Integer.valueOf(start[0]));
         LocalDate endToWork = LocalDate.of(Integer.valueOf(end[2]), Integer.valueOf(end[1]), Integer.valueOf(end[0]));
-
         for (int i = 0; i < names.length; i++) {
             builder.append(System.lineSeparator()).append(names[i]).append(" - ");
             int sum = 0;
