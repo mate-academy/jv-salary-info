@@ -22,8 +22,8 @@ public class SalaryInfo {
                 String[] workD = dataSeparated[0].split("\\.");
                 LocalDate workingDay = LocalDate.of(Integer.valueOf(workD[2]),
                         Integer.valueOf(workD[1]), Integer.valueOf(workD[0]));
-                if (!(workingDay.getDayOfYear() >= startToWork.getDayOfYear() &&
-                        workingDay.getDayOfYear() <= endToWork.getDayOfYear())) {
+                if (!(workingDay.getDayOfYear() >= startToWork.getDayOfYear()
+                        && workingDay.getDayOfYear() <= endToWork.getDayOfYear())) {
                     continue;
                 }
                 if (names[i].equals(dataSeparated[1])) {
