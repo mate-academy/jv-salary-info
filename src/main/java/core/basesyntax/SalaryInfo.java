@@ -1,33 +1,32 @@
 package core.basesyntax;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    private StringBuilder builder = new StringBuilder("Report for period");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        StringBuilder builder = new StringBuilder("Report for period ");
-        builder.append(dateFrom).append(" - ").append(dateTo);
-        String[] start = dateFrom.split("\\.");
-        String[] end = dateTo.split("\\.");
-        LocalDate startToWork = LocalDate.of(Integer.valueOf(start[2]),
-                Integer.valueOf(start[1]), Integer.valueOf(start[0]));
-        LocalDate endToWork = LocalDate.of(Integer.valueOf(end[2]),
-                Integer.valueOf(end[1]), Integer.valueOf(end[0]));
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        final String resultSeparator = " - ";
+        final int indexDate = 0;
+        final int indexName = 1;
+        final int indexHours = 2;
+        final int indexMoney = 3;
+        StringBuilder builder = new StringBuilder("Report for period ")
+                .append(dateFrom).append(resultSeparator).append(dateTo);
+        LocalDate startToWork = LocalDate.parse(dateFrom, formatter);
+        LocalDate endToWork = LocalDate.parse(dateTo, formatter);
         for (int i = 0; i < names.length; i++) {
-            builder.append(System.lineSeparator()).append(names[i]).append(" - ");
+            builder.append(System.lineSeparator()).append(names[i]).append(resultSeparator);
             int sum = 0;
             for (int j = 0; j < data.length; j++) {
                 String[] dataSeparated = data[j].split(" ");
-                String[] workD = dataSeparated[0].split("\\.");
-                LocalDate workingDay = LocalDate.of(Integer.valueOf(workD[2]),
-                        Integer.valueOf(workD[1]), Integer.valueOf(workD[0]));
-                if (!(workingDay.getDayOfYear() >= startToWork.getDayOfYear()
-                        && workingDay.getDayOfYear() <= endToWork.getDayOfYear())) {
-                    continue;
-                }
-                if (names[i].equals(dataSeparated[1])) {
-                    sum += Integer.valueOf(dataSeparated[2]) * Integer.valueOf(dataSeparated[3]);
+                LocalDate workingDay = LocalDate.parse(dataSeparated[indexDate], formatter);
+                boolean isPresent = workingDay.isAfter(startToWork) && workingDay.isBefore(endToWork)
+                        || workingDay.isEqual(startToWork) || workingDay.isEqual(endToWork);
+                boolean isNameMatch = names[i].equals(dataSeparated[indexName]);
+                if (isPresent && isNameMatch) {
+                    sum += Integer.valueOf(dataSeparated[indexHours]) * Integer.valueOf(dataSeparated[indexMoney]);
                 }
             }
             builder.append(sum);
