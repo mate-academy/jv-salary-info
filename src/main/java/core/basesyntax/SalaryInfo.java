@@ -20,7 +20,8 @@ public class SalaryInfo {
                     salaryInfo += parseLine(data[j], names[i], from, to);
                 }
             }
-            finalInfo.append(names[i]).append(" - ").append(salaryInfo).append(System.lineSeparator());
+            finalInfo.append(names[i]).append(" - ").append(salaryInfo)
+                    .append(System.lineSeparator());
         }
         finalInfo.delete(finalInfo.lastIndexOf(System.lineSeparator()), finalInfo.length());
 
