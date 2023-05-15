@@ -9,6 +9,14 @@ public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder finalInfo = new StringBuilder(
                 String.format("Report for period %s - %s\r\n", dateFrom, dateTo));
+        if (dateFrom == dateTo) {
+            for (int i = 0; i < names.length; i++) {
+                finalInfo.append(names[i]).append(" - 0").append("\r").append("\n");
+            }
+            finalInfo.delete(finalInfo.lastIndexOf("\r"), finalInfo.length());
+
+            return finalInfo.toString();
+        }
 
         LocalDate from = LocalDate.parse(dateFrom, DATE_FORMAT);
         LocalDate to = LocalDate.parse(dateTo, DATE_FORMAT);
