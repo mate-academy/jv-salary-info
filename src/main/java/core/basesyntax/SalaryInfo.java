@@ -23,9 +23,8 @@ public class SalaryInfo {
             finalInfo.append(names[i]).append(" - ").append(salaryInfo)
                     .append(System.lineSeparator());
         }
-        finalInfo.delete(finalInfo.lastIndexOf(System.lineSeparator()), finalInfo.length());
 
-        return finalInfo.toString();
+        return finalInfo.toString().trim();
     }
 
     private int parseLine(String line, String name, LocalDate dateFrom, LocalDate dateTo) {
