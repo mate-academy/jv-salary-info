@@ -27,7 +27,7 @@ public class SalaryInfo {
             builder.append(System.lineSeparator()).append(name + " - " + sum);
         }
         System.out.println(builder.toString());
-        return null;
+        return builder.toString();
     }
 
     private static boolean validDate(String date, String dateFrom, String dateTo) {
