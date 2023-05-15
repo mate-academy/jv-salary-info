@@ -11,6 +11,10 @@ public class SalaryInfo {
     private static final String DASH = " - ";
     private static final String LINE_BREAK = "\n";
     private static final String WHITESPACE = " ";
+    private static final int INDEX_ZERO = 0;
+    private static final int INDEX_ONE = 1;
+    private static final int INDEX_TWO = 2;
+    private static final int INDEX_THREE = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
 
@@ -19,35 +23,36 @@ public class SalaryInfo {
         for (int i = 0; i < names.length; i++) {
             for (int j = 0; j < data.length; j++) {
                 String[] dataPerName = data[j].split(WHITESPACE);
-                LocalDate formattedDate = LocalDate.parse(dataPerName[0], FORMATTER);
+                LocalDate formattedDate = LocalDate.parse(dataPerName[INDEX_ZERO], FORMATTER);
                 LocalDate formattedDateFrom = LocalDate.parse(dateFrom, FORMATTER);
                 LocalDate formattedDateTo = LocalDate.parse(dateTo, FORMATTER);
 
-                if (dataPerName[1].equals(names[i]) && ((formattedDate.isAfter(formattedDateFrom)
+                if (dataPerName[INDEX_ONE].equals(names[i])
+                        && ((formattedDate.isAfter(formattedDateFrom)
                         && formattedDate.isBefore(formattedDateTo))
                         || (formattedDate.isEqual(formattedDateFrom)
                         || formattedDate.isEqual(formattedDateTo)))) {
-                    sum = sum + (Integer.parseInt(dataPerName[2])
-                            * Integer.parseInt(dataPerName[3]));
+                    sum = sum + (Integer.parseInt(dataPerName[INDEX_TWO])
+                            * Integer.parseInt(dataPerName[INDEX_THREE]));
                 }
             }
             salary[i] = sum;
             sum = 0;
         }
-        StringBuilder builder = new StringBuilder();
-        builder.append(REPORT_TEXT).append(dateFrom).append(DASH)
+        StringBuilder reportForm = new StringBuilder();
+        reportForm.append(REPORT_TEXT).append(dateFrom).append(DASH)
                 .append(dateTo).append(LINE_BREAK);
         for (int i = 0; i < names.length; i++) {
             for (int j = 0; j < salary.length; j++) {
                 if (i == j) {
-                    builder.append(names[i]).append(DASH)
+                    reportForm.append(names[i]).append(DASH)
                             .append(salary[j]).append(LINE_BREAK);
                 }
             }
         }
-        String toReturn = builder.toString();
+        String report = reportForm.toString();
 
-        return toReturn.substring(0, toReturn.length() - 1);
+        return report.substring(0, report.length() - 1);
     }
 }
 
