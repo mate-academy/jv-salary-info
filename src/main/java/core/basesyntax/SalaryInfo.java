@@ -8,7 +8,8 @@ public class SalaryInfo {
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder finalInfo = new StringBuilder(
-                String.format("Report for period %s - %s\r\n", dateFrom, dateTo));
+                String.format("Report for period %s - %s", dateFrom, dateTo))
+                .append(System.lineSeparator());
 
         LocalDate from = LocalDate.parse(dateFrom, DATE_FORMAT);
         LocalDate to = LocalDate.parse(dateTo, DATE_FORMAT);
