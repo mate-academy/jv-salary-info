@@ -29,7 +29,8 @@ data:
   26.04.2019 John 4 50
   05.04.2019 Andrew 3 200
   10.04.2019 John 7 100
-  22.04.2019 Kate 9 100
+
+```  22.04.2019 Kate 9 100
   25.06.2019 John 11 50
   26.04.2019 Andrew 3 150
   13.02.2019 John 7 100
@@ -42,5 +43,4 @@ Method execution result:
    John - 900
    Andrew - 1050
    Kate - 1800
-```
 ### [Try to avoid these common mistakes while solving task](https://mate-academy.github.io/jv-program-common-mistakes/java-core/exceptions/salary-info)
