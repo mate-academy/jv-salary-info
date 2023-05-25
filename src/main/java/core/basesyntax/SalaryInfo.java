@@ -10,13 +10,13 @@ public class SalaryInfo {
     public static final int HOURS_INDEX_DATA_RECORD = 2;
     public static final int RATE_INDEX_DATA_RECORD = 3;
     public static final String REPORT_SEPARATOR = " - ";
-    private int salaryPerEmployee = 0;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
+        int salaryPerEmployee = 0;
         LocalDate localDateFrom = LocalDate.parse(dateFrom, formatter);
         LocalDate localDateTo = LocalDate.parse(dateTo, formatter);
-        StringBuilder report = new StringBuilder("Report for period ");
-        report.append(dateFrom).append(REPORT_SEPARATOR).append(dateTo);
+        StringBuilder report = new StringBuilder("Report for period ")
+                .append(dateFrom).append(REPORT_SEPARATOR).append(dateTo);
         for (String name : names) {
             for (String record : data) {
                 if (record.contains(name)) {
@@ -36,6 +36,7 @@ public class SalaryInfo {
                     .append(salaryPerEmployee);
             salaryPerEmployee = 0;
         }
+
         return report.toString();
     }
 }
