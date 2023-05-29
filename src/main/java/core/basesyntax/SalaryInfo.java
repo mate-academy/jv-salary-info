@@ -14,7 +14,6 @@ public class SalaryInfo {
     private static final int FOURTH_ELEMENT = 3;
     private static final int ZERO = 0;
 
-
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder report = new StringBuilder();
         LocalDate fromDate = LocalDate.parse(dateFrom, DateTimeFormatter.ofPattern(DATE));
