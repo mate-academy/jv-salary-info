@@ -12,13 +12,13 @@ public class SalaryInfo {
     private static final int SECOND_ELEMENT = 1;
     private static final int THIRD_ELEMENT = 2;
     private static final int FOURTH_ELEMENT = 3;
-    private static final int ZERO = 0;
+    private static final int ZERO_ELEMENT = 0;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder report = new StringBuilder();
         LocalDate fromDate = LocalDate.parse(dateFrom, DateTimeFormatter.ofPattern(DATE));
         LocalDate toDate = LocalDate.parse(dateTo, DateTimeFormatter.ofPattern(DATE));
-        int totalSalary = ZERO;
+        int totalSalary = 0;
 
         report.append(REPORT).append(dateFrom)
                 .append(DASH).append(dateTo);
@@ -34,14 +34,14 @@ public class SalaryInfo {
 
     private static int calculateEmployeeSalary(String name, String[] data,
                                                LocalDate fromDate, LocalDate toDate) {
-        int salary = ZERO;
+        int salary = 0;
 
         for (String entry : data) {
             String[] parts = entry.split(SPACE);
-            LocalDate date = LocalDate.parse(parts[ZERO],DateTimeFormatter.ofPattern(DATE));
+            LocalDate date = LocalDate.parse(parts[ZERO_ELEMENT],DateTimeFormatter.ofPattern(DATE));
             String employeeName = parts[SECOND_ELEMENT];
 
-            if (date.compareTo(fromDate) >= ZERO && date.compareTo(toDate) <= ZERO
+            if (date.compareTo(fromDate) >= 0 && date.compareTo(toDate) <= 0
                     && employeeName.equals(name)) {
                 int hours = Integer.parseInt(parts[THIRD_ELEMENT]);
                 int hourlyRate = Integer.parseInt(parts[FOURTH_ELEMENT]);
