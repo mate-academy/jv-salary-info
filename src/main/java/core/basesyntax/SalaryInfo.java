@@ -11,20 +11,20 @@ public class SalaryInfo {
     private static final int HOURLY_RATE_THIRD = 2;
     private static final int HOURLY_RATE_FOURTH = 3;
     private static final int HOURLY_RATE_ZERO = 0;
-    private static final DateTimeFormatter DATE_TIME_FORMATTER
+    private final DateTimeFormatter dateTimeFormatter
             = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder report = new StringBuilder();
-        LocalDate isBefore = LocalDate.parse(dateFrom, DATE_TIME_FORMATTER);
-        LocalDate isAfter = LocalDate.parse(dateTo, DATE_TIME_FORMATTER);
+        LocalDate fromDate = LocalDate.parse(dateFrom, dateTimeFormatter);
+        LocalDate toDate = LocalDate.parse(dateTo, dateTimeFormatter);
         int totalSalary = 0;
 
         report.append(REPORT).append(dateFrom)
                 .append(DASH).append(dateTo);
 
         for (String name : names) {
-            int employeeSalary = calculateEmployeeSalary(name,data,isBefore,isAfter);
+            int employeeSalary = calculateEmployeeSalary(name,data,fromDate,toDate);
             report.append(NEW_LINE).append(name).append(DASH).append(employeeSalary);
             totalSalary += employeeSalary;
         }
@@ -38,8 +38,8 @@ public class SalaryInfo {
 
         for (String entry : data) {
             String[] parts = entry.split(System.lineSeparator());
-            LocalDate date = LocalDate
-                    .parse(parts[HOURLY_RATE_ZERO],DATE_TIME_FORMATTER);
+            LocalDate date = LocalDate.parse(parts[HOURLY_RATE_ZERO],
+                    DateTimeFormatter.ofPattern("dd.MM.yyyy"));
             String employeeName = parts[HOURLY_RATE_SECOND];
 
             if (date.compareTo(fromDate) >= 0 && date.compareTo(toDate) <= 0
