@@ -24,7 +24,7 @@ public class SalaryInfo {
                 .append(DASH).append(dateTo);
 
         for (String name : names) {
-            int employeeSalary = calculateEmployeeSalary(name,data,isBefore,isAfter);
+            int employeeSalary = calculateEmployeeSalary(name, data, isBefore, isAfter);
             report.append(System.lineSeparator()).append(name).append(DASH).append(employeeSalary);
             totalSalary += employeeSalary;
         }
@@ -38,7 +38,7 @@ public class SalaryInfo {
 
         for (String entry : data) {
             String[] parts = entry.split(SEPARATOR);
-            LocalDate date = LocalDate.parse(parts[DATE_INDEX],DATE_TIME_FORMATTER);
+            LocalDate date = LocalDate.parse(parts[DATE_INDEX], DATE_TIME_FORMATTER);
             String employeeName = parts[NAME_INDEX];
 
             if (date.compareTo(isBefore) >= 0 && date.compareTo(isAfter) <= 0
