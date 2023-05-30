@@ -4,27 +4,27 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    private static final String DATE = "dd.MM.yyyy";
     private static final String REPORT = "Report for period ";
     private static final String DASH = " - ";
-    private static final String SPACE = " ";
     private static final String NEW_LINE = "\n";
-    private static final int SECOND_ELEMENT = 1;
-    private static final int THIRD_ELEMENT = 2;
-    private static final int FOURTH_ELEMENT = 3;
-    private static final int ZERO_ELEMENT = 0;
+    private static final int HOURLY_RATE_SECOND = 1;
+    private static final int HOURLY_RATE_THIRD = 2;
+    private static final int HOURLY_RATE_FOURTH = 3;
+    private static final int HOURLY_RATE_ZERO = 0;
+    private static final DateTimeFormatter DATE_TIME_FORMATTER
+            = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder report = new StringBuilder();
-        LocalDate fromDate = LocalDate.parse(dateFrom, DateTimeFormatter.ofPattern(DATE));
-        LocalDate toDate = LocalDate.parse(dateTo, DateTimeFormatter.ofPattern(DATE));
+        LocalDate isBefore = LocalDate.parse(dateFrom, DATE_TIME_FORMATTER);
+        LocalDate isAfter = LocalDate.parse(dateTo, DATE_TIME_FORMATTER);
         int totalSalary = 0;
 
         report.append(REPORT).append(dateFrom)
                 .append(DASH).append(dateTo);
 
         for (String name : names) {
-            int employeeSalary = calculateEmployeeSalary(name,data,fromDate,toDate);
+            int employeeSalary = calculateEmployeeSalary(name,data,isBefore,isAfter);
             report.append(NEW_LINE).append(name).append(DASH).append(employeeSalary);
             totalSalary += employeeSalary;
         }
@@ -37,14 +37,15 @@ public class SalaryInfo {
         int salary = 0;
 
         for (String entry : data) {
-            String[] parts = entry.split(SPACE);
-            LocalDate date = LocalDate.parse(parts[ZERO_ELEMENT],DateTimeFormatter.ofPattern(DATE));
-            String employeeName = parts[SECOND_ELEMENT];
+            String[] parts = entry.split(System.lineSeparator());
+            LocalDate date = LocalDate
+                    .parse(parts[HOURLY_RATE_ZERO],DATE_TIME_FORMATTER);
+            String employeeName = parts[HOURLY_RATE_SECOND];
 
             if (date.compareTo(fromDate) >= 0 && date.compareTo(toDate) <= 0
                     && employeeName.equals(name)) {
-                int hours = Integer.parseInt(parts[THIRD_ELEMENT]);
-                int hourlyRate = Integer.parseInt(parts[FOURTH_ELEMENT]);
+                int hours = Integer.parseInt(parts[HOURLY_RATE_THIRD]);
+                int hourlyRate = Integer.parseInt(parts[HOURLY_RATE_FOURTH]);
                 salary += hourlyRate * hours;
             }
         }
