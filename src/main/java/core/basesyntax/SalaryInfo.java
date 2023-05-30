@@ -7,10 +7,10 @@ public class SalaryInfo {
     private static final String REPORT = "Report for period ";
     private static final String DASH = " - ";
     private static final String SEPARATOR = " ";
-    private static final int HOURLY_RATE_SECOND = 1;
-    private static final int HOURLY_RATE_THIRD = 2;
-    private static final int HOURLY_RATE_FOURTH = 3;
-    private static final int HOURLY_RATE_ZERO = 0;
+    private static final int DATE_INDEX = 0;
+    private static final int NAME_INDEX = 1;
+    private static final int HOURS_INDEX = 2;
+    private static final int RATE_INDEX = 3;
     private static final DateTimeFormatter DATE_TIME_FORMATTER
             = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
@@ -38,13 +38,13 @@ public class SalaryInfo {
 
         for (String entry : data) {
             String[] parts = entry.split(SEPARATOR);
-            LocalDate date = LocalDate.parse(parts[HOURLY_RATE_ZERO],DATE_TIME_FORMATTER);
-            String employeeName = parts[HOURLY_RATE_SECOND];
+            LocalDate date = LocalDate.parse(parts[DATE_INDEX],DATE_TIME_FORMATTER);
+            String employeeName = parts[NAME_INDEX];
 
             if (date.compareTo(isBefore) >= 0 && date.compareTo(isAfter) <= 0
                     && employeeName.equals(name)) {
-                int hours = Integer.parseInt(parts[HOURLY_RATE_THIRD]);
-                int hourlyRate = Integer.parseInt(parts[HOURLY_RATE_FOURTH]);
+                int hours = Integer.parseInt(parts[HOURS_INDEX]);
+                int hourlyRate = Integer.parseInt(parts[RATE_INDEX]);
                 salary += hourlyRate * hours;
             }
         }
