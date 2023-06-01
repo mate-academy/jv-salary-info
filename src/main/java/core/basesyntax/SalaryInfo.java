@@ -39,7 +39,7 @@ public class SalaryInfo {
             return builder.toString();
         } catch (DateTimeParseException exc) {
             System.out.printf("%s is not parsable!%n", dateFrom);
-            throw exc;      // Rethrow the exception.
+            throw exc;
         }
     }
 }
