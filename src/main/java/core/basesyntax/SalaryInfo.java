@@ -79,8 +79,8 @@ public class SalaryInfo {
                 result.append(String.format(template, orderedNames[i],
                         values.get(orderedNames[i]) == null ? 0 : values.get(orderedNames[i])));
             } else {
-                result.append(System.lineSeparator()).append(String.
-                        format(template, orderedNames[i],
+                result.append(System.lineSeparator())
+                        .append(String.format(template, orderedNames[i],
                                 values.get(orderedNames[i]) == null ? 0 :
                                 values.get(orderedNames[i])));
             }
