@@ -1,4 +1,5 @@
 package core.basesyntax;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -7,8 +8,8 @@ public class SalaryInfo {
     private static final DateTimeFormatter formatter =
             DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
-    public static String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        if (names.length == 0 || data.length == 0){
+    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
+        if (names.length == 0 || data.length == 0) {
             return "";
         }
         try {
@@ -23,8 +24,10 @@ public class SalaryInfo {
                     String[] record = datas.split(" ");
                     if (record[1].equals(sampleName)) {
                         LocalDate dateRecord = LocalDate.parse(record[0], formatter);
-                        if (dateRecord.isAfter(date1) && dateRecord.isBefore(date2) || dateRecord.equals(date1) || dateRecord.equals(date2)) {
-                            int recordSalary = Integer.parseInt( record[2]) *Integer.parseInt(record[3]);
+                        if (dateRecord.isAfter(date1) && dateRecord.isBefore(date2)
+                                || dateRecord.equals(date1) || dateRecord.equals(date2)) {
+                            int recordSalary =
+                                    Integer.parseInt(record[2]) * Integer.parseInt(record[3]);
                             sampleSalary += recordSalary;
                         }
                     }
@@ -34,8 +37,7 @@ public class SalaryInfo {
                 builder.append(sampleSalary);
             }
             return builder.toString();
-        }
-        catch (DateTimeParseException exc) {
+        } catch (DateTimeParseException exc) {
             System.out.printf("%s is not parsable!%n", dateFrom);
             throw exc;      // Rethrow the exception.
         }
