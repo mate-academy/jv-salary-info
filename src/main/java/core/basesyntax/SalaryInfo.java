@@ -35,12 +35,17 @@ public class SalaryInfo {
         System.out.println();
     }
 
-    public static String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
+    public static String getSalaryInfo(String[] names, String[] data,
+                                       String dateFrom, String dateTo) {
         Map<String, Integer> values = new HashMap<>();
         for (int i = 0; i < data.length; i++) {
             String[] parsedDataRow = parseDataRow(data[i]);
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d.MM.yyyy");
-            if (LocalDate.parse(parsedDataRow[0], formatter).isAfter(LocalDate.parse(dateTo, formatter)) || LocalDate.parse(parsedDataRow[0], formatter).isBefore(LocalDate.parse(dateFrom, formatter))) {
+            DateTimeFormatter formatter
+                    = DateTimeFormatter.ofPattern("d.MM.yyyy");
+            if (LocalDate.parse(parsedDataRow[0], formatter).isAfter(
+                    LocalDate.parse(dateTo, formatter)) || LocalDate.parse(
+                            parsedDataRow[0], formatter).isBefore(
+                                    LocalDate.parse(dateFrom, formatter))) {
                 continue;
             }
             int rowSalary = calculateRowSalary(parsedDataRow[2], parsedDataRow[3]);
@@ -50,7 +55,8 @@ public class SalaryInfo {
                 values.put(parsedDataRow[1], values.get(parsedDataRow[1]) + rowSalary);
             }
         }
-        String resultTemplate = String.format("Report for period %s - %s\r\n" + generateSalaryRows(values, names)
+        String resultTemplate = String.format("Report for period %s - %s\r\n"
+                        + generateSalaryRows(values, names)
                 , dateFrom, dateTo);
         return resultTemplate;
     }
@@ -63,14 +69,19 @@ public class SalaryInfo {
         return dataRow.split(" ");
     }
 
-    private static String generateSalaryRows(Map<String, Integer> values, String[] orderedNames) {
+    private static String generateSalaryRows(Map<String, Integer> values
+            , String[] orderedNames) {
         String template = "%s - %s";
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < orderedNames.length; i++) {
             if (i == 0) {
-                result.append(String.format(template, orderedNames[i], values.get(orderedNames[i]) == null ? 0 : values.get(orderedNames[i])));
+                result.append(String.format(template, orderedNames[i],
+                        values.get(orderedNames[i]) == null ? 0 : values.get(orderedNames[i])));
             } else {
-                result.append(System.lineSeparator()).append(String.format(template, orderedNames[i], values.get(orderedNames[i]) == null ? 0 : values.get(orderedNames[i])));
+                result.append(System.lineSeparator()).append(String.
+                        format(template, orderedNames[i], values.get(
+                                orderedNames[i]) == null ? 0 : values.get(
+                                        orderedNames[i])));
             }
         }
         return result.toString();
