@@ -56,8 +56,8 @@ public class SalaryInfo {
             }
         }
         String resultTemplate = String.format("Report for period %s - %s\r\n"
-                        + generateSalaryRows(values, names)
-                , dateFrom, dateTo);
+                        + generateSalaryRows(values, names),
+                dateFrom, dateTo);
         return resultTemplate;
     }
 
@@ -69,8 +69,9 @@ public class SalaryInfo {
         return dataRow.split(" ");
     }
 
-    private static String generateSalaryRows(Map<String, Integer> values
-            , String[] orderedNames) {
+    private static String generateSalaryRows(
+            Map<String, Integer> values,
+            String[] orderedNames) {
         String template = "%s - %s";
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < orderedNames.length; i++) {
@@ -79,9 +80,9 @@ public class SalaryInfo {
                         values.get(orderedNames[i]) == null ? 0 : values.get(orderedNames[i])));
             } else {
                 result.append(System.lineSeparator()).append(String.
-                        format(template, orderedNames[i], values.get(
-                                orderedNames[i]) == null ? 0 : values.get(
-                                        orderedNames[i])));
+                        format(template, orderedNames[i],
+                                values.get(orderedNames[i]) == null ? 0 :
+                                values.get(orderedNames[i])));
             }
         }
         return result.toString();
