@@ -44,8 +44,8 @@ public class SalaryInfo {
                     = DateTimeFormatter.ofPattern("d.MM.yyyy");
             if (LocalDate.parse(parsedDataRow[0], formatter).isAfter(
                     LocalDate.parse(dateTo, formatter)) || LocalDate.parse(
-                            parsedDataRow[0], formatter).isBefore(
-                                    LocalDate.parse(dateFrom, formatter))) {
+                    parsedDataRow[0], formatter).isBefore(
+                    LocalDate.parse(dateFrom, formatter))) {
                 continue;
             }
             int rowSalary = calculateRowSalary(parsedDataRow[2], parsedDataRow[3]);
@@ -55,7 +55,7 @@ public class SalaryInfo {
                 values.put(parsedDataRow[1], values.get(parsedDataRow[1]) + rowSalary);
             }
         }
-        String resultTemplate = String.format("Report for period %s - %s\r\n"
+        String resultTemplate = String.format("Report for period %s - %s" + System.lineSeparator()
                         + generateSalaryRows(values, names),
                 dateFrom, dateTo);
         return resultTemplate;
@@ -82,7 +82,7 @@ public class SalaryInfo {
                 result.append(System.lineSeparator())
                         .append(String.format(template, orderedNames[i],
                                 values.get(orderedNames[i]) == null ? 0 :
-                                values.get(orderedNames[i])));
+                                        values.get(orderedNames[i])));
             }
         }
         return result.toString();
