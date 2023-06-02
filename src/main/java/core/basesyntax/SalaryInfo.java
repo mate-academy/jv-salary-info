@@ -8,7 +8,8 @@ public class SalaryInfo {
     public static String getSalaryInfo(String[] names, String[] data,
                                        String dateFrom, String dateTo) {
         StringBuilder result = new StringBuilder();
-        result.append(String.format("Report for period %s - %s"+ System.lineSeparator(), dateFrom, dateTo));
+        result.append(String.format("Report for period %s - %s"
+                + System.lineSeparator(), dateFrom, dateTo));
         String rowTemplate = "%s - %s";
         for (int i = 0; i < names.length; i++) {
             int personTotalSalary = 0;
@@ -22,15 +23,16 @@ public class SalaryInfo {
                         LocalDate.parse(dateFrom, formatter))) {
                     continue;
                 }
-                if(!names[i].equals(parsedDataRow[1])){
+                if (!names[i].equals(parsedDataRow[1])) {
                     continue;
                 }
                 personTotalSalary += calculateRowSalary(parsedDataRow[2], parsedDataRow[3]);
             }
-            if(i == 0){
+            if (i == 0) {
                 result.append(String.format(rowTemplate, names[i], personTotalSalary));
-            }else{
-                result.append(System.lineSeparator()).append(String.format(rowTemplate, names[i], personTotalSalary));
+            } else {
+                result.append(System.lineSeparator()).append(String.format(rowTemplate,
+                        names[i], personTotalSalary));
             }
         }
         return result.toString();
