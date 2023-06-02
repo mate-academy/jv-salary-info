@@ -27,9 +27,11 @@ public class SalaryInfo {
                 if (record[NAME_INDEX].equals(sampleName)) {
                     LocalDate dateRecord = LocalDate.parse(record[DATE_INDEX], formatter);
                     if (dateRecord.isAfter(dateReportFrom) && dateRecord.isBefore(dateReportTo)
-                            || dateRecord.equals(dateReportFrom) || dateRecord.equals(dateReportTo)) {
+                            || dateRecord.equals(dateReportFrom)
+                            || dateRecord.equals(dateReportTo)) {
                         int recordSalary =
-                                Integer.parseInt(record[HOURS_INDEX]) * Integer.parseInt(record[INCOME_PER_HOUR_INDEX]);
+                                Integer.parseInt(record[HOURS_INDEX]) *
+                                        Integer.parseInt(record[INCOME_PER_HOUR_INDEX]);
                         sampleSalary += recordSalary;
                     }
                 }
