@@ -9,37 +9,36 @@ public class SalaryInfo {
             DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
+        final int DATE_INDEX = 0;
+        final int NAME_INDEX = 1;
+        final int HOURS_INDEX = 2;
+        final int INCOME_PER_HOUR_INDEX = 3;
         if (names.length == 0 || data.length == 0) {
             return "";
         }
-        try {
-            LocalDate date1 = LocalDate.parse(dateFrom, formatter);
-            LocalDate date2 = LocalDate.parse(dateTo, formatter);
-            StringBuilder builder = new StringBuilder("Report for period ");
-            builder.append(dateFrom).append(" - ").append(dateTo);
-            int sampleSalary;
-            for (String sampleName : names) {
-                sampleSalary = 0;
-                for (String datas : data) {
-                    String[] record = datas.split(" ");
-                    if (record[1].equals(sampleName)) {
-                        LocalDate dateRecord = LocalDate.parse(record[0], formatter);
-                        if (dateRecord.isAfter(date1) && dateRecord.isBefore(date2)
-                                || dateRecord.equals(date1) || dateRecord.equals(date2)) {
-                            int recordSalary =
-                                    Integer.parseInt(record[2]) * Integer.parseInt(record[3]);
-                            sampleSalary += recordSalary;
-                        }
+        LocalDate dateReportFrom = LocalDate.parse(dateFrom, formatter);
+        LocalDate dateReportTo = LocalDate.parse(dateTo, formatter);
+        StringBuilder builder = new StringBuilder("Report for period ");
+        builder.append(dateFrom).append(" - ").append(dateTo);
+        int sampleSalary;
+        for (String sampleName : names) {
+            sampleSalary = 0;
+            for (String datas : data) {
+                String[] record = datas.split(" ");
+                if (record[NAME_INDEX].equals(sampleName)) {
+                    LocalDate dateRecord = LocalDate.parse(record[DATE_INDEX], formatter);
+                    if (dateRecord.isAfter(dateReportFrom) && dateRecord.isBefore(dateReportTo)
+                            || dateRecord.equals(dateReportFrom) || dateRecord.equals(dateReportTo)) {
+                        int recordSalary =
+                                Integer.parseInt(record[HOURS_INDEX]) * Integer.parseInt(record[INCOME_PER_HOUR_INDEX]);
+                        sampleSalary += recordSalary;
                     }
                 }
-                builder.append(System.lineSeparator());
-                builder.append(sampleName).append(" - ");
-                builder.append(sampleSalary);
             }
-            return builder.toString();
-        } catch (DateTimeParseException exc) {
-            System.out.printf("%s is not parsable!%n", dateFrom);
-            throw exc;
+            builder.append(System.lineSeparator());
+            builder.append(sampleName).append(" - ");
+            builder.append(sampleSalary);
         }
+        return builder.toString();
     }
 }
