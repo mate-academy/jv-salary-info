@@ -11,22 +11,21 @@ public class SalaryInfo {
     private static final int NAME_COLUMN = 1;
     private static final int WORKING_HOURS_COLUMN = 2;
     private static final int SALARY_RATE_COLUMN = 3;
-    private int[] totalSalary = new int[] {};
-    private String dataPattern = "dd.MM.yyyy";
-    private DateTimeFormatter simpleDateFormat = DateTimeFormatter.ofPattern(dataPattern);
+    private int[] totalSalary = new int[]{};
+    private DateTimeFormatter simpleDateFormat = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         totalSalary = new int[names.length];
         for (int i = 0; i < totalSalary.length; i++) {
             totalSalary[i] = SALARY_OFFSET;
         }
-        for (String dataRecord : data) {
-            String[] splitRecord = dataRecord.split(DATA_RECORD_SPLIT_REGEX);
+        for (String record : data) {
+            String[] splitRecord = record.split(DATA_RECORD_SPLIT_REGEX);
             String requestDate = splitRecord[DATE_COLUMN];
             if (checkIfDateIsInRange(dateFrom, dateTo, requestDate)) {
                 int salary = Integer.parseInt(splitRecord[WORKING_HOURS_COLUMN])
                         * Integer.parseInt(splitRecord[SALARY_RATE_COLUMN]);
-                totalSalary[indexOf(names,splitRecord[NAME_COLUMN])] += salary;
+                totalSalary[indexOf(names, splitRecord[NAME_COLUMN])] += salary;
             }
         }
         return getReportForNames(dateFrom, dateTo, names);
@@ -46,8 +45,8 @@ public class SalaryInfo {
     private boolean checkIfDateIsInRange(String dateFrom, String dateTo, String requestDate) {
         LocalDate dateToCheck = LocalDate.parse(requestDate, simpleDateFormat);
         LocalDate startDate = LocalDate.parse(dateFrom, simpleDateFormat);
-        LocalDate endDate = LocalDate.parse(dateTo,simpleDateFormat);
-        return (dateToCheck.compareTo(startDate) >= 0) && (dateToCheck.compareTo(endDate) <= 0);
+        LocalDate endDate = LocalDate.parse(dateTo, simpleDateFormat);
+        return dateToCheck.compareTo(startDate) >= 0 && dateToCheck.compareTo(endDate) <= 0;
     }
 
     private int indexOf(Object[] strArray, Object element) {
