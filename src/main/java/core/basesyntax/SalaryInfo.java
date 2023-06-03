@@ -17,14 +17,20 @@ public class SalaryInfo {
 
             for (String employeeData : data) {
                 String[] parts = employeeData.split(" ");
-                if (name.equals(parts[1])) {
-                    LocalDate date = LocalDate.parse(parts[0], formatter);
+                final int dateIndex = 0;
+                final int nameIndex = 1;
+                final int workingHoursIndex = 2;
+                final int salaryPerHourIndex = 3;
+
+                if (name.equals(parts[nameIndex])) {
+                    LocalDate date = LocalDate.parse(parts[dateIndex], formatter);
                     if (date.isEqual(localDateFrom)
                             || date.isAfter(localDateFrom)
                             && date.isEqual(localDateTo)
                             || date.isAfter(localDateFrom)
                             && date.isBefore(localDateTo)) {
-                        salary += Integer.parseInt(parts[2]) * Integer.parseInt(parts[3]);
+                        salary += Integer.parseInt(parts[workingHoursIndex])
+                                * Integer.parseInt(parts[salaryPerHourIndex]);
                     }
                 }
             }
