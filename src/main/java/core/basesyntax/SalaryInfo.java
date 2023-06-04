@@ -29,11 +29,7 @@ public class SalaryInfo {
 
                 if (name.equals(parts[NAME_INDEX])) {
                     LocalDate date = LocalDate.parse(parts[DATE_INDEX], TIME_FORMATTER);
-                    if (date.isEqual(localDateFrom)
-                            || date.isAfter(localDateFrom)
-                            && date.isEqual(localDateTo)
-                            || date.isAfter(localDateFrom)
-                            && date.isBefore(localDateTo)) {
+                    if (checkDateBounds(date, localDateFrom, localDateTo)) {
                         salary += Integer.parseInt(parts[WORKING_HOURS_INDEX])
                                 * Integer.parseInt(parts[SALARY_PER_HOUR_INDEX]);
                     }
@@ -45,6 +41,17 @@ public class SalaryInfo {
                     .append(salary);
         }
         return employeeSalaryReport.toString();
+    }
+
+    private boolean checkDateBounds(LocalDate dateToCheck, LocalDate dateFrom, LocalDate dateTo) {
+        if (dateToCheck.isEqual(dateFrom)
+                || dateToCheck.isAfter(dateFrom)
+                && dateToCheck.isEqual(dateTo)
+                || dateToCheck.isAfter(dateFrom)
+                && dateToCheck.isBefore(dateTo)) {
+            return true;
+        }
+        return false;
     }
 }
 
