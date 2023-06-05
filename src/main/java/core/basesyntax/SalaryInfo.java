@@ -21,7 +21,7 @@ public class SalaryInfo {
                 if ((dateOfWork.isAfter(dateStart) || dateOfWork.isEqual(dateStart))
                         && (dateOfWork.isBefore(dateFinish) || dateOfWork.isEqual(dateFinish))
                         && (nameFromData.equals(name))) {
-                salary += workingHour * income;
+                    salary += workingHour * income;
                 }
             }
             builder.append(System.lineSeparator());
