@@ -6,10 +6,10 @@ import java.time.format.DateTimeFormatter;
 public class SalaryInfo {
     static final DateTimeFormatter FORMATTER =
             DateTimeFormatter.ofPattern("dd.MM.yyyy");
-    static final int FIRST_WORD = 0;
-    static final int SECOND_WORD = 1;
-    static final int THIRD_WORD = 2;
-    static final int FORTH_WORD = 3;
+    private static final int DATE_INDEX = 0;
+    private static final int NAME_INDEX = 1;
+    private static final int WORKING_HOURS_INDEX = 2;
+    private static final int INCOME_PER_HOUR_INDEX = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate dateFromLocal = LocalDate.parse(dateFrom, FORMATTER);
@@ -21,12 +21,11 @@ public class SalaryInfo {
             int sum = 0;
             for (String dataRow : data) {
                 String[] dataRowSplit = dataRow.split(" ");
-                LocalDate workingDate = LocalDate.parse(dataRowSplit[FIRST_WORD], FORMATTER);
-                if (name.equals(dataRowSplit[SECOND_WORD]) && workingDate.isAfter(dateFromLocal)
-                        && (workingDate.isBefore(dateToLocal)
-                        || workingDate.isEqual(dateToLocal))) {
-                    sum += Integer.parseInt(dataRowSplit[THIRD_WORD])
-                            * Integer.parseInt(dataRowSplit[FORTH_WORD]);
+                LocalDate workingDate = LocalDate.parse(dataRowSplit[DATE_INDEX], FORMATTER);
+                if (name.equals(dataRowSplit[NAME_INDEX]) && !workingDate.isBefore(dateFromLocal)
+                        && !workingDate.isAfter(dateToLocal)) {
+                    sum += Integer.parseInt(dataRowSplit[WORKING_HOURS_INDEX])
+                            * Integer.parseInt(dataRowSplit[INCOME_PER_HOUR_INDEX]);
                 }
             }
             result.append(System.lineSeparator()).append(name).append(" - ").append(sum);
