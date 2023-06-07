@@ -9,7 +9,6 @@ public class SalaryInfo {
     private static int PARSED_ROW_HOURS_INDEX = 2;
     private static int PARSED_ROW_RATE_PER_HOUR_INDEX = 3;
 
-
     public static String getSalaryInfo(String[] names, String[] data,
                                        String dateFrom, String dateTo) {
         StringBuilder result = new StringBuilder();
