@@ -9,11 +9,11 @@ public class SalaryInfo {
     private static final int POSITION_FOR_NAME = 1;
     private static final int POSITION_FOR_HOURS = 2;
     private static final int POSITION_FOR_MONEY = 3;
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        LocalDate localDateFrom = LocalDate.parse(dateFrom, formatter);
-        LocalDate localDateTo = LocalDate.parse(dateTo, formatter);
+        LocalDate localDateFrom = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate localDateTo = LocalDate.parse(dateTo, FORMATTER);
         StringBuilder resultMessage = new StringBuilder();
         resultMessage.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
         for (String name : names) {
@@ -24,12 +24,8 @@ public class SalaryInfo {
                 String localName = dates[POSITION_FOR_NAME];
                 int hours = Integer.parseInt(dates[POSITION_FOR_HOURS]);
                 int incomePerHour = Integer.parseInt(dates[POSITION_FOR_MONEY]);
-                LocalDate date = LocalDate.parse(dateString, formatter);
-                if ((localName.equals(name))
-                        && (date.isAfter(localDateFrom)
-                        || date.isEqual(localDateFrom))
-                        && (date.isBefore(localDateTo)
-                        || date.isEqual(localDateTo))) {
+                LocalDate date = LocalDate.parse(dateString, FORMATTER);
+                if ((localName.equals(name)) && checkDate(date, localDateTo, localDateFrom)) {
                     salary += hours * incomePerHour;
                 }
             }
@@ -39,5 +35,12 @@ public class SalaryInfo {
                     .append(salary);
         }
         return resultMessage.toString();
+    }
+
+    private boolean checkDate(LocalDate date, LocalDate localDateTo, LocalDate localDateFrom) {
+        return (date.isAfter(localDateFrom)
+                || date.isEqual(localDateFrom))
+                && (date.isBefore(localDateTo)
+                || date.isEqual(localDateTo));
     }
 }
