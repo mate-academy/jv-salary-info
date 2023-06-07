@@ -4,6 +4,11 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
+    private static int PARSED_ROW_DATE_INDEX = 0;
+    private static int PARSED_ROW_NAME_INDEX = 1;
+    private static int PARSED_ROW_HOURS_INDEX = 2;
+    private static int PARSED_ROW_RATE_PER_HOUR_INDEX = 3;
+
 
     public static String getSalaryInfo(String[] names, String[] data,
                                        String dateFrom, String dateTo) {
@@ -17,16 +22,15 @@ public class SalaryInfo {
                 String[] parsedDataRow = parseDataRow(data[j]);
                 DateTimeFormatter formatter
                         = DateTimeFormatter.ofPattern("d.MM.yyyy");
-                if (LocalDate.parse(parsedDataRow[0], formatter).isAfter(
+                if (!(LocalDate.parse(parsedDataRow[PARSED_ROW_DATE_INDEX], formatter).isAfter(
                         LocalDate.parse(dateTo, formatter)) || LocalDate.parse(
-                        parsedDataRow[0], formatter).isBefore(
-                        LocalDate.parse(dateFrom, formatter))) {
-                    continue;
+                        parsedDataRow[PARSED_ROW_DATE_INDEX], formatter).isBefore(
+                        LocalDate.parse(dateFrom, formatter)))
+                        && names[i].equals(parsedDataRow[PARSED_ROW_NAME_INDEX])) {
+                    personTotalSalary +=
+                            calculateRowSalary(parsedDataRow[PARSED_ROW_HOURS_INDEX],
+                                    parsedDataRow[PARSED_ROW_RATE_PER_HOUR_INDEX]);
                 }
-                if (!names[i].equals(parsedDataRow[1])) {
-                    continue;
-                }
-                personTotalSalary += calculateRowSalary(parsedDataRow[2], parsedDataRow[3]);
             }
             if (i == 0) {
                 result.append(String.format(rowTemplate, names[i], personTotalSalary));
