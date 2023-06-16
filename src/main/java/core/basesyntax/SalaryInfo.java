@@ -5,12 +5,13 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 public class SalaryInfo {
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
     public String getSalaryInfo(String[] names, String[] data,
                                               String dateFrom, String dateTo)
             throws DateTimeParseException {
         int wagePerHour;
         int workingHours;
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         LocalDate dateStart = LocalDate.parse(dateFrom, formatter);
         LocalDate dateEnd = LocalDate.parse(dateTo, formatter);
         LocalDate workDayDate;
