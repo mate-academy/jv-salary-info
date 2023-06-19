@@ -39,7 +39,7 @@ public class SalaryInfo {
             reportBuilder.append(LINE_SEPARATOR)
                     .append(userName)
                     .append(" - ")
-                    .append(incomesPerUser.getSum(userName));
+                    .append(incomesPerUser.getIncome(userName));
         }
 
         return reportBuilder.toString();

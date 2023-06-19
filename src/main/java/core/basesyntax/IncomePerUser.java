@@ -13,8 +13,8 @@ public class IncomePerUser {
         return userNames;
     }
 
-    public int getSum(String name) {
-        int index = getSumIndex(name);
+    public int getIncome(String name) {
+        int index = getIncomeIndex(name);
 
         if (index == -1) {
             throw new IllegalArgumentException("No such key: " + name);
@@ -24,7 +24,7 @@ public class IncomePerUser {
     }
 
     public void increment(String name, int sum) {
-        int index = getSumIndex(name);
+        int index = getIncomeIndex(name);
 
         if (index == -1) {
             throw new IllegalArgumentException("No such key: " + name);
@@ -33,7 +33,7 @@ public class IncomePerUser {
         incomes[index] += sum;
     }
 
-    private int getSumIndex(String name) {
+    private int getIncomeIndex(String name) {
         for (int i = 0; i < userNames.length; i++) {
             if (userNames[i].equals(name)) {
                 return i;
