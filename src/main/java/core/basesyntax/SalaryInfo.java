@@ -1,52 +1,41 @@
 package core.basesyntax;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-
-    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
+    public static final int DATE_POSITION = 0;
+    public static final int NAME_POSITION = 1;
+    public static final int HOURS_POSITION = 2;
+    public static final int RATE_POSITION = 3;
+    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        StringBuilder result = new StringBuilder();
-        result.append("Report for period ")
+        StringBuilder result = new StringBuilder()
+                .append("Report for period ")
                 .append(dateFrom).append(" - ").append(dateTo);
-        try {
-            int[] earned = new int[names.length];
-            Date fromDate = DATE_FORMAT.parse(dateFrom);
-            Date toDate = DATE_FORMAT.parse(dateTo);
+        int[] earned = new int[names.length];
+        LocalDate fromDate = LocalDate.parse(dateFrom, DATE_FORMAT);
+        LocalDate toDate = LocalDate.parse(dateTo, DATE_FORMAT);
+        for (String line: data) {
+            String[] segments = line.split(" ");
+            LocalDate date = LocalDate.parse(segments[DATE_POSITION], DATE_FORMAT);
+            String name = segments[NAME_POSITION];
+            int hours = Integer.parseInt(segments[HOURS_POSITION]);
+            int rate = Integer.parseInt(segments[RATE_POSITION]);
 
-            for (String line: data) {
-                String[] split = line.split(" ");
-                Date date = DATE_FORMAT.parse(split[0]);
-                String name = split[1];
-                int hours = Integer.parseInt(split[2]);
-                int rate = Integer.parseInt(split[3]);
-
-                if ((date.after(fromDate) || date.equals(fromDate))
-                        && (date.before(toDate) || date.equals(toDate))) {
-                    for (int i = 0; i < names.length; i++) {
-                        if (name.equals(names[i])) {
-                            earned[i] += hours * rate;
-                        }
+            if (!date.isBefore(fromDate) && !date.isAfter(toDate)) {
+                for (int i = 0; i < names.length; i++) {
+                    if (name.equals(names[i])) {
+                        earned[i] += hours * rate;
                     }
                 }
             }
-
-            for (int i = 0; i < names.length; i++) {
-                result.append(System.lineSeparator())
-                        .append(names[i]).append(" - ").append(earned[i]);
-            }
-        } catch (Exception e) {
-            // don't know what you expect here, convert everything to runtime exceptions? not sure
-            // Ok, let's return error in the report
-            result.append(System.lineSeparator())
-                    .append("Something went wrong. Report cannot be generated. Exception: ")
-                    .append(e.getMessage());
-            // and print the stacktrace
-            e.printStackTrace();
         }
-
+        for (int i = 0; i < names.length; i++) {
+            result.append(System.lineSeparator())
+                    .append(names[i]).append(" - ").append(earned[i]);
+        }
         return result.toString();
     }
 }
