@@ -8,12 +8,12 @@ public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         int[] sum = new int[names.length];
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        LocalDate date1 = LocalDate.parse(dateFrom, formatter);
-        LocalDate date2 = LocalDate.parse(dateTo,formatter);
+        LocalDate beginningOfPeriod = LocalDate.parse(dateFrom, formatter);
+        LocalDate endOfPeriod = LocalDate.parse(dateTo,formatter);
         for (int i = 0; i < data.length; i++) {
             String[] dataArray = data[i].split(" ");
-            LocalDate date3 = LocalDate.parse(dataArray[0], formatter);
-            if (date3.compareTo(date1) >= 0 && date3.compareTo(date2) <= 0) {
+            LocalDate workingDay = LocalDate.parse(dataArray[0], formatter);
+            if (!workingDay.isBefore(beginningOfPeriod) && !workingDay.isAfter(endOfPeriod)) {
                 for (int k = 0; k < names.length; k++) {
                     if (names[k].equals(dataArray[1])) {
                         sum[k] += Integer.parseInt(dataArray[2]) * Integer.parseInt(dataArray[3]);
