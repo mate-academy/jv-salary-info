@@ -5,6 +5,10 @@ public class IncomePerUser {
     private int[] incomes;
 
     public IncomePerUser(String[] userNames) {
+        if (userNames == null) {
+            throw new IllegalArgumentException("Provide an Array");
+        }
+
         this.userNames = userNames;
         this.incomes = new int[userNames.length];
     }
