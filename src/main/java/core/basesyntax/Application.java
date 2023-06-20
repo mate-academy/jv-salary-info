@@ -77,6 +77,7 @@ public class Application {
                         + "Kate - 2140";
         // Demo: scriptArray
         SalaryInfo salary = new SalaryInfo();
+        System.out.println(salary.getSalaryInfo(sampleNames, scriptArray, dates[0], dates[0]));
         System.out.println(salary.getSalaryInfo(sampleNames, scriptArray, dates[0], dates[1]));
         System.out.println(salary.getSalaryInfo(sampleNames, scriptArray, dates[0], dates[2]));
         System.out.println(salary.getSalaryInfo(sampleNames, scriptArray, dates[0], dates[3]));
