@@ -23,14 +23,14 @@ public class IncomePerUser {
         return incomes[index];
     }
 
-    public void increment(String name, int sum) {
+    public void addIncome(String name, int income) {
         int index = getIncomeIndex(name);
 
         if (index == -1) {
             throw new IllegalArgumentException("No such key: " + name);
         }
 
-        incomes[index] += sum;
+        incomes[index] += income;
     }
 
     private int getIncomeIndex(String name) {
