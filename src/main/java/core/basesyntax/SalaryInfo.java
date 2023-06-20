@@ -8,7 +8,11 @@ public class SalaryInfo {
     private static final SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        StringBuilder resultListBuilder = new StringBuilder("Report for period " + dateFrom + " - " + dateTo + System.lineSeparator());
+        StringBuilder resultListBuilder = new StringBuilder("Report for period "
+                + dateFrom
+                + " - "
+                + dateTo
+                + System.lineSeparator());
 
         try {
             Date firstDate = dateFormatter.parse(dateFrom);
@@ -16,7 +20,11 @@ public class SalaryInfo {
 
             for (String name : names) {
                 int totalSalary = calculateTotalSalary(data, firstDate, secondDate, name);
-                resultListBuilder.append(name).append(" - ").append(totalSalary).append(System.lineSeparator());
+                resultListBuilder
+                        .append(name)
+                        .append(" - ")
+                        .append(totalSalary)
+                        .append(System.lineSeparator());
             }
 
         } catch (ParseException e) {
@@ -24,7 +32,7 @@ public class SalaryInfo {
         }
 
         String result = resultListBuilder.toString();
-        return result.isEmpty() ? result : result.substring(0, result.length() - System.lineSeparator().length());
+        return removeTrailingLineSeparator(result);
     }
 
     private int calculateTotalSalary(String[] data, Date firstDate, Date secondDate, String name) throws ParseException {
@@ -35,7 +43,8 @@ public class SalaryInfo {
             int workingHours = Integer.parseInt(element.split(" ")[2]);
             int moneyPerHourEarned = Integer.parseInt(element.split(" ")[3]);
 
-            if ((workDate.equals(firstDate) || (workDate.after(firstDate) && workDate.before(secondDate) || workDate.equals(secondDate)))
+            if ((workDate.equals(firstDate) || (workDate.after(firstDate)
+                    && workDate.before(secondDate) || workDate.equals(secondDate)))
                     && name.equals(employeeName)) {
                 totalSalary += moneyPerHourEarned * workingHours;
             }
