@@ -22,34 +22,34 @@ public class Application {
                 "27.04.2019"
         };
         String[] exceptedReports = {
-                "Report for period 24.04.2019 - 24.04.2019" +
-                        System.lineSeparator() +
-                        "John - 0" +
-                        System.lineSeparator() +
-                        "Andrew - 0" +
-                        System.lineSeparator() +
-                        "Kate - 0",
-                "Report for period 24.04.2019 - 25.04.2019" +
-                        System.lineSeparator() +
-                        "John - 3000" +
-                        System.lineSeparator() +
-                        "Andrew - 600" +
-                        System.lineSeparator() +
-                        "Kate - 1000",
-                "Report for period 24.04.2019 - 26.04.2019" +
-                        System.lineSeparator() +
-                        "John - 3000" +
-                        System.lineSeparator() +
-                        "Andrew - 1200" +
-                        System.lineSeparator() +
-                        "Kate - 1900",
-                "Report for period 24.04.2019 - 27.04.2019" +
-                        System.lineSeparator() +
-                        "John - 3700" +
-                        System.lineSeparator() +
-                        "Andrew - 2000" +
-                        System.lineSeparator() +
-                        "Kate - 2140"
+                "Report for period 24.04.2019 - 24.04.2019"
+                        + System.lineSeparator()
+                        + "John - 0"
+                        + System.lineSeparator()
+                        + "Andrew - 0"
+                        + System.lineSeparator()
+                        + "Kate - 0",
+                "Report for period 24.04.2019 - 25.04.2019"
+                        + System.lineSeparator()
+                        + "John - 3000"
+                        + System.lineSeparator()
+                        + "Andrew - 600"
+                        + System.lineSeparator()
+                        + "Kate - 1000",
+                "Report for period 24.04.2019 - 26.04.2019"
+                        + System.lineSeparator()
+                        + "John - 3000"
+                        + System.lineSeparator()
+                        + "Andrew - 1200"
+                        + System.lineSeparator()
+                        + "Kate - 1900",
+                "Report for period 24.04.2019 - 27.04.2019"
+                        + System.lineSeparator()
+                        + "John - 3700"
+                        + System.lineSeparator()
+                        + "Andrew - 2000"
+                        + System.lineSeparator()
+                        + "Kate - 2140"
         };
         String[] secondScriptArray = {
                 "13.07.2019 John 60 50",
@@ -68,13 +68,13 @@ public class Application {
                 "10.08.2019",
         };
         String secondExceptedReports =
-                "Report for period 14.07.2019 - 10.08.2019" +
-                        System.lineSeparator() +
-                        "John - 700" +
-                        System.lineSeparator() +
-                        "Andrew - 1200" +
-                        System.lineSeparator() +
-                        "Kate - 2140";
+                "Report for period 14.07.2019 - 10.08.2019"
+                        + System.lineSeparator()
+                        + "John - 700"
+                        + System.lineSeparator()
+                        + "Andrew - 1200"
+                        + System.lineSeparator()
+                        + "Kate - 2140";
         // Demo: scriptArray
         SalaryInfo salary = new SalaryInfo();
         System.out.println(salary.getSalaryInfo(sampleNames, scriptArray, dates[0], dates[1]));
