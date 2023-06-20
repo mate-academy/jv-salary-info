@@ -31,7 +31,8 @@ public class SalaryInfo {
             if (salaryDate.compareTo(dateStart) >= 0 && salaryDate.compareTo(dateEnd) <= 0) {
                 for (int j = 0; j < names.length; j++) {
                     if (names[j].equals(salaryData[1])) {
-                        sumSalary[j] += Integer.parseInt(salaryData[2]) * Integer.parseInt(salaryData[3]);
+                        sumSalary[j] += Integer.parseInt(salaryData[2])
+                                * Integer.parseInt(salaryData[3]);
                     }
                 }
             }
@@ -39,7 +40,10 @@ public class SalaryInfo {
         StringBuilder result = new StringBuilder();
         result.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
         for (int i = 0; i < names.length; i++) {
-            result.append(System.lineSeparator()).append(names[i]).append(" - ").append(sumSalary[i]);
+            result.append(System.lineSeparator())
+                    .append(names[i])
+                    .append(" - ")
+                    .append(sumSalary[i]);
         }
         return result.toString();
     }
