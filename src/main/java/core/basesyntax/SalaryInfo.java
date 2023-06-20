@@ -10,7 +10,6 @@ public class SalaryInfo {
     static final int SALARY_DATA_HOUR = 2;
     static final int SALARY_DATA_SUM = 3;
 
-
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         int[] sumSalary = new int[names.length];
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
