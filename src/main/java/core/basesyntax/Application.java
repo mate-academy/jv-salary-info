@@ -82,6 +82,7 @@ public class Application {
         System.out.println(salary.getSalaryInfo(sampleNames, scriptArray, dates[0], dates[3]));
         SalaryInfo salary2 = new SalaryInfo();
         // Demo: secondScriptArray
-        System.out.println(salary2.getSalaryInfo(sampleNames, secondScriptArray, secondDates[0], secondDates[1]));
+        System.out.println(salary2.getSalaryInfo(sampleNames, secondScriptArray,
+                secondDates[0], secondDates[1]));
     }
 }
