@@ -35,7 +35,8 @@ public class SalaryInfo {
         return removeTrailingLineSeparator(result);
     }
 
-    private int calculateTotalSalary(String[] data, Date firstDate, Date secondDate, String name) throws ParseException {
+    private int calculateTotalSalary(String[] data, Date firstDate, Date secondDate, String name)
+            throws ParseException {
         int totalSalary = 0;
         for (String element : data) {
             Date workDate = dateFormatter.parse(element.split(" ")[0]);
