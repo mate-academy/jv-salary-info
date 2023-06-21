@@ -10,30 +10,31 @@ public class SalaryInfo {
     static final int SUM_INDEX = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        int[] sumSalary = new int[names.length];
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         LocalDate dateStart = LocalDate.parse(dateFrom, dateTimeFormatter);
         LocalDate dateEnd = LocalDate.parse(dateTo, dateTimeFormatter);
-        for (String datum : data) {
-            String[] salaryData = datum.split(" ");
-            LocalDate salaryDate = LocalDate.parse(salaryData[DATE_INDEX], dateTimeFormatter);
-            for (int j = 0; j < names.length; j++) {
-                if (names[j].equals(salaryData[NAME_INDEX])) {
-                    if (salaryDate.compareTo(dateStart) >= 0
-                            && salaryDate.compareTo(dateEnd) <= 0) {
-                        sumSalary[j] += Integer.parseInt(salaryData[HOUR_INDEX])
+        int sumSalary;
+        String[] salaryData;
+        LocalDate dateOfSalary;
+        StringBuilder result = new StringBuilder();
+        result.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
+        for (String name : names) {
+            sumSalary = 0;
+            for (String datum : data) {
+                salaryData = datum.split(" ");
+                dateOfSalary = LocalDate.parse(salaryData[DATE_INDEX], dateTimeFormatter);
+                if (name.equals(salaryData[NAME_INDEX])) {
+                    if (dateStart.compareTo(dateOfSalary) <= 0
+                            && dateEnd.compareTo(dateOfSalary) >= 0) {
+                        sumSalary += Integer.parseInt(salaryData[HOUR_INDEX])
                                 * Integer.parseInt(salaryData[SUM_INDEX]);
                     }
                 }
             }
-        }
-        StringBuilder result = new StringBuilder();
-        result.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
-        for (int i = 0; i < names.length; i++) {
             result.append(System.lineSeparator())
-                    .append(names[i])
+                    .append(name)
                     .append(" - ")
-                    .append(sumSalary[i]);
+                    .append(sumSalary);
         }
         return result.toString();
     }
