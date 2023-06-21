@@ -5,36 +5,34 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 public class SalaryInfo {
+    private static final int DATE_INDEX = 0;
+    private static final int NAME_INDEX = 1;
+    private static final int HOURS_INDEX = 2;
+    private static final int WAGE_INDEX = 3;
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data,
                                               String dateFrom, String dateTo)
             throws DateTimeParseException {
-        int wagePerHour;
-        int workingHours;
         LocalDate dateStart = LocalDate.parse(dateFrom, formatter);
         LocalDate dateEnd = LocalDate.parse(dateTo, formatter);
-        LocalDate workDayDate;
         StringBuilder report = new StringBuilder("Report for period " + dateStart.format(formatter)
                 + " - " + dateEnd.format(formatter));
+
         for (String name : names) {
             int totalSalary = 0;
             for (String datum : data) {
                 String[] record = datum.split(" ");
-                workDayDate = LocalDate.parse(record[0], formatter);
-                workingHours = Integer.parseInt(record[2]);
-                wagePerHour = Integer.parseInt(record[3]);
-
+                LocalDate workDayDate = LocalDate.parse(record[DATE_INDEX], formatter);
+                int workingHours = Integer.parseInt(record[HOURS_INDEX]);
+                int wagePerHour = Integer.parseInt(record[WAGE_INDEX]);
                 if (workDayDate.isAfter(dateStart.minusDays(1))
                         && workDayDate.isBefore(dateEnd.plusDays(1))
-                        && record[1].equals(name)) {
+                        && record[NAME_INDEX].equals(name)) {
                     totalSalary = workingHours * wagePerHour + totalSalary;
                 }
             }
-            report.append(System.lineSeparator());
-            report.append(name);
-            report.append(" - ");
-            report.append(totalSalary);
+            report.append(System.lineSeparator()).append(name).append(" - ").append(totalSalary);
         }
         return report.toString();
     }
