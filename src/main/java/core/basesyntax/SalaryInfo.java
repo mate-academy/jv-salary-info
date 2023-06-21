@@ -1,44 +1,28 @@
 package core.basesyntax;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    static final int SALARY_DATA_DATE = 0;
-    static final int SALARY_DATA_NAME = 1;
-    static final int SALARY_DATA_HOUR = 2;
-    static final int SALARY_DATA_SUM = 3;
+    static final int DATE_INDEX = 0;
+    static final int NAME_INDEX = 1;
+    static final int HOUR_INDEX = 2;
+    static final int SUM_INDEX = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         int[] sumSalary = new int[names.length];
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
-        Date dateStart;
-        try {
-            dateStart = simpleDateFormat.parse(dateFrom);
-        } catch (ParseException e) {
-            throw new DateFormatException("Error while parsing dateStart...");
-        }
-        Date dateEnd;
-        try {
-            dateEnd = simpleDateFormat.parse(dateTo);
-        } catch (ParseException e) {
-            throw new DateFormatException("Error while parsing dateEnd...");
-        }
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        LocalDate dateStart = LocalDate.parse(dateFrom, dateTimeFormatter);
+        LocalDate dateEnd = LocalDate.parse(dateTo, dateTimeFormatter);
         for (String datum : data) {
             String[] salaryData = datum.split(" ");
-            Date salaryDate;
-            try {
-                salaryDate = simpleDateFormat.parse(salaryData[SALARY_DATA_DATE]);
-            } catch (ParseException e) {
-                throw new DateFormatException("Error while parsing salaryDate...");
-            }
+            LocalDate salaryDate = LocalDate.parse(salaryData[DATE_INDEX], dateTimeFormatter);
             for (int j = 0; j < names.length; j++) {
-                if (names[j].equals(salaryData[SALARY_DATA_NAME])) {
+                if (names[j].equals(salaryData[NAME_INDEX])) {
                     if (salaryDate.compareTo(dateStart) >= 0
                             && salaryDate.compareTo(dateEnd) <= 0) {
-                        sumSalary[j] += Integer.parseInt(salaryData[SALARY_DATA_HOUR])
-                                * Integer.parseInt(salaryData[SALARY_DATA_SUM]);
+                        sumSalary[j] += Integer.parseInt(salaryData[HOUR_INDEX])
+                                * Integer.parseInt(salaryData[SUM_INDEX]);
                     }
                 }
             }
