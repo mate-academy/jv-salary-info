@@ -2,10 +2,10 @@ package core.basesyntax;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 
 public class SalaryInfo {
-    private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final DateTimeFormatter dateFormatter =
+            DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder resultListBuilder = new StringBuilder("Report for period "
@@ -13,23 +13,24 @@ public class SalaryInfo {
                 + " - "
                 + dateTo
                 + System.lineSeparator());
-            LocalDate firstDate = LocalDate.parse(dateFrom, dateFormatter);
-            LocalDate secondDate = LocalDate.parse(dateTo, dateFormatter);
+        LocalDate firstDate = LocalDate.parse(dateFrom, dateFormatter);
+        LocalDate secondDate = LocalDate.parse(dateTo, dateFormatter);
 
-            for (String name : names) {
-                int totalSalary = calculateTotalSalary(data, firstDate, secondDate, name);
-                resultListBuilder
-                        .append(name)
-                        .append(" - ")
-                        .append(totalSalary)
-                        .append(System.lineSeparator());
-            }
+        for (String name : names) {
+            int totalSalary = calculateTotalSalary(data, firstDate, secondDate, name);
+            resultListBuilder
+                    .append(name)
+                    .append(" - ")
+                    .append(totalSalary)
+                    .append(System.lineSeparator());
+        }
 
         String result = resultListBuilder.toString();
         return removeTrailingLineSeparator(result);
     }
 
-    private int calculateTotalSalary(String[] data, LocalDate firstDate, LocalDate secondDate, String name) {
+    private int calculateTotalSalary(String[] data, LocalDate firstDate,
+                                     LocalDate secondDate, String name) {
         int totalSalary = 0;
         for (String element : data) {
             String[] parts = element.split(" ");
