@@ -8,9 +8,10 @@ public class SalaryInfo {
     static final int NAME_INDEX = 1;
     static final int HOUR_INDEX = 2;
     static final int SUM_INDEX = 3;
+    static final String DATE_FORMAT = "dd.MM.yyyy";
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
         LocalDate dateStart = LocalDate.parse(dateFrom, dateTimeFormatter);
         LocalDate dateEnd = LocalDate.parse(dateTo, dateTimeFormatter);
         int sumSalary;
