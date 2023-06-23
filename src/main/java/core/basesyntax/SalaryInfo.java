@@ -16,46 +16,49 @@ public class SalaryInfo {
     private static final int RATE_INDEX = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        LocalDate from;
-        LocalDate to;
-        try {
-            from = LocalDate.parse(dateFrom, DATE_TIME_FORMATTER);
-            to = LocalDate.parse(dateTo, DATE_TIME_FORMATTER);
-        } catch (DateTimeParseException e) {
-            throw new RuntimeException("Can not parse entry date", e);
-        }
-        List<String> dataList = new ArrayList<>(new ArrayList<>(Arrays.asList(data)));
-        int[] countedSalary = countSalary(names, from, to, dataList);
-        StringBuilder stringBuilder = new StringBuilder();
-        appendReportHeader(dateFrom, dateTo, stringBuilder);
-        return appendSalaryInfo(names, stringBuilder, countedSalary);
+        LocalDate from = parseDate(dateFrom);
+        LocalDate to = parseDate(dateTo);
+        int[] countedSalaryForEachEmployee = countSalary(names, from, to, data);
+        StringBuilder reportHeader = appendReportHeader(dateFrom, dateTo);
+        return createCompletedReport(names, reportHeader, countedSalaryForEachEmployee);
     }
 
-    private void appendReportHeader(String dateFrom, String dateTo, StringBuilder stringBuilder) {
+    private StringBuilder appendReportHeader(String dateFrom, String dateTo) {
+        StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(String.format("Report for period %s - %s", dateFrom, dateTo))
                 .append(System.lineSeparator());
+        return stringBuilder;
     }
 
-    private int[] countSalary(String[] names, LocalDate from, LocalDate to, List<String> list) {
+    private int[] countSalary(String[] names, LocalDate from, LocalDate to, String[] data) {
+        List<String> dataList = new ArrayList<>(new ArrayList<>(Arrays.asList(data)));
         int[] countedSalary = new int[names.length];
         LocalDate dateToCompare;
         String[] dataEntry;
-        for (String temp : list) {
+        for (String temp : dataList) {
             dataEntry = temp.split("\\s");
-            try {
-                dateToCompare = LocalDate.parse(dataEntry[DATE_INDEX], DATE_TIME_FORMATTER);
-            } catch (DateTimeParseException e) {
-                throw new RuntimeException("Can not parse entry date", e);
-            }
+            dateToCompare = parseDate(dataEntry[DATE_INDEX]);
             if (isDateInRange(from, to, dateToCompare)) {
-                for (int j = 0; j < names.length; j++) {
-                    if (names[j].contains(dataEntry[NAME_INDEX])) {
-                        countedSalary[j] += multiplyHoursOnRate(dataEntry);
-                    }
-                }
+                countSalaryDueToName(names, countedSalary, dataEntry);
             }
         }
         return countedSalary;
+    }
+
+    private void countSalaryDueToName(String[] names, int[] countedSalary, String[] dataEntry) {
+        for (int j = 0; j < names.length; j++) {
+            if (names[j].contains(dataEntry[NAME_INDEX])) {
+                countedSalary[j] += multiplyHoursOnRate(dataEntry);
+            }
+        }
+    }
+
+    private LocalDate parseDate(String date) {
+        try {
+            return LocalDate.parse(date, DATE_TIME_FORMATTER);
+        } catch (DateTimeParseException e) {
+            throw new RuntimeException("Can not parse entry date", e);
+        }
     }
 
     private int multiplyHoursOnRate(String[] strings) {
@@ -68,8 +71,8 @@ public class SalaryInfo {
         return dateToCompare.compareTo(from) >= 0 && dateToCompare.compareTo(to) <= 0;
     }
 
-    private String appendSalaryInfo(String[] names, StringBuilder stringBuilder,
-                                    int[] countedSalary) {
+    private String createCompletedReport(String[] names, StringBuilder stringBuilder,
+                                         int[] countedSalary) {
         for (int i = 0; i < names.length; i++) {
             stringBuilder.append(names[i]).append(" - ")
                     .append(countedSalary[i]).append(System.lineSeparator());
