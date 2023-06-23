@@ -2,6 +2,7 @@ package core.basesyntax;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -11,8 +12,14 @@ public class SalaryInfo {
             = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        LocalDate from = LocalDate.parse(dateFrom, DATE_TIME_FORMATTER);
-        LocalDate to = LocalDate.parse(dateTo, DATE_TIME_FORMATTER);
+        LocalDate from;
+        LocalDate to;
+        try {
+            from = LocalDate.parse(dateFrom, DATE_TIME_FORMATTER);
+            to = LocalDate.parse(dateTo, DATE_TIME_FORMATTER);
+        } catch (DateTimeParseException e) {
+            throw new RuntimeException("Can not parse entry date", e);
+        }
         List<String> dataList = new ArrayList<>(new ArrayList<>(Arrays.asList(data)));
         int[] countedSalary = countSalary(names, from, to, dataList);
         StringBuilder stringBuilder = new StringBuilder();
@@ -31,7 +38,11 @@ public class SalaryInfo {
         String[] dataEntry;
         for (String temp : list) {
             dataEntry = temp.split("\\s");
-            dateToCompare = LocalDate.parse(dataEntry[0], DATE_TIME_FORMATTER);
+            try {
+                dateToCompare = LocalDate.parse(dataEntry[0], DATE_TIME_FORMATTER);
+            } catch (DateTimeParseException e) {
+                throw new RuntimeException("Can not parse entry date", e);
+            }
             if (isDateInRange(from, to, dateToCompare)) {
                 for (int j = 0; j < names.length; j++) {
                     if (names[j].contains(dataEntry[1])) {
