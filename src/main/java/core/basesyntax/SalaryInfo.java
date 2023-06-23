@@ -10,6 +10,10 @@ import java.util.List;
 public class SalaryInfo {
     private static final DateTimeFormatter DATE_TIME_FORMATTER
             = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final int DATE_INDEX = 0;
+    private static final int NAME_INDEX = 1;
+    private static final int WORKED_HOURS_INDEX = 2;
+    private static final int RATE = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate from;
@@ -39,13 +43,13 @@ public class SalaryInfo {
         for (String temp : list) {
             dataEntry = temp.split("\\s");
             try {
-                dateToCompare = LocalDate.parse(dataEntry[0], DATE_TIME_FORMATTER);
+                dateToCompare = LocalDate.parse(dataEntry[DATE_INDEX], DATE_TIME_FORMATTER);
             } catch (DateTimeParseException e) {
                 throw new RuntimeException("Can not parse entry date", e);
             }
             if (isDateInRange(from, to, dateToCompare)) {
                 for (int j = 0; j < names.length; j++) {
-                    if (names[j].contains(dataEntry[1])) {
+                    if (names[j].contains(dataEntry[NAME_INDEX])) {
                         countedSalary[j] += multiplyHoursOnRate(dataEntry);
                     }
                 }
@@ -55,8 +59,8 @@ public class SalaryInfo {
     }
 
     private int multiplyHoursOnRate(String[] strings) {
-        int hours = Integer.parseInt(strings[2]);
-        int rate = Integer.parseInt(strings[3]);
+        int hours = Integer.parseInt(strings[WORKED_HOURS_INDEX]);
+        int rate = Integer.parseInt(strings[RATE]);
         return hours * rate;
     }
 
