@@ -3,13 +3,16 @@ package core.basesyntax;
 import java.time.LocalDate;
 
 public class SalaryInfo {
+    public static final String SPACE = " ";
+    public static final String DOT = "\\.";
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
         for (String name : names) {
             int salary = 0;
             for (String employeeData : data) {
-                String[] separatedData = employeeData.split(" ");
+                String[] separatedData = employeeData.split(SPACE);
                 String date = separatedData[0];
                 String employeeName = separatedData[1];
                 int hours = Integer.parseInt(separatedData[2]);
@@ -30,18 +33,18 @@ public class SalaryInfo {
         return stringBuilder.toString();
     }
 
-    public int getDay(String date) {
-        String[] dates = date.split("\\.");
+    private int getDay(String date) {
+        String[] dates = date.split(DOT);
         return Integer.parseInt(dates[0]);
     }
 
-    public int getMonth(String date) {
-        String[] dates = date.split("\\.");
+    private int getMonth(String date) {
+        String[] dates = date.split(DOT);
         return Integer.parseInt(dates[1]);
     }
 
-    public int getYear(String date) {
-        String[] dates = date.split("\\.");
+    private int getYear(String date) {
+        String[] dates = date.split(DOT);
         return Integer.parseInt(dates[2]);
     }
 }
