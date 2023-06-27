@@ -3,37 +3,34 @@ package core.basesyntax;
 import java.time.LocalDate;
 
 public class SalaryInfo {
-
+    private final StringBuilder builder = new StringBuilder();
     public String getSalaryInfo(String[] names, String[] data,
                                 String dateFrom, String dateTo) {
-
-        StringBuilder builder = new StringBuilder();
-
-        LocalDate fromDate = parseDate(dateFrom);
-        LocalDate toDate = parseDate(dateTo);
-
+        LocalDate localDateFrom = parseDate(dateFrom);
+        LocalDate localDateTo = parseDate(dateTo);
         int salary = 0;
-        builder.append("Report for period ").append(dateFrom);
-        builder.append(" - ").append(dateTo);
+
+        builder.append("Report for period ")
+                .append(dateFrom)
+                .append(" - ")
+                .append(dateTo);
 
         for (String name : names) {
-
             for (String line : data) {
-
                 String[] parsedLine = line.split(" ");
 
                 if (!name.equals(parsedLine[1])) {
                     continue;
                 }
 
-                LocalDate bufferDate = parseDate(parsedLine[0]);
-
-                if ((bufferDate.isAfter(fromDate) || bufferDate.equals(fromDate))
-                        && (bufferDate.isBefore(toDate) || bufferDate.equals(toDate))) {
+                LocalDate dateInDataLine = parseDate(parsedLine[0]);
+                if ((dateInDataLine.isAfter(localDateFrom) || dateInDataLine.equals(localDateFrom))
+                        && (dateInDataLine.isBefore(localDateTo) || dateInDataLine.equals(localDateTo))) {
                     salary += Integer.parseInt(parsedLine[3]) * Integer.parseInt(parsedLine[2]);
                 }
             }
-            builder.append(System.lineSeparator()).append(name).append(" - ").append(salary);
+            builder.append(System.lineSeparator())
+                    .append(String.format("%s - %d", name, salary));
             salary = 0;
         }
 
