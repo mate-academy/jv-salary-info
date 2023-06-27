@@ -1,11 +1,14 @@
 package core.basesyntax;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    private final StringBuilder builder = new StringBuilder();
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
     public String getSalaryInfo(String[] names, String[] data,
                                 String dateFrom, String dateTo) {
+        StringBuilder builder = new StringBuilder();
         LocalDate localDateFrom = parseDate(dateFrom);
         LocalDate localDateTo = parseDate(dateTo);
         int salary = 0;
@@ -24,8 +27,11 @@ public class SalaryInfo {
                 }
 
                 LocalDate dateInDataLine = parseDate(parsedLine[0]);
-                if ((dateInDataLine.isAfter(localDateFrom) || dateInDataLine.equals(localDateFrom))
-                        && (dateInDataLine.isBefore(localDateTo) || dateInDataLine.equals(localDateTo))) {
+                boolean localDateFromCheck = dateInDataLine.isAfter(localDateFrom)
+                        || dateInDataLine.equals(localDateFrom);
+                boolean localDateToCheck = (dateInDataLine.isBefore(localDateTo)
+                        || dateInDataLine.equals(localDateTo));
+                if (localDateFromCheck && localDateToCheck) {
                     salary += Integer.parseInt(parsedLine[3]) * Integer.parseInt(parsedLine[2]);
                 }
             }
@@ -38,8 +44,6 @@ public class SalaryInfo {
     }
 
     private LocalDate parseDate(String date) {
-        String[] splitDate = date.split("\\.");
-        return LocalDate.parse(splitDate[2] + "-"
-                + splitDate[1] + "-" + splitDate[0]);
+        return LocalDate.parse(date, formatter);
     }
 }
