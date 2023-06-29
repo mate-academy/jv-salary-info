@@ -33,12 +33,14 @@ public class SalaryInfo {
                 for (String personDataStr : periodDataArr) {
                     String[] dataPerson = personDataStr.split(" ");
                     if (dataPerson[1].equals(names[i])) {
-                        salsry[i] += Integer.parseInt(dataPerson[2]) * Integer.parseInt(dataPerson[3]);
+                        salsry[i] += Integer.parseInt(dataPerson[2])
+                                * Integer.parseInt(dataPerson[3]);
                     }
                 }
             }
             if (i < names.length - 1) {
-                builder.append(names[i]).append(" - ").append(salsry[i]).append(System.lineSeparator());
+                builder.append(names[i]).append(" - ").append(salsry[i])
+                        .append(System.lineSeparator());
             } else {
                 builder.append(names[i]).append(" - ").append(salsry[i]);
             }
