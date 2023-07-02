@@ -14,7 +14,6 @@ public class SalaryInfo {
                                 String dateTo) {
         StringBuilder salaryInfo = new StringBuilder();
         salaryInfo.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
-
         for (String name : names) {
             int salary = 0;
             for (String datum : data) {
@@ -39,5 +38,4 @@ public class SalaryInfo {
                 || startDate.equals(workingDate)
                 || endDate.equals(workingDate);
     }
-
 }
