@@ -17,8 +17,10 @@ public class SalaryInfo {
             int totalSalary = 0;
             for (String record : data) {
                 String[] fields = record.split("\\s+");
-                LocalDate recordDate = LocalDate.parse(fields[0], DateTimeFormatter.ofPattern("dd.MM.yyyy"));
-                if (fields[1].equals(name) && !recordDate.isBefore(fromDate) && !recordDate.isAfter(toDate)) {
+                LocalDate recordDate = LocalDate.parse(fields[0],
+                        DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+                if (fields[1].equals(name) && !recordDate.isBefore(fromDate)
+                        && !recordDate.isAfter(toDate)) {
                     int hours = Integer.parseInt(fields[2]);
                     int rate = Integer.parseInt(fields[3]);
                     int salary = hours * rate;
