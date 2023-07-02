@@ -8,6 +8,10 @@ public class SalaryInfo {
     private static final String LINE = " - ";
     private static final String REPORT_HEADER_FORMAT = "Report for period %s - %s%n";
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final int RECORD_DATA_0 = 0;
+    private static final int RECORD_DATA_1 = 1;
+    private static final int RECORD_DATA_2 = 2;
+    private static final int RECORD_DATA_3 = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate fromDate = LocalDate.parse(dateFrom, DATE_FORMAT);
@@ -15,11 +19,11 @@ public class SalaryInfo {
         int[] salaries = new int[names.length];
         for (String record : data) {
             String[] recordData = record.split(" ");
-            LocalDate recordDate = LocalDate.parse(recordData[0], DATE_FORMAT);
+            LocalDate recordDate = LocalDate.parse(recordData[RECORD_DATA_0], DATE_FORMAT);
             if (!recordDate.isBefore(fromDate) && !recordDate.isAfter(toDate)) {
-                String name = recordData[1];
-                int hours = Integer.parseInt(recordData[2]);
-                int rate = Integer.parseInt(recordData[3]);
+                String name = recordData[RECORD_DATA_1];
+                int hours = Integer.parseInt(recordData[RECORD_DATA_2]);
+                int rate = Integer.parseInt(recordData[RECORD_DATA_3]);
 
                 int index = getIndex(names, name);
                 if (index != -1) {
