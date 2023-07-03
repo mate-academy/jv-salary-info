@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 
 public class SalaryInfo {
     private static final int START_STRING = 0;
-    private static final int END_STRING = 2;
+    private static final int END_STRING = 1;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder salaryInfo = new StringBuilder();
@@ -16,7 +16,7 @@ public class SalaryInfo {
                 .append(dateFrom)
                 .append(" - ")
                 .append(dateTo)
-                .append("\r\n");
+                .append("\n");
         for (int i = 0; i < names.length; i++) {
             int userSalary = 0;
             for (int j = 0; j < data.length; j++) {
@@ -33,7 +33,7 @@ public class SalaryInfo {
                     throw new RuntimeException(e);
                 }
             }
-            salaryInfo.append(names[i]).append(" - ").append(userSalary).append("\r\n");
+            salaryInfo.append(names[i]).append(" - ").append(userSalary).append("\n");
         }
         return salaryInfo.substring(START_STRING, salaryInfo.length() - END_STRING);
     }
