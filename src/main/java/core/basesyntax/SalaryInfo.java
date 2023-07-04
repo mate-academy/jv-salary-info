@@ -9,12 +9,12 @@ public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate dateStart = LocalDate.parse(dateFrom, formatter);
         LocalDate dateFinish = LocalDate.parse(dateTo, formatter);
-        StringBuilder res = new StringBuilder("Report for period ").append(dateFrom)
+        StringBuilder result = new StringBuilder("Report for period ").append(dateFrom)
                 .append(" - ").append(dateTo).append(System.lineSeparator());
         int[] salaries = new int[names.length];
         for (int i = 0; i < names.length; i++) {
             for (int j = 0; j < data.length; j++) {
-                String[] dataArray = data[j].split(" ");
+                String[] infoAboutActivity = data[j].split(" ");
                 LocalDate dateToCompare = LocalDate.parse(dataArray[0], formatter);
                 if (data[j].contains(names[i]) && !dateToCompare.isBefore(dateStart)
                         && !dateToCompare.isAfter(dateFinish)) {
