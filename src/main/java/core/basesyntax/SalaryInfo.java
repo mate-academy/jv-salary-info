@@ -1,10 +1,11 @@
 package core.basesyntax;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SalaryInfo {
     public static final int DATE_INDEX = 0;
@@ -19,43 +20,36 @@ public class SalaryInfo {
         }
         StringBuilder resultString = new StringBuilder("Report for period "
                 + dateFrom + " - " + dateTo);
-        Map<String, Integer> salaryMap = new LinkedHashMap<>();
-        for (int i = 0; i < names.length; ++i) {
-            salaryMap.put(names[i], 0);
-        }
+        int[] totalSalaryList = new int[names.length];
+        List<String> namesList = new ArrayList<>(Arrays.asList(names));
+        final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+        LocalDate fromDate = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate toDate = LocalDate.parse(dateTo, FORMATTER);
 
-        try {
-            Date fromDate = dateFormat.parse(dateFrom);
-            Date toDate = dateFormat.parse(dateTo);
+        for (String employeeData : data) {
+            String[] tokensData = employeeData.split(" ");
+            String dateStr = tokensData[DATE_INDEX];
 
-            for (String employeeData : data) {
-                String[] tokensData = employeeData.split(" ");
-                String dateStr = tokensData[DATE_INDEX];
+            String nameEmployer = tokensData[NAME_INDEX];
+            int hoursWorked = Integer.parseInt(tokensData[WORKED_INDEX]);
+            int hourlyRate = Integer.parseInt(tokensData[RATE_INDEX]);
+            LocalDate dateToCheck = LocalDate.parse(dateStr, FORMATTER);
 
-                String nameEmployer = tokensData[NAME_INDEX];
-                int hoursWorked = Integer.parseInt(tokensData[WORKED_INDEX]);
-                int hourlyRate = Integer.parseInt(tokensData[RATE_INDEX]);
-                Date currentDate = dateFormat.parse(dateStr);
-
-                if (currentDate.compareTo(fromDate) >= 0 && currentDate.compareTo(toDate) <= 0) {
-                    for (String employeeName : names) {
-                        if (nameEmployer.equals(employeeName)) {
-                            int salary = hoursWorked * hourlyRate;
-                            salaryMap.put(nameEmployer, (salaryMap.get(nameEmployer) + salary));
-                            break;
-                        }
+            if (dateToCheck.isAfter(fromDate) && dateToCheck.isBefore(toDate) || dateToCheck.isEqual(fromDate) || dateToCheck.isEqual(toDate)) {
+                for (String employeeName : names) {
+                    if (nameEmployer.equals(employeeName)) {
+                        int salary = hoursWorked * hourlyRate;
+                        totalSalaryList[namesList.indexOf(nameEmployer)] += salary;
+                        break;
                     }
                 }
             }
-        } catch (ParseException e) {
-            e.printStackTrace();
         }
 
-        for (String employeeName : salaryMap.keySet()) {
+        for (int i = 0; i < names.length; ++i) {
             resultString.append(System.lineSeparator())
-                    .append(employeeName).append(" - ").append(salaryMap.get(employeeName));
+                    .append(namesList.get(i)).append(" - ").append(totalSalaryList[i]);
         }
 
         return resultString.toString();
