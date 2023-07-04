@@ -42,6 +42,6 @@ public class SalaryInfo {
                 }
             }
         }
-        return result.substring(0, result.length() - 2);
+        return result.substring(0, result.lastIndexOf(System.lineSeparator()));
     }
 }
