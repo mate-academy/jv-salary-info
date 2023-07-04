@@ -9,6 +9,9 @@ import java.util.Locale;
 public class SalaryInfo {
     private static final String DATE_FORMAT = "dd.MM.yyyy";
     private static final String REPORT_HEADER = "Report for period ";
+    private static final int DATE_INDEX = 0;
+    private static final int HOURS_INDEX = 2;
+    private static final int RATE_INDEX = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder report = new StringBuilder();
@@ -20,12 +23,12 @@ public class SalaryInfo {
             int totalSalary = 0;
             for (String record : data) {
                 String[] fields = record.split(" ");
-                LocalDate recordDate = LocalDate.parse(fields[0],
+                LocalDate recordDate = LocalDate.parse(fields[DATE_INDEX],
                         DateTimeFormatter.ofPattern(DATE_FORMAT));
                 if (fields[1].equals(name) && !recordDate.isBefore(fromDate)
                         && !recordDate.isAfter(toDate)) {
-                    int hours = Integer.parseInt(fields[2]);
-                    int rate = Integer.parseInt(fields[3]);
+                    int hours = Integer.parseInt(fields[HOURS_INDEX]);
+                    int rate = Integer.parseInt(fields[RATE_INDEX]);
                     int salary = hours * rate;
                     totalSalary += salary;
                 }
