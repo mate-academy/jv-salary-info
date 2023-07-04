@@ -1,10 +1,9 @@
 package core.basesyntax;
 
-import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class SalaryInfo {
@@ -22,10 +21,10 @@ public class SalaryInfo {
                 + dateFrom + " - " + dateTo);
         int[] totalSalaryList = new int[names.length];
         List<String> namesList = new ArrayList<>(Arrays.asList(names));
-        final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
-        LocalDate fromDate = LocalDate.parse(dateFrom, FORMATTER);
-        LocalDate toDate = LocalDate.parse(dateTo, FORMATTER);
+        LocalDate fromDate = LocalDate.parse(dateFrom, formatter);
+        LocalDate toDate = LocalDate.parse(dateTo, formatter);
 
         for (String employeeData : data) {
             String[] tokensData = employeeData.split(" ");
@@ -34,9 +33,10 @@ public class SalaryInfo {
             String nameEmployer = tokensData[NAME_INDEX];
             int hoursWorked = Integer.parseInt(tokensData[WORKED_INDEX]);
             int hourlyRate = Integer.parseInt(tokensData[RATE_INDEX]);
-            LocalDate dateToCheck = LocalDate.parse(dateStr, FORMATTER);
+            LocalDate dateToCheck = LocalDate.parse(dateStr, formatter);
 
-            if (dateToCheck.isAfter(fromDate) && dateToCheck.isBefore(toDate) || dateToCheck.isEqual(fromDate) || dateToCheck.isEqual(toDate)) {
+            if (dateToCheck.isAfter(fromDate) && dateToCheck.isBefore(toDate)
+                    || dateToCheck.isEqual(fromDate) || dateToCheck.isEqual(toDate)) {
                 for (String employeeName : names) {
                     if (nameEmployer.equals(employeeName)) {
                         int salary = hoursWorked * hourlyRate;
