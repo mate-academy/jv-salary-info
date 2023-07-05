@@ -12,7 +12,8 @@ public class SalaryInfo {
     private static final int DATE_INDEX = 0;
     private static final int HOURS_INDEX = 2;
     private static final int RATE_INDEX = 3;
-    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern(DATE_FORMAT);
+    private static final DateTimeFormatter DATE_FORMATTER
+            = DateTimeFormatter.ofPattern(DATE_FORMAT);
     private static final String DELIMITER = " ";
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
