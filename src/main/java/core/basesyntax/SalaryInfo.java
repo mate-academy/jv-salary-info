@@ -10,8 +10,8 @@ public class SalaryInfo {
     private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        LocalDate ldFrom = LocalDate.parse(dateFrom, dateTimeFormatter);
-        LocalDate ldTo = LocalDate.parse(dateTo, dateTimeFormatter);
+        LocalDate localDateFrom = LocalDate.parse(dateFrom, dateTimeFormatter);
+        LocalDate localDateTo = LocalDate.parse(dateTo, dateTimeFormatter);
         StringBuilder report = new StringBuilder("Report for period ")
                                                                     .append(dateFrom)
                                                                     .append(" - ")
@@ -25,16 +25,24 @@ public class SalaryInfo {
                     LocalDate particularDay = LocalDate.parse(infoWorker[DATE_INDEX],
                                                               dateTimeFormatter);
 
-                    if ((particularDay.isAfter(ldFrom) || particularDay.isEqual(ldFrom))
-                            && (particularDay.isBefore(ldTo) || particularDay.isEqual(ldTo))) {
-                        int workingHours = Integer.parseInt(infoWorker[HOUR_INDEX]);
-                        int income = Integer.parseInt(infoWorker[INCOME_INDEX]);
-                        salary += workingHours * income;
+                    if (isDateInRange(particularDay, localDateFrom, localDateTo)) {
+                        salary += calculateSalary(infoWorker);
                     }
                 }
             }
             report.append(System.lineSeparator()).append(name).append(" - ").append(salary);
         }
         return report.toString();
+    }
+
+    private boolean isDateInRange(LocalDate particularDay, LocalDate dateFrom, LocalDate dateTo) {
+        return (particularDay.isAfter(dateFrom) || particularDay.isEqual(dateFrom))
+                && (particularDay.isBefore(dateTo) || particularDay.isEqual(dateTo));
+    }
+
+    private int calculateSalary(String[] data) {
+        int workingHours = Integer.parseInt(data[HOUR_INDEX]);
+        int income = Integer.parseInt(data[INCOME_INDEX]);
+        return workingHours * income;
     }
 }
