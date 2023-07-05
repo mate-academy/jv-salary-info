@@ -35,6 +35,6 @@ public class SalaryInfo {
             }
             builder.append(sum).append(System.lineSeparator());
         }
-        return builder.substring(0, builder.toString().length() - 2);
+        return builder.substring(0, builder.toString().length() - 1);
     }
 }
