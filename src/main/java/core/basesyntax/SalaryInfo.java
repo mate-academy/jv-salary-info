@@ -9,6 +9,8 @@ public class SalaryInfo {
     private static final int HOURS_INDEX = 2;
     private static final int SALARY_INDEX = 3;
     private static final String REPORT_FORMAT = "%s - %d";
+    private static final String REPORT_BEGINNING = "Report for period ";
+    private static final String REPORT_DASH = " - ";
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data,
@@ -17,9 +19,9 @@ public class SalaryInfo {
         LocalDate localDateFrom = parseDate(dateFrom);
         LocalDate localDateTo = parseDate(dateTo);
 
-        builder.append("Report for period ")
+        builder.append(REPORT_BEGINNING)
                 .append(dateFrom)
-                .append(" - ")
+                .append(REPORT_DASH)
                 .append(dateTo);
 
         for (String name : names) {
@@ -36,22 +38,29 @@ public class SalaryInfo {
         int salary = 0;
         for (String line : data) {
             String[] parsedLine = line.split(" ");
-
             if (!name.equals(parsedLine[NAME_INDEX])) {
                 continue;
             }
 
-            LocalDate dateInDataLine = parseDate(parsedLine[DATE_INDEX]);
-            boolean localDateFromCheck = dateInDataLine.isAfter(localDateFrom)
-                    || dateInDataLine.equals(localDateFrom);
-            boolean localDateToCheck = (dateInDataLine.isBefore(localDateTo)
-                    || dateInDataLine.equals(localDateTo));
-            if (localDateFromCheck && localDateToCheck) {
+            boolean checkResult = checkForDateSegment(parsedLine,
+                    localDateFrom, localDateTo);
+            if (checkResult) {
                 salary += Integer.parseInt(parsedLine[SALARY_INDEX])
                         * Integer.parseInt(parsedLine[HOURS_INDEX]);
             }
         }
         return salary;
+    }
+
+    private boolean checkForDateSegment(String[] data,
+                                        LocalDate localDateFrom,
+                                        LocalDate localDateTo) {
+        LocalDate dateInDataLine = parseDate(data[DATE_INDEX]);
+        boolean localDateFromCheck = dateInDataLine.isAfter(localDateFrom)
+                || dateInDataLine.equals(localDateFrom);
+        boolean localDateToCheck = (dateInDataLine.isBefore(localDateTo)
+                || dateInDataLine.equals(localDateTo));
+        return localDateFromCheck && localDateToCheck;
     }
 
     private LocalDate parseDate(String date) {
