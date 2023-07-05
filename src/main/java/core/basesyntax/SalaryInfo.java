@@ -12,17 +12,19 @@ public class SalaryInfo {
     private static final int DATE_INDEX = 0;
     private static final int HOURS_INDEX = 2;
     private static final int RATE_INDEX = 3;
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern(DATE_FORMAT);
+    private static final String DELIMITER = " ";
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder report = new StringBuilder();
         report.append(REPORT_HEADER).append(dateFrom).append(" - ").append(dateTo).append("\n");
-        LocalDate fromDate = LocalDate.parse(dateFrom, DateTimeFormatter.ofPattern(DATE_FORMAT));
-        LocalDate toDate = LocalDate.parse(dateTo, DateTimeFormatter.ofPattern(DATE_FORMAT));
+        LocalDate fromDate = LocalDate.parse(dateFrom, DATE_FORMATTER);
+        LocalDate toDate = LocalDate.parse(dateTo, DATE_FORMATTER);
 
         for (String name : names) {
             int totalSalary = 0;
             for (String record : data) {
-                String[] fields = record.split(" ");
+                String[] fields = record.split(DELIMITER);
                 LocalDate recordDate = LocalDate.parse(fields[DATE_INDEX],
                         DateTimeFormatter.ofPattern(DATE_FORMAT));
                 if (fields[1].equals(name) && !recordDate.isBefore(fromDate)
