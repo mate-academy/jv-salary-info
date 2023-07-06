@@ -11,6 +11,7 @@ public class SalaryInfo {
     private static final String REPORT_FORMAT = "%s - %d";
     private static final String REPORT_BEGINNING = "Report for period ";
     private static final String REPORT_DASH = " - ";
+    private static final String REGEX_SPACE = " ";
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data,
@@ -37,14 +38,13 @@ public class SalaryInfo {
                                      LocalDate localDateTo) {
         int salary = 0;
         for (String line : data) {
-            String[] parsedLine = line.split(" ");
+            String[] parsedLine = line.split(REGEX_SPACE);
             if (!name.equals(parsedLine[NAME_INDEX])) {
                 continue;
             }
 
-            boolean checkResult = checkForDateSegment(parsedLine,
-                    localDateFrom, localDateTo);
-            if (checkResult) {
+            if (checkIfDateInPeriod(parsedLine,
+                    localDateFrom, localDateTo)) {
                 salary += Integer.parseInt(parsedLine[SALARY_INDEX])
                         * Integer.parseInt(parsedLine[HOURS_INDEX]);
             }
@@ -52,7 +52,7 @@ public class SalaryInfo {
         return salary;
     }
 
-    private boolean checkForDateSegment(String[] data,
+    private boolean checkIfDateInPeriod(String[] data,
                                         LocalDate localDateFrom,
                                         LocalDate localDateTo) {
         LocalDate dateInDataLine = parseDate(data[DATE_INDEX]);
