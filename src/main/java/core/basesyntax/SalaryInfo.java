@@ -14,9 +14,8 @@ public class SalaryInfo {
                 DateTimeFormatter.ofPattern("dd.MM.yyyy"));
         LocalDate localDateTo = LocalDate.parse(dateTo,
                 DateTimeFormatter.ofPattern("dd.MM.yyyy"));
-        StringBuilder result = new StringBuilder();
-        result.append("Report for period ").append(dateFrom)
-                        .append(" - ").append(dateTo);
+        final StringBuilder result = new StringBuilder().append("Report for period ")
+                .append(dateFrom).append(" - ").append(dateTo);
 
         LocalDate parsedDateFrom = LocalDate.parse(dateFrom,
                 DateTimeFormatter.ofPattern("dd.MM.yyyy"));
