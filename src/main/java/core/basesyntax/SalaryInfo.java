@@ -8,26 +8,27 @@ public class SalaryInfo {
     private static final int NAME_INDEX = 1;
     private static final int NUMBER_OF_WORKED_HOURS_INDEX = 2;
     private static final int AMOUNT_OF_PAYMENT_PER_HOUR_INDEX = 3;
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate localDateFrom = LocalDate.parse(dateFrom,
-                DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+                formatter);
         LocalDate localDateTo = LocalDate.parse(dateTo,
-                DateTimeFormatter.ofPattern("dd.MM.yyyy"));
-        final StringBuilder result = new StringBuilder().append("Report for period ")
+                formatter);
+        StringBuilder result = new StringBuilder().append("Report for period ")
                 .append(dateFrom).append(" - ").append(dateTo);
 
         LocalDate parsedDateFrom = LocalDate.parse(dateFrom,
-                DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+                formatter);
         LocalDate parsedDateTo = LocalDate.parse(dateTo,
-                DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+                formatter);
 
         for (String name : names) {
             int salary = 0;
             for (String dataSplit : data) {
                 String[] foundData = dataSplit.split(" ");
                 LocalDate localDateWorkDay = LocalDate.parse(foundData[DATE_INDEX],
-                        DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+                        formatter);
 
                 if ((localDateWorkDay.isAfter(localDateFrom)
                         || localDateWorkDay.isEqual(localDateFrom))
