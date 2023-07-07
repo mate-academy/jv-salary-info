@@ -1,57 +1,46 @@
 package core.basesyntax;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     private static final String PATTERN = "dd.MM.yyyy";
-    private SimpleDateFormat dateFormat = new SimpleDateFormat(PATTERN);
-    private Date startWork;
-    private Date finishWork;
-    private Date dayWork;
+    private static final String SEPARATOR = " ";
+    private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(PATTERN);
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        try {
-            startWork = dateFormat.parse(dateFrom);
-            finishWork = dateFormat.parse(dateTo);
-        } catch (ParseException pe) {
-            return "exception-wrecker" + pe;
-        }
-        String[] returnStrings = new String[names.length];
-        int[] sums = new int[names.length];
+        LocalDate startWork = LocalDate.parse(dateFrom, dateTimeFormatter);
+        LocalDate finishWork = LocalDate.parse(dateTo, dateTimeFormatter);
+        String[] dataOnWorkersWages = new String[names.length];
+        int[] wages = new int[names.length];
         for (int a = 0; a < names.length; a++) {
-            String nameAtIndex = names[a];
-            sums[a] = 0;
+            String workerName = names[a];
+            wages[a] = 0;
             for (int b = 0; b < data.length; b++) {
                 String dataString = data[b];
-                if (dataString.contains(nameAtIndex)) {
-                    String[] someData = dataString.split(" ");
-                    try {
-                        dayWork = dateFormat.parse(someData[0]);
-                    } catch (ParseException pe) {
-                        return "exception-wrecker" + pe;
-                    }
-                    int ret1 = dayWork.compareTo(startWork);
-                    int ret2 = dayWork.compareTo(finishWork);
-                    if (ret1 >= 0 && ret2 <= 0) {
-                        int c = Integer.parseInt(someData[2]);
-                        int d = Integer.parseInt(someData[3]);
-                        sums[a] = sums[a] + c * d;
+                if (dataString.contains(workerName)) {
+                    String[] daysData = dataString.split(SEPARATOR);
+                    String stringDayWork = daysData[0];
+                    LocalDate dayWork = LocalDate.parse(stringDayWork, dateTimeFormatter);
+                    int daysAfterStartWork = dayWork.compareTo(startWork);
+                    int daysBeforeFinishWork = dayWork.compareTo(finishWork);
+                    if (daysAfterStartWork >= 0 && daysBeforeFinishWork <= 0) {
+                        int numberOfHours = Integer.parseInt(daysData[2]);
+                        int hourlyPay = Integer.parseInt(daysData[3]);
+                        wages[a] = wages[a] + numberOfHours * hourlyPay;
                     }
                 }
+                int oneWorkersWages = wages[a];
+                StringBuilder outputStringBuilder = new StringBuilder();
+                outputStringBuilder.append(workerName).append(" - ").append(oneWorkersWages);
+                dataOnWorkersWages[a] = outputStringBuilder.toString();
             }
-            String output1 = names[a];
-            int output2 = sums[a];
-            StringBuilder outputStringBuilder = new StringBuilder();
-            outputStringBuilder.append(output1).append(" - ").append(output2);
-            returnStrings[a] = outputStringBuilder.toString();
         }
-        StringBuilder outputAnswer = new StringBuilder();
-        outputAnswer.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
-        for (int f = 0; f < returnStrings.length; f++) {
-            outputAnswer.append(System.lineSeparator()).append(returnStrings[f]);
+        StringBuilder dataOnAllWorkers = new StringBuilder();
+        dataOnAllWorkers.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
+        for (int f = 0; f < dataOnWorkersWages.length; f++) {
+            dataOnAllWorkers.append(System.lineSeparator()).append(dataOnWorkersWages[f]);
         }
-        return outputAnswer.toString();
+        return dataOnAllWorkers.toString();
     }
 }
