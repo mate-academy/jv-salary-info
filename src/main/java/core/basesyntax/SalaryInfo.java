@@ -6,10 +6,10 @@ import java.time.format.DateTimeFormatter;
 public class SalaryInfo {
     private static final String PATTERN = "dd.MM.yyyy";
     private static final String SEPARATOR = " ";
-    private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(PATTERN);
     private static final int DAY_INDEX_TO_STRING = 0;
     private static final int HOURS_INDEX_TO_STRING = 2;
     private static final int PAY_INDEX_TO_STRING = 3;
+    private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(PATTERN);
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate startWork = LocalDate.parse(dateFrom, dateTimeFormatter);
