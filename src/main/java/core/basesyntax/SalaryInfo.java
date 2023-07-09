@@ -4,32 +4,41 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    public static final DateTimeFormatter DDMMYYYY = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final int DATE_INDEX = 0;
+    private static final int NAME_INDEX = 1;
+    private static final int HOUR_INDEX = 2;
+    private static final int DAY_INDEX = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        LocalDate from = LocalDate.parse(dateFrom, DDMMYYYY);
-        LocalDate to = LocalDate.parse(dateTo, DDMMYYYY);
-        String result = "Report for period " + from.format(DDMMYYYY) + " - " + to.format(DDMMYYYY);
+        LocalDate from = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate to = LocalDate.parse(dateTo, FORMATTER);
+        StringBuilder builder = new StringBuilder("Report for period ");
+        builder.append(from.format(FORMATTER))
+                .append(" - ")
+                .append(to.format(FORMATTER));
 
         for (int i = 0; i < names.length; i++) {
             int salary = 0;
             for (int j = 0; j < data.length; j++) {
                 String[] cols = data[j].split("\\s+");
-                LocalDate date = LocalDate.parse(cols[0], DDMMYYYY);
-                String name = cols[1];
-                int hours = Integer.parseInt(cols[2]);
-                int salaryByHour = Integer.parseInt(cols[3]);
+                LocalDate date = LocalDate.parse(cols[DATE_INDEX], FORMATTER);
+                String name = cols[NAME_INDEX];
+                int hours = Integer.parseInt(cols[HOUR_INDEX]);
+                int salaryByHour = Integer.parseInt(cols[DAY_INDEX]);
                 if (names[i].equals(name) && between(date, from, to)) {
                     salary += salaryByHour * hours;
                 }
             }
-            result += "\n" + names[i] + " - " + String.valueOf(salary);
+            builder.append("\n")
+                    .append(names[i])
+                    .append(" - ")
+                    .append(salary);
         }
-
-        return result;
+        return String.valueOf(builder);
     }
 
-    public static boolean between(LocalDate d, LocalDate from, LocalDate to) {
-        return d.isAfter(from) && d.isBefore(to) || d.isEqual(from) || d.isEqual(to);
+    public static boolean between(LocalDate date, LocalDate from, LocalDate to) {
+        return date.isAfter(from) && date.isBefore(to) || date.isEqual(from) || date.isEqual(to);
     }
 }
