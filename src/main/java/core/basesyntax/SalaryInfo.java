@@ -26,19 +26,19 @@ public class SalaryInfo {
                 String name = cols[NAME_INDEX];
                 int hours = Integer.parseInt(cols[HOUR_INDEX]);
                 int salaryByHour = Integer.parseInt(cols[DAY_INDEX]);
-                if (names[i].equals(name) && between(date, from, to)) {
+                if (names[i].equals(name) && isDateInRange(date, from, to)) {
                     salary += salaryByHour * hours;
                 }
             }
-            builder.append("\n")
+            builder.append(System.lineSeparator())
                     .append(names[i])
                     .append(" - ")
                     .append(salary);
         }
-        return String.valueOf(builder);
+        return builder.toString();
     }
 
-    public static boolean between(LocalDate date, LocalDate from, LocalDate to) {
+    public boolean isDateInRange(LocalDate date, LocalDate from, LocalDate to) {
         return date.isAfter(from) && date.isBefore(to) || date.isEqual(from) || date.isEqual(to);
     }
 }
