@@ -24,7 +24,7 @@ public class SalaryInfo {
                 String[] parsedData = dataString.split("\\s");
                 LocalDate dateOfData = LocalDate
                         .parse(parsedData[INDEX_OF_DATE_IN_DATA], CURRENT_FORMAT);
-                if (isIllegalDate(dateOfData, localDateFrom, localDateTo)
+                if (isIncorrectDate(dateOfData, localDateFrom, localDateTo)
                         || !name.equals(parsedData[INDEX_OF_EMPLOYEE_NAME])) {
                     continue;
                 }
@@ -39,7 +39,7 @@ public class SalaryInfo {
         return report.toString();
     }
 
-    private boolean isIllegalDate(LocalDate date, LocalDate dateFrom, LocalDate dateTo) {
+    private boolean isIncorrectDate(LocalDate date, LocalDate dateFrom, LocalDate dateTo) {
         return date.isBefore(dateFrom) || date.isAfter(dateTo);
     }
 }
