@@ -1,10 +1,10 @@
 package core.basesyntax;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     private static final String SEPARATOR = " ";
     private static final int DATE_IND = 0;
     private static final int NAME_IND = 1;
@@ -41,13 +41,8 @@ public class SalaryInfo {
     }
 
     private int compareDates(String dateString1, String dateString2) {
-        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
-        try {
-            Date date1 = format.parse(dateString1);
-            Date date2 = format.parse(dateString2);
-            return date1.compareTo(date2);
-        } catch (ParseException e) {
-            throw new RuntimeException("Cant parse date", e);
-        }
+        LocalDate date1 = LocalDate.parse(dateString1, formatter);
+        LocalDate date2 = LocalDate.parse(dateString2, formatter);
+        return date1.compareTo(date2);
     }
 }
