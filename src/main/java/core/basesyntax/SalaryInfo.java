@@ -28,7 +28,7 @@ public class SalaryInfo {
                 LocalDate toDate = LocalDate.parse(dateTo, FORMATTER);
                 if (!localDate.isBefore(fromDate) && !localDate.isAfter(toDate)
                         && employeeName.equals(name)) {
-                        salary += hours * moneyPerHour;
+                    salary += hours * moneyPerHour;
                 }
             }
             stringBuilder.append(System.lineSeparator())
