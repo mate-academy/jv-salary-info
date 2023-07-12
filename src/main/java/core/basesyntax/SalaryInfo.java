@@ -11,12 +11,9 @@ public class SalaryInfo {
     private static final int SALARY_IND = 2;
     private static final int HOURS_IND = 3;
 
-    private String dateFrom;
-    private String dateTo;
-
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        this.dateFrom = dateFrom;
-        this.dateTo = dateTo;
+        LocalDate startDate = parseDate(dateFrom);
+        LocalDate lastDate = parseDate(dateTo);
 
         StringBuilder stringBuilder = new StringBuilder("Report for period ")
                 .append(dateFrom).append(" - ").append(dateTo);
@@ -25,7 +22,8 @@ public class SalaryInfo {
             int salarySum = 0;
             for (String line : data) {
                 String[] dataLine = line.split(SEPARATOR);
-                if (name.equals(dataLine[NAME_IND]) && isNeededDate(dataLine[DATE_IND])) {
+                if (name.equals(dataLine[NAME_IND])
+                        && isNeededDate(dataLine[DATE_IND], startDate, lastDate)) {
                     salarySum += Integer.parseInt(dataLine[SALARY_IND])
                             * Integer.parseInt(dataLine[HOURS_IND]);
                 }
@@ -36,13 +34,13 @@ public class SalaryInfo {
         return stringBuilder.toString();
     }
 
-    private boolean isNeededDate(String currentDate) {
-        return compareDates(currentDate, dateFrom) >= 0 && compareDates(currentDate, dateTo) <= 0;
+    private boolean isNeededDate(String currentDate, LocalDate dateFrom, LocalDate dateTo) {
+        LocalDate checkedDate = parseDate(currentDate);
+        return !dateFrom.isAfter(checkedDate) && !dateTo.isBefore(checkedDate);
+
     }
 
-    private int compareDates(String dateString1, String dateString2) {
-        LocalDate date1 = LocalDate.parse(dateString1, formatter);
-        LocalDate date2 = LocalDate.parse(dateString2, formatter);
-        return date1.compareTo(date2);
+    private LocalDate parseDate(String dateString) {
+        return LocalDate.parse(dateString, formatter);
     }
 }
