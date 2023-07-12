@@ -16,11 +16,11 @@ public class SalaryInfo {
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder info = new StringBuilder();
-        LocalDate ldFrom = LocalDate.parse(dateFrom, DATE_FORMATTER);
-        LocalDate ldTo = LocalDate.parse(dateTo, DATE_FORMATTER);
+        LocalDate from = LocalDate.parse(dateFrom, DATE_FORMATTER);
+        LocalDate to = LocalDate.parse(dateTo, DATE_FORMATTER);
         info.append("Report for period ").append(dateFrom)
                 .append(DASH_BETWEEN_STATEMENTS).append(dateTo);
-        int[] salaries = countSalaries(ldFrom, ldTo, data, names);
+        int[] salaries = countSalaries(from, to, data, names);
         for (int i = 0; i < names.length; i++) {
             info.append(LINE_SEPARATOR).append(names[i])
                     .append(DASH_BETWEEN_STATEMENTS).append(salaries[i]);
@@ -30,19 +30,20 @@ public class SalaryInfo {
 
     }
 
-    private int[] countSalaries(LocalDate ldFrom, LocalDate ldTo, String[] data, String[] names) {
+    private int[] countSalaries(LocalDate from, LocalDate to, String[] data, String[] names) {
         int[] salaries = new int[names.length];
         for (String dataLine : data) {
-            String dateFromData = dataLine.split(SPACE_SEPARATOR)[DATE_INDEX];
-            LocalDate ldData = LocalDate.parse(dateFromData, DATE_FORMATTER);
-            if (!ldData.isAfter(ldTo) && !ldData.isBefore(ldFrom)) {
+            String[] dataLineSplit = dataLine.split(SPACE_SEPARATOR);
+            String dateFromData = dataLineSplit[DATE_INDEX];
+            LocalDate dataFromFile = LocalDate.parse(dateFromData, DATE_FORMATTER);
+            if (!dataFromFile.isAfter(to) && !dataFromFile.isBefore(from)) {
                 for (int j = 0; j < names.length; j++) {
-                    String nameFromData = dataLine.split(SPACE_SEPARATOR)[NAME_INDEX];
+                    String nameFromData = dataLineSplit[NAME_INDEX];
                     if (nameFromData.equals(names[j])) {
                         int numberOfPayments = Integer.parseInt(
-                                dataLine.split(SPACE_SEPARATOR)[NUMBER_OF_PAYMENTS_INDEX]);
+                                dataLineSplit[NUMBER_OF_PAYMENTS_INDEX]);
                         int amountOfPayment = Integer.parseInt(
-                                dataLine.split(SPACE_SEPARATOR)[AMOUNT_OF_PAYMENT_INDEX]);
+                                dataLineSplit[AMOUNT_OF_PAYMENT_INDEX]);
                         salaries[j] += numberOfPayments * amountOfPayment;
                     }
                 }
