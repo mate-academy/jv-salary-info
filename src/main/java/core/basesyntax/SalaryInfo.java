@@ -34,9 +34,9 @@ public class SalaryInfo {
         int[] salaries = new int[names.length];
         for (String dataLine : data) {
             String[] dataLineSplit = dataLine.split(SPACE_SEPARATOR);
-            String dateFromData = dataLineSplit[DATE_INDEX];
-            LocalDate dataFromFile = LocalDate.parse(dateFromData, DATE_FORMATTER);
-            if (!dataFromFile.isAfter(to) && !dataFromFile.isBefore(from)) {
+            String dateStringFromData = dataLineSplit[DATE_INDEX];
+            LocalDate dateFromData = LocalDate.parse(dateStringFromData, DATE_FORMATTER);
+            if (!dateFromData.isAfter(to) && !dateFromData.isBefore(from)) {
                 for (int j = 0; j < names.length; j++) {
                     String nameFromData = dataLineSplit[NAME_INDEX];
                     if (nameFromData.equals(names[j])) {
