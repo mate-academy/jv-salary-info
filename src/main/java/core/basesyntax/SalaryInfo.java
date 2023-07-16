@@ -5,6 +5,10 @@ import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final int FIRST_DATE_INDEX = 0;
+    private static final int LAST_DATE_INDEX = 10;
+    private static final int HOURS_INDEX = 2;
+    private static final int HOUR_SALARY_INDEX = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder stringBuilder = new StringBuilder();
@@ -16,15 +20,14 @@ public class SalaryInfo {
             int targetSalary = 0;
             for (String line : data) {
                 if (line.contains(name)) {
-                    String dataStringFormat = line.substring(0, dateFrom.length());
+                    String dataStringFormat = line.substring(FIRST_DATE_INDEX, LAST_DATE_INDEX);
                     LocalDate localDateTarget = LocalDate.parse(dataStringFormat, FORMATTER);
                     if (localDateTarget.compareTo(localDateFrom) >= 0
                             && localDateTarget.compareTo(localDateTo) <= 0) {
-                        int substringValue = dateFrom.length() + name.length() + 2;
-                        String[] salaryOfTargetDay = line.substring(substringValue).split(" ");
-                        int firstValue = Integer.parseInt(salaryOfTargetDay[0]);
-                        int secondValue = Integer.parseInt(salaryOfTargetDay[1]);
-                        targetSalary += firstValue * secondValue;
+                        String[] salaryOfTargetDay = line.split(" ");
+                        int hours = Integer.parseInt(salaryOfTargetDay[HOURS_INDEX]);
+                        int salaryPerHour = Integer.parseInt(salaryOfTargetDay[HOUR_SALARY_INDEX]);
+                        targetSalary += hours * salaryPerHour;
                     }
                 }
             }
