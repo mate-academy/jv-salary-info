@@ -4,10 +4,16 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
+    public static final int DATE = 0;
+    public static final int EMPLOYEE_NAME = 1;
+    public static final int EMPLOYEE_WORKED_HOURS = 2;
+    public static final int EMPLOYEE_INCOME = 3;
+    public static final String DATE_FORMAT = "dd.MM.yyyy";
+
     public String getSalaryInfo(String[] names, String[] data,
                                 String dateFrom, String dateTo) {
         StringBuilder reportBuilder = new StringBuilder();
-        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
         LocalDate startDate;
         LocalDate endDate;
         startDate = LocalDate.parse(dateFrom, dateFormatter);
@@ -20,20 +26,18 @@ public class SalaryInfo {
         for (String name : names) {
             int totalSalary = 0;
             for (String entryData : data) {
-                String[] dataParts = entryData.split(" ");
-                String dateStr = dataParts[0];
-                String employeeName = dataParts[1];
-                int employeeWorkedHours = Integer.parseInt(dataParts[2]);
-                int employeeIncomePerHour = Integer.parseInt(dataParts[3]);
-                LocalDate entryDateByUserName = LocalDate.parse(dateStr, dateFormatter);
+                String[] splitDataArray = entryData.split(" ");
+                String employeeWorkedDate = splitDataArray[DATE];
+                String employeeName = splitDataArray[EMPLOYEE_NAME];
+                int employeeWorkedHours = Integer.parseInt(splitDataArray[EMPLOYEE_WORKED_HOURS]);
+                int employeeIncomePerHour = Integer.parseInt(splitDataArray[EMPLOYEE_INCOME]);
+                LocalDate entryDateByUserName = LocalDate.parse(employeeWorkedDate, dateFormatter);
                 if (entryDateByUserName.isEqual(startDate)
-                        || entryDateByUserName.isAfter(startDate)) {
-                    if (entryDateByUserName.isBefore(endDate)
-                            || entryDateByUserName.isEqual(endDate)) {
-                        if (employeeName.equals(name)) {
-                            totalSalary += employeeWorkedHours * employeeIncomePerHour;
-                        }
-                    }
+                        || entryDateByUserName.isAfter(startDate)
+                        && (entryDateByUserName.isBefore(endDate)
+                        || entryDateByUserName.isEqual(endDate))
+                        && employeeName.equals(name)) {
+                    totalSalary += employeeWorkedHours * employeeIncomePerHour;
                 }
             }
             reportBuilder.append(name)
@@ -44,5 +48,4 @@ public class SalaryInfo {
         return reportBuilder.toString().trim();
     }
 }
-
 

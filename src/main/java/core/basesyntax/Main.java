@@ -2,7 +2,7 @@ package core.basesyntax;
 
 public class Main {
     public static void main(String[] args) {
-        String[] dataArr = new String[]{
+        String[] salaryInfoSet = new String[]{
                 "26.04.2019 John 4 50",
                 "05.04.2019 Andrew 3 200",
                 "10.04.2019 John 7 100",
