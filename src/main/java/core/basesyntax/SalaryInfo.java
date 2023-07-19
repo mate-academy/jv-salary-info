@@ -9,18 +9,19 @@ public class SalaryInfo {
     public static final int EMPLOYEE_WORKED_HOURS = 2;
     public static final int EMPLOYEE_INCOME = 3;
     public static final String DATE_FORMAT = "dd.MM.yyyy";
+    public static final String HYPHEN_CHARACTER = " - ";
+    public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern(DATE_FORMAT);
 
     public String getSalaryInfo(String[] names, String[] data,
                                 String dateFrom, String dateTo) {
         StringBuilder reportBuilder = new StringBuilder();
-        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
         LocalDate startDate;
         LocalDate endDate;
-        startDate = LocalDate.parse(dateFrom, dateFormatter);
-        endDate = LocalDate.parse(dateTo, dateFormatter);
+        startDate = LocalDate.parse(dateFrom, DATE_FORMATTER);
+        endDate = LocalDate.parse(dateTo, DATE_FORMATTER);
         reportBuilder.append("Report for period ")
                 .append(dateFrom)
-                .append(" - ")
+                .append(HYPHEN_CHARACTER)
                 .append(dateTo)
                 .append(System.lineSeparator());
         for (String name : names) {
@@ -31,7 +32,7 @@ public class SalaryInfo {
                 String employeeName = splitDataArray[EMPLOYEE_NAME];
                 int employeeWorkedHours = Integer.parseInt(splitDataArray[EMPLOYEE_WORKED_HOURS]);
                 int employeeIncomePerHour = Integer.parseInt(splitDataArray[EMPLOYEE_INCOME]);
-                LocalDate entryDateByUserName = LocalDate.parse(employeeWorkedDate, dateFormatter);
+                LocalDate entryDateByUserName = LocalDate.parse(employeeWorkedDate, DATE_FORMATTER);
                 if (entryDateByUserName.isEqual(startDate)
                         || entryDateByUserName.isAfter(startDate)
                         && (entryDateByUserName.isBefore(endDate)
@@ -41,11 +42,10 @@ public class SalaryInfo {
                 }
             }
             reportBuilder.append(name)
-                    .append(" - ")
+                    .append(HYPHEN_CHARACTER)
                     .append(totalSalary)
                     .append(System.lineSeparator());
         }
         return reportBuilder.toString().trim();
     }
 }
-
