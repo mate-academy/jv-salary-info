@@ -1,27 +1,27 @@
 package core.basesyntax;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-    private static final int DATE_PART = 0;
-    private static final int NAME_PART = 1;
-    private static final int HOURS_PART = 2;
-    private static final int RATE_PART = 3;
+    private static final DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final String DATE_SEPARATOR = " - ";
+    private static final int DATE_INDEX = 0;
+    private static final int NAME_INDEX = 1;
+    private static final int HOURS_INDEX = 2;
+    private static final int RATE_INDEX = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder report = new StringBuilder();
-        report.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
+        report.append("Report for period ").append(dateFrom).append(DATE_SEPARATOR).append(dateTo);
         for (String name : names) {
             int salary = 0;
             for (String item : data) {
                 String[] parts = item.split(" ");
-                if (isWithinRange(parts[DATE_PART], dateFrom, dateTo)
-                        && name.equals(parts[NAME_PART])) {
-                    int hours = Integer.parseInt(parts[HOURS_PART]);
-                    int rate = Integer.parseInt(parts[RATE_PART]);
+                if (isWithinRange(parts[DATE_INDEX], dateFrom, dateTo)
+                        && name.equals(parts[NAME_INDEX])) {
+                    int hours = Integer.parseInt(parts[HOURS_INDEX]);
+                    int rate = Integer.parseInt(parts[RATE_INDEX]);
                     salary += hours * rate;
                 }
             }
@@ -32,12 +32,12 @@ public class SalaryInfo {
 
     private static boolean isWithinRange(String date, String dateFrom, String dateTo) {
         try {
-            Date current = dateFormat.parse(date);
-            Date from = dateFormat.parse(dateFrom);
-            Date to = dateFormat.parse(dateTo);
-            return current.compareTo(from) >= 0 && current.compareTo(to) <= 0;
-        } catch (ParseException e) {
-            throw new RuntimeException("Can't get date, ", e);
+            LocalDate current = LocalDate.parse(date, dateFormat);
+            LocalDate from = LocalDate.parse(dateFrom, dateFormat);
+            LocalDate to = LocalDate.parse(dateTo, dateFormat);
+            return !current.isBefore(from) && !current.isAfter(to);
+        } catch (Exception e) {
+            throw new RuntimeException("Can't parse date, ", e);
         }
     }
 }
