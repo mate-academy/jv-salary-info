@@ -5,18 +5,18 @@ import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     private static final String REPORT_DELIMITER = " - ";
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] date, String dateFrom, String dateTo) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        LocalDate dateStart = LocalDate.parse(dateFrom, formatter);
-        LocalDate dateFinish = LocalDate.parse(dateTo, formatter);
+        LocalDate dateStart = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate dateFinish = LocalDate.parse(dateTo, FORMATTER);
 
         StringBuilder builder = new StringBuilder("Report for period "
                 + dateFrom + REPORT_DELIMITER + dateTo);
 
         for (String name : names) {
             int totalSalary = calculateTotalSalaryForEmployee(name, date, dateStart,
-                    dateFinish, formatter);
+                    dateFinish, FORMATTER);
             builder.append(System.lineSeparator()).append(name)
                     .append(REPORT_DELIMITER).append(totalSalary);
         }
