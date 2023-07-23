@@ -1,11 +1,11 @@
-# jv-salary-info 
+# jv-salary-info
 
-Implement method `getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)`. It should calculate 
-salary for employees. As input you receive two arrays and two dates in String format. 
- - Date represents limits that you should meet while calculation salary for employees (inclusively).
- - First array (`names`) contains names of employees you should calculate salary for.
- - Second array (`data`) contains info about their working hour during particular day and income per hour. 
-Method should return info in the following format:
+Implement method `getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)`. It should calculate
+salary for employees. As input you receive two arrays and two dates in String format.
+- Date represents limits that you should meet while calculation salary for employees (inclusively).
+- First array (`names`) contains names of employees you should calculate salary for.
+- Second array (`data`) contains info about their working hour during particular day and income per hour.
+  Method should return info in the following format:
 ```
    Report for period #date_1# - #date_2#
    #Name of employee# - #money earned#
