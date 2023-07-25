@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     public static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         int salaryEmployee = 0;
         LocalDate dateF = LocalDate.parse(dateFrom,formatter);
