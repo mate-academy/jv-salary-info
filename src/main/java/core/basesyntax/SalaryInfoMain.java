@@ -11,8 +11,7 @@ public class SalaryInfoMain {
                 "25.06.2019 John 11 50",
                 "26.04.2019 Andrew 3 150",
                 "13.02.2019 John 7 100",
-                "26.04.2019 Kate 9 100"
-        };
+                "26.04.2019 Kate 9 100"};
 
         String dateFrom = "01.04.2019";
         String dateTo = "30.04.2019";
