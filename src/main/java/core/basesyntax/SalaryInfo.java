@@ -11,8 +11,8 @@ public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate dateFromLocal = LocalDate.parse(dateFrom, formatter);
         LocalDate dateToLocal = LocalDate.parse(dateTo, formatter);
-        StringBuilder reportSalary = new StringBuilder("Report for period " + dateFrom + " - "
-                + dateTo);
+        StringBuilder reportSalary = new StringBuilder();
+        reportSalary.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
         for (String name : names) {
             for (String informPerson : data) {
                 String[] splitData = informPerson.split(DATA_INDEX);
