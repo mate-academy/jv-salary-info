@@ -26,7 +26,7 @@ public class SalaryInfo {
             startDate = LocalDate.parse(dateFrom, formatter);
             endDate = LocalDate.parse(dateTo, formatter);
         } catch (DateTimeParseException exception) {
-            return null;
+            throw new IllegalArgumentException("Wrong date formats.");
         }
         final int dataEmployeeNameIndex = 1;
         final int dataEmployeeWorkingHoursIndex = 2;
@@ -40,7 +40,7 @@ public class SalaryInfo {
             try {
                 parsedDate = LocalDate.parse(dataRecordSplit[0], formatter);
             } catch (DateTimeParseException exception) {
-                continue;
+                throw new IllegalArgumentException("Wrong date formats in data.");
             }
             if (!String.valueOf(employeeNamesIndexes).contains(employeeName)) {
                 employeeNamesIndexes.append(employeeName).append(":").append(employeeNameIndex)
@@ -51,8 +51,13 @@ public class SalaryInfo {
                     || parsedDate.toEpochDay() > endDate.toEpochDay()) {
                 continue;
             }
-            int dateSalary = Integer.parseInt(employeeWorkingHours) * Integer.parseInt(
-                    employeeIncomePerHour);
+            int dateSalary = 0;
+            try {
+                dateSalary = Integer.parseInt(employeeWorkingHours) * Integer.parseInt(
+                        employeeIncomePerHour);
+            } catch (NumberFormatException exception) {
+                throw new IllegalArgumentException("Wrong numeric values format in data.");
+            }
             int index = getEmployeeIndex(employeeNamesIndexes, employeeName);
             usersSalaries[index] += dateSalary;
         }
