@@ -86,9 +86,6 @@ public class SalaryInfoTest {
             String actualResult = salary.getSalaryInfo(sampleNames, scriptArray, dates[0], dates[i]);
             String expectedResult = SalaryInfoTest.exceptedReports[i];
 
-            actualResult = actualResult.replaceAll("\\R", "");
-            expectedResult = expectedResult.replaceAll("\\R", "");
-
             Assert.assertEquals(
                     "Test failed from date " + dates[0] + " to " + dates[i]
                             + "\nactual: \n" + actualResult
@@ -104,9 +101,6 @@ public class SalaryInfoTest {
         String actualResult = salary.getSalaryInfo(sampleNames, secondScriptArray,
                 secondDates[0], secondDates[1]);
         String expectedResult = SalaryInfoTest.secondExceptedReports;
-
-        actualResult = actualResult.replaceAll("\\R", "");
-        expectedResult = expectedResult.replaceAll("\\R", "");
 
         Assert.assertEquals(
                 "Test failed from date " + secondDates[0] + " to " + secondDates[1]
