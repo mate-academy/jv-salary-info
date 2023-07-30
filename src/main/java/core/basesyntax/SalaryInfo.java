@@ -7,6 +7,10 @@ import java.time.format.DateTimeParseException;
 public class SalaryInfo {
     private static final DateTimeFormatter DATE_FORMATTER =
             DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final int DATE_INDEX = 0;
+    private static final int NAME_INDEX = 1;
+    private static final int HOURS_INDEX = 2;
+    private static final int HOURLY_RATE_INDEX = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         dateFrom = dateFrom.trim();
@@ -44,11 +48,11 @@ public class SalaryInfo {
         int earnedMoney = 0;
         for (String entry : data) {
             String[] entryData = entry.split(" ");
-            LocalDate checkDates = parseDate(entryData[0]);
+            LocalDate checkDates = parseDate(entryData[DATE_INDEX]);
             if (isWithinDateRange(checkDates, fromDate, toDate)
-                    && isMatchingName(name, entryData[1])) {
-                int hours = Integer.parseInt(entryData[2]);
-                int hourlyRate = Integer.parseInt(entryData[3]);
+                    && isMatchingName(name, entryData[NAME_INDEX])) {
+                int hours = Integer.parseInt(entryData[HOURS_INDEX]);
+                int hourlyRate = Integer.parseInt(entryData[HOURLY_RATE_INDEX]);
                 earnedMoney = earnedMoney + (hours * hourlyRate);
             }
         }
