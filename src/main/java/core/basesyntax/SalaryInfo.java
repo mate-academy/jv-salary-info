@@ -2,7 +2,6 @@ package core.basesyntax;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -20,13 +19,14 @@ public class SalaryInfo {
 
         LocalDate dateStart = findDate(dateFrom);
         LocalDate dateEnd = findDate(dateTo);
-        StringBuffer stringBuffer = new StringBuffer();
-
-        for (String name: names) {
-            nameSalaryMap.put(name, 0);
-        }
+        StringBuffer stringBufferFull = new StringBuffer();
+        StringBuffer stringBufferEmpty = new StringBuffer();
+        stringBufferFull.append("Report for period " + dateFrom + " - " + dateTo);
+        stringBufferEmpty.append("Report for period " + dateFrom + " - " + dateTo);
 
         for (int i = 0; i < names.length; i++) {
+            nameSalaryMap.put(names[i], 0);
+            int resultSalary = 0;
             for (int j = 0; j < data.length; j++) {
                 if ((findDate(data[j]).compareTo(dateStart) > 0
                         && findDate(data[j]).compareTo(dateEnd) < 0)
@@ -37,7 +37,7 @@ public class SalaryInfo {
                         String[] hourSalary = dataEmployee.split(" ");
                         int hour = Integer.parseInt(hourSalary[1]);
                         int salaryValue = Integer.parseInt(hourSalary[2]);
-                        int resultSalary = hour * salaryValue;
+                        resultSalary = hour * salaryValue;
                         Integer salary = nameSalaryMap.get(names[i]);
                         resultSalary += salary;
                         resultInfoMap.put(names[i], resultSalary);
@@ -45,28 +45,18 @@ public class SalaryInfo {
                     }
                 }
             }
-        }
+            stringBufferFull.append(System.lineSeparator())
+                    .append(names[i]).append(" - ").append(resultSalary);
 
-        stringBuffer.append("Report for period " + dateFrom + " - " + dateTo);
+            stringBufferEmpty.append(System.lineSeparator())
+                    .append(names[i]).append(" - ").append(0);
+        }
 
         if (resultInfoMap.isEmpty()) {
-            for (int i = 0; i < names.length; i++) {
-                stringBuffer.append(System.lineSeparator())
-                        .append(names[i]).append(" - ").append(0);
-            }
-            return stringBuffer.toString();
+            return stringBufferEmpty.toString();
         }
 
-        Iterator iterator = resultInfoMap.entrySet().iterator();
-        while (iterator.hasNext()) {
-            Map.Entry entry = (Map.Entry) iterator.next();
-            String name = (String) entry.getKey();
-            int salary = (int) entry.getValue();
-
-            stringBuffer.append(System.lineSeparator()).append(name).append(" - ").append(salary);
-        }
-
-        return stringBuffer.toString();
+        return stringBufferFull.toString();
     }
 
     private LocalDate findDate(String string) {
