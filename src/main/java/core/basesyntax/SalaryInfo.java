@@ -4,65 +4,42 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    private static DateTimeFormatter DATE_TIME_FORMATTER
+    private static final DateTimeFormatter DATE_TIME_FORMATTER
             = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-    private String[] report;
+    private static final int HOUR_INDEX = 1;
+    private static final int SALARY_INDEX = 2;
+    private static final int DATE_INDEX = 0;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        String[] resultReport = new String[names.length];
-        report = new String[names.length];
-
         LocalDate dateStart = LocalDate.parse(dateFrom, DATE_TIME_FORMATTER);
         LocalDate dateEnd = LocalDate.parse(dateTo, DATE_TIME_FORMATTER);
 
-        StringBuilder stringBuilderFull = new StringBuilder();
-        StringBuilder stringBuilderEmpty = new StringBuilder();
-        StringBuilder builder = new StringBuilder();
+        StringBuilder result = new StringBuilder().append("Report for period ")
+                .append(dateFrom).append(" - ").append(dateTo);
 
-        stringBuilderFull.append("Report for period " + dateFrom + " - " + dateTo);
-        stringBuilderEmpty.append("Report for period " + dateFrom + " - " + dateTo);
-
-        for (int i = 0; i < names.length; i++) {
-            builder.append(names[i]).append(" ").append("0");
-            report[i] = builder.toString();
-            builder.setLength(0);
+        for (String name: names) {
             int resultSalary = 0;
-            for (int j = 0; j < data.length; j++) {
-                LocalDate currentDate = LocalDate.parse(data[j].split(" ")[0], DATE_TIME_FORMATTER);
+            for (String line: data) {
+                String[] arrayOfData = line.split(" ");
+                LocalDate currentDate
+                        = LocalDate.parse(arrayOfData[DATE_INDEX], DATE_TIME_FORMATTER);
                 if (currentDate.compareTo(dateStart) > 0
                         && currentDate.compareTo(dateEnd) < 0
                         || currentDate.equals(dateStart)
                         || currentDate.equals(dateEnd)) {
-                    if (data[j].contains(names[i])) {
-                        String dataEmployee = data[j].substring(data[j].indexOf(names[i]));
+                    if (line.contains(name)) {
+                        String dataEmployee = line.substring(line.indexOf(name));
                         String[] hourSalary = dataEmployee.split(" ");
-                        int hour = Integer.parseInt(hourSalary[1]);
-                        int salaryValue = Integer.parseInt(hourSalary[2]);
-                        resultSalary = hour * salaryValue;
-                        Integer salary = Integer.parseInt(report[i].split(" ")[1]);
+                        int hour = Integer.parseInt(hourSalary[HOUR_INDEX]);
+                        int salaryValue = Integer.parseInt(hourSalary[SALARY_INDEX]);
+                        int salary = hour * salaryValue;
                         resultSalary += salary;
-
-                        builder.append(names[i]).append(" ").append(resultSalary);
-                        resultReport[i] = builder.toString();
-                        builder.setLength(0);
-
-                        builder.append(names[i]).append(" ").append(resultSalary);
-                        report[i] = builder.toString();
-                        builder.setLength(0);
                     }
                 }
             }
-            stringBuilderFull.append(System.lineSeparator())
-                    .append(names[i]).append(" - ").append(resultSalary);
-
-            stringBuilderEmpty.append(System.lineSeparator())
-                    .append(names[i]).append(" - ").append(0);
+            result.append(System.lineSeparator()).append(name).append(" - ").append(resultSalary);
         }
 
-        if (resultReport == null || resultReport.length == 0) {
-            return stringBuilderEmpty.toString();
-        }
-
-        return stringBuilderFull.toString();
+        return result.toString();
     }
 }
