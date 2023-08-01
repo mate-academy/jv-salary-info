@@ -9,6 +9,7 @@ public class SalaryInfo {
     private static final int HOUR_INDEX = 1;
     private static final int SALARY_INDEX = 2;
     private static final int DATE_INDEX = 0;
+    private static final int NAME_INDEX = 1;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate dateStart = LocalDate.parse(dateFrom, DATE_TIME_FORMATTER);
@@ -23,11 +24,12 @@ public class SalaryInfo {
                 String[] arrayOfData = line.split(" ");
                 LocalDate currentDate
                         = LocalDate.parse(arrayOfData[DATE_INDEX], DATE_TIME_FORMATTER);
-                if (currentDate.compareTo(dateStart) > 0
-                        && currentDate.compareTo(dateEnd) < 0
+                if (currentDate.isAfter(dateStart)
+                        && currentDate.isBefore(dateEnd)
                         || currentDate.equals(dateStart)
                         || currentDate.equals(dateEnd)) {
-                    if (line.contains(name)) {
+                    String nameFromLine = line.split(" ")[NAME_INDEX];
+                    if (nameFromLine.equals(name)) {
                         String dataEmployee = line.substring(line.indexOf(name));
                         String[] hourSalary = dataEmployee.split(" ");
                         int hour = Integer.parseInt(hourSalary[HOUR_INDEX]);
