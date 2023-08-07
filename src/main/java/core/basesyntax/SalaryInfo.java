@@ -1,24 +1,29 @@
 package core.basesyntax;
 
+import java.time.LocalDate;
+
 public class SalaryInfo {
+    private static final int EMPLOYEE_DATE_INDEX = 0;
+    private static final int EMPLOYEE_NAME_INDEX = 1;
+    private static final int EMPLOYEE_HOUR_INDEX = 2;
+    private static final int EMPLOYEE_PRICE_INDEX = 3;
+    private static final int DATE_DAY_INDEX = 0;
+    private static final int DATE_MONTH_INDEX = 1;
+    private static final int DATE_YEAR_INDEX = 2;
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         String[] employeeData;
-        String[] employeeDataDate;
-        String[] dateFromDivide = dateFrom.split("\\.");
-        String[] dateToDivide = dateTo.split("\\.");
         int[] employeeSalary = new int[names.length];
 
         for (String employee : data) {
             employeeData = employee.split(" ");
-            employeeDataDate = employeeData[0].split("\\.");
 
-            if (dateCompare(employeeDataDate, dateFromDivide)
-                    && dateCompare(dateToDivide, employeeDataDate)) {
+            if (isDateBetween(employeeData[EMPLOYEE_DATE_INDEX], dateFrom, dateTo)) {
                 for (int numberOfName = 0; numberOfName < names.length; numberOfName++) {
-                    if (names[numberOfName].equals(employeeData[1])) {
+                    if (names[numberOfName].equals(employeeData[EMPLOYEE_NAME_INDEX])) {
                         employeeSalary[numberOfName] +=
-                                (Integer.parseInt(employeeData[2])
-                                        * Integer.parseInt(employeeData[3]));
+                                (Integer.parseInt(employeeData[EMPLOYEE_HOUR_INDEX])
+                                        * Integer.parseInt(employeeData[EMPLOYEE_PRICE_INDEX]));
                     }
                 }
             }
@@ -35,22 +40,20 @@ public class SalaryInfo {
         return builder.toString();
     }
 
-    private boolean dateCompare(String[] dateA, String[] dateB) {
-        int dateADay = Integer.parseInt(dateA[0]);
-        int dateBDay = Integer.parseInt(dateB[0]);
-        int dateAMonth = Integer.parseInt(dateA[1]);
-        int dateBMonth = Integer.parseInt(dateB[1]);
-        int dateAYear = Integer.parseInt(dateA[2]);
-        int dateBYear = Integer.parseInt(dateB[2]);
+    private boolean isDateBetween(String date, String dateFrom, String dateTo) {
 
-        if (dateAYear == dateBYear) {
-            if (dateAMonth == dateBMonth) {
-                return dateADay >= dateBDay;
-            } else {
-                return dateAMonth >= dateBMonth;
-            }
-        } else {
-            return dateAYear >= dateBYear;
-        }
+        String[] splitDate = date.split("\\.");
+        String[] splitDateFrom = dateFrom.split("\\.");
+        String[] splitDateTo = dateTo.split("\\.");
+
+        LocalDate localDate = LocalDate.parse(splitDate[DATE_YEAR_INDEX]
+                + "-" + splitDate[DATE_MONTH_INDEX] + "-" + splitDate[DATE_DAY_INDEX]);
+        LocalDate localDateFrom = LocalDate.parse(splitDateFrom[DATE_YEAR_INDEX]
+                + "-" + splitDateFrom[DATE_MONTH_INDEX] + "-" + splitDateFrom[DATE_DAY_INDEX]);
+        LocalDate localDateTo = LocalDate.parse(splitDateTo[DATE_YEAR_INDEX]
+                + "-" + splitDateTo[DATE_MONTH_INDEX] + "-" + splitDateTo[DATE_DAY_INDEX]);
+
+        return (localDate.isAfter(localDateFrom) && localDate.isBefore(localDateTo))
+                || localDate.isEqual(localDateFrom) || localDate.isEqual(localDateTo);
     }
 }
