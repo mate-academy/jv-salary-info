@@ -10,11 +10,9 @@ public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder builder = new StringBuilder("Report for period ");
         builder.append(dateFrom).append(" - ").append(dateTo);
-        Date localDateFrom;
-        Date localDateTo;
         try {
-            localDateFrom = FORMATTER.parse(dateFrom);
-            localDateTo = FORMATTER.parse(dateTo);
+            Date localDateFrom = FORMATTER.parse(dateFrom);
+            Date localDateTo = FORMATTER.parse(dateTo);
             for (int i = 0; i < names.length; i++) {
                 int tempSalaryForPerson = 0;
                 for (int j = 0; j < data.length; j++) {
@@ -32,7 +30,7 @@ public class SalaryInfo {
                         .append(tempSalaryForPerson);
             }
         } catch (ParseException e) {
-            return null;
+            throw new RuntimeException("Can`t parse date", e);
         }
         return builder.toString();
     }
