@@ -42,7 +42,8 @@ public class SalaryInfo {
                     }
                 }
                 if (j == data.length - 1) {
-                    info.append(System.lineSeparator()).append(names[i]).append(" - ").append(tempSalaryInMonth);
+                    info.append(System.lineSeparator()).append(names[i]).
+                            append(" - ").append(tempSalaryInMonth);
                 }
             }
         }
@@ -50,22 +51,23 @@ public class SalaryInfo {
     }
 
     public static boolean compareDate(int year, int yearFrom, int yearTo,
-                                      int month, int monthFrom, int monthTo, int day,int dayFrom, int dayTo) {
+                                      int month, int monthFrom, int monthTo,
+                                      int day,int dayFrom, int dayTo) {
 
-        if(year > yearFrom  && year < yearTo){ return true; }
-        if(!(year >= yearFrom  && year <= yearTo)){ return false; }
-        if(year == yearFrom && year != yearTo){
-            if(month > monthFrom){ return true; }
-            if(month == monthFrom && day >= dayFrom){ return true; }
+        if (year > yearFrom  && year < yearTo) { return true; }
+        if (!(year >= yearFrom  && year <= yearTo)) { return false; }
+        if (year == yearFrom && year != yearTo) {
+            if(month > monthFrom) { return true; }
+            if(month == monthFrom && day >= dayFrom) { return true; }
         }
-        if(year == yearTo && year != yearFrom){
-            if(month < monthTo){ return true; }
-            if(month == monthTo && day <= dayTo){ return true; }        }
-        if(yearFrom == yearTo){
-            if(month > monthFrom && month < monthTo){ return true; }
-            if(month == monthFrom && month != monthTo && day >= dayFrom){ return true; }
-            if(month == monthTo && month != monthFrom && day <= dayTo){ return true; }
-            if(monthFrom == monthTo && day >= dayFrom && day <= dayTo){ return true; }
+        if (year == yearTo && year != yearFrom) {
+            if (month < monthTo) { return true; }
+            if (month == monthTo && day <= dayTo) { return true; }
+        } if (yearFrom == yearTo) {
+            if (month > monthFrom && month < monthTo) { return true; }
+            if (month == monthFrom && month != monthTo && day >= dayFrom) { return true; }
+            if (month == monthTo && month != monthFrom && day <= dayTo) { return true; }
+            if (monthFrom == monthTo && day >= dayFrom && day <= dayTo) { return true; }
         }
         return false;
     }
