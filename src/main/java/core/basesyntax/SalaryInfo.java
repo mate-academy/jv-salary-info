@@ -10,31 +10,32 @@ public class SalaryInfo {
         for (int i = 0; i < names.length; i++) {
             int tempSalaryInMonth = 0;
             for (int j = 0; j < data.length; j++) {
-                String[] tempSpaceSeparator_DATA = data[j].split(" ");
-                String[] tempPointSeparator_DATA = tempSpaceSeparator_DATA[0].split("\\.");
+                String[] tempSpaceSeparatorData = data[j].split(" ");
+                String[] tempPointSeparatorData = tempSpaceSeparatorData[0].split("\\.");
 
-                String[] tempSpaceSeparator_dateFrom = dateFrom.split(" ");
-                String[] tempPointSeparator_dateFrom = tempSpaceSeparator_dateFrom[0].split("\\.");
+                String[] tempSpaceSeparatorDateFrom = dateFrom.split(" ");
+                String[] tempPointSeparatorDateFrom = tempSpaceSeparatorDateFrom[0].split("\\.");
 
-                String[] tempSpaceSeparator_dateTo = dateTo.split(" ");
-                String[] tempPointSeparator_dateTo = tempSpaceSeparator_dateTo[0].split("\\.");
+                String[] tempSpaceSeparatorDateTo = dateTo.split(" ");
+                String[] tempPointSeparatorDateTo = tempSpaceSeparatorDateTo[0].split("\\.");
 
-                int tempYear_DateFrom = Integer.parseInt(tempPointSeparator_dateFrom[2]);
-                int tempMonth_DateFrom = Integer.parseInt(tempPointSeparator_dateFrom[1]);
-                int tempDay_DateFrom = Integer.parseInt(tempPointSeparator_dateFrom[0]);
+                int tempYearDateFrom = Integer.parseInt(tempPointSeparatorDateFrom[2]);
+                int tempMonthDateFrom = Integer.parseInt(tempPointSeparatorDateFrom[1]);
+                int tempDayDateFrom = Integer.parseInt(tempPointSeparatorDateFrom[0]);
 
-                int tempYear_DateTo = Integer.parseInt(tempPointSeparator_dateTo[2]);
-                int tempMonth_DateTo = Integer.parseInt(tempPointSeparator_dateTo[1]);
-                int tempDay_DateTo = Integer.parseInt(tempPointSeparator_dateTo[0]);
+                int tempYearDateTo = Integer.parseInt(tempPointSeparatorDateTo[2]);
+                int tempMonthDateTo = Integer.parseInt(tempPointSeparatorDateTo[1]);
+                int tempDayDateTo = Integer.parseInt(tempPointSeparatorDateTo[0]);
 
-                int tempYear_DATA = Integer.parseInt(tempPointSeparator_DATA[2]);
-                int tempMonth_DATA = Integer.parseInt(tempPointSeparator_DATA[1]);
-                int tempDay_DATA = Integer.parseInt(tempPointSeparator_DATA[0]);
+                int tempYearData = Integer.parseInt(tempPointSeparatorData[2]);
+                int tempMonthData = Integer.parseInt(tempPointSeparatorData[1]);
+                int tempDayData = Integer.parseInt(tempPointSeparatorData[0]);
 
-                if (compareDate(tempYear_DATA, tempYear_DateFrom, tempYear_DateTo, tempMonth_DATA, tempMonth_DateFrom, tempMonth_DateTo, tempDay_DATA, tempDay_DateFrom, tempDay_DateTo)) {
+                if (compareDate(tempYearData, tempYearDateFrom, tempYearDateTo, tempMonthData,
+                        tempMonthDateFrom, tempMonthDateTo, tempDayData, tempDayDateFrom, tempDayDateTo)) {
                     if (data[j].contains(names[i])) {
-                        int tempHourInThatDay = Integer.parseInt(tempSpaceSeparator_DATA[2]);
-                        int tempSalaryPerHourInThatDay = Integer.parseInt(tempSpaceSeparator_DATA[3]);
+                        int tempHourInThatDay = Integer.parseInt(tempSpaceSeparatorData[2]);
+                        int tempSalaryPerHourInThatDay = Integer.parseInt(tempSpaceSeparatorData[3]);
 
                         int tempSalarySumInThatDay = tempHourInThatDay * tempSalaryPerHourInThatDay;
                         tempSalaryInMonth += tempSalarySumInThatDay;
@@ -48,7 +49,8 @@ public class SalaryInfo {
         return info.toString();
     }
 
-    public static boolean compareDate(int year, int yearFrom, int yearTo, int month, int monthFrom, int monthTo, int day,int dayFrom, int dayTo) {
+    public static boolean compareDate(int year, int yearFrom, int yearTo,
+                                      int month, int monthFrom, int monthTo, int day,int dayFrom, int dayTo) {
 
         if(year > yearFrom  && year < yearTo){ return true; }
         if(!(year >= yearFrom  && year <= yearTo)){ return false; }
