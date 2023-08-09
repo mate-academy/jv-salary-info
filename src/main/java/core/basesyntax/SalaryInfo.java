@@ -32,18 +32,20 @@ public class SalaryInfo {
                 int tempDayData = Integer.parseInt(tempPointSeparatorData[0]);
 
                 if (compareDate(tempYearData, tempYearDateFrom, tempYearDateTo, tempMonthData,
-                        tempMonthDateFrom, tempMonthDateTo, tempDayData, tempDayDateFrom, tempDayDateTo)) {
+                        tempMonthDateFrom, tempMonthDateTo, tempDayData,
+                        tempDayDateFrom, tempDayDateTo)) {
                     if (data[j].contains(names[i])) {
                         int tempHourInThatDay = Integer.parseInt(tempSpaceSeparatorData[2]);
-                        int tempSalaryPerHourInThatDay = Integer.parseInt(tempSpaceSeparatorData[3]);
+                        int tempSalaryPerHourInThatDay = Integer
+                                .parseInt(tempSpaceSeparatorData[3]);
 
                         int tempSalarySumInThatDay = tempHourInThatDay * tempSalaryPerHourInThatDay;
                         tempSalaryInMonth += tempSalarySumInThatDay;
                     }
                 }
                 if (j == data.length - 1) {
-                    info.append(System.lineSeparator()).append(names[i]).
-                            append(" - ").append(tempSalaryInMonth);
+                    info.append(System.lineSeparator()).append(names[i])
+                                    .append(" - ").append(tempSalaryInMonth);
                 }
             }
         }
@@ -54,10 +56,10 @@ public class SalaryInfo {
                                       int month, int monthFrom, int monthTo,
                                       int day,int dayFrom, int dayTo) {
 
-        if (year > yearFrom  && year < yearTo) {
+        if (year > yearFrom && year < yearTo) {
             return true;
         }
-        if (!(year >= yearFrom  && year <= yearTo)) {
+        if (!(year >= yearFrom && year <= yearTo)) {
             return false;
         }
         if (year == yearFrom && year != yearTo) {
