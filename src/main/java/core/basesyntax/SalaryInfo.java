@@ -2,7 +2,6 @@ package core.basesyntax;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 
 public class SalaryInfo {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
@@ -38,13 +37,6 @@ public class SalaryInfo {
     }
 
     public LocalDate stringToLocalDate(String input) {
-        LocalDate date;
-        try {
-            date = LocalDate.parse(input, FORMATTER);
-        } catch (DateTimeParseException exc) {
-            System.out.printf("%s is not parsable!%n", input);
-            throw exc;
-        }
-        return date;
+        return LocalDate.parse(input, FORMATTER);
     }
 }
