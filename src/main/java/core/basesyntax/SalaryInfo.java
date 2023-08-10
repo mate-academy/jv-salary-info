@@ -33,7 +33,7 @@ public class SalaryInfo {
         return builder.toString();
     }
 
-    private boolean isDateBetween(String date, String dateFrom, String dateTo) {
+    private boolean isDateBetween(LocalDate date, LocalDate dateFrom, LocalDate dateTo) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d.M.yyyy");
 
         LocalDate localDate =
