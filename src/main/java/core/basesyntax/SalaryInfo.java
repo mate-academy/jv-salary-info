@@ -15,7 +15,6 @@ public class SalaryInfo {
                                             + dateFrom + " - " + dateTo);
         LocalDate localDateFrom = LocalDate.parse(dateFrom, FORMATTER);
         LocalDate localDateTo = LocalDate.parse(dateTo, FORMATTER);
-        System.out.println(localDateFrom + " and " + localDateTo);
         for (int i = 0, fullSalary = 0; i < names.length; i++) {
             for (String pieceOfData : data) {
                 if (pieceOfData.contains(names[i])) {
