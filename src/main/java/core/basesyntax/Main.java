@@ -14,7 +14,7 @@ public class Main {
                 "27.04.2019 Kate 3 80",
                 "27.04.2019 Andrew 8 100"};
         String dateFrom = "25.04.2019";
-        String dateTo =  "25.04.2019";
+        String dateTo = "25.04.2019";
         System.out.println(salaryInfo.getSalaryInfo(names, data, dateFrom, dateTo));
     }
 }
