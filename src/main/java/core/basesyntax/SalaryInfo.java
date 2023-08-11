@@ -8,6 +8,7 @@ public class SalaryInfo {
     private static final int EMPLOYEE_NAME_INDEX = 1;
     private static final int EMPLOYEE_HOUR_INDEX = 2;
     private static final int EMPLOYEE_PRICE_INDEX = 3;
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("d.M.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         String[] employeeData;
@@ -34,16 +35,13 @@ public class SalaryInfo {
     }
 
     private boolean isDateBetween(String date, String dateFrom, String dateTo) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d.M.yyyy");
-
-        LocalDate localDate =
-                LocalDate.parse(date, formatter);
-        LocalDate localDateFrom =
-                LocalDate.parse(dateFrom, formatter);
-        LocalDate localDateTo =
-                LocalDate.parse(dateTo, formatter);
-
-        return (localDate.isAfter(localDateFrom) && localDate.isBefore(localDateTo))
-                || localDate.isEqual(localDateFrom) || localDate.isEqual(localDateTo);
+        return (LocalDate.parse(date, DATE_FORMATTER)
+                .isAfter(LocalDate.parse(dateFrom, DATE_FORMATTER))
+                && LocalDate.parse(date, DATE_FORMATTER)
+                .isBefore(LocalDate.parse(dateTo, DATE_FORMATTER)))
+                || LocalDate.parse(date, DATE_FORMATTER)
+                .isEqual(LocalDate.parse(dateFrom, DATE_FORMATTER))
+                || LocalDate.parse(date, DATE_FORMATTER)
+                .isEqual(LocalDate.parse(dateTo, DATE_FORMATTER));
     }
 }
