@@ -12,21 +12,13 @@ public class SalaryInfo {
             Date fromDate = dateFormat.parse(dateFrom);
             Date toDate = dateFormat.parse(dateTo);
             HashMap<String, Integer> salaryMap = new HashMap<>();
-            for (String name : names) {
-                salaryMap.put(name, 0);
-            }
             for (String entry : data) {
                 String[] parts = entry.split(" ");
                 if (parts.length == 4) {
-                    String entryDateStr = parts[0];
-                    String name = parts[1];
-                    int hoursWorked = Integer.parseInt(parts[2]);
-                    int incomePerHour = Integer.parseInt(parts[3]);
-                    Date entryDate = dateFormat.parse(entryDateStr);
+                    Date entryDate = dateFormat.parse(parts[0]);
                     if (!entryDate.before(fromDate) && !entryDate.after(toDate)) {
-                        int earnedMoney = hoursWorked * incomePerHour;
-                        int currentSalary = salaryMap.get(name);
-                        salaryMap.put(name, currentSalary + earnedMoney);
+                        int earnedMoney = Integer.parseInt(parts[2]) * Integer.parseInt(parts[3]);
+                        salaryMap.put(parts[1], salaryMap.getOrDefault(parts[1], 0) + earnedMoney);
                     }
                 }
             }
@@ -35,7 +27,7 @@ public class SalaryInfo {
                     .append(dateFrom).append(" - ")
                     .append(dateTo);
             for (String name : names) {
-                int earnedMoney = salaryMap.get(name);
+                int earnedMoney = salaryMap.getOrDefault(name, 0);
                 report.append(System.lineSeparator())
                         .append(name).append(" - ")
                         .append(earnedMoney);
