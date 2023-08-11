@@ -20,7 +20,6 @@ public class SalaryInfo {
             salary = 0;
             for (String record : data) {
                 employeeData = record.split(" ");
-
                 if (employeeData[EMPLOYEE_NAME_INDEX].equals(name)
                         && isDateBetween(employeeData[EMPLOYEE_DATE_INDEX], dateFrom, dateTo)) {
                     salary += (Integer.parseInt(employeeData[EMPLOYEE_HOUR_INDEX])
