@@ -24,13 +24,15 @@ public class SalaryInfo {
                     Date temporaryDate = dateFormat.parse(tempSpaceSeparatorData[0]);
 
                     if ((temporaryDate.after(dateFromDate) || temporaryDate.equals(dateFromDate))
-                            && (temporaryDate.before(dateToDate) || temporaryDate.equals(dateToDate))) {
+                            && (temporaryDate.before(dateToDate)
+                            || temporaryDate.equals(dateToDate))) {
                         if (data[j].contains(names[i])) {
                             int tempHourInThatDay = Integer.parseInt(tempSpaceSeparatorData[2]);
                             int tempSalaryPerHourInThatDay = Integer
                                     .parseInt(tempSpaceSeparatorData[3]);
 
-                            int tempSalarySumInThatDay = tempHourInThatDay * tempSalaryPerHourInThatDay;
+                            int tempSalarySumInThatDay =
+                                    tempHourInThatDay * tempSalaryPerHourInThatDay;
                             tempSalaryInMonth += tempSalarySumInThatDay;
                         }
                     }
