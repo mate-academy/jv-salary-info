@@ -12,18 +12,26 @@ public class SalaryInfo {
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         String[] employeeData;
+        LocalDate localDateFrom = LocalDate.parse(dateFrom, DATE_FORMATTER);
+        LocalDate localDateTo = LocalDate.parse(dateTo, DATE_FORMATTER);
+        LocalDate localDateEmployee;
         int salary;
-        StringBuilder builder = new StringBuilder("Report for period "
-                + dateFrom + " - " + dateTo);
+        StringBuilder builder = new StringBuilder(
+                "Report for period " + dateFrom + " - " + dateTo);
 
         for (String name : names) {
             salary = 0;
             for (String record : data) {
                 employeeData = record.split(" ");
-                if (employeeData[EMPLOYEE_NAME_INDEX].equals(name)
-                        && isDateBetween(employeeData[EMPLOYEE_DATE_INDEX], dateFrom, dateTo)) {
-                    salary += (Integer.parseInt(employeeData[EMPLOYEE_HOUR_INDEX])
-                            * Integer.parseInt(employeeData[EMPLOYEE_PRICE_INDEX]));
+
+                if (employeeData[EMPLOYEE_NAME_INDEX].equals(name)) {
+                    localDateEmployee =
+                            LocalDate.parse(employeeData[EMPLOYEE_DATE_INDEX], DATE_FORMATTER);
+
+                    if (isDateBetween(localDateEmployee, localDateFrom, localDateTo)) {
+                        salary += (Integer.parseInt(employeeData[EMPLOYEE_HOUR_INDEX])
+                                * Integer.parseInt(employeeData[EMPLOYEE_PRICE_INDEX]));
+                    }
                 }
             }
             builder.append(System.lineSeparator())
@@ -33,14 +41,8 @@ public class SalaryInfo {
         return builder.toString();
     }
 
-    private boolean isDateBetween(String date, String dateFrom, String dateTo) {
-        return (LocalDate.parse(date, DATE_FORMATTER)
-                .isAfter(LocalDate.parse(dateFrom, DATE_FORMATTER))
-                && LocalDate.parse(date, DATE_FORMATTER)
-                .isBefore(LocalDate.parse(dateTo, DATE_FORMATTER)))
-                || LocalDate.parse(date, DATE_FORMATTER)
-                .isEqual(LocalDate.parse(dateFrom, DATE_FORMATTER))
-                || LocalDate.parse(date, DATE_FORMATTER)
-                .isEqual(LocalDate.parse(dateTo, DATE_FORMATTER));
+    private boolean isDateBetween(LocalDate date, LocalDate dateFrom, LocalDate dateTo) {
+        return (date.isAfter(dateFrom) && date.isBefore(dateTo))
+                || date.isEqual(dateFrom) || date.isEqual(dateTo);
     }
 }
