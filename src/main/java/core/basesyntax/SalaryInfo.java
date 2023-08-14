@@ -27,8 +27,8 @@ public class SalaryInfo {
             }
             returnStrings[i] = names[i] + " - " + sum;
         }
-        StringBuilder returnString = new StringBuilder("Report for period " +
-                dateFrom + " - " + dateTo);
+        StringBuilder returnString = new StringBuilder("Report for period "
+                + dateFrom + " - " + dateTo);
         for (String string : returnStrings) {
             returnString.append(System.lineSeparator()).append(string);
         }
