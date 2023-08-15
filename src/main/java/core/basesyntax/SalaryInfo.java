@@ -6,6 +6,8 @@ import java.text.SimpleDateFormat;
 public class SalaryInfo {
     private static final String WORDS_SEPARATOR = " - ";
     private static final String SYSTEM_SEPARATOR = System.lineSeparator();
+    private static final String DATE_PATTERN = "dd.MM.yyyy";
+    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat(DATE_PATTERN);
 
     public String getSalaryInfo(String[] names, String[] data,
                                        String dateFrom, String dateTo) {
@@ -25,11 +27,9 @@ public class SalaryInfo {
     }
 
     private boolean dataValidation(String date, String dateFrom, String dateTo) {
-        String datePattern = "dd.MM.yyyy";
-        SimpleDateFormat dateFormat = new SimpleDateFormat(datePattern);
         try {
-            if (dateFormat.parse(date).compareTo(dateFormat.parse(dateFrom)) >= 0
-                             && dateFormat.parse(date).compareTo(dateFormat.parse(dateTo)) <= 0) {
+            if (DATE_FORMAT.parse(date).compareTo(DATE_FORMAT.parse(dateFrom)) >= 0
+                             && DATE_FORMAT.parse(date).compareTo(DATE_FORMAT.parse(dateTo)) <= 0) {
                 return true;
             }
         } catch (ParseException e) {
