@@ -16,7 +16,6 @@ public class SalaryInfo {
     private static final int INDEX_TWO = 2;
     private static final int INDEX_THREE = 3;
 
-
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
 
         StringBuilder info = new StringBuilder(HEADER);
