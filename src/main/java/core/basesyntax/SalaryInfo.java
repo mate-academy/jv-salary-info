@@ -29,7 +29,7 @@ public class SalaryInfo {
         return stringBuilder.toString();
     }
 
-    private static boolean dataValidation(String date, String dateFrom, String dateTo) {
+    private boolean dataValidation(String date, String dateFrom, String dateTo) {
         try {
             if (DATE_FORMAT.parse(date).compareTo(DATE_FORMAT.parse(dateFrom)) >= 0
                              && DATE_FORMAT.parse(date).compareTo(DATE_FORMAT.parse(dateTo)) <= 0) {
