@@ -11,13 +11,12 @@ public class SalaryInfo {
         LocalDate localDateTo = LocalDate.parse(dateTo, FORMATTER);
         StringBuilder builder = new StringBuilder();
         builder.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
-        String[] arrayOfData;
 
         for (String name : names) {
             int salary = 0;
             builder.append(System.lineSeparator());
             for (String line : data) {
-                arrayOfData = line.split(" ");
+                String[] arrayOfData = line.split(" ");
                 if (name.equals(arrayOfData[1])) {
                     LocalDate currentDate = LocalDate.parse(arrayOfData[0], FORMATTER);
                     if (localDateFrom.compareTo(currentDate) <= 0
