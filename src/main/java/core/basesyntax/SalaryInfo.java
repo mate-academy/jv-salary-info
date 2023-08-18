@@ -32,9 +32,10 @@ public class SalaryInfo {
         }
 
         for (String[] finalSalary : salary) {
-            result.append(finalSalary[0]).append(" - ").append(finalSalary[1]).append('\n');
+            result.append(System.lineSeparator()).append(finalSalary[0])
+                                .append(" - ").append(finalSalary[1]);
         }
 
-        return "Report for period " + dateFrom + " - " + dateTo + '\n' + result;
+        return "Report for period " + dateFrom + " - " + dateTo + result;
     }
 }
