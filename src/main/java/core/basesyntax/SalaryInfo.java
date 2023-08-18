@@ -1,36 +1,31 @@
 package core.basesyntax;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class SalaryInfo {
+    private static final String DATE_FORMATTER = "dd.MM.yyyy";
+    private static final String DATA_LINE_SEPARATOR = " ";
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         System.out.println();
-        String[] strDateFrom = dateFrom.split("\\.");
-        int numDateFrom = Integer.parseInt(strDateFrom[2]) * 10000
-                + Integer.parseInt(strDateFrom[1]) * 100
-                + Integer.parseInt(strDateFrom[0]);
-        String[] strDateTo = dateTo.split("\\.");
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(DATE_FORMATTER);
+        LocalDate localDateFrom = LocalDate.parse(dateFrom, dateTimeFormatter);
+        LocalDate localDateTo = LocalDate.parse(dateTo, dateTimeFormatter);
         String[] returnStrings = new String[names.length];
-        int numDateTo = Integer.parseInt(strDateTo[2]) * 10000
-                + Integer.parseInt(strDateTo[1]) * 100
-                + Integer.parseInt(strDateTo[0]);
+        StringBuilder returnString = new StringBuilder("Report for period "
+                + dateFrom + " - " + dateTo);
         for (int i = 0; i < names.length; i++) {
             int sum = 0;
             for (String datum : data) {
-                String[] array = datum.split(" ");
-                String[] strCurrentDate = array[0].split("\\.");
-                int numCurrentDate = Integer.parseInt(strCurrentDate[2]) * 10000
-                        + Integer.parseInt(strCurrentDate[1]) * 100
-                        + Integer.parseInt(strCurrentDate[0]);
-                if (names[i].equals(array[1]) && numCurrentDate >= numDateFrom
-                        && numCurrentDate <= numDateTo) {
-                    sum += Integer.parseInt(array[2]) * Integer.parseInt(array[3]);
+                String[] lineFromData = datum.split(DATA_LINE_SEPARATOR);
+                LocalDate currentDate = LocalDate.parse(lineFromData[0], dateTimeFormatter);
+                if (names[i].equals(lineFromData[1]) && !currentDate.isAfter(localDateTo)
+                        && !currentDate.isBefore(localDateFrom)) {
+                    sum += Integer.parseInt(lineFromData[2]) * Integer.parseInt(lineFromData[3]);
                 }
             }
-            returnStrings[i] = names[i] + " - " + sum;
-        }
-        StringBuilder returnString = new StringBuilder("Report for period "
-                + dateFrom + " - " + dateTo);
-        for (String string : returnStrings) {
-            returnString.append(System.lineSeparator()).append(string);
+            returnString.append(System.lineSeparator()).append(names[i]).append(" - ").append(sum);
         }
         return returnString.toString();
     }
