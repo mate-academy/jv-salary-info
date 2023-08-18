@@ -1,11 +1,14 @@
 package core.basesyntax;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    private Date date;
+    private static final int INDEX_OF_DATE = 0;
+    private static final int INDEX_OF_CURRENT_NAME = 1;
+    private static final int INDEX_OF_WORKING_HOUSE = 2;
+    private static final int INDEX_OF_PRICE_PER_HOUR = 3;
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     private int workingHour;
     private int pricePerHour;
     private String currentName;
@@ -13,34 +16,28 @@ public class SalaryInfo {
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
 
-        String answer = "Report for period " + dateFrom + " - " + dateTo + System.lineSeparator();
-        try {
+        StringBuilder builder = new StringBuilder("Report for period " + dateFrom + " - " + dateTo
+                + System.lineSeparator());
 
-            for (String name:names) {
-                for (int i = 0; i < data.length; i++) {
-                    String[] words = data[i].split(" ");
-                    date = new SimpleDateFormat("dd.MM.yyyy").parse(words[0]);
-                    currentName = words[1];
-                    workingHour = Integer.parseInt(words[2]);
-                    pricePerHour = Integer.parseInt(words[3]);
-                    if ((new SimpleDateFormat("dd.MM.yyyy").parse(words[0])).compareTo(
-                            new SimpleDateFormat("dd.MM.yyyy").parse(dateFrom)) >= 0
-                            && ((new SimpleDateFormat("dd.MM.yyyy").parse(words[0])).compareTo(
-                            new SimpleDateFormat("dd.MM.yyyy").parse(dateTo)) <= 0
-                            && currentName.equals(name))) {
-                        salary += workingHour * pricePerHour;
-                    }
+        LocalDate dateStart = LocalDate.parse(dateFrom, formatter);
+        LocalDate dateStop = LocalDate.parse(dateTo, formatter);
+
+        for (String name:names) {
+            for (int i = 0; i < data.length; i++) {
+                String[] words = data[i].split(" ");
+                final LocalDate date = LocalDate.parse(words[INDEX_OF_DATE], formatter);
+                currentName = words[INDEX_OF_CURRENT_NAME];
+                workingHour = Integer.parseInt(words[INDEX_OF_WORKING_HOUSE]);
+                pricePerHour = Integer.parseInt(words[INDEX_OF_PRICE_PER_HOUR]);
+                if (date.isAfter(dateStart.minusDays(1))
+                        && date.isBefore(dateStop.plusDays(1)) && currentName.equals(name)) {
+                    salary += workingHour * pricePerHour;
                 }
-                answer += name + " - " + salary + System.lineSeparator();
-                salary = 0;
             }
-        } catch (IllegalArgumentException e) {
-            System.out.println("Illegal argument");
-        } catch (ParseException e) {
-            System.out.println("Illegal argument");
+            builder.append(name).append(" - ").append(salary).append(System.lineSeparator());
+            salary = 0;
         }
 
-        return answer.substring(0,answer.length() - 2);
-
+        return builder.substring(0, builder.length() - 2);
     }
 }
