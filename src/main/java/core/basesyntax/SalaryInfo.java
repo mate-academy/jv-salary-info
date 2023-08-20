@@ -9,21 +9,22 @@ import java.util.Locale;
 public class SalaryInfo {
     private static final String DATE_FORMAT = "dd.MM.yyyy";
     private static final String REPORT_HEADER = "Report for period ";
+    private static final DateTimeFormatter DATE_TIME_FORMATTER
+            = DateTimeFormatter.ofPattern(DATE_FORMAT);
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder report = new StringBuilder();
-        report.append(REPORT_HEADER).append(dateFrom).append(" - ").append(dateTo)
-                .append(System.lineSeparator());
+        report.append(REPORT_HEADER).append(dateFrom)
+                .append(" - ").append(dateTo).append(System.lineSeparator());
 
-        LocalDate startWork = LocalDate.parse(dateFrom, DateTimeFormatter.ofPattern(DATE_FORMAT));
-        LocalDate finishWork = LocalDate.parse(dateTo, DateTimeFormatter.ofPattern(DATE_FORMAT));
+        LocalDate startWork = LocalDate.parse(dateFrom, DATE_TIME_FORMATTER);
+        LocalDate finishWork = LocalDate.parse(dateTo, DATE_TIME_FORMATTER);
 
         for (String name : names) {
             int totalSalary = 0;
             for (String record : data) {
                 String[] fields = record.split("\\s+");
-                LocalDate dayWork = LocalDate.parse(fields[0],
-                        DateTimeFormatter.ofPattern(DATE_FORMAT));
+                LocalDate dayWork = LocalDate.parse(fields[0], DATE_TIME_FORMATTER);
 
                 if (fields[1].equals(name) && !dayWork.isBefore(startWork)
                         && !dayWork.isAfter(finishWork)) {
