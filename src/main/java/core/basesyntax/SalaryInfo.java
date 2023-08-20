@@ -6,27 +6,31 @@ import java.time.format.DateTimeFormatter;
 public class SalaryInfo {
     private static final String DATE_FORMATTER = "dd.MM.yyyy";
     private static final String DATA_LINE_SEPARATOR = " ";
+    private static final int INDEX_OF_DATE = 0;
+    private static final int INDEX_OF_NAME = 1;
+    private static final int INDEX_OF_WORKING_HOURS = 2;
+    private static final int INDEX_OF_INCOME_PER_HOUR = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        System.out.println();
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(DATE_FORMATTER);
         LocalDate localDateFrom = LocalDate.parse(dateFrom, dateTimeFormatter);
         LocalDate localDateTo = LocalDate.parse(dateTo, dateTimeFormatter);
-        String[] returnStrings = new String[names.length];
-        StringBuilder returnString = new StringBuilder("Report for period "
-                + dateFrom + " - " + dateTo);
-        for (int i = 0; i < names.length; i++) {
+        StringBuilder result = new StringBuilder("Report for period ")
+                .append(dateFrom).append(" - ").append(dateTo);
+        for (String name : names) {
             int sum = 0;
             for (String datum : data) {
                 String[] lineFromData = datum.split(DATA_LINE_SEPARATOR);
-                LocalDate currentDate = LocalDate.parse(lineFromData[0], dateTimeFormatter);
-                if (names[i].equals(lineFromData[1]) && !currentDate.isAfter(localDateTo)
+                LocalDate currentDate = LocalDate
+                        .parse(lineFromData[INDEX_OF_DATE], dateTimeFormatter);
+                if (name.equals(lineFromData[INDEX_OF_NAME]) && !currentDate.isAfter(localDateTo)
                         && !currentDate.isBefore(localDateFrom)) {
-                    sum += Integer.parseInt(lineFromData[2]) * Integer.parseInt(lineFromData[3]);
+                    sum += Integer.parseInt(lineFromData[INDEX_OF_WORKING_HOURS])
+                            * Integer.parseInt(lineFromData[INDEX_OF_INCOME_PER_HOUR]);
                 }
             }
-            returnString.append(System.lineSeparator()).append(names[i]).append(" - ").append(sum);
+            result.append(System.lineSeparator()).append(name).append(" - ").append(sum);
         }
-        return returnString.toString();
+        return result.toString();
     }
 }
