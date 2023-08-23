@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     private static final String SEPARATOR = " - ";
+    private static final String DATA_PATTERN = "dd.MM.yyyy";
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         int[] salaryInfo = new int[names.length];
@@ -23,8 +24,7 @@ public class SalaryInfo {
     }
 
     private boolean isDateWithinRange(String date, String dateFrom, String dateTo) {
-        String datePattern = "dd.MM.yyyy";
-        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern(datePattern);
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern(DATA_PATTERN);
         LocalDate parsedDate = LocalDate.parse(date, dateFormat);
         LocalDate parsedDateFrom = LocalDate.parse(dateFrom, dateFormat);
         LocalDate parsedDateTo = LocalDate.parse(dateTo, dateFormat);
@@ -32,8 +32,9 @@ public class SalaryInfo {
     }
 
     private String getReport(String[] name, int[] result, String dateFrom, String dateTo) {
-        StringBuilder stringBuilder = new StringBuilder("Report for period " + dateFrom
-                + SEPARATOR + dateTo + System.lineSeparator());
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("Report for period ").append(dateFrom)
+                .append(SEPARATOR).append(dateTo).append(System.lineSeparator());
         for (int i = 0; i < name.length; i++) {
             stringBuilder.append(name[i]).append(SEPARATOR).append(result[i])
                     .append(System.lineSeparator());
