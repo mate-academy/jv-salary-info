@@ -4,6 +4,11 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
+    private static final int DATE_INDEX = 0;
+    private static final int NAME_INDEX = 1;
+    private static final int WORK_HOURS_INDEX = 2;
+    private static final int INCOME_PER_HOUR_INDEX = 3;
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder report = new StringBuilder();
         LocalDate localDateFrom = getParsedDate(dateFrom);
@@ -14,15 +19,15 @@ public class SalaryInfo {
             int totalIncome = 0;
             for (String row : data) {
                 String[] rowSeparatedData = row.split(" ");
-                LocalDate parsedDate = getParsedDate(rowSeparatedData[0]);
+                LocalDate parsedDate = getParsedDate(rowSeparatedData[DATE_INDEX]);
 
-                if (name.equals(rowSeparatedData[1])) {
+                if (name.equals(rowSeparatedData[NAME_INDEX])) {
                     if ((parsedDate.isEqual(localDateFrom)
                             || parsedDate.isAfter(localDateFrom))
                             && (parsedDate.isEqual(localDateTo)
                             || parsedDate.isBefore(localDateTo))) {
-                        totalIncome += Integer.parseInt(rowSeparatedData[2])
-                                * Integer.parseInt(rowSeparatedData[3]);
+                        totalIncome += Integer.parseInt(rowSeparatedData[WORK_HOURS_INDEX])
+                                * Integer.parseInt(rowSeparatedData[INCOME_PER_HOUR_INDEX]);
                     }
                 }
             }
