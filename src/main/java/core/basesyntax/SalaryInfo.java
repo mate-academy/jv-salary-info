@@ -7,6 +7,7 @@ public class SalaryInfo {
     private static final String DATE_FORMAT = "dd.MM.yyyy";
     private static final DateTimeFormatter DATE_TIME_FORMATTER
             = DateTimeFormatter.ofPattern(DATE_FORMAT);
+    private static final String SEPARATOR = System.lineSeparator();
     private static final int INDEX_OF_DATE = 0;
     private static final int INDEX_OF_NAME = 1;
     private static final int INDEX_OF_HOURS = 2;
@@ -18,7 +19,7 @@ public class SalaryInfo {
         LocalDate fromDate = LocalDate.parse(dateFrom, DATE_TIME_FORMATTER);
         LocalDate toDate = LocalDate.parse(dateTo, DATE_TIME_FORMATTER);
         for (String name : names) {
-            builder.append(System.lineSeparator()).append(name).append(" - ");
+            builder.append(SEPARATOR).append(name).append(" - ");
             int totalSalary = 0;
             for (String curretData : data) {
                 String[] splitedData = curretData.split(" ");
@@ -27,8 +28,8 @@ public class SalaryInfo {
                 String nameFromData = splitedData[INDEX_OF_NAME];
                 String dateFromData = splitedData[INDEX_OF_DATE];
                 LocalDate localDate = LocalDate.parse(dateFromData, DATE_TIME_FORMATTER);
-                if ((localDate.isAfter(fromDate) && localDate.isBefore(toDate)
-                        || localDate.equals(toDate)) && nameFromData.equals(name)) {
+                if (!localDate.isBefore(fromDate) && !localDate.isAfter(toDate)
+                        && nameFromData.equals(name)) {
                     totalSalary += Integer.parseInt(workingHours) * Integer.parseInt(hourSalary);
                 }
             }
