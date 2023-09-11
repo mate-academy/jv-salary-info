@@ -5,30 +5,35 @@ import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     private static final String FORMATTER = "dd.MM.yyyy";
+    private static final String HEADER = "Report for period ";
+    private static final String DELIMITER = " - ";
+    private static final int DATE = 0;
+    private static final int EMPLOYEE_NAME = 1;
+    private static final int HOURS = 2;
+    private static final int SALARY = 3;
+    private static final int DATA_CHANGING = 1;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate fromDate = dateFormat(dateFrom);
         LocalDate toDate = dateFormat(dateTo);
         StringBuilder builder = new StringBuilder();
-        builder.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
+        builder.append(HEADER).append(dateFrom).append(DELIMITER).append(dateTo);
         LocalDate thisDate;
-        for (String name :
-                names) {
+        for (String name : names) {
             int sum = 0;
             builder.append(System.getProperty("line.separator"))
                     .append(name)
-                    .append(" - ");
-            for (String dat :
-                    data) {
+                    .append(DELIMITER);
+            for (String dat : data) {
                 if (dat.isEmpty()) {
                     continue;
                 } else {
                     String[] array = dat.split(" ");
-                    thisDate = dateFormat(array[0]);
-                    if (thisDate.isAfter(fromDate.minusDays(1))
-                            && thisDate.isBefore(toDate.plusDays(1))
-                            && name.equals(array[1])) {
-                        sum += (Integer.parseInt(array[2]) * Integer.parseInt(array[3]));
+                    thisDate = dateFormat(array[DATE]);
+                    if (thisDate.isAfter(fromDate.minusDays(DATA_CHANGING))
+                            && thisDate.isBefore(toDate.plusDays(DATA_CHANGING))
+                            && name.equals(array[EMPLOYEE_NAME])) {
+                        sum += (Integer.parseInt(array[HOURS]) * Integer.parseInt(array[SALARY]));
                     }
                 }
             }
