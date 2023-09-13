@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
+    private static final String REPORT_HEADER = "Report for period ";
+    private static final String HYPHEN = " - ";
     private static final int POSITION_OF_DATE = 0;
     private static final int POSITION_OF_NAME = 1;
     private static final int POSITION_OF_HOURS = 2;
@@ -13,8 +15,8 @@ public class SalaryInfo {
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         int moneyForPeriod;
-        StringBuilder builder = new StringBuilder("Report for period ")
-                .append(dateFrom).append(" - ").append(dateTo);;
+        StringBuilder builder = new StringBuilder(REPORT_HEADER)
+                .append(dateFrom).append(HYPHEN).append(dateTo);
         LocalDate localDateFrom = LocalDate.parse(dateFrom, FORMATTER);
         LocalDate localDateTo = LocalDate.parse(dateTo, FORMATTER);
 
@@ -31,7 +33,7 @@ public class SalaryInfo {
                     }
                 }
             }
-            builder.append(System.lineSeparator()).append(name).append(" - ")
+            builder.append(System.lineSeparator()).append(name).append(HYPHEN)
                     .append(moneyForPeriod);
         }
         return builder.toString();
