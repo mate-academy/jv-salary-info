@@ -9,12 +9,12 @@ import java.util.Map;
 public class SalaryInfo {
     private static final SimpleDateFormat DATE_FORMATTER = new SimpleDateFormat("dd.MM.yyyy");
 
-    public static String getSalaryInfo(String[] names, String[] data,
-                                       String dateFrom, String dateTo) {
-        Date fromDate, toDate;
+    public static String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
+        Date fromDate = null;
+        Date toDate = null;
         try {
-            fromDate = DATE_FORMATTER.parse(dateFrom);
-            toDate = DATE_FORMATTER.parse(dateTo);
+            fromDate = (DATE_FORMATTER.parse(dateFrom));
+            toDate = (DATE_FORMATTER.parse(dateTo));
         } catch (ParseException e) {
             throw new RuntimeException("Invalid date format");
         }
