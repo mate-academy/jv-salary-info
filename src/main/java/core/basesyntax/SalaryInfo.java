@@ -9,7 +9,8 @@ import java.util.Map;
 public class SalaryInfo {
     private static final SimpleDateFormat DATE_FORMATTER = new SimpleDateFormat("dd.MM.yyyy");
 
-    public static String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
+    public static String getSalaryInfo(String[] names, String[] data,
+                                       String dateFrom, String dateTo) {
         Date fromDate, toDate;
         try {
             fromDate = DATE_FORMATTER.parse(dateFrom);
@@ -31,14 +32,19 @@ public class SalaryInfo {
                 Date entryDate = DATE_FORMATTER.parse(entryDateStr);
                 if (entryDate.compareTo(fromDate) >= 0 && entryDate.compareTo(toDate) <= 0) {
                     int salary = hoursWorked * incomePerHour;
-                    employeeSalaries.put(employeeName, employeeSalaries.getOrDefault(employeeName, 0) + salary);
+                    employeeSalaries.put(employeeName,
+                            employeeSalaries.getOrDefault(employeeName, 0) + salary);
                 }
             } catch (ParseException e) {
                 throw new RuntimeException("Invalid date format");
             }
         }
         StringBuilder result = new StringBuilder();
-        result.append("Report for period ").append(dateFrom).append(" - ").append(dateTo).append(System.lineSeparator());
+        result.append("Report for period ")
+                .append(dateFrom)
+                .append(" - ")
+                .append(dateTo)
+                .append(System.lineSeparator());
         for (String name : names) {
             int salary = employeeSalaries.getOrDefault(name, 0);
             result.append(name).append(" - ").append(salary).append(System.lineSeparator());
