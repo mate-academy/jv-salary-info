@@ -9,7 +9,8 @@ import java.util.Map;
 public class SalaryInfo {
     private static final SimpleDateFormat DATE_FORMATTER = new SimpleDateFormat("dd.MM.yyyy");
 
-    public static String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
+    public static String getSalaryInfo(String[] names, String[] data,
+                                       String dateFrom, String dateTo) {
         Date fromDate = null;
         Date toDate = null;
         try {
