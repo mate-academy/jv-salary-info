@@ -33,7 +33,8 @@ public class SalaryInfo {
                 Date entryDate = DATE_FORMATTER.parse(entryDateStr);
                 if (entryDate.compareTo(fromDate) >= 0 && entryDate.compareTo(toDate) <= 0) {
                     int salary = hoursWorked * incomePerHour;
-                    employeeSalaries.put(employeeName, employeeSalaries.getOrDefault(employeeName, 0) + salary);
+                    employeeSalaries.put(employeeName, employeeSalaries
+                            .getOrDefault(employeeName, 0) + salary);
                 }
             } catch (ParseException e) {
                 throw new RuntimeException("Invalid date format");
@@ -43,11 +44,10 @@ public class SalaryInfo {
         result.append("Report for period ")
                 .append(dateFrom)
                 .append(" - ")
-                .append(dateTo)
-                .append(System.lineSeparator());
+                .append(dateTo);
         for (String name : names) {
             int salary = employeeSalaries.getOrDefault(name, 0);
-            result.append(name).append(" - ").append(salary).append(System.lineSeparator());
+            result.append(System.lineSeparator()).append(name).append(" - ").append(salary);
         }
         return result.toString();
     }
