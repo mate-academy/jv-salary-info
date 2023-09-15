@@ -15,7 +15,7 @@ public class DateRangeValidator {
 
     public boolean isWithinRange(String particularDay) {
         LocalDate particularDate = LocalDate.parse(particularDay, FORMATTER);
-        return particularDate.isAfter(startDate) && particularDate.isBefore(endDate)
-                || particularDate.isEqual(startDate) || particularDate.isEqual(endDate);
+        return particularDate.isAfter(startDate.minusDays(1))
+                && particularDate.isBefore(endDate.plusDays(1));
     }
 }
