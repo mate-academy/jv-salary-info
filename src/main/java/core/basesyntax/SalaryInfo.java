@@ -14,8 +14,8 @@ public class SalaryInfo {
         Date fromDate = null;
         Date toDate = null;
         try {
-            fromDate = (DATE_FORMATTER.parse(dateFrom));
-            toDate = (DATE_FORMATTER.parse(dateTo));
+            fromDate = DATE_FORMATTER.parse(dateFrom);
+            toDate = DATE_FORMATTER.parse(dateTo);
         } catch (ParseException e) {
             throw new RuntimeException("Invalid date format");
         }
@@ -23,7 +23,7 @@ public class SalaryInfo {
         for (String entry : data) {
             String[] parts = entry.split(" ");
             if (parts.length != 4) {
-                throw new RuntimeException("Invalid date format");
+                throw new RuntimeException("Invalid data format");
             }
             String entryDateStr = parts[0];
             String employeeName = parts[1];
@@ -33,8 +33,7 @@ public class SalaryInfo {
                 Date entryDate = DATE_FORMATTER.parse(entryDateStr);
                 if (entryDate.compareTo(fromDate) >= 0 && entryDate.compareTo(toDate) <= 0) {
                     int salary = hoursWorked * incomePerHour;
-                    employeeSalaries.put(employeeName,
-                            employeeSalaries.getOrDefault(employeeName, 0) + salary);
+                    employeeSalaries.put(employeeName, employeeSalaries.getOrDefault(employeeName, 0) + salary);
                 }
             } catch (ParseException e) {
                 throw new RuntimeException("Invalid date format");
