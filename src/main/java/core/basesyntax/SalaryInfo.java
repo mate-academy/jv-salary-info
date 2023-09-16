@@ -1,42 +1,41 @@
 package core.basesyntax;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    private static final SimpleDateFormat DATE_FORMATTER = new SimpleDateFormat("dd.MM.yyyy");
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter
+            .ofPattern("dd.MM.yyyy");
 
     public static String getSalaryInfo(String[] names, String[] data,
                                        String dateFrom, String dateTo) {
-        Date fromDate = null;
-        Date toDate = null;
+        LocalDate fromDate = null;
+        LocalDate toDate = null;
         try {
-            fromDate = DATE_FORMATTER.parse(dateFrom);
-            toDate = DATE_FORMATTER.parse(dateTo);
-        } catch (ParseException e) {
+            fromDate = LocalDate.parse(dateFrom, DATE_FORMATTER);
+            toDate = LocalDate.parse(dateTo, DATE_FORMATTER);
+        } catch (Exception e) {
             throw new RuntimeException("Invalid date format");
         }
-        Map<String, Integer> employeeSalaries = new HashMap<>();
+        int[] employeeSalaries = new int[names.length];
         for (String entry : data) {
             String[] parts = entry.split(" ");
-            if (parts.length != 4) {
-                throw new RuntimeException("Invalid data format");
-            }
             String entryDateStr = parts[0];
             String employeeName = parts[1];
             int hoursWorked = Integer.parseInt(parts[2]);
             int incomePerHour = Integer.parseInt(parts[3]);
             try {
-                Date entryDate = DATE_FORMATTER.parse(entryDateStr);
-                if (entryDate.compareTo(fromDate) >= 0 && entryDate.compareTo(toDate) <= 0) {
-                    int salary = hoursWorked * incomePerHour;
-                    employeeSalaries.put(employeeName, employeeSalaries
-                            .getOrDefault(employeeName, 0) + salary);
+                LocalDate entryDate = LocalDate.parse(entryDateStr, DATE_FORMATTER);
+                if (!entryDate.isBefore(fromDate) && !entryDate.isAfter(toDate)) {
+                    for (int i = 0; i < names.length; i++) {
+                        if (names[i].equals(employeeName)) {
+                            int salary = hoursWorked * incomePerHour;
+                            employeeSalaries[i] += salary;
+                            break;
+                        }
+                    }
                 }
-            } catch (ParseException e) {
+            } catch (Exception e) {
                 throw new RuntimeException("Invalid date format");
             }
         }
@@ -45,9 +44,11 @@ public class SalaryInfo {
                 .append(dateFrom)
                 .append(" - ")
                 .append(dateTo);
-        for (String name : names) {
-            int salary = employeeSalaries.getOrDefault(name, 0);
-            result.append(System.lineSeparator()).append(name).append(" - ").append(salary);
+        for (int i = 0; i < names.length; i++) {
+            result.append(System.lineSeparator())
+                    .append(names[i])
+                    .append(" - ")
+                    .append(employeeSalaries[i]);
         }
         return result.toString();
     }
