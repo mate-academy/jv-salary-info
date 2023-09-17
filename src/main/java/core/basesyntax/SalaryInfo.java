@@ -4,6 +4,10 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
+
+    public static final String SEPARATOR = " - ";
+    public static final String SPACE_SEPARATOR = " ";
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         LocalDate fromDate = LocalDate.parse(dateFrom, dateFormatter);
@@ -11,12 +15,12 @@ public class SalaryInfo {
 
         StringBuilder report = new StringBuilder();
         report.append("Report for period ").append(dateFrom)
-                .append(" - ").append(dateTo).append(System.lineSeparator());
+                .append(SEPARATOR).append(dateTo).append(System.lineSeparator());
 
         for (String name : names) {
             int totalSalary = 0;
             for (String record : data) {
-                String[] parts = record.split(" ");
+                String[] parts = record.split(SPACE_SEPARATOR);
                 if (parts.length == 4) {
                     String recordDateStr = parts[0];
                     String employeeName = parts[1];
@@ -31,7 +35,7 @@ public class SalaryInfo {
                     }
                 }
             }
-            report.append(name).append(" - ").append(totalSalary).append(System.lineSeparator());
+            report.append(name).append(SEPARATOR).append(totalSalary).append(System.lineSeparator());
         }
 
         return report.toString().trim();
