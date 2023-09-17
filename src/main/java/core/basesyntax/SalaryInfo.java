@@ -35,7 +35,8 @@ public class SalaryInfo {
                     }
                 }
             }
-            report.append(name).append(SEPARATOR).append(totalSalary).append(System.lineSeparator());
+            report.append(name).append(SEPARATOR).append(totalSalary)
+                    .append(System.lineSeparator());
         }
 
         return report.toString().trim();
