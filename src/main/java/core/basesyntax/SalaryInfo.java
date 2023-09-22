@@ -9,12 +9,14 @@ public class SalaryInfo {
     private static final int INIT_SALARY_AMOUNT = 0;
     private static final String DATA_SEPARATOR = " ";
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-    private Report report;
+    private static final int NUMBER_OF_DAYS_FOR_BORDER_SHIFT = 1;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         Map<String, Integer> nameSalaryMap = fillMapWithKeys(names);
-        LocalDate dateFromBorder = stringDateIntoLocalDate(dateFrom).minusDays(1);
-        LocalDate dateToBorder = stringDateIntoLocalDate(dateTo).plusDays(1);
+        LocalDate dateFromBorder = stringDateIntoLocalDate(dateFrom)
+                .minusDays(NUMBER_OF_DAYS_FOR_BORDER_SHIFT);
+        LocalDate dateToBorder = stringDateIntoLocalDate(dateTo)
+                .plusDays(NUMBER_OF_DAYS_FOR_BORDER_SHIFT);
         for (String line : data) {
             String[] info = line.split(DATA_SEPARATOR);
             LocalDate workDate = stringDateIntoLocalDate(info[0]);
@@ -28,12 +30,12 @@ public class SalaryInfo {
                 }
             }
         }
-        report = new Report(dateFrom, dateTo, nameSalaryMap);
+        Report report = new Report(dateFrom, dateTo, nameSalaryMap);
         return report.toString();
     }
 
     private Map<String, Integer> fillMapWithKeys(String[] names) {
-        Map<String, Integer> nameSalaryMap = new HashMap<String, Integer>();
+        Map<String, Integer> nameSalaryMap = new HashMap<>();
         for (String name : names) {
             nameSalaryMap.put(name, INIT_SALARY_AMOUNT);
         }
