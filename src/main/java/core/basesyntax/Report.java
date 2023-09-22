@@ -1,6 +1,5 @@
 package core.basesyntax;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class Report {
@@ -8,19 +7,11 @@ public class Report {
     private static final String NAME_SALARY_SEPARATOR = " - ";
     private final String dataFrom;
     private final String dataTo;
-    private Map<String, Integer> workerNameSalaryMap;
+    private final Map<String, Integer> workerNameSalaryMap;
 
     public Report(String dataFrom, String dataTo, Map<String, Integer> workerNameSalaryMap) {
         this.dataFrom = dataFrom;
         this.dataTo = dataTo;
-        this.workerNameSalaryMap = workerNameSalaryMap;
-    }
-
-    public Map<String, Integer> getWorkerNameSalaryMap() {
-        return workerNameSalaryMap;
-    }
-
-    public void setWorkerNameSalaryMap(HashMap<String, Integer> workerNameSalaryMap) {
         this.workerNameSalaryMap = workerNameSalaryMap;
     }
 
