@@ -30,7 +30,7 @@ public class SalaryInfo {
                 builder.append(names[i] + " - " + income).append(System.lineSeparator());
                 income = 0;
             }
-            return builder.toString();
+            return builder.toString().substring(0, builder.length() - 2);
         } else {
             return "Invalid input datas";
         }
