@@ -7,12 +7,14 @@ public class Report {
     private static final String NAME_SALARY_SEPARATOR = " - ";
     private final String dataFrom;
     private final String dataTo;
-    private final Map<String, Integer> workerNameSalaryMap;
+    private final String[] names;
+    private final int[] salaries;
 
-    public Report(String dataFrom, String dataTo, Map<String, Integer> workerNameSalaryMap) {
+    public Report(String dataFrom, String dataTo, String[] names, int[] salaries) {
         this.dataFrom = dataFrom;
         this.dataTo = dataTo;
-        this.workerNameSalaryMap = workerNameSalaryMap;
+        this.names = names;
+        this.salaries = salaries;
     }
 
     @Override
@@ -20,13 +22,9 @@ public class Report {
         StringBuilder reportBuilder = new StringBuilder();
         reportBuilder.append("Report for period ").append(dataFrom).append(" - ")
                 .append(dataTo).append('\n');
-        int reportHeaderLength = reportBuilder.length();
-        for (String name : workerNameSalaryMap.keySet()) {
-            StringBuilder workerSalaryBuilder = new StringBuilder();
-            workerSalaryBuilder.append(name).append(NAME_SALARY_SEPARATOR)
-                    .append(workerNameSalaryMap.get(name))
+        for (int i = 0; i < names.length; i++) {
+            reportBuilder.append(names[i]).append(NAME_SALARY_SEPARATOR).append(salaries[i])
                     .append('\n');
-            reportBuilder.insert(reportHeaderLength, workerSalaryBuilder);
         }
         return reportBuilder.toString().trim();
     }
