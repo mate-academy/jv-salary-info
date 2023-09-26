@@ -20,14 +20,11 @@ public class SalaryInfo {
                 if (line.contains(name)) {
                     String date = line.substring(0, DATE_LENGTH);
                     LocalDate localDate = LocalDate.parse(date, FORMATTER);
-                    if (localDate.compareTo(localDateFrom) >= 0
-                            && localDate.compareTo(localDateTo) <= 0) {
-                        int salaryStartIndex = line.lastIndexOf(" ") + 1;
-                        int hoursStartIndex = line.substring(0, salaryStartIndex - 1)
-                                .lastIndexOf(" ") + 1;
-                        int salaryPerHour = Integer.parseInt(line.substring(salaryStartIndex));
-                        int amountOfHours = Integer.parseInt(line.substring(hoursStartIndex,
-                                salaryStartIndex - 1));
+                    if (!localDate.isBefore(localDateFrom)
+                            && !localDate.isAfter(localDateTo)) {
+                        String[] parts = line.substring(DATE_LENGTH).trim().split(" ");
+                        int salaryPerHour = Integer.parseInt(parts[2]);
+                        int amountOfHours = Integer.parseInt(parts[1]);
                         salary += salaryPerHour * amountOfHours;
                     }
                 }
