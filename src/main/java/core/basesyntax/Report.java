@@ -1,7 +1,5 @@
 package core.basesyntax;
 
-import java.util.Map;
-
 public class Report {
 
     private static final String NAME_SALARY_SEPARATOR = " - ";
@@ -21,10 +19,10 @@ public class Report {
     public String toString() {
         StringBuilder reportBuilder = new StringBuilder();
         reportBuilder.append("Report for period ").append(dataFrom).append(" - ")
-                .append(dataTo).append('\n');
+                .append(dataTo).append(System.lineSeparator());
         for (int i = 0; i < names.length; i++) {
             reportBuilder.append(names[i]).append(NAME_SALARY_SEPARATOR).append(salaries[i])
-                    .append('\n');
+                    .append(System.lineSeparator());
         }
         return reportBuilder.toString().trim();
     }
