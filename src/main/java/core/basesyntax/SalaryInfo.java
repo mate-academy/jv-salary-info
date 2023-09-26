@@ -32,7 +32,7 @@ public class SalaryInfo {
             }
             return builder.toString().substring(0, builder.length() - 2);
         } else {
-            return "Invalid input datas";
+            return "Invalid input data";
         }
     }
 
