@@ -13,7 +13,7 @@ public class SalaryInfo {
                 && dateFrom.length() != 0 && dateTo.length() != 0) {
             StringBuilder builder = new StringBuilder();
             int income = 0;
-            builder.append("Report for period " + dateFrom + " - " + dateTo)
+            builder.append("Report for period ").append(dateFrom).append(" - ").append(dateTo)
                     .append(System.lineSeparator());
             for (int i = 0; i < names.length; i++) {
                 for (int j = 0; j < data.length; j++) {
@@ -27,7 +27,8 @@ public class SalaryInfo {
                                 * Integer.parseInt(splitData(data[j], 3));
                     }
                 }
-                builder.append(names[i] + " - " + income).append(System.lineSeparator());
+                builder.append(names[i]).append(" - ").append(income)
+                        .append(System.lineSeparator());
                 income = 0;
             }
             return builder.toString().substring(0, builder.length() - 2);
