@@ -6,13 +6,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SalaryInfo {
-    private static final int INIT_SALARY_AMOUNT = 0;
     private static final String DATA_SEPARATOR = " ";
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     private static final int NUMBER_OF_DAYS_FOR_BORDER_SHIFT = 1;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        Map<String, Integer> nameSalaryMap = fillMapWithKeys(names);
+        int[] salaries = new int[names.length];
         LocalDate dateFromBorder = stringDateIntoLocalDate(dateFrom)
                 .minusDays(NUMBER_OF_DAYS_FOR_BORDER_SHIFT);
         LocalDate dateToBorder = stringDateIntoLocalDate(dateTo)
@@ -22,26 +21,25 @@ public class SalaryInfo {
             LocalDate workDate = stringDateIntoLocalDate(info[0]);
             if (workDate.isAfter(dateFromBorder) && workDate.isBefore(dateToBorder)) {
                 String workerName = info[1];
-                if (nameSalaryMap.containsKey(workerName)) {
-                    int workingHours = Integer.parseInt(info[2]);
-                    int payForHour = Integer.parseInt(info[3]);
-                    int currentSalary = nameSalaryMap.get(workerName);
-                    nameSalaryMap.put(workerName,currentSalary + workingHours * payForHour);
-                }
+                int workingHours = Integer.parseInt(info[2]);
+                int payPerHour = Integer.parseInt(info[3]);
+                int salaryPosition = findNamePosition(names, workerName);
+                salaries[salaryPosition] += workingHours * payPerHour;
             }
         }
-        Report report = new Report(dateFrom, dateTo, nameSalaryMap);
+        Report report = new Report(dateFrom, dateTo, names, salaries);
+        System.out.println(report.toString());
         return report.toString();
     }
 
-    private Map<String, Integer> fillMapWithKeys(String[] names) {
-        Map<String, Integer> nameSalaryMap = new HashMap<>();
-        for (String name : names) {
-            nameSalaryMap.put(name, INIT_SALARY_AMOUNT);
+        private int findNamePosition(String[] names, String name) {
+            for (int i = 0; i < names.length; i++) {
+                if (names[i].equals(name)) {
+                    return i;
+                }
+            }
+            return -1;
         }
-        return nameSalaryMap;
-    }
-
     private LocalDate stringDateIntoLocalDate(String date) {
         return LocalDate.parse(date, FORMATTER);
     }
