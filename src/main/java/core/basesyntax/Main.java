@@ -2,6 +2,8 @@ package core.basesyntax;
 
 public class Main {
     public static void main(String[] args) {
+        SalaryInfo salaryInfo = new SalaryInfo();
+
         String[] names = {"John", "Andrew", "Kate"};
         String[] data = {
                 "26.04.2019 John 4 50",
@@ -16,11 +18,7 @@ public class Main {
         String dateFrom = "01.04.2019";
         String dateTo = "30.04.2019";
 
-        String result = SalaryCalculator.getSalaryInfo(names, data, dateFrom, dateTo);
+        String result = salaryInfo.getSalaryInfo(names, data, dateFrom, dateTo);
         System.out.println(result);
     }
 }
-
-
-
-
