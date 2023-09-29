@@ -17,7 +17,7 @@ public class SalaryInfo {
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate parsedDateFrom = LocalDate.parse(dateFrom, FORMATTER);
-        LocalDate parsedDateFrom2 = LocalDate.parse(dateTo, FORMATTER);
+        LocalDate parsedDateTo = LocalDate.parse(dateTo, FORMATTER);
         StringBuilder builder = new StringBuilder();
         builder.append(REPORT_HEADER).append(dateFrom).append(SEPARATOR)
                 .append(dateTo);
@@ -28,7 +28,7 @@ public class SalaryInfo {
             for (var record : data) {
                 var info = record.split(SPACE);
                 var currentDate = LocalDate.parse(info[DATE_POSITION], FORMATTER);
-                if (!currentDate.isBefore(parsedDateFrom) && !currentDate.isAfter(parsedDateFrom2)
+                if (!currentDate.isBefore(parsedDateFrom) && !currentDate.isAfter(parsedDateTo)
                         && name.equals(info[NAME_POSITION])) {
                     totalIncome += Integer.parseInt(info[HOUR_POSITION])
                             * Integer.parseInt(info[MONEY_PER_HOUR_POSITION]);
