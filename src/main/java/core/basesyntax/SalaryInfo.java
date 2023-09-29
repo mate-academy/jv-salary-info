@@ -7,7 +7,6 @@ public class SalaryInfo {
     private static final String DATA_SEPARATOR = " ";
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     private static final int NUMBER_OF_DAYS_FOR_BORDER_SHIFT = 1;
-    private Report report;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         int[] salaries = new int[names.length];
@@ -26,7 +25,7 @@ public class SalaryInfo {
                 salaries[salaryPosition] += workingHours * payPerHour;
             }
         }
-        report = new Report(dateFrom, dateTo, names, salaries);
+        Report report = new Report(dateFrom, dateTo, names, salaries);
         return report.toString();
     }
 
