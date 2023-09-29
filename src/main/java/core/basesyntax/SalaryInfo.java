@@ -10,7 +10,7 @@ public class SalaryInfo {
                 .append(dateFrom).append(" - ")
                 .append(dateTo);
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d.MM.yyyy");
+        final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d.MM.yyyy");
         LocalDate startDate = LocalDate.parse(dateFrom, formatter);
         LocalDate endDate = LocalDate.parse(dateTo, formatter);
 
@@ -22,9 +22,8 @@ public class SalaryInfo {
                 LocalDate workDay = LocalDate.parse(employeeInfo[0], formatter);
 
                 if (name.equals(employeeInfo[1])
-                        && workDay.isAfter(startDate)
-                        && (workDay.isEqual(endDate)
-                        || workDay.isBefore(endDate))) {
+                        && !workDay.isAfter(endDate)
+                        && !workDay.isBefore(startDate)) {
                     totalSalary += Integer.parseInt(employeeInfo[2])
                             * Integer.parseInt(employeeInfo[3]);
                 }
