@@ -1,16 +1,19 @@
 package core.basesyntax;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 public class SalaryInfo {
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy", Locale.ENGLISH);
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder result = new StringBuilder();
 
         try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-            Date fromDate = dateFormat.parse(dateFrom);
-            Date toDate = dateFormat.parse(dateTo);
+            LocalDate fromDate = LocalDate.parse(dateFrom, DATE_FORMATTER);
+            LocalDate toDate = LocalDate.parse(dateTo, DATE_FORMATTER);
 
             result.append("Report for period ")
                     .append(dateFrom)
@@ -29,10 +32,9 @@ public class SalaryInfo {
                     try {
                         int hours = Integer.parseInt(entryParts[2]);
                         int hourlyRate = Integer.parseInt(entryParts[3]);
-                        Date entryDate = dateFormat.parse(entryDateStr);
+                        LocalDate entryDate = LocalDate.parse(entryDateStr, DATE_FORMATTER);
 
-                        if (entryName.equals(name) && entryDate.compareTo(fromDate) >= 0
-                                && entryDate.compareTo(toDate) <= 0) {
+                        if (entryName.equals(name) && !entryDate.isBefore(fromDate) && !entryDate.isAfter(toDate)) {
                             totalSalary += hours * hourlyRate;
                         }
                     } catch (NumberFormatException e) {
