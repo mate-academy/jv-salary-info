@@ -1,12 +1,12 @@
 package core.basesyntax;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
 public class SalaryInfo {
-    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy", Locale.ENGLISH);
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter
+            .ofPattern("dd.MM.yyyy", Locale.ENGLISH);
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder result = new StringBuilder();
@@ -34,7 +34,8 @@ public class SalaryInfo {
                         int hourlyRate = Integer.parseInt(entryParts[3]);
                         LocalDate entryDate = LocalDate.parse(entryDateStr, DATE_FORMATTER);
 
-                        if (entryName.equals(name) && !entryDate.isBefore(fromDate) && !entryDate.isAfter(toDate)) {
+                        if (entryName.equals(name) && !entryDate.isBefore(fromDate)
+                                && !entryDate.isAfter(toDate)) {
                             totalSalary += hours * hourlyRate;
                         }
                     } catch (NumberFormatException e) {
