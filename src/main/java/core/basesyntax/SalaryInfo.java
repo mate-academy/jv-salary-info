@@ -34,7 +34,8 @@ public class SalaryInfo {
             builder.append(employeeMoneyEarned).append(System.lineSeparator());
         }
         int trimmedReportLength = builder.length() - SEPARATOR.length() + 1;
-        return builder.substring(0, trimmedReportLength);
+        String builderToString = builder.toString();
+        return builderToString.substring(0, trimmedReportLength);
     }
 
     private boolean isDateInRange(LocalDate particularDay, LocalDate dateFrom, LocalDate dateTo) {
