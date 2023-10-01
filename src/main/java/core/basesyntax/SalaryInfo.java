@@ -33,8 +33,8 @@ public class SalaryInfo {
             }
             builder.append(employeeMoneyEarned).append(System.lineSeparator());
         }
-        int trimmedReportLength = builder.length() - SEPARATOR.length() + 1;
-        return builder.substring(0, trimmedReportLength);
+
+        return builder.toString();
     }
 
     private boolean isDateInRange(LocalDate particularDay, LocalDate dateFrom, LocalDate dateTo) {
