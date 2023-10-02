@@ -9,30 +9,41 @@ public class SalaryInfo {
             DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
+        LocalDate dateStart = getLocalDate(dateFrom);
+        LocalDate dateFinish = getLocalDate(dateTo);
         StringBuilder builder = new StringBuilder();
-        try {
-            LocalDate dateStart = LocalDate.parse(dateFrom, formatter);
-            LocalDate dateFinish = LocalDate.parse(dateTo, formatter);
-            int salary = 0;
-            builder.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
-
-            for (String name : names) {
-                for (String str : data) {
-                    String[] values = str.split(" ");
-                    LocalDate dateWork = LocalDate.parse(values[0], formatter);
+        builder.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
+        int salary = 0;
+        for (String name : names) {
+            for (String row : data) {
+                String[] values = row.split(" ");
+                String selectedDate = values[0];
+                String selectedName = values[1];
+                String selectedHours = values[2];
+                String selectedIncomePerHour = values[3];
+                if (name.equals(selectedName)) {
+                    LocalDate dateWork = getLocalDate(selectedDate);
                     if (dateWork.isAfter(dateStart.minusDays(1))
-                            && dateWork.isBefore(dateFinish.plusDays(1))
-                            && name.equals(values[1])) {
-                        salary += Integer.parseInt(values[2]) * Integer.parseInt(values[3]);
+                            && dateWork.isBefore(dateFinish.plusDays(1))) {
+                        salary += Integer.parseInt(selectedHours)
+                                * Integer.parseInt(selectedIncomePerHour);
                     }
                 }
-                builder.append(System.lineSeparator()).append(name).append(" - ").append(salary);
-                salary = 0;
             }
-        } catch (DateTimeParseException exc) {
-            System.out.printf("%s or %s is not parsable!%n", dateFrom, dateTo);
-            throw exc;
+            builder.append(System.lineSeparator()).append(name).append(" - ").append(salary);
+            salary = 0;
         }
         return builder.toString();
+    }
+
+    private LocalDate getLocalDate(String date) {
+        LocalDate localDate;
+        try {
+            localDate = LocalDate.parse(date, formatter);
+        } catch (DateTimeParseException exc) {
+            System.out.printf("%s is not parsable!%n", date);
+            throw exc;
+        }
+        return localDate;
     }
 }
