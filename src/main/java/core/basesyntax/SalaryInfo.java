@@ -4,13 +4,14 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d.MM.yyyy");
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         String paragraph = System.lineSeparator();
         StringBuilder builder = new StringBuilder("Report for period ")
                 .append(dateFrom).append(" - ")
                 .append(dateTo);
 
-        final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d.MM.yyyy");
         LocalDate startDate = LocalDate.parse(dateFrom, formatter);
         LocalDate endDate = LocalDate.parse(dateTo, formatter);
 
