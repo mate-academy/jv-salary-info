@@ -22,10 +22,10 @@ public class SalaryInfo {
                 LocalDate date = LocalDate.parse(salaryData[DATE_INDEX], DATE_FORMAT);
                 if (date.isAfter(fromDate) && date.isBefore(toDate)
                         || date.equals(fromDate) || date.equals(toDate)) {
-                    int salaryForDay = Integer.parseInt(salaryData[HOURS_INDEX])
+                    int salaryPerDay = Integer.parseInt(salaryData[HOURS_INDEX])
                                 * Integer.parseInt(salaryData[PRICE_INDEX]);
                     if (names[i].equals(salaryData[NAME_INDEX])) {
-                        totalSalary[i] += salaryForDay;
+                        totalSalary[i] += salaryPerDay;
                     }
                 }
             }
