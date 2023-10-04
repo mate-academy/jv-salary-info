@@ -40,7 +40,6 @@ public class SalaryInfo {
                     if (nameEmployee.equals(name)) {
                         int hour = parseInt(arrayData[HOUR_POSITION]);
                         int payForHours = parseInt(arrayData[SALARY_PER_HOUR_POSITION]);
-
                         salary += hour * payForHours;
                     }
                 }
