@@ -5,10 +5,10 @@ import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-    public static final int datePosition = 0;
+    private static final int datePosition = 0;
     private static final int namePosition = 1;
-    public static final int hoursPosition = 2;
-    public static final int incomePosition = 3;
+    private static final int hoursPosition = 2;
+    private static final int incomePosition = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder stringBuilder = new StringBuilder("Report for period ");
@@ -26,7 +26,8 @@ public class SalaryInfo {
                 if (recordData[namePosition].equals(name)
                         && (recordDate.isAfter(localDateFrom) || recordDate.isEqual(localDateFrom))
                         && (recordDate.isBefore(localDateTo) || recordDate.isEqual(localDateTo))) {
-                    salary += Integer.parseInt(recordData[hoursPosition]) * Integer.parseInt(recordData[incomePosition]);
+                    salary += Integer.parseInt(recordData[hoursPosition])
+                            * Integer.parseInt(recordData[incomePosition]);
                 }
             }
             stringBuilder
