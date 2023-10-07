@@ -4,10 +4,10 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     private static final String JOHN = "John";
     private static final String ANDREW = "Andrew";
     private static final String KATE = "Kate";
+    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         int johnMoney = 0;
@@ -21,7 +21,6 @@ public class SalaryInfo {
                 .append(" - ")
                 .append(dateTo)
                 .append(System.lineSeparator());
-
 
         for (String record : data) {
             String[] arr = record.split(" ");
@@ -39,7 +38,7 @@ public class SalaryInfo {
                     case ANDREW:
                         andrewMoney += allMoney;
                         break;
-                    case KATE:
+                    default:
                         kateMoney += allMoney;
                         break;
                 }
