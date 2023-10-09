@@ -7,8 +7,6 @@ public class SalaryInfo {
     private static final String HEADER = "Report for period ";
     private static final String DELIMITER = " ";
     private static final String SEPARATOR = " - ";
-    private static final String DOT = "\\.";
-    private static final String DASH = "-";
     private static final int ARRAY_INDEX_ZERO = 0;
     private static final int ARRAY_INDEX_ONE = 1;
     private static final int ARRAY_INDEX_TWO = 2;
