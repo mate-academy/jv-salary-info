@@ -1,13 +1,17 @@
 package core.basesyntax;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+    private static final DateTimeFormatter dateFormat = DateTimeFormatter
+            .ofPattern("dd.MM.yyyy");
+    private static final int INDEX_ADDER = 1;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder report = new StringBuilder();
+        LocalDate fromDate = LocalDate.parse(dateFrom, dateFormat);
+        LocalDate toDate = LocalDate.parse(dateTo, dateFormat);
         report.append("Report for period ").append(dateFrom)
                 .append(" - ").append(dateTo).append(System.lineSeparator());
 
@@ -16,26 +20,24 @@ public class SalaryInfo {
             boolean isLastRecord = i == names.length - 1;
 
             for (String datum : data) {
-                int indexNameAndSalaryCut = datum.indexOf(' ', datum.indexOf(' ') + 1);
-                String nameCut = datum.substring(datum.indexOf(' ') + 1, indexNameAndSalaryCut);
+                int indexNameAndSalaryCut = datum.indexOf(' ', datum.indexOf(' ')
+                        + INDEX_ADDER);
+                String nameCut = datum.substring(datum.indexOf(' ')
+                        + INDEX_ADDER, indexNameAndSalaryCut);
 
                 if (names[i].equals(nameCut)) {
                     String dateCut = datum.substring(0, datum.indexOf(' '));
-                    Date date1;
-                    Date date2;
-                    Date date3;
 
                     try {
-                        date1 = dateFormat.parse(dateCut);
-                        date2 = dateFormat.parse(dateFrom);
-                        date3 = dateFormat.parse(dateTo);
+                        LocalDate date1 = LocalDate.parse(dateCut, dateFormat);
 
-                        if (date1.before(date3) && date1.after(date2) || date1.equals(date2)
-                                || date1.equals(date3)) {
-                            int indexSalaryCut = datum.indexOf(' ', indexNameAndSalaryCut + 1);
+                        if (!date1.isBefore(fromDate) && !date1.isAfter(toDate)) {
+                            int indexSalaryCut = datum.indexOf(' ', indexNameAndSalaryCut
+                                    + INDEX_ADDER);
                             int cutSalary1 = Integer.parseInt(datum.substring(indexNameAndSalaryCut
-                                            + 1, indexSalaryCut));
-                            int cutSalary2 = Integer.parseInt(datum.substring(indexSalaryCut + 1));
+                                    + INDEX_ADDER, indexSalaryCut));
+                            int cutSalary2 = Integer.parseInt(datum.substring(indexSalaryCut
+                                    + INDEX_ADDER));
 
                             employeesSalary += cutSalary1 * cutSalary2;
                         }
