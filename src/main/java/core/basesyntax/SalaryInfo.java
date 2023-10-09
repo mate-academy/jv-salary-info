@@ -3,31 +3,41 @@ package core.basesyntax;
 import java.time.LocalDate;
 
 public class SalaryInfo {
+    static final String HEADER = "Report for period ";
+    static final String DELIMITER = " ";
+    static final String SEPARATOR = " - ";
+    static final String DOT = "\\.";
+    static final String DASH = "-";
+    static final int ZERO = 0;
+    static final int ONE = 1;
+    static final int TWO = 2;
+    static final int THREE = 3;
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        String [] dateFromArray = dateFrom.split("\\.");
-        LocalDate dataFromFormatted = LocalDate.parse(dateFromArray[2]
-                + "-" + dateFromArray [1] + "-" + dateFromArray[0]);
-        String [] dateToArray = dateTo.split("\\.");
-        LocalDate dataToFormatted = LocalDate.parse(dateToArray[2]
-                + "-" + dateToArray [1] + "-" + (Integer.parseInt(dateToArray[0]) + 1));
+        String [] dateFromArray = dateFrom.split(DOT);
+        LocalDate dataFromFormatted = LocalDate.parse(dateFromArray[TWO]
+                + DASH + dateFromArray [ONE] + DASH + dateFromArray[ZERO]);
+        String [] dateToArray = dateTo.split(DOT);
+        LocalDate dataToFormatted = LocalDate.parse(dateToArray[TWO]
+                + DASH + dateToArray [ONE] + DASH + (Integer.parseInt(dateToArray[ZERO]) + 1));
         int[]totalSalary = new int[names.length];
-        StringBuilder stringBuilder = new StringBuilder("Report for period ");
-        stringBuilder.append(dateFrom).append(" - ").append(dateTo);
+        StringBuilder stringBuilder = new StringBuilder(HEADER);
+        stringBuilder.append(dateFrom).append(SEPARATOR).append(dateTo);
 
         for (int n = 0; n < names.length; n++) {
             for (String datum : data) {
-                String [] dataArray = datum.split(" ");
-                String [] workingDateArray = dataArray[0].split("\\.");
-                LocalDate workingDate = LocalDate.parse(workingDateArray[2]
-                        + "-" + workingDateArray[1] + "-" + workingDateArray[0]);
-                if (names[n].equals(dataArray[1]) && workingDate.isBefore(dataToFormatted)
+                String [] dataArray = datum.split(DELIMITER);
+                String [] workingDateArray = dataArray[ZERO].split(DOT);
+                LocalDate workingDate = LocalDate.parse(workingDateArray[TWO]
+                        + DASH + workingDateArray[ONE] + DASH + workingDateArray[ZERO]);
+                if (names[n].equals(dataArray[ONE]) && workingDate.isBefore(dataToFormatted)
                         && workingDate.isAfter(dataFromFormatted)) {
-                    totalSalary[n] += Integer.parseInt(dataArray[2])
-                             * Integer.parseInt(dataArray[3]);
+                    totalSalary[n] += Integer.parseInt(dataArray[TWO])
+                             * Integer.parseInt(dataArray[THREE]);
                 }
             }
             stringBuilder.append(System.lineSeparator()).append(names[n])
-                    .append(" - ").append(totalSalary[n]);
+                    .append(SEPARATOR).append(totalSalary[n]);
         }
         return stringBuilder.toString();
     }
