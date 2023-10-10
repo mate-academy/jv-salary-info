@@ -20,26 +20,26 @@ public class SalaryInfo {
             boolean isLastRecord = i == names.length - 1;
 
             for (String datum : data) {
-                int indexNameAndSalaryCut = datum.indexOf(' ', datum.indexOf(' ')
+                int indNameAndSalaryCut = datum.indexOf(' ', datum.indexOf(' ')
                         + INDEX_ADDER);
                 String nameCut = datum.substring(datum.indexOf(' ')
-                        + INDEX_ADDER, indexNameAndSalaryCut);
+                        + INDEX_ADDER, indNameAndSalaryCut);
 
                 if (names[i].equals(nameCut)) {
                     String dateCut = datum.substring(0, datum.indexOf(' '));
 
                     try {
-                        LocalDate date1 = LocalDate.parse(dateCut, dateFormat);
+                        LocalDate date = LocalDate.parse(dateCut, dateFormat);
 
-                        if (!date1.isBefore(fromDate) && !date1.isAfter(toDate)) {
-                            int indexSalaryCut = datum.indexOf(' ', indexNameAndSalaryCut
+                        if (!date.isBefore(fromDate) && !date.isAfter(toDate)) {
+                            int indexSalaryCut = datum.indexOf(' ', indNameAndSalaryCut
                                     + INDEX_ADDER);
-                            int cutSalary1 = Integer.parseInt(datum.substring(indexNameAndSalaryCut
+                            int cutSalaryFrom = Integer.parseInt(datum.substring(indNameAndSalaryCut
                                     + INDEX_ADDER, indexSalaryCut));
-                            int cutSalary2 = Integer.parseInt(datum.substring(indexSalaryCut
+                            int cutSalaryTo = Integer.parseInt(datum.substring(indexSalaryCut
                                     + INDEX_ADDER));
 
-                            employeesSalary += cutSalary1 * cutSalary2;
+                            employeesSalary += cutSalaryFrom * cutSalaryTo;
                         }
                     } catch (Exception e) {
                         System.out.println("Incorrect date format");
