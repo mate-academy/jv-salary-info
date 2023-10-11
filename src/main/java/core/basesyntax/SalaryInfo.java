@@ -12,8 +12,8 @@ public class SalaryInfo {
             DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        final int[] totalSalary = new int[names.length];
         final int namesArrSize = names.length;
+        final int[] totalSalary = new int[namesArrSize];
         StringBuilder reportSalaryInfo = new StringBuilder();
         StringBuilder fullReport = new StringBuilder();
         LocalDate fromDate = LocalDate.parse(dateFrom, DATE_FORMATTER);
