@@ -6,10 +6,17 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    public static final DateTimeFormatter DDMMYYYY = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final DateTimeFormatter DDMMYYYY = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final String SEPARATOR = " ";
+    private static final String HEADER = "Report for period ";
+    private static final String DELIMITER = " - ";
+    private static final int ZERO = 0;
+    private static final int ONE = 1;
+    private static final int TWO = 2;
+    private static final int THERE = 3;
 
-    public static boolean between(LocalDate d, LocalDate from, LocalDate to) {
-        return (d.isAfter(from) || d.isEqual(from)) && (d.isBefore(to) || d.isEqual(to));
+    private static boolean between(LocalDate dayForAnalysis, LocalDate from, LocalDate to) {
+        return (dayForAnalysis.isAfter(from) || dayForAnalysis.isEqual(from)) && (dayForAnalysis.isBefore(to) || dayForAnalysis.isEqual(to));
     }
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
@@ -17,23 +24,23 @@ public class SalaryInfo {
         LocalDate from = LocalDate.parse(dateFrom, DDMMYYYY);
         LocalDate to = LocalDate.parse(dateTo, DDMMYYYY);
         for (int i = 0; i < data.length; i++) {
-            String[] pices = data[i].split(" ");
-            LocalDate now = LocalDate.parse(pices[0], DDMMYYYY);
-            if ((between(now, from, to))) {
+            String[] pices = data[i].split(SEPARATOR);
+            LocalDate dayForAnalysis = LocalDate.parse(pices[ZERO], DDMMYYYY);
+            if ((between(dayForAnalysis, from, to))) {
                 for (int j = 0; j < names.length; j++) {
-                    if (pices[1].equals(names[j])) {
-                        salary[j] += parseInt(pices[2]) * parseInt(pices[3]);
+                    if (pices[ONE].equals(names[j])) {
+                        salary[j] += parseInt(pices[TWO]) * parseInt(pices[THERE]);
                     }
                 }
             }
         }
-        StringBuilder builder = new StringBuilder("Report for period ");
+        StringBuilder builder = new StringBuilder(HEADER);
         builder.append(dateFrom)
-                .append(" - ")
+                .append(DELIMITER)
                 .append(dateTo);
         for (int i = 0; i < names.length; i++) {
             builder.append(System.lineSeparator())
-                    .append(names[i]).append(" - ")
+                    .append(names[i]).append(DELIMITER)
                     .append(salary[i]);
         }
         return builder.toString();
