@@ -16,7 +16,8 @@ public class SalaryInfo {
     private static final int THERE = 3;
 
     private static boolean between(LocalDate dayForAnalysis, LocalDate from, LocalDate to) {
-        return (dayForAnalysis.isAfter(from) || dayForAnalysis.isEqual(from)) && (dayForAnalysis.isBefore(to) || dayForAnalysis.isEqual(to));
+        return (dayForAnalysis.isAfter(from) || dayForAnalysis.isEqual(from))
+                && (dayForAnalysis.isBefore(to) || dayForAnalysis.isEqual(to));
     }
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
