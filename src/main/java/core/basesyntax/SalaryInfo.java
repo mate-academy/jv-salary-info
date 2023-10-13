@@ -2,34 +2,42 @@ package core.basesyntax;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 public class SalaryInfo {
-    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-        StringBuilder report = new StringBuilder();
-        String newline = System.lineSeparator();
-        try {
-            Date fromDate = dateFormat.parse(dateFrom);
-            Date toDate = dateFormat.parse(dateTo);
+    private static final DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final int DATE_ARRAY_INDEX = 0;
+    private static final int NAME_ARRAY_INDEX = 1;
+    private static final int WORK_HOURS_ARRAY_INDEX = 2;
+    private static final int SALARY_PER_HOUR_ARRAY_INDEX = 3;
 
-            report.append("Report for period ")
+    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
+        StringBuilder report = new StringBuilder();
+        try {
+            LocalDate fromDate = LocalDate.parse(dateFrom, dateFormat);
+            LocalDate toDate = LocalDate.parse(dateTo, dateFormat);
+
+            report
+                    .append("Report for period ")
                     .append(dateFrom).append(" - ")
                     .append(dateTo)
-                    .append(newline);
+                    .append(System.lineSeparator());
 
             for (String name : names) {
                 int totalEarnings = 0;
                 for (String entry : data) {
                     String[] entryParts = entry.split(" ");
-                    String entryDateStr = entryParts[0];
-                    String employeeName = entryParts[1];
-                    int hoursWorked = Integer.parseInt(entryParts[2]);
-                    int hourlyRate = Integer.parseInt(entryParts[3]);
+                    String entryDateStr = entryParts[DATE_ARRAY_INDEX];
+                    String employeeName = entryParts[NAME_ARRAY_INDEX];
+                    int hoursWorked = Integer.parseInt(entryParts[WORK_HOURS_ARRAY_INDEX]);
+                    int hourlyRate = Integer.parseInt(entryParts[SALARY_PER_HOUR_ARRAY_INDEX]);
 
-                    Date entryDate = dateFormat.parse(entryDateStr);
+                    LocalDate entryDate = LocalDate.parse(entryDateStr, dateFormat);
 
-                    if (entryDate.after(fromDate) && entryDate.before(toDate)
+                    if (entryDate.isAfter(fromDate) && entryDate.isBefore(toDate)
                             || entryDate.equals(fromDate)
                             || entryDate.equals(toDate)) {
                         if (employeeName.equals(name)) {
@@ -38,18 +46,23 @@ public class SalaryInfo {
                     }
                 }
 
-                report.append(name)
+                report
+                        .append(name)
                         .append(" - ")
                         .append(totalEarnings);
 
-                if (!name.equals(names[names.length - 1])) {
-                    report.append(newline);
+                if (!lastEntry(names, name)) {
+                    report.append(System.lineSeparator());
                 }
             }
-        } catch (ParseException e) {
+        } catch (Exception e) {
             System.out.println("Error parsing dates: " + e.getMessage());
         }
 
         return report.toString();
+    }
+
+    private static boolean lastEntry(String[] names, String name) {
+        return name.equals(names[names.length - 1]);
     }
 }
