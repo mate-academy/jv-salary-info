@@ -18,7 +18,8 @@ public class SalaryInfo {
 
             report
                     .append("Report for period ")
-                    .append(dateFrom).append(" - ")
+                    .append(dateFrom)
+                    .append(" - ")
                     .append(dateTo)
                     .append(System.lineSeparator());
 
