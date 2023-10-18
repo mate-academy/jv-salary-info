@@ -1,7 +1,6 @@
 package core.basesyntax;
 
 import java.time.LocalDate;
-import java.time.Period;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
@@ -13,45 +12,33 @@ public class SalaryInfo {
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
+        LocalDate dateOfStart = LocalDate.parse(dateFrom, formatter);
+        LocalDate dateOfEnd = LocalDate.parse(dateTo, formatter);
+
         StringBuilder builder = new StringBuilder("Report for period ");
         builder.append(dateFrom).append(" - ").append(dateTo);
 
-        String[] filteredData = filterDataByDate(data, dateFrom, dateTo);
         for (String name : names) {
             builder.append(System.lineSeparator()).append(name).append(" - ");
             int countedMoney = 0;
-            for (String input : filteredData) {
-                if (input != null && name.equals(input.split(" ")[INDEX_OF_NAME])) {
-                    countedMoney += Integer.parseInt(input.split(" ")[INDEX_OF_HOURS])
-                                   * Integer.parseInt(input.split(" ")[INDEX_OF_RATE]);
+
+            for (String input : data) {
+                if (input != null) {
+                    String splitName = input.split(" ")[INDEX_OF_NAME];
+                    String splitDate = input.split(" ")[INDEX_OF_DATE];
+                    LocalDate date = LocalDate.parse(splitDate, formatter);
+
+                    int hours = Integer.parseInt(input.split(" ")[INDEX_OF_HOURS]);
+                    int rate = Integer.parseInt(input.split(" ")[INDEX_OF_RATE]);
+
+                    if (name.equals(splitName) && date.minusDays(1).isBefore(dateOfEnd)
+                                               && date.plusDays(1).isAfter(dateOfStart)) {
+                        countedMoney += hours * rate;
+                    }
                 }
             }
             builder.append(countedMoney);
         }
         return builder.toString();
-    }
-
-    private String[] filterDataByDate(String[] data, String dateFrom, String dateTo) {
-        LocalDate dateOfStart = LocalDate.parse(dateFrom, formatter);
-        LocalDate dateOfEnd = LocalDate.parse(dateTo, formatter);
-
-        String[] dates = new String[data.length];
-        for (int i = 0; i < data.length; i++) {
-            dates[i] = data[i].split(" ")[INDEX_OF_DATE];
-        }
-
-        String[] result = new String[data.length];
-        int index = 0;
-        for (int i = 0; i < data.length; i++) {
-            LocalDate date = LocalDate.parse(dates[i], formatter);
-            Period spanToEnd = Period.between(date, dateOfEnd);
-            Period spanToStart = Period.between(dateOfStart, date);
-
-            if (spanToEnd.getDays() >= 0 && spanToStart.getDays() >= 0) {
-                result[index] = data[i];
-                index++;
-            }
-        }
-        return result;
     }
 }
