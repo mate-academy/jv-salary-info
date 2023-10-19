@@ -9,6 +9,9 @@ public class SalaryInfo {
     private static final int INDEX_OF_NAME = 1;
     private static final int INDEX_OF_HOURS = 2;
     private static final int INDEX_OF_RATE = 3;
+    private static final int ONE_DAY = 1;
+    private static final String DIVIDER = " - ";
+    private static final String STRING_SPLITTER = " ";
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
@@ -16,23 +19,23 @@ public class SalaryInfo {
         LocalDate dateOfEnd = LocalDate.parse(dateTo, formatter);
 
         StringBuilder builder = new StringBuilder("Report for period ");
-        builder.append(dateFrom).append(" - ").append(dateTo);
+        builder.append(dateFrom).append(DIVIDER).append(dateTo);
 
         for (String name : names) {
-            builder.append(System.lineSeparator()).append(name).append(" - ");
+            builder.append(System.lineSeparator()).append(name).append(DIVIDER);
             int countedMoney = 0;
 
             for (String input : data) {
                 if (input != null) {
-                    String splitName = input.split(" ")[INDEX_OF_NAME];
-                    String splitDate = input.split(" ")[INDEX_OF_DATE];
+                    String splitName = input.split(STRING_SPLITTER)[INDEX_OF_NAME];
+                    String splitDate = input.split(STRING_SPLITTER)[INDEX_OF_DATE];
                     LocalDate date = LocalDate.parse(splitDate, formatter);
 
-                    int hours = Integer.parseInt(input.split(" ")[INDEX_OF_HOURS]);
-                    int rate = Integer.parseInt(input.split(" ")[INDEX_OF_RATE]);
+                    int hours = Integer.parseInt(input.split(STRING_SPLITTER)[INDEX_OF_HOURS]);
+                    int rate = Integer.parseInt(input.split(STRING_SPLITTER)[INDEX_OF_RATE]);
 
-                    if (name.equals(splitName) && date.minusDays(1).isBefore(dateOfEnd)
-                                               && date.plusDays(1).isAfter(dateOfStart)) {
+                    if (name.equals(splitName) && date.minusDays(ONE_DAY).isBefore(dateOfEnd)
+                                               && date.plusDays(ONE_DAY).isAfter(dateOfStart)) {
                         countedMoney += hours * rate;
                     }
                 }
