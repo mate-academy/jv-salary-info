@@ -7,20 +7,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SalaryInfo {
+    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
+    private Date fromDate;
+    private Date toDate;
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-        Date fromDate = null;
-        try {
-            fromDate = dateFormat.parse(dateFrom);
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
-        Date toDate = null;
-        try {
-            toDate = dateFormat.parse(dateTo);
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
+        fromDate = getDateFromString(dateFrom);
+        toDate = getDateFromString(dateTo);
 
         Map<String, Integer> nameSalaryMap = new HashMap<>();
         for (String name : names) {
@@ -29,20 +22,16 @@ public class SalaryInfo {
 
         for (String oneDataString : data) {
             String[] dataSplitFormat = oneDataString.split(" ");
-            Date dateFromData = null;
-            try {
-                dateFromData = dateFormat.parse(dataSplitFormat[0]);
-            } catch (ParseException e) {
-                throw new RuntimeException(e);
-            }
+            Date dateFromData = getDateFromString(dataSplitFormat[0]);
+            String dataName = dataSplitFormat[1];
 
-            if ((dateFromData.compareTo(fromDate) >= 0)
-                    && (dateFromData.compareTo(toDate) <= 0)) {
-                if (nameSalaryMap.containsKey(dataSplitFormat[1])) {
+            if (dateFromData.compareTo(fromDate) >= 0 && dateFromData.compareTo(toDate) <= 0) {
+                if (nameSalaryMap.containsKey(dataName)) {
                     Integer oldValue = nameSalaryMap.get(dataSplitFormat[1]);
-                    nameSalaryMap.put(dataSplitFormat[1], oldValue
-                            + Integer.parseInt(dataSplitFormat[2])
-                            * Integer.parseInt(dataSplitFormat[3]));
+                    Integer dataHour = Integer.parseInt(dataSplitFormat[2]);
+                    Integer dataSalary = Integer.parseInt(dataSplitFormat[3]);
+
+                    nameSalaryMap.put(dataName, oldValue + dataHour * dataSalary);
                 }
 
             }
@@ -53,6 +42,17 @@ public class SalaryInfo {
         for (String name : names) {
             result.append("\n").append(name).append(" - ").append(nameSalaryMap.get(name));
         }
+
         return result.toString();
+    }
+
+    private Date getDateFromString(String strDate) {
+        Date date = null;
+        try {
+            date = DATE_FORMAT.parse(strDate);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+        return date;
     }
 }
