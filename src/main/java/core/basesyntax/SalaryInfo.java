@@ -4,13 +4,13 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d.MM.yyyy");
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("d.MM.yyyy");
     private static final String HYPHEN_WITH_SPACES = " - ";
     private static final String REPORT_START = "Report for period ";
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        LocalDate fromDate = LocalDate.parse(dateFrom, formatter).minusDays(1);
-        LocalDate toDate = LocalDate.parse(dateTo, formatter).plusDays(1);
+        LocalDate fromDate = LocalDate.parse(dateFrom, FORMATTER).minusDays(1);
+        LocalDate toDate = LocalDate.parse(dateTo, FORMATTER).plusDays(1);
         LocalDate dateFromData;
         int[] salaries = new int[names.length];
         String[] splitData;
@@ -22,7 +22,7 @@ public class SalaryInfo {
 
             for (String lineOfData : data) {
                 splitData = lineOfData.split(" ");
-                dateFromData = LocalDate.parse(splitData[0], formatter);
+                dateFromData = LocalDate.parse(splitData[0], FORMATTER);
 
                 if (names[i].equals(splitData[1])
                         && dateFromData.isAfter(fromDate)
