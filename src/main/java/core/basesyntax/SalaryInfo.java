@@ -4,7 +4,10 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-
+    private static final int DATE_INDEX = 0;
+    private static final int NAME_INDEX = 1;
+    private static final int HOURS_WORKED_INDEX = 2;
+    private static final int HOURLY_RATE_INDEX = 3;
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
@@ -15,10 +18,10 @@ public class SalaryInfo {
 
         for (String entry : data) {
             String[] parts = entry.split(" ");
-            String entryDate = parts[0];
-            String name = parts[1];
-            int hoursWorked = Integer.parseInt(parts[2]);
-            int hourlyRate = Integer.parseInt(parts[3]);
+            String entryDate = parts[DATE_INDEX];
+            String name = parts[NAME_INDEX];
+            int hoursWorked = Integer.parseInt(parts[HOURS_WORKED_INDEX]);
+            int hourlyRate = Integer.parseInt(parts[HOURLY_RATE_INDEX ]);
 
             LocalDate entryDateFormatted = LocalDate.parse(entryDate, DATE_FORMAT);
 
