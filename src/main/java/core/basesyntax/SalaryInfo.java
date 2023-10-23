@@ -10,24 +10,30 @@ public class SalaryInfo {
     private static final int RATE = 3;
     private static final int SALARY_FOR_PERIOD = 1;
     private static final String DATE_PATTERN = "d.MM.yyyy";
-    private int reportDataFreeIndex;
-    private final StringBuilder stringBuilder = new StringBuilder();
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_PATTERN);
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         String[] reportData = new String[names.length];
-        reportDataFreeIndex = 0;
+        int freeIndex = 0;
 
         for (String employee: data) {
             String[] employeeData = employee.split(" ");
             if (indexOf(names, employeeData[EMPLOYEE_NAME]) >= 0
                     && isInDateRange(employeeData[WORK_DATE], dateFrom, dateTo)
             ) {
+                boolean isNewReportItem = indexOf(reportData, employeeData[EMPLOYEE_NAME]) < 0;
+
                 int daySalary = Integer.parseInt(employeeData[WORK_HOUR])
                         * Integer.parseInt(employeeData[RATE]);
-                setReportData(reportData, employeeData[EMPLOYEE_NAME], daySalary);
+
+                setReportData(reportData, employeeData[EMPLOYEE_NAME], daySalary, freeIndex);
+
+                if (isNewReportItem) {
+                    freeIndex++;
+                }
             } else {
-                setReportData(reportData, employeeData[EMPLOYEE_NAME], 0);
+                setReportData(reportData, employeeData[EMPLOYEE_NAME], 0, freeIndex);
+                freeIndex++;
             }
         }
 
@@ -56,7 +62,7 @@ public class SalaryInfo {
         return -1;
     }
 
-    private void setReportData(String[] reportData, String employee, int salary) {
+    private void setReportData(String[] reportData, String employee, int salary, int freeIndex) {
         int employeeIndex = indexOf(reportData, employee);
 
         if (employeeIndex >= 0) {
@@ -64,13 +70,13 @@ public class SalaryInfo {
             int totalSalary = Integer.parseInt(employeeData[SALARY_FOR_PERIOD]) + salary;
             reportData[employeeIndex] = employee + " - " + totalSalary;
         } else {
-            reportData[reportDataFreeIndex] = employee + " - " + salary;
-            reportDataFreeIndex++;
+            reportData[freeIndex] = employee + " - " + salary;
         }
     }
 
     private String createReport(String[] reportData, String dateFrom, String dateTo) {
-        stringBuilder.setLength(0);
+        StringBuilder stringBuilder = new StringBuilder();
+
         stringBuilder.append("Report for period ").append(dateFrom).append(" - ")
                 .append(dateTo).append(System.lineSeparator());
 
