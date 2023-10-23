@@ -7,6 +7,7 @@ public class SalaryInfo {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("d.MM.yyyy");
     private static final String HYPHEN_WITH_SPACES = " - ";
     private static final String REPORT_START = "Report for period ";
+    private static final String SPLIT_VALUE = " ";
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate fromDate = LocalDate.parse(dateFrom, FORMATTER).minusDays(1);
@@ -21,7 +22,7 @@ public class SalaryInfo {
         for (int i = 0; i < names.length; i++) {
 
             for (String lineOfData : data) {
-                splitData = lineOfData.split(" ");
+                splitData = lineOfData.split(SPLIT_VALUE);
                 dateFromData = LocalDate.parse(splitData[0], FORMATTER);
 
                 if (names[i].equals(splitData[1])
