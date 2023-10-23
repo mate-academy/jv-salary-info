@@ -28,19 +28,16 @@ public class SalaryInfo {
                         break;
                     }
                 }
-
                 if (index != -1) {
                     salaryInfo[index] += currentSalary;
                 }
             }
         }
-
         StringBuilder report = new StringBuilder(String.format(REPORT_HEADER, dateFrom, dateTo));
         for (int i = 0; i < names.length; i++) {
             report.append(names[i]).append(" - ").append(salaryInfo[i])
                     .append(System.lineSeparator());
         }
-
         return report.toString().trim();
     }
 }
