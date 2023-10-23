@@ -8,6 +8,8 @@ import java.util.Map;
 public class SalaryInfo {
     private static final DateTimeFormatter DATE_FORMATTER
             = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final String REPORT_HEADER = "Report for period %s - %s"
+            + System.lineSeparator();
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate fromDate = LocalDate.parse(dateFrom, DATE_FORMATTER);
@@ -27,8 +29,7 @@ public class SalaryInfo {
                 salaryMap.put(name, currentSalary);
             }
         }
-        StringBuilder report = new StringBuilder("Report for period " + dateFrom
-                + " - " + dateTo + System.lineSeparator());
+        StringBuilder report = new StringBuilder(String.format(REPORT_HEADER, dateFrom, dateTo));
         for (String name : names) {
             report.append(name).append(" - ").append(salaryMap.get(name))
                     .append(System.lineSeparator());
