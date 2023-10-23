@@ -2,8 +2,6 @@ package core.basesyntax;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.Map;
 
 public class SalaryInfo {
     private static final DateTimeFormatter DATE_FORMATTER
@@ -14,26 +12,35 @@ public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate fromDate = LocalDate.parse(dateFrom, DATE_FORMATTER);
         LocalDate toDate = LocalDate.parse(dateTo, DATE_FORMATTER);
-        Map<String, Integer> salaryMap = new HashMap<>();
-        for (String name : names) {
-            salaryMap.put(name, 0);
-        }
+        int[] salaryInfo = new int[names.length];
         for (String datum : data) {
             String[] info = datum.split(" ");
-            LocalDate entryDate = LocalDate.parse(info[0], DATE_FORMATTER);
-            if (!entryDate.isBefore(fromDate) && !entryDate.isAfter(toDate)) {
+            LocalDate date = LocalDate.parse(info[0], DATE_FORMATTER);
+            if (!date.isBefore(fromDate) && !date.isAfter(toDate)) {
                 String name = info[1];
                 int hoursWorked = Integer.parseInt(info[2]);
                 int incomePerHour = Integer.parseInt(info[3]);
-                int currentSalary = salaryMap.get(name) + (hoursWorked * incomePerHour);
-                salaryMap.put(name, currentSalary);
+                int currentSalary = (hoursWorked * incomePerHour);
+                int index = -1;
+                for (int i = 0; i < names.length; i++) {
+                    if (names[i].equals(name)) {
+                        index = i;
+                        break;
+                    }
+                }
+
+                if (index != -1) {
+                    salaryInfo[index] += currentSalary;
+                }
             }
         }
+
         StringBuilder report = new StringBuilder(String.format(REPORT_HEADER, dateFrom, dateTo));
-        for (String name : names) {
-            report.append(name).append(" - ").append(salaryMap.get(name))
+        for (int i = 0; i < names.length; i++) {
+            report.append(names[i]).append(" - ").append(salaryInfo[i])
                     .append(System.lineSeparator());
         }
+
         return report.toString().trim();
     }
 }
