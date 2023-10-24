@@ -5,30 +5,31 @@ import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final int ZERO = 0;
+    private static final int ONE = 1;
+    private static final int TWO = 2;
+    private static final int THREE = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder stringBuilder = new StringBuilder("Report for period "
-                + dateFrom + " - " + dateTo
-                + System.lineSeparator());
+                + dateFrom + " - " + dateTo);
         LocalDate from = LocalDate.parse(dateFrom, FORMATTER);
         LocalDate to = LocalDate.parse(dateTo, FORMATTER);
-        for (int i = 0; i < names.length; i++) {
-            stringBuilder.append(names[i]).append(" - ");
-            int nameSum = 0;
+        LocalDate tempDate;
+        for (String name : names) {
+            stringBuilder.append(System.lineSeparator()).append(name).append(" - ");
+            int nameSum = ZERO;
             for (String info : data) {
                 String[] tempInfo = info.split(" ");
-                LocalDate tempDate = LocalDate.parse(tempInfo[0], FORMATTER);
-                if (tempInfo[1].equals(names[i])
+                tempDate = LocalDate.parse(tempInfo[ZERO], FORMATTER);
+                if (tempInfo[ONE].equals(name)
                         && (tempDate.equals(from) || tempDate.isAfter(from))
                         && (tempDate.equals(to) || tempDate.isBefore(to))) {
-                    nameSum += Integer.parseInt(tempInfo[2])
-                            * Integer.parseInt(tempInfo[3]);
+                    nameSum += Integer.parseInt(tempInfo[TWO])
+                            * Integer.parseInt(tempInfo[THREE]);
                 }
             }
             stringBuilder.append(nameSum);
-            if (i != names.length - 1) {
-                stringBuilder.append(System.lineSeparator());
-            }
         }
         return stringBuilder.toString();
     }
