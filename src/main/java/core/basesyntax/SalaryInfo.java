@@ -1,19 +1,23 @@
 package core.basesyntax;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
 public class SalaryInfo {
-    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
-    private Date fromDate;
-    private Date toDate;
+    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final String SEPARATOR = " ";
+    private static final String HEADER = "Report for period ";
+    private static final String DELIMITER = " - ";
+    private static final int DATE_NUMBER = 0;
+    private static final int NAME_NUMBER = 1;
+    private static final int HOUR_NUMBER = 2;
+    private static final int SALARY_BY_HOUR_NUMBER = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        fromDate = getDateFromString(dateFrom);
-        toDate = getDateFromString(dateTo);
+        LocalDate fromDate = LocalDate.parse(dateFrom, DATE_FORMAT);
+        LocalDate toDate = LocalDate.parse(dateTo, DATE_FORMAT);
 
         Map<String, Integer> nameSalaryMap = new HashMap<>();
         for (String name : names) {
@@ -21,15 +25,15 @@ public class SalaryInfo {
         }
 
         for (String oneDataString : data) {
-            String[] dataSplitFormat = oneDataString.split(" ");
-            Date dateFromData = getDateFromString(dataSplitFormat[0]);
-            String dataName = dataSplitFormat[1];
+            String[] dataSplitFormat = oneDataString.split(SEPARATOR);
+            LocalDate dateFromData = LocalDate.parse(dataSplitFormat[DATE_NUMBER], DATE_FORMAT);
+            String dataName = dataSplitFormat[NAME_NUMBER];
 
-            if (dateFromData.compareTo(fromDate) >= 0 && dateFromData.compareTo(toDate) <= 0) {
+            if (!dateFromData.isBefore(fromDate) && !dateFromData.isAfter(toDate)) {
                 if (nameSalaryMap.containsKey(dataName)) {
-                    Integer oldValue = nameSalaryMap.get(dataSplitFormat[1]);
-                    Integer dataHour = Integer.parseInt(dataSplitFormat[2]);
-                    Integer dataSalary = Integer.parseInt(dataSplitFormat[3]);
+                    Integer oldValue = nameSalaryMap.get(dataSplitFormat[NAME_NUMBER]);
+                    Integer dataHour = Integer.parseInt(dataSplitFormat[HOUR_NUMBER]);
+                    Integer dataSalary = Integer.parseInt(dataSplitFormat[SALARY_BY_HOUR_NUMBER]);
 
                     nameSalaryMap.put(dataName, oldValue + dataHour * dataSalary);
                 }
@@ -37,22 +41,12 @@ public class SalaryInfo {
             }
         }
 
+        //BuildResultToString
         StringBuilder result = new StringBuilder();
-        result.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
+        result.append(HEADER).append(dateFrom).append(DELIMITER).append(dateTo);
         for (String name : names) {
-            result.append("\n").append(name).append(" - ").append(nameSalaryMap.get(name));
+            result.append("\n").append(name).append(DELIMITER).append(nameSalaryMap.get(name));
         }
-
         return result.toString();
-    }
-
-    private Date getDateFromString(String strDate) {
-        Date date = null;
-        try {
-            date = DATE_FORMAT.parse(strDate);
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
-        return date;
     }
 }
