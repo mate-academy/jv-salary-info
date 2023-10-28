@@ -25,17 +25,13 @@ public class SalaryInfo {
                 int hoursWorked = Integer.parseInt(parts[HOURS_WORKED_INDEX]);
                 int hourlyRate = Integer.parseInt(parts[HOURLY_RATE_INDEX]);
 
-                try {
-                    LocalDate entryDate = LocalDate.parse(entryDateStr, DATE_FORMATTER);
-                    LocalDate fromDate = LocalDate.parse(dateFrom, DATE_FORMATTER);
-                    LocalDate toDate = LocalDate.parse(dateTo, DATE_FORMATTER);
+                LocalDate entryDate = LocalDate.parse(entryDateStr, DATE_FORMATTER);
+                LocalDate fromDate = LocalDate.parse(dateFrom, DATE_FORMATTER);
+                LocalDate toDate = LocalDate.parse(dateTo, DATE_FORMATTER);
 
-                    if (employeeName.equals(name) && !entryDate.isBefore(fromDate) 
-                            && !entryDate.isAfter(toDate)) {
-                        totalSalary += hoursWorked * hourlyRate;
-                    }
-                } catch (Exception e) {
-                    throw new RuntimeException("Can't process data", e);
+                if (employeeName.equals(name) && !entryDate.isBefore(fromDate) 
+                        && !entryDate.isAfter(toDate)) {
+                    totalSalary += hoursWorked * hourlyRate;
                 }
             }
 
