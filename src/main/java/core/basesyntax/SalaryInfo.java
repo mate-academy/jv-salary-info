@@ -8,6 +8,8 @@ public class SalaryInfo {
     private static final int INDEX_NAME = 1;
     private static final int INDEX_HOUR = 2;
     private static final int INDEX_SALARY_PER_HOUR = 3;
+    private static final String FORMAT_DATE = "dd.MM.yyyy";
+    private static final String DELIMITER = " ";
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate localDateFrom = getDate(dateFrom);
@@ -35,11 +37,11 @@ public class SalaryInfo {
     }
 
     private String[] getInfoFromString(String data) {
-        return data.split(" ");
+        return data.split(DELIMITER);
     }
 
     private LocalDate getDate(String date) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(FORMAT_DATE);
         return LocalDate.parse(date, formatter);
     }
 
