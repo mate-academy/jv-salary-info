@@ -1,40 +1,35 @@
 package core.basesyntax;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
+    private static final int INDEX_DATE = 0;
+    private static final int INDEX_NAME = 1;
+    private static final int INDEX_HOUR = 2;
+    private static final int INDEX_SALARY_PER_HOUR = 3;
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate localDateFrom = getDate(dateFrom);
         LocalDate localDateTo = getDate(dateTo);
-        int salary = 0;
-        String[] totallInformation = new String[names.length];
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < names.length; i++) {
-            salary = 0;
+        sb.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
+        for (String name : names) {
+            int salary = 0;
             for (String datum : data) {
-                LocalDate dataFromString = getDate(getInfoFromString(datum)[0]);
+                String[] info = getInfoFromString(datum);
+                LocalDate dataFromString = getDate(info[INDEX_DATE]);
                 if ((dataFromString.isAfter(localDateFrom)
                         || dataFromString.isEqual(localDateFrom))
                         && (dataFromString.isBefore(localDateTo)
                         || dataFromString.isEqual(localDateTo))) {
-                    if (names[i].equals(getInfoFromString(datum)[1])) {
-                        salary += Integer.parseInt(getInfoFromString(datum)[2])
-                                * Integer.parseInt(getInfoFromString(datum)[3]);
+                    if (name.equals(info[INDEX_NAME])) {
+                        salary += Integer.parseInt(info[INDEX_HOUR])
+                                * Integer.parseInt(info[INDEX_SALARY_PER_HOUR]);
                     }
                 }
             }
-            sb.append(names[i]).append(" - ").append(salary);
-            totallInformation[i] = sb.toString();
-            sb.delete(0, sb.length());
-        }
-        return showInfo(totallInformation, dateFrom, dateTo);
-    }
-
-    private String showInfo(String[] totallInformation, String dateFrom, String dateTo) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
-        for (String string : totallInformation) {
-            sb.append(System.lineSeparator()).append(string);
+            sb.append(System.lineSeparator()).append(name).append(" - ").append(salary);
         }
         return sb.toString();
     }
@@ -43,11 +38,9 @@ public class SalaryInfo {
         return data.split(" ");
     }
 
-    private LocalDate getDate(String dateFrom) {
-        String[] date = dateFrom.split("\\.");
-        return LocalDate.of(Integer.parseInt(date[2]),
-                Integer.parseInt(date[1]),
-                Integer.parseInt(date[0]));
+    private LocalDate getDate(String date) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        return LocalDate.parse(date, formatter);
     }
 
 }
