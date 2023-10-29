@@ -12,28 +12,35 @@ public class SalaryInfo {
     private static final String DELIMITER = " ";
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        LocalDate localDateFrom = getDate(dateFrom);
-        LocalDate localDateTo = getDate(dateTo);
+
         StringBuilder sb = new StringBuilder();
         sb.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
         for (String name : names) {
-            int salary = 0;
-            for (String datum : data) {
-                String[] info = getInfoFromString(datum);
-                LocalDate dataFromString = getDate(info[INDEX_DATE]);
-                if ((dataFromString.isAfter(localDateFrom)
-                        || dataFromString.isEqual(localDateFrom))
-                        && (dataFromString.isBefore(localDateTo)
-                        || dataFromString.isEqual(localDateTo))) {
-                    if (name.equals(info[INDEX_NAME])) {
-                        salary += Integer.parseInt(info[INDEX_HOUR])
-                                * Integer.parseInt(info[INDEX_SALARY_PER_HOUR]);
-                    }
-                }
-            }
-            sb.append(System.lineSeparator()).append(name).append(" - ").append(salary);
+            sb.append(System.lineSeparator()).append(name).append(" - ")
+                    .append(getInfoSalaryForEachName(name, data, dateFrom, dateTo));
         }
         return sb.toString();
+    }
+
+    private int getInfoSalaryForEachName(String name, String[] data,
+                                         String dateFrom, String dateTo) {
+        LocalDate localDateFrom = getDate(dateFrom);
+        LocalDate localDateTo = getDate(dateTo);
+        int salary = 0;
+        for (String datum : data) {
+            String[] info = getInfoFromString(datum);
+            LocalDate dataFromString = getDate(info[INDEX_DATE]);
+            if ((dataFromString.isAfter(localDateFrom)
+                    || dataFromString.isEqual(localDateFrom))
+                    && (dataFromString.isBefore(localDateTo)
+                    || dataFromString.isEqual(localDateTo))) {
+                if (name.equals(info[INDEX_NAME])) {
+                    salary += Integer.parseInt(info[INDEX_HOUR])
+                            * Integer.parseInt(info[INDEX_SALARY_PER_HOUR]);
+                }
+            }
+        }
+        return salary;
     }
 
     private String[] getInfoFromString(String data) {
