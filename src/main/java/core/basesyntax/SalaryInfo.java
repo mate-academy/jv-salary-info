@@ -8,10 +8,10 @@ public class SalaryInfo {
         // Creating String builder with starting content
         StringBuilder outputData = new StringBuilder("Report for period ");
         String visualSeparator = " - ";
-        outputData.append(dateFrom).
-                append(visualSeparator).
-                append(dateTo).
-                append(System.lineSeparator());
+        outputData.append(dateFrom)
+                .append(visualSeparator)
+                .append(dateTo)
+                .append(System.lineSeparator());
 
         for (String currentName : names) {
             int totalIncome = 0;
@@ -33,10 +33,10 @@ public class SalaryInfo {
                     }
                 }
             }
-            outputData.append(currentName).
-                    append(visualSeparator).
-                    append(totalIncome).
-                    append(System.lineSeparator());
+            outputData.append(currentName)
+                    .append(visualSeparator)
+                    .append(totalIncome)
+                    .append(System.lineSeparator());
         }
         return outputData.toString();
     }
