@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         // Creating String builder with starting content
         StringBuilder outputData = new StringBuilder("Report for period ");
@@ -25,8 +26,10 @@ public class SalaryInfo {
                     LocalDate localDateFrom = dateFromString(dateFrom);
                     LocalDate localDateTo = dateFromString(dateTo);
 
-                    if (localDateFromRowOfDate.isAfter(localDateFrom)
-                            && localDateFromRowOfDate.isBefore(localDateTo)) {
+                    if ((localDateFromRowOfDate.isEqual(localDateFrom)
+                            || localDateFromRowOfDate.isAfter(localDateFrom))
+                            && (localDateFromRowOfDate.isEqual(localDateTo)
+                            || localDateFromRowOfDate.isBefore(localDateTo))) {
                         int timesWasPaid = Integer.parseInt(rowOfData[2]);
                         int paidSum = Integer.parseInt(rowOfData[3]);
                         totalIncome += timesWasPaid * paidSum;
@@ -41,7 +44,7 @@ public class SalaryInfo {
         return outputData.toString();
     }
 
-    public LocalDate dateFromString(String date) {
+    public static LocalDate dateFromString(String date) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         date = date.strip();
         try {
