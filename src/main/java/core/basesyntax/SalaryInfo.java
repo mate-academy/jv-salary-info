@@ -11,8 +11,7 @@ public class SalaryInfo {
         String visualSeparator = " - ";
         outputData.append(dateFrom)
                 .append(visualSeparator)
-                .append(dateTo)
-                .append(System.lineSeparator());
+                .append(dateTo);
 
         for (String currentName : names) {
             int totalIncome = 0;
@@ -36,10 +35,10 @@ public class SalaryInfo {
                     }
                 }
             }
-            outputData.append(currentName)
+            outputData.append(System.lineSeparator())
+                    .append(currentName)
                     .append(visualSeparator)
-                    .append(totalIncome)
-                    .append(System.lineSeparator());
+                    .append(totalIncome);
         }
         return outputData.toString();
     }
