@@ -38,7 +38,7 @@ public class SalaryInfo {
                             || localDateFromRowOfDate.isAfter(localDateFrom))
                             && (localDateFromRowOfDate.isEqual(localDateTo)
                             || localDateFromRowOfDate.isBefore(localDateTo))) {
-                        // If condition of data satisfied and users are the same, add his income to stat
+                        // If condition of data satisfied, add his income to stat
                         int timesWasPaid = Integer.parseInt(rowOfData[TIMES_PAID_INDEX]);
                         int paidSum = Integer.parseInt(rowOfData[SUM_PAID_INDEX]);
                         totalIncome += timesWasPaid * paidSum;
