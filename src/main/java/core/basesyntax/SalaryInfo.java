@@ -11,7 +11,6 @@ public class SalaryInfo {
     private static final int timesPaidSubstring = 2;
     private static final int sumPaidSubstring = 3;
 
-
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         // Creating String builder with starting content
         StringBuilder outputData = new StringBuilder("Report for period ");
