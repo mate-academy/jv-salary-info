@@ -23,20 +23,20 @@ public class SalaryInfo {
                 String[] dataArray = dataLine.split(" ");
                 if (LocalDate
                         .parse(dataArray[DATE_POSITION], formatter)
-                        .compareTo(LocalDate.parse(dateTo, formatter)) > 0 ||
-                        LocalDate
+                        .compareTo(LocalDate.parse(dateTo, formatter)) > 0
+                        || LocalDate
                             .parse(dataArray[DATE_POSITION], formatter)
                             .compareTo(LocalDate.parse(dateFrom, formatter)) < 0) {
                     continue;
                 }
                 totalResourses += Integer.parseInt(dataArray[QUANTITY_POSITION])
                         * Integer.parseInt(dataArray[AMOUNT_POSITION]);
-                }
-                builder
-                        .append(System.lineSeparator())
-                        .append(name)
-                        .append(" - ")
-                        .append(totalResourses);
+            }
+            builder
+                    .append(System.lineSeparator())
+                    .append(name)
+                    .append(" - ")
+                    .append(totalResourses);
         }
         return builder.toString();
     }
