@@ -4,7 +4,11 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d.MM.yyyy");
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d.MM.yyyy");
+    private static final int DATE = 0;
+    private static final int NAME = 1;
+    private static final int WORK_HOURS = 2;
+    private static final int MONEY_PER_HOUR = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder result = new StringBuilder("Report for period ")
@@ -14,15 +18,17 @@ public class SalaryInfo {
         String[] dataInfo;
         LocalDate dateStart = LocalDate.parse(dateFrom, formatter);
         LocalDate dateEnd = LocalDate.parse(dateTo, formatter);
-        int totalSalary = 0;
+        int totalSalary;
         for (String name : names) {
+            totalSalary = 0;
             for (String info : data) {
                 dataInfo = info.split(" ");
-                if (name.equals(dataInfo[1])) {
-                    LocalDate dateNow = LocalDate.parse(dataInfo[0], formatter);
-                    if (dateNow.compareTo(dateStart) >= 0 && dateNow.compareTo(dateEnd) <= 0) {
-                        totalSalary += Integer.parseInt(dataInfo[2])
-                                * Integer.parseInt(dataInfo[3]);
+                if (name.equals(dataInfo[NAME])) {
+                    LocalDate dateNow = LocalDate.parse(dataInfo[DATE], formatter);
+                    if (dateNow.isAfter(dateStart.minusDays(1))
+                            && dateNow.isBefore(dateEnd.plusDays(1))) {
+                        totalSalary += Integer.parseInt(dataInfo[WORK_HOURS])
+                                * Integer.parseInt(dataInfo[MONEY_PER_HOUR]);
                     }
                 }
             }
@@ -30,7 +36,6 @@ public class SalaryInfo {
                     .append(name)
                     .append(" - ")
                     .append(totalSalary);
-            totalSalary = 0;
         }
         return result.toString();
     }
