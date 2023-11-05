@@ -4,40 +4,39 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    private static final int DATE_POSITION = 0;
-    private static final int NAME_POSITION = 1;
-    private static final int QUANTITY_POSITION = 2;
-    private static final int AMOUNT_POSITION = 3;
-    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d.MM.yyyy");
+    private static final int DATE = 0;
+    private static final int NAME = 1;
+    private static final int WORK_HOURS = 2;
+    private static final int MONEY_PER_HOUR = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        StringBuilder builder = new StringBuilder("Report for period ")
+        StringBuilder result = new StringBuilder("Report for period ")
                 .append(dateFrom)
                 .append(" - ")
                 .append(dateTo);
-        LocalDate fromDateParsed = LocalDate.parse(dateFrom, formatter);
-        LocalDate toDateParsed = LocalDate.parse(dateTo, formatter);
+        String[] dataInfo;
+        LocalDate dateStart = LocalDate.parse(dateFrom, formatter);
+        LocalDate dateEnd = LocalDate.parse(dateTo, formatter);
+        int totalSalary;
         for (String name : names) {
-            int totalResources = 0;
-            for (String dataLine : data) {
-                String[] dataArray = dataLine.split(" ");
-                LocalDate dateParsed = LocalDate.parse(dataArray[DATE_POSITION], formatter);
-                String dataName = dataArray[NAME_POSITION];
-                if (!name.equals(dataName)) {
-                    continue;
+            totalSalary = 0;
+            for (String info : data) {
+                dataInfo = info.split(" ");
+                if (name.equals(dataInfo[NAME])) {
+                    LocalDate dateNow = LocalDate.parse(dataInfo[DATE], formatter);
+                    if (dateNow.isAfter(dateStart.minusDays(1))
+                            && dateNow.isBefore(dateEnd.plusDays(1))) {
+                        totalSalary += Integer.parseInt(dataInfo[WORK_HOURS])
+                                * Integer.parseInt(dataInfo[MONEY_PER_HOUR]);
+                    }
                 }
-                if (dateParsed.isAfter(fromDateParsed) || dateParsed.isBefore(toDateParsed)) {
-                    continue;
-                }
-                totalResources += Integer.parseInt(dataArray[QUANTITY_POSITION])
-                        * Integer.parseInt(dataArray[AMOUNT_POSITION]);
             }
-            builder
-                    .append(System.lineSeparator())
+            result.append(System.lineSeparator())
                     .append(name)
                     .append(" - ")
-                    .append(totalResources);
+                    .append(totalSalary);
         }
-        return builder.toString();
+        return result.toString();
     }
 }
