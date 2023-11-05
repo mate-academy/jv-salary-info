@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     private static final int DATE_POSITION = 0;
+    private static final int NAME_POSITION = 1;
     private static final int QUANTITY_POSITION = 2;
     private static final int AMOUNT_POSITION = 3;
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
@@ -14,33 +15,29 @@ public class SalaryInfo {
                 .append(dateFrom)
                 .append(" - ")
                 .append(dateTo);
-        for (String name: names) {
-            int totalResourses = 0;
-            for (String dataLine: data) {
-                if (!dataLine.contains(name)) {
-                    continue;
-                }
+        LocalDate fromDateParsed = LocalDate.parse(dateFrom, formatter);
+        LocalDate toDateParsed = LocalDate.parse(dateTo, formatter);
+        for (String name : names) {
+            int totalResources = 0;
+            for (String dataLine : data) {
                 String[] dataArray = dataLine.split(" ");
-                if (LocalDate
-                        .parse(dataArray[DATE_POSITION], formatter)
-                        .compareTo(LocalDate.parse(dateTo, formatter)) > 0
-                        || LocalDate
-                            .parse(dataArray[DATE_POSITION], formatter)
-                            .compareTo(LocalDate.parse(dateFrom, formatter)) < 0) {
+                LocalDate dateParsed = LocalDate.parse(dataArray[DATE_POSITION], formatter);
+                String dataName = dataArray[NAME_POSITION];
+                if (!name.equals(dataName)) {
                     continue;
                 }
-                totalResourses += Integer.parseInt(dataArray[QUANTITY_POSITION])
+                if (dateParsed.isAfter(fromDateParsed) || dateParsed.isBefore(toDateParsed)) {
+                    continue;
+                }
+                totalResources += Integer.parseInt(dataArray[QUANTITY_POSITION])
                         * Integer.parseInt(dataArray[AMOUNT_POSITION]);
             }
             builder
                     .append(System.lineSeparator())
                     .append(name)
                     .append(" - ")
-                    .append(totalResourses);
+                    .append(totalResources);
         }
         return builder.toString();
     }
 }
-
-
-
