@@ -11,7 +11,7 @@ public class SalaryInfo {
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        StringBuilder reportBuilder = new StringBuilder("Report for period ")
+        StringBuilder builder = new StringBuilder("Report for period ")
                 .append(dateFrom)
                 .append(" - ")
                 .append(dateTo);
@@ -23,20 +23,21 @@ public class SalaryInfo {
                 String[] dataArray = dataLine.split(" ");
                 LocalDate dateParsed = LocalDate.parse(dataArray[DATE_POSITION], formatter);
                 String dataName = dataArray[NAME_POSITION];
-                if (dateParsed.isEqual(fromDateParsed) || dateParsed.isEqual(toDateParsed)
-                        || (dateParsed.isAfter(fromDateParsed) && dateParsed.isBefore(toDateParsed))
-                        && name.equals(dataName)) {
-                    totalResources += Integer.parseInt(dataArray[QUANTITY_POSITION])
-                            * Integer.parseInt(dataArray[AMOUNT_POSITION]);
+                if (!name.equals(dataName)) {
+                    continue;
                 }
+                if (dateParsed.isAfter(fromDateParsed) || dateParsed.isBefore(toDateParsed)) {
+                    continue;
+                }
+                totalResources += Integer.parseInt(dataArray[QUANTITY_POSITION])
+                        * Integer.parseInt(dataArray[AMOUNT_POSITION]);
             }
-            reportBuilder
+            builder
                     .append(System.lineSeparator())
                     .append(name)
                     .append(" - ")
                     .append(totalResources);
         }
-        return reportBuilder
-                .toString();
+        return builder.toString();
     }
 }
