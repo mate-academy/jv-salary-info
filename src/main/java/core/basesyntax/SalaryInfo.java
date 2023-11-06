@@ -34,7 +34,7 @@ public class SalaryInfo {
             if (!workDate.isBefore(dateStart) && !workDate.isAfter(dateEnd)) {
                 for (int i = 0; i < names.length; i++) {
                     if (workerName.equals(names[i])) {
-                        totalSalaryPerWorker[i] += workerTime * workerSalary;
+                        totalSalaryPerWorker [i] += workerTime * workerSalary;
                     }
                 }
             }
@@ -43,14 +43,12 @@ public class SalaryInfo {
         totalReport.append("Report for period ")
                 .append(dateFrom)
                 .append(" - ")
-                .append(dateTo)
-                .append(System.lineSeparator());
+                .append(dateTo);
         for (int i = 0; i < names.length; i++) {
-            totalReport
+            totalReport.append(System.lineSeparator())
                     .append(names[i])
                     .append(" - ")
-                    .append(totalSalaryPerWorker[i])
-                    .append(System.lineSeparator());
+                    .append(totalSalaryPerWorker [i]);
         }
         return totalReport.toString();
     }
