@@ -5,42 +5,37 @@ import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-    private static final Integer dateIndexInRecord = 0;
-    private static final Integer nameIndexInRecord = 1;
-    private static final Integer hoursIndexInRecord = 2;
-    private static final Integer paymentIndexInRecord = 3;
+    private static final Integer DATE_INDEX_IN_RECORD = 0;
+    private static final Integer NAME_INDEX_IN_RECORD = 1;
+    private static final Integer HOURS_INDEX_IN_RECORD = 2;
+    private static final Integer PAYMENT_INDEX_IN_RECORD = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        LocalDate localDateFrom = stringToDate(dateFrom);
-        LocalDate localDateTo = stringToDate(dateTo);
+        LocalDate localDateFrom = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate localDateTo = LocalDate.parse(dateTo, FORMATTER);
         LocalDate localDateFromRecord;
         StringBuilder builder = new StringBuilder();
-        int salary;
         builder.append("Report for period ");
         builder.append(dateFrom).append(" - ");
         builder.append(dateTo);
         for (String name : names) {
-            salary = 0;
+            int salary = 0;
             builder.append(System.lineSeparator()).append(name).append(" - ");
             for (String record : data) {
                 String[] recordArray = record.split(" ");
-                localDateFromRecord = stringToDate(recordArray[dateIndexInRecord]);
-                if (name.equalsIgnoreCase(recordArray[nameIndexInRecord])) {
+                localDateFromRecord = LocalDate.parse(recordArray[DATE_INDEX_IN_RECORD], FORMATTER);
+                if (name.equalsIgnoreCase(recordArray[NAME_INDEX_IN_RECORD])) {
                     if ((localDateFromRecord.isAfter(localDateFrom)
                             || localDateFromRecord.isEqual(localDateFrom))
                             && (localDateFromRecord.isBefore(localDateTo)
                             || localDateFromRecord.isEqual(localDateTo))) {
-                        salary += Integer.parseInt(recordArray[hoursIndexInRecord])
-                                * Integer.parseInt(recordArray[paymentIndexInRecord]);
+                        salary += Integer.parseInt(recordArray[HOURS_INDEX_IN_RECORD])
+                                * Integer.parseInt(recordArray[PAYMENT_INDEX_IN_RECORD]);
                     }
                 }
             }
             builder.append(salary);
         }
         return builder.toString();
-    }
-
-    private LocalDate stringToDate(String dateString) {
-        return LocalDate.parse(dateString, FORMATTER);
     }
 }
