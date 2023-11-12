@@ -4,30 +4,34 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    private StringBuilder builder;
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final Integer dateIndexInRecord = 0;
+    private static final Integer nameIndexInRecord = 1;
+    private static final Integer hoursIndexInRecord = 2;
+    private static final Integer paymentIndexInRecord = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate localDateFrom = stringToDate(dateFrom);
         LocalDate localDateTo = stringToDate(dateTo);
         LocalDate localDateFromRecord;
-        builder = new StringBuilder();
+        StringBuilder builder = new StringBuilder();
         int salary;
         builder.append("Report for period ");
         builder.append(dateFrom).append(" - ");
         builder.append(dateTo);
         for (String name : names) {
             salary = 0;
-            builder.append("\n").append(name).append(" - ");
+            builder.append(System.lineSeparator()).append(name).append(" - ");
             for (String record : data) {
                 String[] recordArray = record.split(" ");
-                localDateFromRecord = stringToDate(recordArray[0]);
-                if (name.equalsIgnoreCase(recordArray[1])) {
+                localDateFromRecord = stringToDate(recordArray[dateIndexInRecord]);
+                if (name.equalsIgnoreCase(recordArray[nameIndexInRecord])) {
                     if ((localDateFromRecord.isAfter(localDateFrom)
                             || localDateFromRecord.isEqual(localDateFrom))
                             && (localDateFromRecord.isBefore(localDateTo)
                             || localDateFromRecord.isEqual(localDateTo))) {
-                        salary += Integer.parseInt(recordArray[2])
-                                * Integer.parseInt(recordArray[3]);
+                        salary += Integer.parseInt(recordArray[hoursIndexInRecord])
+                                * Integer.parseInt(recordArray[paymentIndexInRecord]);
                     }
                 }
             }
@@ -37,8 +41,6 @@ public class SalaryInfo {
     }
 
     private LocalDate stringToDate(String dateString) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        LocalDate date = LocalDate.parse(dateString, formatter);
-        return date;
+        return LocalDate.parse(dateString, FORMATTER);
     }
 }
