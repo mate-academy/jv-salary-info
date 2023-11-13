@@ -25,7 +25,7 @@ public class SalaryInfo {
                     LocalDate rowDate = LocalDate.parse(dataRowArray[0], FORMATTER);
                     if ((rowDate.isBefore(dateToFinishWork) && rowDate.isAfter(dateFromStartWork))
                             || rowDate.equals(dateFromStartWork)
-                        || rowDate.equals(dateToFinishWork)) {
+                            || rowDate.equals(dateToFinishWork)) {
                         salary += Integer.parseInt(dataRowArray[2])
                             * Integer.parseInt(dataRowArray[3]);
                     }
