@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 public class SalaryInfo {
     private static final DateTimeFormatter DATE_FORMATTER =
             DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final String WORD_SEPARATOR = " ";
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate startDate = LocalDate.parse(dateFrom, DATE_FORMATTER);
@@ -18,7 +19,7 @@ public class SalaryInfo {
             int totalSalary = 0;
 
             for (String entry : data) {
-                String[] details = entry.split(" ");
+                String[] details = entry.split(WORD_SEPARATOR);
                 LocalDate workDate = LocalDate.parse(details[0], DATE_FORMATTER);
                 String employeeName = details[1];
                 int hoursWorked = Integer.parseInt(details[2]);
