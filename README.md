@@ -36,6 +36,7 @@ data:
   26.04.2019 Kate 9 100
 ```
 
+
 Method execution result:
 ```
    Report for period 01.04.2019  - 30.04.2019  
