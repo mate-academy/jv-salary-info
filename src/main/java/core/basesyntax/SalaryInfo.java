@@ -25,8 +25,8 @@ public class SalaryInfo {
                 int hourlyRate = Integer.parseInt(details[3]);
 
                 if (employeeName.equals(name)
-                        && (workDate.isEqual(startDate) || workDate.isAfter(startDate))
-                        && (workDate.isEqual(endDate) || workDate.isBefore(endDate))) {
+                        && !workDate.isBefore(startDate)
+                        && !workDate.isAfter(endDate)) {
                     totalSalary += hoursWorked * hourlyRate;
                 }
             }
