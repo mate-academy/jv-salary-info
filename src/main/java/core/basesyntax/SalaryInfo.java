@@ -24,13 +24,17 @@ public class SalaryInfo {
                 if (dataRowArray[1].equals(name)) {
                     LocalDate rowDate = LocalDate.parse(dataRowArray[0], FORMATTER);
                     if ((rowDate.isBefore(dateToFinishWork) && rowDate.isAfter(dateFromStartWork))
-                            || rowDate.equals(dateFromStartWork) || rowDate.equals(dateToFinishWork)) {
+                            || rowDate.equals(dateFromStartWork)
+                        || rowDate.equals(dateToFinishWork)) {
                         salary += Integer.parseInt(dataRowArray[2])
                             * Integer.parseInt(dataRowArray[3]);
                     }
                 }
             }
-            stringBuilder.append(System.lineSeparator()).append(name).append(SEPARATOR).append(salary);
+            stringBuilder.append(System.lineSeparator())
+                         .append(name)
+                         .append(SEPARATOR)
+                         .append(salary);
         }
         return stringBuilder.toString();
     }
