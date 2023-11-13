@@ -24,15 +24,18 @@ public class SalaryInfo {
             for (String record : data) {
                 String[] recordArray = record.split(" ");
                 localDateFromRecord = LocalDate.parse(recordArray[DATE_INDEX_IN_RECORD], FORMATTER);
-                salary += compareRecordToName(name, recordArray, localDateFromRecord, localDateFrom, localDateTo);
+                salary += compareRecordToName(name, recordArray, localDateFromRecord,
+                        localDateFrom, localDateTo);
             }
             builder.append(salary);
         }
         return builder.toString();
     }
 
-    private int compareRecordToName(String name, String[] recordArray, LocalDate localDateFromRecord,
-                                    LocalDate localDateFrom, LocalDate localDateTo) {
+    private int compareRecordToName(String name, String[] recordArray,
+                                    LocalDate localDateFromRecord,
+                                    LocalDate localDateFrom,
+                                    LocalDate localDateTo) {
         if (name.equalsIgnoreCase(recordArray[NAME_INDEX_IN_RECORD])) {
             if ((localDateFromRecord.isAfter(localDateFrom)
                     || localDateFromRecord.isEqual(localDateFrom))
