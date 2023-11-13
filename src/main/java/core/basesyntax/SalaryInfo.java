@@ -36,5 +36,5 @@ public class SalaryInfo {
         }
 
         return report.toString();
-    } // This correctly closes the method
-} // This correctly closes the class
+    }
+}
