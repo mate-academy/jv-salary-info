@@ -1,22 +1,22 @@
 package core.basesyntax;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder calculatedReport = new StringBuilder();
         calculatedReport.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
         try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-            Date from = dateFormat.parse(dateFrom);
-            Date to = dateFormat.parse(dateTo);
+            LocalDate from = LocalDate.parse(dateFrom, formatter);
+            LocalDate to = LocalDate.parse(dateTo, formatter);
             for (String name : names) {
                 int salary = 0;
-                for (int i = 0; i < data.length; i++) {
-                    String[] dataSplit = data[i].split(" ");
-                    Date currentDate = dateFormat.parse(dataSplit[0]);
+                for (String info : data) {
+                    String[] dataSplit = info.split(" ");
+                    LocalDate currentDate = LocalDate.parse(dataSplit[0], formatter);
                     if (name.equals(dataSplit[1]) && currentDate.compareTo(to) <= 0
                             && currentDate.compareTo(from) >= 0) {
                         salary += Integer.parseInt(dataSplit[2]) * Integer.parseInt(dataSplit[3]);
