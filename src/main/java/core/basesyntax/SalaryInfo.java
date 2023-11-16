@@ -1,24 +1,20 @@
 package core.basesyntax;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import static java.time.LocalDate.parse;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     public static final int DATE_POSITION_IN_ARRAY = 0;
     public static final int NAME_POSITION_IN_ARRAY = 1;
     public static final int HOURS_POSITION_IN_ARRAY = 2;
     public static final int HOURLY_RATE_POSITION_IN_ARRAY = 3;
+    public static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        Date dateto;
-        Date datefrom;
-        try {
-            dateto = new SimpleDateFormat("dd.MM.yyyy").parse(dateTo);
-            datefrom = new SimpleDateFormat("dd.MM.yyyy").parse(dateFrom);
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
+        LocalDate toDate = parse(dateTo,formatter);
+        LocalDate fromDate = parse(dateFrom,formatter);
         String[] nameArray = new String[names.length];
         Integer[] salaryArray = new Integer[names.length];
         StringBuilder report = new StringBuilder();
@@ -30,16 +26,10 @@ public class SalaryInfo {
             nameArray[i] = name;
             for (String info : data) {
                 String[] parts = info.split(" ");
-                Date actualDate;
-                try {
-                    actualDate = new SimpleDateFormat("dd.MM.yyyy")
-                            .parse(parts[DATE_POSITION_IN_ARRAY]);
-                } catch (ParseException e) {
-                    throw new RuntimeException(e);
-                }
+                LocalDate actualDate = parse(parts[DATE_POSITION_IN_ARRAY],formatter);
                 if (parts[NAME_POSITION_IN_ARRAY].equals(name)
-                        && ((actualDate.before(dateto) || actualDate.equals(dateto))
-                                && (actualDate.after(datefrom) || actualDate.equals(datefrom)))) {
+                        && (actualDate.isBefore(toDate) || actualDate.isEqual(toDate))
+                        && (actualDate.isAfter(fromDate) || actualDate.isEqual(fromDate))) {
                     salaryArray[i] += Integer.parseInt(parts[HOURS_POSITION_IN_ARRAY])
                             * Integer.parseInt(parts[HOURLY_RATE_POSITION_IN_ARRAY]);
                 }
