@@ -23,7 +23,7 @@ public class SalaryInfo {
         Integer[] salaryArray = new Integer[names.length];
         StringBuilder report = new StringBuilder();
         report.append("Report for period ").append(dateFrom).append(" - ").append(dateTo)
-                .append("\n");
+                .append(System.lineSeparator());
         for (int i = 0; i < names.length; i++) {
             String name = names[i];
             salaryArray[i] = 0;
