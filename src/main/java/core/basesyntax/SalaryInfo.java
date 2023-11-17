@@ -10,13 +10,14 @@ public class SalaryInfo {
     public static final int NAME_POSITION_IN_ARRAY = 1;
     public static final int HOURS_POSITION_IN_ARRAY = 2;
     public static final int HOURLY_RATE_POSITION_IN_ARRAY = 3;
+    public static final String SEPARATOR = " - ";
     public static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate toDate = parse(dateTo, formatter);
         LocalDate fromDate = parse(dateFrom, formatter);
         StringBuilder report = new StringBuilder();
-        report.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
+        report.append("Report for period ").append(dateFrom).append(SEPARATOR).append(dateTo);
         for (String name : names) {
             int salaryArray = 0;
             for (String info : data) {
@@ -30,7 +31,7 @@ public class SalaryInfo {
                 }
             }
             report.append(System.lineSeparator())
-                    .append(name).append(" - ").append(salaryArray);
+                    .append(name).append(SEPARATOR).append(salaryArray);
         }
         return report.toString();
     }
