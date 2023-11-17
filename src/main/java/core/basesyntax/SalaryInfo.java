@@ -22,24 +22,28 @@ public class SalaryInfo {
                 .append(dateTo)
                 .append(NEW_LINE_SEPARATOR);
         for (String name : names) {
-            int earned = 0;
-            for (String currEmployeeData : data) {
-                String[] splitData = currEmployeeData.split(" ");
-                String employeeName = splitData[NAME_INDEX];
-                LocalDate date = LocalDate.parse(splitData[DATE_INDEX], dateTimeFormatter);
-                Integer hour = Integer.parseInt(splitData[HOUR_INDEX]);
-                Integer income = Integer.parseInt(splitData[INCOME_INDEX]);
-                if (employeeName.equals(name)
-                        && date.compareTo(from) >= 0
-                        && date.compareTo(to) <= 0) {
-                    earned += income * hour;
-                }
-            }
             stringBuilder.append(name)
                     .append(" - ")
-                    .append(earned)
+                    .append(getCurrentEarnings(name, data, from, to))
                     .append(NEW_LINE_SEPARATOR);
         }
         return stringBuilder.toString().trim();
+    }
+
+    private int getCurrentEarnings(String name, String[] data, LocalDate from, LocalDate to) {
+        int earned = 0;
+        for (String currEmployeeData : data) {
+            String[] splitData = currEmployeeData.split(" ");
+            String employeeName = splitData[NAME_INDEX];
+            LocalDate date = LocalDate.parse(splitData[DATE_INDEX], dateTimeFormatter);
+            Integer hour = Integer.parseInt(splitData[HOUR_INDEX]);
+            Integer income = Integer.parseInt(splitData[INCOME_INDEX]);
+            if (employeeName.equals(name)
+                    && date.compareTo(from) >= 0
+                    && date.compareTo(to) <= 0) {
+                earned += income * hour;
+            }
+        }
+        return earned;
     }
 }
