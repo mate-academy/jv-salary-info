@@ -16,11 +16,7 @@ public class SalaryInfo {
         StringBuilder stringBuilder = new StringBuilder();
         LocalDate from = LocalDate.parse(dateFrom, dateTimeFormatter);
         LocalDate to = LocalDate.parse(dateTo, dateTimeFormatter);
-        stringBuilder.append("Report for period ")
-                .append(dateFrom)
-                .append(" - ")
-                .append(dateTo)
-                .append(NEW_LINE_SEPARATOR);
+        prepareStringBuilder(stringBuilder, dateFrom, dateTo);
         for (String name : names) {
             stringBuilder.append(name)
                     .append(" - ")
@@ -45,5 +41,13 @@ public class SalaryInfo {
             }
         }
         return earned;
+    }
+
+    private void prepareStringBuilder(StringBuilder sb, String dateFrom, String dateTo) {
+        sb.append("Report for period ")
+                .append(dateFrom)
+                .append(" - ")
+                .append(dateTo)
+                .append(NEW_LINE_SEPARATOR);
     }
 }
