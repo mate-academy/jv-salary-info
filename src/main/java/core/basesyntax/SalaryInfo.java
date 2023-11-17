@@ -16,17 +16,23 @@ public class SalaryInfo {
                 .append(" - ")
                 .append(dateTo);
         String[] dataInfo;
-        LocalDate dateStart = LocalDate.parse(dateFrom, formatter);
-        LocalDate dateEnd = LocalDate.parse(dateTo, formatter);
+        LocalDate dateStart = LocalDate
+                .parse(dateFrom, formatter);
+        LocalDate dateEnd = LocalDate
+                .parse(dateTo, formatter);
         int totalSalary;
         for (String name : names) {
             totalSalary = 0;
             for (String info : data) {
-                dataInfo = info.split(" ");
+                dataInfo = info
+                        .split(" ");
                 if (name.equals(dataInfo[NAME])) {
-                    LocalDate dateNow = LocalDate.parse(dataInfo[DATE_INDEX], formatter);
-                    if (!dateNow.isBefore(dateStart) && dateNow.isBefore(dateEnd.plusDays(1))) {
-                        totalSalary += Integer.parseInt(dataInfo[WORK_HOURS]) * Integer.parseInt(dataInfo[MONEY_PER_HOUR]);
+                    LocalDate dateNow = LocalDate
+                            .parse(dataInfo[DATE_INDEX], formatter);
+                    if (!dateNow.isBefore(dateStart)
+                            && dateNow.isBefore(dateEnd.plusDays(1))) {
+                        totalSalary += Integer.parseInt(dataInfo[WORK_HOURS])
+                                * Integer.parseInt(dataInfo[MONEY_PER_HOUR]);
                     }
                 }
             }
