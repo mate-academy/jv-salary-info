@@ -5,7 +5,7 @@ import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d.MM.yyyy");
-    private static final int DATE = 0;
+    private static final int DATE_INDEX = 0;
     private static final int NAME = 1;
     private static final int WORK_HOURS = 2;
     private static final int MONEY_PER_HOUR = 3;
@@ -16,23 +16,17 @@ public class SalaryInfo {
                 .append(" - ")
                 .append(dateTo);
         String[] dataInfo;
-        LocalDate dateStart = LocalDate
-                .parse(dateFrom, formatter);
-        LocalDate dateEnd = LocalDate
-                .parse(dateTo, formatter);
+        LocalDate dateStart = LocalDate.parse(dateFrom, formatter);
+        LocalDate dateEnd = LocalDate.parse(dateTo, formatter);
         int totalSalary;
         for (String name : names) {
             totalSalary = 0;
             for (String info : data) {
-                dataInfo = info
-                        .split(" ");
+                dataInfo = info.split(" ");
                 if (name.equals(dataInfo[NAME])) {
-                    LocalDate dateNow = LocalDate
-                            .parse(dataInfo[DATE], formatter);
-                    if (dateNow.isAfter(dateStart.minusDays(1))
-                            && dateNow.isBefore(dateEnd.plusDays(1))) {
-                        totalSalary += Integer.parseInt(dataInfo[WORK_HOURS])
-                                * Integer.parseInt(dataInfo[MONEY_PER_HOUR]);
+                    LocalDate dateNow = LocalDate.parse(dataInfo[DATE_INDEX], formatter);
+                    if (!dateNow.isBefore(dateStart) && dateNow.isBefore(dateEnd.plusDays(1))) {
+                        totalSalary += Integer.parseInt(dataInfo[WORK_HOURS]) * Integer.parseInt(dataInfo[MONEY_PER_HOUR]);
                     }
                 }
             }
