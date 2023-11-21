@@ -23,8 +23,8 @@ public class SalaryInfo {
 
             for (String info : data) {
                 String[] parts = info.split(" ");
-                String DateFromData = parts[0];
-                LocalDate date = LocalDate.parse(DateFromData, DATE_TIME_FORMATTER);
+                String dateFromData = parts[0];
+                LocalDate date = LocalDate.parse(dateFromData, DATE_TIME_FORMATTER);
                 String nameFromData = parts[1];
                 String hoursWorked = parts[2];
                 String paymentPerHour = parts[3];
