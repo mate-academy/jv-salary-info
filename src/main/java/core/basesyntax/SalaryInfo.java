@@ -29,7 +29,7 @@ public class SalaryInfo {
             if (!entryDate.isBefore(fromDate) && !entryDate.isAfter(toDate)) {
                 String name = entryParts[NAME_INDEX];
                 int hours = Integer.parseInt(entryParts[HOURS_INDEX]);
-                int rate = Integer.parseInt(entryParts[3]);
+                int rate = Integer.parseInt(entryParts[RATE_INDEX]);
                 int earned = hours * rate;
                 for (int i = 0; i < names.length; i++) {
                     if (names[i].equals(name)) {
