@@ -6,6 +6,7 @@ import java.time.format.DateTimeParseException;
 
 public class SalaryInfo {
     private static final DateTimeFormatter DATEFORMAT = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
 
         LocalDate fromDate;
