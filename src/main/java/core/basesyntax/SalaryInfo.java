@@ -6,6 +6,10 @@ import java.time.format.DateTimeFormatter;
 public class SalaryInfo {
     private static final DateTimeFormatter DATE_TIME_FORMATTER =
             DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final int DATE_INDEX_FOR_DATE = 0;
+    private static final int DATE_INDEX_FOR_NAME = 1;
+    private static final int DATE_INDEX_FOR_WORKED_HOURS = 2;
+    private static final int DATE_INDEX_FOR_PAYMENT_PER_HOUR = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         if (names == null || data == null || dateFrom.isEmpty() || dateTo.isEmpty()) {
@@ -23,11 +27,11 @@ public class SalaryInfo {
 
             for (String info : data) {
                 String[] parts = info.split(" ");
-                String dateFromData = parts[0];
+                String dateFromData = parts[DATE_INDEX_FOR_DATE];
                 LocalDate date = LocalDate.parse(dateFromData, DATE_TIME_FORMATTER);
-                String nameFromData = parts[1];
-                String hoursWorked = parts[2];
-                String paymentPerHour = parts[3];
+                String nameFromData = parts[DATE_INDEX_FOR_NAME];
+                String hoursWorked = parts[DATE_INDEX_FOR_WORKED_HOURS];
+                String paymentPerHour = parts[DATE_INDEX_FOR_PAYMENT_PER_HOUR];
 
                 if (nameFromData.equals(name)
                         && (date.isEqual(startDate) || date.isAfter(startDate))
