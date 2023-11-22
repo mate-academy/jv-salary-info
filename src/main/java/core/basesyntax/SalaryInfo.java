@@ -5,15 +5,18 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 public class SalaryInfo {
-    private static final DateTimeFormatter DATEFORMAT = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final int DATE_INDEX = 0;
+    private static final int NAME_INDEX = 1;
+    private static final int HOURS_INDEX = 2;
+    private static final int RATE_INDEX = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-
         LocalDate fromDate;
         LocalDate toDate;
         try {
-            fromDate = LocalDate.parse(dateFrom, DATEFORMAT);
-            toDate = LocalDate.parse(dateTo, DATEFORMAT);
+            fromDate = LocalDate.parse(dateFrom, DATE_FORMAT);
+            toDate = LocalDate.parse(dateTo, DATE_FORMAT);
         } catch (DateTimeParseException e) {
             return "Invalid date format";
         }
@@ -22,19 +25,16 @@ public class SalaryInfo {
 
         for (String entry : data) {
             String[] entryParts = entry.split(" ");
-            if (entryParts.length == 4) {
-                LocalDate entryDate = LocalDate.parse(entryParts[0], DATEFORMAT);
-                if (!entryDate.isBefore(fromDate) && !entryDate.isAfter(toDate)) {
-                    String name = entryParts[1];
-                    int hours = Integer.parseInt(entryParts[2]);
-                    int rate = Integer.parseInt(entryParts[3]);
-                    int earned = hours * rate;
-
-                    for (int i = 0; i < names.length; i++) {
-                        if (names[i].equals(name)) {
-                            salaries[i] += earned;
-                            break;
-                        }
+            LocalDate entryDate = LocalDate.parse(entryParts[DATE_INDEX], DATE_FORMAT);
+            if (!entryDate.isBefore(fromDate) && !entryDate.isAfter(toDate)) {
+                String name = entryParts[NAME_INDEX];
+                int hours = Integer.parseInt(entryParts[HOURS_INDEX]);
+                int rate = Integer.parseInt(entryParts[3]);
+                int earned = hours * rate;
+                for (int i = 0; i < names.length; i++) {
+                    if (names[i].equals(name)) {
+                        salaries[i] += earned;
+                        break;
                     }
                 }
             }
