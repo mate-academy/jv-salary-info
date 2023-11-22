@@ -5,14 +5,14 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 public class SalaryInfo {
+    private static final DateTimeFormatter DATEFORMAT = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
 
-        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         LocalDate fromDate;
         LocalDate toDate;
         try {
-            fromDate = LocalDate.parse(dateFrom, dateFormat);
-            toDate = LocalDate.parse(dateTo, dateFormat);
+            fromDate = LocalDate.parse(dateFrom, DATEFORMAT);
+            toDate = LocalDate.parse(dateTo, DATEFORMAT);
         } catch (DateTimeParseException e) {
             return "Invalid date format";
         }
@@ -22,7 +22,7 @@ public class SalaryInfo {
         for (String entry : data) {
             String[] entryParts = entry.split(" ");
             if (entryParts.length == 4) {
-                LocalDate entryDate = LocalDate.parse(entryParts[0], dateFormat);
+                LocalDate entryDate = LocalDate.parse(entryParts[0], DATEFORMAT);
                 if (!entryDate.isBefore(fromDate) && !entryDate.isAfter(toDate)) {
                     String name = entryParts[1];
                     int hours = Integer.parseInt(entryParts[2]);
