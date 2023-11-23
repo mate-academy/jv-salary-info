@@ -4,55 +4,56 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
+    static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final int DATE_INDEX = 0;
+    private static final int NAME_INDEX = 1;
+    private static final int HOURS_INDEX = 2;
+    private static final int SALARY_PER_HOUR_INDEX = 3;
+    private static final int ONE_DAY = 1;
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate dateStart = LocalDate.parse(dateFrom, formatter);
         LocalDate dateEnd = LocalDate.parse(dateTo, formatter);
         LocalDate comparisonDate;
         int[] salaryOfNames = new int[names.length];
-        int writtenLineCounter = 0;
+        final int numberOfWorkers = names.length;
+        final int lastIndexOfData = data.length - 1;
         int countsOfValideDays = 0;
-        int numberOfName = 0;
-
-        for (String datum : data) {
-            String[] oneLineArray = datum.split(" ");
-            comparisonDate = LocalDate.parse(oneLineArray[0], formatter);
-
-            if (comparisonDate.isAfter(dateStart.minusDays(1))
-                    && comparisonDate.isBefore(dateEnd.plusDays(1))) {
-                countsOfValideDays++;
-            }
-        }
+        int nameNumber = 0;
 
         for (int i = 0; i < data.length; i++) {
             String[] oneLineArray = data[i].split(" ");
-            comparisonDate = LocalDate.parse(oneLineArray[0], formatter);
-            if (comparisonDate.isAfter(dateStart.minusDays(1))
-                    && comparisonDate.isBefore(dateEnd.plusDays(1))) {
-                if (oneLineArray[1].equals(names[numberOfName])) {
-                    salaryOfNames[numberOfName] += (Integer.parseInt(oneLineArray[2]))
-                            * (Integer.parseInt(oneLineArray[3]));
-                    writtenLineCounter++;
+            comparisonDate = LocalDate.parse(oneLineArray[DATE_INDEX], formatter);
+            if (comparisonDate.isAfter(dateStart.minusDays(ONE_DAY))
+                    && comparisonDate.isBefore(dateEnd.plusDays(ONE_DAY))) {
+                countsOfValideDays++;
+                if (oneLineArray[NAME_INDEX].equals(names[nameNumber])) {
+                    salaryOfNames[nameNumber] += (Integer.parseInt(oneLineArray[HOURS_INDEX]))
+                            * (Integer.parseInt(oneLineArray[SALARY_PER_HOUR_INDEX]));
+
                 }
 
             }
-            if (i == data.length - 1 && writtenLineCounter < countsOfValideDays) {
-                numberOfName++;
+            if (i == lastIndexOfData && countsOfValideDays != 0) {
+                nameNumber++;
+                countsOfValideDays = 0;
                 i = 0;
             }
+            if (nameNumber >= numberOfWorkers) {
+                break;
+            }
         }
-        numberOfName = 0;
+        nameNumber = 0;
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("Report for period ")
                 .append(dateStart.format(formatter)).append(" - ").append(dateEnd.format(formatter))
                 .append(System.lineSeparator());
         for (int i = 0; i < salaryOfNames.length; i++) {
 
-            stringBuilder.append(names[numberOfName]).append(" - ")
-                    .append(salaryOfNames[numberOfName]);
+            stringBuilder.append(names[nameNumber]).append(" - ")
+                    .append(salaryOfNames[nameNumber]);
             stringBuilder.append(System.lineSeparator());
-            numberOfName++;
+            nameNumber++;
         }
         return stringBuilder.toString().trim();
     }
