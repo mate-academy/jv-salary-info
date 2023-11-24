@@ -3,7 +3,7 @@ package core.basesyntax;
 import core.basesyntax.utils.DataUtils;
 
 public class SalaryInfo {
-    private static final int DATA_INDEX = 0;
+    private static final int DATE_INDEX = 0;
     private static final int HOURS_INDEX = 2;
     private static final int WAGE_INDEX = 3;
     private final DataUtils dataUtils = new DataUtils();
@@ -16,7 +16,7 @@ public class SalaryInfo {
             for (int i = 0; i < data.length; i++) {
                 if (data[i].contains(name)) {
                     splitData = data[i].split(" ");
-                    String reportedDate = splitData[DATA_INDEX];
+                    String reportedDate = splitData[DATE_INDEX];
                     int reportedHours = Integer.parseInt(splitData[HOURS_INDEX]);
                     int hourlyWage = Integer.parseInt(splitData[WAGE_INDEX]);
                     if (dataUtils.isDateInRange(dateFrom, dateTo, reportedDate)) {
