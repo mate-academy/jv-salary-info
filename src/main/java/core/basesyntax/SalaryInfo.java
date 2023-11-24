@@ -5,29 +5,30 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class SalaryInfo {
-    private final String SPACE = " ";
-    private final String DASH = " - ";
-    private final int ENTRY_DATE_INDEX = 0;
-    private final int ENTRY_NAME_INDEX = 1;
-    private final int HOURS_WORKED_INDEX = 2;
-    private final int HOURLY_RATE_INDEX = 3;
+    private final String space = " ";
+    private final String dash = " - ";
+    private final int entryDateIndex = 0;
+    private final int entryNameIndex = 1;
+    private final int hoursWorkedIndex = 2;
+    private final int hourlyRateIndex = 3;
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         try {
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
             Date fromDate = dateFormat.parse(dateFrom);
             Date toDate = dateFormat.parse(dateTo);
-            StringBuilder result = new StringBuilder("Report for period " + dateFrom + DASH
+            StringBuilder result = new StringBuilder("Report for period " + dateFrom + dash
                     + dateTo + System.lineSeparator());
 
             for (String name : names) {
                 int totalSalary = 0;
 
                 for (String entry : data) {
-                    String[] entryData = entry.split(SPACE);
-                    String entryDateStr = entryData[ENTRY_DATE_INDEX];
-                    String entryName = entryData[ENTRY_NAME_INDEX];
-                    int hoursWorked = Integer.parseInt(entryData[HOURS_WORKED_INDEX]);
-                    int hourlyRate = Integer.parseInt(entryData[HOURLY_RATE_INDEX]);
+                    String[] entryData = entry.split(space);
+                    String entryDateStr = entryData[entryDateIndex];
+                    String entryName = entryData[entryNameIndex];
+                    int hoursWorked = Integer.parseInt(entryData[hoursWorkedIndex]);
+                    int hourlyRate = Integer.parseInt(entryData[hourlyRateIndex]);
                     Date entryDate = dateFormat.parse(entryDateStr);
 
                     if (entryName.equals(name) && entryDate.compareTo(fromDate) >= 0
@@ -35,7 +36,7 @@ public class SalaryInfo {
                         totalSalary += hoursWorked * hourlyRate;
                     }
                 }
-                result.append(name).append(DASH).append(totalSalary)
+                result.append(name).append(dash).append(totalSalary)
                         .append(System.lineSeparator());
             }
             return result.toString().trim();
