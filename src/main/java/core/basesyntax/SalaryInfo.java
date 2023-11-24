@@ -4,23 +4,19 @@ import core.basesyntax.utils.DataUtils;
 
 public class SalaryInfo {
     static final String FORMAT = "dd.MM.yyyy";
-    private StringBuilder report = new StringBuilder();
-    private DataUtils dataUtils = new DataUtils();
+    private final StringBuilder report = new StringBuilder();
+    private final DataUtils dataUtils = new DataUtils();
     private int salaryOfEmployee;
-    private String reportedDate;
-    private int reportedHours;
-    private int hourlyWage;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        String [] splitData = new String[4];
-
+        String [] splitData;
         for (String name : names) {
             for (int i = 0; i < data.length; i++) {
                 if (data[i].contains(name)) {
                     splitData = data[i].split(" ");
-                    reportedDate = splitData[0];
-                    reportedHours = Integer.valueOf(splitData[2]);
-                    hourlyWage = Integer.valueOf(splitData[3]);
+                    String reportedDate = splitData[0];
+                    int reportedHours = Integer.parseInt(splitData[2]);
+                    int hourlyWage = Integer.parseInt(splitData[3]);
                     if (dataUtils.isDateInRange(dateFrom, dateTo, reportedDate, FORMAT)) {
                         salaryOfEmployee = salaryOfEmployee + reportedHours * hourlyWage;
                     }
@@ -32,7 +28,6 @@ public class SalaryInfo {
             }
             salaryOfEmployee = 0;
         }
-        return "Report for period " + dateFrom + " - " + dateTo + System.lineSeparator()
-            + report.toString();
+        return "Report for period " + dateFrom + " - " + dateTo + System.lineSeparator() + report;
     }
 }
