@@ -1,23 +1,32 @@
 package core.basesyntax;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
+    private static final DateTimeFormatter formatter =
+            DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        LocalDate startDate = formatter(dateFrom);
-        LocalDate endDate = formatter(dateTo);
+        LocalDate startDate = LocalDate.parse(dateFrom, formatter);
+        LocalDate endDate = LocalDate.parse(dateTo, formatter);
         LocalDate tempDate;
         int tempSalary = 0;
         String[] salaryInfo = new String[names.length];
+        int indexOfDate = 0;
+        int indexOfName = 1;
+        int indexOfWorkingHour = 2;
+        int indexOfIncome = 3;
 
         for (int i = 0; i < names.length; i++) {
-            for (String info: data) {
-                if (info.split(" ")[1].equals(names[i])) {
-                    tempDate = formatter(info.split(" ")[0]);
+            for (String info : data) {
+                String[] splittedData = info.split(" ");
+                if (splittedData[indexOfName].equals(names[i])) {
+                    tempDate = LocalDate.parse(splittedData[indexOfDate], formatter);
                     if (tempDate.isAfter(startDate) && tempDate.isBefore(endDate)
                             || tempDate.equals(endDate)) {
-                        tempSalary += Integer.parseInt(info.split(" ")[2])
-                                * Integer.parseInt(info.split(" ")[3]);
+                        tempSalary += Integer.parseInt(splittedData[indexOfWorkingHour])
+                                * Integer.parseInt(splittedData[indexOfIncome]);
                     }
                 }
             }
@@ -25,22 +34,10 @@ public class SalaryInfo {
             tempSalary = 0;
         }
 
-        return messageCreator(salaryInfo, dateFrom, dateTo);
+        return createMessage(salaryInfo, dateFrom, dateTo);
     }
-
-    private LocalDate formatter(String date) {
-        StringBuilder builder = new StringBuilder();
-
-        for (int i = 2; i >= 0; i--) {
-            builder.append(date.split("\\.")[i]);
-            builder.append("-");
-        }
-
-        builder.deleteCharAt(builder.length() - 1);
-        return LocalDate.parse(builder.toString());
-    }
-
-    private String messageCreator(String[] salaryInfo, String dateFrom, String dateTo) {
+    
+    private String createMessage(String[] salaryInfo, String dateFrom, String dateTo) {
         StringBuilder builder = new StringBuilder("Report for period "
                 + dateFrom + " - " + dateTo);
 
