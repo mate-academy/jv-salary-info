@@ -1,4 +1,3 @@
-
 package core.basesyntax;
 
 import java.time.LocalDate;
@@ -12,7 +11,7 @@ public class SalaryInfo {
     static final int INDEX_SALARY = 3;
     private int salary = 0;
 
-    public int getSalary(){
+    public int getSalary() {
         return salary;
     }
 
