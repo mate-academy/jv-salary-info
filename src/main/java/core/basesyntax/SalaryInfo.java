@@ -1,5 +1,6 @@
 package core.basesyntax;
 
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -9,7 +10,11 @@ public class SalaryInfo {
     static final int INDEX_NAME = 1;
     static final int INDEX_WORK_TIME = 2;
     static final int INDEX_SALARY = 3;
-    int salary = 0;
+    private int salary = 0;
+
+    public int getSalary(){
+        return salary;
+    }
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate localTo = LocalDate.parse(dateTo, FORMATTER);
@@ -21,8 +26,8 @@ public class SalaryInfo {
                 .append(dateTo)
                 .append(System.lineSeparator());
 
-        for(int i = 0; i < names.length; i++) {
-            for(int k = 0; k < data.length; k++) {
+        for(int i = 0; i < names.length; i++){
+            for(int k = 0; k < data.length; k++){
                 String[] dayAtWork = data[k].split(" ");
                 LocalDate workday = LocalDate.parse(dayAtWork[INDEX_DATA], FORMATTER);
                 String name = dayAtWork[INDEX_NAME];
