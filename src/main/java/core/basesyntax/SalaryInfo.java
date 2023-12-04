@@ -1,5 +1,5 @@
-package core.basesyntax;
 
+package core.basesyntax;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -26,8 +26,8 @@ public class SalaryInfo {
                 .append(dateTo)
                 .append(System.lineSeparator());
 
-        for(int i = 0; i < names.length; i++){
-            for(int k = 0; k < data.length; k++){
+        for (int i = 0; i < names.length; i++) {
+            for (int k = 0; k < data.length; k++) {
                 String[] dayAtWork = data[k].split(" ");
                 LocalDate workday = LocalDate.parse(dayAtWork[INDEX_DATA], FORMATTER);
                 String name = dayAtWork[INDEX_NAME];
