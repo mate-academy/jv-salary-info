@@ -10,6 +10,7 @@ public class SalaryInfo {
     private static final int NAME_INDEX = 1;
     private static final int WORK_TIME_INDEX = 2;
     private static final int SALARY_INDEX = 3;
+    private static final  String DASH = " - ";
     private final SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
@@ -32,7 +33,7 @@ public class SalaryInfo {
                     throw new RuntimeException();
                 }
             }
-            result.append("\n").append(name).append(" - ").append(sum);
+            result.append(System.lineSeparator()).append(name).append(DASH).append(sum);
         }
         return result.toString();
     }
