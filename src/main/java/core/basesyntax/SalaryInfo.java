@@ -25,7 +25,8 @@ public class SalaryInfo {
                     if (sdf.parse(list.get(i)[DATE_INDEX]).compareTo(sdf.parse(dateFrom)) >= 0
                             && sdf.parse(list.get(i)[DATE_INDEX]).compareTo(sdf.parse(dateTo)) <= 0
                             && name.contains(list.get(i)[NAME_INDEX])) {
-                        sum += Integer.parseInt(list.get(i)[WORK_TIME_INDEX]) * Integer.parseInt(list.get(i)[SALARY_INDEX]);
+                        sum += Integer.parseInt(list.get(i)[WORK_TIME_INDEX])
+                                * Integer.parseInt(list.get(i)[SALARY_INDEX]);
                     }
                 } catch (ParseException e) {
                     throw new RuntimeException();
