@@ -5,7 +5,6 @@ import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyy");
-    private static final int DEFAULT_SALARY = 0;
     private static final int DATE_INDEX = 0;
     private static final int NAME_INDEX = 1;
     private static final int HOURS_INDEX = 2;
@@ -15,10 +14,9 @@ public class SalaryInfo {
         StringBuilder builder = new StringBuilder();
         builder.append("Report for period ")
                 .append(dateFrom).append(" - ")
-                .append(dateTo)
-                .append(System.lineSeparator());
+                .append(dateTo);
         for (String name: names) {
-            int salary = DEFAULT_SALARY;
+            int salary = 0;
             for (String line: data) {
                 String[] dataPeaces = line.split(" ");
                 if (!getLocalDate(dataPeaces[DATE_INDEX]).isBefore(getLocalDate(dateFrom))
@@ -28,12 +26,12 @@ public class SalaryInfo {
                             * getIntFromString(dataPeaces[RATE_PER_HOUR_INDEX]);
                 }
             }
-            builder.append(name)
+            builder.append(System.lineSeparator())
+                    .append(name)
                     .append(" - ")
-                    .append(salary)
-                    .append(System.lineSeparator());
+                    .append(salary);
         }
-        return builder.toString().replaceAll("[\n\r]$", "");
+        return builder.toString();
     }
 
     public LocalDate getLocalDate(String date) {
