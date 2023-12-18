@@ -1,37 +1,37 @@
 package core.basesyntax;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
+    private static final int DATE_INDEX = 0;
+    private static final int NAME_INDEX = 1;
+    private static final int HOURS_WORKED_INDEX = 2;
+    private static final int INCOME_PER_HOUR_INDEX = 3;
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
 
-        SimpleDateFormat formatDate = new SimpleDateFormat("dd.MM.yyyy");
+        DateTimeFormatter formatDate = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         StringBuilder report = new StringBuilder("Report for period " + dateFrom + " - " + dateTo);
 
-        try {
-            Date startDate = formatDate.parse(dateFrom);
-            Date endDate = formatDate.parse(dateTo);
+        LocalDate startDate = LocalDate.parse(dateFrom, formatDate);
+        LocalDate endDate = LocalDate.parse(dateTo, formatDate);
 
-            for (String name : names) {
-                int totalEarnings = 0;
+        for (String name : names) {
+            int totalEarnings = 0;
 
-                for (String lines : data) {
-                    String[] parts = lines.split(" ");
-                    Date infoDate = formatDate.parse(parts[0]);
+            for (String lines : data) {
+                String[] parts = lines.split(" ");
+                LocalDate infoDate = LocalDate.parse(parts[DATE_INDEX], formatDate);
 
-                    if (startDate.compareTo(infoDate) <= 0 && endDate.compareTo(infoDate)
-                            >= 0 && name.equals(parts[1])) {
-                        int hoursWorked = Integer.parseInt(parts[2]);
-                        int incomePerHour = Integer.parseInt(parts[3]);
-                        totalEarnings += hoursWorked * incomePerHour;
-                    }
+                if (!infoDate.isBefore(startDate) && !infoDate.isAfter(endDate)
+                        && name.equals(parts[NAME_INDEX])) {
+                    int hoursWorked = Integer.parseInt(parts[HOURS_WORKED_INDEX]);
+                    int incomePerHour = Integer.parseInt(parts[INCOME_PER_HOUR_INDEX]);
+                    totalEarnings += hoursWorked * incomePerHour;
                 }
-                report.append("\n").append(name).append(" - ").append(totalEarnings);
             }
-        } catch (ParseException e) {
-            System.out.println("Invalid data type");
+            report.append(System.lineSeparator()).append(name).append(" - ").append(totalEarnings);
         }
 
         return report.toString();
