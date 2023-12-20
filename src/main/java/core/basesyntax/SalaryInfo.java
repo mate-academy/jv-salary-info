@@ -15,53 +15,51 @@ public class SalaryInfo {
 
         String dateTmp = "";
 
-        for (int i = 0; i < names.length; i++) {
+        for (String employeeName : names) {
             salaryInfo.append(System.lineSeparator())
-                    .append(names[i])
+                    .append(employeeName)
                     .append(" - ");
-            int salary = 0;
-            for (int j = 0; j < data.length; j++) {
-                dateTmp = data[j].substring(0,10);
-                if (data[j].contains(names[i])
-                        && compareDate(dateTmp, dateFrom, dateTo)) {
-                    salary += calculateSalaryFromData(data[j]);
-                }
-            }
-            salaryInfo.append(salary);
+
+            int totalSalary = calculateTotalSalary(employeeName, data, dateFrom, dateTo);
+            salaryInfo.append(totalSalary);
         }
         return salaryInfo.toString();
     }
 
-    private int getDayFromDate(String date) {
-        return Integer.parseInt(date.substring(0,2));
+    private int calculateTotalSalary(String employeeName,
+                                     String[] salaryData,
+                                     String dateFrom,
+                                     String dateTo) {
+        int totalSalary = 0;
+
+        for (String data : salaryData) {
+            String date = data.substring(0, 10);
+
+            if (data.contains(employeeName) && isDateInRange(date, dateFrom, dateTo)) {
+                totalSalary += calculateSalaryFromData(data);
+            }
+        }
+        return totalSalary;
     }
 
-    private int getMonthFromDate(String date) {
-        return Integer.parseInt(date.substring(3,5));
-    }
-
-    private int getYearFromDate(String date) {
-        return Integer.parseInt(date.substring(6,10));
-    }
-
-    private boolean compareDate(String date, String startDate, String endDate) {
+    private boolean isDateInRange(String date, String startDate, String endDate) {
         LocalDate dateToCheck = LocalDate.parse(date, formatter);
         LocalDate startDateObj = LocalDate.parse(startDate, formatter);
         LocalDate endDateObj = LocalDate.parse(endDate, formatter);
+
         return (dateToCheck.isEqual(startDateObj) || dateToCheck.isAfter(startDateObj))
                 && (dateToCheck.isEqual(endDateObj) || dateToCheck.isBefore(endDateObj));
     }
 
-    public int calculateSalaryFromData(String data) {
+    private int calculateSalaryFromData(String data) {
         String[] parts = data.split("\\s+");
-        String countOfSalary = null;
-        String oneSalary = null;
         int result = 0;
+
         if (parts.length >= 2) {
-            countOfSalary = parts[parts.length - 2];
-            oneSalary = parts[parts.length - 1];
+            int countOfSalary = Integer.parseInt(parts[parts.length - 2]);
+            int oneSalary = Integer.parseInt(parts[parts.length - 1]);
+            result = countOfSalary * oneSalary;
         }
-        result = Integer.parseInt(countOfSalary) * Integer.parseInt(oneSalary);
         return result;
     }
 }
