@@ -3,9 +3,8 @@ package core.basesyntax;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-
 public class SalaryInfo {
-    static  final DateTimeFormatter FORMATER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    static final DateTimeFormatter FORMATER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     static final String[] EMPTY_ARRAY = {};
     static final String EMPTY_STRING = null;
     static final String HEADER = "Report for period ";
@@ -19,15 +18,16 @@ public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder result = new StringBuilder(HEADER + dateFrom + DELIMITER + dateTo);
 
-        if (names != EMPTY_ARRAY && data != EMPTY_ARRAY && dateFrom != EMPTY_STRING && dateTo != EMPTY_STRING) {
-                LocalDate startDate = parseDate(dateFrom);
-                LocalDate endDate = parseDate(dateTo);
+        if (names != EMPTY_ARRAY && data != EMPTY_ARRAY && dateFrom
+                != EMPTY_STRING && dateTo != EMPTY_STRING) {
+            LocalDate startDate = parseDate(dateFrom);
+            LocalDate endDate = parseDate(dateTo);
 
-                for (String name : names) {
-                    int employeeSalary = calculateEmployeeSalary(data, name, startDate, endDate);
-                    result.append(System.lineSeparator()).append(name)
+            for (String name : names) {
+                int employeeSalary = calculateEmployeeSalary(data, name, startDate, endDate);
+                result.append(System.lineSeparator()).append(name)
                             .append(DELIMITER).append(employeeSalary);
-                }
+            }
         }
 
         return result.toString();
@@ -53,7 +53,8 @@ public class SalaryInfo {
                 if (name.equals(dataDay[NAME]) && (itemDate.isEqual(startDate)
                         || (itemDate.isAfter(startDate) && itemDate.isBefore(endDate))
                         || itemDate.isEqual(endDate))) {
-                    employeeSalary += Integer.parseInt(dataDay[HOUR]) * Integer.parseInt(dataDay[SALARY]);
+                    employeeSalary += Integer.parseInt(dataDay[HOUR])
+                            * Integer.parseInt(dataDay[SALARY]);
                 }
             } catch (NumberFormatException e) {
                 throw new NumberFormatException("Error parsing number: ");
