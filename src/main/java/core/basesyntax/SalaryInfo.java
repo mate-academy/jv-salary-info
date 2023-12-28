@@ -4,10 +4,12 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         String allDate = getAllDataBetweenDate(data, dateFrom, dateTo);
         StringBuilder builder = new StringBuilder("Report for period "
-                + dateFrom + " - " + dateTo + "\n");
+                + dateFrom + " - " + dateTo + System.lineSeparator());
         String[] employees = allDate.split(";");
         for (String name : names) {
             int salary = 0;
@@ -19,13 +21,12 @@ public class SalaryInfo {
                     salary += time * money;
                 }
             }
-            builder.append(name).append(" - ").append(salary).append("\n");
+            builder.append(name).append(" - ").append(salary).append(System.lineSeparator());
         }
         return builder.toString().strip();
     }
 
     private String getAllDataBetweenDate(String[] data, String dateFrom, String dateTo) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         LocalDate localDateFrom = LocalDate.parse(dateFrom, formatter);
         LocalDate localDateTo = LocalDate.parse(dateTo, formatter);
         StringBuilder allData = new StringBuilder();
