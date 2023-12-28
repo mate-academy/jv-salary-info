@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         String allDate = getAllDataBetweenDate(data, dateFrom, dateTo);
@@ -27,12 +27,12 @@ public class SalaryInfo {
     }
 
     private String getAllDataBetweenDate(String[] data, String dateFrom, String dateTo) {
-        LocalDate localDateFrom = LocalDate.parse(dateFrom, formatter);
-        LocalDate localDateTo = LocalDate.parse(dateTo, formatter);
+        LocalDate localDateFrom = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate localDateTo = LocalDate.parse(dateTo, FORMATTER);
         StringBuilder allData = new StringBuilder();
         for (String line : data) {
             String[] dates = line.split(" ");
-            LocalDate localDateCurrent = LocalDate.parse(dates[0], formatter);
+            LocalDate localDateCurrent = LocalDate.parse(dates[0], FORMATTER);
             if (localDateCurrent.isEqual(localDateFrom)
                     || localDateCurrent.isEqual(localDateTo)
                     || localDateCurrent.isAfter(localDateFrom)
