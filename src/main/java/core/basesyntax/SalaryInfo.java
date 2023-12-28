@@ -5,6 +5,8 @@ import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static int hourWork;
+    private static int moneyForHour;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         String allDate = getAllDataBetweenDate(data, dateFrom, dateTo);
@@ -13,12 +15,13 @@ public class SalaryInfo {
         String[] employees = allDate.split(";");
         for (String name : names) {
             int salary = 0;
+            
             for (String dataEmployee : employees) {
                 String[] employee = dataEmployee.split(" ");
                 if (employee[0].equals(name)) {
-                    int time = Integer.parseInt(employee[1]);
-                    int money = Integer.parseInt(employee[2]);
-                    salary += time * money;
+                    hourWork = Integer.parseInt(employee[1]);
+                    moneyForHour = Integer.parseInt(employee[2]);
+                    salary += hourWork * moneyForHour;
                 }
             }
             builder.append(name).append(" - ").append(salary).append(System.lineSeparator());
