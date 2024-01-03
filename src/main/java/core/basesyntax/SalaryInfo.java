@@ -17,13 +17,13 @@ public class SalaryInfo {
                 Date fromDate = dateFormat.parse(dateFrom);
                 Date toDate = dateFormat.parse(dateTo);
                 if (date.compareTo(fromDate) >= 0 && date.compareTo(toDate) <= 0) {
-                    builderOfValidRange.append(parts[1] + " ")
-                            .append(Integer.parseInt(parts[2]) * Integer.parseInt(parts[3]) + ",")
-                            .toString();
+                    builderOfValidRange.append(parts[1]).append(" ")
+                            .append(Integer.parseInt(parts[2]) * Integer.parseInt(parts[3]))
+                            .append(",");
                 }
                 if (date.compareTo(fromDate) == date.compareTo(toDate)) {
-                    builderOfValidRange.append(parts[1] + " ")
-                            .append(0).append(",").toString();
+                    builderOfValidRange.append(parts[1]).append(" ")
+                            .append(0).append(",");
                 }
             } catch (ParseException e) {
                 System.out.println("date format exception");
@@ -46,9 +46,8 @@ public class SalaryInfo {
             }
         }
         for (int i = 0; i < names.length; i++) {
-            result.append("\r\n").append(names[i] + " - ").append(sumsForResultBuilder[i]);
+            result.append("\r\n").append(names[i]).append(" - ").append(sumsForResultBuilder[i]);
         }
         return result.toString();
     }
 }
-
