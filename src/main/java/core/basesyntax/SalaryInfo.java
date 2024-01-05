@@ -4,11 +4,12 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     private static final int DATE_INDEX = 0;
     private static final int NAME_INDEX = 1;
     private static final int WORK_HOUR_INDEX = 2;
     private static final int INCOME_PER_HOUR_INDEX = 3;
+    private static final String DIVIDER = " ";
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         int sumSalary;
@@ -16,8 +17,7 @@ public class SalaryInfo {
         int salary;
 
         String[] parsData;
-        StringBuilder resultInfo = new StringBuilder();
-        resultInfo.append("Report for period ")
+        StringBuilder resultInfo = new StringBuilder().append("Report for period ")
                 .append(dateFrom)
                 .append(" - ")
                 .append(dateTo);
@@ -25,7 +25,7 @@ public class SalaryInfo {
         for (String name : names) {
             sumSalary = 0;
             for (String datum : data) {
-                parsData = datum.split(" ");
+                parsData = datum.split(DIVIDER);
                 LocalDate dateFromNow = LocalDate.parse(dateFrom, FORMATTER);
                 LocalDate dateToNow = LocalDate.parse(dateTo, FORMATTER);
                 LocalDate dateWork = LocalDate.parse(parsData[DATE_INDEX], FORMATTER);
@@ -45,7 +45,6 @@ public class SalaryInfo {
     }
 
     public boolean checkDate(LocalDate date, LocalDate dateFrom, LocalDate dateTo) {
-        return (date.isEqual(dateFrom) || date.isAfter(dateFrom))
-                && (date.isEqual(dateTo) || date.isBefore(dateTo));
+        return date.isAfter(dateFrom) && date.isBefore(dateTo);
     }
 }
