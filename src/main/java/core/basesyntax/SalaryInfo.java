@@ -45,6 +45,7 @@ public class SalaryInfo {
     }
 
     public boolean checkDate(LocalDate date, LocalDate dateFrom, LocalDate dateTo) {
-        return date.isAfter(dateFrom) && date.isBefore(dateTo);
+        return (date.isEqual(dateFrom) || date.isAfter(dateFrom))
+                && (date.isEqual(dateTo) || date.isBefore(dateTo));
     }
 }
