@@ -26,7 +26,7 @@ public class SalaryInfo {
                             .append(0).append(",");
                 }
             } catch (ParseException e) {
-                System.out.println("date format exception");
+                throw new RuntimeException("data format error");
             }
         }
 
@@ -46,7 +46,8 @@ public class SalaryInfo {
             }
         }
         for (int i = 0; i < names.length; i++) {
-            result.append("\r\n").append(names[i]).append(" - ").append(sumsForResultBuilder[i]);
+            result.append(System.lineSeparator()).append(names[i])
+                    .append(" - ").append(sumsForResultBuilder[i]);
         }
         return result.toString();
     }
