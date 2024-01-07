@@ -9,7 +9,7 @@ public class SalaryInfo {
     private static int NEGATIVE = -1;
     private static int POSITIVE = 1;
     private static final String HEADER = "Report for period ";
-    private  static final String DELIMITER = " - ";
+    private static final String DELIMITER = " - ";
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder report = new StringBuilder();
@@ -21,7 +21,8 @@ public class SalaryInfo {
                 String[] strings = line.split(SEPARATOR);
                 for (int j = 0; j < names.length; j++) {
                     if (dateLocalFrom.compareTo(LocalDate.parse(strings[0], PATTERN)) < POSITIVE
-                            && dateLocalTo.compareTo(LocalDate.parse(strings[0], PATTERN)) > NEGATIVE) {
+                            && dateLocalTo.compareTo(LocalDate
+                            .parse(strings[0], PATTERN)) > NEGATIVE) {
                         if (names[j].equals(strings[1])) {
                             salaries[j] += Integer.parseInt(strings[2])
                                     * Integer.parseInt(strings[3]);
@@ -31,7 +32,8 @@ public class SalaryInfo {
             }
             report.append(HEADER).append(dateFrom).append(DELIMITER).append(dateTo);
             for (int i = 0; i < names.length; i++) {
-                report.append(System.lineSeparator()).append(names[i]).append(DELIMITER).append(salaries[i]);
+                report.append(System.lineSeparator())
+                        .append(names[i]).append(DELIMITER).append(salaries[i]);
             }
         }
         return report.toString();
