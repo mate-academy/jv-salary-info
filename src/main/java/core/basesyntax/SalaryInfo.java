@@ -30,6 +30,6 @@ public class SalaryInfo {
                 strB.append("\r\n").append(names[i]).append(" - ").append(salaries[i]);
             }
         }
-        return strB.toString().trim();
+        return strB.toString();
     }
 }
