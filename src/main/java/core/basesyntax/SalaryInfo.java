@@ -1,53 +1,40 @@
 package core.basesyntax;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 public class SalaryInfo {
+    private static final DateTimeFormatter DATE_FORMATTER
+            = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final int INDEX_OF_DATE = 0;
+    private static final int INDEX_OF_NAME = 1;
+    private static final int INDEX_OF_WORK_HOURS = 2;
+    private static final int INDEX_OF_RATE_PER_HOUR = 3;
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-        StringBuilder builderOfValidRange = new StringBuilder();
-
-        for (String dataItem : data) {
-            String[] parts = dataItem.split(" ");
-            try {
-                Date date = dateFormat.parse(parts[0]);
-                Date fromDate = dateFormat.parse(dateFrom);
-                Date toDate = dateFormat.parse(dateTo);
-                if (date.compareTo(fromDate) >= 0 && date.compareTo(toDate) <= 0) {
-                    builderOfValidRange.append(parts[1]).append(" ")
-                            .append(Integer.parseInt(parts[2]) * Integer.parseInt(parts[3]))
-                            .append(",");
-                }
-                if (date.compareTo(fromDate) == date.compareTo(toDate)) {
-                    builderOfValidRange.append(parts[1]).append(" ")
-                            .append(0).append(",");
-                }
-            } catch (ParseException e) {
-                throw new RuntimeException("data format error");
-            }
-        }
-
         StringBuilder result = new StringBuilder("Report for period " + dateFrom + " - " + dateTo);
-        String[] arr = builderOfValidRange.toString().split(",");
-        int[] sumsForResultBuilder = new int[names.length];
-        for (String record : arr) {
-            String[] parts = record.split(" ");
-            String nameInData = parts[0];
-            int amount = Integer.parseInt(parts[1]);
-
-            for (int i = 0; i < names.length; i++) {
-                if (names[i].equalsIgnoreCase(nameInData)) {
-                    sumsForResultBuilder[i] += amount;
-                    break;
+        LocalDate fromDate = LocalDate.parse(dateFrom, DATE_FORMATTER);
+        LocalDate toDate = LocalDate.parse(dateTo, DATE_FORMATTER);
+        for (String name : names) {
+            int salary = 0;
+            for (String dataItem : data) {
+                String[] parts = dataItem.split(" ");
+                try {
+                    LocalDate currentDate = LocalDate.parse(parts[INDEX_OF_DATE], DATE_FORMATTER);
+                    if (parts[INDEX_OF_NAME].equals(name) && (currentDate.isEqual(fromDate)
+                            || currentDate.isEqual(toDate) || (currentDate.isAfter(fromDate)
+                               && currentDate.isBefore(toDate)))) {
+                        salary += (Integer.parseInt(parts[INDEX_OF_WORK_HOURS])
+                             * Integer.parseInt(parts[INDEX_OF_RATE_PER_HOUR]));
+                    }
+                } catch (DateTimeParseException e) {
+                    throw new RuntimeException("Invalid date format");
                 }
             }
-        }
-        for (int i = 0; i < names.length; i++) {
-            result.append(System.lineSeparator()).append(names[i])
-                    .append(" - ").append(sumsForResultBuilder[i]);
+            result.append(System.lineSeparator())
+                    .append(name).append(" - ").append(salary);
         }
         return result.toString();
     }
