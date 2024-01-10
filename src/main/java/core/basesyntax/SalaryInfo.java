@@ -13,8 +13,8 @@ public class SalaryInfo {
                 DateTimeFormatter.ofPattern(europeanDatePattern));
 
         StringBuilder report = new StringBuilder();
-        report.append("Report for period ").append(dateFrom).append(" - ").
-                append(dateTo).append("\n");
+        report.append("Report for period ").append(dateFrom).append(" - ")
+                        .append(dateTo).append("\n");
 
         for (String name : names) {
             int totalSalary = 0;
@@ -28,8 +28,8 @@ public class SalaryInfo {
                 LocalDate entryLocalDate = LocalDate.parse(recordDate,
                         DateTimeFormatter.ofPattern(europeanDatePattern));
 
-                if (recordName.equals(name) && !entryLocalDate.isBefore(fromDate) &&
-                        !entryLocalDate.isAfter(toDate)) {
+                if (recordName.equals(name) && !entryLocalDate.isBefore(fromDate)
+                        && !entryLocalDate.isAfter(toDate)) {
                     totalSalary += hours * rate;
                 }
             }
