@@ -7,14 +7,11 @@ public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         final String europeanDatePattern = "dd.MM.yyyy";
 
-        LocalDate fromDate = LocalDate.parse(dateFrom,
-                DateTimeFormatter.ofPattern(europeanDatePattern));
-        LocalDate toDate = LocalDate.parse(dateTo,
-                DateTimeFormatter.ofPattern(europeanDatePattern));
+        LocalDate fromDate = LocalDate.parse(dateFrom, DateTimeFormatter.ofPattern(europeanDatePattern));
+        LocalDate toDate = LocalDate.parse(dateTo, DateTimeFormatter.ofPattern(europeanDatePattern));
 
         StringBuilder report = new StringBuilder();
-        report.append("Report for period ").append(dateFrom).append(" - ")
-                        .append(dateTo).append("\n");
+        report.append("Report for period ").append(dateFrom).append(" - ").append(dateTo).append(System.lineSeparator());
 
         for (String name : names) {
             int totalSalary = 0;
@@ -25,16 +22,14 @@ public class SalaryInfo {
                 int hours = Integer.parseInt(recordString[2]);
                 int rate = Integer.parseInt(recordString[3]);
 
-                LocalDate entryLocalDate = LocalDate.parse(recordDate,
-                        DateTimeFormatter.ofPattern(europeanDatePattern));
+                LocalDate entryLocalDate = LocalDate.parse(recordDate, DateTimeFormatter.ofPattern(europeanDatePattern));
 
-                if (recordName.equals(name) && !entryLocalDate.isBefore(fromDate)
-                        && !entryLocalDate.isAfter(toDate)) {
+                if (recordName.equals(name) && !entryLocalDate.isBefore(fromDate) && !entryLocalDate.isAfter(toDate)) {
                     totalSalary += hours * rate;
                 }
             }
-            report.append(name).append(" - ").append(totalSalary).append("\n");
+            report.append(name).append(" - ").append(totalSalary).append(System.lineSeparator());
         }
-        return report.toString();
+        return report.toString().trim();
     }
 }
