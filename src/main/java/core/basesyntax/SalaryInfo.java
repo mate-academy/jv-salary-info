@@ -17,6 +17,11 @@ public class SalaryInfo {
         int[] salaryForPeriod = new int[names.length];
         LocalDate beginDate = LocalDate.parse(dateFrom, DATE_TIME_FORMATTER);
         LocalDate endDate = LocalDate.parse(dateTo, DATE_TIME_FORMATTER);
+        StringBuilder report = new StringBuilder()
+                .append("Report for period ")
+                .append(dateFrom)
+                .append(" - ")
+                .append(dateTo);
         for (int i = 0; i < names.length; i++) {
             int employerSalary = 0;
             for (String datum : data) {
@@ -32,21 +37,13 @@ public class SalaryInfo {
                 }
             }
             salaryForPeriod[i] = employerSalary;
-        }
-
-        StringBuilder stringBuilder = new StringBuilder()
-                .append("Report for period ")
-                .append(dateFrom)
-                .append(" - ")
-                .append(dateTo);
-        for (int i = 0; i < names.length; i++) {
-            stringBuilder
+            report
                     .append(System.lineSeparator())
                     .append(names[i])
                     .append(" - ")
                     .append(salaryForPeriod[i]);
         }
 
-        return stringBuilder.toString();
+        return report.toString();
     }
 }
