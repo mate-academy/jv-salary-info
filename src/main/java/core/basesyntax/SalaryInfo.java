@@ -11,6 +11,7 @@ public class SalaryInfo {
     private static final int NAME_INDEX = 1;
     private static final int WORK_HOURS_INDEX = 2;
     private static final int INCOME_PER_HOUR_INDEX = 3;
+    private static final String SEPARATOR = " ";
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         int[] salaryForPeriod = new int[names.length];
@@ -19,7 +20,7 @@ public class SalaryInfo {
         for (int i = 0; i < names.length; i++) {
             int employerSalary = 0;
             for (String datum : data) {
-                String[] dataFormatted = datum.split(" ");
+                String[] dataFormatted = datum.split(SEPARATOR);
                 LocalDate workingDayDate = LocalDate.parse(dataFormatted[DATE_INDEX],
                         DATE_TIME_FORMATTER);
                 if (!workingDayDate.isAfter(endDate)
