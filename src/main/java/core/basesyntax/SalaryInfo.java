@@ -18,7 +18,6 @@ public class SalaryInfo {
                 .append(dateFrom)
                 .append(" - ")
                 .append(dateTo)
-                .append("\n");
 
         for (int i = 0; i < names.length; i++) {
             int totalSalary = 0;
