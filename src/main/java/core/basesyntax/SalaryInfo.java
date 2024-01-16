@@ -23,7 +23,8 @@ public class SalaryInfo {
 
             for (int i = 0; i < data.length; i++) {
                 String[] splittedData = data[i].split(" ");
-                if (name.equals(splittedData[NAME]) && isDateInRange(splittedData[DATE], dateFrom, dateTo)) {
+                if (name.equals(splittedData[NAME]) && isDateInRange(splittedData[DATE],
+                        dateFrom, dateTo)) {
                     int hours = Integer.parseInt(splittedData[WORKING_HOURS]);
                     int salaryPerHour = Integer.parseInt(splittedData[INCOME_PER_HOUR]);
                     int salary = hours * salaryPerHour;
