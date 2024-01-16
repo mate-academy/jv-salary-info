@@ -4,52 +4,45 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
+    private static final int DATE = 0;
+    private static final int NAME = 1;
+    private static final int WORKING_HOURS = 2;
+    private static final int INCOME_PER_HOUR = 3;
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public static String getSalaryInfo(String[] names, String[] data,
                                        String dateFrom, String dateTo) {
-        String[][] words = new String[data.length][4];
-
-        for (int i = 0; i < data.length; i++) {
-            words[i] = data[i].split(" ");
-        }
-
         StringBuilder report = new StringBuilder();
         report.append("Report for period ")
                 .append(dateFrom)
                 .append(" - ")
-                .append(dateTo)
+                .append(dateTo);
 
-        for (int i = 0; i < names.length; i++) {
+        for (String name : names) {
             int totalSalary = 0;
 
-            for (int j = 0; j < words.length; j++) {
-                if (names[i].equals(words[j][1]) && isDateInRange(words[j][0], dateFrom, dateTo)) {
-                    int hours = Integer.parseInt(words[j][2]);
-                    int salaryPerHour = Integer.parseInt(words[j][3]);
+            for (int i = 0; i < data.length; i++) {
+                String[] splittedData = data[i].split(" ");
+                if (name.equals(splittedData[NAME]) && isDateInRange(splittedData[DATE], dateFrom, dateTo)) {
+                    int hours = Integer.parseInt(splittedData[WORKING_HOURS]);
+                    int salaryPerHour = Integer.parseInt(splittedData[INCOME_PER_HOUR]);
                     int salary = hours * salaryPerHour;
                     totalSalary += salary;
                 }
             }
-            if (i == names.length - 1) {
-                report.append(names[i])
-                        .append(" - ")
-                        .append(totalSalary);
-            } else {
-                report.append(names[i])
-                        .append(" - ")
-                        .append(totalSalary)
-                        .append(System.lineSeparator());
-            }
+            report.append(System.lineSeparator())
+                    .append(name)
+                    .append(" - ")
+                    .append(totalSalary);
         }
 
         return report.toString();
     }
 
     private static boolean isDateInRange(String dateString, String dateFrom, String dateTo) {
-        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        LocalDate date = LocalDate.parse(dateString, dateFormatter);
-        LocalDate fromDate = LocalDate.parse(dateFrom, dateFormatter);
-        LocalDate toDate = LocalDate.parse(dateTo, dateFormatter);
+        LocalDate date = LocalDate.parse(dateString, FORMATTER);
+        LocalDate fromDate = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate toDate = LocalDate.parse(dateTo, FORMATTER);
 
         return (date.isEqual(fromDate) || date.isAfter(fromDate))
                 && (date.isEqual(toDate) || date.isBefore(toDate));
