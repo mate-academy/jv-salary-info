@@ -9,12 +9,12 @@ public class SalaryInfo {
     private static final int WORKING_HOURS_INDEX = 2;
     private static final int INCOME_PER_HOUR_INDEX = 3;
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-    private static final String SEPARATOR  = " ";
+    private static final String SEPARATOR = " ";
 
     public static String getSalaryInfo(String[] names, String[] data,
                                        String dateFrom, String dateTo) {
         StringBuilder report = new StringBuilder()
-               .append("Report for period ")
+                .append("Report for period ")
                 .append(dateFrom)
                 .append(" - ")
                 .append(dateTo);
