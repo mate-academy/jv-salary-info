@@ -9,6 +9,7 @@ public class SalaryInfo {
     private static final int WORKING_HOURS_INDEX = 2;
     private static final int INCOME_PER_HOUR_INDEX = 3;
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final String SEPARATOR  = " ";
 
     public static String getSalaryInfo(String[] names, String[] data,
                                        String dateFrom, String dateTo) {
@@ -22,7 +23,7 @@ public class SalaryInfo {
             int totalSalary = 0;
 
             for (int i = 0; i < data.length; i++) {
-                String[] splittedData = data[i].split(" ");
+                String[] splittedData = data[i].split(SEPARATOR);
                 if (name.equals(splittedData[NAME_INDEX]) && isDateInRange(splittedData[DATE_INDEX],
                         dateFrom, dateTo)) {
                     int hours = Integer.parseInt(splittedData[WORKING_HOURS_INDEX]);
@@ -45,7 +46,6 @@ public class SalaryInfo {
         LocalDate fromDate = LocalDate.parse(dateFrom, FORMATTER);
         LocalDate toDate = LocalDate.parse(dateTo, FORMATTER);
 
-        return (date.isEqual(fromDate) || date.isAfter(fromDate))
-                && (date.isEqual(toDate) || date.isBefore(toDate));
+        return !(date.isBefore(fromDate) || date.isAfter(toDate));
     }
 }
