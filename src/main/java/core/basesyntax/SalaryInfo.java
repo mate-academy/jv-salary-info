@@ -4,20 +4,29 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
+    private String[] names;
+    private String[] data;
+    private String dateFrom;
+    private String dateTo;
+
     public String getSalaryInfo(String[] names, String[] data,
                                 String dateFrom, String dateTo) {
-        return getDrawResultSalaries(names, data, dateFrom, dateTo);
+        this.names = names;
+        this.data = data;
+        this.dateFrom = dateFrom;
+        this.dateTo = dateTo;
+
+        return getDrawResultSalaries();
     }
 
-    private String getDrawResultSalaries(String[] names, String[] data,
-                                         String dateFrom, String dateTo) {
+    private String getDrawResultSalaries() {
         StringBuilder result = new StringBuilder();
 
         result.append("Report for period ").append(dateFrom).append(" - ")
                 .append(dateTo).append(System.lineSeparator());
         for (int i = 0; i < names.length; i++) {
             result.append(names[i]).append(" - ")
-                    .append(getSalarySumEmployee(names,data,dateFrom,dateTo)[i]);
+                    .append(getSalarySumEmployee()[i]);
             if (i != names.length - 1) {
                 result.append(System.lineSeparator());
             }
@@ -25,8 +34,7 @@ public class SalaryInfo {
         return result.toString();
     }
 
-    private int[] getSalarySumEmployee(String[] names, String[] data,
-                                       String dateFrom, String dateTo) {
+    private int[] getSalarySumEmployee() {
         LocalDate dateFromFormat = getFormatData(dateFrom);
         LocalDate dateToFormat = getFormatData(dateTo);
         int[] salarySumEmployee = initializeArray(names);
