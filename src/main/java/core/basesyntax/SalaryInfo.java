@@ -19,16 +19,18 @@ public class SalaryInfo {
                 String[] currentData = datum.split(" ");
                 int hours = Integer.parseInt(currentData[INDEX_HOURS]);
                 int income = Integer.parseInt(currentData[INDEX_INCOME]);
-                String date = currentData[INDEX_DATE];
+                LocalDate dateLocal = LocalDate.parse(currentData[INDEX_DATE], FORMATTER);
+                LocalDate dateFromLocal = LocalDate.parse(dateFrom, FORMATTER);
+                LocalDate dateToLocal = LocalDate.parse(dateTo, FORMATTER);
                 try {
                     if (currentData[INDEX_NAME].equals(name)) {
-                        if (getMonth(dateFrom) < getMonth(dateTo)
-                                && getMonth(date) == getMonth(dateFrom)
-                                && getDay(date) >= getDay(dateFrom)
-                                || getMonth(date) == getMonth(dateTo)
-                                && getDay(date) <= getDay(dateTo)
-                                || getDay(date) >= getDay(dateFrom)
-                                && getDay(date) <= getDay(dateTo)) {
+                        if (getMonth(dateFromLocal) < getMonth(dateToLocal)
+                                && getMonth(dateLocal) == getMonth(dateFromLocal)
+                                && getDay(dateLocal) >= getDay(dateFromLocal)
+                                || getMonth(dateLocal) == getMonth(dateToLocal)
+                                && getDay(dateLocal) <= getDay(dateToLocal)
+                                || getDay(dateLocal) >= getDay(dateFromLocal)
+                                && getDay(dateLocal) <= getDay(dateToLocal)) {
                             salary += hours * income;
                         }
                     } else {
@@ -43,13 +45,11 @@ public class SalaryInfo {
         return builder.toString();
     }
 
-    public int getDay(String date) {
-        LocalDate localDate = LocalDate.parse(date, FORMATTER);
-        return localDate.getDayOfMonth();
+    public int getDay(LocalDate date) {
+        return date.getDayOfMonth();
     }
 
-    public int getMonth(String date) {
-        LocalDate localDate = LocalDate.parse(date, FORMATTER);
-        return localDate.getMonthValue();
+    public int getMonth(LocalDate date) {
+        return date.getMonthValue();
     }
 }
