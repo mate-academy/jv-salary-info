@@ -10,34 +10,30 @@ public class SalaryInfo {
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("Report for period ").append(dateFrom).append(" - ").append(dateTo)
-                .append(System.lineSeparator());
+        stringBuilder.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
 
+        LocalDate dateFromObject = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate dateToObject = LocalDate.parse(dateTo, FORMATTER);
         int moneyEarnedByPerson;
         for (String name : names) {
             moneyEarnedByPerson = 0;
             for (String dataEntry : data) {
                 scanner = new Scanner(dataEntry);
-                if (isDateWithinRange(scanner.next(), dateFrom, dateTo)
+                if (isDateWithinRange(scanner.next(), dateFromObject, dateToObject)
                         && name.equals(scanner.next())) {
                     moneyEarnedByPerson += scanner.nextInt()
                             * scanner.nextInt();
                 }
             }
-            stringBuilder.append(name).append(" - ").append(moneyEarnedByPerson);
-            if (!name.equals(names[names.length - 1])) {
-                stringBuilder.append(System.lineSeparator());
-            }
+            stringBuilder.append(System.lineSeparator()).append(name).append(" - ")
+                    .append(moneyEarnedByPerson);
         }
 
         return stringBuilder.toString();
     }
 
-    private boolean isDateWithinRange(String dateString,
-                                      String dateFromString, String dateToString) {
+    private boolean isDateWithinRange(String dateString, LocalDate dateFrom, LocalDate dateTo) {
         LocalDate date = LocalDate.parse(dateString, FORMATTER);
-        LocalDate dateFrom = LocalDate.parse(dateFromString, FORMATTER);
-        LocalDate dateTo = LocalDate.parse(dateToString, FORMATTER);
 
         return (date.isEqual(dateFrom) || date.isAfter(dateFrom))
                 && (date.isEqual(dateTo) || date.isBefore(dateTo));
