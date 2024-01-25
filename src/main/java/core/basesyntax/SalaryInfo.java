@@ -22,34 +22,18 @@ public class SalaryInfo {
                 LocalDate dateLocal = LocalDate.parse(currentData[INDEX_DATE], FORMATTER);
                 LocalDate dateFromLocal = LocalDate.parse(dateFrom, FORMATTER);
                 LocalDate dateToLocal = LocalDate.parse(dateTo, FORMATTER);
-                try {
-                    if (currentData[INDEX_NAME].equals(name)) {
-                        if (getMonth(dateFromLocal) < getMonth(dateToLocal)
-                                && getMonth(dateLocal) == getMonth(dateFromLocal)
-                                && getDay(dateLocal) >= getDay(dateFromLocal)
-                                || getMonth(dateLocal) == getMonth(dateToLocal)
-                                && getDay(dateLocal) <= getDay(dateToLocal)
-                                || getDay(dateLocal) >= getDay(dateFromLocal)
-                                && getDay(dateLocal) <= getDay(dateToLocal)) {
-                            salary += hours * income;
-                        }
-                    } else {
-                        throw new NoSuchNameException("No such name");
+                if (currentData[INDEX_NAME].equals(name)) {
+                    if (dateLocal.isEqual(dateFromLocal)
+                            || dateLocal.isAfter(dateFromLocal)
+                            && dateLocal.isBefore(dateToLocal)
+                            || dateLocal.isEqual(dateToLocal)) {
+                        salary += hours * income;
                     }
-                } catch (NoSuchNameException e) {
-                    continue;
+
                 }
             }
             builder.append(System.lineSeparator()).append(name).append(" - ").append(salary);
         }
         return builder.toString();
-    }
-
-    public int getDay(LocalDate date) {
-        return date.getDayOfMonth();
-    }
-
-    public int getMonth(LocalDate date) {
-        return date.getMonthValue();
     }
 }
