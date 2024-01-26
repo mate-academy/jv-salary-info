@@ -19,7 +19,7 @@ public class SalaryInfo {
         LocalDate firstDate = LocalDate.parse(dateFrom, formatter);
         LocalDate lastDate = LocalDate.parse(dateTo, formatter);
         StringBuilder finalResult = new StringBuilder("Report for period "
-                + dateFrom + HYPHEN + dateTo + SEPARATOR);
+                + dateFrom + HYPHEN + dateTo);
 
         for (int i = 0; i < names.length; i++) {
             int salaryInfo = INITIAL_VALUE;
@@ -34,7 +34,7 @@ public class SalaryInfo {
                     }
                 }
             }
-            finalResult.append(names[i]).append(HYPHEN).append(salaryInfo).append(SEPARATOR);
+            finalResult.append(SEPARATOR).append(names[i]).append(HYPHEN).append(salaryInfo);
         }
         return finalResult.toString();
     }
