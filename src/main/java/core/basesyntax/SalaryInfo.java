@@ -5,39 +5,37 @@ import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     private static final String FORMAT_DATE = "dd.MM.yyyy";
+    private static final int FIRST_MEMBER = 0;
+    private static final int SECOND_MEMBER = 1;
+    private static final int THIRD_MEMBER = 2;
+    private static final int FOURTH_MEMBER = 3;
+    private static final int INITIAL_VALUE = 0;
+    private static final String DELIMETER = " ";
+    private static final String HYPHEN = " - ";
+    private static final String SEPARATOR = System.lineSeparator();
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(FORMAT_DATE);
         LocalDate firstDate = LocalDate.parse(dateFrom, formatter);
         LocalDate lastDate = LocalDate.parse(dateTo, formatter);
+        StringBuilder finalResult = new StringBuilder("Report for period "
+                + dateFrom + HYPHEN + dateTo + SEPARATOR);
 
-        int salaryNameOne = 0;
-        int salaryNameTwo = 0;
-        int salaryNameTree = 0;
-
-        for (String day : data) {
-            String[] a = day.split(" ");
-            LocalDate currentDate = LocalDate.parse(a[0], formatter);
-            if ((currentDate.compareTo(firstDate) >= 0) && (currentDate.compareTo(lastDate) <= 0)) {
-                if (a[1].equals(names[0])) {
-                    salaryNameOne = salaryNameOne + (Integer.parseInt(a[2])
-                            * Integer.parseInt(a[3]));
-                } else if (a[1].equals(names[1])) {
-                    salaryNameTwo = salaryNameTwo + (Integer.parseInt(a[2])
-                            * Integer.parseInt(a[3]));
-                } else {
-                    salaryNameTree = salaryNameTree + (Integer.parseInt(a[2])
-                            * Integer.parseInt(a[3]));
+        for (int i = 0; i < names.length; i++) {
+            int salaryInfo = INITIAL_VALUE;
+            for (String day : data) {
+                String[] dataString = day.split(DELIMETER);
+                LocalDate currentDate = LocalDate.parse(dataString[FIRST_MEMBER], formatter);
+                if ((currentDate.compareTo(firstDate) >= 0)
+                        && (currentDate.compareTo(lastDate) <= 0)) {
+                    if (dataString[SECOND_MEMBER].equals(names[i])) {
+                        salaryInfo += (Integer.parseInt(dataString[THIRD_MEMBER])
+                                * Integer.parseInt(dataString[FOURTH_MEMBER]));
+                    }
                 }
             }
+            finalResult.append(names[i]).append(HYPHEN).append(salaryInfo).append(SEPARATOR);
         }
-
-        StringBuilder sb = new StringBuilder("Report for period ");
-
-        sb.append(dateFrom).append(" - ").append(dateTo).append(System.lineSeparator())
-                .append(names[0]).append(" - ").append(salaryNameOne).append(System.lineSeparator())
-                .append(names[1]).append(" - ").append(salaryNameTwo).append(System.lineSeparator())
-                .append(names[2]).append(" - ").append(salaryNameTree);
-        return sb.toString();
+        return finalResult.toString();
     }
 }
