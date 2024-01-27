@@ -81,8 +81,8 @@ public class SalaryInfo {
 
     private static String generateReport(String[] names, int[] incomes, String dateFrom,
                                          String dateTo) {
-        StringBuilder builder = new StringBuilder();
-        builder.append("Report for period ").append(dateFrom).append(" - ").append(dateTo)
+        StringBuilder report = new StringBuilder();
+        builder.append(HEADER).append(dateFrom).append(SEPARATOR).append(dateTo)
                 .append(System.lineSeparator());
         int incomesLoopCounter = 0;
         for (String name : names) {
