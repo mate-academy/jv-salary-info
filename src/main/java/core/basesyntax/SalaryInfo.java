@@ -10,6 +10,8 @@ public class SalaryInfo {
     private static final DateTimeFormatter FORMATTER =
             DateTimeFormatter.ofPattern(GIVEN_DATE_FORMAT, Locale.ENGLISH);
     private static final String DATA_ELEMENTS_SPLITERATOR = " ";
+    private static final String HEADER = "Report for period ";
+    private static final String SEPARATOR = " - ";
     private static final int DATE_POSITION = 0;
     private static final int NAME_POSITION = 1;
     private static final int HOURS_OF_WORK_POSITION = 2;
@@ -82,13 +84,13 @@ public class SalaryInfo {
     private static String generateReport(String[] names, int[] incomes, String dateFrom,
                                          String dateTo) {
         StringBuilder report = new StringBuilder();
-        builder.append(HEADER).append(dateFrom).append(SEPARATOR).append(dateTo)
+        report.append(HEADER).append(dateFrom).append(SEPARATOR).append(dateTo)
                 .append(System.lineSeparator());
         int incomesLoopCounter = 0;
         for (String name : names) {
-            builder.append(name).append(" - ").append(incomes[incomesLoopCounter++])
+            report.append(name).append(SEPARATOR).append(incomes[incomesLoopCounter++])
                     .append(System.lineSeparator());
         }
-        return builder.toString().trim();
+        return report.toString().trim();
     }
 }
