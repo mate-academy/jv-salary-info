@@ -7,7 +7,7 @@ public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder result = new StringBuilder();
         result.append("Report for period ").append(dateFrom).append(" - ")
-                .append(dateTo).append("\r\n");
+                .append(dateTo).append(System.lineSeparator());
 
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
