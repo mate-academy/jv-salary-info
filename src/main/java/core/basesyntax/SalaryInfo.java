@@ -1,32 +1,28 @@
 package core.basesyntax;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder result = new StringBuilder();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-        try {
-            Date fromDate = dateFormat.parse(dateFrom);
-            Date toDate = dateFormat.parse(dateTo);
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
-            result.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
+        LocalDate fromDate = LocalDate.parse(dateFrom, dateFormat);
+        LocalDate toDate = LocalDate.parse(dateTo, dateFormat);
 
-            for (int i = 0; i < names.length; i++) {
-                String name = names[i];
-                int totalSalary = calculateTotalSalaryForEmployee(name, data, fromDate, toDate);
-                result.append("\n").append(name).append(" - ").append(totalSalary);
-            }
-        } catch (ParseException e) {
-            throw new RuntimeException("Something went wrong");
+        result.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
+
+        for (String name : names) {
+            int totalSalary = calculateTotalSalaryForEmployee(name, data, fromDate, toDate);
+            result.append(System.lineSeparator()).append(name).append(" - ").append(totalSalary);
         }
+
         return result.toString();
     }
 
     private int calculateTotalSalaryForEmployee(String employeeName, String[] data,
-                                                Date fromDate, Date toDate) {
+                                                LocalDate fromDate, LocalDate toDate) {
         int totalSalary = 0;
 
         for (String inception : data) {
@@ -35,18 +31,16 @@ public class SalaryInfo {
             String entryName = parts[1];
             int hours = Integer.parseInt(parts[2]);
             int income = Integer.parseInt(parts[3]);
-            try {
-                Date entryDate = new SimpleDateFormat("dd.MM.yyyy").parse(entryDateOfEmployee);
 
-                if (entryName.equals(employeeName) && entryDate.compareTo(fromDate) >= 0
-                        && entryDate.compareTo(toDate) <= 0) {
-                    totalSalary += (hours * income);
-                }
-            } catch (ParseException e) {
-                throw new RuntimeException("Something went wrong");
+            LocalDate entryDate = LocalDate.parse(entryDateOfEmployee,
+                    DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+
+            if (entryName.equals(employeeName) && entryDate.compareTo(fromDate) >= 0
+                    && entryDate.compareTo(toDate) <= 0) {
+                totalSalary += (hours * income);
             }
         }
-
         return totalSalary;
     }
 }
+
