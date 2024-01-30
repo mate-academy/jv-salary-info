@@ -27,7 +27,7 @@ public class SalaryInfo {
             index++;
             result.append(name).append(" - ").append(totalSalary);
             if (index != names.length) {
-                result.append("\r\n");
+                result.append(System.lineSeparator());
             }
         }
 
