@@ -4,53 +4,50 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    private static final String HEAD_MESSAGE = "Report for period %s - %s" + System.lineSeparator();
+    private static final String HEAD_MESSAGE = "Report for period %s - %s";
     private static final String BODY_MESSAGE = "%s - %s";
-    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private StringBuilder report;
+    private int[] totalSalary;
+    private int currentNameIndex;
+    private LocalDate localDateFrom;
+    private LocalDate localDateTo;
+    private LocalDate localDateCurrent;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        StringBuilder report = new StringBuilder();
-        int[] totalSalary = new int[names.length];
-        int nameIndex = 0;
-
-        report.append(String.format(HEAD_MESSAGE, dateFrom, dateTo));
+        report = new StringBuilder(String.format(HEAD_MESSAGE, dateFrom, dateTo));
+        totalSalary = new int[names.length];
+        localDateFrom = LocalDate.parse(dateFrom, FORMATTER);
+        localDateTo = LocalDate.parse(dateTo, FORMATTER);
 
         for (int i = 0; i < data.length; i++) {
+            localDateCurrent = LocalDate.parse((extractPartFromRow(data[i], 0)), FORMATTER);
 
-            if (isRowInDateRange(data[i], dateFrom, dateTo)) {
+            if (isRowInDateRange(localDateCurrent, localDateFrom, localDateTo)) {
                 /* If current row name matches e.g. names[2],
                 it will always add values to totalSalary[2]. */
-                nameIndex = extractPartFromRow(data[i], 1).equals(names[0]) ? 0 :
+                currentNameIndex = extractPartFromRow(data[i], 1).equals(names[0]) ? 0 :
                         extractPartFromRow(data[i], 1).equals(names[1]) ? 1 :
                                 extractPartFromRow(data[i], 1).equals(names[2]) ? 2 : 0;
 
-                totalSalary[nameIndex] += Integer.parseInt(extractPartFromRow(data[i], 2))
+                totalSalary[currentNameIndex] += Integer.parseInt(extractPartFromRow(data[i], 2))
                         * Integer.parseInt(extractPartFromRow(data[i], 3));
             }
         }
 
         for (int i = 0; i < names.length; i++) {
-            report.append(String.format(BODY_MESSAGE, names[i], totalSalary[i]));
-
-            if (i < (names.length - 1)) {
-                report.append(System.lineSeparator());
-            }
+            report.append(System.lineSeparator())
+                    .append(String.format(BODY_MESSAGE, names[i], totalSalary[i]));
         }
         return report.toString();
     }
 
-    private boolean isRowInDateRange(String currentRow, String dateFrom, String dateTo) {
-        String[] parts = currentRow.split(" ");
-        LocalDate inputDateRow = LocalDate.parse(parts[0], formatter);
-        LocalDate inputDateFrom = LocalDate.parse(dateFrom, formatter);
-        LocalDate inputDateTo = LocalDate.parse(dateTo, formatter);
-
-        return !inputDateRow.isBefore(inputDateFrom) && !inputDateRow.isAfter(inputDateTo);
+    private boolean isRowInDateRange(LocalDate dateToCheck, LocalDate dateFrom, LocalDate dateTo) {
+        return !dateToCheck.isBefore(dateFrom) && !dateToCheck.isAfter(dateTo);
     }
 
     private String extractPartFromRow(String currentRow, int itemIndex) {
         String[] parts = currentRow.split(" ");
-
         return parts[itemIndex];
     }
 }
