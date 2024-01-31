@@ -14,17 +14,17 @@ public class SalaryInfo {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         for (String datum : data) {
             String[] seperatedLine = datum.split(" ");
-            String checkedDataFromLine = seperatedLine[0];
+            String checkedData = seperatedLine[0];
             String nameOfEmployee = seperatedLine[1];
             int totalSalary = Integer.parseInt(seperatedLine[2])
                     * Integer.parseInt(seperatedLine[3]);
-            if ((LocalDate.parse(checkedDataFromLine, formatter)
+            if ((LocalDate.parse(checkedData, formatter)
                     .isAfter(LocalDate.parse(dateFrom, formatter))
-                    || LocalDate.parse(checkedDataFromLine, formatter)
+                    || LocalDate.parse(checkedData, formatter)
                     .isEqual(LocalDate.parse(dateFrom, formatter)))
-                    && (LocalDate.parse(checkedDataFromLine, formatter)
+                    && (LocalDate.parse(checkedData, formatter)
                     .isBefore(LocalDate.parse(dateTo, formatter))
-                    || LocalDate.parse(checkedDataFromLine, formatter)
+                    || LocalDate.parse(checkedData, formatter)
                     .equals(LocalDate.parse(dateTo, formatter)))) {
                 mapOfEmployees.merge(nameOfEmployee, totalSalary, Integer::sum);
             }
