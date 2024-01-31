@@ -32,9 +32,9 @@ public class SalaryInfo {
         StringBuilder stringBuilder = new StringBuilder();
         for (Map.Entry<String, Integer> stringIntegerEntry : mapOfEmployees.entrySet()) {
             stringBuilder.append(stringIntegerEntry.getKey()).append(" - ")
-                    .append(stringIntegerEntry.getValue()).append("\r\n");
+                    .append(stringIntegerEntry.getValue()).append("\n");
         }
-        return "Report for period " + dateFrom + " - " + dateTo + "\r\n"
+        return "Report for period " + dateFrom + " - " + dateTo + "\n"
                 + stringBuilder.toString().trim();
     }
 }
