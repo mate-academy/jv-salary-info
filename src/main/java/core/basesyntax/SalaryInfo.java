@@ -39,7 +39,6 @@ public class SalaryInfo {
             if (!name.equals(names[names.length - 1])) {
                 report.append(System.lineSeparator());
             }
-
         }
 
         return report.toString();
