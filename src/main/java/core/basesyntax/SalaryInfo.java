@@ -20,7 +20,7 @@ public class SalaryInfo {
 
         StringBuilder report = new StringBuilder();
         report.append("Report for period ").append(dateFrom)
-                .append(" - ").append(dateTo).append("\r\n");
+                .append(" - ").append(dateTo).append("\n");
 
         for (String name : names) {
             int totalSalary = 0;
@@ -41,7 +41,7 @@ public class SalaryInfo {
                 }
             }
             if (!(name.equals(names[names.length - 1]))) {
-                report.append(name).append(" - ").append(totalSalary).append("\r\n");
+                report.append(name).append(" - ").append(totalSalary).append("\n");
             } else {
                 report.append(name).append(" - ").append(totalSalary);
             }
