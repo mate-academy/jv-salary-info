@@ -17,8 +17,10 @@ public class SalaryInfo {
         for (String d : data) {
             splitedString = d.split(" ");
             parseSplitedDate = LocalDate.parse(splitedString[0], formatter);
-            if ((parseSplitedDate.isAfter(parseDateFrom) || parseSplitedDate.isEqual(parseDateFrom))
-                    && (parseSplitedDate.isBefore(parseDateTo) || parseSplitedDate.isEqual(parseDateTo))) {
+            if ((parseSplitedDate.isAfter(parseDateFrom)
+                    || parseSplitedDate.isEqual(parseDateFrom))
+                    && (parseSplitedDate.isBefore(parseDateTo)
+                    || parseSplitedDate.isEqual(parseDateTo))) {
                 for (String name : names) {
                     if (name.equals(splitedString[1])) {
                         int perHour = Integer.parseInt(splitedString[2])
