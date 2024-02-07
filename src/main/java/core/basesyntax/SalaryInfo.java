@@ -20,7 +20,8 @@ public class SalaryInfo {
             if (parseSplitedDate.isAfter(parseDateFrom) && parseSplitedDate.isBefore(parseDateTo)) {
                 for (String name : names) {
                     if (name.equals(splitedString[1])) {
-                        int perHour = Integer.parseInt(splitedString[2]) * Integer.parseInt(splitedString[3]);
+                        int perHour = Integer.parseInt(splitedString[2])
+                                * Integer.parseInt(splitedString[3]);
                         stringBuilder.append("/n").append(name).append(" - ").append(perHour);
                     }
                 }
