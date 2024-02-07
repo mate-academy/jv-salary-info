@@ -1,50 +1,34 @@
 package core.basesyntax;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final int DATE_INDEX = 0;
+    private static final int NAME_INDEX = 1;
+    private static final int HOURS_WORKED_INDEX = 2;
+    private static final int WAGES_INDEX = 3;
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-        Date fromDate;
-        Date toDate;
-
-        try {
-            fromDate = dateFormat.parse(dateFrom);
-            toDate = dateFormat.parse(dateTo);
-        } catch (ParseException e) {
-            return "Invalid date format!";
-        }
-
-        StringBuilder report = new StringBuilder();
-        report.append("Report for period ").append(dateFrom)
-                .append(" - ").append(dateTo).append("\n");
-
+        LocalDate fromDate = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate toDate = LocalDate.parse(dateTo, FORMATTER);
+        StringBuilder report = new StringBuilder("Report for period ").append(dateFrom)
+                .append(" - ").append(dateTo);
         for (String name : names) {
             int totalSalary = 0;
             for (String datum : data) {
                 String[] parts = datum.split(" ");
-                if (parts[1].equals(name)) {
-                    Date recordDate;
-                    try {
-                        recordDate = dateFormat.parse(parts[0]);
-                    } catch (ParseException e) {
-                        return "Invalid date format!";
-                    }
-                    if (recordDate.compareTo(fromDate) >= 0 && recordDate.compareTo(toDate) <= 0) {
-                        int hoursWorked = Integer.parseInt(parts[2]);
-                        int wages = Integer.parseInt(parts[3]);
+                if (parts[NAME_INDEX].equals(name)) {
+                    LocalDate recordDate = LocalDate.parse(parts[DATE_INDEX], FORMATTER);
+                    if (!recordDate.isBefore(fromDate) && !recordDate.isAfter(toDate)) {
+                        int hoursWorked = Integer.parseInt(parts[HOURS_WORKED_INDEX]);
+                        int wages = Integer.parseInt(parts[WAGES_INDEX]);
                         totalSalary += hoursWorked * wages;
                     }
                 }
             }
-            if (!(name.equals(names[names.length - 1]))) {
-                report.append(name).append(" - ").append(totalSalary).append("\n");
-            } else {
-                report.append(name).append(" - ").append(totalSalary);
-            }
+            report.append(System.lineSeparator()).append(name).append(" - ").append(totalSalary);
         }
         return report.toString();
     }
