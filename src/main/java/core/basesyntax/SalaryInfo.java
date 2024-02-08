@@ -29,8 +29,8 @@ public class SalaryInfo {
                     if (name.equals(splitedString[1])) {
                         perHour = Integer.parseInt(splitedString[2])
                                     * Integer.parseInt(splitedString[3]);
-                            totalHoursMap.put(name, totalHoursMap
-                                    .getOrDefault(name, 0) + perHour);
+                        totalHoursMap.put(name, totalHoursMap
+                                .getOrDefault(name, 0) + perHour);
                     }
                 }
             }
