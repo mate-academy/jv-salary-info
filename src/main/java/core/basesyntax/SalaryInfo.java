@@ -9,10 +9,13 @@ public class SalaryInfo {
         int perHour = 0;
         String[] splitedString = new String[4];
         LocalDate parseSplitedDate = null;
+
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         LocalDate parseDateFrom = LocalDate.parse(dateFrom, formatter);
         LocalDate parseDateTo = LocalDate.parse(dateTo, formatter);
+
         Map<String, Integer> totalHoursMap = new LinkedHashMap<>();
+
         for (String d : data) {
             splitedString = d.split(" ");
             parseSplitedDate = LocalDate.parse(splitedString[0], formatter);
