@@ -30,9 +30,15 @@ public class SalaryInfo {
             }
         }
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
+        stringBuilder.append("Report for period ")
+                .append(dateFrom)
+                .append(" - ")
+                .append(dateTo);
         for (Map.Entry<String, Integer> entry : totalHoursMap.entrySet()) {
-            stringBuilder.append("\n").append(entry.getKey()).append(" - ").append(entry.getValue());
+            stringBuilder.append("\n")
+                    .append(entry.getKey())
+                    .append(" - ")
+                    .append(entry.getValue());
         }
         return stringBuilder.toString();
     }
