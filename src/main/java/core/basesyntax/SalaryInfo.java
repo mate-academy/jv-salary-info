@@ -25,14 +25,10 @@ public class SalaryInfo {
                     && (parseSplitedDate.isBefore(parseDateTo)
                     || parseSplitedDate.isEqual(parseDateTo))) {
                 for (String name : names) {
+                        totalHoursMap.putIfAbsent(name, 0);
                     if (name.equals(splitedString[1])) {
-                        if (Integer.parseInt(splitedString[2]) == 0
-                        || Integer.parseInt(splitedString[3]) == 0) {
-                            perHour = 0;
-                        } else {
                             perHour = Integer.parseInt(splitedString[2])
                                     * Integer.parseInt(splitedString[3]);
-                        }
                         totalHoursMap.put(name, totalHoursMap
                                 .getOrDefault(name, 0) + perHour);
                     }
