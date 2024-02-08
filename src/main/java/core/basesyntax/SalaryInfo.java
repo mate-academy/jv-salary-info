@@ -16,6 +16,9 @@ public class SalaryInfo {
         LocalDate parseDateTo = LocalDate.parse(dateTo, formatter);
 
         Map<String, Integer> totalHoursMap = new LinkedHashMap<>();
+        for (String name : names) {
+            totalHoursMap.putIfAbsent(name, 0);
+        }
 
         for (String d : data) {
             splitedString = d.split(" ");
@@ -25,7 +28,6 @@ public class SalaryInfo {
                     && (parseSplitedDate.isBefore(parseDateTo)
                     || parseSplitedDate.isEqual(parseDateTo))) {
                 for (String name : names) {
-                    totalHoursMap.putIfAbsent(name, 0);
                     if (name.equals(splitedString[1])) {
                         perHour = Integer.parseInt(splitedString[2])
                                 * Integer.parseInt(splitedString[3]);
