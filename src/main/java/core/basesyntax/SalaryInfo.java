@@ -24,13 +24,15 @@ public class SalaryInfo {
                     if (name.equals(splitedString[1])) {
                         int perHour = Integer.parseInt(splitedString[2])
                                 * Integer.parseInt(splitedString[3]);
-                        totalHoursMap.put(name, totalHoursMap.getOrDefault(name, 0) + perHour);
+                        totalHoursMap.put(name, totalHoursMap
+                                .getOrDefault(name, 0) + perHour);
                     }
                 }
             }
         }
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("Report for period ")
+        stringBuilder
+                .append("Report for period ")
                 .append(dateFrom)
                 .append(" - ")
                 .append(dateTo);
