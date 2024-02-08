@@ -1,5 +1,4 @@
 package core.basesyntax;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.LinkedHashMap;
@@ -37,11 +36,13 @@ public class SalaryInfo {
                 .append(dateFrom)
                 .append(" - ")
                 .append(dateTo);
-        for (Map.Entry<String, Integer> entry : totalHoursMap.entrySet()) {
-            stringBuilder.append("\n")
-                    .append(entry.getKey())
-                    .append(" - ")
-                    .append(entry.getValue());
+        for (String name : names) {
+            if (totalHoursMap.containsKey(name)) {
+                stringBuilder.append("\n")
+                        .append(name)
+                        .append(" - ")
+                        .append(totalHoursMap.get(name));
+            }
         }
         return stringBuilder.toString();
     }
