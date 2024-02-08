@@ -44,12 +44,10 @@ public class SalaryInfo {
                 .append(" - ")
                 .append(dateTo);
         for (String name : names) {
-            if (totalHoursMap.containsKey(name)) {
-                stringBuilder.append("\n")
+            stringBuilder.append("\n")
                         .append(name)
                         .append(" - ")
-                        .append(totalHoursMap.get(name));
-            }
+                        .append(totalHoursMap.getOrDefault(name, 0));
         }
         return stringBuilder.toString();
     }
