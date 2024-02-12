@@ -3,10 +3,9 @@ package core.basesyntax;
 import java.time.LocalDate;
 
 public class SalaryInfo {
-    private SalaryInfo salaryInfo = new SalaryInfo();
-    private StringBuilder info = new StringBuilder("Report for period ");
-
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
+        StringBuilder info = new StringBuilder("Report for period ");
+        SalaryInfo salaryInfo = new SalaryInfo();
         info.append(dateFrom).append(" - ").append(dateTo);
         LocalDate fromDate = salaryInfo.toDate(dateFrom);
         LocalDate toDate = salaryInfo.toDate(dateTo);
