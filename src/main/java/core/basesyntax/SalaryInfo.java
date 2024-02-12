@@ -3,31 +3,32 @@ package core.basesyntax;
 import java.time.LocalDate;
 
 public class SalaryInfo {
+    private SalaryInfo salaryInfo = new SalaryInfo();
+    private StringBuilder info = new StringBuilder("Report for period ");
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        StringBuilder info = new StringBuilder("Report for period ");
         info.append(dateFrom).append(" - ").append(dateTo);
-        SalaryInfo salaryInfo = new SalaryInfo();
         LocalDate fromDate = salaryInfo.toDate(dateFrom);
         LocalDate toDate = salaryInfo.toDate(dateTo);
-        String[] splittedData;
+        String[] splitData;
         LocalDate workDay;
-        int sallary;
+        int salary;
         for (String name : names) {
-            sallary = 0;
+            salary = 0;
             for (String datum : data) {
-                splittedData = datum.split(" ");
-                if (!name.equals(splittedData[1])) {
+                splitData = datum.split(" ");
+                if (!name.equals(splitData[1])) {
                     continue;
                 }
-                workDay = salaryInfo.toDate(splittedData[0]);
+                workDay = salaryInfo.toDate(splitData[0]);
                 if ((toDate.isAfter(workDay) && fromDate.isBefore(workDay))
                         || workDay.isEqual(fromDate)
                         || workDay.isEqual(toDate)) {
-                    sallary += Integer.parseInt(splittedData[2])
-                            * Integer.parseInt(splittedData[3]);
+                    salary += Integer.parseInt(splitData[2])
+                            * Integer.parseInt(splitData[3]);
                 }
             }
-            info.append(System.lineSeparator()).append(name).append(" - ").append(sallary);
+            info.append(System.lineSeparator()).append(name).append(" - ").append(salary);
         }
         return info.toString();
     }
