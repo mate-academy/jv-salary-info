@@ -19,7 +19,6 @@ public class SalaryInfo {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
 
-        //записуєм data в різні масиви, з конкретною інформаціїєю
         for (int i = 0; i < data.length; i++) {
             String [] dataSplit = data[i].split(" ");
 
@@ -47,7 +46,6 @@ public class SalaryInfo {
 
             stringBuilder.append(System.lineSeparator()).append(names[i]).append(" - ")
                     .append(sum[i]);
-
         }
 
         return stringBuilder.toString();
