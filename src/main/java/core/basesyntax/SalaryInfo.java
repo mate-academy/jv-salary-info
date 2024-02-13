@@ -9,6 +9,7 @@ public class SalaryInfo {
     private static final int INDEX_ONE = 1;
     private static final int INDEX_THREE = 3;
     private static final int INDEX_TWO = 2;
+    private static final int INDEX_ZERO = 0;
     private static final String REPORT_TITLE = "Report for period ";
     private static final String SPLIT_REGEXP = " ";
 
@@ -38,7 +39,7 @@ public class SalaryInfo {
             for (String entryData : data) {
                 String[] splitData = entryData.split(SPLIT_REGEXP);
 
-                if (isDateInRange(LocalDate.parse(splitData[0], DATE_FORMATE),
+                if (isDateInRange(LocalDate.parse(splitData[INDEX_ZERO], DATE_FORMATE),
                         from,
                         to)
                         && name.equals(splitData[INDEX_ONE])) {
