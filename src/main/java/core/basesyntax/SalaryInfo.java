@@ -2,41 +2,37 @@ package core.basesyntax;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 public class SalaryInfo {
-    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final DateTimeFormatter DATE_FORMATTER =
+            DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final String REPORT_TEMPLATE = "Report for period %s - %s%s";
+    private static final String LINE_SEPARATOR = System.lineSeparator();
+    private static final String EMPLOYEE_TEMPLATE = "%s - %d";
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        Map<String, Integer> mapOfEmployees = new LinkedHashMap<>();
+        LocalDate startDate = LocalDate.parse(dateFrom, DATE_FORMATTER);
+        LocalDate endDate = LocalDate.parse(dateTo, DATE_FORMATTER);
+        StringBuilder report = new StringBuilder();
         for (String name : names) {
-            mapOfEmployees.put(name, 0);
-        }
-
-        for (String datum : data) {
-            String[] seperatedLine = datum.split(" ");
-            String checkedData = seperatedLine[0];
-            String nameOfEmployee = seperatedLine[1];
-            int totalSalary = Integer.parseInt(seperatedLine[2])
-                    * Integer.parseInt(seperatedLine[3]);
-            if ((LocalDate.parse(checkedData, formatter)
-                    .isAfter(LocalDate.parse(dateFrom, formatter))
-                    || LocalDate.parse(checkedData, formatter)
-                    .isEqual(LocalDate.parse(dateFrom, formatter)))
-                    && (LocalDate.parse(checkedData, formatter)
-                    .isBefore(LocalDate.parse(dateTo, formatter))
-                    || LocalDate.parse(checkedData, formatter)
-                    .equals(LocalDate.parse(dateTo, formatter)))) {
-                mapOfEmployees.merge(nameOfEmployee, totalSalary, Integer::sum);
+            int totalSalary = 0;
+            for (String record : data) {
+                String[] recordParts = record.split(" ");
+                LocalDate recordDate = LocalDate.parse(recordParts[0], DATE_FORMATTER);
+                if ((recordDate.isAfter(startDate)
+                        || recordDate.isEqual(startDate))
+                        && (recordDate.isBefore(endDate)
+                        || recordDate.isEqual(endDate))
+                        && recordParts[1].equals(name)) {
+                    int workHours = Integer.parseInt(recordParts[2]);
+                    int hourlyRate = Integer.parseInt(recordParts[3]);
+                    totalSalary += workHours * hourlyRate;
+                }
             }
+            report.append(String.format(EMPLOYEE_TEMPLATE, name, totalSalary))
+                    .append(LINE_SEPARATOR);
         }
-        StringBuilder stringBuilder = new StringBuilder();
-        for (Map.Entry<String, Integer> stringIntegerEntry : mapOfEmployees.entrySet()) {
-            stringBuilder.append(stringIntegerEntry.getKey()).append(" - ")
-                    .append(stringIntegerEntry.getValue()).append("\n");
-        }
-        return "Report for period " + dateFrom + " - " + dateTo + "\n"
-                + stringBuilder.toString().trim();
+        return String.format(REPORT_TEMPLATE, dateFrom, dateTo, LINE_SEPARATOR)
+                + report.toString().trim();
     }
 }
