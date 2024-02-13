@@ -3,28 +3,32 @@ package core.basesyntax;
 import java.time.LocalDate;
 
 public class SalaryInfo {
+
+    private static final int WORK_DAY = 0;
+    private static final int HOURS = 2;
+    private static final int INCOME_PER_HOUR = 3;
+    private static final int WORKER_NAME = 1;
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder info = new StringBuilder("Report for period ");
-        SalaryInfo salaryInfo = new SalaryInfo();
         info.append(dateFrom).append(" - ").append(dateTo);
-        LocalDate fromDate = salaryInfo.toDate(dateFrom);
-        LocalDate toDate = salaryInfo.toDate(dateTo);
-        String[] splitData;
-        LocalDate workDay;
+        SalaryInfo salaryInfo = new SalaryInfo();
+        LocalDate fromDate = salaryInfo.toLocalDate(dateFrom);
+        LocalDate toDate = salaryInfo.toLocalDate(dateTo);
+        String[] splitedData;
+        LocalDate workDayDate;
         int salary;
         for (String name : names) {
-            salary = 0;
+            salary = WORK_DAY;
             for (String datum : data) {
-                splitData = datum.split(" ");
-                if (!name.equals(splitData[1])) {
+                splitedData = datum.split(" ");
+                if (!name.equals(splitedData[WORKER_NAME])) {
                     continue;
                 }
-                workDay = salaryInfo.toDate(splitData[0]);
-                if ((toDate.isAfter(workDay) && fromDate.isBefore(workDay))
-                        || workDay.isEqual(fromDate)
-                        || workDay.isEqual(toDate)) {
-                    salary += Integer.parseInt(splitData[2])
-                            * Integer.parseInt(splitData[3]);
+                workDayDate = salaryInfo.toLocalDate(splitedData[WORK_DAY]);
+                if (isWorkDayValid(fromDate, toDate, workDayDate)) {
+                    salary += Integer.parseInt(splitedData[HOURS])
+                            * Integer.parseInt(splitedData[INCOME_PER_HOUR]);
                 }
             }
             info.append(System.lineSeparator()).append(name).append(" - ").append(salary);
@@ -32,16 +36,23 @@ public class SalaryInfo {
         return info.toString();
     }
 
-    private LocalDate toDate(String date) {
+    private boolean isWorkDayValid(LocalDate fromDate, LocalDate toDate, LocalDate workDayDate) {
+        return (toDate.isAfter(workDayDate) && fromDate.isBefore(workDayDate))
+                || workDayDate.isEqual(fromDate)
+                || workDayDate.isEqual(toDate);
+    }
+
+    private LocalDate toLocalDate(String date) {
         String[] splittedDate = date.split("\\.");
-        if (splittedDate[0].charAt(0) == '0') {
-            splittedDate[0] = String.valueOf(splittedDate[0].charAt(1));
+        if (splittedDate[WORK_DAY].charAt(WORK_DAY) == '0') {
+            splittedDate[WORK_DAY] = String.valueOf(splittedDate[WORK_DAY].charAt(WORKER_NAME));
         }
-        if (splittedDate[1].charAt(0) == '0') {
-            splittedDate[1] = String.valueOf(splittedDate[1].charAt(1));
+        if (splittedDate[WORKER_NAME].charAt(WORK_DAY) == '0') {
+            splittedDate[WORKER_NAME] = String.valueOf(splittedDate[WORKER_NAME]
+                    .charAt(WORKER_NAME));
         }
-        return LocalDate.of(Integer.parseInt(splittedDate[2]),
-                Integer.parseInt(splittedDate[1]),
-                Integer.parseInt(splittedDate[0]));
+        return LocalDate.of(Integer.parseInt(splittedDate[HOURS]),
+                Integer.parseInt(splittedDate[WORKER_NAME]),
+                Integer.parseInt(splittedDate[WORK_DAY]));
     }
 }
