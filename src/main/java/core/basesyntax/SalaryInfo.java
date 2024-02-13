@@ -23,9 +23,9 @@ public class SalaryInfo {
                 + report.toString().trim();
     }
 
-    private static void generateSalaryReportForPeriod(String[] names,
-                                                      String[] data, LocalDate startDate,
-                                                      LocalDate endDate, StringBuilder report) {
+    private void generateSalaryReportForPeriod(String[] names,
+                                               String[] data, LocalDate startDate,
+                                               LocalDate endDate, StringBuilder report) {
         for (String name : names) {
             int totalSalary = 0;
             totalSalary = getTotalSalary(data, name, startDate, endDate, totalSalary);
@@ -34,21 +34,28 @@ public class SalaryInfo {
         }
     }
 
-    private static int getTotalSalary(String[] data, String name,
-                                      LocalDate startDate, LocalDate endDate, int totalSalary) {
+    private int getTotalSalary(String[] data, String name,
+                               LocalDate startDate, LocalDate endDate, int totalSalary) {
         for (String record : data) {
             String[] recordParts = record.split(" ");
             LocalDate recordDate = LocalDate.parse(recordParts[DATE_INDEX], DATE_FORMATTER);
-            if ((recordDate.isAfter(startDate)
-                    || recordDate.isEqual(startDate))
-                    && (recordDate.isBefore(endDate)
-                    || recordDate.isEqual(endDate))
-                    && recordParts[NAME_INDEX].equals(name)) {
+            if (isDateInRangeAndNameMatch(name, startDate, endDate, recordDate, recordParts)) {
                 int workHours = Integer.parseInt(recordParts[WORK_HOURS_INDEX]);
                 int hourlyRate = Integer.parseInt(recordParts[HOURLY_RATE_INDEX]);
                 totalSalary += workHours * hourlyRate;
             }
         }
         return totalSalary;
+    }
+
+    private boolean isDateInRangeAndNameMatch(String name,
+                                              LocalDate startDate,
+                                              LocalDate endDate, LocalDate recordDate,
+                                              String[] recordParts) {
+        return (recordDate.isAfter(startDate)
+                || recordDate.isEqual(startDate))
+                && (recordDate.isBefore(endDate)
+                || recordDate.isEqual(endDate))
+                && recordParts[NAME_INDEX].equals(name);
     }
 }
