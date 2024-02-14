@@ -9,8 +9,9 @@ public class SalaryInfo {
     private static final int WORKER_NAME_INDEX = 1;
     private static final int MONTH_INDEX = 1;
     private static final int HOURS_INDEX = 2;
-    private static final int INCOME_PER_HOUR_INDEX = 3;
     private static final int YEAR_INDEX = 2;
+    private static final int INCOME_PER_HOUR_INDEX = 3;
+
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder result = new StringBuilder("Report for period ");
