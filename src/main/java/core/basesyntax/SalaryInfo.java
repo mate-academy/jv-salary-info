@@ -4,16 +4,16 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    private final int dateIndex = 0;
-    private final int nameIndex = 1;
-    private final int salaryIndex = 2;
-    private final int timeIndex = 3;
-    private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final int DATE_INDEX = 0;
+    private static final int NAME_INDEX = 1;
+    private static final int SALARY_INDEX = 2;
+    private static final int TIME_INDEX = 3;
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
 
-        LocalDate localDateFrom = LocalDate.parse(dateFrom, dateFormatter);
-        LocalDate localDateTo = LocalDate.parse(dateTo, dateFormatter);
+        LocalDate localDateFrom = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate localDateTo = LocalDate.parse(dateTo, FORMATTER);
 
         StringBuilder report = new StringBuilder()
                 .append("Report for period ")
@@ -22,30 +22,36 @@ public class SalaryInfo {
                 .append(dateTo);
 
         for (String name : names) {
-            int total = 0;
             report.append(System.lineSeparator());
-
-            for (String record : data) {
-                String[] recordValue = record.split(" ");
-
-                String dateFromRecord = recordValue[dateIndex];
-                String nameFromRecord = recordValue[nameIndex];
-                int salaryFromRecord = Integer.valueOf(recordValue[salaryIndex]);
-                int timeFromRecord = Integer.valueOf(recordValue[timeIndex]);
-
-                if (name.equals(nameFromRecord)) {
-                    LocalDate localDate = LocalDate.parse(dateFromRecord, dateFormatter);
-
-                    if (!localDate.isBefore(localDateFrom) && !localDate.isAfter(localDateTo)) {
-                        total += salaryFromRecord * timeFromRecord;
-                    }
-                }
-            }
+            int totalSalary = getTotalSalary(data, localDateFrom, localDateTo, name);
             report
-            .append(name)
-            .append(" - ")
-            .append(total);
+                    .append(name)
+                    .append(" - ")
+                    .append(totalSalary);
         }
         return report.toString();
     }
+
+    private int getTotalSalary(String[] data, LocalDate localDateFrom,
+                               LocalDate localDateTo, String name) {
+        int total = 0;
+        for (String record : data) {
+            String[] recordValue = record.split(" ");
+
+            String dateFromRecord = recordValue[DATE_INDEX];
+            String nameFromRecord = recordValue[NAME_INDEX];
+            int salaryFromRecord = Integer.valueOf(recordValue[SALARY_INDEX]);
+            int timeFromRecord = Integer.valueOf(recordValue[TIME_INDEX]);
+
+            if (name.equals(nameFromRecord)) {
+                LocalDate localDate = LocalDate.parse(dateFromRecord, FORMATTER);
+
+                if (!localDate.isBefore(localDateFrom) && !localDate.isAfter(localDateTo)) {
+                    total += salaryFromRecord * timeFromRecord;
+                }
+            }
+        }
+        return total;
+    }
+
 }
