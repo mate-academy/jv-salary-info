@@ -4,37 +4,39 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    static final int DATE = 0;
-    static final int NAME = 1;
-    static final int WORKING_HOUR = 2;
-    static final int INCOME_PER_HOUR = 3;
+    private static final int DATE_INDEX = 0;
+    private static final int NAME_INDEX = 1;
+    private static final int HOURS_INDEX = 2;
+    private static final int INCOME_INDEX = 3;
+    private static final String SPLITERATOR = " ";
+    private static final String DATE_FORMAT = "dd.MM.yyyy";
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern(
+            DATE_FORMAT);
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        int[] perHour = new int[names.length];
-        String[] splitedString = new String[4];
-        StringBuilder stringBuilder = new StringBuilder(
+        int[] salarySum = new int[names.length];
+        StringBuilder result = new StringBuilder(
                 "Report for period " + dateFrom + " - " + dateTo);
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        LocalDate parseDateFrom = LocalDate.parse(dateFrom, formatter);
-        LocalDate parseDateTo = LocalDate.parse(dateTo, formatter);
+        LocalDate parseDateFrom = LocalDate.parse(dateFrom, DATE_FORMATTER);
+        LocalDate parseDateTo = LocalDate.parse(dateTo, DATE_FORMATTER);
 
         for (int i = 0; i < names.length; i++) {
             for (int j = 0; j < data.length; j++) {
-                splitedString = data[j].split(" ");
-                LocalDate parseSplitedDate = LocalDate.parse(splitedString[DATE], formatter);
-                if ((parseSplitedDate.isAfter(parseDateFrom)
-                        || parseSplitedDate.isEqual(parseDateFrom))
-                        && (parseSplitedDate.isBefore(parseDateTo)
-                        || parseSplitedDate.isEqual(parseDateTo))) {
-                    if (splitedString[NAME].equals(names[i])) {
-                        perHour[i] += (Integer.parseInt(splitedString[WORKING_HOUR])
-                                * Integer.parseInt(splitedString[INCOME_PER_HOUR]));
+                String[] dataInfo = data[j].split(SPLITERATOR);
+                LocalDate dataDate = LocalDate.parse(dataInfo[DATE_INDEX], DATE_FORMATTER);
+                if ((dataDate.isAfter(parseDateFrom)
+                        || dataDate.isEqual(parseDateFrom))
+                        && (dataDate.isBefore(parseDateTo)
+                        || dataDate.isEqual(parseDateTo))) {
+                    if (dataInfo[NAME_INDEX].equals(names[i])) {
+                        salarySum[i] += (Integer.parseInt(dataInfo[HOURS_INDEX])
+                                * Integer.parseInt(dataInfo[INCOME_INDEX]));
                     }
                 }
             }
-            stringBuilder.append("\n" + names[i] + " - " + perHour[i]);
+            result.append("\n" + names[i] + " - " + salarySum[i]);
         }
-        return stringBuilder.toString();
+        return result.toString();
     }
 }
