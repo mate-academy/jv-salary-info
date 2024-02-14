@@ -41,7 +41,10 @@ public class SalaryInfo {
                     }
                 }
             }
-            report.append(name).append(" - ").append(total);
+            report
+            .append(name)
+            .append(" - ")
+            .append(total);
         }
         return report.toString();
     }
