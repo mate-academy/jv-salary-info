@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
+    private static final int NOT_FOUND = -1;
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
@@ -19,7 +20,7 @@ public class SalaryInfo {
             if (entryDate.isAfter(startDate.minusDays(1))
                     && entryDate.isBefore(endDate.plusDays(1))) {
                 int index = indexOfName(name, names);
-                if (index != -1) {
+                if (index != NOT_FOUND) {
                     salaries[index] += rate * hours;
                 }
             }
@@ -33,10 +34,11 @@ public class SalaryInfo {
                 return i;
             }
         }
-        return -1;
+        return NOT_FOUND;
     }
 
-    private String generateReport(LocalDate startDate, LocalDate endDate, String[] names, int[] salaries) {
+    private String generateReport(LocalDate startDate, LocalDate endDate,
+                                  String[] names, int[] salaries) {
         StringBuilder builder = new StringBuilder();
         builder.append("Report for period ")
                 .append(startDate.format(formatter))
@@ -46,8 +48,10 @@ public class SalaryInfo {
         for (int i = 0; i < names.length; i++) {
             builder.append(names[i])
                     .append(" - ")
-                    .append(salaries[i])
-                    .append(System.lineSeparator());
+                    .append(salaries[i]);
+            if (i != names.length - 1) {
+                builder.append(System.lineSeparator());
+            }
         }
         return builder.toString();
     }
