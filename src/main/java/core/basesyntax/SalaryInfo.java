@@ -36,6 +36,6 @@ public class SalaryInfo {
             }
             builder.append(name).append(" - ").append(moneyEarned).append(System.lineSeparator());
         }
-        return builder.substring(INDEX_OF_BEGIN_ARRAY, builder.toString().length() - 2);
+        return builder.toString().trim();
     }
 }
