@@ -48,11 +48,9 @@ public class SalaryInfo {
         for (int i = 0; i < names.length; i++) {
             builder.append(names[i])
                     .append(" - ")
-                    .append(salaries[i]);
-            if (i != names.length - 1) {
-                builder.append(System.lineSeparator());
-            }
+                    .append(salaries[i])
+                    .append(System.lineSeparator());
         }
-        return builder.toString();
+        return builder.toString().trim();
     }
 }
