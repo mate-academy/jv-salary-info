@@ -15,8 +15,13 @@ public class SalaryInfo {
             Date fromDate = DATE_FORMAT.parse(dateFrom);
             Date toDate = DATE_FORMAT.parse(dateTo);
 
-            boolean firstEntry = true;
-            for (String name : names) {
+            report.append(REPORT_HEADER)
+                    .append(dateFrom).append(" - ")
+                    .append(dateTo)
+                    .append(LINE_SEPARATOR);
+
+            for (int i = 0; i < names.length; i++) {
+                String name = names[i];
                 int totalMoneyEarned = 0;
                 for (String info : data) {
                     String[] parts = info.split(" ");
@@ -28,16 +33,10 @@ public class SalaryInfo {
                         totalMoneyEarned += hoursWorked * hourlyRate;
                     }
                 }
-                if (firstEntry) {
-                    report.append(REPORT_HEADER)
-                            .append(dateFrom).append(" - ")
-                            .append(dateTo)
-                            .append(LINE_SEPARATOR);
-                    firstEntry = false;
-                } else {
+                report.append(name).append(" - ").append(totalMoneyEarned);
+                if (i != names.length - 1) {
                     report.append(LINE_SEPARATOR);
                 }
-                report.append(name).append(" - ").append(totalMoneyEarned);
             }
         } catch (ParseException e) {
             e.printStackTrace();
