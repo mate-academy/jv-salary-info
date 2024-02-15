@@ -18,11 +18,7 @@ public class SalaryInfo {
             for (String oneData : data) {
                 temp = oneData.split(" ");
                 dataDate = LocalDate.parse(temp[0], formatter);
-                if (names[i].equals(temp[1])
-                        && ((dataDate.isEqual(fromDate)
-                        || dataDate.isEqual(toDate))
-                        || dataDate.isAfter(fromDate)
-                        && dataDate.isBefore(toDate))) {
+                if (isFulfillConditions(temp, dataDate, fromDate, toDate, names[i])) {
                     sum = sum + Integer.parseInt(temp[2]) * Integer.parseInt(temp[3]);
                 }
             }
@@ -33,5 +29,14 @@ public class SalaryInfo {
             }
         }
         return stringBuilder.toString();
+    }
+
+    private boolean isFulfillConditions(String[] temp, LocalDate dataDate,
+                                        LocalDate fromDate, LocalDate toDate, String names) {
+        return names.equals(temp[1])
+                && ((dataDate.isEqual(fromDate)
+                || dataDate.isEqual(toDate))
+                || dataDate.isAfter(fromDate)
+                && dataDate.isBefore(toDate));
     }
 }
