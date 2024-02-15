@@ -13,7 +13,7 @@ public class SalaryInfo {
 
     private static final int INDEX_MONEY_PER_HOUR = 3;
 
-    private static final int INDEX_OF_BEGINARRAY = 0;
+    private static final int INDEX_OF_BEGIN_ARRAY = 0;
 
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
@@ -36,6 +36,6 @@ public class SalaryInfo {
             }
             builder.append(name).append(" - ").append(moneyEarned).append(System.lineSeparator());
         }
-        return builder.substring(INDEX_OF_BEGINARRAY, builder.toString().length() - 2);
+        return builder.substring(INDEX_OF_BEGIN_ARRAY, builder.toString().length() - 2);
     }
 }
