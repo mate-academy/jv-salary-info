@@ -3,6 +3,12 @@ package core.basesyntax;
 import java.time.LocalDate;
 
 public class SalaryInfo {
+    private static final int SALARY_PER_HOUR_INDEX = 3;
+    private static final int HOUR_INDEX = 2;
+    private static final int YEAR_INDEX = 2;
+    private static final int MONTH_INDEX = 1;
+    private static final int DATE_INDEX = 0;
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder builder = new StringBuilder();
         builder
@@ -18,12 +24,12 @@ public class SalaryInfo {
                     String[] valuesParts = values.split(" ");
                     boolean isDateInRange = isDateInRange(dateFrom, dateTo, valuesParts[0]);
                     if (isDateInRange) {
-                        salary += Integer.parseInt(valuesParts[valuesParts.length - 1])
-                                * Integer.parseInt(valuesParts[valuesParts.length - 2]);
+                        salary += Integer.parseInt(valuesParts[SALARY_PER_HOUR_INDEX])
+                                * Integer.parseInt(valuesParts[HOUR_INDEX]);
                     }
                 }
             }
-            builder.append("\n").append(name).append(" - ").append(salary);
+            builder.append(System.lineSeparator()).append(name).append(" - ").append(salary);
         }
         return builder.toString();
     }
@@ -42,11 +48,11 @@ public class SalaryInfo {
         StringBuilder builder = new StringBuilder();
         String[] dateParts = date.split("\\.");
         builder
-                .append(dateParts[2])
+                .append(dateParts[YEAR_INDEX])
                 .append("-")
-                .append(dateParts[1])
+                .append(dateParts[MONTH_INDEX])
                 .append("-")
-                .append(dateParts[0]);
+                .append(dateParts[DATE_INDEX]);
         return builder.toString();
     }
 }
