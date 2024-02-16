@@ -13,19 +13,18 @@ public class SalaryInfo {
         result.append("Report for period ").append(dateFrom).append(" - ")
                 .append(dateTo).append(System.lineSeparator());
 
-        int index = 0;
         try {
-            for (String name : names) {
+            for (int i = 0; i < names.length; ++i) {
                 int totalSalary = 0;
                 for (String record : data) {
-                    totalSalary += calculateSalaryForNameAndDate(name, record, dateFrom, dateTo);
+                    totalSalary += calculateSalaryForNameAndDate(names[i],
+                            record, dateFrom, dateTo);
                 }
-                result.append(name).append(" - ").append(totalSalary);
+                result.append(names[i]).append(" - ").append(totalSalary);
 
-                if (index != names.length - 1) {
+                if (i != names.length - 1) {
                     result.append(System.lineSeparator());
                 }
-                ++index;
             }
         } catch (DateTimeParseException e) {
             System.out.println("Is not parsable: " + e.getMessage());
@@ -39,12 +38,10 @@ public class SalaryInfo {
                                               String dateFrom, String dateTo) {
         String[] recordParts = record.split(" ");
         String recordDate = recordParts[0];
-        int hoursWorked = 0;
-        int hourlyRate = 0;
 
         if (isDateInRange(recordDate, dateFrom, dateTo) && record.contains(name)) {
-            hoursWorked = Integer.parseInt(recordParts[2]);
-            hourlyRate = Integer.parseInt(recordParts[3]);
+            int hoursWorked = Integer.parseInt(recordParts[2]);
+            int hourlyRate = Integer.parseInt(recordParts[3]);
             return hoursWorked * hourlyRate;
         }
         return 0;
