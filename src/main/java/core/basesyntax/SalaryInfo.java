@@ -6,10 +6,10 @@ import java.time.format.DateTimeFormatter;
 public class SalaryInfo {
     private static final DateTimeFormatter DATE_FORMATE = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     private static final String DASH = " - ";
-    private static final int DATA_ARRAY_INDEX_FIRST = 1;
-    private static final int DATA_ARRAY_INDEX_THREE = 3;
-    private static final int DATA_ARRAY_INDEX_TWO = 2;
-    private static final int DATA_ARRAY_INDEX_ZERO = 0;
+    private static final int NAME_INDEX = 1;
+    private static final int INCOME_PER_HOUR_INDEX = 3;
+    private static final int HOURS_AMOUNT_INDEX = 2;
+    private static final int DATE_INDEX = 0;
     private static final String REPORT_TITLE = "Report for period ";
     private static final String SPLIT_REGEXP = " ";
 
@@ -25,25 +25,21 @@ public class SalaryInfo {
         return report.toString().trim();
     }
 
-    private String createReport(String[] names,
-                                String[] data,
-                                LocalDate from,
-                                LocalDate to) {
+    private String createReport(String[] names, String[] data, LocalDate from, LocalDate to) {
         StringBuilder report = new StringBuilder();
         for (String name : names) {
             int salary = 0;
             for (String entryData : data) {
                 String[] splitData = entryData.split(SPLIT_REGEXP);
                 LocalDate entryDate = LocalDate.parse(
-                        splitData[DATA_ARRAY_INDEX_ZERO],
-                        DATE_FORMATE
+                        splitData[DATE_INDEX], DATE_FORMATE
                 );
                 if (isDateInRange(entryDate,
                         from,
                         to)
-                        && name.equals(splitData[DATA_ARRAY_INDEX_FIRST])) {
-                    salary += Integer.parseInt(splitData[DATA_ARRAY_INDEX_TWO])
-                            * Integer.parseInt(splitData[DATA_ARRAY_INDEX_THREE]);
+                        && name.equals(splitData[NAME_INDEX])) {
+                    salary += Integer.parseInt(splitData[HOURS_AMOUNT_INDEX])
+                            * Integer.parseInt(splitData[INCOME_PER_HOUR_INDEX]);
                 }
             }
             report.append(name)
