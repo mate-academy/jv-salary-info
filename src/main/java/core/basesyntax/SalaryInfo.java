@@ -4,6 +4,12 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
+    private static final int INDEX_OF_DATE = 0;
+    private static final int INDEX_OF_NAME = 1;
+    private static final int INDEX_OF_WORKING_HOURS = 2;
+    private static final int INDEX_OF_SALARY_PER_FOUR = 3;
+    private static final String SPLIT_REGEX = " ";
+    private static final String DASH = " - ";
     private static final DateTimeFormatter DATE_TIME_FORMATTER
             = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
@@ -11,16 +17,19 @@ public class SalaryInfo {
         StringBuilder result = new StringBuilder("Report for period " + dateFrom + " - " + dateTo);
         for (String name : names) {
             int salaryPerPeriod = 0;
-            for (String d : data) {
-                String[] sd = d.split(" ");
-                if (sd[1].equals(name) && isDateInRange(sd[0], dateFrom, dateTo)) {
-                    int hours = Integer.parseInt(sd[2]);
-                    int salaryPerHour = Integer.parseInt(sd[3]);
+            for (String lineFromData : data) {
+                String[] splitLineFromData = lineFromData.split(SPLIT_REGEX);
+                boolean isTheSameName = splitLineFromData[INDEX_OF_NAME].equals(name);
+                if (isTheSameName
+                        && isDateInRange(splitLineFromData[INDEX_OF_DATE], dateFrom, dateTo)) {
+                    int hours = Integer.parseInt(splitLineFromData[INDEX_OF_WORKING_HOURS]);
+                    int salaryPerHour =
+                            Integer.parseInt(splitLineFromData[INDEX_OF_SALARY_PER_FOUR]);
                     salaryPerPeriod += hours * salaryPerHour;
                 }
             }
             result.append(System.lineSeparator()).append(name)
-                    .append(" - ").append(salaryPerPeriod);
+                    .append(DASH).append(salaryPerPeriod);
         }
         return result.toString();
     }
