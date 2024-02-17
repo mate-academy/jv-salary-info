@@ -15,16 +15,17 @@ public class SalaryInfo {
         return formattingResult(dateFrom, dateTo, names, incomeInfo);
     }
 
-    private boolean isDateInRange (LocalDate dataDate, LocalDate firstDate, LocalDate secondDate) {
-        return  ((dataDate.isEqual(firstDate) || dataDate.isEqual(secondDate))
+    private boolean isDateInRange(LocalDate dataDate, LocalDate firstDate, LocalDate secondDate) {
+        return ((dataDate.isEqual(firstDate) || dataDate.isEqual(secondDate))
                 || (dataDate.isAfter(firstDate) && dataDate.isBefore(secondDate)));
     }
 
-    private int[] calculateIncomeEmployee (String[] names, String[] data, LocalDate firstDate, LocalDate secondDate) {
-        final int DATE = 0;
-        final int NAME = 1;
-        final int HOURS = 2;
-        final int SALARY_PER_HOUR = 3;
+    private int[] calculateIncomeEmployee(String[] names, String[] data,
+                                          LocalDate firstDate, LocalDate secondDate) {
+        final int date = 0;
+        final int name = 1;
+        final int hours = 2;
+        final int salaryPerHour = 3;
         int firstIncome;
         String[] dataInfo;
         LocalDate dataDate;
@@ -34,10 +35,12 @@ public class SalaryInfo {
             firstIncome = 0;
             for (String datum : data) {
                 dataInfo = datum.split(" ");
-                dataDate = LocalDate.parse(dataInfo[DATE], FORMATTER);
+                dataDate = LocalDate.parse(dataInfo[date], FORMATTER);
 
-                if (dataInfo[NAME].equals(names[c]) && isDateInRange(dataDate, firstDate, secondDate)) {
-                    firstIncome += Integer.parseInt(dataInfo[HOURS]) * Integer.parseInt(dataInfo[SALARY_PER_HOUR]);
+                if (dataInfo[name].equals(names[c]) && isDateInRange(dataDate, firstDate,
+                        secondDate)) {
+                    firstIncome += Integer.parseInt(dataInfo[hours])
+                            * Integer.parseInt(dataInfo[salaryPerHour]);
                     incomeInfo[c] = firstIncome;
                 } else {
                     incomeInfo[c] += 0;
@@ -47,7 +50,8 @@ public class SalaryInfo {
         return incomeInfo;
     }
 
-    private String formattingResult (String dateFrom, String dateTo, String[] names, int[] incomeInfo) {
+    private String formattingResult(String dateFrom, String dateTo, String[] names,
+                                    int[] incomeInfo) {
         StringBuilder formattedInfo = new StringBuilder();
         formattedInfo.append("Report for period ").append(dateFrom)
                 .append(" - ").append(dateTo).append(System.lineSeparator());
