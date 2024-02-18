@@ -15,21 +15,29 @@ public class SalaryInfo {
         LocalDate localDateFrom = LocalDate.parse(dateFrom, FORMATTER);
         LocalDate localDateTo = LocalDate.parse(dateTo, FORMATTER);
 
+        StringBuilder report = getReportTitle(dateFrom, dateTo);
+        populateReportRows(names, data, localDateFrom, localDateTo, report);
+        return report.toString();
+    }
+
+    private void populateReportRows(String[] names, String[] data, LocalDate localDateFrom,
+                                    LocalDate localDateTo, StringBuilder report) {
+        for (String name : names) {
+            report.append(System.lineSeparator());
+            int totalSalary = getTotalSalary(data, localDateFrom, localDateTo, name);
+            report.append(name)
+                    .append(" - ")
+                    .append(totalSalary);
+        }
+    }
+
+    private StringBuilder getReportTitle(String dateFrom, String dateTo) {
         StringBuilder report = new StringBuilder()
                 .append("Report for period ")
                 .append(dateFrom)
                 .append(" - ")
                 .append(dateTo);
-
-        for (String name : names) {
-            report.append(System.lineSeparator());
-            int totalSalary = getTotalSalary(data, localDateFrom, localDateTo, name);
-            report
-                    .append(name)
-                    .append(" - ")
-                    .append(totalSalary);
-        }
-        return report.toString();
+        return report;
     }
 
     private int getTotalSalary(String[] data, LocalDate localDateFrom,
@@ -43,12 +51,21 @@ public class SalaryInfo {
             int salaryFromRecord = Integer.valueOf(recordValue[SALARY_INDEX]);
             int timeFromRecord = Integer.valueOf(recordValue[TIME_INDEX]);
 
-            if (name.equals(nameFromRecord)) {
-                LocalDate localDate = LocalDate.parse(dateFromRecord, FORMATTER);
+            total = validateRecord(localDateFrom, localDateTo, name, total,
+                    dateFromRecord, nameFromRecord, salaryFromRecord, timeFromRecord);
+        }
+        return total;
+    }
 
-                if (!localDate.isBefore(localDateFrom) && !localDate.isAfter(localDateTo)) {
-                    total += salaryFromRecord * timeFromRecord;
-                }
+    private int validateRecord(LocalDate localDateFrom, LocalDate localDateTo,
+                               String name, int total, String dateFromRecord,
+                               String nameFromRecord, int salaryFromRecord, int timeFromRecord) {
+
+        if (name.equals(nameFromRecord)) {
+            LocalDate localDate = LocalDate.parse(dateFromRecord, FORMATTER);
+
+            if (!localDate.isBefore(localDateFrom) && !localDate.isAfter(localDateTo)) {
+                total += salaryFromRecord * timeFromRecord;
             }
         }
         return total;
