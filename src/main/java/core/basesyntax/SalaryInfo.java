@@ -2,69 +2,74 @@ package core.basesyntax;
 
 import java.time.DateTimeException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final int INDEX_OF_DATE = 0;
+    private static final int INDEX_OF_NAME = 1;
+    private static final int INDEX_OF_HOURS = 2;
+    private static final int INDEX_OF_SALARY = 3;
+    private static final String NAME_AND_SALARY_SEPARATOR = " - ";
+    private static final String SALARY_INFO_HEADER = "Report for period ";
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate localDateFrom = getLocalDate(dateFrom);
         LocalDate localDateTo = getLocalDate(dateTo);
-
-        StringBuilder resultString = new StringBuilder("Report for period ")
-                .append(dateFrom).append(" - ")
+        StringBuilder resultString = new StringBuilder(SALARY_INFO_HEADER)
+                .append(dateFrom).append(NAME_AND_SALARY_SEPARATOR)
                 .append(dateTo);
-
-        List<EmployeeSalary> listOfEmployeeSalaries = getListOfEmployeeSalaries(names);
         String date;
         String name;
         int hours;
         int salary;
         String[] row;
         LocalDate rowDate;
-
-        for (EmployeeSalary employeeSalary : listOfEmployeeSalaries) {
+        EmployeeSalary employeeSalary;
+        for (String employeeName : names) {
+            employeeSalary = new EmployeeSalary(employeeName);
             for (String record : data) {
-                try {
-                    row = record.split(" ");
-                    date = row[0];
-                    name = row[1];
-                    hours = Integer.valueOf(row[2]);
-                    salary = Integer.valueOf(row[3]);
-                    rowDate = getLocalDate(date);
-                    if (employeeSalary.getName().equals(name)
-                            && rowDate.isAfter(localDateFrom)
-                            && !rowDate.isAfter(localDateTo)) {
-                        employeeSalary.addSalary(salary * hours);
-                    }
-                } catch (DateTimeException
-                         | NumberFormatException | ArrayIndexOutOfBoundsException e) {
-                    continue;
+                row = record.split(" ");
+                date = getDateFromRow(row);
+                rowDate = getLocalDate(date);
+                name = getNameFromRow(row);
+                if (employeeSalary.getName().equals(name)
+                        && rowDate.isAfter(localDateFrom)
+                        && !rowDate.isAfter(localDateTo)) {
+                    hours = getHoursFromRow(row);
+                    salary = getSalaryFromRow(row);
+                    employeeSalary.addSalary(salary * hours);
                 }
             }
             resultString.append(System.lineSeparator())
-                    .append(employeeSalary.getName()).append(" - ")
+                    .append(employeeSalary.getName()).append(NAME_AND_SALARY_SEPARATOR)
                     .append(employeeSalary.getSalary());
         }
         return resultString.toString();
     }
 
-    public List<EmployeeSalary> getListOfEmployeeSalaries(String[] names) {
-        List<EmployeeSalary> employeeSalaries = new ArrayList<>();
-        for (String name : names) {
-            employeeSalaries.add(new EmployeeSalary(name));
-        }
-        return employeeSalaries;
-    }
-
     public LocalDate getLocalDate(String date) {
         try {
-            String[] dateArr = date.split("\\.");
-            int day = Integer.valueOf(dateArr[0]);
-            int month = Integer.valueOf(dateArr[1]);
-            int year = Integer.valueOf(dateArr[2]);
-            return LocalDate.of(year, month, day);
-        } catch (DateTimeException | NumberFormatException | ArrayIndexOutOfBoundsException e) {
+            return LocalDate.parse(date, FORMATTER);
+        } catch (DateTimeException e) {
             throw new DateTimeException("Not valid date in: " + date);
         }
     }
+
+    private String getNameFromRow(String[] row) {
+        return row[INDEX_OF_NAME];
+    }
+
+    private String getDateFromRow(String[] row) {
+        return row[INDEX_OF_DATE];
+    }
+
+    private int getSalaryFromRow(String[] row) {
+        return Integer.valueOf(row[INDEX_OF_SALARY]);
+    }
+
+    private int getHoursFromRow(String[] row) {
+        return Integer.valueOf(row[INDEX_OF_HOURS]);
+    }
+
 }
