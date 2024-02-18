@@ -1,19 +1,20 @@
 package core.basesyntax;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern(
+            "dd.MM.yyyy");
     private static final String REPORT_HEADER = "Report for period ";
     private static final String LINE_SEPARATOR = System.lineSeparator();
+    private static final String DATE_FORMAT_PATTERN = "dd.MM.yyyy";
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder report = new StringBuilder();
         try {
-            Date fromDate = DATE_FORMAT.parse(dateFrom);
-            Date toDate = DATE_FORMAT.parse(dateTo);
+            LocalDate fromDate = LocalDate.parse(dateFrom, DATE_FORMATTER);
+            LocalDate toDate = LocalDate.parse(dateTo, DATE_FORMATTER);
 
             report.append(REPORT_HEADER)
                     .append(dateFrom).append(" - ")
@@ -25,7 +26,7 @@ public class SalaryInfo {
                 int totalMoneyEarned = 0;
                 for (String info : data) {
                     String[] parts = info.split(" ");
-                    Date date = DATE_FORMAT.parse(parts[0]);
+                    LocalDate date = LocalDate.parse(parts[0], DATE_FORMATTER);
                     if (name.equals(parts[1]) && date.compareTo(fromDate) >= 0
                             && date.compareTo(toDate) <= 0) {
                         int hoursWorked = Integer.parseInt(parts[2]);
@@ -38,7 +39,7 @@ public class SalaryInfo {
                     report.append(LINE_SEPARATOR);
                 }
             }
-        } catch (ParseException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return report.toString();
