@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 public class SalaryInfo {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     private static final int DATE_INDEX = 0;
+    private static final int NAME_INDEX = 1;
     private static final int HOURS_INDEX = 2;
     private static final int AMOUNT_INDEX = 3;
     private static final String DIVIDER = " - ";
@@ -14,36 +15,33 @@ public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate fromDate = LocalDate.parse(dateFrom, FORMATTER);
         LocalDate toDate = LocalDate.parse(dateTo, FORMATTER);
-        StringBuilder stringBuilder = new StringBuilder(
+        StringBuilder result = new StringBuilder(
                 START_REPORT + dateFrom + DIVIDER + dateTo);
-        String[] semiResult;
+        String[] row;
         LocalDate dataDate;
         int sum = 0;
-        for (int i = 0; i < data.length; i++) {
+        for (int i = 0; i < names.length; i++) {
             for (String line : data) {
-                semiResult = line.split(" ");
-                dataDate = LocalDate.parse(semiResult[DATE_INDEX], FORMATTER);
-                if (isFulfillConditions(semiResult, dataDate, fromDate, toDate, names[i])) {
-                    sum = sum + Integer.parseInt(semiResult[HOURS_INDEX])
-                            * Integer.parseInt(semiResult[AMOUNT_INDEX]);
+                row = line.split(" ");
+                dataDate = LocalDate.parse(row[DATE_INDEX], FORMATTER);
+                if (isFulfillConditions(row, dataDate, fromDate, toDate, names[i])) {
+                    sum += Integer.parseInt(row[HOURS_INDEX])
+                            * Integer.parseInt(row[AMOUNT_INDEX]);
                 }
             }
-            stringBuilder
+            result
                     .append(System.lineSeparator())
                     .append(names[i])
                     .append(DIVIDER)
                     .append(sum);
             sum = 0;
-            if (i == names.length - 1) {
-                break;
-            }
         }
-        return stringBuilder.toString();
+        return result.toString();
     }
 
     private boolean isFulfillConditions(String[] semiResult, LocalDate dataDate,
                                         LocalDate fromDate, LocalDate toDate, String names) {
-        return names.equals(semiResult[1])
+        return names.equals(semiResult[NAME_INDEX])
                 && ((dataDate.isEqual(fromDate)
                 || dataDate.isEqual(toDate))
                 || dataDate.isAfter(fromDate)
