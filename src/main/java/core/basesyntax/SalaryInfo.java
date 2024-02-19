@@ -7,6 +7,9 @@ public class SalaryInfo {
     private static int DATE_INDEX = 0;
     private static int DAYS_INDEX = 2;
     private static int SALARY_INDEX = 3;
+    private static int YEAR_INDEX = 2;
+    private static int MONTH_INDEX = 1;
+    private static int DAY_INDEX = 0;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate dateFromLocal = convertToLocalDate(dateFrom);
@@ -48,9 +51,9 @@ public class SalaryInfo {
 
     private LocalDate convertToLocalDate(String date) {
         String[] dateFromValues = date.split("\\.");
-        LocalDate convertedDate = LocalDate.of(Integer.parseInt(dateFromValues[2]),
-                Integer.parseInt(dateFromValues[1]), Integer.parseInt(dateFromValues[0]));
+        LocalDate convertedDate = LocalDate.of(Integer.parseInt(dateFromValues[YEAR_INDEX]),
+                Integer.parseInt(dateFromValues[MONTH_INDEX]),
+                Integer.parseInt(dateFromValues[DATE_INDEX]));
         return convertedDate;
     }
-
 }
