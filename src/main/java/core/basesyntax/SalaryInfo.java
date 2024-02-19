@@ -9,11 +9,11 @@ public class SalaryInfo {
     private static final int INDEX_NAME = 1;
     private static final int INDEX_HOURS_WORKED = 2;
     private static final int INDEX_INCOME_PER_HOUR = 3;
-    private static final String DASH_SEPARATOR = " - ";
+    private static final String DASH = " - ";
 
     public static String getSalaryInfo(String[] names, String[] data,
                                        String dateFrom, String dateTo) {
-        StringBuilder result = new StringBuilder("Report for period " + dateFrom + " - " + dateTo);
+        StringBuilder result = new StringBuilder("Report for period " + dateFrom + DASH + dateTo);
         int[] employeeSalaries = new int[names.length];
 
         for (String row : data) {
@@ -33,17 +33,15 @@ public class SalaryInfo {
                     }
                 }
 
-                if (employeeIndex != -1) {
-                    int totalEarnings = hoursWorked * incomePerHour;
-                    employeeSalaries[employeeIndex] += totalEarnings;
-                }
+                int totalEarnings = hoursWorked * incomePerHour;
+                employeeSalaries[employeeIndex] += totalEarnings;
             }
         }
 
         for (int i = 0; i < names.length; i++) {
             int totalEarnings = employeeSalaries[i];
             result.append(System.lineSeparator())
-                    .append(names[i]).append(DASH_SEPARATOR).append(totalEarnings);
+                    .append(names[i]).append(DASH).append(totalEarnings);
         }
 
         return result.toString();
