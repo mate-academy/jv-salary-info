@@ -4,22 +4,23 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    public static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter
             .ofPattern(("dd.MM.yyyy"));
+    private static final String HYPHEN = " - ";
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate parsedDateFrom = LocalDate.parse(dateFrom, DATE_TIME_FORMATTER);
         LocalDate parsedDateTo = LocalDate.parse(dateTo, DATE_TIME_FORMATTER);
         StringBuilder reportStringBuilder = new StringBuilder("Report for period ")
                 .append(dateFrom)
-                .append(" - ")
+                .append(HYPHEN)
                 .append(dateTo);
         for (String name : names) {
             int moneyEarned = calculateMoneyEarned(name, data, parsedDateFrom, parsedDateTo);
             reportStringBuilder
                     .append(System.lineSeparator())
                     .append(name)
-                    .append(" - ")
+                    .append(HYPHEN)
                     .append(moneyEarned);
         }
         return reportStringBuilder.toString();
