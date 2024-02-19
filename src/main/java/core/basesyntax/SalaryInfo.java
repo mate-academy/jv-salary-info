@@ -16,11 +16,10 @@ public class SalaryInfo {
         LocalDate localDateTo = LocalDate.parse(dateTo, FORMATTER);
 
         StringBuilder report = getReportTitle(dateFrom, dateTo);
-        populateReportRows(names, data, localDateFrom, localDateTo, report);
-        return report.toString();
+        return populateReportRows(names, data, localDateFrom, localDateTo, report);
     }
 
-    private void populateReportRows(String[] names, String[] data, LocalDate localDateFrom,
+    private String populateReportRows(String[] names, String[] data, LocalDate localDateFrom,
                                     LocalDate localDateTo, StringBuilder report) {
         for (String name : names) {
             report.append(System.lineSeparator());
@@ -29,6 +28,7 @@ public class SalaryInfo {
                     .append(" - ")
                     .append(totalSalary);
         }
+        return report.toString();
     }
 
     private StringBuilder getReportTitle(String dateFrom, String dateTo) {
