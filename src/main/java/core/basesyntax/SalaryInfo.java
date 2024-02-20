@@ -17,15 +17,12 @@ public class SalaryInfo {
         StringBuilder salaryInfo = new StringBuilder("Report for period ")
                 .append(dateFrom)
                 .append(" - ")
-                .append(dateTo)
-                .append(LINE_SEPARATOR);
+                .append(dateTo);
         for (int i = 0; i < names.length; i++) {
-            salaryInfo.append(names[i])
+            salaryInfo.append(LINE_SEPARATOR)
+                    .append(names[i])
                     .append(" - ")
                     .append(salary[i]);
-            if (i < names.length - 1) {
-                salaryInfo.append(LINE_SEPARATOR);
-            }
         }
         return salaryInfo.toString();
     }
