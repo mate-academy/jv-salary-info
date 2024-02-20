@@ -12,30 +12,8 @@ public class SalaryInfo {
             DATE_TIME_FORMAT = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     private static final String DELIMITER_SPACE = " ";
 
-    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        int[] salary = countSalary(names, data, dateFrom, dateTo);
-        StringBuilder salaryInfo = new StringBuilder("Report for period "
-                + dateFrom
-                + " - "
-                + dateTo
-                + LINE_SEPARATOR);
-        for (int i = 0; i < names.length; i++) {
-            salaryInfo.append(names[i])
-                    .append(" - ")
-                    .append(salary[i]);
-            if (i < names.length - 1) {
-                salaryInfo.append(LINE_SEPARATOR);
-            }
-        }
-        return salaryInfo.toString();
-    }
-
     private LocalDate convertStringToLocalDate(String date) {
         return LocalDate.parse(date, DATE_TIME_FORMAT);
-    }
-
-    private boolean checkData(LocalDate date, LocalDate dateBeginning, LocalDate dateEnding) {
-        return !date.isBefore(dateBeginning) && !date.isAfter(dateEnding);
     }
 
     private String getName(String[] data, int index) {
@@ -49,6 +27,10 @@ public class SalaryInfo {
                 * Integer.parseInt(splitData[INDEX_OF_INCOME_PER_HOUR]);
     }
 
+    private boolean checkData(LocalDate date, LocalDate dateBeginning, LocalDate dateEnding) {
+        return !date.isBefore(dateBeginning) && !date.isAfter(dateEnding);
+    }
+
     private void setMoney(String[] data, int index, int[] salary, String[] names) {
         String name = getName(data, index);
         for (int i = 0; i < names.length; ++i) {
@@ -57,6 +39,24 @@ public class SalaryInfo {
                 return;
             }
         }
+    }
+
+    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
+        int[] salary = countSalary(names, data, dateFrom, dateTo);
+        StringBuilder salaryInfo = new StringBuilder("Report for period ")
+                .append(dateFrom)
+                .append(" - ")
+                .append(dateTo)
+                .append(LINE_SEPARATOR);
+        for (int i = 0; i < names.length; i++) {
+            salaryInfo.append(names[i])
+                    .append(" - ")
+                    .append(salary[i]);
+            if (i < names.length - 1) {
+                salaryInfo.append(LINE_SEPARATOR);
+            }
+        }
+        return salaryInfo.toString();
     }
 
     private int[] countSalary(String[] names, String[] data, String dateFrom, String dateTo) {
