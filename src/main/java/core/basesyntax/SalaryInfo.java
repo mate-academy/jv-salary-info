@@ -8,7 +8,7 @@ public class SalaryInfo {
     private static final int NAME_INDEX = 1;
     private static final int HOURS_INDEX = 2;
     private static final int HOUR_INCOME_INDEX = 3;
-    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate startLocalDate = parseDate(dateFrom);
@@ -29,11 +29,11 @@ public class SalaryInfo {
                 }
             }
         }
-        return reportGenerator(names, totalSalaries, dateFrom, dateTo);
+        return generateReport(names, totalSalaries, dateFrom, dateTo);
     }
 
     private LocalDate parseDate(String date) {
-        return LocalDate.parse(date, formatter);
+        return LocalDate.parse(date, FORMATTER);
     }
 
     private boolean isValidDate(LocalDate startDate, LocalDate endDate, String checkedDate) {
@@ -42,8 +42,8 @@ public class SalaryInfo {
                 && localDate.isBefore(endDate.plusDays(1));
     }
 
-    private String reportGenerator(String[] names, int[] totalSalaries,
-                                   String dateFrom, String dateTo) {
+    private String generateReport(String[] names, int[] totalSalaries,
+                                  String dateFrom, String dateTo) {
         StringBuilder stringBuilder = new StringBuilder("Report for period "
                 + dateFrom + " - " + dateTo);
         for (int i = 0; i < names.length; i++) {
