@@ -37,11 +37,16 @@ public class SalaryInfo {
             String personName = splitedData[NAME];
             int workingHours = Integer.parseInt(splitedData[WORKING_HOURS]);
             int incomePerHour = Integer.parseInt(splitedData[INCOME_PER_HOUR]);
-            if (name.equals(personName) && (date.isAfter(dateFrom) || date.isEqual(dateFrom))
-                    && (date.isBefore(dateTo) || date.isEqual(dateTo))) {
+            if (checkData(name, personName, date,dateFrom,dateTo)) {
                 moneyEarned += incomePerHour * workingHours;
             }
         }
         return moneyEarned;
+    }
+
+    private boolean checkData(String name, String personName,
+                               LocalDate date, LocalDate dateFrom, LocalDate dateTo) {
+        return name.equals(personName) && (date.isAfter(dateFrom) || date.isEqual(dateFrom))
+                && (date.isBefore(dateTo) || date.isEqual(dateTo));
     }
 }
