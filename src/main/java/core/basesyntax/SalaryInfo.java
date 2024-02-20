@@ -11,6 +11,7 @@ public class SalaryInfo {
     private static final DateTimeFormatter
             DATE_TIME_FORMAT = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     private static final String DELIMITER_SPACE = " ";
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         int[] salary = countSalary(names, data, dateFrom, dateTo);
         StringBuilder salaryInfo = new StringBuilder("Report for period ")
