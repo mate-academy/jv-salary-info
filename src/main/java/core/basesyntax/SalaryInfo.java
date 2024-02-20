@@ -11,36 +11,6 @@ public class SalaryInfo {
     private static final DateTimeFormatter
             DATE_TIME_FORMAT = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     private static final String DELIMITER_SPACE = " ";
-
-    private LocalDate convertStringToLocalDate(String date) {
-        return LocalDate.parse(date, DATE_TIME_FORMAT);
-    }
-
-    private String getName(String[] data, int index) {
-        String[] splitData = data[index].split(DELIMITER_SPACE);
-        return splitData[INDEX_OF_NAME];
-    }
-
-    private int getMoney(String[] data, int index) {
-        String[] splitData = data[index].split(DELIMITER_SPACE);
-        return Integer.parseInt(splitData[INDEX_OF_WORKING_HOURS])
-                * Integer.parseInt(splitData[INDEX_OF_INCOME_PER_HOUR]);
-    }
-
-    private boolean checkData(LocalDate date, LocalDate dateBeginning, LocalDate dateEnding) {
-        return !date.isBefore(dateBeginning) && !date.isAfter(dateEnding);
-    }
-
-    private void setMoney(String[] data, int index, int[] salary, String[] names) {
-        String name = getName(data, index);
-        for (int i = 0; i < names.length; ++i) {
-            if (names[i].equals(name)) {
-                salary[i] += getMoney(data, index);
-                return;
-            }
-        }
-    }
-
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         int[] salary = countSalary(names, data, dateFrom, dateTo);
         StringBuilder salaryInfo = new StringBuilder("Report for period ")
@@ -70,5 +40,34 @@ public class SalaryInfo {
             }
         }
         return salary;
+    }
+
+    private LocalDate convertStringToLocalDate(String date) {
+        return LocalDate.parse(date, DATE_TIME_FORMAT);
+    }
+
+    private boolean checkData(LocalDate date, LocalDate dateBeginning, LocalDate dateEnding) {
+        return !date.isBefore(dateBeginning) && !date.isAfter(dateEnding);
+    }
+
+    private void setMoney(String[] data, int index, int[] salary, String[] names) {
+        String name = getName(data, index);
+        for (int i = 0; i < names.length; ++i) {
+            if (names[i].equals(name)) {
+                salary[i] += getMoney(data, index);
+                return;
+            }
+        }
+    }
+
+    private int getMoney(String[] data, int index) {
+        String[] splitData = data[index].split(DELIMITER_SPACE);
+        return Integer.parseInt(splitData[INDEX_OF_WORKING_HOURS])
+                * Integer.parseInt(splitData[INDEX_OF_INCOME_PER_HOUR]);
+    }
+
+    private String getName(String[] data, int index) {
+        String[] splitData = data[index].split(DELIMITER_SPACE);
+        return splitData[INDEX_OF_NAME];
     }
 }
