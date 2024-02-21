@@ -22,7 +22,8 @@ public class SalaryInfo {
             for (String datum : data) {
                 String[] splitedData = datum.split(SPACE);
                 LocalDate workDayDate = LocalDate.parse(splitedData[WORK_DAY_INDEX], FORMATTER);
-                if (dayAndNameValidation(name, splitedData, fromDate, toDate, workDayDate)) {
+                if (isNameValid(name, splitedData)
+                        && isWorkDayValid(fromDate, toDate, workDayDate)) {
                     salary += Integer.parseInt(splitedData[HOURS_INDEX])
                             * Integer.parseInt(splitedData[INCOME_PER_HOUR_INDEX]);
                 }
@@ -32,9 +33,8 @@ public class SalaryInfo {
         return result.toString();
     }
 
-    private boolean dayAndNameValidation(String name, String[] splitedData, LocalDate fromDate, LocalDate toDate, LocalDate workDayDate) {
-        return name.equals(splitedData[WORKER_NAME_INDEX])
-                && isWorkDayValid(fromDate, toDate, workDayDate);
+    private boolean isNameValid(String name, String[] splitedData) {
+        return name.equals(splitedData[WORKER_NAME_INDEX]);
     }
 
     private boolean isWorkDayValid(LocalDate fromDate, LocalDate toDate, LocalDate workDayDate) {
