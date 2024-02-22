@@ -11,7 +11,6 @@ public class SalaryInfo {
     private static final int HOURLY_INCOME_INDEX = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-
         StringBuilder dataResult = new StringBuilder();
         LocalDate fromDate = LocalDate.parse(dateFrom, DATE_FORMAT);
         LocalDate toDate = LocalDate.parse(dateTo, DATE_FORMAT);
@@ -28,10 +27,8 @@ public class SalaryInfo {
 
                 nameResult.append(name).append(" - ").append(totalSalary);
                 dataResult.append(System.lineSeparator()).append(nameResult);
-
             }
         }
-
         return dataResult.toString();
     }
 
