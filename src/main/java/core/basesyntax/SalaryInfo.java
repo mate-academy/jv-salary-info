@@ -24,7 +24,6 @@ public class SalaryInfo {
                 for (String dates : data) {
                     totalSalary = calculateTotalSalary(dates, fromDate, toDate, name, totalSalary);
                 }
-
                 nameResult.append(name).append(" - ").append(totalSalary);
                 dataResult.append(System.lineSeparator()).append(nameResult);
             }
