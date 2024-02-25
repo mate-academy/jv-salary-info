@@ -3,7 +3,7 @@
 #### Don't begin class or method implementation with an empty line.  
 Remove all redundant empty lines, be careful :)
 #### If you create a [formatter](https://docs.oracle.com/javase/tutorial/datetime/iso/format.html), make it a constant field.
-If you create a ormatfter, make it a [constant](https://mate-academy.github.io/style-guides/java/java.html#s5.2.4-constant-names).
+If you create a formatter, make it a [constant](https://mate-academy.github.io/style-guides/java/java.html#s5.2.4-constant-names).
 That will make your code easier to understand. Plus if you use it in several places in your code 
 you will be able to change its value easily with one action(change variable declaration). In other cases, you need to update the value in each place it's being used.
 #### Use LocalDate instead of Date.

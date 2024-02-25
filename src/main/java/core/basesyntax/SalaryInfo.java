@@ -16,9 +16,11 @@ public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate startDate = LocalDate.parse(dateFrom, FORMATTER);
         LocalDate endDate = LocalDate.parse(dateTo, FORMATTER);
-        StringBuilder result = new StringBuilder();
-        result.append(HEADER)
-                .append(dateFrom).append(SEPARATOR).append(dateTo).append(System.lineSeparator());
+        StringBuilder result = new StringBuilder()
+                .append(HEADER)
+                .append(dateFrom)
+                .append(SEPARATOR)
+                .append(dateTo);
         for (String name : names) {
             int salary = 0;
             for (String information : data) {
@@ -28,15 +30,12 @@ public class SalaryInfo {
                 int hours = Integer.parseInt(informationArray[HOUR_INDEX]);
                 int incomePerHour = Integer.parseInt(informationArray[INCOME_INDEX]);
                 if (name.equals(informationArray[NAME_INDEX])
-                        && (workDate.isAfter(startDate) || workDate.isEqual(startDate))
-                        && (workDate.isBefore(endDate) || workDate.isEqual(endDate))) {
+                        && !workDate.isAfter(endDate)
+                        && !workDate.isBefore(startDate)) {
                     salary += hours * incomePerHour;
                 }
             }
-            result.append(name).append(SEPARATOR).append(salary);
-            if (!name.equals(names[names.length - 1])) {
-                result.append(System.lineSeparator());
-            }
+            result.append(System.lineSeparator()).append(name).append(SEPARATOR).append(salary);
         }
         return result.toString();
     }
