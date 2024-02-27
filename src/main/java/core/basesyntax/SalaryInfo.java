@@ -10,22 +10,19 @@ public class SalaryInfo {
     private static final int RATE_STR_INDEX = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        StringBuilder reportBuilder = new StringBuilder();
-
-        initializeReportHeader(reportBuilder, dateFrom, dateTo);
+        StringBuilder reportBuilder = initializeReportBuilder(dateFrom, dateTo);
         generateReportContent(reportBuilder, names, data, dateFrom, dateTo);
-
         return reportBuilder.toString();
     }
 
-    private void initializeReportHeader(StringBuilder reportBuilder,
-                                        String dateFrom,
-                                        String dateTo) {
+    private StringBuilder initializeReportBuilder(String dateFrom, String dateTo) {
+        StringBuilder reportBuilder = new StringBuilder();
         reportBuilder.append("Report for period ")
                 .append(dateFrom)
                 .append(" - ")
                 .append(dateTo)
                 .append(System.lineSeparator());
+        return reportBuilder;
     }
 
     private void generateReportContent(StringBuilder reportBuilder,
@@ -37,33 +34,27 @@ public class SalaryInfo {
         LocalDate fromDate = LocalDate.parse(dateFrom, formatter);
         LocalDate toDate = LocalDate.parse(dateTo, formatter);
 
-        int[] totalEarnings = new int[names.length];
-
-        for (String record : data) {
-            String[] parts = record.split(" ");
-            if (parts.length != 4) {
-                continue;
-            }
-            LocalDate recordDate = LocalDate.parse(parts[RECORD_DATE_INDEX], formatter);
-            String name = parts[NAME_INDEX];
-            int hours = Integer.parseInt(parts[HOURS_STR_INDEX]);
-            int rate = Integer.parseInt(parts[RATE_STR_INDEX]);
-
-            if (isWithinDateRange(recordDate, fromDate, toDate)) {
-                for (int i = 0; i < names.length; i++) {
-                    if (name.equals(names[i])) {
-                        totalEarnings[i] += hours * rate;
-                        break;
+        for (String name : names) {
+            int totalEarnings = 0;
+            for (String record : data) {
+                String[] parts = record.split(" ");
+                if (parts.length != 4) {
+                    continue;
+                }
+                LocalDate recordDate = LocalDate.parse(parts[RECORD_DATE_INDEX], formatter);
+                String recordName = parts[NAME_INDEX];
+                if (name.equals(recordName)) {
+                    int hours = Integer.parseInt(parts[HOURS_STR_INDEX]);
+                    int rate = Integer.parseInt(parts[RATE_STR_INDEX]);
+                    if (isWithinDateRange(recordDate, fromDate, toDate)) {
+                        totalEarnings += hours * rate;
                     }
                 }
             }
-        }
-
-        for (int i = 0; i < names.length; i++) {
-            reportBuilder.append(names[i])
+            reportBuilder.append(name)
                     .append(" - ")
-                    .append(totalEarnings[i]);
-            if (i < names.length - 1) {
+                    .append(totalEarnings);
+            if (!name.equals(names[names.length - 1])) {
                 reportBuilder.append(System.lineSeparator());
             }
         }
