@@ -19,6 +19,7 @@ public class SalaryInfo {
                 .append(System.lineSeparator());
         LocalDate beginningDate = LocalDate.parse(dateFrom, FORMATTER);
         LocalDate endingDate = LocalDate.parse(dateTo, FORMATTER);
+        int counter = 0;
 
         for (String name : names) {
             int salary = 0;
@@ -28,19 +29,20 @@ public class SalaryInfo {
                 if ((date.isAfter(beginningDate) || date.isEqual(beginningDate))
                         && (date.isBefore(endingDate) || date.isEqual(endingDate))
                         && dataSplitArray[NAME_INDEX].equals(name)) {
-                    int hour = Integer.valueOf(dataSplitArray[HOUR_INDEX]);
-                    int income = Integer.valueOf(dataSplitArray[INCOME_INDEX]);
+                    int hour = Integer.parseInt(dataSplitArray[HOUR_INDEX]);
+                    int income = Integer.parseInt(dataSplitArray[INCOME_INDEX]);
                     int sum = hour * income;
                     salary = salary + sum;
                 }
             }
             result.append(name)
                     .append(" - ")
-                    .append(salary)
-                    .append(System.lineSeparator());
+                    .append(salary);
+            if (counter < names.length - 1) {
+                result.append(System.lineSeparator());
+            }
+            counter++;
         }
-        String resultToString = result.toString();
-        int index = resultToString.lastIndexOf(System.lineSeparator());
-        return resultToString.substring(0, index);
+        return result.toString();
     }
 }
