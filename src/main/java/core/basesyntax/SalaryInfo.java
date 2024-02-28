@@ -15,11 +15,9 @@ public class SalaryInfo {
         result.append("Report for period ")
                 .append(dateFrom)
                 .append(" - ")
-                .append(dateTo)
-                .append(System.lineSeparator());
+                .append(dateTo);
         LocalDate beginningDate = LocalDate.parse(dateFrom, FORMATTER);
         LocalDate endingDate = LocalDate.parse(dateTo, FORMATTER);
-        int counter = 0;
 
         for (String name : names) {
             int salary = 0;
@@ -35,13 +33,10 @@ public class SalaryInfo {
                     salary = salary + sum;
                 }
             }
-            result.append(name)
+            result.append(System.lineSeparator())
+                    .append(name)
                     .append(" - ")
                     .append(salary);
-            if (counter < names.length - 1) {
-                result.append(System.lineSeparator());
-            }
-            counter++;
         }
         return result.toString();
     }
