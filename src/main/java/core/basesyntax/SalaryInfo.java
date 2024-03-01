@@ -11,6 +11,8 @@ public class SalaryInfo {
     private static final int INCOME_INDEX = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
+        LocalDate beginningDate = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate endingDate = LocalDate.parse(dateTo, FORMATTER);
         StringBuilder result = new StringBuilder();
         result.append("Report for period ")
                 .append(dateFrom)
@@ -21,7 +23,9 @@ public class SalaryInfo {
             int salary = 0;
             for (String dataString : data) {
                 String[] dataSplitArray = dataString.split(" ");
-                if (dataCheck(dataSplitArray, name, dateFrom, dateTo)) {
+                LocalDate date = LocalDate.parse(dataSplitArray[DATE_INDEX], FORMATTER);
+                if (isWithinDateRange(date, beginningDate, endingDate)
+                        && dataSplitArray[NAME_INDEX].equals(name)) {
                     int hour = Integer.parseInt(dataSplitArray[HOUR_INDEX]);
                     int income = Integer.parseInt(dataSplitArray[INCOME_INDEX]);
                     salary += hour * income;
@@ -35,17 +39,8 @@ public class SalaryInfo {
         return result.toString();
     }
 
-    public boolean dataCheck(String[] dataSplitArray, String name, String dateFrom, String dateTo) {
-        boolean dataResult = false;
-        LocalDate beginningDate = LocalDate.parse(dateFrom, FORMATTER);
-        LocalDate endingDate = LocalDate.parse(dateTo, FORMATTER);
-        LocalDate date = LocalDate.parse(dataSplitArray[DATE_INDEX], FORMATTER);
-        if (!date.isBefore(beginningDate)
-                && !date.isAfter(endingDate)
-                && dataSplitArray[NAME_INDEX].equals(name)) {
-            dataResult = true;
-        }
-        return dataResult;
+    private boolean isWithinDateRange(LocalDate date, LocalDate dateFrom, LocalDate dateTo) {
+        return !date.isBefore(dateFrom) && !date.isAfter(dateTo);
     }
 }
 
