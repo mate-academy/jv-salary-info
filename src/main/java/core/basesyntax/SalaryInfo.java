@@ -9,30 +9,19 @@ public class SalaryInfo {
     private static final int NAME_INDEX = 1;
     private static final int HOUR_INDEX = 2;
     private static final int INCOME_INDEX = 3;
-    private static final int DAY_BEFORE_OR_AFTER = 1;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        LocalDate beginningDate = LocalDate.parse(dateFrom, FORMATTER);
-        LocalDate endingDate = LocalDate.parse(dateTo, FORMATTER);
         StringBuilder result = new StringBuilder();
         result.append("Report for period ")
                 .append(dateFrom)
                 .append(" - ")
                 .append(dateTo);
-        String endResult = calculateSalary(names, data, beginningDate, endingDate, result);
-        return endResult;
-    }
 
-    public String calculateSalary(String[] names, String[] data, LocalDate beginningDate,
-                                  LocalDate endingDate, StringBuilder result) {
         for (String name : names) {
             int salary = 0;
             for (String dataString : data) {
                 String[] dataSplitArray = dataString.split(" ");
-                LocalDate date = LocalDate.parse(dataSplitArray[DATE_INDEX], FORMATTER);
-                if (date.isAfter(beginningDate.minusDays(DAY_BEFORE_OR_AFTER))
-                        && date.isBefore(endingDate.plusDays(DAY_BEFORE_OR_AFTER))
-                        && dataSplitArray[NAME_INDEX].equals(name)) {
+                if (dataCheck(dataSplitArray, name, dateFrom, dateTo)) {
                     int hour = Integer.parseInt(dataSplitArray[HOUR_INDEX]);
                     int income = Integer.parseInt(dataSplitArray[INCOME_INDEX]);
                     salary += hour * income;
@@ -45,4 +34,18 @@ public class SalaryInfo {
         }
         return result.toString();
     }
+
+    public boolean dataCheck(String[] dataSplitArray, String name, String dateFrom, String dateTo) {
+        boolean dataResult = false;
+        LocalDate beginningDate = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate endingDate = LocalDate.parse(dateTo, FORMATTER);
+        LocalDate date = LocalDate.parse(dataSplitArray[DATE_INDEX], FORMATTER);
+        if (!date.isBefore(beginningDate)
+                && !date.isAfter(endingDate)
+                && dataSplitArray[NAME_INDEX].equals(name)) {
+            dataResult = true;
+        }
+        return dataResult;
+    }
 }
+
