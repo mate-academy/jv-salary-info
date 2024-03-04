@@ -14,7 +14,8 @@ public class SalaryInfo {
         int endDateValue = toYear * 10000 + toMonth * 100 + toDay;
 
         StringBuilder result = new StringBuilder();
-        result.append("Report for period ").append(dateFrom).append(" - ").append(dateTo).append(System.lineSeparator());
+        result.append("Report for period ").append(dateFrom);
+        result.append(" - ").append(dateTo).append(System.lineSeparator());
 
         for (String name : names) {
             int totalSalary = 0;
@@ -26,7 +27,8 @@ public class SalaryInfo {
                 int year = Integer.parseInt(dateParts[2]);
                 int dateValue = year * 10000 + month * 100 + day;
 
-                if (parts[1].equals(name) && (dateValue >= startDateValue && dateValue <= endDateValue)) {
+                if (parts[1].equals(name) &&
+                        (dateValue >= startDateValue && dateValue <= endDateValue)) {
                     int hoursWorked = Integer.parseInt(parts[2]);
                     int payPerHour = Integer.parseInt(parts[3]);
                     totalSalary += hoursWorked * payPerHour;
