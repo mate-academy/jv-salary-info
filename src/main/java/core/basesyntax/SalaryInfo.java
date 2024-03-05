@@ -8,7 +8,7 @@ public class SalaryInfo {
         String[] salaries = new String[names.length];
         int index = 0;
         int income = 0;
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         LocalDate startDate = LocalDate.parse(dateFrom, formatter);
         LocalDate finishDate = LocalDate.parse(dateTo, formatter);
         for (String name : names) {
@@ -25,6 +25,10 @@ public class SalaryInfo {
             index++;
             income = 0;
         }
+        return getInfo(salaries, dateFrom, dateTo);
+    }
+
+    public String getInfo(String[] salaries, String dateFrom, String dateTo) {
         StringBuilder result = new StringBuilder("Report for period ").append(dateFrom)
                 .append(" - ").append(dateTo);
         for (String salary : salaries) {
