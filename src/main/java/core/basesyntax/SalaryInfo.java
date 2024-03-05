@@ -27,8 +27,8 @@ public class SalaryInfo {
                 int year = Integer.parseInt(dateParts[2]);
                 int dateValue = year * 10000 + month * 100 + day;
 
-                if (parts[1].equals(name) &&
-                        (dateValue >= startDateValue && dateValue <= endDateValue)) {
+                if (parts[1].equals(name) && (dateValue >= startDateValue
+                        && dateValue <= endDateValue)) {
                     int hoursWorked = Integer.parseInt(parts[2]);
                     int payPerHour = Integer.parseInt(parts[3]);
                     totalSalary += hoursWorked * payPerHour;
