@@ -16,10 +16,6 @@ public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate fromData = LocalDate.parse(dateFrom,DATE_TIME_FORMATER);
         LocalDate toData = LocalDate.parse(dateTo,DATE_TIME_FORMATER);
-        int startDateValue = fromData.getYear() * 10000
-                + fromData.getMonthValue() * 100 + fromData.getDayOfMonth();
-        int endDateValue = toData.getYear() * 10000
-                + toData.getMonthValue() * 100 + toData.getDayOfMonth();
         StringBuilder result = new StringBuilder();
         result.append("Report for period ").append(dateFrom);
         result.append(" - ").append(dateTo).append(System.lineSeparator());
@@ -28,10 +24,7 @@ public class SalaryInfo {
             for (String record : data) {
                 String[] parts = record.split(DATA_SPLITTER);
                 LocalDate currentData = LocalDate.parse(parts[DATA_INDEX],DATE_TIME_FORMATER);
-                int dateValue = currentData.getYear() * 10000
-                        + currentData.getMonthValue() * 100 + currentData.getDayOfMonth();
-                if (parts[1].equals(name) && (dateValue >= startDateValue
-                        && dateValue <= endDateValue)) {
+                if (parts[NAME_INDEX].equals(name) && (!currentData.isBefore(fromData) && !currentData.isAfter(toData))) {
                     int hoursWorked = Integer.parseInt(parts[HOURS_WORKED]);
                     int payPerHour = Integer.parseInt(parts[PAY_PER_HOUR]);
                     totalSalary += hoursWorked * payPerHour;
