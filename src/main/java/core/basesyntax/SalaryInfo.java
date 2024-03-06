@@ -10,9 +10,9 @@ public class SalaryInfo {
     private static final int HOURS_WORKED = 2;
     private static final int PAY_PER_HOUR = 3;
     private static final String SEPARATOR = System.lineSeparator();
-    private static final DateTimeFormatter DATE_TIME_FORMATER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final DateTimeFormatter DATE_TIME_FORMATER
+            = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-
         LocalDate fromData = LocalDate.parse(dateFrom,DATE_TIME_FORMATER);
         LocalDate toData = LocalDate.parse(dateTo,DATE_TIME_FORMATER);
         int startDateValue = fromData.getYear() * 10000
