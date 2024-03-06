@@ -14,14 +14,15 @@ public class SalaryInfo {
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
+        LocalDate localDateFrom = LocalDate.parse(dateFrom, formatter);
+        LocalDate localDateTo = LocalDate.parse(dateTo, formatter);
         int[] salaries = new int[names.length];
         for (int i = 0; i < names.length; i++) {
             for (int j = 0; j < data.length; j++) {
                 if (data[j].contains(names[i])) {
                     String[] arrayDataOneDay = data[j].split(REGEX);
                     if (isDateInRange(LocalDate.parse(arrayDataOneDay[INDEX_DAY], formatter),
-                            LocalDate.parse(dateFrom, formatter),
-                            LocalDate.parse(dateTo, formatter))) {
+                            localDateFrom, localDateTo)) {
                         salaries[i] += Integer.parseInt(arrayDataOneDay[INDEX_HOURS_PER_DAY])
                                 * Integer.parseInt(arrayDataOneDay[INDEX_SALARY_PER_HOUR]);
                     }
