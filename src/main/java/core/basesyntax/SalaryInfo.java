@@ -5,11 +5,11 @@ import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        final int FirstIndex = 0;
-        final int HourIndex = 2;
-        final int SalaryIndex = 3;
+        final int DataInData = 0;
+        final int HourInData = 2;
+        final int SalaryInData = 3;
         final String Separator = System.lineSeparator();
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         LocalDate fromData = LocalDate.parse(dateFrom,dateTimeFormatter);
         LocalDate toData = LocalDate.parse(dateTo,dateTimeFormatter);
         int startDateValue = fromData.getYear() * 10000
@@ -25,14 +25,14 @@ public class SalaryInfo {
             int totalSalary = 0;
             for (String record : data) {
                 String[] parts = record.split(" ");
-                LocalDate currentData = LocalDate.parse(parts[FirstIndex],dateTimeFormatter);
+                LocalDate currentData = LocalDate.parse(parts[DataInData],dateTimeFormatter);
                 int dateValue = currentData.getYear() * 10000
                         + currentData.getMonthValue() * 100 + currentData.getDayOfMonth();
 
                 if (parts[1].equals(name) && (dateValue >= startDateValue
                         && dateValue <= endDateValue)) {
-                    int hoursWorked = Integer.parseInt(parts[HourIndex]);
-                    int payPerHour = Integer.parseInt(parts[SalaryIndex]);
+                    int hoursWorked = Integer.parseInt(parts[HourInData]);
+                    int payPerHour = Integer.parseInt(parts[SalaryInData]);
                     totalSalary += hoursWorked * payPerHour;
                 }
             }
