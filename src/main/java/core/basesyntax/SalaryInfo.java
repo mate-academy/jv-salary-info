@@ -24,7 +24,8 @@ public class SalaryInfo {
             for (String record : data) {
                 String[] parts = record.split(DATA_SPLITTER);
                 LocalDate currentData = LocalDate.parse(parts[DATA_INDEX],DATE_TIME_FORMATER);
-                if (parts[NAME_INDEX].equals(name) && (!currentData.isBefore(fromData) && !currentData.isAfter(toData))) {
+                if (parts[NAME_INDEX].equals(name)
+                        && (!currentData.isBefore(fromData) && !currentData.isAfter(toData))) {
                     int hoursWorked = Integer.parseInt(parts[HOURS_WORKED]);
                     int payPerHour = Integer.parseInt(parts[PAY_PER_HOUR]);
                     totalSalary += hoursWorked * payPerHour;
