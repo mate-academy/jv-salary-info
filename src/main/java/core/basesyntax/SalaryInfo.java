@@ -16,6 +16,7 @@ public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate localDateFrom = LocalDate.parse(dateFrom, formatter);
         LocalDate localDateTo = LocalDate.parse(dateTo, formatter);
+
         int[] salaries = new int[names.length];
         for (int i = 0; i < names.length; i++) {
             for (int j = 0; j < data.length; j++) {
