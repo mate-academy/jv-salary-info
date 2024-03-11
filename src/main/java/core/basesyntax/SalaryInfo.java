@@ -4,8 +4,7 @@ import java.time.LocalDate;
 
 public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        int dateCounter = 0;
-        int counter = 0;
+        int dataCounter = 0;
 
         LocalDate localDateFrom = LocalDate.of(
                 Integer.parseInt(dateFrom.substring(6, 10)),
@@ -17,38 +16,43 @@ public class SalaryInfo {
                 Integer.parseInt(dateTo.substring(3, 5)),
                 Integer.parseInt(dateTo.substring(0, 2))
         );
-        for (String OneData : data) {
+        for (String oneData : data) {
             LocalDate localOneData = LocalDate.of(
-                    Integer.parseInt(OneData.substring(6, 10)),
-                    Integer.parseInt(OneData.substring(3, 5)),
-                    Integer.parseInt(OneData.substring(0, 2))
+                    Integer.parseInt(oneData.substring(6, 10)),
+                    Integer.parseInt(oneData.substring(3, 5)),
+                    Integer.parseInt(oneData.substring(0, 2))
             );
             if (localOneData.isAfter(localDateFrom) && localOneData.isBefore(localDateTo)) {
-                dateCounter++;
+                dataCounter++;
             }
         }
 
-        String[] dataWithCorrectDates = new String[dateCounter];
-        for (String OneData : data) {
+        int counter = 0;
+        String[] dataWithCorrectDates = new String[dataCounter];
+        for (String oneData : data) {
             LocalDate localOneData = LocalDate.of(
-                    Integer.parseInt(OneData.substring(6, 10)),
-                    Integer.parseInt(OneData.substring(3, 5)),
-                    Integer.parseInt(OneData.substring(0, 2))
+                    Integer.parseInt(oneData.substring(6, 10)),
+                    Integer.parseInt(oneData.substring(3, 5)),
+                    Integer.parseInt(oneData.substring(0, 2))
             );
             if (localOneData.isAfter(localDateFrom) && localOneData.isBefore(localDateTo)) {
-                dataWithCorrectDates[counter++] = OneData;
+                dataWithCorrectDates[counter++] = oneData;
             }
         }
 
-        StringBuilder stringBuilder = new StringBuilder("Report for period " + dateFrom + " - " + dateTo);
-        for (String OneName : names) {
+        StringBuilder stringBuilder = new StringBuilder(
+                "Report for period " + dateFrom + " - " + dateTo
+        );
+        for (String oneName : names) {
             int salary = 0;
-            for (String OneData : dataWithCorrectDates) {
-                if (OneData.substring(11, 11 + OneName.length()).trim().equals(OneName)) {
-                    salary += Integer.parseInt(OneData.substring(11 + OneName.length() + 1));
+            for (String oneData : dataWithCorrectDates) {
+                String NameInData = oneData.substring(11, 11 + oneName.length());
+                if (NameInData.equals(oneName)) {
+                    salary += Integer.parseInt(oneData.substring(11 + oneName.length()));
                 }
             }
-            stringBuilder.append("\n").append(OneName).append(" - ").append(salary);
+            stringBuilder.append(System.lineSeparator())
+                    .append(oneName).append(" - ").append(salary);
         }
         return stringBuilder.toString();
     }
