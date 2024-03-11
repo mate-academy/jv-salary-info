@@ -4,8 +4,9 @@ import java.time.LocalDate;
 
 public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        int dataCounter = 0;
-
+        StringBuilder stringBuilder = new StringBuilder(
+                "Report for period " + dateFrom + " - " + dateTo);
+        int space = 1;
         LocalDate localDateFrom = LocalDate.of(
                 Integer.parseInt(dateFrom.substring(6, 10)),
                 Integer.parseInt(dateFrom.substring(3, 5)),
@@ -16,43 +17,28 @@ public class SalaryInfo {
                 Integer.parseInt(dateTo.substring(3, 5)),
                 Integer.parseInt(dateTo.substring(0, 2))
         );
-        for (String oneData : data) {
-            LocalDate localOneData = LocalDate.of(
-                    Integer.parseInt(oneData.substring(6, 10)),
-                    Integer.parseInt(oneData.substring(3, 5)),
-                    Integer.parseInt(oneData.substring(0, 2))
-            );
-            if (localOneData.isAfter(localDateFrom) && localOneData.isBefore(localDateTo)) {
-                dataCounter++;
-            }
-        }
-
-        int counter = 0;
-        String[] dataWithCorrectDates = new String[dataCounter];
-        for (String oneData : data) {
-            LocalDate localOneData = LocalDate.of(
-                    Integer.parseInt(oneData.substring(6, 10)),
-                    Integer.parseInt(oneData.substring(3, 5)),
-                    Integer.parseInt(oneData.substring(0, 2))
-            );
-            if (localOneData.isAfter(localDateFrom) && localOneData.isBefore(localDateTo)) {
-                dataWithCorrectDates[counter++] = oneData;
-            }
-        }
-
-        StringBuilder stringBuilder = new StringBuilder(
-                "Report for period " + dateFrom + " - " + dateTo
-        );
-        for (String oneName : names) {
+        for (String name : names) {
             int salary = 0;
-            for (String oneData : dataWithCorrectDates) {
-                String NameInData = oneData.substring(11, 11 + oneName.length());
-                if (NameInData.equals(oneName)) {
-                    salary += Integer.parseInt(oneData.substring(11 + oneName.length()));
+            for (String oneData : data) {
+                LocalDate localOneData = LocalDate.of(
+                        Integer.parseInt(oneData.substring(6, 10)),
+                        Integer.parseInt(oneData.substring(3, 5)),
+                        Integer.parseInt(oneData.substring(0, 2))
+                );
+                String trimmedName = oneData.substring(
+                        dateFrom.length() + space,dateFrom.length() + space + name.length());
+                if (localOneData.isAfter(localDateFrom) && localOneData.isBefore(localDateTo)
+                        || localOneData.equals(localDateTo) || localOneData.equals(localDateFrom)) {
+                    if (trimmedName.equals(name)) {
+                        salary += Integer.parseInt(oneData.substring(
+                                dateFrom.length() + space + name.length() + space,
+                                dateFrom.length() + space + name.length() + space + 2
+                        ).trim()) * Integer.parseInt(oneData.substring(
+                                dateFrom.length() + space + name.length() + space + 2).trim());
+                    }
                 }
             }
-            stringBuilder.append(System.lineSeparator())
-                    .append(oneName).append(" - ").append(salary);
+            stringBuilder.append(System.lineSeparator()).append(name).append(" - ").append(salary);
         }
         return stringBuilder.toString();
     }
