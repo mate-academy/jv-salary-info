@@ -20,23 +20,20 @@ public class SalaryInfo {
         for (String name : names) {
             int salary = 0;
             for (String oneData : data) {
+                String[] oneDataSplit = oneData.split(" ");
                 LocalDate localOneData = LocalDate.of(
-                        Integer.parseInt(oneData.substring(6, 10)),
-                        Integer.parseInt(oneData.substring(3, 5)),
-                        Integer.parseInt(oneData.substring(0, 2))
+                        Integer.parseInt(oneDataSplit[0].substring(6, 10)),
+                        Integer.parseInt(oneDataSplit[0].substring(3, 5)),
+                        Integer.parseInt(oneDataSplit[0].substring(0, 2))
                 );
-                String trimmedName = oneData.substring(
-                        dateFrom.length() + space,dateFrom.length() + space + name.length());
+                String trimmedName = oneDataSplit[1];
 
                 if (localOneData.isAfter(localDateFrom) && localOneData.isBefore(localDateTo)
                         || localOneData.equals(localDateTo) || localOneData.equals(localDateFrom)) {
+
                     if (trimmedName.equals(name)) {
-                        int hoursInData = Integer.parseInt(oneData.substring(
-                                dateFrom.length() + space + name.length() + space,
-                                dateFrom.length() + space + name.length() + space + 2
-                        ).trim());
-                        int salaryPerHour = Integer.parseInt(oneData.substring(
-                                dateFrom.length() + space + name.length() + space + 2).trim());
+                        int hoursInData = Integer.parseInt(oneDataSplit[2]);
+                        int salaryPerHour = Integer.parseInt(oneDataSplit[3]);
 
                         salary += hoursInData * salaryPerHour;
                     }
