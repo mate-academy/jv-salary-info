@@ -27,14 +27,18 @@ public class SalaryInfo {
                 );
                 String trimmedName = oneData.substring(
                         dateFrom.length() + space,dateFrom.length() + space + name.length());
+
                 if (localOneData.isAfter(localDateFrom) && localOneData.isBefore(localDateTo)
                         || localOneData.equals(localDateTo) || localOneData.equals(localDateFrom)) {
                     if (trimmedName.equals(name)) {
-                        salary += Integer.parseInt(oneData.substring(
+                        int hoursInData = Integer.parseInt(oneData.substring(
                                 dateFrom.length() + space + name.length() + space,
                                 dateFrom.length() + space + name.length() + space + 2
-                        ).trim()) * Integer.parseInt(oneData.substring(
+                        ).trim());
+                        int salaryPerHour = Integer.parseInt(oneData.substring(
                                 dateFrom.length() + space + name.length() + space + 2).trim());
+
+                        salary += hoursInData * salaryPerHour;
                     }
                 }
             }
