@@ -10,11 +10,9 @@ public class ReportDateUtil {
     public static LocalDate stringDateToLocalDate(String date) {
         return LocalDate.parse(date, DateTimeFormatter.ofPattern(DATE_PATTERN));
     }
-
     public ReportDateUtil(String dateString) {
         this.date = stringDateToLocalDate(dateString);
     }
-
     public boolean checkIsDateInRange(String rangeStart, String rangeEnd) {
         LocalDate rangeStartDate = stringDateToLocalDate(rangeStart);
         LocalDate rangeEndDate = stringDateToLocalDate(rangeEnd);
