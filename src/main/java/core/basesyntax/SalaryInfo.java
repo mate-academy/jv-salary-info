@@ -4,38 +4,33 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
+    public static final int LOCAL_DATE = 0;
+    public static final int NAME = 1;
+    public static final int HOURS = 2;
+    public static final int SALARY_PER_HOUR = 3;
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder salaryInfo = new StringBuilder("Report for period ")
                 .append(dateFrom)
                 .append(" - ")
                 .append(dateTo);
 
-        String[][] report = new String[names.length][2];
+        for (String name : names) {
+            salaryInfo.append(System.lineSeparator())
+                    .append(name)
+                    .append(" - ");
+            int salary = 0;
 
-        for (int i = 0; i < names.length; i++) {
-            report[i][0] = names[i];
-            report[i][1] = "0";
-        }
+            for (String datas : data) {
+                String[] info = datas.split(" ");
 
-        for (String datas : data) {
-            String[] info = datas.split(" ");
-
-            for (int i = 0; i < names.length; i++) {
-                if (report[i][0].equals(info[1]) && report[i][1] != null
-                        && isDateFit(info[0], dateFrom, dateTo)) {
-                    report[i][1] = String.valueOf((Integer.parseInt(info[2])
-                            * Integer.parseInt(info[3])) + Integer.parseInt(report[i][1]));
-                } else if (report[i][0].equals(info[1]) && report[i][1] == null
-                        && isDateFit(info[0], dateFrom, dateTo)) {
-                    report[i][1] = String.valueOf((Integer.parseInt(info[2])
-                            * Integer.parseInt(info[3])));
+                if (name.equals(info[NAME]) && isDateFit(info[LOCAL_DATE], dateFrom, dateTo)) {
+                    salary += Integer.parseInt(info[HOURS])
+                            * Integer.parseInt(info[SALARY_PER_HOUR]);
                 }
-            }
-        }
 
-        for (int i = 0; i < names.length; i++) {
-            salaryInfo.append(System.lineSeparator()).append(names[i]).append(" - ")
-                    .append(report[i][1]);
+            }
+            salaryInfo.append(salary);
         }
 
         return salaryInfo.toString();
