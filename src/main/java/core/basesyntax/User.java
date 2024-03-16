@@ -7,12 +7,15 @@ public class User {
     public User(String name) {
         this.name = name;
     }
+
     public String getName() {
         return name;
     }
+
     public int getSalaryAmount() {
         return salaryAmount;
     }
+
     public void addMoneyToSalary(int amount) {
         salaryAmount += amount;
     }

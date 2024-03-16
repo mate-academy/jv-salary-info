@@ -13,15 +13,19 @@ public class Report {
         this.hoursCount = Integer.parseInt(splitReportString[2]);
         this.salaryPerHour = Integer.parseInt(splitReportString[3]);
     }
+
     public String getDate() {
         return date;
     }
+
     public String getName() {
         return name;
     }
+
     public int getHoursCount() {
         return hoursCount;
     }
+
     public int getSalaryPerHour() {
         return salaryPerHour;
     }

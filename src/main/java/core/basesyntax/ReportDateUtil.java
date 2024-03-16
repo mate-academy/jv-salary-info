@@ -7,12 +7,14 @@ public class ReportDateUtil {
     private static final String DATE_PATTERN = "dd.MM.yyyy";
     private final LocalDate date;
 
-    public static LocalDate stringDateToLocalDate(String date) {
-        return LocalDate.parse(date, DateTimeFormatter.ofPattern(DATE_PATTERN));
-    }
     public ReportDateUtil(String dateString) {
         this.date = stringDateToLocalDate(dateString);
     }
+
+    public static LocalDate stringDateToLocalDate(String date) {
+        return LocalDate.parse(date, DateTimeFormatter.ofPattern(DATE_PATTERN));
+    }
+
     public boolean checkIsDateInRange(String rangeStart, String rangeEnd) {
         LocalDate rangeStartDate = stringDateToLocalDate(rangeStart);
         LocalDate rangeEndDate = stringDateToLocalDate(rangeEnd);
