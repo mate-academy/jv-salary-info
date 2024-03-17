@@ -2,23 +2,17 @@ package core.basesyntax;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 
 public class SalaryInfo {
+    static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    static final int DATE_INDEX = 0;
+    static final int NAME_INDEX = 1;
+    static final int MULTIPLIER_INDEX = 2;
+    static final int AMOUNT_INDEX = 3;
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-
-        try {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-            LocalDate dateFromFormatted = LocalDate.parse(dateFrom, formatter);
-            LocalDate dateToFormatted = LocalDate.parse(dateTo, formatter);
-        } catch (DateTimeParseException exc) {
-            System.out.print("Invalid date format, correct date format is dd.mm.yyyy");
-            throw exc;
-        }
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        LocalDate dateFromFormatted = LocalDate.parse(dateFrom, formatter);
-        LocalDate dateToFormatted = LocalDate.parse(dateTo, formatter);
+        LocalDate dateFromFormatted = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate dateToFormatted = LocalDate.parse(dateTo, FORMATTER);
 
         StringBuilder builder = new StringBuilder();
         builder.append("Report for period ")
@@ -26,32 +20,32 @@ public class SalaryInfo {
                 .append(" - ")
                 .append(dateTo);
 
-        if (names != null || data != null) {
-
-            for (String searchedName : names) {
-                int salary = 0;
-
-                for (String tempDate : data) {
-                    String[] dividedData = tempDate.split(" ");
-                    LocalDate currentDate = LocalDate.parse(dividedData[0], formatter);
-                    String currentName = dividedData[1];
-                    int currentMultiplier = Integer.parseInt(dividedData[2]);
-                    int currentAmount = Integer.parseInt(dividedData[3]);
-
-                    if (searchedName.equals(currentName)
-                            && currentDate.compareTo(dateFromFormatted) >= 0
-                            && currentDate.compareTo(dateToFormatted) <= 0) {
-                        int currentSalary = currentMultiplier * currentAmount;
-                        salary = currentSalary + salary;
-                    }
-                }
-                builder.append(System.lineSeparator())
-                        .append(searchedName)
-                        .append(" - ")
-                        .append(salary);
-            }
-            return builder.toString();
+        if (names == null && data == null) {
+            return null;
         }
-        return null;
+
+        for (String searchedName : names) {
+            int salary = 0;
+
+            for (String tempDate : data) {
+                String[] dividedData = tempDate.split(" ");
+                LocalDate date = LocalDate.parse(dividedData[DATE_INDEX], FORMATTER);
+                String name = dividedData[NAME_INDEX];
+                int multiplier = Integer.parseInt(dividedData[MULTIPLIER_INDEX]);
+                int amount = Integer.parseInt(dividedData[AMOUNT_INDEX]);
+
+                if (searchedName.equals(name)
+                        && !date.isBefore(dateFromFormatted)
+                        && !date.isAfter(dateToFormatted)) {
+                    int currentSalary = multiplier * amount;
+                    salary = currentSalary + salary;
+                }
+            }
+            builder.append(System.lineSeparator())
+                    .append(searchedName)
+                    .append(" - ")
+                    .append(salary);
+        }
+        return builder.toString();
     }
 }
