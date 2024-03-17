@@ -17,7 +17,7 @@ public class Report {
         return date;
     }
 
-    public String getUserName(){
+    public String getUserName() {
         return userName;
     }
 

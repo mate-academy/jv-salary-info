@@ -2,8 +2,12 @@ package core.basesyntax;
 
 public class SalaryInfo {
     private static final String REPORT_TITLE = "Report for period ";
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        StringBuilder reportText = new StringBuilder(REPORT_TITLE).append(dateFrom).append(" - ").append(dateTo);
+        StringBuilder reportText = new StringBuilder(REPORT_TITLE)
+                .append(dateFrom)
+                .append(" - ")
+                .append(dateTo);
         User[] usersList = new User[names.length];
 
         for (int i = 0; i < names.length; i++) {
