@@ -1,15 +1,15 @@
 package core.basesyntax;
 
 public class User {
-    private final String name;
-    private int salaryAmount = 0;
+    private final String userName;
+    private int salaryAmount;
 
     public User(String name) {
-        this.name = name;
+        this.userName = name;
     }
 
-    public String getName() {
-        return name;
+    public String getUserName() {
+        return userName;
     }
 
     public int getSalaryAmount() {
