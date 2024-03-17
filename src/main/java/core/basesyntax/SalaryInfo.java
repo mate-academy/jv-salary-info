@@ -25,7 +25,7 @@ public class SalaryInfo {
         }
 
         for (User user : usersList) {
-            reportText.append(new UserReportSupplier(user).printUserReport());
+            reportText.append(new UserReportSupplier(user).createUserReportTextLine());
         }
 
         return reportText.toString();

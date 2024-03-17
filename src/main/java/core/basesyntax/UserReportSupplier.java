@@ -5,7 +5,7 @@ public class UserReportSupplier {
     public UserReportSupplier(User user) {
         this.user = user;
     }
-    public String printUserReport() {
+    public String createUserReportTextLine() {
         return System.lineSeparator() + user.getUserName() + " - " + user.getSalaryAmount();
     }
 }
