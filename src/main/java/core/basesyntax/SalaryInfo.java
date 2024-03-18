@@ -61,10 +61,9 @@ public class SalaryInfo {
         for (int i = 0; i < names.length; i++) {
             Integer salary = HASH_MAP.get(names[i]);
             if (salary != null) {
+                resultBuilder.append(names[i]).append(" - ").append(salary);
                 if (i < names.length - 1) {
-                    resultBuilder.append(names[i]).append(" - ").append(salary).append("\r\n");
-                } else {
-                    resultBuilder.append(names[i]).append(" - ").append(salary);
+                    resultBuilder.append("\r\n");
                 }
             }
         }
