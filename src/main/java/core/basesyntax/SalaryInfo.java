@@ -5,12 +5,12 @@ import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         StringBuilder stringBuilder = new StringBuilder(
                 "Report for period " + dateFrom + " - " + dateTo);
 
-        LocalDate localDateFrom = LocalDate.parse(dateFrom, FORMATTER);
-        LocalDate localDateTo = LocalDate.parse(dateTo, FORMATTER);
+        LocalDate localDateFrom = LocalDate.parse(dateFrom, formatter);
+        LocalDate localDateTo = LocalDate.parse(dateTo, formatter);
 
         int dataIndex = 0;
         int nameIndex = 1;
@@ -21,7 +21,7 @@ public class SalaryInfo {
             int salary = 0;
             for (String entry : data) {
                 String[] entrySplit = entry.split(" ");
-                LocalDate localOneData = LocalDate.parse(entrySplit[dataIndex], FORMATTER);;
+                LocalDate localOneData = LocalDate.parse(entrySplit[dataIndex], formatter);;
                 String trimmedName = entrySplit[nameIndex];
 
                 if (localOneData.isAfter(localDateFrom) && localOneData.isBefore(localDateTo)
