@@ -20,10 +20,6 @@ public class SalaryInfo {
                 .append(" - ")
                 .append(dateTo);
 
-        if (names == null && data == null) {
-            return null;
-        }
-
         for (String searchedName : names) {
             int salary = 0;
 
