@@ -5,17 +5,21 @@ import java.util.Date;
 import java.util.HashMap;
 
 public class SalaryInfo {
-    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-    private static final HashMap<String, Integer> hashMap = new HashMap<>();
+    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
+    private static final HashMap<String, Integer> HASH_MAP = new HashMap<>();
+    private static final int INDEX_DATE = 0;
+    private static final int INDEX_NAME = 1;
+    private static final int INDEX_HOURS_WORK = 2;
+    private static final int INDEX_SALARY = 3;
 
     public String getSalaryInfo(String[] names, String[] data,
                                 String dateFrom, String dateTo) {
-        hashMap.clear();
+        HASH_MAP.clear();
         Date fromDate = null;
         Date toDate = null;
         try {
-            fromDate = dateFormat.parse(dateFrom);
-            toDate = dateFormat.parse(dateTo);
+            fromDate = DATE_FORMAT.parse(dateFrom);
+            toDate = DATE_FORMAT.parse(dateTo);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -23,30 +27,31 @@ public class SalaryInfo {
         for (String itemNames : names) {
             for (String itemDate : data) {
                 String[] arrayElements = itemDate.split(" ");
-                String employeeName = arrayElements[1];
+                String employeeName = arrayElements[INDEX_NAME];
                 Date dateWork = null;
                 try {
-                    dateWork = dateFormat.parse(arrayElements[0]);
+                    dateWork = DATE_FORMAT.parse(arrayElements[INDEX_DATE]);
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
 
-                if (arrayElements[1].equals(itemNames) && dateWork.getTime() <= toDate.getTime()
+                if (arrayElements[INDEX_NAME].equals(itemNames)
+                        && dateWork.getTime() <= toDate.getTime()
                         && dateWork.getTime() >= fromDate.getTime()) {
-                    int salary = Integer.parseInt(arrayElements[3]);
-                    int day = Integer.parseInt(arrayElements[2]);
-                    if (hashMap.containsKey(employeeName)) {
-                        hashMap.put(employeeName, hashMap.get(employeeName) + salary * day);
+                    int salary = Integer.parseInt(arrayElements[INDEX_SALARY]);
+                    int day = Integer.parseInt(arrayElements[INDEX_HOURS_WORK]);
+                    if (HASH_MAP.containsKey(employeeName)) {
+                        HASH_MAP.put(employeeName, HASH_MAP.get(employeeName) + salary * day);
                     } else {
-                        hashMap.put(employeeName, salary * day);
+                        HASH_MAP.put(employeeName, salary * day);
                     }
                 }
             }
         }
 
-        if (hashMap.isEmpty()) {
+        if (HASH_MAP.isEmpty()) {
             for (String item : names) {
-                hashMap.put(item, 0);
+                HASH_MAP.put(item, 0);
             }
         }
 
@@ -54,7 +59,7 @@ public class SalaryInfo {
         resultBuilder.append("Report for period ").append(dateFrom).append(" - ")
                 .append(dateTo).append("\r\n");
         for (int i = 0; i < names.length; i++) {
-            Integer salary = hashMap.get(names[i]);
+            Integer salary = HASH_MAP.get(names[i]);
             if (salary != null) {
                 if (i < names.length - 1) {
                     resultBuilder.append(names[i]).append(" - ").append(salary).append("\r\n");
