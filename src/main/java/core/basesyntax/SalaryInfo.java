@@ -13,7 +13,7 @@ public class SalaryInfo {
     private static final int INDEX_SALARY = 3;
 
     public String getSalaryInfo(String[] names, String[] data,
-                                String dateFrom, String dateTo) {
+                                       String dateFrom, String dateTo) {
         HASH_MAP.clear();
         Date fromDate = null;
         Date toDate = null;
@@ -60,11 +60,9 @@ public class SalaryInfo {
                 .append(dateTo).append("\r\n");
         for (int i = 0; i < names.length; i++) {
             Integer salary = HASH_MAP.get(names[i]);
-            if (salary != null) {
-                resultBuilder.append(names[i]).append(" - ").append(salary);
-                if (i < names.length - 1) {
-                    resultBuilder.append("\r\n");
-                }
+            resultBuilder.append(names[i]).append(" - ").append(salary);
+            if (i < names.length - 1) {
+                resultBuilder.append("\r\n");
             }
         }
         return resultBuilder.toString();
