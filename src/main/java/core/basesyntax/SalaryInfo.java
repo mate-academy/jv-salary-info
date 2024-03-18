@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.HashMap;
 
 public class SalaryInfo {
+
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
     private static final HashMap<String, Integer> HASH_MAP = new HashMap<>();
     private static final int INDEX_DATE = 0;
