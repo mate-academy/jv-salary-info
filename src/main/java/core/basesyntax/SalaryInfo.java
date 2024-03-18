@@ -1,15 +1,9 @@
 package core.basesyntax;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        DateTimeFormatter dateTimeFormatterYears = DateTimeFormatter.ofPattern("yyyy");
-        DateTimeFormatter dateTimeFormatterMonths = DateTimeFormatter.ofPattern("MM");
-        DateTimeFormatter dateTimeFormatterDays = DateTimeFormatter.ofPattern("dd");
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-
         StringBuilder stringBuilder = new StringBuilder(
                 "Report for period " + dateFrom + " - " + dateTo);
 
@@ -31,21 +25,21 @@ public class SalaryInfo {
 
         for (String name : names) {
             int salary = 0;
-            for (String oneData : data) {
-                String[] oneDataSplit = oneData.split(" ");
+            for (String entry : data) {
+                String[] entrySplit = entry.split(" ");
                 LocalDate localOneData = LocalDate.of(
-                        Integer.parseInt(oneDataSplit[dataIndex].substring(6, 10)),
-                        Integer.parseInt(oneDataSplit[dataIndex].substring(3, 5)),
-                        Integer.parseInt(oneDataSplit[dataIndex].substring(0, 2))
+                        Integer.parseInt(entrySplit[dataIndex].substring(6, 10)),
+                        Integer.parseInt(entrySplit[dataIndex].substring(3, 5)),
+                        Integer.parseInt(entrySplit[dataIndex].substring(0, 2))
                 );
-                String trimmedName = oneDataSplit[nameIndex];
+                String trimmedName = entrySplit[nameIndex];
 
                 if (localOneData.isAfter(localDateFrom) && localOneData.isBefore(localDateTo)
                         || localOneData.equals(localDateTo) || localOneData.equals(localDateFrom)) {
 
                     if (trimmedName.equals(name)) {
-                        int hoursInData = Integer.parseInt(oneDataSplit[hoursIndex]);
-                        int salaryPerHour = Integer.parseInt(oneDataSplit[salaryPerHourIndex]);
+                        int hoursInData = Integer.parseInt(entrySplit[hoursIndex]);
+                        int salaryPerHour = Integer.parseInt(entrySplit[salaryPerHourIndex]);
 
                         salary += hoursInData * salaryPerHour;
                     }
