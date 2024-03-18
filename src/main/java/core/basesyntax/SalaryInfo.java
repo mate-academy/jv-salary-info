@@ -57,12 +57,12 @@ public class SalaryInfo {
 
         StringBuilder resultBuilder = new StringBuilder();
         resultBuilder.append("Report for period ").append(dateFrom).append(" - ")
-                .append(dateTo).append("\r\n");
+                .append(dateTo).append(System.lineSeparator());
         for (int i = 0; i < names.length; i++) {
             Integer salary = HASH_MAP.get(names[i]);
             resultBuilder.append(names[i]).append(" - ").append(salary);
             if (i < names.length - 1) {
-                resultBuilder.append("\r\n");
+                resultBuilder.append(System.lineSeparator());
             }
         }
         return resultBuilder.toString();
