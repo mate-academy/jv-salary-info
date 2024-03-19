@@ -12,22 +12,20 @@ public class SalaryInfo {
         LocalDate localDateFrom = LocalDate.parse(dateFrom, formatter);
         LocalDate localDateTo = LocalDate.parse(dateTo, formatter);
 
-        int dataIndex = 0;
-        int nameIndex = 1;
-        int hoursIndex = 2;
-        int salaryPerHourIndex = 3;
+        final int dataIndex = 0;
+        final int nameIndex = 1;
+        final int hoursIndex = 2;
+        final int salaryPerHourIndex = 3;
 
         for (String name : names) {
             int salary = 0;
             for (String entry : data) {
                 String[] entrySplit = entry.split(" ");
-                LocalDate localOneData = LocalDate.parse(entrySplit[dataIndex], formatter);;
-                String trimmedName = entrySplit[nameIndex];
+                LocalDate entryDate = LocalDate.parse(entrySplit[dataIndex], formatter);
+                String nameFromEntrySplit = entrySplit[nameIndex];
 
-                if (localOneData.isAfter(localDateFrom) && localOneData.isBefore(localDateTo)
-                        || localOneData.equals(localDateTo) || localOneData.equals(localDateFrom)) {
-
-                    if (trimmedName.equals(name)) {
+                if (!(entryDate.isBefore(localDateFrom) || entryDate.isAfter(localDateTo))) {
+                    if (nameFromEntrySplit.equals(name)) {
                         int hoursInData = Integer.parseInt(entrySplit[hoursIndex]);
                         int salaryPerHour = Integer.parseInt(entrySplit[salaryPerHourIndex]);
 
