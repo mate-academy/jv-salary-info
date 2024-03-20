@@ -1,9 +1,9 @@
 package core.basesyntax;
 
 public class UserReportSupplier {
-    private final User user;
+    private final UserWithSalary user;
 
-    public UserReportSupplier(User user) {
+    public UserReportSupplier(UserWithSalary user) {
         this.user = user;
     }
 
