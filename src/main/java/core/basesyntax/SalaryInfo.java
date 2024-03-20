@@ -1,37 +1,38 @@
 package core.basesyntax;
 
+import java.time.LocalDate;
+
 public class SalaryInfo {
     private static final String REPORT_TITLE = "Report for period ";
+    private static final String HYPHEN_WITH_SPACES = " - ";
+
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder reportText = new StringBuilder(REPORT_TITLE)
                 .append(dateFrom)
-                .append(" - ")
+                .append(HYPHEN_WITH_SPACES)
                 .append(dateTo);
-        User[] usersList = new User[names.length];
-
-        for (int i = 0; i < names.length; i++) {
-            usersList[i] = new User(names[i]);
-        }
-
-        for (String userData : data) {
-            Report userReport = new ReportStringParser().parseReportString(userData);
-            ReportDateUtil reportDate = new ReportDateUtil(userReport.getDate());
-            if (reportDate.checkIsDateInRange(dateFrom, dateTo)) {
-                for (User user : usersList) {
-                    if (user.getUserName().equals(userReport.getUserName())) {
-                        user.addMoneyToSalary(userReport.getSalaryPerHour()
-                                        * userReport.getHoursAmount());
-                        break;
-                    }
-                }
-            }
-        }
-
-        for (User user : usersList) {
-            reportText.append(new UserReportSupplier(user).createUserReportTextLine());
-        }
-
+       for (String userName : names) {
+           UserWithSalary userWithSalary = new UserWithSalary(userName);
+           for (String dataPerUser : data) {
+               Report report = ReportStringParserUtil.parseReportString(dataPerUser);
+               if (userWithSalary.getUserName().equals(report.getUserName())
+                       && checkIsDateInRange(report.getDate(), dateFrom, dateTo)) {
+                   userWithSalary.addMoneyToSalary(
+                           report.getSalaryPerHour() * report.getHoursAmount()
+                   );
+               }
+           }
+           reportText.append(new UserReportSupplier(userWithSalary).createUserReportTextLine());
+       }
         return reportText.toString();
+    }
+
+    private boolean checkIsDateInRange(String dateToCheck, String rangeStart, String rangeEnd) {
+        LocalDate date = ReportDateUtil.parseReportStringDate(dateToCheck);
+        LocalDate rangeStartDate = ReportDateUtil.parseReportStringDate(rangeStart);
+        LocalDate rangeEndDate = ReportDateUtil.parseReportStringDate(rangeEnd);
+        return (date.isAfter(rangeStartDate) || date.isEqual(rangeStartDate))
+                && (date.isBefore(rangeEndDate) || date.isEqual(rangeEndDate));
     }
 }
