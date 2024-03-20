@@ -3,22 +3,11 @@ package core.basesyntax;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-public class ReportDateUtil {
-    private static final String DATE_PATTERN = "dd.MM.yyyy";
-    private final LocalDate date;
+public final class ReportDateUtil {
+    private static final String REPORT_DATE_PATTERN = "dd.MM.yyyy";
+    private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(REPORT_DATE_PATTERN);
 
-    public ReportDateUtil(String dateString) {
-        this.date = stringDateToLocalDate(dateString);
-    }
-
-    public static LocalDate stringDateToLocalDate(String date) {
-        return LocalDate.parse(date, DateTimeFormatter.ofPattern(DATE_PATTERN));
-    }
-
-    public boolean checkIsDateInRange(String rangeStart, String rangeEnd) {
-        LocalDate rangeStartDate = stringDateToLocalDate(rangeStart);
-        LocalDate rangeEndDate = stringDateToLocalDate(rangeEnd);
-        return (date.isAfter(rangeStartDate) || date.isEqual(rangeStartDate))
-                && (date.isBefore(rangeEndDate) || date.isEqual(rangeEndDate));
+    public static LocalDate parseReportStringDate(String date) {
+        return LocalDate.parse(date, dateTimeFormatter);
     }
 }
