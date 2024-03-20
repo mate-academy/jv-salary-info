@@ -7,6 +7,8 @@ import java.util.Date;
 public class SalaryInfo {
     private static final String START_TEXT = "Report for period";
     private static final String DATE_FORMAT = "dd.MM.yyyy";
+    private static final String WRONG_DATE_FORMAT_MESSAGE = "Incorrect date format. "
+            + "The date format should be 'dd.MM.yyyy'";
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder salaryInfo = new StringBuilder(START_TEXT)
@@ -16,7 +18,7 @@ public class SalaryInfo {
                 .append(dateTo);
         for (String name : names) {
             salaryInfo
-                    .append("\n")
+                    .append(System.lineSeparator())
                     .append(name)
                     .append(" - ")
                     .append(getSalaryByName(name, data, dateFrom, dateTo));
@@ -26,11 +28,12 @@ public class SalaryInfo {
 
     private int getSalaryByName(String name, String[] data, String dateFrom, String dateTo) {
         int sumSalary = 0;
-
         for (String itemData : data) {
-            String[] employerData = itemData.split(" ");
-            if (isDateInRange(employerData[0], dateFrom, dateTo) && name.equals(employerData[1])) {
-                sumSalary += Integer.parseInt(employerData[2]) * Integer.parseInt(employerData[3]);
+            EmployeeWorkingTimeData employeeData =
+                    new EmployeeWorkingTimeData(itemData.split(" "));
+            if (isDateInRange(employeeData.getWorkingDay(), dateFrom, dateTo)
+                    && name.equals(employeeData.getName())) {
+                sumSalary += employeeData.getRatePerHour() * employeeData.getNumberOfHours();
             }
         }
         return sumSalary;
@@ -42,7 +45,7 @@ public class SalaryInfo {
         try {
             return format.parse(date);
         } catch (ParseException e) {
-            throw new RuntimeException(e);
+            throw new DateFormatValidException(WRONG_DATE_FORMAT_MESSAGE, e);
         }
     }
 
