@@ -1,6 +1,7 @@
 package core.basesyntax;
 
 public class UserReportSupplier {
+    private final static String HYPHEN_WITH_SPACES = " - ";
     private final UserWithSalary user;
 
     public UserReportSupplier(UserWithSalary user) {
@@ -8,7 +9,8 @@ public class UserReportSupplier {
     }
 
     public String createUserReportTextLine() {
-        return System.lineSeparator() + user.getUserName() + " - " + user.getSalaryAmount();
+        return System.lineSeparator() + user.getUserName()
+                + HYPHEN_WITH_SPACES + user.getSalaryAmount();
     }
 }
 
