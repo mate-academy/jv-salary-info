@@ -37,6 +37,14 @@ public class SalaryInfo {
         return sumSalary;
     }
 
+    private boolean isDateInRange(String date, String dateFrom, String dateTo) {
+        LocalDate parseDate = getDateFromString(date);
+        LocalDate parseDateFrom = getDateFromString(dateFrom);
+        LocalDate parseDateTo = getDateFromString(dateTo);
+        return (parseDate.isAfter(parseDateFrom) || parseDate.equals(parseDateFrom))
+                && (parseDate.isBefore(parseDateTo) || parseDate.equals(parseDateTo));
+    }
+
     private LocalDate getDateFromString(String stringDate) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
         try {
@@ -44,13 +52,5 @@ public class SalaryInfo {
         } catch (Exception e) {
             throw new DateFormatValidException(WRONG_DATE_FORMAT_MESSAGE, e);
         }
-    }
-
-    private boolean isDateInRange(String date, String dateFrom, String dateTo) {
-        LocalDate parseDate = getDateFromString(date);
-        LocalDate parseDateFrom = getDateFromString(dateFrom);
-        LocalDate parseDateTo = getDateFromString(dateTo);
-        return (parseDate.isAfter(parseDateFrom) || parseDate.equals(parseDateFrom))
-                && (parseDate.isBefore(parseDateTo) || parseDate.equals(parseDateTo));
     }
 }
