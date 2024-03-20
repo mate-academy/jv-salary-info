@@ -1,7 +1,7 @@
 package core.basesyntax;
 
 public class UserReportSupplier {
-    private final static String HYPHEN_WITH_SPACES = " - ";
+    private static final String HYPHEN_WITH_SPACES = " - ";
     private final UserWithSalary user;
 
     public UserReportSupplier(UserWithSalary user) {
