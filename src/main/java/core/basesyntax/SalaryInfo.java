@@ -14,16 +14,16 @@ public class SalaryInfo {
         for (String userName : names) {
             UserWithSalary userWithSalary = new UserWithSalary(userName);
             for (String dataPerUser : data) {
-               Report report = ReportStringParserUtil.parseReportString(dataPerUser);
-               if (userWithSalary.getUserName().equals(report.getUserName())
-                       && checkIsDateInRange(report.getDate(), dateFrom, dateTo)) {
-                   userWithSalary.addMoneyToSalary(
-                           report.getSalaryPerHour() * report.getHoursAmount()
-                   );
-               }
-           }
-           reportText.append(new UserReportSupplier(userWithSalary).createUserReportTextLine());
-       }
+                Report report = ReportStringParserUtil.parseReportString(dataPerUser);
+                if (userWithSalary.getUserName().equals(report.getUserName())
+                        && checkIsDateInRange(report.getDate(), dateFrom, dateTo)) {
+                    userWithSalary.addMoneyToSalary(
+                            report.getSalaryPerHour() * report.getHoursAmount()
+                    );
+                }
+            }
+            reportText.append(new UserReportSupplier(userWithSalary).createUserReportTextLine());
+        }
         return reportText.toString();
     }
 
