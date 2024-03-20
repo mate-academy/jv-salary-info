@@ -1,10 +1,10 @@
 package core.basesyntax;
 
-public class User {
+public class UserWithSalary {
     private final String userName;
     private int salaryAmount;
 
-    public User(String name) {
+    public UserWithSalary(String name) {
         this.userName = name;
     }
 
