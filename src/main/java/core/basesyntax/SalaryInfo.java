@@ -4,14 +4,20 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(
+            "dd.MM.yyyy");
+    private static final String REPORT_PERIOD_HEADER = "Report for period ";
+    private static final String DASH = " - ";
+    private static final int NAMES_CONST = 0;
+    private static final int HOURS_CONST = 2;
+    private static final int INCOME_PER_HOUR_CONST = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate fromDate = LocalDate.parse(dateFrom, dateFormatter);
         LocalDate toDate = LocalDate.parse(dateTo, dateFormatter);
 
         StringBuilder builder = new StringBuilder();
-        builder.append("Report for period ").append(dateFrom).append(" - ").append(dateTo)
+        builder.append(REPORT_PERIOD_HEADER).append(dateFrom).append(DASH).append(dateTo)
                 .append(System.lineSeparator());
 
         for (int i = 0; i < names.length; i++) {
@@ -20,21 +26,19 @@ public class SalaryInfo {
 
             for (String entry : data) {
                 String[] parts = entry.split(" ");
-                LocalDate date = LocalDate.parse(parts[0], dateFormatter);
+                LocalDate date = LocalDate.parse(parts[NAMES_CONST], dateFormatter);
 
                 if (!date.isBefore(fromDate) && !date.isAfter(toDate) && parts[1].equals(name)) {
-                    int hoursWorked = Integer.parseInt(parts[2]);
-                    int incomePerHour = Integer.parseInt(parts[3]);
+                    int hoursWorked = Integer.parseInt(parts[HOURS_CONST]);
+                    int incomePerHour = Integer.parseInt(parts[INCOME_PER_HOUR_CONST]);
                     salary += hoursWorked * incomePerHour;
                 }
             }
 
-            builder.append(name).append(" - ").append(salary);
-
-            if (i < names.length - 1) {
-                builder.append(System.lineSeparator());
-            }
+            builder.append(name).append(DASH).append(salary).append(System.lineSeparator());
         }
-        return builder.toString();
+
+        int lastIndex = builder.lastIndexOf(System.lineSeparator());
+        return builder.delete(lastIndex, builder.length()).toString();
     }
 }
