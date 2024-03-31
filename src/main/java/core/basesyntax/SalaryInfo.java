@@ -1,7 +1,47 @@
 package core.basesyntax;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class SalaryInfo {
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        return null;
+        StringBuilder result = new StringBuilder()
+                .append("Report for period ")
+                .append(dateFrom)
+                .append(" - ")
+                .append(dateTo);
+
+        if (dateFrom == null || dateFrom.isEmpty()
+                || dateTo == null || dateTo.isEmpty()
+                || names.length == 0 || data.length == 0) {
+            throw new IllegalArgumentException("Incorrect input data");
+        }
+
+        LocalDate fromDate = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate toDate = LocalDate.parse(dateTo, FORMATTER);
+
+        for (int i = 0; i < names.length; i++) {
+            int salary = 0;
+            for (String entry: data) {
+                String[] parts = entry.split(" ");
+                if (parts.length == 4) {
+                    LocalDate entryDate = LocalDate.parse(parts[0], FORMATTER);
+                    String name = parts[1];
+                    int hoursWorked = Integer.parseInt(parts[2]);
+                    int incomePerHour = Integer.parseInt(parts[3]);
+                    if (!entryDate.isAfter(toDate) && !entryDate.isBefore(fromDate)) {
+                        if (names[i].equals(name)) {
+                            salary += hoursWorked * incomePerHour;
+                        }
+                    }
+                } else {
+                    return "Invalid data format";
+                }
+            }
+            result.append(System.lineSeparator()).append(names[i]).append(" - ").append(salary);
+        }
+        return result.toString();
     }
 }
