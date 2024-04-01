@@ -5,6 +5,10 @@ import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final int DATE_INDEX = 0;
+    private static final int NAME_INDEX = 1;
+    private static final int HOURS_INDEX = 2;
+    private static final int INCOME_INDEX = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder result = new StringBuilder()
@@ -12,12 +16,6 @@ public class SalaryInfo {
                 .append(dateFrom)
                 .append(" - ")
                 .append(dateTo);
-
-        if (dateFrom == null || dateFrom.isEmpty()
-                || dateTo == null || dateTo.isEmpty()
-                || names.length == 0 || data.length == 0) {
-            throw new IllegalArgumentException("Incorrect input data");
-        }
 
         LocalDate fromDate = LocalDate.parse(dateFrom, FORMATTER);
         LocalDate toDate = LocalDate.parse(dateTo, FORMATTER);
@@ -27,10 +25,10 @@ public class SalaryInfo {
             for (String entry: data) {
                 String[] parts = entry.split(" ");
                 if (parts.length == 4) {
-                    LocalDate entryDate = LocalDate.parse(parts[0], FORMATTER);
-                    String name = parts[1];
-                    int hoursWorked = Integer.parseInt(parts[2]);
-                    int incomePerHour = Integer.parseInt(parts[3]);
+                    LocalDate entryDate = LocalDate.parse(parts[DATE_INDEX], FORMATTER);
+                    String name = parts[NAME_INDEX];
+                    int hoursWorked = Integer.parseInt(parts[HOURS_INDEX]);
+                    int incomePerHour = Integer.parseInt(parts[INCOME_INDEX]);
                     if (!entryDate.isAfter(toDate) && !entryDate.isBefore(fromDate)) {
                         if (names[i].equals(name)) {
                             salary += hoursWorked * incomePerHour;
