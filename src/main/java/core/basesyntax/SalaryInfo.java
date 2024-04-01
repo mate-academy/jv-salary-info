@@ -9,14 +9,14 @@ public class SalaryInfo {
     private static final int NAME_INDEX = 1;
     private static final int HOURS_INDEX = 2;
     private static final int INCOME_INDEX = 3;
+    private static final String INVALID_DATA_FORMAT = "Invalid data format";
+    private static final String REPORT_HEADER = "Report for period ";
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        StringBuilder result = new StringBuilder()
-                .append("Report for period ")
+        StringBuilder result = new StringBuilder(REPORT_HEADER)
                 .append(dateFrom)
                 .append(" - ")
                 .append(dateTo);
-
         LocalDate fromDate = LocalDate.parse(dateFrom, FORMATTER);
         LocalDate toDate = LocalDate.parse(dateTo, FORMATTER);
 
@@ -35,7 +35,7 @@ public class SalaryInfo {
                         }
                     }
                 } else {
-                    return "Invalid data format";
+                    return INVALID_DATA_FORMAT;
                 }
             }
             result.append(System.lineSeparator()).append(names[i]).append(" - ").append(salary);
