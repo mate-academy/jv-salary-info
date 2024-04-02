@@ -21,7 +21,6 @@ public class SalaryInfo {
                             && ChronoUnit.DAYS.between(startDate, currentDate) >= 0) {
                         result += Integer.parseInt(infoFromData[2])
                                 * Integer.parseInt(infoFromData[3]);
-
                     }
                 }
             }
