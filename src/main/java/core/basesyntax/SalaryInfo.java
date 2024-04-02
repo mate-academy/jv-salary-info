@@ -5,11 +5,15 @@ import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-    private String employeeName;
+    private static final int WORKING_DATE_INDEX = 0;
+    private static final int NAME_INDEX = 1;
+    private static final int WORKING_HOURS_INDEX = 2;
+    private static final int HOUR_PAYMENT_INDEX = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        StringBuilder builder = new StringBuilder();
-        builder.append("Report for period ")
+        String employeeName;
+        StringBuilder salaryReport = new StringBuilder();
+        salaryReport.append("Report for period ")
                 .append(dateFrom)
                 .append(" - ")
                 .append(dateTo);
@@ -17,24 +21,24 @@ public class SalaryInfo {
         for (String name : names) {
             employeeName = name;
             if (name != null) {
-                builder.append(System.lineSeparator())
+                salaryReport.append(System.lineSeparator())
                         .append(name)
                         .append(" - ")
-                        .append(salaryCalculator(data, dateFrom, dateTo));
+                        .append(salaryCalculator(data, dateFrom, dateTo, employeeName));
             }
         }
-        return builder.toString();
+        return salaryReport.toString();
     }
 
-    private int salaryCalculator(String[] data, String dateFrom, String dateTo) {
+    private int salaryCalculator(String[] data, String dateFrom, String dateTo, String employeeName) {
         String[] dataToParts;
         int salary = 0;
         for (String datum : data) {
             dataToParts = datum.split(" ");
-            String workingDate = dataToParts[0];
-            String name = dataToParts[1];
-            int workingHours = Integer.parseInt(dataToParts[2]);
-            int hourPayment = Integer.parseInt(dataToParts[3]);
+            String workingDate = dataToParts[WORKING_DATE_INDEX];
+            String name = dataToParts[NAME_INDEX];
+            int workingHours = Integer.parseInt(dataToParts[WORKING_HOURS_INDEX]);
+            int hourPayment = Integer.parseInt(dataToParts[HOUR_PAYMENT_INDEX]);
             if (employeeName.equals(name) && dateFilter(workingDate, dateFrom, dateTo)) {
                 salary = salary + (workingHours * hourPayment);
             }
@@ -46,7 +50,6 @@ public class SalaryInfo {
         LocalDate workingDates = LocalDate.parse(workingDate, FORMATTER);
         LocalDate dateFromStr = LocalDate.parse(dateFrom, FORMATTER);
         LocalDate dateToStr = LocalDate.parse(dateTo, FORMATTER);
-        return (workingDates.isEqual(dateFromStr) || workingDates.isAfter(dateFromStr))
-                && (workingDates.isEqual(dateToStr) || workingDates.isBefore(dateToStr));
+        return !workingDates.isBefore(dateFromStr) && !workingDates.isAfter(dateToStr);
     }
 }
