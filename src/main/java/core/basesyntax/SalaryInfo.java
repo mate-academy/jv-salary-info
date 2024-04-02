@@ -30,7 +30,8 @@ public class SalaryInfo {
         return salaryReport.toString();
     }
 
-    private int salaryCalculator(String[] data, String dateFrom, String dateTo, String employeeName) {
+    private int salaryCalculator(String[] data, String dateFrom,
+                                 String dateTo, String employeeName) {
         String[] dataToParts;
         int salary = 0;
         for (String datum : data) {
