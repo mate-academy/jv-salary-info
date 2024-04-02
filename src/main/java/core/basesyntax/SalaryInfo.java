@@ -5,17 +5,18 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
 public class SalaryInfo {
+    private static final DateTimeFormatter FORMMATER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder builder = new StringBuilder();
         int result = 0;
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        LocalDate startDate = LocalDate.parse(dateFrom, formatter);
-        LocalDate endDate = LocalDate.parse(dateTo, formatter);
+        LocalDate startDate = LocalDate.parse(dateFrom, FORMMATER);
+        LocalDate endDate = LocalDate.parse(dateTo, FORMMATER);
         builder.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
         for (String name : names) {
             for (String dataString : data) {
                 String [] infoFromData = dataString.split(" ");
-                LocalDate currentDate = LocalDate.parse(infoFromData[0], formatter);
+                LocalDate currentDate = LocalDate.parse(infoFromData[0], FORMMATER);
                 if (name.equals(infoFromData[1])) {
                     if (ChronoUnit.DAYS.between(currentDate, endDate) >= 0
                             && ChronoUnit.DAYS.between(startDate, currentDate) >= 0) {
