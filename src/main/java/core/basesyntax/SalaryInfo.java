@@ -12,17 +12,14 @@ public class SalaryInfo {
     public static final int INDEX_OF_NAME = 1;
     public static final int INDEX_OF_HOUR = 2;
     public static final int INDEX_OF_SALARY = 3;
-    private StringBuilder stringBuilder;
-    private LocalDate dataDate;
-    private LocalDate toDate;
-    private LocalDate fromDate;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        stringBuilder = new StringBuilder();
+        StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(REPORT_TITLE)
                 .append(dateFrom).append(DASH).append(dateTo).append(System.lineSeparator());
-        toDate = LocalDate.parse(dateTo, formatter);
-        fromDate = LocalDate.parse(dateFrom, formatter);
+        LocalDate toDate = LocalDate.parse(dateTo, formatter);
+        LocalDate fromDate = LocalDate.parse(dateFrom, formatter);
+        LocalDate dataDate;
 
         String[] splittedData;
         int salarySum = 0;
@@ -45,13 +42,10 @@ public class SalaryInfo {
                     .append(DASH)
                     .append(salarySum);
 
-            if (!name.equals(names[names.length - 1])) {
-                stringBuilder.append(System.lineSeparator());
-            }
-
+            stringBuilder.append(
+                    name.equals(names[names.length - 1]) ? "" : System.lineSeparator());
             salarySum = 0;
         }
-
         return stringBuilder.toString();
     }
 }
