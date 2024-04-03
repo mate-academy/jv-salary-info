@@ -25,7 +25,8 @@ public class SalaryInfo {
                     }
                 }
             }
-            builder.append("\r\n").append(name).append(" - ").append(result);
+            builder.append(System.lineSeparator()).append(name).append(" - ").append(result);
+
             result = 0;
         }
         return builder.toString();
