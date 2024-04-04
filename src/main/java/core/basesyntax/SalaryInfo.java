@@ -11,7 +11,7 @@ public class SalaryInfo {
     private static final String HEADER = "Report for period ";
     private static final String SEPARATOR = " - ";
     private static final String DATA_SEPARATOR = " ";
-    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder result = new StringBuilder();
@@ -19,21 +19,19 @@ public class SalaryInfo {
         LocalDate localDateFrom = LocalDate.parse(dateFrom, formatter);
         LocalDate localDateTo = LocalDate.parse(dateTo, formatter);
         for (String name : names) {
-            result.append("\n");
             int moneyEarned = 0;
             for (String basicData : data) {
                 String[] elements = basicData.split(DATA_SEPARATOR);
                 LocalDate entryDate = LocalDate.parse(elements[DATE_INDEX], formatter);
-                if ((entryDate.isEqual(localDateFrom)
-                        || entryDate.isAfter(localDateFrom))
-                        && (entryDate.isEqual(localDateTo)
-                        || entryDate.isBefore(localDateTo))
-                        && (elements[NAME_INDEX].equals(name))) {
+                if (!entryDate.isAfter(localDateTo)
+                        && !entryDate.isBefore(localDateFrom)
+                        && elements[NAME_INDEX].equals(name)) {
                     moneyEarned += Integer.parseInt(elements[WORKING_HOURS_INDEX])
                             * Integer.parseInt(elements[INCOME_PER_HOURS_INDEX]);
                 }
             }
-            result.append(name).append(SEPARATOR)
+            result.append(System.lineSeparator())
+                    .append(name).append(SEPARATOR)
                     .append(moneyEarned);
 
         }
