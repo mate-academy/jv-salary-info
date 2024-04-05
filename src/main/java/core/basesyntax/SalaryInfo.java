@@ -11,24 +11,6 @@ public class SalaryInfo {
     private static final int hourlyRateIndex = 3;
     private static final int expectedParts = 4;
 
-    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        StringBuilder result = new StringBuilder();
-        result.append(reportGenerator(dateFrom, dateTo));
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-        try {
-            Date fromDate = dateFormat.parse(dateFrom);
-            Date toDate = dateFormat.parse(dateTo);
-            for (String name : names) {
-                result.append("\n");
-                int totalIncome = calculateTotalIncome(data, name, fromDate, toDate, dateFormat);
-                result.append(salaryLineGenerator(name, totalIncome));
-            }
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return result.toString();
-    }
-
     private int calculateTotalIncome(String[] data, String name, Date fromDate, Date toDate,
                                      SimpleDateFormat dateFormat) throws ParseException {
         int totalIncome = 0;
@@ -59,5 +41,23 @@ public class SalaryInfo {
 
     private String salaryLineGenerator(String name, int totalIncome) {
         return name + " - " + totalIncome;
+    }
+
+    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
+        StringBuilder result = new StringBuilder();
+        result.append(reportGenerator(dateFrom, dateTo));
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+        try {
+            Date fromDate = dateFormat.parse(dateFrom);
+            Date toDate = dateFormat.parse(dateTo);
+            for (String name : names) {
+                result.append("\n");
+                int totalIncome = calculateTotalIncome(data, name, fromDate, toDate, dateFormat);
+                result.append(salaryLineGenerator(name, totalIncome));
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return result.toString();
     }
 }
