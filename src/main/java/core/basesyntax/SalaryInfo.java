@@ -16,8 +16,6 @@ public class SalaryInfo {
         String nameOfEmployee;
         int hours;
         int salaryPerHour;
-        int compareToDateFrom;
-        int compareToDateTo;
         String[] personInformation;
         LocalDate localDateFrom = LocalDate.parse(dateFrom, FORMATTER);
         LocalDate localDateTo = LocalDate.parse(dateTo, FORMATTER);
@@ -28,14 +26,13 @@ public class SalaryInfo {
             nameOfEmployee = personInformation[INDEX_OF_NAME];
             hours = Integer.parseInt(personInformation[INDEX_OF_DAYS]);
             salaryPerHour = Integer.parseInt(personInformation[INDEX_OF_PRICE]);
-            compareToDateFrom = localDateFrom.compareTo(date);
-            compareToDateTo = localDateTo.compareTo(date);
             if (List.of(names).contains(nameOfEmployee)
-                    && compareToDateFrom <= 0 && compareToDateTo >= 0) {
+                    && (localDateFrom.isBefore(date) || localDateFrom.isEqual(date))
+                    && (localDateTo.isAfter(date) || localDateTo.isEqual(date))) {
                 finalSalary[List.of(names).indexOf(nameOfEmployee)] += hours * salaryPerHour;
             }
         }
-        return dataToString(names,finalSalary,dateFrom,dateTo);
+        return dataToString(names, finalSalary, dateFrom, dateTo);
     }
 
     private String dataToString(String[] names, int[] salary, String dateFrom, String dateTo) {
@@ -43,9 +40,9 @@ public class SalaryInfo {
         resultString.append(String.format("Report for period %s - %s",dateFrom,dateTo));
         for (int i = 0; i < names.length; i++) {
             resultString
-                    .append(String.format(System.lineSeparator() + "%s - %d", names[i], salary[i]));
+                    .append(System.lineSeparator())
+                    .append(names[i]).append(" - ").append(salary[i]);
         }
         return resultString.toString();
     }
-
 }
