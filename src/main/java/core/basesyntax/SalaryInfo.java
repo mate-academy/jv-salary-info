@@ -21,9 +21,7 @@ public class SalaryInfo {
                 int hoursWorked = Integer.parseInt(recordParts[2]);
                 int hourlyRate = Integer.parseInt(recordParts[3]);
 
-                // Перевірка, чи дата запису входить у вказаний діапазон
                 if (!date.isBefore(from) && !date.isAfter(to)) {
-                    // Знаходимо індекс імені працівника у масиві names
                     int index = -1;
                     for (int i = 0; i < names.length; i++) {
                         if (names[i].equals(name)) {
@@ -32,14 +30,14 @@ public class SalaryInfo {
                         }
                     }
 
-                    // Якщо ім'я знайдено, додаємо заробітну плату до відповідного індексу в масиві totalSalaries
                     if (index != -1) {
                         totalSalaries[index] += hoursWorked * hourlyRate;
                     }
                 }
             }
 
-            report.append("Report for period " + dateFrom + " - " + dateTo + System.lineSeparator());
+            report.append("Report for period " + dateFrom + " - " + dateTo
+                    + System.lineSeparator());
 
             for (int i = 0; i < names.length; i++) {
                 if (i == names.length - 1) {
