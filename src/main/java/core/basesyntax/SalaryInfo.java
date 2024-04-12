@@ -13,14 +13,14 @@ public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder result = new StringBuilder();
         result.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
+        LocalDate dateStart = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate dateFinal = LocalDate.parse(dateTo, FORMATTER);
         for (String name : names) {
             int totalSalary = 0;
-            LocalDate dateStart = LocalDate.parse(dateFrom, FORMATTER);
-            LocalDate dateFinal = LocalDate.parse(dateTo, FORMATTER).plusDays(1);
             for (String entry : data) {
                 String[] parts = entry.split(" ");
                 LocalDate date = LocalDate.parse(parts[DATE_INDEX], FORMATTER);
-                if (!date.isBefore(dateStart) && date.isBefore(dateFinal)
+                if (!date.isBefore(dateStart) && !date.isAfter(dateFinal)
                         && name.equals(parts[NAME_INDEX])) {
                     int hours = Integer.parseInt(parts[INCOME_INDEX]);
                     int incomePerHour = Integer.parseInt(parts[HOURS_INDEX]);
