@@ -12,23 +12,38 @@ public class SalaryInfo {
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder result = new StringBuilder();
-        result.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
+        result.append("Report for period ")
+                .append(dateFrom).append(" - ")
+                .append(dateTo);
         LocalDate dateStart = LocalDate.parse(dateFrom, FORMATTER);
         LocalDate dateFinal = LocalDate.parse(dateTo, FORMATTER);
         for (String name : names) {
-            int totalSalary = 0;
-            for (String entry : data) {
-                String[] parts = entry.split(" ");
-                LocalDate date = LocalDate.parse(parts[DATE_INDEX], FORMATTER);
-                if (!date.isBefore(dateStart) && !date.isAfter(dateFinal)
-                        && name.equals(parts[NAME_INDEX])) {
-                    int hours = Integer.parseInt(parts[INCOME_INDEX]);
-                    int incomePerHour = Integer.parseInt(parts[HOURS_INDEX]);
-                    totalSalary += hours * incomePerHour;
-                }
-            }
-            result.append(System.lineSeparator()).append(name).append(" - ").append(totalSalary);
+            int totalSalary = calculateTotalSalaryForName(name, data, dateStart, dateFinal);
+            result.append(System.lineSeparator())
+                    .append(name)
+                    .append(" - ")
+                    .append(totalSalary);
         }
         return result.toString();
+    }
+
+    private int calculateTotalSalaryForName(String name, String[] data,
+                                            LocalDate dateStart, LocalDate dateFinal) {
+        int totalSalary = 0;
+        for (String entry : data) {
+            String[] parts = entry.split(" ");
+            LocalDate date = LocalDate.parse(parts[DATE_INDEX], FORMATTER);
+            if (isDateInRange(date, dateStart, dateFinal)
+                    && name.equals(parts[NAME_INDEX])) {
+                int hours = Integer.parseInt(parts[INCOME_INDEX]);
+                int incomePerHour = Integer.parseInt(parts[HOURS_INDEX]);
+                totalSalary += hours * incomePerHour;
+            }
+        }
+        return totalSalary;
+    }
+
+    private boolean isDateInRange(LocalDate date, LocalDate dateStart, LocalDate dateFinal) {
+        return !date.isBefore(dateStart) && !date.isAfter(dateFinal);
     }
 }
