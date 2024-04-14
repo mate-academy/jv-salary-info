@@ -35,8 +35,12 @@ public class SalaryInfo {
         report.append("Report for period ").append(dateFrom).append(" - ").append(dateTo)
                 .append(System.lineSeparator());
         for (int i = 0; i < names.length; i++) {
-            report.append(names[i]).append(" - ").append(earnings[i])
-                    .append(System.lineSeparator());
+            if (i == names.length - 1) {
+                report.append(names[i]).append(" - ").append(earnings[i]);
+            } else {
+                report.append(names[i]).append(" - ").append(earnings[i])
+                        .append(System.lineSeparator());
+            }
         }
 
         return report.toString();
