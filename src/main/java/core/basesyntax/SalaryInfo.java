@@ -4,14 +4,13 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
+    private static final int dataDate = 0;
+    private static final int dataName = 1;
+    private static final int dataHours = 2;
+    private static final int dataIncome = 3;
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-    private final int dataDate = 0;
-    private final int dataName = 1;
-    private final int dataHours = 2;
-    private final int dataIncome = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-
         LocalDate salaryDateFrom = LocalDate.parse(dateFrom, formatter);
         LocalDate salaryDateTo = LocalDate.parse(dateTo, formatter);
         StringBuilder reportBuilder = new StringBuilder();
@@ -23,8 +22,8 @@ public class SalaryInfo {
                 String[] tempData = datum.split(" ");
                 LocalDate currentDate = LocalDate.parse(tempData[dataDate], formatter);
 
-                if (currentDate.isAfter(salaryDateFrom.minusDays(1))
-                        && currentDate.isBefore(salaryDateTo.plusDays(1))) {
+                if (!currentDate.isBefore(salaryDateFrom)
+                        && !currentDate.isAfter(salaryDateTo)) {
                     if (name.equals(tempData[dataName])) {
                         totalSalary += Integer.parseInt(tempData[dataHours])
                                 * Integer.parseInt(tempData[dataIncome]);
