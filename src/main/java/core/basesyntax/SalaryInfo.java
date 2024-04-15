@@ -2,20 +2,38 @@ package core.basesyntax;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 
 public class SalaryInfo {
-    private static final int DATE_FORMAT_LENGTH = 10;
+    private static final String SPLIT_CHARACTER = " ";
+    private static final int CURRENT_DATE_PARSE_NUMBER = 0;
+    private static final int CURRENT_NAME_PARSE_NUMBER = 1;
+    private static final int HOURS_PARSE_NUMBER = 2;
+    private static final int INCOME_PER_HOUR_PARSE_NuMBER = 3;
     private static final DateTimeFormatter formatter = DateTimeFormatter
             .ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data,
                                 String dateFrom, String dateTo) {
+        int[] earnings = new int[names.length];
         LocalDate fromDate = LocalDate.parse(dateFrom, formatter);
         LocalDate toDate = LocalDate.parse(dateTo, formatter);
 
-        int[] earnings = this.getEarnings(names, data, fromDate, toDate);
+        for (String entry : data) {
+            String[] parts = entry.split(SPLIT_CHARACTER);
+            LocalDate currentDate = LocalDate.parse(parts[CURRENT_DATE_PARSE_NUMBER], formatter);
+            String currentName = parts[CURRENT_NAME_PARSE_NUMBER];
+            int hours = Integer.parseInt(parts[HOURS_PARSE_NUMBER]);
+            int incomePerHour = Integer.parseInt(parts[INCOME_PER_HOUR_PARSE_NuMBER]);
 
-        //report creation
+            if (isWithinDateRange(currentDate, fromDate, toDate)) {
+                int index = Arrays.asList(names).indexOf(currentName);
+                if (index != -1) {
+                    earnings[index] += hours * incomePerHour;
+                }
+            }
+        }
+
         StringBuilder report = new StringBuilder();
         report.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
         for (int i = 0; i < names.length; i++) {
@@ -29,29 +47,5 @@ public class SalaryInfo {
     private boolean isWithinDateRange(LocalDate currentDate, LocalDate fromDate,
                                       LocalDate toDate) {
         return !currentDate.isBefore(fromDate) && !currentDate.isAfter(toDate);
-    }
-
-    private int[] getEarnings(String[] names, String[] data,
-                              LocalDate fromDate, LocalDate toDate) {
-        int[] earnings = new int[names.length];
-        for (String entry : data) {
-            //parsing
-            String[] parts = entry.split(" ");
-            LocalDate currentDate = LocalDate.parse(parts[0], formatter);
-            String currentName = parts[1];
-            int hours = Integer.parseInt(parts[2]);
-            int incomePerHour = Integer.parseInt(parts[3]);
-
-            //calculate earnings
-            if (isWithinDateRange(currentDate, fromDate, toDate)) {
-                for (int i = 0; i < names.length; i++) {
-                    if (currentName.equals(names[i])) {
-                        earnings[i] += hours * incomePerHour;
-                        break;
-                    }
-                }
-            }
-        }
-        return earnings;
     }
 }
