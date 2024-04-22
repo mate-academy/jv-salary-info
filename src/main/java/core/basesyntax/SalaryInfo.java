@@ -14,41 +14,35 @@ public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate parsedDateFrom;
         LocalDate parsedDateTo;
-        StringBuilder sb = new StringBuilder("Report for period ");
-        sb.append(dateFrom).append(" - ").append(dateTo);
-
+        StringBuilder report = new StringBuilder("Report for period ")
+                .append(dateFrom).append(" - ").append(dateTo);
         try {
             parsedDateFrom = LocalDate.parse(dateFrom.trim(), FORMATTER);
             parsedDateTo = LocalDate.parse(dateTo.trim(), FORMATTER);
         } catch (DateTimeParseException e) {
             return "The date format is incorrect or the date is invalid.";
         }
-
         for (String name : names) {
             int currentPersonEarnings = 0;
-
             for (int i = 0; i < data.length; i++) {
-                String[] stringParts = data[i].split(" ");
-
-                if (!stringParts[NAME_PART].equals(name)) {
+                String[] allInfo = data[i].split(" ");
+                if (!allInfo[NAME_PART].equals(name)) {
                     continue;
                 }
-
-                LocalDate parsedDatePart = LocalDate.parse(stringParts[DATE_PART], FORMATTER);
-
-                if (!parsedDatePart.isBefore(parsedDateFrom)
-                        && !parsedDatePart.isAfter(parsedDateTo)) {
-                    int earningsInCurrentEntry = Integer.parseInt(stringParts[WORKED_HOURS_PART])
-                            * Integer.parseInt(stringParts[RATE_PART]);
-
+                LocalDate parsedDatePart = LocalDate.parse(allInfo[DATE_PART], FORMATTER);
+                if (isDateIncludes(parsedDatePart, parsedDateFrom, parsedDateTo)) {
+                    int earningsInCurrentEntry = Integer.parseInt(allInfo[WORKED_HOURS_PART])
+                            * Integer.parseInt(allInfo[RATE_PART]);
                     currentPersonEarnings += earningsInCurrentEntry;
                 }
             }
-
-            sb.append(System.lineSeparator());
-            sb.append(name).append(" - ").append(currentPersonEarnings);
+            report.append(System.lineSeparator())
+                    .append(name).append(" - ").append(currentPersonEarnings);
         }
+        return report.toString();
+    }
 
-        return sb.toString();
+    private boolean isDateIncludes(LocalDate date, LocalDate dateFrom, LocalDate dateTo) {
+        return !date.isBefore(dateFrom) && !date.isAfter(dateTo);
     }
 }
