@@ -10,7 +10,7 @@ public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder report = new StringBuilder();
         report.append("Report for period ").append(dateFrom).append(" - ")
-                .append(dateTo).append(System.lineSeparator());
+                .append(dateTo);
 
         for (String name : names) {
             int totalEarnings = 0;
@@ -30,7 +30,7 @@ public class SalaryInfo {
                 }
             }
 
-            report.append(name).append(" - ").append(totalEarnings).append(System.lineSeparator());
+            report.append(System.lineSeparator()).append(name).append(" - ").append(totalEarnings);
         }
 
         return report.toString();
