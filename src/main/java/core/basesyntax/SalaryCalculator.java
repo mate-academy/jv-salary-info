@@ -1,11 +1,12 @@
 package core.basesyntax;
 
-public class CalculateSalary {
+public class SalaryCalculator {
+    private static final int INITIAL_AMOUNT = 0;
 
-    public String toGetSalary(String[] names, String[] infoData) {
+    public String toCalculateSalary(String[] names, String[] infoData) {
         StringBuilder result = new StringBuilder();
         for (String name: names) {
-            int salarySum = 0;
+            int salarySum = INITIAL_AMOUNT;
             for (int i = 0; i < infoData.length; i++) {
                 if (infoData[i].contains(name)) {
                     String[] earnedMoney = infoData[i].substring(name.length() + 1).split(" ");
@@ -17,5 +18,4 @@ public class CalculateSalary {
         }
         return result.toString().trim();
     }
-
 }
