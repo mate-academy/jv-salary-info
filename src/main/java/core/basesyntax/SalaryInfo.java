@@ -8,10 +8,12 @@ public class SalaryInfo {
     private static final int NAME_INDEX = 1;
     private static final int HOUR_INDEX = 2;
     private static final int RATE_INDEX = 3;
+    private static final DateTimeFormatter DATE_FORMATTER
+            = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        LocalDate fromDate = LocalDate.parse(dateFrom, DateTimeFormatter.ofPattern("dd.MM.yyyy"));
-        LocalDate toDate = LocalDate.parse(dateTo, DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+        LocalDate fromDate = LocalDate.parse(dateFrom, DATE_FORMATTER);
+        LocalDate toDate = LocalDate.parse(dateTo, DATE_FORMATTER);
 
         StringBuilder reportLines = new StringBuilder();
         reportLines.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
@@ -27,8 +29,7 @@ public class SalaryInfo {
         int earned = 0;
         for (String entry : data) {
             String[] parts = entry.split(" ");
-            LocalDate entryDate = LocalDate.parse(parts[DATE_INDEX],
-                    DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+            LocalDate entryDate = LocalDate.parse(parts[DATE_INDEX], DATE_FORMATTER);
             if (isWithinDateRange(name, entryDate, fromDate, toDate, parts)) {
                 int hours = Integer.parseInt(parts[HOUR_INDEX]);
                 int rate = Integer.parseInt(parts[RATE_INDEX]);
