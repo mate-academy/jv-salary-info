@@ -12,14 +12,11 @@ public class SalaryInfo {
     private static final String REPORT_TITLE = "Report for period ";
     private static final String SEPARATOR = " - ";
     private static final String WHITESPACE = " ";
-    private final DateTimeFormatter timeFormatter;
-
-    public SalaryInfo() {
-        timeFormatter = DateTimeFormatter.ofPattern(DATE_PATTERN);
-    }
+    private final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern(DATE_PATTERN);
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        StringBuilder reportBuilder = new StringBuilder().append(REPORT_TITLE)
+        StringBuilder reportBuilder = new StringBuilder()
+                .append(REPORT_TITLE)
                 .append(dateFrom)
                 .append(SEPARATOR)
                 .append(dateTo);
