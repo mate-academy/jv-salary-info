@@ -11,8 +11,8 @@ public class SalaryInfo {
     private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
 
         for (int j = 0; j < names.length; j++) {
             int salaryAmount = 0;
@@ -29,16 +29,20 @@ public class SalaryInfo {
                             * Integer.parseInt(dataString[INCOME_PER_HOUR_POSITION_IN_DATA_STRING]);
                 }
             }
-            sb.append(System.lineSeparator())
-                    .append(names[j])
-                    .append(" - ")
-                    .append(salaryAmount);
+            appendDataToStringBuilder(stringBuilder, names[j], salaryAmount);
         }
-        return sb.toString();
+        return stringBuilder.toString();
     }
 
     private boolean isDateBetweenDates(LocalDate date, String dateFrom, String dateTo) {
         return date.isAfter(LocalDate.parse(dateFrom, dateFormatter).minusDays(1))
                 && date.isBefore(LocalDate.parse(dateTo, dateFormatter).plusDays(1));
+    }
+
+    private void appendDataToStringBuilder(StringBuilder stringBuilder, String name, int salary) {
+        stringBuilder.append(System.lineSeparator())
+                .append(name)
+                .append(" - ")
+                .append(salary);
     }
 }
