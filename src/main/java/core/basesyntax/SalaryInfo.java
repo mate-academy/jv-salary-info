@@ -1,6 +1,10 @@
 package core.basesyntax;
 
 public class SalaryInfo {
+    private static final int YEAR_INDEX = 2;
+    private static final int MONTH_INDEX = 1;
+    private static final int DAY_INDEX = 0;
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         int[] dateFromArr = getDateInArrayIntegerFormat(dateFrom);
         int[] dateToArr = getDateInArrayIntegerFormat(dateTo);
@@ -45,13 +49,15 @@ public class SalaryInfo {
         return dateInArrayInteger;
     }
 
-    private boolean workingUpToDate(int[] dateEmploy, int[] dateSalaryFrom, int[] dateSalaryTo) {
-        if (dateEmploy[2] >= dateSalaryFrom[2] && dateEmploy[2] <= dateSalaryTo[2]) {
-            if (dateEmploy[1] >= dateSalaryFrom[1] && dateEmploy[1] <= dateSalaryTo[1]) {
-                return !(dateEmploy[1] == dateSalaryFrom[1]
-                        && dateEmploy[0] < dateSalaryFrom[0])
-                        && !(dateEmploy[1] == dateSalaryTo[1]
-                        && dateEmploy[0] > dateSalaryTo[0]);
+    private boolean workingUpToDate(int[] dateOfWork, int[] dateSalaryFrom, int[] dateSalaryTo) {
+        if (dateOfWork[YEAR_INDEX] >= dateSalaryFrom[YEAR_INDEX]
+                && dateOfWork[YEAR_INDEX] <= dateSalaryTo[YEAR_INDEX]) {
+            if (dateOfWork[MONTH_INDEX] >= dateSalaryFrom[MONTH_INDEX]
+                    && dateOfWork[MONTH_INDEX] <= dateSalaryTo[MONTH_INDEX]) {
+                return !(dateOfWork[MONTH_INDEX] == dateSalaryFrom[MONTH_INDEX]
+                        && dateOfWork[DAY_INDEX] < dateSalaryFrom[DAY_INDEX])
+                        && !(dateOfWork[MONTH_INDEX] == dateSalaryTo[MONTH_INDEX]
+                        && dateOfWork[DAY_INDEX] > dateSalaryTo[DAY_INDEX]);
             }
         }
 
