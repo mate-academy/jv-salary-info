@@ -21,7 +21,8 @@ public class SalaryInfo {
                 int totalSalary = 0;
                 for (String datum : data) {
                     String[] date = datum.split(" ");
-                    LocalDate currentDate = LocalDate.parse(date[CURRENT_DATE_INDEX], DATE_TIME_FORMATTER);
+                    LocalDate currentDate
+                            = LocalDate.parse(date[CURRENT_DATE_INDEX], DATE_TIME_FORMATTER);
                     String employeeName = date[EMPLOYEE_NAME_INDEX];
                     int hoursWorked = Integer.parseInt(date[HOURS_WORKED_INDEX]);
                     int hoursRate = Integer.parseInt(date[HOURS_RATE_INDEX]);
