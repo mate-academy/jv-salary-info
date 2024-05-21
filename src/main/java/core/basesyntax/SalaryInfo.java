@@ -2,44 +2,49 @@ package core.basesyntax;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.Map;
 
 public class SalaryInfo {
 
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
+    private static final int DATE_INDEX = 0;
+    private static final int NAME_INDEX = 1;
+    private static final int HOURS_WORKED_INDEX = 2;
+    private static final int INCOME_PER_HOUR_INDEX = 3;
+
+    /**
+     * Method to calculate and return salary information for employees within a given date range.
+     *
+     * @param names    Array of employee names.
+     * @param data     Array of work log entries in the format "dd.MM.yyyy name hours incomePerHour".
+     * @param dateFrom Start date of the reporting period in "dd.MM.yyyy" format.
+     * @param dateTo   End date of the reporting period in "dd.MM.yyyy" format.
+     * @return Formatted report string.
+     */
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        // Date formatter to parse dates
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        LocalDate startDate = LocalDate.parse(dateFrom.trim(), DATE_FORMATTER);
+        LocalDate endDate = LocalDate.parse(dateTo.trim(), DATE_FORMATTER);
 
-        // Parsing start and end dates
-        LocalDate startDate = LocalDate.parse(dateFrom.trim(), formatter);
-        LocalDate endDate = LocalDate.parse(dateTo.trim(), formatter);
+        int[] salaries = new int[names.length];
 
-        // Map to hold the calculated salaries for each employee
-        Map<String, Integer> salaryMap = new HashMap<>();
-        for (String name : names) {
-            salaryMap.put(name, 0);
-        }
-
-        // Process each entry in the data array
         for (String entry : data) {
             String[] parts = entry.split(" ");
-            LocalDate date = LocalDate.parse(parts[0], formatter);
-            String employeeName = parts[1];
-            int hoursWorked = Integer.parseInt(parts[2]);
-            int incomePerHour = Integer.parseInt(parts[3]);
+            LocalDate date = LocalDate.parse(parts[DATE_INDEX].trim(), DATE_FORMATTER);
+            String employeeName = parts[NAME_INDEX].trim();
+            int hoursWorked = Integer.parseInt(parts[HOURS_WORKED_INDEX].trim());
+            int incomePerHour = Integer.parseInt(parts[INCOME_PER_HOUR_INDEX].trim());
 
             // Check if the date is within the specified range
             if (!date.isBefore(startDate) && !date.isAfter(endDate)) {
-                if (salaryMap.containsKey(employeeName)) {
-                    int currentSalary = salaryMap.get(employeeName);
-                    int additionalSalary = hoursWorked * incomePerHour;
-                    salaryMap.put(employeeName, currentSalary + additionalSalary);
+                for (int i = 0; i < names.length; i++) {
+                    if (names[i].equals(employeeName)) {
+                        salaries[i] += hoursWorked * incomePerHour;
+                        break;
+                    }
                 }
             }
         }
 
-        // Build the report string
         StringBuilder report = new StringBuilder();
         report.append("Report for period ")
                 .append(dateFrom)
@@ -47,10 +52,10 @@ public class SalaryInfo {
                 .append(dateTo)
                 .append(System.lineSeparator());
 
-        for (String name : names) {
-            report.append(name)
+        for (int i = 0; i < names.length; i++) {
+            report.append(names[i])
                     .append(" - ")
-                    .append(salaryMap.get(name))
+                    .append(salaries[i])
                     .append(System.lineSeparator());
         }
 
