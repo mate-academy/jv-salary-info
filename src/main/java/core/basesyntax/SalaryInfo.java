@@ -3,7 +3,8 @@ package core.basesyntax;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class SalaryInfo {
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
@@ -22,7 +23,9 @@ public class SalaryInfo {
                 int workHours = Integer.parseInt(parts[2]);
                 int perHourRate = Integer.parseInt(parts[3]);
 
-                if (!date.isAfter(endDate) && !date.isBefore(startDate) && salaryMap.containsKey(name)) {
+                if (!date.isAfter(endDate)
+                        && !date.isBefore(startDate)
+                        && salaryMap.containsKey(name)) {
                     int currentSalary = salaryMap.get(name);
                     salaryMap.put(name, currentSalary + workHours * perHourRate);
                 }
@@ -49,7 +52,9 @@ public class SalaryInfo {
         return salaryMap;
     }
 
-    private String print(Map<String, Integer> salaryMap, String dateFrom, String dateTo) {
+    private String print(Map<String, Integer> salaryMap,
+                         String dateFrom,
+                         String dateTo) {
         StringBuilder result = new StringBuilder();
         result.append("Report for period ").append(dateFrom).append(" - ").append(dateTo).append("\n");
         salaryMap.keySet().forEach(name -> result.append(name + " - " + salaryMap.get(name) + "\n"));
