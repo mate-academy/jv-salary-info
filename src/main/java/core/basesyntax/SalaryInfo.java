@@ -56,8 +56,11 @@ public class SalaryInfo {
                          String dateFrom,
                          String dateTo) {
         StringBuilder result = new StringBuilder();
-        result.append("Report for period ").append(dateFrom).append(" - ").append(dateTo).append("\n");
-        salaryMap.keySet().forEach(name -> result.append(name + " - " + salaryMap.get(name) + "\n"));
+        result.append("Report for period ")
+                .append(dateFrom).append(" - ")
+                .append(dateTo).append("\n");
+        salaryMap.keySet()
+                .forEach(name -> result.append(name + " - " + salaryMap.get(name) + "\n"));
         return result.toString().trim();
     }
 }
