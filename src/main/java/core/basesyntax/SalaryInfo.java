@@ -5,7 +5,8 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 public class SalaryInfo {
-    private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final DateTimeFormatter TIME_FORMATTER =
+            DateTimeFormatter.ofPattern("dd.MM.yyyy");
     private static final int DATE_INDEX = 0;
     private static final int NAME_INDEX = 1;
     private static final int HOURS_INDEX = 2;
@@ -29,7 +30,9 @@ public class SalaryInfo {
                     String nameUser = parts[NAME_INDEX];
                     int workHours = Integer.parseInt(parts[HOURS_INDEX]);
                     int perHourRate = Integer.parseInt(parts[RATE_INDEX]);
-                    if (name.equals(nameUser) && !date.isAfter(endDate) && !date.isBefore(startDate)) {
+                    if (name.equals(nameUser)
+                            && !date.isAfter(endDate)
+                            && !date.isBefore(startDate)) {
                         sumUserSalary += workHours * perHourRate;
                     }
 
