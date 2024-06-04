@@ -1,6 +1,5 @@
 package core.basesyntax;
 
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -24,7 +23,7 @@ public class SalaryInfo {
 
         Map<String, Integer> salaryMap = new HashMap<>();
         for (String name : names) {
-            salaryMap.put(name , 0);
+            salaryMap.put(name, 0);
         }
 
         for (String entry : data) {
@@ -39,7 +38,8 @@ public class SalaryInfo {
             int hoursWorked = Integer.parseInt(parts[2]);
             int hourlyRate = Integer.parseInt(parts[3]);
 
-            if (entryDate.compareTo(fromDate) >= 0 && entryDate.compareTo(toDate) <= 0 && salaryMap.containsKey(name)) {
+            if (entryDate.compareTo(fromDate) >= 0 && entryDate.compareTo(toDate) <= 0
+                    && salaryMap.containsKey(name)) {
                 int currentSalary = salaryMap.get(name);
                 salaryMap.put(name, currentSalary + (hoursWorked * hourlyRate));
             }
