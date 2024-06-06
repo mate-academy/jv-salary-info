@@ -16,7 +16,7 @@ public class SalaryInfo {
         int[] salaries = new int[names.length];
         StringBuilder result = new StringBuilder();
 
-        for (String partOfData: data) {
+        for (String partOfData : data) {
             String[] parts = partOfData.split(" ");
             LocalDate date = LocalDate.parse(parts[DATE_INDEX], formatter);
             String nameOfEmployee = parts[NAME_INDEX];
