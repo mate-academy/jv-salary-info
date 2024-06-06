@@ -27,6 +27,7 @@ public class SalaryInfo {
                 for (int i = 0; i < names.length; i++) {
                     if (nameOfEmployee.equals(names[i])) {
                         salaries[i] += hours * rate;
+                        break;
                     }
                 }
             }
@@ -36,8 +37,10 @@ public class SalaryInfo {
                 .append(dateTo).append(System.lineSeparator());
 
         for (int i = 0; i < names.length; i++) {
-            result.append(names[i]).append(" - ").append(salaries[i])
-                    .append(System.lineSeparator());
+            result.append(names[i]).append(" - ").append(salaries[i]);
+            if (i < names.length - 1) {
+                result.append(System.lineSeparator());
+            }
         }
 
         return result.toString();
