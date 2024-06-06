@@ -32,10 +32,12 @@ public class SalaryInfo {
             }
         }
 
-        result.append("Report for period ").append(dateFrom).append(" - ").append(dateTo).append(System.lineSeparator());
+        result.append("Report for period ").append(dateFrom).append(" - ")
+                .append(dateTo).append(System.lineSeparator());
 
         for (int i = 0; i < names.length; i++) {
-            result.append(names[i]).append(" - ").append(salaries[i]).append(System.lineSeparator());
+            result.append(names[i]).append(" - ").append(salaries[i])
+                    .append(System.lineSeparator());
         }
 
         return result.toString();
