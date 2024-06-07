@@ -24,9 +24,9 @@ public class SalaryInfo {
                 int hours = Integer.parseInt(parts[HOURS_INDEX]);
                 int rate = Integer.parseInt(parts[RATE_INDEX]);
 
-                if (names[i].equals(nameOfEmployee) &&
-                        !date.isBefore(fromDate) &&
-                        !date.isAfter(toDate)) {
+                if (names[i].equals(nameOfEmployee)
+                        && !date.isBefore(fromDate)
+                        && !date.isAfter(toDate)) {
                     salaries[i] += hours * rate;
                 }
             }
