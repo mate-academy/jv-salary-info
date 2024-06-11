@@ -5,40 +5,51 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 public class SalaryInfo {
+    private final int NAME_OF_PERSON = 1;
+    private final int DATA = 0;
+    private final int WORKING_HOUR = 2;
+    private final int INCOME_PER_HOUR = 3;
+    private final String SEPARATOR = " - ";
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder result = new StringBuilder("Report for period "
-                + dateFrom + " - " + dateTo + "\n");
+                + dateFrom + SEPARATOR + dateTo + "\n");
         int count = 0;
         for (String name : names) {
-            int sum = 0;
-            for (String elementOfData : data) {
-                String[] elements = elementOfData.split(" ");
-                if (elements[1].equals(name)) {
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-                    LocalDate docDate = null;
-                    LocalDate fromDate = null;
-                    LocalDate toDate = null;
-                    try {
-                        docDate = LocalDate.parse(elements[0], formatter);;
-                        fromDate = LocalDate.parse(dateFrom, formatter);
-                        toDate = LocalDate.parse(dateTo, formatter);
-                        fromDate = fromDate.minusDays(1);
-                        toDate = toDate.plusDays(1);
-                    } catch (DateTimeParseException e) {
-                        e.printStackTrace();
-                    }
-                    if (docDate.isAfter(fromDate) && docDate.isBefore(toDate)) {
-                        sum += Integer.parseInt(elements[2]) * Integer.parseInt(elements[3]);
-                    }
-                }
-            }
+            int earnedMoneyByPerson = getEarnedMoney(data, name, dateFrom, dateTo);
             if (count == names.length - 1) {
-                result.append(name).append(" - ").append(sum);
+                result.append(name).append(SEPARATOR).append(earnedMoneyByPerson);
             } else {
-                result.append(name).append(" - ").append(sum).append(System.lineSeparator());
+                result.append(name).append(SEPARATOR).append(earnedMoneyByPerson).append(System.lineSeparator());
                 count++;
             }
         }
         return result.toString();
+    }
+
+    private int getEarnedMoney(String[] data, String nameOfPerson, String dateFrom, String dateTo) {
+        int sum = 0;
+        for (String elementOfData : data) {
+            String[] detailsOfElementOfData = elementOfData.split(" ");
+            if (detailsOfElementOfData[NAME_OF_PERSON].equals(nameOfPerson)) {
+                LocalDate particularData = null;
+                LocalDate fromDate = null;
+                LocalDate toDate = null;
+                try {
+                    particularData = LocalDate.parse(detailsOfElementOfData[DATA], formatter);
+                    fromDate = LocalDate.parse(dateFrom, formatter);
+                    toDate = LocalDate.parse(dateTo, formatter);
+                    fromDate = fromDate.minusDays(1);
+                    toDate = toDate.plusDays(1);
+                } catch (DateTimeParseException e) {
+                    e.printStackTrace();
+                }
+                if (particularData.isAfter(fromDate) && particularData.isBefore(toDate)) {
+                    sum += Integer.parseInt(detailsOfElementOfData[WORKING_HOUR]) * Integer.parseInt(detailsOfElementOfData[INCOME_PER_HOUR]);
+                }
+            }
+        }
+        return sum;
     }
 }
