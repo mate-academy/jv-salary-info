@@ -5,12 +5,12 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 public class SalaryInfo {
-    private final int NAME_OF_PERSON = 1;
-    private final int DATA = 0;
-    private final int WORKING_HOUR = 2;
-    private final int INCOME_PER_HOUR = 3;
-    private final String SEPARATOR = " - ";
-    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final int NAME_OF_PERSON = 1;
+    private static final int DATA = 0;
+    private static final int WORKING_HOUR = 2;
+    private static final int INCOME_PER_HOUR = 3;
+    private static final String SEPARATOR = " - ";
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder result = new StringBuilder("Report for period "
@@ -21,7 +21,8 @@ public class SalaryInfo {
             if (count == names.length - 1) {
                 result.append(name).append(SEPARATOR).append(earnedMoneyByPerson);
             } else {
-                result.append(name).append(SEPARATOR).append(earnedMoneyByPerson).append(System.lineSeparator());
+                result.append(name).append(SEPARATOR).append(earnedMoneyByPerson)
+                        .append(System.lineSeparator());
                 count++;
             }
         }
@@ -46,7 +47,8 @@ public class SalaryInfo {
                     e.printStackTrace();
                 }
                 if (particularData.isAfter(fromDate) && particularData.isBefore(toDate)) {
-                    sum += Integer.parseInt(detailsOfElementOfData[WORKING_HOUR]) * Integer.parseInt(detailsOfElementOfData[INCOME_PER_HOUR]);
+                    sum += Integer.parseInt(detailsOfElementOfData[WORKING_HOUR])
+                            * Integer.parseInt(detailsOfElementOfData[INCOME_PER_HOUR]);
                 }
             }
         }
