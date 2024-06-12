@@ -12,20 +12,6 @@ public class SalaryInfo {
     private static final int HOURS_RATE_FROM_LIST = 3;
     private static final String LINE_SEPARATOR = "\\s+";
 
-    public static boolean isDateInRange(String fromDate, String toDate, String dateFromAList) {
-
-        try {
-            LocalDate startDate = LocalDate.parse(fromDate, FORMATTER);
-            LocalDate endDate = LocalDate.parse(toDate, FORMATTER);
-            LocalDate dateToCheck = LocalDate.parse(dateFromAList, FORMATTER);
-            return (!dateToCheck.isBefore(startDate)
-                    && !dateToCheck.isAfter(endDate));
-        } catch (DateTimeParseException e) {
-            System.out.println("Invalid date format" + e);
-            return false;
-        }
-    }
-
     public String getSalaryInfo(String[] names, String[] dates, String dateFrom, String dateTo) {
         StringBuilder builder = new StringBuilder("Report for period ");
         builder.append(dateFrom).append(" - ").append(dateTo).append(System.lineSeparator());
@@ -53,5 +39,19 @@ public class SalaryInfo {
 
         }
         return builder.toString().trim();
+    }
+
+    private static boolean isDateInRange(String fromDate, String toDate, String dateFromAList) {
+
+        try {
+            LocalDate startDate = LocalDate.parse(fromDate, FORMATTER);
+            LocalDate endDate = LocalDate.parse(toDate, FORMATTER);
+            LocalDate dateToCheck = LocalDate.parse(dateFromAList, FORMATTER);
+            return (!dateToCheck.isBefore(startDate)
+                    && !dateToCheck.isAfter(endDate));
+        } catch (DateTimeParseException e) {
+            System.out.println("Invalid date format" + e);
+            return false;
+        }
     }
 }
