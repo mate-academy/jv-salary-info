@@ -17,7 +17,8 @@ public class SalaryInfo {
                 .append(SEPARATOR).append(dateTo);
         for (String name : names) {
             int earnedMoneyByPerson = getEarnedMoney(data, name, dateFrom, dateTo);
-            result.append(System.lineSeparator()).append(name).append(SEPARATOR).append(earnedMoneyByPerson);
+            result.append(System.lineSeparator()).append(name).append(SEPARATOR)
+                    .append(earnedMoneyByPerson);
         }
         System.out.println(result);
         return result.toString();
