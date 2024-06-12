@@ -13,8 +13,8 @@ public class SalaryInfo {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        StringBuilder result = new StringBuilder("Report for period "
-                + dateFrom + SEPARATOR + dateTo + System.lineSeparator());
+        StringBuilder result = new StringBuilder("Report for period ").append(dateFrom)
+                .append(SEPARATOR).append(dateTo).append(System.lineSeparator());
         int count = 0;
         for (String name : names) {
             int earnedMoneyByPerson = getEarnedMoney(data, name, dateFrom, dateTo);
@@ -44,7 +44,7 @@ public class SalaryInfo {
                     fromDate = fromDate.minusDays(1);
                     toDate = toDate.plusDays(1);
                 } catch (DateTimeParseException e) {
-                    e.printStackTrace();
+                    throw new RuntimeException("There was an error parsing data");
                 }
                 if (particularData.isAfter(fromDate) && particularData.isBefore(toDate)) {
                     sum += Integer.parseInt(detailsOfElementOfData[WORKING_HOUR])
