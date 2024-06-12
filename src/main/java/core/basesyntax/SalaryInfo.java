@@ -10,11 +10,11 @@ public class SalaryInfo {
     private static final int WORKING_HOUR = 2;
     private static final int INCOME_PER_HOUR = 3;
     private static final String SEPARATOR = " - ";
-    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder result = new StringBuilder("Report for period "
-                + dateFrom + SEPARATOR + dateTo + "\n");
+                + dateFrom + SEPARATOR + dateTo + System.lineSeparator());
         int count = 0;
         for (String name : names) {
             int earnedMoneyByPerson = getEarnedMoney(data, name, dateFrom, dateTo);
@@ -38,9 +38,9 @@ public class SalaryInfo {
                 LocalDate fromDate = null;
                 LocalDate toDate = null;
                 try {
-                    particularData = LocalDate.parse(detailsOfElementOfData[DATA], formatter);
-                    fromDate = LocalDate.parse(dateFrom, formatter);
-                    toDate = LocalDate.parse(dateTo, formatter);
+                    particularData = LocalDate.parse(detailsOfElementOfData[DATA], FORMATTER);
+                    fromDate = LocalDate.parse(dateFrom, FORMATTER);
+                    toDate = LocalDate.parse(dateTo, FORMATTER);
                     fromDate = fromDate.minusDays(1);
                     toDate = toDate.plusDays(1);
                 } catch (DateTimeParseException e) {
