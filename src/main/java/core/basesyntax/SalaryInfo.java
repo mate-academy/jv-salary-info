@@ -14,18 +14,12 @@ public class SalaryInfo {
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder result = new StringBuilder("Report for period ").append(dateFrom)
-                .append(SEPARATOR).append(dateTo).append(System.lineSeparator());
-        int count = 0;
+                .append(SEPARATOR).append(dateTo);
         for (String name : names) {
             int earnedMoneyByPerson = getEarnedMoney(data, name, dateFrom, dateTo);
-            if (count == names.length - 1) {
-                result.append(name).append(SEPARATOR).append(earnedMoneyByPerson);
-            } else {
-                result.append(name).append(SEPARATOR).append(earnedMoneyByPerson)
-                        .append(System.lineSeparator());
-                count++;
-            }
+            result.append(System.lineSeparator()).append(name).append(SEPARATOR).append(earnedMoneyByPerson);
         }
+        System.out.println(result);
         return result.toString();
     }
 
