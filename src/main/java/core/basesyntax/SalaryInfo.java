@@ -16,6 +16,9 @@ public class SalaryInfo {
         int[] salaries = new int[names.length];
         StringBuilder result = new StringBuilder();
 
+        result.append("Report for period ").append(dateFrom).append(" - ")
+                .append(dateTo).append(System.lineSeparator());
+
         for (int i = 0; i < names.length; i++) {
             for (String partOfData : data) {
                 String[] parts = partOfData.split(" ");
@@ -30,12 +33,6 @@ public class SalaryInfo {
                     salaries[i] += hours * rate;
                 }
             }
-        }
-
-        result.append("Report for period ").append(dateFrom).append(" - ")
-                .append(dateTo).append(System.lineSeparator());
-
-        for (int i = 0; i < names.length; i++) {
             result.append(names[i]).append(" - ").append(salaries[i]);
             if (i < names.length - 1) {
                 result.append(System.lineSeparator());
