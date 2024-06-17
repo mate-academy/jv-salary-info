@@ -4,7 +4,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final DateTimeFormatter DATE_FORMATTER
+            = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder result = new StringBuilder("Report for period ");
@@ -35,6 +36,6 @@ public class SalaryInfo {
     }
 
     private LocalDate encodeData(String data) {
-        return LocalDate.parse(data, dateTimeFormatter);
+        return LocalDate.parse(data, DATE_FORMATTER);
     }
 }
