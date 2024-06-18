@@ -6,6 +6,11 @@ import java.time.format.DateTimeFormatter;
 public class SalaryInfo {
     private static final DateTimeFormatter DATE_FORMATTER
             = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final int DATE_INDEX = 0;
+    private static final int NAME_INDEX = 1;
+    private static final int HOUR_INDEX = 2;
+    private static final int INCOME_INDEX = 3;
+    private static final String SEPARATOR = " ";
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder result = new StringBuilder("Report for period ");
@@ -13,11 +18,11 @@ public class SalaryInfo {
         for (String name : names) {
             int sumSalary = 0;
             for (String value : data) {
-                String[] dataSplitted = value.split(" ");
-                if (isWithinPeriod(dataSplitted[0], dateFrom, dateTo)
-                        && name.equals(dataSplitted[1])) {
-                    sumSalary += Integer.parseInt(dataSplitted[2])
-                            * Integer.parseInt(dataSplitted[3]);
+                String[] dataSplitted = value.split(SEPARATOR);
+                if (isWithinPeriod(dataSplitted[DATE_INDEX], dateFrom, dateTo)
+                        && name.equals(dataSplitted[NAME_INDEX])) {
+                    sumSalary += Integer.parseInt(dataSplitted[HOUR_INDEX])
+                            * Integer.parseInt(dataSplitted[INCOME_INDEX]);
                 }
             }
             result.append(System.lineSeparator())
@@ -27,7 +32,7 @@ public class SalaryInfo {
     }
 
     private String getFormattedData(String...data) {
-        return String.join(" ", data);
+        return String.join(SEPARATOR, data);
     }
 
     private boolean isWithinPeriod(String data, String dataFrom, String dataTo) {
