@@ -2,6 +2,8 @@ package core.basesyntax;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.Map;
 
 public class SalaryInfo {
     private static final DateTimeFormatter DATE_FORM = DateTimeFormatter.ofPattern("dd.MM.yyyy");
@@ -12,27 +14,38 @@ public class SalaryInfo {
 
         StringBuilder report = new StringBuilder();
         report.append("Report for period ")
-                .append(dateFrom)
+                .append(fromDate.format(DATE_FORM))
                 .append(" - ")
-                .append(dateTo)
-                .append(System.lineSeparator());
+                .append(toDate.format(DATE_FORM))
+                .append("\n");
+
+        Map<String, Integer> totalEarnedMap = new HashMap<>();
 
         for (String name : names) {
-            int totalEarned = 0;
-            for (String entry : data) {
-                String[] parts = entry.split(" ");
-                LocalDate entryDate = LocalDate.parse(parts[0], DATE_FORM);
+            totalEarnedMap.put(name, 0);
+        }
 
-                if (name.equals(parts[1]) && isWithinDateRange(entryDate, fromDate, toDate)) {
-                    int hours = Integer.parseInt(parts[2]);
-                    int rate = Integer.parseInt(parts[3]);
+        for (String entry : data) {
+            LocalDate entryDate = LocalDate.parse(entry.substring(0, 10), DATE_FORM);
+            if (isWithinDateRange(entryDate, fromDate, toDate)) {
+                String name = entry.substring(11, entry.indexOf(' ', 11));
+                int hours = Integer.parseInt(entry.substring(entry.indexOf(' ', 11) + 1,
+                        entry.lastIndexOf(' ')));
+                int rate = Integer.parseInt(entry.substring(entry.lastIndexOf(' ') + 1));
+
+                if (totalEarnedMap.containsKey(name)) {
+                    int totalEarned = totalEarnedMap.get(name);
                     totalEarned += hours * rate;
+                    totalEarnedMap.put(name, totalEarned);
                 }
             }
+        }
+
+        for (String name : names) {
             report.append(name)
                     .append(" - ")
-                    .append(totalEarned)
-                    .append(System.lineSeparator());
+                    .append(totalEarnedMap.get(name))
+                    .append("\n");
         }
 
         return report.toString().trim();
