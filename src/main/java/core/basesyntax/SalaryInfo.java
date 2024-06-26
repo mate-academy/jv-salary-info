@@ -27,7 +27,7 @@ public class SalaryInfo {
                 LocalDate recordDate = LocalDate.parse(part[INDEX_OF_DATE],FORMATTER);
 
                 if (name.equals(part[INDEX_OF_NAME])
-                        && isDatesIncludes(recordDate, startDate, endDate)) {
+                        && isDateWithinRange(recordDate, startDate, endDate)) {
                     totalSalary +=
                             Integer.parseInt(part[INDEX_OF_HOUR])
                                     * Integer.parseInt(part[INDEX_OF_MONEY_PER_HOUR]);
@@ -42,7 +42,7 @@ public class SalaryInfo {
         return stringBuilder.toString();
     }
 
-    private boolean isDatesIncludes(LocalDate localDate, LocalDate dateFrom, LocalDate dateTo) {
+    private boolean isDateWithinRange(LocalDate localDate, LocalDate dateFrom, LocalDate dateTo) {
         return (localDate.isAfter(dateFrom) || localDate.equals(dateFrom))
                 && (localDate.isBefore(dateTo) || localDate.equals(dateTo));
     }

@@ -2,7 +2,7 @@ package core.basesyntax;
 
 public class Main {
     public static void main(String[] args) {
-        String [] data = new String[] {
+        String [] employeeRecords = new String[] {
                 "26.04.2019 John 4 50",
                 "05.04.2019 Andrew 3 200",
                 "10.04.2019 John 7 100",
@@ -12,7 +12,7 @@ public class Main {
                 "13.02.2019 John 7 100",
                 "26.04.2019 Kate 9 100"
         };
-        String [] name = new String[] {
+        String [] employeeNames = new String[] {
                 "John",
                 "Andrew",
                 "Kate"
@@ -21,6 +21,6 @@ public class Main {
         String dateTo = "30.04.2024";
 
         SalaryInfo salaryInfo = new SalaryInfo();
-        System.out.println(salaryInfo.getSalaryInfo(name, data, dateFrom, dateTo));
+        System.out.println(salaryInfo.getSalaryInfo(employeeNames, employeeRecords, dateFrom, dateTo));
     }
 }
