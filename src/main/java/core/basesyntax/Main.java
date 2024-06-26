@@ -21,6 +21,7 @@ public class Main {
         String dateTo = "30.04.2024";
 
         SalaryInfo salaryInfo = new SalaryInfo();
-        System.out.println(salaryInfo.getSalaryInfo(employeeNames, employeeRecords, dateFrom, dateTo));
+        System.out.println(salaryInfo
+                .getSalaryInfo(employeeNames, employeeRecords, dateFrom, dateTo));
     }
 }
