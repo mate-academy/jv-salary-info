@@ -13,8 +13,8 @@ public class SalaryInfo {
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        LocalDate startWorkDate = LocalDate.parse(dateFrom.trim(), formatter);
-        LocalDate endWorkDate = LocalDate.parse(dateTo.trim(), formatter);
+        LocalDate startWorkDate = parseData(dateFrom);
+        LocalDate endWorkDate = parseData(dateTo);
 
         StringBuilder report = new StringBuilder("Report for period ");
         report.append(dateFrom)
@@ -25,21 +25,28 @@ public class SalaryInfo {
         for (String name : names) {
             int salary = 0;
             report.append(name).append(SEPARATOR);
-
-            for (String currentData : data) {
-                String[] splitData = currentData.split(REGEX);
-                LocalDate date = LocalDate.parse(splitData[DATE_INDEX].trim(), formatter);
-                String nameEmployee = splitData[NAME_INDEX].trim();
-                int workHours = Integer.parseInt(splitData[WORK_HOURS_INDEX].trim());
-                int salaryPerHours = Integer.parseInt(splitData[SALARY_PER_HOURS_INDEX].trim());
-
-                if (!date.isBefore(startWorkDate) && !date.isAfter(endWorkDate)
-                        && name.equals(nameEmployee)) {
-                    salary += workHours * salaryPerHours;
-                }
-            }
-            report.append(salary).append(System.lineSeparator());
+            generateReport(data, startWorkDate, endWorkDate, name, salary, report);
         }
         return report.toString().trim();
+    }
+
+    private void generateReport(String[] data, LocalDate startWorkDate, LocalDate endWorkDate, String name, int salary, StringBuilder report) {
+        for (String currentData : data) {
+            String[] splitData = currentData.split(REGEX);
+            LocalDate date = parseData(splitData[DATE_INDEX].trim());
+            String nameEmployee = splitData[NAME_INDEX].trim();
+            int workHours = Integer.parseInt(splitData[WORK_HOURS_INDEX].trim());
+            int salaryPerHours = Integer.parseInt(splitData[SALARY_PER_HOURS_INDEX].trim());
+
+            if (!date.isBefore(startWorkDate) && !date.isAfter(endWorkDate)
+                    && name.equals(nameEmployee)) {
+                salary += workHours * salaryPerHours;
+            }
+        }
+        report.append(salary).append(System.lineSeparator());
+    }
+
+    private LocalDate parseData(String data) {
+        return LocalDate.parse(data, formatter);
     }
 }
