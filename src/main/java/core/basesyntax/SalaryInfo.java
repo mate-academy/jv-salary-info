@@ -30,7 +30,13 @@ public class SalaryInfo {
         return report.toString().trim();
     }
 
-    private void generateReport(String[] data, LocalDate startWorkDate, LocalDate endWorkDate, String name, int salary, StringBuilder report) {
+    private void generateReport(
+            String[] data,
+            LocalDate startWorkDate,
+            LocalDate endWorkDate,
+            String name,
+            int salary,
+            StringBuilder report) {
         for (String currentData : data) {
             String[] splitData = currentData.split(REGEX);
             LocalDate date = parseData(splitData[DATE_INDEX].trim());
