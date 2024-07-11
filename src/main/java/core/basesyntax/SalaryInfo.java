@@ -1,54 +1,57 @@
 package core.basesyntax;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 public class SalaryInfo {
+    private static final DateTimeFormatter DATE_FORMATTER =
+            DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final int DATE_INDEX = 0;
+    private static final int EMPLOYEE_NAME_INDEX = 1;
+    private static final int HOURS_WORKED_INDEX = 2;
+    private static final int HOURLY_RATE_INDEX = 3;
 
-    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-        Date fromDate;
-        Date toDate;
+    public String getSalaryInfo(String[] employeeNames, String[] workData,
+                                String dateFrom, String dateTo) {
+        LocalDate fromDate;
+        LocalDate toDate;
+
         try {
-            fromDate = dateFormat.parse(dateFrom);
-            toDate = dateFormat.parse(dateTo);
-        } catch (ParseException e) {
+            fromDate = LocalDate.parse(dateFrom, DATE_FORMATTER);
+            toDate = LocalDate.parse(dateTo, DATE_FORMATTER);
+        } catch (DateTimeParseException e) {
             throw new RuntimeException("Incorrect date format", e);
         }
 
-        Map<String, Integer> salaries = new HashMap<>();
-        for (String name : names) {
-            salaries.put(name, 0);
-        }
+        int[] employeeSalaries = new int[employeeNames.length];
 
-        for (String entry : data) {
+        for (String entry : workData) {
             String[] parts = entry.split(" ");
             try {
-                Date entryDate = dateFormat.parse(parts[0]);
-                if (!entryDate.before(fromDate) && !entryDate.after(toDate)) {
-                    String employee = parts[1];
-                    int hoursWorked = Integer.parseInt(parts[2]);
-                    int hourlyRate = Integer.parseInt(parts[3]);
-                    if (salaries.containsKey(employee)) {
-                        int currentSalary = salaries.get(employee);
-                        salaries.put(employee, currentSalary + (hoursWorked * hourlyRate));
+                LocalDate entryDate = LocalDate.parse(parts[DATE_INDEX], DATE_FORMATTER);
+                if (!entryDate.isBefore(fromDate) && !entryDate.isAfter(toDate)) {
+                    String employeeName = parts[EMPLOYEE_NAME_INDEX];
+                    int hoursWorked = Integer.parseInt(parts[HOURS_WORKED_INDEX]);
+                    int hourlyRate = Integer.parseInt(parts[HOURLY_RATE_INDEX]);
+
+                    for (int i = 0; i < employeeNames.length; i++) {
+                        if (employeeNames[i].equals(employeeName)) {
+                            employeeSalaries[i] += hoursWorked * hourlyRate;
+                            break;
+                        }
                     }
                 }
-            } catch (ParseException e) {
+            } catch (DateTimeParseException e) {
                 throw new RuntimeException("Incorrect date format in data", e);
             }
         }
-
         StringBuilder report = new StringBuilder();
         report.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
-        for (String name : names) {
+        for (int i = 0; i < employeeNames.length; i++) {
             report.append(System.lineSeparator())
-                    .append(name).append(" - ").append(salaries.get(name));
+                    .append(employeeNames[i]).append(" - ").append(employeeSalaries[i]);
         }
-
         return report.toString();
     }
 }
