@@ -36,11 +36,11 @@ public class SalaryInfo {
     }
 
     private boolean isWithinPeriod(String data, String dataFrom, String dataTo) {
-        return !encodeData(data).isBefore(encodeData(dataFrom))
-            && !encodeData(data).isAfter(encodeData(dataTo));
+        return !parseDate(data).isBefore(parseDate(dataFrom))
+            && !parseDate(data).isAfter(parseDate(dataTo));
     }
 
-    private LocalDate encodeData(String data) {
+    private LocalDate parseDate(String data) {
         return LocalDate.parse(data, DATE_FORMATTER);
     }
 }
