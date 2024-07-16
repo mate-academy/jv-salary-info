@@ -11,7 +11,7 @@ public class SalaryInfo {
     private static final int INDEX_OF_NAME = 1;
     private static final int INDEX_OF_WORK_HOURS = 2;
     private static final int INDEX_SALARY_PER_HOUR = 3;
-    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern(DATE_FORMAT);
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate startDate = parseDateWithFormatter(dateFrom);
@@ -21,7 +21,7 @@ public class SalaryInfo {
                 .append(INFO_SEPARATOR)
                 .append(dateTo);
         for (String name : names) {
-            int money = 0;
+            int totalSalary = 0;
             employeeInfo.append(System.lineSeparator())
                     .append(name)
                     .append(INFO_SEPARATOR);
@@ -31,16 +31,16 @@ public class SalaryInfo {
                 if ((date.equals(startDate) || date.isAfter(startDate))
                         && (date.equals(endDate) || date.isBefore(endDate))
                         && name.equals(dateSplit[INDEX_OF_NAME])) {
-                    money += Integer.parseInt(dateSplit[INDEX_OF_WORK_HOURS])
+                    totalSalary += Integer.parseInt(dateSplit[INDEX_OF_WORK_HOURS])
                             * Integer.parseInt(dateSplit[INDEX_SALARY_PER_HOUR]);
                 }
             }
-            employeeInfo.append(money);
+            employeeInfo.append(totalSalary);
         }
         return employeeInfo.toString();
     }
 
     private LocalDate parseDateWithFormatter(String date) {
-        return LocalDate.parse(date, formatter);
+        return LocalDate.parse(date, FORMATTER);
     }
 }
