@@ -17,21 +17,21 @@ public class SalaryInfo {
                 .append(dateTo);
         for (String name : names) { // take each name in turn from the array
             salary = 0; // reset variable after every exit from the loop
-            for (int i = 0; i < data.length; i++) {
-                /* split string by spaces and take first part as currentDate */
-                LocalDate currentDate = LocalDate.parse(data[i].split(" ", 0)[0], formatter);
-                /* split string data[i] by spaces and take second part as name of employee */
-                String nameUser = data[i].split(" ", 0)[1];
-                String workHours = data[i].split(" ", 0)[2];
-                String incomePerHour = data[i].split(" ", 0)[3];
-                if (currentDate.isAfter(start) && currentDate.isBefore(end)
-                        && nameUser.equals(name)) {
-                    salary += Integer.parseInt(workHours) * Integer.parseInt(incomePerHour);
-                } else if (currentDate.isEqual(start) && nameUser.equals(name)
-                        || currentDate.isEqual(end) && nameUser.equals(name)) {
-                    salary += Integer.parseInt(workHours) * Integer.parseInt(incomePerHour);
-                }
-            }
+			for (String datum : data) {
+				/* split string by spaces and take first part as currentDate */
+				LocalDate currentDate = LocalDate.parse(datum.split(" ", 0)[0], formatter);
+				/* split string data[i] by spaces and take second part as name of employee */
+				String nameUser = datum.split(" ", 0)[1];
+				String workHours = datum.split(" ", 0)[2];
+				String incomePerHour = datum.split(" ", 0)[3];
+				if (currentDate.isAfter(start) && currentDate.isBefore(end)
+						&& nameUser.equals(name)) {
+					salary += Integer.parseInt(workHours) * Integer.parseInt(incomePerHour);
+				} else if (currentDate.isEqual(start) && nameUser.equals(name)
+						|| currentDate.isEqual(end) && nameUser.equals(name)) {
+					salary += Integer.parseInt(workHours) * Integer.parseInt(incomePerHour);
+				}
+			}
             salaryInfo.append(System.lineSeparator())
                     .append(name)
                     .append(" - ")
