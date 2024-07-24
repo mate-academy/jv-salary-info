@@ -4,7 +4,9 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final DateTimeFormatter DATE_TIME_FORMATTER
+            = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate dateFromFormatter = parseDate(dateFrom);
         LocalDate dateToFormFormatter = parseDate(dateTo);
@@ -26,7 +28,8 @@ public class SalaryInfo {
                 int incomePerHourFromDataArr = Integer.parseInt(dataArrSplit[3]);
                 LocalDate workedDate = parseDate(dateFromDataArr);
 
-                if (!workedDate.isBefore(dateFromFormatter) && !workedDate.isAfter(dateToFormFormatter)
+                if (!workedDate.isBefore(dateFromFormatter)
+                        && !workedDate.isAfter(dateToFormFormatter)
                         && employeeNameFromDataArr.equals(name)) {
                     salary += hoursWorkedFromDataArr * incomePerHourFromDataArr;
                 }
