@@ -25,9 +25,11 @@ public class SalaryInfo {
             if ((parsedDate.isAfter(parsedDateFrom) || parsedDate.isEqual(parsedDateFrom))
                     && (parsedDate.isBefore(parsedDateTo) || parsedDate.isEqual(parsedDateTo))) {
                 String[] nameAndSalaryArray = datum.substring(++whiteSpaceIndex).split(" ");
+
                 totalSalaryArray[getTotalSalaryArrayIndex(nameAndSalaryArray[NAME_INDEX], names)] +=
                         getSalary(nameAndSalaryArray[HOURS_WORKED_INDEX],
                                 nameAndSalaryArray[INCOME_PER_HOUR_INDEX]);
+
             }
         }
 
@@ -39,13 +41,13 @@ public class SalaryInfo {
         return totalSalarySummary.toString();
     }
 
-    private int getTotalSalaryArrayIndex(String name, String[] names) {
+    private int getTotalSalaryArrayIndex(String name, String[] names) throws RuntimeException {
         for (int i = 0; i < names.length; i++) {
             if (names[i].equals(name)) {
                 return i;
             }
         }
-        return 0;
+        throw new InvalidDataException("Сould not find " + name + " in the array of names");
     }
 
     private int getSalary(String hours, String incomePerHour) {
