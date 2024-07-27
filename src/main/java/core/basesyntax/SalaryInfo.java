@@ -14,13 +14,13 @@ public class SalaryInfo {
         int[] totalSalaryArray = new int[names.length];
         StringBuilder totalSalarySummary =
                 new StringBuilder("Report for period " + dateFrom + " - " + dateTo);
+        LocalDate parsedDateFrom = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate parsedDateTo = LocalDate.parse(dateTo, FORMATTER);
 
         for (String datum : data) {
             int whiteSpaceIndex = datum.indexOf(" ");
             String date = datum.substring(FIRST_STRING_INDEX, whiteSpaceIndex);
             LocalDate parsedDate = LocalDate.parse(date, FORMATTER);
-            LocalDate parsedDateFrom = LocalDate.parse(dateFrom, FORMATTER);
-            LocalDate parsedDateTo = LocalDate.parse(dateTo, FORMATTER);
 
             if ((parsedDate.isAfter(parsedDateFrom) || parsedDate.isEqual(parsedDateFrom))
                     && (parsedDate.isBefore(parsedDateTo) || parsedDate.isEqual(parsedDateTo))) {
@@ -41,13 +41,13 @@ public class SalaryInfo {
         return totalSalarySummary.toString();
     }
 
-    private int getTotalSalaryArrayIndex(String name, String[] names) throws RuntimeException {
+    private int getTotalSalaryArrayIndex(String name, String[] names) throws InvalidDataException {
         for (int i = 0; i < names.length; i++) {
             if (names[i].equals(name)) {
                 return i;
             }
         }
-        throw new InvalidDataException("Сould not find " + name + " in the array of names");
+        throw new InvalidDataException("Сould not find " + name + " in the array names");
     }
 
     private int getSalary(String hours, String incomePerHour) {
