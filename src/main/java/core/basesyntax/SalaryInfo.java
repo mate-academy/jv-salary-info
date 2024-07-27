@@ -44,11 +44,14 @@ public class SalaryInfo {
                 if (names[i].equals(splitData[namePoss])
                         && !localDateFromData.isBefore(localFrom)
                         && !localDateFromData.isAfter(localTo)) {
-                    salaries[i] += Integer.parseInt(splitData[hoursPoss]) * Integer.parseInt(splitData[salaryPoss]);
-                    //Warunek sprawdzający czy daty z tablicy mieszczą się w widełkach daty od do daty do
+                    salaries[i] += Integer.parseInt(splitData[hoursPoss])
+                            * Integer.parseInt(splitData[salaryPoss]);
+                    //Warunek sprawdzający czy daty z tablicy
+                    // mieszczą się w widełkach daty od do daty do
                 }
             }
-            stringBuilder.append(System.lineSeparator()).append(names[i]).append(" - ").append(salaries[i]);
+            stringBuilder.append(System.lineSeparator()).append(names[i])
+                    .append(" - ").append(salaries[i]);
             //Wstawienie separatora dla końcowego wyniku w postaci myślnika
         }
 
