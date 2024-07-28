@@ -11,10 +11,11 @@ public class SalaryInfo {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        StringBuilder report = new StringBuilder("Report for period " + dateFrom + " - " + dateTo);
+        StringBuilder report = new StringBuilder("Report for period ");
+        report.append(dateFrom).append(" - ").append(dateTo);
         final LocalDate beginning = LocalDate.parse(dateFrom, FORMATTER);
         final LocalDate end = LocalDate.parse(dateTo, FORMATTER);
-        int income = 0;
+        int incomeEmployee = 0;
 
         for (String name : names) {
             for (String datum : data) {
@@ -23,12 +24,12 @@ public class SalaryInfo {
                 if ((currentDate.isAfter(beginning) || currentDate.isEqual(beginning))
                         && (currentDate.isBefore(end) || currentDate.isEqual(end))
                         && name.equals(dataElements[NAME])) {
-                    income += Integer.parseInt(dataElements[HOURS])
+                    incomeEmployee += Integer.parseInt(dataElements[HOURS])
                             * Integer.parseInt(dataElements[RATE]);
                 }
             }
-            report.append(System.lineSeparator()).append(name).append(" - ").append(income);
-            income = 0;
+            report.append(System.lineSeparator()).append(name).append(" - ").append(incomeEmployee);
+            incomeEmployee = 0;
         }
         return report.toString();
     }
