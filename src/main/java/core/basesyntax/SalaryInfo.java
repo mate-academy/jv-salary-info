@@ -12,29 +12,35 @@ public class SalaryInfo {
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         int[] totalSalaryArray = new int[names.length];
-        StringBuilder totalSalarySummary =
-                new StringBuilder("Report for period " + dateFrom + " - " + dateTo);
-        LocalDate parsedDateFrom = LocalDate.parse(dateFrom, FORMATTER);
-        LocalDate parsedDateTo = LocalDate.parse(dateTo, FORMATTER);
+        LocalDate fromDate = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate toDate = LocalDate.parse(dateTo, FORMATTER);
 
         for (String datum : data) {
-            int whiteSpaceIndex = datum.indexOf(" ");
-            String date = datum.substring(FIRST_STRING_INDEX, whiteSpaceIndex);
-            LocalDate parsedDate = LocalDate.parse(date, FORMATTER);
+            int separator = datum.indexOf(" ");
+            LocalDate date =
+                    LocalDate.parse(datum.substring(FIRST_STRING_INDEX, separator), FORMATTER);
 
-            if ((parsedDate.isAfter(parsedDateFrom) || parsedDate.isEqual(parsedDateFrom))
-                    && (parsedDate.isBefore(parsedDateTo) || parsedDate.isEqual(parsedDateTo))) {
-                String[] nameAndSalaryArray = datum.substring(++whiteSpaceIndex).split(" ");
+            if ((date.isAfter(fromDate) || date.isEqual(fromDate))
+                    && (date.isBefore(toDate) || date.isEqual(toDate))) {
+                String[] nameAndSalaryArray = datum.substring(++separator).split(" ");
 
                 totalSalaryArray[getTotalSalaryArrayIndex(nameAndSalaryArray[NAME_INDEX], names)] +=
                         getSalary(nameAndSalaryArray[HOURS_WORKED_INDEX],
                                 nameAndSalaryArray[INCOME_PER_HOUR_INDEX]);
-
             }
         }
 
+        return getInformativeData(names, totalSalaryArray, dateFrom, dateTo);
+    }
+
+    private String getInformativeData(String[] names, int[] totalSalaryArray,
+                                      String dateFrom, String dateTo) {
+        StringBuilder totalSalarySummary =
+                new StringBuilder("Report for period " + dateFrom + " - " + dateTo);
+        
         for (int i = 0; i < names.length; i++) {
-            totalSalarySummary.append(System.lineSeparator())
+            totalSalarySummary
+                    .append(System.lineSeparator())
                     .append(names[i]).append(" - ")
                     .append(totalSalaryArray[i]);
         }
