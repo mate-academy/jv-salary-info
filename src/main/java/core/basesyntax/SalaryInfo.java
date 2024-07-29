@@ -5,9 +5,9 @@ import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        LocalDate startDate = LocalDate.parse(dateFrom, formatter);
-        LocalDate endDate = LocalDate.parse(dateTo, formatter);
+        final DateTimeFormatter FORNATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        LocalDate startDate = LocalDate.parse(dateFrom, FORNATTER);
+        LocalDate endDate = LocalDate.parse(dateTo, FORNATTER);
 
         StringBuilder report = new StringBuilder();
         report.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
@@ -17,9 +17,8 @@ public class SalaryInfo {
             for (String line : data) {
                 String[] parts = line.split(" ");
                 if (parts[1].equals(name)) {
-                    LocalDate workDate = LocalDate.parse(parts[0], formatter);
-                    if (workDate.isAfter(startDate.minusDays(1))
-                            && workDate.isBefore(endDate.plusDays(1))) {
+                    LocalDate workDate = LocalDate.parse(parts[0], FORNATTER);
+                    if (workDate.compareTo(startDate) >= 0 && workDate.compareTo(endDate) <= 0) {
                         int hours = Integer.parseInt(parts[2]);
                         int rate = Integer.parseInt(parts[3]);
                         salary += hours * rate;
