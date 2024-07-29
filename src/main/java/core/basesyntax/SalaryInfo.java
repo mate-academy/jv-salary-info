@@ -17,17 +17,15 @@ public class SalaryInfo {
             int salary = 0;
             for (String record : data) {
                 String[] workingDayInfo = record.split(" ");
-                LocalDate workingDay = LocalDate.parse(workingDayInfo[0],
-                        DateTimeFormatter.ofPattern(DATE_PATTERN));
+                LocalDate workingDay = LocalDate.parse(workingDayInfo[0], FORMATTER);
                 String employeeName = workingDayInfo[1];
-                String workingHours = workingDayInfo[2];
-                String payForHour = workingDayInfo[3];
+                int workingHours = Integer.parseInt(workingDayInfo[2]);
+                int payForHour = Integer.parseInt(workingDayInfo[3]);
                 if (name != null && name.equals(employeeName)) {
                     if ((workingDay.equals(startDay) || workingDay.isAfter(startDay))
                             && (workingDay.equals(finalDay)
                             || workingDay.isBefore(finalDay))) {
-                        int dayIncome = Integer.parseInt(workingHours)
-                                * Integer.parseInt(payForHour);
+                        int dayIncome = workingHours * payForHour;
                         salary += dayIncome;
                     }
                 }
