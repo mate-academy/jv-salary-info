@@ -15,22 +15,29 @@ public class SalaryInfo {
         report.append(dateFrom).append(" - ").append(dateTo);
         final LocalDate beginning = LocalDate.parse(dateFrom, FORMATTER);
         final LocalDate end = LocalDate.parse(dateTo, FORMATTER);
-        int incomeEmployee = 0;
 
         for (String name : names) {
-            for (String datum : data) {
-                String[] dataElements = datum.split(" ");
-                LocalDate currentDate = LocalDate.parse(dataElements[DATE], FORMATTER);
-                if ((currentDate.isAfter(beginning) || currentDate.isEqual(beginning))
-                        && (currentDate.isBefore(end) || currentDate.isEqual(end))
-                        && name.equals(dataElements[NAME])) {
-                    incomeEmployee += Integer.parseInt(dataElements[HOURS])
-                            * Integer.parseInt(dataElements[RATE]);
-                }
-            }
+            int incomeEmployee = calculateIncomeForEmployee(name, data, beginning, end);
             report.append(System.lineSeparator()).append(name).append(" - ").append(incomeEmployee);
-            incomeEmployee = 0;
         }
         return report.toString();
+    }
+
+    private int calculateIncomeForEmployee(String name, String[] data,
+                                           LocalDate beginning, LocalDate end) {
+        int incomeEmployee = 0;
+
+        for (String datum : data) {
+            String[] dataElements = datum.split(" ");
+            LocalDate currentDate = LocalDate.parse(dataElements[DATE], FORMATTER);
+
+            if ((currentDate.isAfter(beginning) || currentDate.isEqual(beginning))
+                    && (currentDate.isBefore(end) || currentDate.isEqual(end))
+                    && name.equals(dataElements[NAME])) {
+                incomeEmployee += Integer.parseInt(dataElements[HOURS])
+                        * Integer.parseInt(dataElements[RATE]);
+            }
+        }
+        return incomeEmployee;
     }
 }
