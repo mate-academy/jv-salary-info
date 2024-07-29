@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    static final String DATE_PATTERN = "dd.MM.yyyy";
+   private static final String DATE_PATTERN = "dd.MM.yyyy";
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate startDay = LocalDate.parse(dateFrom, DateTimeFormatter.ofPattern(DATE_PATTERN));
