@@ -11,35 +11,6 @@ public class SalaryInfo {
     private static final int HOURS_INDEX = 2;
     private static final int PAY_FOR_HOUR_INDEX = 3;
 
-    private static Boolean isDayInRange(String day, String startOfRange, String finalOfRange) {
-        LocalDate startDay = LocalDate.parse(startOfRange, FORMATTER);
-        LocalDate finalDay = LocalDate.parse(finalOfRange, FORMATTER);
-        LocalDate checkDay = LocalDate.parse(day, FORMATTER);
-        return (checkDay.equals(startDay) || checkDay.isAfter(startDay))
-                && (checkDay.equals(finalDay)
-                || checkDay.isBefore(finalDay));
-    }
-
-    private static StringBuilder getStartOfReport(String dateFrom, String dateTo) {
-        StringBuilder builder = new StringBuilder();
-        builder.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
-        return builder;
-    }
-
-    private static String getEmployee(String record) {
-        return record.split(" ")[EMPLOYEE_INDEX];
-    }
-
-    private static String getWorkingDay(String record) {
-        return record.split(" ")[DAY_INDEX];
-    }
-
-    private static int countDayPayment(String record) {
-        int workingHours = Integer.parseInt(record.split(" ")[HOURS_INDEX]);
-        int payForHour = Integer.parseInt(record.split(" ")[PAY_FOR_HOUR_INDEX]);
-        return workingHours * payForHour;
-    }
-
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder report = getStartOfReport(dateFrom, dateTo);
         for (String name : names) {
@@ -54,5 +25,34 @@ public class SalaryInfo {
             report.append(System.lineSeparator()).append(name).append(" - ").append(salary);
         }
         return report.toString();
+    }
+
+    private Boolean isDayInRange(String day, String startOfRange, String finalOfRange) {
+        LocalDate startDay = LocalDate.parse(startOfRange, FORMATTER);
+        LocalDate finalDay = LocalDate.parse(finalOfRange, FORMATTER);
+        LocalDate checkDay = LocalDate.parse(day, FORMATTER);
+        return (checkDay.equals(startDay) || checkDay.isAfter(startDay))
+                && (checkDay.equals(finalDay)
+                || checkDay.isBefore(finalDay));
+    }
+
+    private StringBuilder getStartOfReport(String dateFrom, String dateTo) {
+        StringBuilder builder = new StringBuilder();
+        builder.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
+        return builder;
+    }
+
+    private String getEmployee(String record) {
+        return record.split(" ")[EMPLOYEE_INDEX];
+    }
+
+    private String getWorkingDay(String record) {
+        return record.split(" ")[DAY_INDEX];
+    }
+
+    private int countDayPayment(String record) {
+        int workingHours = Integer.parseInt(record.split(" ")[HOURS_INDEX]);
+        int payForHour = Integer.parseInt(record.split(" ")[PAY_FOR_HOUR_INDEX]);
+        return workingHours * payForHour;
     }
 }
