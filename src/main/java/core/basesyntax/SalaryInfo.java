@@ -20,27 +20,39 @@ public class SalaryInfo {
                 || checkDay.isBefore(finalDay));
     }
 
-    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
+    private static StringBuilder getStartOfReport(String dateFrom, String dateTo) {
         StringBuilder builder = new StringBuilder();
         builder.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
+        return builder;
+    }
 
+    private static String getEmployee(String record) {
+        return record.split(" ")[EMPLOYEE_INDEX];
+    }
+
+    private static String getWorkingDay(String record) {
+        return record.split(" ")[DAY_INDEX];
+    }
+
+    private static int countDayPayment(String record) {
+        int workingHours = Integer.parseInt(record.split(" ")[HOURS_INDEX]);
+        int payForHour = Integer.parseInt(record.split(" ")[PAY_FOR_HOUR_INDEX]);
+        return workingHours * payForHour;
+    }
+
+    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
+        StringBuilder report = getStartOfReport(dateFrom, dateTo);
         for (String name : names) {
             int salary = 0;
             for (String record : data) {
-                String[] workingDayInfo = record.split(" ");
-                String workingDay = workingDayInfo[DAY_INDEX];
-                String employeeName = workingDayInfo[EMPLOYEE_INDEX];
-                int workingHours = Integer.parseInt(workingDayInfo[HOURS_INDEX]);
-                int payForHour = Integer.parseInt(workingDayInfo[PAY_FOR_HOUR_INDEX]);
-                if (name != null && name.equals(employeeName)) {
-                    if (isDayInRange(workingDay, dateFrom, dateTo)) {
-                        int dayIncome = workingHours * payForHour;
-                        salary += dayIncome;
+                if (name != null && name.equals(getEmployee(record))) {
+                    if (isDayInRange(getWorkingDay(record), dateFrom, dateTo)) {
+                        salary += countDayPayment(record);
                     }
                 }
             }
-            builder.append(System.lineSeparator()).append(name).append(" - ").append(salary);
+            report.append(System.lineSeparator()).append(name).append(" - ").append(salary);
         }
-        return builder.toString();
+        return report.toString();
     }
 }
