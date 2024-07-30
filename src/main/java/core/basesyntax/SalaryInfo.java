@@ -16,8 +16,8 @@ public class SalaryInfo {
         for (String name : names) {
             int salary = 0;
             for (String record : data) {
-                if (name != null && name.equals(getEmployee(record))) {
-                    if (isDayInRange(getWorkingDay(record), dateFrom, dateTo)) {
+                if (name != null && name.equals(getData(record, EMPLOYEE_INDEX))) {
+                    if (isDayInRange(getData(record, DAY_INDEX), dateFrom, dateTo)) {
                         salary += countDayPayment(record);
                     }
                 }
@@ -42,17 +42,13 @@ public class SalaryInfo {
         return builder;
     }
 
-    private String getEmployee(String record) {
-        return record.split(" ")[EMPLOYEE_INDEX];
-    }
-
-    private String getWorkingDay(String record) {
-        return record.split(" ")[DAY_INDEX];
-    }
-
     private int countDayPayment(String record) {
-        int workingHours = Integer.parseInt(record.split(" ")[HOURS_INDEX]);
-        int payForHour = Integer.parseInt(record.split(" ")[PAY_FOR_HOUR_INDEX]);
+        int workingHours = Integer.parseInt(getData(record, HOURS_INDEX));
+        int payForHour = Integer.parseInt(getData(record, PAY_FOR_HOUR_INDEX));
         return workingHours * payForHour;
+    }
+
+    private String getData(String record, int index) {
+        return record.split(" ")[index];
     }
 }
