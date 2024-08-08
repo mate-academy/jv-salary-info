@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 public class SalaryInfo {
     private static final String FIRST_LINE_FORMAT = "Report for period %s - %s";
     private static final String SALARY_LINE_FORMAT = "\n%s - %d";
+    private static final int DEFAULT_SALARY_VALUE = 0;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate dateFromLocal = LocalDate.parse(dateFrom, SalaryData.DATE_TIME_FORMATTER);
@@ -16,7 +17,7 @@ public class SalaryInfo {
         Map<String, Integer> nameSalaryMap = getNameSalaryMap(names, data, dateRange);
         StringBuilder sb = new StringBuilder(String.format(FIRST_LINE_FORMAT, dateFrom, dateTo));
         for (String name : names) {
-            int salary = nameSalaryMap.getOrDefault(name, 0);
+            int salary = nameSalaryMap.getOrDefault(name, DEFAULT_SALARY_VALUE);
             sb.append(String.format(SALARY_LINE_FORMAT, name, salary));
         }
         return sb.toString();
