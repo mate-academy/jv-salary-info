@@ -7,18 +7,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SalaryInfo {
-    private static final String DATE_FORMAT = "dd.MM.yyyy";
-    private final SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
+    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         Date startDate;
         Date endDate;
         Date entryDate;
         try {
-            startDate = dateFormat.parse(dateFrom);
-            endDate = dateFormat.parse(dateTo);
+            startDate = DATE_FORMAT.parse(dateFrom);
+            endDate = DATE_FORMAT.parse(dateTo);
         } catch (ParseException e) {
-            throw new RuntimeException("Error parsing date: " + dateFrom);
+            throw new RuntimeException("Invalid date format", e);
         }
 
         Map<String, Integer> salaries = new HashMap<>();
@@ -34,9 +33,9 @@ public class SalaryInfo {
             int incomePerHour = Integer.parseInt(entryParts[3]);
 
             try {
-                entryDate = dateFormat.parse(dateStr);
+                entryDate = DATE_FORMAT.parse(dateStr);
             } catch (ParseException e) {
-                throw new RuntimeException("Error parsing entry date: " + dateStr);
+                continue;
             }
 
             if (!entryDate.before(startDate)
@@ -53,13 +52,13 @@ public class SalaryInfo {
                 .append(dateFrom)
                 .append(" - ")
                 .append(dateTo)
-                .append("\r\n");
+                .append(System.lineSeparator());
 
         for (String name : names) {
             result.append(name)
                     .append(" - ")
                     .append(salaries.get(name))
-                    .append("\r\n");
+                    .append(System.lineSeparator());
         }
 
         return result.toString().trim();
