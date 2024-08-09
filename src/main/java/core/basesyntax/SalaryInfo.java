@@ -6,6 +6,10 @@ import java.time.format.DateTimeFormatter;
 public class SalaryInfo {
     private static final DateTimeFormatter DATE_FORMATTER
             = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final int DATA_INDEX = 0;
+    private static final int NAME_INDEX = 1;
+    private static final int HOURS_INDEX = 2;
+    private static final int SALARY_INDEX = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder report = new StringBuilder("Report for period ");
@@ -15,9 +19,10 @@ public class SalaryInfo {
             int totalSalary = 0;
             for (String values : data) {
                 String[] dataInfo = values.split(" ");
-                if (isInRangeOfPeriod(dataInfo[0], dateFrom, dateTo)
-                        && name.equals(dataInfo[1])) {
-                    totalSalary += Integer.parseInt(dataInfo[2]) * Integer.parseInt(dataInfo[3]);
+                if (isInRangeOfPeriod(dataInfo[DATA_INDEX], dateFrom, dateTo)
+                        && name.equals(dataInfo[NAME_INDEX])) {
+                    totalSalary += Integer.parseInt(dataInfo[HOURS_INDEX])
+                            * Integer.parseInt(dataInfo[SALARY_INDEX]);
                 }
             }
             report.append(System.lineSeparator())
