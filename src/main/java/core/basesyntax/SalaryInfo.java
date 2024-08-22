@@ -4,25 +4,25 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
+    private static final int DATE_INDEX = 0;
+    private static final int NAME_INDEX = 1;
+    private static final int HOURS_INDEX = 2;
+    private static final int INCOME_INDEX = 3;
+    private static final String SEPARATOR = System.lineSeparator();
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate startDate = LocalDate.parse(dateFrom.trim(), formatter);
         LocalDate endDate = LocalDate.parse(dateTo.trim(), formatter);
-        final int dateIndex = 0;
-        final int nameIndex = 1;
-        final int hoursIndex = 2;
-        final int incomeIndex = 3;
-        final String separator = System.lineSeparator();
 
         int[] salaries = new int[names.length];
 
         for (String entry : data) {
             String[] parts = entry.split(" ");
-            LocalDate workDate = LocalDate.parse(parts[dateIndex], formatter);
-            String name = parts[nameIndex];
-            int hoursWorked = Integer.parseInt(parts[hoursIndex]);
-            int incomePerHour = Integer.parseInt(parts[incomeIndex]);
+            LocalDate workDate = LocalDate.parse(parts[DATE_INDEX], formatter);
+            String name = parts[NAME_INDEX];
+            int hoursWorked = Integer.parseInt(parts[HOURS_INDEX]);
+            int incomePerHour = Integer.parseInt(parts[INCOME_INDEX]);
 
             if (!workDate.isBefore(startDate) && !workDate.isAfter(endDate)) {
                 for (int i = 0; i < names.length; i++) {
@@ -39,13 +39,13 @@ public class SalaryInfo {
                 .append(dateFrom)
                 .append(" - ")
                 .append(dateTo)
-                .append(separator);
+                .append(SEPARATOR);
 
         for (int i = 0; i < names.length; i++) {
             report.append(names[i])
                     .append(" - ")
                     .append(salaries[i])
-                    .append(separator);
+                    .append(SEPARATOR);
         }
 
         return report.toString().trim();
