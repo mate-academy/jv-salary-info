@@ -24,21 +24,24 @@ public class SalaryInfo {
 
                 Date parsedDate = simpleDateFormat.parse(rowData[0]);
                 String name = rowData[1];
-                int days = Integer.parseInt(rowData[2]);
+                int hours = Integer.parseInt(rowData[2]);
                 int salary = Integer.parseInt(rowData[3]);
 
                 if (results.containsKey(name)
                         && parsedDate.after(startDate)
                         && (parsedDate.before(endDate) || parsedDate.equals(endDate))
                 ) {
-                    results.replace(name, results.get(name) + days * salary);
+                    results.replace(name, results.get(name) + hours * salary);
                 }
             }
         } catch (ParseException e) {
             System.out.println("Wrong date format.");
         }
 
-        StringBuilder stringBuilder = new StringBuilder("Report for period " + dateFrom + " - " + dateTo);
+        StringBuilder stringBuilder = new StringBuilder("Report for period ")
+                .append(dateFrom)
+                .append(" - ")
+                .append(dateTo);
 
         for (String name : names) {
             stringBuilder
