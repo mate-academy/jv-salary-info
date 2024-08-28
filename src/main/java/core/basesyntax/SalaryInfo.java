@@ -10,21 +10,27 @@ public class SalaryInfo {
 
         for (String name : names) {
             int salary = 0;
+            String regexSymbol = " ";
             for (String datum : data) {
-                String[] parts = datum.split(" ");
-                int hours = Integer.parseInt(parts[2]);
-                int income = Integer.parseInt(parts[3]);
-                if (parts[1].equals(name) && dateComparator(parts[0], dateFrom, dateTo)) {
+                String[] parts = datum.split(regexSymbol);
+                int dateIndex = 0;
+                int nameIndex = 1;
+                int hoursIndex = 2;
+                int incomeIndex = 3;
+                int hours = Integer.parseInt(parts[hoursIndex]);
+                int income = Integer.parseInt(parts[incomeIndex]);
+                if (parts[nameIndex].equals(name)
+                        && dateComparator(parts[dateIndex], dateFrom, dateTo)) {
                     salary += hours * income;
                 }
             }
             result.append(System.lineSeparator()).append(name).append(" - ").append(salary);
         }
 
-        return new String(result);
+        return result.toString();
     }
 
-    static final boolean dateComparator(String data, String dataFrom, String dataTo) {
+    private static final boolean dateComparator(String data, String dataFrom, String dataTo) {
         DateTimeFormatter format = DateTimeFormatter.ofPattern(("dd.MM.yyyy"));
         LocalDate date = LocalDate.parse(data, format);
         LocalDate dateFrom = LocalDate.parse(dataFrom, format);
