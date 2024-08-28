@@ -1,8 +1,7 @@
 package core.basesyntax;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
@@ -22,22 +21,15 @@ public class SalaryInfo {
             result.append(System.lineSeparator()).append(name).append(" - ").append(salary);
         }
 
-        return String.valueOf(result);
+        return new String(result);
     }
 
-    public boolean dateComparator(String data, String dataFrom, String dataTo) {
-        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
-        try {
-            Date date = format.parse(data);
-            Date dateFrom = format.parse(dataFrom);
-            Date dateTo = format.parse(dataTo);
-            if (date.after(dateFrom) && date.before(dateTo)
-                    || date.equals(dateFrom) || date.equals(dateTo)) {
-                return true;
-            }
-        } catch (ParseException ex) {
-            System.out.println("Problem with data" + ex);
-        }
-        return false;
+    static final boolean dateComparator(String data, String dataFrom, String dataTo) {
+        DateTimeFormatter format = DateTimeFormatter.ofPattern(("dd.MM.yyyy"));
+        LocalDate date = LocalDate.parse(data, format);
+        LocalDate dateFrom = LocalDate.parse(dataFrom, format);
+        LocalDate dateTo = LocalDate.parse(dataTo, format);
+        return !date.isBefore(dateFrom) && !date.isAfter(dateTo);
+
     }
 }
