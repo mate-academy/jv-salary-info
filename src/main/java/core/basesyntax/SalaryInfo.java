@@ -62,7 +62,10 @@ public class SalaryInfo {
                 emploeesSalaryDetails[i].setHourCount(Integer.parseInt(parsedData[2]));
                 emploeesSalaryDetails[i].setSalaryPerHour(Integer.parseInt(parsedData[3]));
             } catch (DateTimeParseException ex) {
-                System.out.println("Error parsing date: " + ex.getMessage());
+                throw new DateTimeParseException("Error parsing date: " + parsedData[0],
+                        parsedData[0], ex.getErrorIndex());
+            } catch (NumberFormatException ex) {
+                throw new NumberFormatException("Error parsing number: " + data[i]);
             }
         }
     }
@@ -77,13 +80,16 @@ public class SalaryInfo {
     }
 
     private String formatSalaryReport(String dateFrom, String dateTo) {
-        StringBuilder rezultMessage = new StringBuilder();
-        rezultMessage.append("Report for period ").append(dateFrom).append(" - ")
+        StringBuilder resultMessage = new StringBuilder();
+        resultMessage.append("Report for period ").append(dateFrom).append(" - ")
                 .append(dateTo).append(System.lineSeparator());
         for (int i = 0; i < emploeesSalaries.length; i++) {
-            rezultMessage.append(emploeesSalaries[i].getEmploeesName()).append(" - ")
-                    .append(emploeesSalaries[i].getEarnedSalary()).append(System.lineSeparator());
+            resultMessage.append(emploeesSalaries[i].getEmploeesName()).append(" - ")
+                    .append(emploeesSalaries[i].getEarnedSalary());
+            if (i < emploeesSalaries.length - 1) {
+                resultMessage.append(System.lineSeparator());
+            }
         }
-        return rezultMessage.toString();
+        return resultMessage.toString();
     }
 }
