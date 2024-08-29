@@ -4,12 +4,12 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d.MM.yyyy");
-    private final int startPositionForSubstringDate = 0;
-    private final int endPositionForSubstringDate = 10;
-    private final int startPositionForSubstringIncomeData = 12;
-    private final int arrayPositionOfWorkingHours = 0;
-    private final int arrayPositionOfIncomePerHour = 1;
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d.MM.yyyy");
+    private static final int startPositionForSubstringDate = 0;
+    private static final int endPositionForSubstringDate = 10;
+    private static final int startPositionForSubstringIncomeData = 12;
+    private static final int arrayPositionOfWorkingHours = 0;
+    private static final int arrayPositionOfIncomePerHour = 1;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate localDateFrom = LocalDate.parse(dateFrom, formatter);
@@ -26,9 +26,7 @@ public class SalaryInfo {
                     LocalDate rowDate = LocalDate.parse(simpleData.substring(
                                     startPositionForSubstringDate, endPositionForSubstringDate),
                             formatter);
-                    if ((rowDate.isAfter(localDateFrom) || rowDate.isEqual(localDateFrom))
-                            && rowDate.isBefore(localDateTo) || rowDate.isEqual(localDateTo)) {
-
+                    if (!rowDate.isBefore(localDateFrom) && !rowDate.isAfter(localDateTo)) {
                         String[] dayIncomeInfo = simpleData.substring(
                                 startPositionForSubstringIncomeData
                                         + name.length()).split(" ");
