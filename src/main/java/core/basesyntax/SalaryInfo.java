@@ -5,69 +5,85 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 public class SalaryInfo {
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private EmploeesSalaryDetails[] emploeesSalaryDetails;
+    private EmploeesSalary[] emploeesSalaries;
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        String[][] salaryByName = new String[names.length][2];
-        for (int i = 0; i < names.length; i++) {
-            salaryByName[i][0] = names[i];
-            salaryByName[i][1] = "0";
+        emploeesSalaryDetails = new EmploeesSalaryDetails[data.length];
+        initEmploeesSalaryDetails(data);
+        emploeesSalaries = new EmploeesSalary[names.length];
+        initEmploeesSalary(names);
+        LocalDate startDay = null;
+        LocalDate endDay = null;
+        try {
+            startDay = LocalDate.parse(dateFrom, formatter);
+            endDay = LocalDate.parse(dateTo, formatter);
+        } catch (DateTimeParseException e) {
+            System.out.println("Error parsing date: " + e.getMessage());
         }
-        String[][] splitedData = splitData(data);
-        for (int i = 0; i < splitedData.length; i++) {
-            if (dayCheck(splitedData[i][0], dateFrom, dateTo)) {
-                for (int j = 0; j < names.length; j++) {
-                    if (splitedData[i][1].equals(salaryByName[j][0])) {
-                        try {
-                            salaryByName[j][1] =
-                                    String.valueOf((Integer.parseInt(salaryByName[j][1])
-                                    + (Integer.parseInt(splitedData[i][2])
-                                    * Integer.parseInt(splitedData[i][3]))));
-                        } catch (NumberFormatException ex) {
-                            System.out.println("Error parsing string to number: "
-                                    + ex.getMessage());
-                        }
+        salaryCalculator(startDay, endDay);
+        return formatSalaryReport(dateFrom, dateTo);
+    }
+
+    private void salaryCalculator(LocalDate dateFrom, LocalDate dateTo) {
+        for (int i = 0; i < emploeesSalaryDetails.length; i++) {
+            if (isDateWithinRange(emploeesSalaryDetails[i].getWorkingDay(), dateFrom, dateTo)) {
+                for (int j = 0; j < emploeesSalaries.length; j++) {
+                    if (emploeesSalaries[j].getEmploeesName().equals(
+                            emploeesSalaryDetails[i].getEmploeeName())) {
+                        emploeesSalaries[j].setEarnedSalary(
+                                  emploeesSalaries[j].getEarnedSalary()
+                                + emploeesSalaryDetails[i].getSalaryPerHour()
+                                * emploeesSalaryDetails[i].getHourCount());
+                        break;
                     }
                 }
             }
         }
-        return getRezultToString(salaryByName, dateFrom, dateTo);
     }
 
-    private String getRezultToString(String[][] salaryByName, String dateFrom, String dateTo) {
-        StringBuilder rezultMessage = new StringBuilder();
-        rezultMessage.append("Report for period ").append(dateFrom).append(" - ")
-                .append(dateTo).append(System.lineSeparator());
-        for (int i = 0; i < salaryByName.length; i++) {
-            rezultMessage.append(salaryByName[i][0]).append(" - ")
-                    .append(salaryByName[i][1]).append(System.lineSeparator());
+    private void initEmploeesSalary(String[] names) {
+        for (int i = 0; i < names.length; i++) {
+            emploeesSalaries[i] = new EmploeesSalary();
+            emploeesSalaries[i].setEmploeesName(names[i]);
+            emploeesSalaries[i].setEarnedSalary(0);
         }
-        return rezultMessage.toString();
     }
 
-    private boolean dayCheck(String dateToCheck, String dateFrom, String dateTo) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        LocalDate startDay = null;
-        LocalDate endDay = null;
-        LocalDate checkDate = null;
-        try {
-            startDay = LocalDate.parse(dateFrom, formatter);
-            endDay = LocalDate.parse(dateTo, formatter);
-            checkDate = LocalDate.parse(dateToCheck, formatter);
-        } catch (DateTimeParseException ex) {
-            System.out.println("Error parsing date: " + ex.getMessage());
+    private void initEmploeesSalaryDetails(String[] data) {
+        String[] parsedData;
+        for (int i = 0; i < data.length; i++) {
+            emploeesSalaryDetails[i] = new EmploeesSalaryDetails();
+            parsedData = data[i].split(" ");
+            try {
+                emploeesSalaryDetails[i].setWorkingDay(LocalDate.parse(parsedData[0], formatter));
+                emploeesSalaryDetails[i].setEmploeeName(parsedData[1]);
+                emploeesSalaryDetails[i].setHourCount(Integer.parseInt(parsedData[2]));
+                emploeesSalaryDetails[i].setSalaryPerHour(Integer.parseInt(parsedData[3]));
+            } catch (DateTimeParseException ex) {
+                System.out.println("Error parsing date: " + ex.getMessage());
+            }
         }
-        if ((checkDate.isAfter(startDay) && checkDate.isBefore(endDay))
-                || (checkDate.isEqual(startDay) || checkDate.isEqual(endDay))) {
+    }
+
+    private boolean isDateWithinRange(LocalDate dateToCheck, LocalDate dateFrom, LocalDate dateTo) {
+        if ((dateToCheck.isAfter(dateFrom) && dateToCheck.isBefore(dateTo))
+                || (dateToCheck.isEqual(dateFrom) || dateToCheck.isEqual(dateTo))) {
             return true;
         } else {
             return false;
         }
     }
 
-    private String[][] splitData(String[] data) {
-        String[][] splitedData = new String[data.length][4];
-        for (int i = 0; i < data.length; i++) {
-            splitedData[i] = data[i].split(" ");
+    private String formatSalaryReport(String dateFrom, String dateTo) {
+        StringBuilder rezultMessage = new StringBuilder();
+        rezultMessage.append("Report for period ").append(dateFrom).append(" - ")
+                .append(dateTo).append(System.lineSeparator());
+        for (int i = 0; i < emploeesSalaries.length; i++) {
+            rezultMessage.append(emploeesSalaries[i].getEmploeesName()).append(" - ")
+                    .append(emploeesSalaries[i].getEarnedSalary()).append(System.lineSeparator());
         }
-        return splitedData;
+        return rezultMessage.toString();
     }
 }
