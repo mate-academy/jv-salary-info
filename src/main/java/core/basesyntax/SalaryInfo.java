@@ -5,7 +5,13 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 public class SalaryInfo {
-    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final int START_SALARY = 0;
+    private static final DateTimeFormatter DATE_TIME_FORMATTER
+            = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final int WORKING_DAY_POSITION = 0;
+    private static final int EMPLOEE_NAME_POSITION = 1;
+    private static final int HOUR_COUNT_POSITION = 2;
+    private static final int SALARY_PER_HOUR_POSITION = 3;
     private EmploeesSalaryDetails[] emploeesSalaryDetails;
     private EmploeesSalary[] emploeesSalaries;
 
@@ -17,8 +23,8 @@ public class SalaryInfo {
         LocalDate startDay = null;
         LocalDate endDay = null;
         try {
-            startDay = LocalDate.parse(dateFrom, formatter);
-            endDay = LocalDate.parse(dateTo, formatter);
+            startDay = LocalDate.parse(dateFrom, DATE_TIME_FORMATTER);
+            endDay = LocalDate.parse(dateTo, DATE_TIME_FORMATTER);
         } catch (DateTimeParseException e) {
             System.out.println("Error parsing date: " + e.getMessage());
         }
@@ -47,7 +53,7 @@ public class SalaryInfo {
         for (int i = 0; i < names.length; i++) {
             emploeesSalaries[i] = new EmploeesSalary();
             emploeesSalaries[i].setEmploeesName(names[i]);
-            emploeesSalaries[i].setEarnedSalary(0);
+            emploeesSalaries[i].setEarnedSalary(START_SALARY);
         }
     }
 
@@ -57,13 +63,18 @@ public class SalaryInfo {
             emploeesSalaryDetails[i] = new EmploeesSalaryDetails();
             parsedData = data[i].split(" ");
             try {
-                emploeesSalaryDetails[i].setWorkingDay(LocalDate.parse(parsedData[0], formatter));
-                emploeesSalaryDetails[i].setEmploeeName(parsedData[1]);
-                emploeesSalaryDetails[i].setHourCount(Integer.parseInt(parsedData[2]));
-                emploeesSalaryDetails[i].setSalaryPerHour(Integer.parseInt(parsedData[3]));
+                emploeesSalaryDetails[i].setWorkingDay(
+                        LocalDate.parse(parsedData[WORKING_DAY_POSITION], DATE_TIME_FORMATTER));
+                emploeesSalaryDetails[i].setEmploeeName(
+                        parsedData[EMPLOEE_NAME_POSITION]);
+                emploeesSalaryDetails[i].setHourCount(
+                        Integer.parseInt(parsedData[HOUR_COUNT_POSITION]));
+                emploeesSalaryDetails[i].setSalaryPerHour(
+                        Integer.parseInt(parsedData[SALARY_PER_HOUR_POSITION]));
             } catch (DateTimeParseException ex) {
-                throw new DateTimeParseException("Error parsing date: " + parsedData[0],
-                        parsedData[0], ex.getErrorIndex());
+                throw new DateTimeParseException("Error parsing date: "
+                        + parsedData[WORKING_DAY_POSITION], parsedData[WORKING_DAY_POSITION],
+                        ex.getErrorIndex());
             } catch (NumberFormatException ex) {
                 throw new NumberFormatException("Error parsing number: " + data[i]);
             }
