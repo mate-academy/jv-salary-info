@@ -1,54 +1,61 @@
 package core.basesyntax;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
+    public static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    public static final String REPORT_TITLE = "Report for period";
+    public static final String INFORMATION_SEPARATOR = " - ";
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
-        Map<String, Integer> results = new HashMap<>();
+        int[] salariesResults = new int[names.length];
 
-        for (String name : names) {
-            results.put(name, 0);
-        }
+        LocalDate startDate = LocalDate.parse(dateFrom, DATE_TIME_FORMATTER);
+        LocalDate endDate = LocalDate.parse(dateTo, DATE_TIME_FORMATTER);
 
-        try {
-            Date startDate = simpleDateFormat.parse(dateFrom);
-            Date endDate = simpleDateFormat.parse(dateTo);
-
+        for (int i = 0; i < names.length; i += 1) {
             for (String row : data) {
                 String[] rowData = row.split(" ");
 
-                Date parsedDate = simpleDateFormat.parse(rowData[0]);
+                LocalDate parsedDate = LocalDate.parse(rowData[0], DATE_TIME_FORMATTER);
+
                 String name = rowData[1];
                 int hours = Integer.parseInt(rowData[2]);
                 int salary = Integer.parseInt(rowData[3]);
 
-                if (results.containsKey(name)
-                        && parsedDate.after(startDate)
-                        && (parsedDate.before(endDate) || parsedDate.equals(endDate))
-                ) {
-                    results.replace(name, results.get(name) + hours * salary);
+                if (this.isDateInRange(startDate, endDate, parsedDate) && names[i].equals(name)) {
+                    salariesResults[i] += hours * salary;
                 }
             }
-        } catch (ParseException e) {
-            System.out.println("Wrong date format.");
         }
 
-        StringBuilder stringBuilder = new StringBuilder("Report for period ")
+        return this.generateReport(names, dateFrom, dateTo, salariesResults);
+    }
+
+    private boolean isDateInRange (LocalDate minDate, LocalDate maxDate, LocalDate targetDate) {
+        return targetDate.isAfter(minDate)
+                && (targetDate.isBefore(maxDate)
+                || targetDate.equals(maxDate));
+    }
+
+    private String generateReport(
+            String[] names,
+            String dateFrom,
+            String dateTo,
+            int[] salariesResults
+    ) {
+        StringBuilder stringBuilder = new StringBuilder(REPORT_TITLE + " ")
                 .append(dateFrom)
-                .append(" - ")
+                .append(INFORMATION_SEPARATOR)
                 .append(dateTo);
 
-        for (String name : names) {
+        for (int i = 0; i < names.length; i += 1) {
             stringBuilder
                     .append(System.lineSeparator())
-                    .append(name)
-                    .append(" - ")
-                    .append(results.get(name));
+                    .append(names[i])
+                    .append(INFORMATION_SEPARATOR)
+                    .append(salariesResults[i]);
         }
 
         return stringBuilder.toString();
