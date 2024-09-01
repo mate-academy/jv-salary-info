@@ -4,7 +4,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    public static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    public static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter
+            .ofPattern("dd.MM.yyyy");
     public static final String REPORT_TITLE = "Report for period";
     public static final String INFORMATION_SEPARATOR = " - ";
 
@@ -33,7 +34,7 @@ public class SalaryInfo {
         return this.generateReport(names, dateFrom, dateTo, salariesResults);
     }
 
-    private boolean isDateInRange (LocalDate minDate, LocalDate maxDate, LocalDate targetDate) {
+    private boolean isDateInRange(LocalDate minDate, LocalDate maxDate, LocalDate targetDate) {
         return targetDate.isAfter(minDate)
                 && (targetDate.isBefore(maxDate)
                 || targetDate.equals(maxDate));
