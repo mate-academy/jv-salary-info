@@ -17,7 +17,7 @@ public class Main {
                 "Andrew",
                 "Kate"
         };
-        String dateFrom = "date from = `01.04.2019 `";
+        String dateFrom = "date from = `01.04.2019`";
         String dateTo = "date to = `30.04.2019`";
         SalaryInfo salaryInfo = new SalaryInfo();
         String result = salaryInfo.getSalaryInfo(names, data, dateFrom, dateTo);
