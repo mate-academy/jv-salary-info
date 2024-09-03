@@ -7,17 +7,18 @@ public class EmploeesSalaryDetails {
     private LocalDate workingDay;
     private int salaryPerHour;
     private int hourCount;
+    private int earnedSalary;
 
     public EmploeesSalaryDetails() {
-
     }
 
     public EmploeesSalaryDetails(String emploeeName, LocalDate workingDay,
-                                 int salaryPerHour, int hourCount) {
+                                 int salaryPerHour, int hourCount, int earnedSalary) {
         this.emploeeName = emploeeName;
         this.workingDay = workingDay;
         this.salaryPerHour = salaryPerHour;
         this.hourCount = hourCount;
+        this.earnedSalary = earnedSalary;
     }
 
     public String getEmploeeName() {
@@ -50,5 +51,13 @@ public class EmploeesSalaryDetails {
 
     public void setHourCount(int hourCount) {
         this.hourCount = hourCount;
+    }
+
+    public int getEarnedSalary() {
+        return earnedSalary;
+    }
+
+    public void setEarnedSalary(int earnedSalary) {
+        this.earnedSalary = earnedSalary;
     }
 }
