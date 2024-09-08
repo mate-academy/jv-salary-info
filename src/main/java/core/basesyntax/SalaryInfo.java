@@ -24,7 +24,7 @@ public class SalaryInfo {
                             totalSalary += salaryCounter(items);
                         }
                     } catch (DateTimeParseException e) {
-                        System.out.println("Something went wrong with date parsing");
+                        throw new RuntimeException("Something went wrong with date parsing");
                     }
                 }
             }
