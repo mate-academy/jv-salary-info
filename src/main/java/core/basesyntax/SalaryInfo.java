@@ -3,10 +3,12 @@ package core.basesyntax;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.HashMap;
 
 public class SalaryInfo {
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         LocalDate startDate;
         LocalDate endDate;
 
@@ -18,7 +20,10 @@ public class SalaryInfo {
                     + "Expected format: dd.MM.yyyy", e);
         }
 
-        int[] salaries = new int[data.length];
+        HashMap<String, Integer> salaries = new HashMap<>();
+        for (String name : names) {
+            salaries.put(name, 0);
+        }
 
         for (String employeeRecord : data) {
             String[] employeeDetails = employeeRecord.split(" ");
@@ -29,13 +34,10 @@ public class SalaryInfo {
                 int hoursWorked = Integer.parseInt(employeeDetails[2]);
                 int hourlyRate = Integer.parseInt(employeeDetails[3]);
 
-                if (!startDate.isAfter(date) && !endDate.isBefore(date)) {
-                    for (int i = 0; i < names.length; i++) {
-                        if (names[i].equals(employeeName)) {
-                            salaries[i] += hoursWorked * hourlyRate;
-                            break;
-                        }
-                    }
+                if (!startDate.isAfter(date) && !endDate.isBefore(date)
+                        && salaries.containsKey(employeeName)) {
+                    salaries.put(employeeName, salaries.get(employeeName)
+                            + hoursWorked * hourlyRate);
                 }
             } catch (DateTimeParseException | NumberFormatException ex) {
                 System.out.println("Error in record: " + employeeRecord);
@@ -43,9 +45,11 @@ public class SalaryInfo {
         }
 
         StringBuilder result = new StringBuilder("Report for period "
-                + dateFrom + " - " + dateTo + "\n");
-        for (int i = 0; i < names.length; i++) {
-            result.append(names[i]).append(" - ").append(salaries[i]).append("\n");
+                + dateFrom + " - " + dateTo + System.lineSeparator());
+
+        for (String name : names) {
+            result.append(name).append(" - ").append(salaries.get(name));
+            result.append(System.lineSeparator());
         }
 
         return result.toString().trim();
