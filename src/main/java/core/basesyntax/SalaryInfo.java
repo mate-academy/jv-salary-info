@@ -31,7 +31,8 @@ public class SalaryInfo {
                     }
                 }
             }
-            builder.append("\n").append(name).append(" - ").append(calculatedSalary);
+            builder.append(System.lineSeparator()).append(name).append(" - ")
+                    .append(calculatedSalary);
         }
         return builder.toString();
     }
