@@ -1,6 +1,11 @@
 package core.basesyntax;
 
 public class SalaryInfo {
+    static int iDateStr = 0;
+    static int iEmployeeName = 1;
+    static int iHoursWorked = 2;
+    static int intIncomePerHour = 3;
+
     public static String getSalaryInfo(String[] names, String[] data,
                                        String dateFrom, String dateTo) {
         String dateFromComparable = convertDateToComparable(dateFrom);
@@ -9,10 +14,10 @@ public class SalaryInfo {
 
         for (String entry : data) {
             String[] parts = entry.split(" ");
-            String dateStr = parts[0];
-            String employeeName = parts[1];
-            int hoursWorked = Integer.parseInt(parts[2]);
-            int incomePerHour = Integer.parseInt(parts[3]);
+            String dateStr = parts[iDateStr];
+            String employeeName = parts[iEmployeeName];
+            int hoursWorked = Integer.parseInt(parts[iHoursWorked]);
+            int incomePerHour = Integer.parseInt(parts[intIncomePerHour]);
 
             String entryDateComparable = convertDateToComparable(dateStr);
 
