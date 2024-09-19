@@ -1,10 +1,10 @@
 package core.basesyntax;
 
 public class SalaryInfo {
-    static int iDateStr = 0;
-    static int iEmployeeName = 1;
-    static int iHoursWorked = 2;
-    static int intIncomePerHour = 3;
+    static final int iDateStr = 0;
+    static final int iEmployeeName = 1;
+    static final int iHoursWorked = 2;
+    static final int intIncomePerHour = 3;
 
     public static String getSalaryInfo(String[] names, String[] data,
                                        String dateFrom, String dateTo) {
