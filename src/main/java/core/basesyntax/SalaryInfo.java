@@ -1,9 +1,9 @@
 package core.basesyntax;
 
 public class SalaryInfo {
-    static final int iDateStr = 0;
-    static final int iEmployeeName = 1;
-    static final int iHoursWorked = 2;
+    static final int intDateStr = 0;
+    static final int intEmployeeName = 1;
+    static final int intHoursWorked = 2;
     static final int intIncomePerHour = 3;
 
     public static String getSalaryInfo(String[] names, String[] data,
@@ -14,15 +14,15 @@ public class SalaryInfo {
 
         for (String entry : data) {
             String[] parts = entry.split(" ");
-            String dateStr = parts[iDateStr];
-            String employeeName = parts[iEmployeeName];
-            int hoursWorked = Integer.parseInt(parts[iHoursWorked]);
+            String dateStr = parts[intDateStr];
+            String employeeName = parts[intEmployeeName];
+            int hoursWorked = Integer.parseInt(parts[intHoursWorked]);
             int incomePerHour = Integer.parseInt(parts[intIncomePerHour]);
 
             String entryDateComparable = convertDateToComparable(dateStr);
 
-            if (entryDateComparable.compareTo(dateFromComparable)
-                    >= 0 && entryDateComparable.compareTo(dateToComparable) <= 0) {
+            if (entryDateComparable.compareTo(dateFromComparable) >= 0
+                    && entryDateComparable.compareTo(dateToComparable) <= 0) {
                 for (int i = 0; i < names.length; i++) {
                     if (names[i].equals(employeeName)) {
                         int earnings = hoursWorked * incomePerHour;
@@ -33,6 +33,11 @@ public class SalaryInfo {
             }
         }
 
+        return buildReport(names, totalEarnings, dateFrom, dateTo);
+    }
+
+    private static String buildReport(String[] names, int[] totalEarnings,
+                                      String dateFrom, String dateTo) {
         StringBuilder report = new StringBuilder();
         report.append("Report for period ").append(dateFrom)
                 .append(" - ").append(dateTo);
@@ -41,7 +46,6 @@ public class SalaryInfo {
             report.append(System.lineSeparator()).append(names[i]).append(" - ")
                     .append(totalEarnings[i]);
         }
-
         return report.toString();
     }
 
