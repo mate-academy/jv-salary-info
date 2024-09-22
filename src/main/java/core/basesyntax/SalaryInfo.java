@@ -11,7 +11,7 @@ public class SalaryInfo {
     private static final DateTimeFormatter date_formatter =
             DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
-    public static String getSalaryInfo(String[] names, String[] data,
+    public String getSalaryInfo(String[] names, String[] data,
                                        String dateFrom, String dateTo) {
         LocalDate dateFromComparable = convertDateToComparable(dateFrom);
         LocalDate dateToComparable = convertDateToComparable(dateTo);
@@ -41,7 +41,7 @@ public class SalaryInfo {
         return buildReport(names, totalEarnings, dateFrom, dateTo);
     }
 
-    private static String buildReport(String[] names, int[] totalEarnings,
+    private String buildReport(String[] names, int[] totalEarnings,
                                       String dateFrom, String dateTo) {
         StringBuilder report = new StringBuilder();
         report.append("Report for period ").append(dateFrom)
