@@ -1,15 +1,20 @@
 package core.basesyntax;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class SalaryInfo {
-    static final int intDateStr = 0;
-    static final int intEmployeeName = 1;
-    static final int intHoursWorked = 2;
-    static final int intIncomePerHour = 3;
+    private static final int intDateStr = 0;
+    private static final int intEmployeeName = 1;
+    private static final int intHoursWorked = 2;
+    private static final int intIncomePerHour = 3;
+    private static final DateTimeFormatter date_formatter =
+            DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public static String getSalaryInfo(String[] names, String[] data,
                                        String dateFrom, String dateTo) {
-        String dateFromComparable = convertDateToComparable(dateFrom);
-        String dateToComparable = convertDateToComparable(dateTo);
+        LocalDate dateFromComparable = convertDateToComparable(dateFrom);
+        LocalDate dateToComparable = convertDateToComparable(dateTo);
         int[] totalEarnings = new int[names.length];
 
         for (String entry : data) {
@@ -19,10 +24,10 @@ public class SalaryInfo {
             int hoursWorked = Integer.parseInt(parts[intHoursWorked]);
             int incomePerHour = Integer.parseInt(parts[intIncomePerHour]);
 
-            String entryDateComparable = convertDateToComparable(dateStr);
+            LocalDate entryDateComparable = convertDateToComparable(dateStr);
 
-            if (entryDateComparable.compareTo(dateFromComparable) >= 0
-                    && entryDateComparable.compareTo(dateToComparable) <= 0) {
+            if (!entryDateComparable.isBefore(dateFromComparable)
+                    && !entryDateComparable.isAfter(dateToComparable)) {
                 for (int i = 0; i < names.length; i++) {
                     if (names[i].equals(employeeName)) {
                         int earnings = hoursWorked * incomePerHour;
@@ -49,8 +54,7 @@ public class SalaryInfo {
         return report.toString();
     }
 
-    private static String convertDateToComparable(String date) {
-        String[] parts = date.split("\\.");
-        return parts[2] + parts[1] + parts[0];
+    private static LocalDate convertDateToComparable(String date) {
+        return LocalDate.parse(date, date_formatter);
     }
 }
