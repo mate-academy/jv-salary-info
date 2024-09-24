@@ -4,30 +4,35 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        String result = "Report for period " + dateFrom + " - " + dateTo;
+    private final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
-        LocalDate localDateFrom = LocalDate.parse(dateFrom,
-                                    DateTimeFormatter.ofPattern("dd.MM.yyyy"));
-        LocalDate localDateTo = LocalDate.parse(dateTo,
-                                    DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
+        StringBuilder result = new StringBuilder("Report for period " + dateFrom + " - " + dateTo);
+
+        final int date = 0;
+        final int workingHours = 2;
+        final int moneyPerHour = 3;
+
+        LocalDate localDateFrom = LocalDate.parse(dateFrom, timeFormatter);
+        LocalDate localDateTo = LocalDate.parse(dateTo, timeFormatter);
 
         for (String username: names) {
             int money = 0;
-            
             for (String jobData: data) {
                 if (jobData.contains(username)) {
                     String[] parts = jobData.split(" ");
-                    LocalDate dd = LocalDate.parse(parts[0],
+                    LocalDate workDate = LocalDate.parse(parts[date],
                                         DateTimeFormatter.ofPattern("dd.MM.yyyy"));
-                    if ((dd.isAfter(localDateFrom) || dd.isEqual(localDateFrom))
-                                && (dd.isBefore(localDateTo) || dd.isEqual(localDateTo))) {
-                        money += Integer.parseInt(parts[2]) * Integer.parseInt(parts[3]);
+                    if ((workDate.isAfter(localDateFrom) || workDate.isEqual(localDateFrom))
+                                && (workDate.isBefore(localDateTo)
+                                || workDate.isEqual(localDateTo))) {
+                        money += Integer.parseInt(parts[workingHours])
+                                * Integer.parseInt(parts[moneyPerHour]);
                     }
                 }
             }
-            result += System.lineSeparator() + username + " - " + money;
+            result.append(System.lineSeparator()).append(username).append(" - ").append(money);
         }
-        return result;
+        return result.toString();
     }
 }
