@@ -19,16 +19,18 @@ public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         String indexedNameString = buildIndexedNameString(names);
         int[] salaries = new int[names.length];
+        LocalDate dateFromParsed = parseStringToLocalDate(dateFrom);
+        LocalDate dateToParsed = parseStringToLocalDate(dateTo);
         for (String dataRecord : data) {
             String[] records = dataRecord.split(DATA_DELIMITER);
             if (!indexedNameString.contains(records[NAME_INDEX])) {
                 continue;
             }
             LocalDate parsedRecordDate = parseStringToLocalDate(records[DATE_INDEX]);
-            if (parsedRecordDate.isBefore(parseStringToLocalDate(dateFrom))) {
+            if (parsedRecordDate.isBefore(dateFromParsed)) {
                 continue;
             }
-            if (parsedRecordDate.isAfter(parseStringToLocalDate(dateTo))) {
+            if (parsedRecordDate.isAfter(dateToParsed)) {
                 continue;
             }
             int salariesIndex = getSalariesIndexByName(indexedNameString, records[NAME_INDEX]);
@@ -45,8 +47,10 @@ public class SalaryInfo {
     }
 
     private static int getSalariesIndexByName(String indexedNameString, String employeeName) {
+        String employeeNameFormatted =
+                INDEX_NAME_DELIMITER + employeeName + INDEX_NAME_PAIRS_DELIMITER;
         int startIndex = indexedNameString.lastIndexOf(INDEX_NAME_PAIRS_DELIMITER,
-                indexedNameString.indexOf(employeeName));
+                indexedNameString.indexOf(employeeNameFormatted));
         int endIndex = indexedNameString.indexOf(INDEX_NAME_DELIMITER, startIndex);
         String indexSalaries = indexedNameString.substring(startIndex + 1, endIndex);
         try {
@@ -63,7 +67,7 @@ public class SalaryInfo {
                 .append(dateTo)
                 .append(System.lineSeparator());
         for (int i = 0; i < names.length; i++) {
-            reportBuilder.append(names[i]).append(" - ").append(salaries[i]);
+            reportBuilder.append(names[i]).append(REPORT_DELIMITER).append(salaries[i]);
             if (i < names.length - 1) {
                 reportBuilder.append(System.lineSeparator());
             }
