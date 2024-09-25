@@ -67,7 +67,6 @@ public class SalaryInfo {
         }
 
         String raport = builder.toString();
-        System.out.println(raport);
         return raport;
     }
 }
