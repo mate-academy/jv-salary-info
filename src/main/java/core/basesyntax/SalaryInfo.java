@@ -63,8 +63,8 @@ public class SalaryInfo {
             }
         }
         return "Report for period " + dateFrom + " - " + dateTo
-                + "\r\n" + firstName + " - " + salaryFirst
-                + "\r\n" + secondName + " - " + salarySecond
-                + "\r\n" + thirdName + " - " + salaryThird;
+                + System.lineSeparator() + firstName + " - " + salaryFirst
+                + System.lineSeparator() + secondName + " - " + salarySecond
+                + System.lineSeparator() + thirdName + " - " + salaryThird;
     }
 }
