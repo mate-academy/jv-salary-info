@@ -14,7 +14,6 @@ public class SalaryInfo {
 
         LocalDate localDateFrom = LocalDate.parse(dateFrom, FORMATTER);
         LocalDate localDateTo = LocalDate.parse(dateTo, FORMATTER);
-        int[] totalEarnings = new int[names.length];
 
         StringBuilder report = new StringBuilder();
         report.append("Report for period ")
@@ -22,29 +21,25 @@ public class SalaryInfo {
                 .append(" - ")
                 .append(dateTo);
 
-        for (String record : data) {
-            String[] parts = record.split(" ");
-            LocalDate date = LocalDate.parse(parts[DATE_INDEX], FORMATTER);
-            String employeeName = parts[NAME_INDEX];
-            int workedHours = Integer.parseInt(parts[HOURS_WORKED_INDEX]);
-            int salaryPerHour = Integer.parseInt(parts[SALARY_PER_HOUR_INDEX]);
+        for (String name : names) {
+            int totalEarnings = 0;
+            for (String currentData : data) {
+                String[] parts = currentData.split(" ");
+                LocalDate date = LocalDate.parse(parts[DATE_INDEX], FORMATTER);
+                String employeeName = parts[NAME_INDEX];
+                int workedHours = Integer.parseInt(parts[HOURS_WORKED_INDEX]);
+                int salaryPerHour = Integer.parseInt(parts[SALARY_PER_HOUR_INDEX]);
 
-            if (!localDateTo.isBefore(date)
-                    && !localDateFrom.isAfter(date)) {
-                for (int i = 0; i < names.length; i++) {
-                    if (names[i].equals(employeeName)) {
-                        int earnings = workedHours * salaryPerHour;
-                        totalEarnings[i] += earnings;
-                    }
+                if (!localDateTo.isBefore(date)
+                        && !localDateFrom.isAfter(date)
+                        && employeeName.equals(name)) {
+                    totalEarnings += workedHours * salaryPerHour;
                 }
             }
-        }
-        for (int i = 0; i < names.length; i++) {
             report.append(System.lineSeparator())
-                    .append(names[i])
+                    .append(name)
                     .append(" - ")
-                    .append(totalEarnings[i]);
-
+                    .append(totalEarnings);
         }
         return report.toString();
     }
