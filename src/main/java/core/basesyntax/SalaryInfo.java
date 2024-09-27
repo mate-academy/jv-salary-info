@@ -27,41 +27,37 @@ public class SalaryInfo {
                 + valueOf(dateToSplitted[1]) * 100
                 + valueOf(dateToSplitted[0]);
 
-        // outer loop divides rows into arrays with separated
-        // [0] data [1] name [2] working hours [3] income per hour
-        //
-        //inner loop
-        //1. compares dates in a given row
-        //2. compares names in a given row
-        //3. if conditions are met, increases the pay value on the j-position
-        
-        for (int i = 0; i < data.length; i++) {
-            String[] dataSplitted = data[i].split(" ");
-            String[] dateSplitted = dataSplitted[0].split("\\.");
-            int dateConvertedIntoNumber = valueOf(dateSplitted[2]) * 10000
-                    + valueOf(dateSplitted[1]) * 100
-                    + valueOf(dateSplitted[0]);
-            for (int j = 0; j < names.length; j++) {
-                if (dateConvertedIntoNumber >= dateFromConvertedIntoNumber
-                        && dateConvertedIntoNumber <= dateToConvertedIntoNumber
-                        && dataSplitted[1].equals(names[j])) {
-                    results[j] = results[j] + valueOf(dataSplitted[2]) * valueOf(dataSplitted[3]);
-                }
-            }
-        }
-
         // StringBuilder collects data from a loop and returns the result as a String
         StringBuilder builder = new StringBuilder("Report for period ");
         builder.append(dateFrom)
                 .append(" - ")
                 .append(dateTo)
                 .append(System.lineSeparator());
-        
-        for (int i = 0; i < results.length; i++) {
-            builder.append(names[i])
+
+        //1. outer loop is taking name by name
+        //2. inner loop divides data rows into arrays with separated
+        //   [0] data [1] name [2] working hours [3] income per hour
+        //3. inner loop compares names in a given row
+        //   if conditions are met, increases the pay value on the j-position
+        //4. outer loop is combining searched information
+        for (int j = 0; j < names.length; j++) {
+            for (int i = 0; i < data.length; i++) {
+                String[] dataSplitted = data[i].split(" ");
+                String[] dateSplitted = dataSplitted[0].split("\\.");
+                int dateConvertedIntoNumber = valueOf(dateSplitted[2]) * 10000
+                        + valueOf(dateSplitted[1]) * 100
+                        + valueOf(dateSplitted[0]);
+
+                if (dateConvertedIntoNumber >= dateFromConvertedIntoNumber
+                        && dateConvertedIntoNumber <= dateToConvertedIntoNumber
+                        && dataSplitted[1].equals(names[j])) {
+                    results[j] = results[j] + valueOf(dataSplitted[2]) * valueOf(dataSplitted[3]);
+                }
+            }
+            builder.append(names[j])
                     .append(" - ")
-                    .append(results[i]);
-            if (i != results.length - 1) {
+                    .append(results[j]);
+            if (j != results.length - 1) {
                 builder.append(System.lineSeparator());
             }
         }
