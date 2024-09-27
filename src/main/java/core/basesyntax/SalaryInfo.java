@@ -6,9 +6,9 @@ import java.time.format.DateTimeFormatter;
 public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder reportForPeriod = new StringBuilder("Report for period ")
-                .append(dateFrom).append(" - ").append(dateTo).append("\r\n");
+                .append(dateFrom).append(" - ").append(dateTo).append(System.lineSeparator());
 
-        DateTimeFormatter f = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        final DateTimeFormatter f = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
         LocalDate start = LocalDate.parse(dateFrom, f);
         LocalDate stop = LocalDate.parse(dateTo, f);
@@ -44,7 +44,8 @@ public class SalaryInfo {
                 reportForPeriod.append(names[i]).append(" - ").append(salaries[i]);
                 break;
             }
-            reportForPeriod.append(names[i]).append(" - ").append(salaries[i]).append("\r\n");
+            reportForPeriod.append(names[i]).append(" - ")
+                    .append(salaries[i]).append(System.lineSeparator());
         }
         return reportForPeriod.toString();
     }
