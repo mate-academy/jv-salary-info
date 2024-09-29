@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    private static final DateTimeFormatter f = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     private static final int INCOME_PER_HOUR = 3;
     private static final int HOURS_WORKED = 2;
     private static final int EMPLOYEE_NAME = 1;
@@ -15,14 +15,14 @@ public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder reportForPeriod = new StringBuilder("Report for period ")
                 .append(dateFrom).append(" - ").append(dateTo).append(System.lineSeparator());
-        LocalDate start = LocalDate.parse(dateFrom, f);
-        LocalDate stop = LocalDate.parse(dateTo, f);
+        LocalDate start = LocalDate.parse(dateFrom, DATE_TIME_FORMATTER);
+        LocalDate stop = LocalDate.parse(dateTo, DATE_TIME_FORMATTER);
 
         int[] salaries = new int[names.length];
 
         for (String string : data) {
             String[] words = string.split(" ");
-            LocalDate current = LocalDate.parse(words[CURRENT_DATE], f);
+            LocalDate current = LocalDate.parse(words[CURRENT_DATE], DATE_TIME_FORMATTER);
 
             if (!current.isBefore(start) && !current.isAfter(stop)) {
                 String employeeName = words[EMPLOYEE_NAME];
