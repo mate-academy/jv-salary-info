@@ -4,11 +4,11 @@ public class SalaryInfo {
     public static final int ZERO = 0;
     public static final int FIRST = 1;
     public static final int SECOND = 2;
+    public static final int THIRD = 3;
+    public static final int FIFTH = 5;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        final String DivideR = "[.]";
-        final int ThirD = 3;
-        final int FiftH = 5;
+
         String [] peopleNames = new String[3];
         int [] salaries = new int[3];
         String [] splitInputString = new String[4];
@@ -17,8 +17,8 @@ public class SalaryInfo {
         int currentMonth = 0;
         int toDay = Integer.parseInt(dateTo.substring(ZERO, SECOND));
         int fromDay = Integer.parseInt(dateFrom.substring(ZERO, SECOND));
-        int toMonth = Integer.parseInt(dateTo.substring(ThirD, FiftH));
-        int fromMonth = Integer.parseInt(dateFrom.substring(ThirD, FiftH));
+        int toMonth = Integer.parseInt(dateTo.substring(THIRD, FIFTH));
+        int fromMonth = Integer.parseInt(dateFrom.substring(THIRD, FIFTH));
 
         peopleNames[ZERO] = names[0];
         peopleNames[FIRST] = defineName(names, peopleNames[ZERO], peopleNames[ZERO]);
@@ -27,7 +27,7 @@ public class SalaryInfo {
         for (int i = 0; i < data.length; i++) {
             splitInputString = data[i].split(" ");
             currentDay = Integer.parseInt(data[i].substring(ZERO, SECOND));
-            currentMonth = Integer.parseInt(data[i].substring(ThirD, FiftH));
+            currentMonth = Integer.parseInt(data[i].substring(THIRD, FIFTH));
 
             if ((fromDay <= currentDay && currentDay <= toDay
                     && currentMonth == toMonth && currentMonth == fromMonth)
@@ -37,13 +37,13 @@ public class SalaryInfo {
                     && currentMonth == toMonth)) {
 
                 salaries[ZERO] += defineIncome(peopleNames[ZERO], splitInputString[FIRST],
-                        splitInputString[SECOND], splitInputString[ThirD]);
+                        splitInputString[SECOND], splitInputString[THIRD]);
 
                 salaries[FIRST] += defineIncome(peopleNames[FIRST], splitInputString[FIRST],
-                        splitInputString[SECOND], splitInputString[ThirD]);
+                        splitInputString[SECOND], splitInputString[THIRD]);
 
                 salaries[SECOND] += defineIncome(peopleNames[SECOND], splitInputString[FIRST],
-                        splitInputString[SECOND], splitInputString[ThirD]);
+                        splitInputString[SECOND], splitInputString[THIRD]);
             }
         }
         return createReport(peopleNames, salaries, dateFrom, dateTo);
@@ -68,9 +68,12 @@ public class SalaryInfo {
     }
 
     private String createReport(String [] names, int [] salaries, String dateFrom, String dateTo) {
-        return "Report for period " + dateFrom + " - " + dateTo
-                + System.lineSeparator() + names[ZERO] + " - " + salaries[ZERO]
-                + System.lineSeparator() + names[FIRST] + " - " + salaries[FIRST]
-                + System.lineSeparator() + names[SECOND] + " - " + salaries[SECOND];
+        StringBuilder builder = new StringBuilder("Report for period ");
+        return builder.append(dateFrom).append(" - ").append(dateTo)
+                        .append(System.lineSeparator()).append(names[ZERO])
+                        .append(" - ").append(salaries[ZERO]).append(System.lineSeparator())
+                        .append(names[FIRST]).append(" - ").append(salaries[FIRST])
+                        .append(System.lineSeparator()).append(names[SECOND])
+                        .append(" - ").append(salaries[SECOND]).toString();
     }
 }
