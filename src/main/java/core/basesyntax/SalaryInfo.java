@@ -1,46 +1,42 @@
 package core.basesyntax;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-        public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-            // Форматтер для работы с датами
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
 
-            // Преобразуем строки дат в LocalDate
-            LocalDate fromDate = LocalDate.parse(dateFrom, formatter);
-            LocalDate toDate = LocalDate.parse(dateTo, formatter);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
-            // Строим отчет
-            StringBuilder report = new StringBuilder();
-            report.append("Report for period ").append(dateFrom).append(" - ").append(dateTo).append(System.lineSeparator());
+        LocalDate fromDate = LocalDate.parse(dateFrom, formatter);
 
-            // Обрабатываем каждого сотрудника
-            for (String name : names) {
-                int totalSalary = 0;  // Общая зарплата сотрудника за период
+        LocalDate toDate = LocalDate.parse(dateTo, formatter);
 
-                // Проходим по каждому записанному рабочему дню
-                for (String record : data) {
-                    // Разделяем запись на части
-                    String[] recordParts = record.split(" ");
+        StringBuilder report = new StringBuilder();
 
-                    // Преобразуем дату работы в LocalDate
-                    LocalDate recordDate = LocalDate.parse(recordParts[0], formatter);
-                    String employeeName = recordParts[1];
-                    int hoursWorked = Integer.parseInt(recordParts[2]);
-                    int hourlyRate = Integer.parseInt(recordParts[3]);
+        report.append("Report for period ").append(dateFrom).append(" - ")
+                .append(dateTo).append(System.lineSeparator());
 
-                    // Проверяем, соответствует ли запись сотруднику и входит ли дата в диапазон
-                    if (employeeName.equals(name) && !recordDate.isBefore(fromDate) && !recordDate.isAfter(toDate)) {
-                        totalSalary += hoursWorked * hourlyRate;  // Рассчитываем заработок за день
-                    }
+        for (String name : names) {
+            int totalSalary = 0;
+
+            for (String record : data) {
+
+                String[] recordParts = record.split(" ");
+
+                LocalDate recordDate = LocalDate.parse(recordParts[0], formatter);
+                String employeeName = recordParts[1];
+                int hoursWorked = Integer.parseInt(recordParts[2]);
+                int hourlyRate = Integer.parseInt(recordParts[3]);
+
+                if (employeeName.equals(name) && !recordDate.isBefore(fromDate)
+                        && !recordDate.isAfter(toDate)) {
+                    totalSalary += hoursWorked * hourlyRate;
                 }
-
-                // Добавляем информацию о зарплате сотрудника в отчет
-                report.append(name).append(" - ").append(totalSalary).append(System.lineSeparator());
             }
 
-            // Возвращаем итоговый отчет
-            return report.toString().trim();  // Убираем лишние символы новой строки
+            report.append(name).append(" - ").append(totalSalary).append(System.lineSeparator());
         }
+        return report.toString().trim();
     }
+}
