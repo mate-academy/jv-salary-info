@@ -4,24 +4,24 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    public static final int NAME_INDEX_ZERO = 0;
-    public static final int NAME_INDEX_FIRST = 1;
-    public static final int NAME_INDEX_SECOND = 2;
-    public static final int THIRD = 3;
-    public static final int FOURTH = 4;
-    public static final String INPUT_DIVIDER = " ";
+    private static final int FIRST_NAME = 0;
+    private static final int SECOND_NAME = 1;
+    private static final int THIRD_NAME = 2;
+    private static final int SALARY = 3;
+    private static final int HOURS_QUANTITY = 4;
+    private static final String INPUT_DIVIDER = " ";
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
 
-        String [] peopleNames = new String[THIRD];
-        int [] salaries = new int[THIRD];
-        String [] splitInputString = new String[FOURTH];
-        peopleNames[NAME_INDEX_ZERO] = names[NAME_INDEX_ZERO];
-        peopleNames[NAME_INDEX_FIRST] = defineName(names, peopleNames[NAME_INDEX_ZERO],
-                peopleNames[NAME_INDEX_ZERO]);
-        peopleNames[NAME_INDEX_SECOND] = defineName(names, peopleNames[NAME_INDEX_ZERO],
-                peopleNames[NAME_INDEX_FIRST]);
+        String [] peopleNames = new String[SALARY];
+        int [] salaries = new int[SALARY];
+        String [] splitInputString = new String[HOURS_QUANTITY];
+        peopleNames[FIRST_NAME] = names[FIRST_NAME];
+        peopleNames[SECOND_NAME] = defineName(names, peopleNames[FIRST_NAME],
+                peopleNames[FIRST_NAME]);
+        peopleNames[THIRD_NAME] = defineName(names, peopleNames[FIRST_NAME],
+                peopleNames[SECOND_NAME]);
         LocalDate parsedDateFrom = LocalDate.parse(dateFrom, formatter);
         LocalDate parsedDateTo = LocalDate.parse(dateTo, formatter);
         LocalDate parsedCurrentData;
@@ -32,17 +32,17 @@ public class SalaryInfo {
 
             if (isWithinDateRange(parsedCurrentData, parsedDateFrom, parsedDateTo)) {
 
-                salaries[NAME_INDEX_ZERO] += defineIncome(peopleNames[NAME_INDEX_ZERO],
-                        splitInputString[NAME_INDEX_FIRST], splitInputString[NAME_INDEX_SECOND],
-                        splitInputString[THIRD]);
+                salaries[FIRST_NAME] += defineIncome(peopleNames[FIRST_NAME],
+                        splitInputString[SECOND_NAME], splitInputString[THIRD_NAME],
+                        splitInputString[SALARY]);
 
-                salaries[NAME_INDEX_FIRST] += defineIncome(peopleNames[NAME_INDEX_FIRST],
-                        splitInputString[NAME_INDEX_FIRST], splitInputString[NAME_INDEX_SECOND],
-                        splitInputString[THIRD]);
+                salaries[SECOND_NAME] += defineIncome(peopleNames[SECOND_NAME],
+                        splitInputString[SECOND_NAME], splitInputString[THIRD_NAME],
+                        splitInputString[SALARY]);
 
-                salaries[NAME_INDEX_SECOND] += defineIncome(peopleNames[NAME_INDEX_SECOND],
-                        splitInputString[NAME_INDEX_FIRST], splitInputString[NAME_INDEX_SECOND],
-                        splitInputString[THIRD]);
+                salaries[THIRD_NAME] += defineIncome(peopleNames[THIRD_NAME],
+                        splitInputString[SECOND_NAME], splitInputString[THIRD_NAME],
+                        splitInputString[SALARY]);
             }
         }
         return createReport(peopleNames, salaries, dateFrom, dateTo);
@@ -78,15 +78,15 @@ public class SalaryInfo {
                 .append(" - ")
                 .append(dateTo)
                 .append(System.lineSeparator())
-                .append(names[NAME_INDEX_ZERO])
-                .append(" - ").append(salaries[NAME_INDEX_ZERO])
+                .append(names[FIRST_NAME])
+                .append(" - ").append(salaries[FIRST_NAME])
                 .append(System.lineSeparator())
-                .append(names[NAME_INDEX_FIRST])
+                .append(names[SECOND_NAME])
                 .append(" - ")
-                .append(salaries[NAME_INDEX_FIRST])
+                .append(salaries[SECOND_NAME])
                 .append(System.lineSeparator())
-                .append(names[NAME_INDEX_SECOND])
+                .append(names[THIRD_NAME])
                 .append(" - ")
-                .append(salaries[NAME_INDEX_SECOND]).toString();
+                .append(salaries[THIRD_NAME]).toString();
     }
 }
