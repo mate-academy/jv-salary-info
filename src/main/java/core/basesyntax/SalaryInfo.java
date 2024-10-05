@@ -8,7 +8,7 @@ public class SalaryInfo {
     private static final int EMPLOYEE_NAME_INDEX = 1;
     private static final int HOURS_WORKED_INDEX = 2;
     private static final int INCOME_PER_HOUR_INDEX = 3;
-    private static final DateTimeFormatter date_formatter =
+    private static final DateTimeFormatter  DATE_FORMATTER =
             DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data,
@@ -50,6 +50,6 @@ public class SalaryInfo {
     }
 
     private static LocalDate convertDateToComparable(String date) {
-        return LocalDate.parse(date, date_formatter);
+        return LocalDate.parse(date,  DATE_FORMATTER);
     }
 }
