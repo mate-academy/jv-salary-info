@@ -19,27 +19,43 @@ public class SalaryInfo {
         for (int i = 0; i < workerSalaries.length; i++) {
             workerSalaries[i] = names[i] + SEPARATOR + 0;
         }
+        calculateSalaries(fromDate, toDate, data, workerSalaries);
 
+        return generateReport(fromDate, toDate, workerSalaries);
+    }
+
+    private void calculateSalaries(LocalDate fromDate, LocalDate toDate,
+                                   String[] data, String[] workerSalaries) {
         for (String date : data) {
             String[] worker = date.split(" ");
             LocalDate workDate = LocalDate.parse(worker[DATE_INDEX], DATE_FORMAT);
 
             if ((workDate.isAfter(fromDate) && workDate.isBefore(toDate))
                     || workDate.equals(fromDate) || workDate.equals(toDate)) {
-                int salary = Integer.parseInt(worker[WORK_TIME_INDEX])
-                        * Integer.parseInt(worker[WAGE_RATE_INDEX]);
+                int salary = getWorkerSalary(worker[WORK_TIME_INDEX], worker[WAGE_RATE_INDEX]);
                 for (int i = 0; i < workerSalaries.length; i++) {
                     String name = workerSalaries[i].substring(0, workerSalaries[i].indexOf(" "));
                     if (name.equals(worker[NAME_INDEX])) {
-                        int oldSalary = Integer.parseInt(workerSalaries[i]
-                                .substring(workerSalaries[i].indexOf(SEPARATOR) + 3));
-                        workerSalaries[i] = name + SEPARATOR + (salary + oldSalary);
+                        try {
+                            int oldSalary = Integer.parseInt(workerSalaries[i]
+                                    .substring(workerSalaries[i].indexOf(SEPARATOR) + 3));
+                            workerSalaries[i] = name + SEPARATOR + (salary + oldSalary);
+                        } catch (RuntimeException e) {
+                            throw new RuntimeException("salary data format", e);
+                        }
                     }
                 }
             }
         }
+    }
 
-        return generateReport(fromDate, toDate, workerSalaries);
+    private int getWorkerSalary(String timeOfWork, String hourlyWage) {
+        try {
+            return Integer.parseInt(timeOfWork)
+                    * Integer.parseInt(hourlyWage);
+        } catch (RuntimeException e) {
+            throw new RuntimeException("Invalid input hours or hourly wage data", e);
+        }
     }
 
     private String generateReport(LocalDate fromDate, LocalDate toDate, String[] workerSalaries) {
