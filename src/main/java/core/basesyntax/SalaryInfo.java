@@ -17,7 +17,7 @@ public class SalaryInfo {
 
         message.append("Report for period ")
                 .append(dateFrom).append(" - ")
-                .append(dateTo).append("\r\n");
+                .append(dateTo).append(System.lineSeparator());
 
         for (String name : names) {
             int totalSalary = 0;
@@ -35,7 +35,7 @@ public class SalaryInfo {
                     totalSalary += hoursWorked * salaryPerHour;
                 }
             }
-            message.append(name).append(" - ").append(totalSalary).append("\r\n");
+            message.append(name).append(" - ").append(totalSalary).append(System.lineSeparator());
         }
         message.deleteCharAt(message.length() - 1);
         message.deleteCharAt(message.length() - 1);
