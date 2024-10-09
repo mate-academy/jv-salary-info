@@ -37,8 +37,7 @@ public class SalaryInfo {
             }
             message.append(name).append(" - ").append(totalSalary).append(System.lineSeparator());
         }
-        message.deleteCharAt(message.length() - 1);
-        message.deleteCharAt(message.length() - 1);
+        message.setLength(message.length() - System.lineSeparator().length());
         return message.toString();
     }
 }
