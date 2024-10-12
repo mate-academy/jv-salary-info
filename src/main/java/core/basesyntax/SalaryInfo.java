@@ -15,7 +15,10 @@ public class SalaryInfo {
         report = addReportHeader(report, dateFrom, dateTo);
 
         for (String currentEmployee : names) {
-            int salaryAmount = calculateEmployeeSalary(data, currentEmployee, localDateFrom, localDateTo);
+            int salaryAmount = calculateEmployeeSalary(data,
+                                                        currentEmployee,
+                                                        localDateFrom,
+                                                        localDateTo);
 
             report = addReportLine(report, currentEmployee, salaryAmount);
         }
@@ -41,7 +44,8 @@ public class SalaryInfo {
         return report;
     }
 
-    private int calculateEmployeeSalary(String[] data, String employee, LocalDate dateFrom, LocalDate dateTo) {
+    private int calculateEmployeeSalary(String[] data, String employee,
+                                        LocalDate dateFrom, LocalDate dateTo) {
         int salaryAmount = 0;
 
         for (String record : data) {
