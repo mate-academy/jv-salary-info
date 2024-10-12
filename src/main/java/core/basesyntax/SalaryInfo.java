@@ -20,7 +20,7 @@ public class SalaryInfo {
 
             int salaryAmount = 0;
             for (String record : data) {
-                if (record == null || report.isEmpty()) {
+                if (record == null || record.isEmpty()) {
                     continue;
                 }
 
