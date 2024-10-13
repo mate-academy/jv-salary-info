@@ -8,7 +8,6 @@ public class SalaryInfo {
 
     public String getSalaryInfo(String[] names, String[] data,
                                 String dateFrom, String dateTo) {
-        String result = new String();
         StringBuilder report = new StringBuilder().append("Report for period ")
                 .append(dateFrom).append(" - ").append(dateTo);
         LocalDate localDateFrom = LocalDate.parse(dateFrom, formatter);
@@ -16,18 +15,19 @@ public class SalaryInfo {
         for (String name : names) {
             int salary = 0;
             for (String line: data) {
-                String[] array = line.split(" ");
-                LocalDate localDate = LocalDate.parse(array[0], formatter);
+                String[] dataParts = line.split(" ");
+                LocalDate localDate = LocalDate.parse(dataParts[0], formatter);
                 if ((localDate.isAfter(localDateFrom) || localDate.equals(localDateFrom))
                         && (localDate.isBefore(localDateTo)
-                        || localDate.equals(localDateTo)) && array[1].equals(name)) {
-                    salary += Integer.parseInt(array[2])
-                            * Integer.parseInt(array[3]);
+                        || localDate.equals(localDateTo)) && dataParts[1].equals(name)) {
+                    salary += Integer.parseInt(dataParts[2])
+                            * Integer.parseInt(dataParts[3]);
 
                 }
             }
-            result = report.append("\r\n").append(name).append(" - ").append(salary).toString();
+            report.append(System.lineSeparator()).append(name).append(" - ")
+                    .append(salary).toString();
         }
-        return result;
+        return report.toString();
     }
 }
