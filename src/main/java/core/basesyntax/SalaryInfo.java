@@ -6,6 +6,10 @@ import java.time.format.DateTimeParseException;
 
 public class SalaryInfo {
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final int DATE_INDEX = 0;
+    private static final int NAME_INDEX = 1;
+    private static final int HOUR_INDEX = 2;
+    private static final int SALARY_INDEX = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder report = new StringBuilder();
@@ -54,10 +58,10 @@ public class SalaryInfo {
             }
 
             String[] parseRecord = record.split(" ");
-            LocalDate day = parseDateFromString(parseRecord[0]);
-            String name = parseRecord[1];
-            int hours = parseNumberFromString(parseRecord[2]);
-            int daySalary = parseNumberFromString(parseRecord[3]);
+            LocalDate day = parseDateFromString(parseRecord[DATE_INDEX]);
+            String name = parseRecord[NAME_INDEX];
+            int hours = parseNumberFromString(parseRecord[HOUR_INDEX]);
+            int daySalary = parseNumberFromString(parseRecord[SALARY_INDEX]);
 
             if (isDateInPeriod(day, dateFrom, dateTo) && employee.equals(name)) {
                 salaryAmount += hours * daySalary;
