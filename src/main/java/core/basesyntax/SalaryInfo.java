@@ -26,7 +26,7 @@ public class SalaryInfo {
                 }
             }
             report.append(System.lineSeparator()).append(name).append(" - ")
-                    .append(salary).toString();
+                    .append(salary);
         }
         return report.toString();
     }
