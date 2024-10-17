@@ -7,45 +7,41 @@ public class SalaryInfo {
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        LocalDate startDate = LocalDate.parse(dateFrom, DATE_FORMATTER);
-        LocalDate endDate = LocalDate.parse(dateTo, DATE_FORMATTER);
+        LocalDate startDate = LocalDate.parse(dateFrom.trim(), DATE_FORMATTER);
+        LocalDate endDate = LocalDate.parse(dateTo.trim(), DATE_FORMATTER);
 
-        int[] salaries = new int[names.length];  // Store the total salary for each employee
-        
-        for (String entry : data) {
-            processEntry(entry, names, salaries, startDate, endDate);
-        }
+        int[] salaries = new int[names.length]; 
 
-        return generateReport(names, salaries, dateFrom, dateTo);
-    }
+        for (String record : data) {
+            String[] recordParts = record.split(" ");
+            LocalDate workDate = LocalDate.parse(recordParts[0], DATE_FORMATTER);
+            String employeeName = recordParts[1];
+            int hoursWorked = Integer.parseInt(recordParts[2]);
+            int payPerHour = Integer.parseInt(recordParts[3]);
 
-    private void processEntry(String entry, String[] names, int[] salaries, LocalDate startDate, LocalDate endDate) {
-        String[] parts = entry.split(" ");
-        LocalDate entryDate = LocalDate.parse(parts[0], DATE_FORMATTER);
-        
-        if (entryDate.isBefore(startDate) || entryDate.isAfter(endDate)) {
-            return; // Skip entries outside the date range
-        }
-
-        String employeeName = parts[1];
-        int hoursWorked = Integer.parseInt(parts[2]);
-        int payPerHour = Integer.parseInt(parts[3]);
-
-        for (int i = 0; i < names.length; i++) {
-            if (names[i].equals(employeeName)) {
-                salaries[i] += hoursWorked * payPerHour;
+            if (!workDate.isBefore(startDate) && !workDate.isAfter(endDate)) {
+                for (int i = 0; i < names.length; i++) {
+                    if (names[i].equals(employeeName)) {
+                        salaries[i] += hoursWorked * payPerHour; 
+                    }
+                }
             }
         }
+
+        return buildReport(names, salaries, dateFrom, dateTo);
     }
 
-    private String generateReport(String[] names, int[] salaries, String dateFrom, String dateTo) {
+    private String buildReport(String[] names, int[] salaries, String dateFrom, String dateTo) {
         StringBuilder report = new StringBuilder();
-        report.append("Report for period ").append(dateFrom).append(" - ").append(dateTo).append(System.lineSeparator());
+        report.append("Report for period ").append(dateFrom.trim()).append(" - ").append(dateTo.trim()).append(System.lineSeparator());
 
         for (int i = 0; i < names.length; i++) {
-            report.append(names[i]).append(" - ").append(salaries[i]).append(System.lineSeparator());
+            report.append(names[i]).append(" - ").append(salaries[i]);
+            if (i < names.length - 1) {
+                report.append(System.lineSeparator());
+            }
         }
 
-        return report.toString().trim(); // Trim the final new line
+        return report.toString();
     }
 }
