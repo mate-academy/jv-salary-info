@@ -10,6 +10,8 @@ public class SalaryInfo {
     public static final int HOURS_INDEX = 2;
     public static final int SALARY_PER_HOUR_INDEX = 3;
     public static final String REPORT_BEGINNING = "Report for period ";
+    public static final String DATA_SEPARATOR = " ";
+    public static final String REPORT_DATA_SEPARATOR = " - ";
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate localDateFrom = LocalDate.parse(dateFrom, FORMATTER);
@@ -22,7 +24,7 @@ public class SalaryInfo {
         for (String name : names) {
             resultBuilder.append(System.lineSeparator())
                     .append(name)
-                    .append(" - ");
+                    .append(REPORT_DATA_SEPARATOR);
             int totalSalary = calculateSalary(name, data, localDateFrom, localDateTo);
             resultBuilder.append(totalSalary);
         }
@@ -33,7 +35,7 @@ public class SalaryInfo {
                                 LocalDate localDateFrom, LocalDate localDateTo) {
         int totalSalary = 0;
         for (String lineData : data) {
-            String[] arrData = lineData.split(" ");
+            String[] arrData = lineData.split(DATA_SEPARATOR);
             String nameData = arrData[NAME_INDEX];
             if (name.equals(nameData)) {
                 LocalDate dateData = LocalDate.parse(arrData[DATE_INDEX], FORMATTER);
