@@ -9,11 +9,12 @@ public class SalaryInfo {
     public static final int NAME_INDEX = 1;
     public static final int HOURS_INDEX = 2;
     public static final int SALARY_PER_HOUR_INDEX = 3;
+    public static final String REPORT_BEGINNING = "Report for period ";
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate localDateFrom = LocalDate.parse(dateFrom, FORMATTER);
         LocalDate localDateTo = LocalDate.parse(dateTo, FORMATTER);
-        StringBuilder resultBuilder = new StringBuilder("Report for period ")
+        StringBuilder resultBuilder = new StringBuilder(REPORT_BEGINNING)
                 .append(dateFrom)
                 .append(" - ")
                 .append(dateTo);
