@@ -2,61 +2,70 @@ package core.basesyntax;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.ArrayList;
 
 public class SalaryInfo {
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        StringBuilder report = new StringBuilder();
         LocalDate localDateFrom = parseDateFromString(dateFrom);
         LocalDate localDateTo = parseDateFromString(dateTo);
+        
+        StringBuilder report = new StringBuilder("Report for period ")
+                              .append(dateFrom)
+                              .append(" - ")
+                              .append(dateTo);
 
-        report.append("Report for period ")
-              .append(dateFrom)
-              .append(" - ")
-              .append(dateTo);
-
-        for (String currentName : names) {
-            int salaryAmount = 0;
-            for (String record : data) {
-                if (record == null) {
-                    continue;
-                }
-                
-                String[] parseRecord = record.split(" ");
-                LocalDate day = parseDateFromString(parseRecord[0]);
-                String name = parseRecord[1];
-                int hours = parseNumberFromString(parseRecord[2]);
-                int daySalary = parseNumberFromString(parseRecord[3]);
-
-                if ((day.equals(localDateFrom) || day.isAfter(localDateFrom))
-                    && (day.equals(localDateTo) || day.isBefore(localDateTo))
-                    && currentName.equals(name)) {
-                    salaryAmount += hours * daySalary;
-                }
-            }
+        for (String name : names) {
+            int totalSalary = calculateSalaryForEmployee(name, data, localDateFrom, localDateTo);
             report.append(System.lineSeparator())
-                  .append(currentName)
+                  .append(name)
                   .append(" - ")
-                  .append(salaryAmount);
+                  .append(totalSalary);
         }
         
         return report.toString();
     }
 
-    private LocalDate parseDateFromString(String parseValue) {
+    private int calculateSalaryForEmployee(String name, String[] data, LocalDate dateFrom, LocalDate dateTo) {
+        int totalSalary = 0;
+
+    
+        for (String record : data) {
+            if (record == null || record.isEmpty()) {
+                continue;
+            }
+
+            String[] parts = record.split(" ");
+            LocalDate workDate = parseDateFromString(parts[0]);
+            String employeeName = parts[1];
+            int hoursWorked = parseNumberFromString(parts[2]);
+            int hourlyRate = parseNumberFromString(parts[3]);
+
+            if (employeeName.equals(name) &&
+                (workDate.isEqual(dateFrom) || workDate.isAfter(dateFrom)) &&
+                (workDate.isEqual(dateTo) || workDate.isBefore(dateTo))) {
+                totalSalary += hoursWorked * hourlyRate;
+            }
+        }
+
+        return totalSalary;
+    }
+
+    private LocalDate parseDateFromString(String date) {
         try {
-            return LocalDate.parse(parseValue, DATE_FORMATTER);
+            return LocalDate.parse(date, DATE_FORMATTER);
         } catch (Exception e) {
-            throw new RuntimeException("Cannot parse date from the string: " + parseValue);
+            throw new RuntimeException("Cannot parse date from string: " + date);
         }
     }
 
-    private int parseNumberFromString(String parseValue) {
+    private int parseNumberFromString(String value) {
         try {
-            return Integer.parseInt(parseValue);
+            return Integer.parseInt(value);
         } catch (Exception e) {
-            throw new RuntimeException("Cannot parse number from the string: " + parseValue);
+            throw new RuntimeException("Cannot parse number from string: " + value);
         }
     }
 }
