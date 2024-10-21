@@ -7,41 +7,56 @@ public class SalaryInfo {
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        LocalDate startDate = LocalDate.parse(dateFrom.trim(), DATE_FORMATTER);
-        LocalDate endDate = LocalDate.parse(dateTo.trim(), DATE_FORMATTER);
+        StringBuilder report = new StringBuilder();
+        LocalDate localDateFrom = parseDateFromString(dateFrom);
+        LocalDate localDateTo = parseDateFromString(dateTo);
 
-        int[] salaries = new int[names.length]; 
+        report.append("Report for period ")
+              .append(dateFrom)
+              .append(" - ")
+              .append(dateTo);
 
-        for (String record : data) {
-            String[] recordParts = record.split(" ");
-            LocalDate workDate = LocalDate.parse(recordParts[0], DATE_FORMATTER);
-            String employeeName = recordParts[1];
-            int hoursWorked = Integer.parseInt(recordParts[2]);
-            int payPerHour = Integer.parseInt(recordParts[3]);
+        for (String currentName : names) {
+            int salaryAmount = 0;
+            for (String record : data) {
+                if (record == null) {
+                    continue;
+                }
+                
+                String[] parseRecord = record.split(" ");
+                LocalDate day = parseDateFromString(parseRecord[0]);
+                String name = parseRecord[1];
+                int hours = parseNumberFromString(parseRecord[2]);
+                int daySalary = parseNumberFromString(parseRecord[3]);
 
-            if (!workDate.isBefore(startDate) && !workDate.isAfter(endDate)) {
-                for (int i = 0; i < names.length; i++) {
-                    if (names[i].equals(employeeName)) {
-                        salaries[i] += hoursWorked * payPerHour; 
-                    }
+                if ((day.equals(localDateFrom) || day.isAfter(localDateFrom))
+                    && (day.equals(localDateTo) || day.isBefore(localDateTo))
+                    && currentName.equals(name)) {
+                    salaryAmount += hours * daySalary;
                 }
             }
+            report.append(System.lineSeparator())
+                  .append(currentName)
+                  .append(" - ")
+                  .append(salaryAmount);
         }
-
-        return buildReport(names, salaries, dateFrom, dateTo);
+        
+        return report.toString();
     }
 
-    private String buildReport(String[] names, int[] salaries, String dateFrom, String dateTo) {
-        StringBuilder report = new StringBuilder();
-        report.append("Report for period ").append(dateFrom.trim()).append(" - ").append(dateTo.trim()).append(System.lineSeparator());
-
-        for (int i = 0; i < names.length; i++) {
-            report.append(names[i]).append(" - ").append(salaries[i]);
-            if (i < names.length - 1) {
-                report.append(System.lineSeparator());
-            }
+    private LocalDate parseDateFromString(String parseValue) {
+        try {
+            return LocalDate.parse(parseValue, DATE_FORMATTER);
+        } catch (Exception e) {
+            throw new RuntimeException("Cannot parse date from the string: " + parseValue);
         }
+    }
 
-        return report.toString();
+    private int parseNumberFromString(String parseValue) {
+        try {
+            return Integer.parseInt(parseValue);
+        } catch (Exception e) {
+            throw new RuntimeException("Cannot parse number from the string: " + parseValue);
+        }
     }
 }
