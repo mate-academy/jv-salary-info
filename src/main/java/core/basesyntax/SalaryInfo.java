@@ -8,36 +8,21 @@ public class SalaryInfo {
             DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        StringBuilder report = new StringBuilder();
         LocalDate localDateFrom = parseDateFromString(dateFrom);
         LocalDate localDateTo = parseDateFromString(dateTo);
 
+        return generateReport(names, data, localDateFrom, localDateTo);
+    }
+
+    private String generateReport(String[] names, String[] data, LocalDate dateFrom, LocalDate dateTo) {
+        StringBuilder report = new StringBuilder();
         report.append("Report for period ")
-                .append(dateFrom)
+                .append(DATE_FORMATTER.format(dateFrom))
                 .append(" - ")
-                .append(dateTo);
+                .append(DATE_FORMATTER.format(dateTo));
 
         for (String currentName : names) {
-
-            int salaryAmount = 0;
-            for (String record : data) {
-                if (record == null || record.isEmpty()) {
-                    continue;
-                }
-
-                String[] parseRecord = record.split(" ");
-                LocalDate workDate = parseDateFromString(parseRecord[0]);
-                String name = parseRecord[1];
-                int hoursWorked = parseNumberFromString(parseRecord[2]);
-                int hourlyRate = parseNumberFromString(parseRecord[3]);
-
-                if ((workDate.isEqual(localDateFrom) || workDate.isAfter(localDateFrom))
-                        && (workDate.isEqual(localDateTo) || workDate.isBefore(localDateTo))
-                        && currentName.equals(name)) {
-                    salaryAmount += hoursWorked * hourlyRate;
-                }
-            }
-
+            int salaryAmount = calculateSalaryForEmployee(currentName, data, dateFrom, dateTo);
             report.append(System.lineSeparator())
                     .append(currentName)
                     .append(" - ")
@@ -45,6 +30,33 @@ public class SalaryInfo {
         }
 
         return report.toString();
+    }
+
+    private int calculateSalaryForEmployee(String employeeName, String[] data, LocalDate dateFrom, LocalDate dateTo) {
+        int totalSalary = 0;
+
+        for (String record : data) {
+            if (record == null || record.isEmpty()) {
+                continue;
+            }
+
+            String[] parsedRecord = record.split(" ");
+            LocalDate workDate = parseDateFromString(parsedRecord[0]);
+            String name = parsedRecord[1];
+            int hoursWorked = parseNumberFromString(parsedRecord[2]);
+            int hourlyRate = parseNumberFromString(parsedRecord[3]);
+
+            if (isWithinDateRange(workDate, dateFrom, dateTo) && employeeName.equals(name)) {
+                totalSalary += hoursWorked * hourlyRate;
+            }
+        }
+
+        return totalSalary;
+    }
+
+    private boolean isWithinDateRange(LocalDate workDate, LocalDate dateFrom, LocalDate dateTo) {
+        return (workDate.isEqual(dateFrom) || workDate.isAfter(dateFrom))
+                && (workDate.isEqual(dateTo) || workDate.isBefore(dateTo));
     }
 
     private LocalDate parseDateFromString(String parseValue) {
@@ -63,4 +75,3 @@ public class SalaryInfo {
         }
     }
 }
-
