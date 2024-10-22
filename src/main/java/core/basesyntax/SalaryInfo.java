@@ -14,7 +14,8 @@ public class SalaryInfo {
         return generateReport(names, data, localDateFrom, localDateTo);
     }
 
-    private String generateReport(String[] names, String[] data, LocalDate dateFrom, LocalDate dateTo) {
+    private String generateReport(String[] names, String[] data,
+                                  LocalDate dateFrom, LocalDate dateTo) {
         StringBuilder report = new StringBuilder();
         report.append("Report for period ")
                 .append(DATE_FORMATTER.format(dateFrom))
@@ -32,7 +33,8 @@ public class SalaryInfo {
         return report.toString();
     }
 
-    private int calculateSalaryForEmployee(String employeeName, String[] data, LocalDate dateFrom, LocalDate dateTo) {
+    private int calculateSalaryForEmployee(String employeeName, String[] data,
+                                           LocalDate dateFrom, LocalDate dateTo) {
         int totalSalary = 0;
 
         for (String record : data) {
