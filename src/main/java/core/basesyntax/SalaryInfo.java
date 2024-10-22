@@ -4,23 +4,34 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    private static final DateTimeFormatter DATE_FORMATTER =
-            DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final int DATE_FORMATTER = 0;
+    private static final int NAME_FORMATTER = 1;
+    private static final int WORKING_HOURS_FORMATTER = 2;
+    private static final int INCOME_FORMATTER = 3;
+    private static final DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        LocalDate localDateFrom = parseDateFromString(dateFrom);
-        LocalDate localDateTo = parseDateFromString(dateTo);
-
-        return generateReport(names, data, localDateFrom, localDateTo);
-    }
-
-    private String generateReport(String[] names, String[] data,
-                                  LocalDate dateFrom, LocalDate dateTo) {
-        StringBuilder report = new StringBuilder();
-        report.append("Report for period ")
-                .append(DATE_FORMATTER.format(dateFrom))
-                .append(" - ")
-                .append(DATE_FORMATTER.format(dateTo));
+        LocalDate localDateFrom = LocalDate.parse(dateFrom, DTF);
+        LocalDate localDateTo = LocalDate.parse(dateTo.DTF);
+        StringBuilder salaryInfo = new StringBuilder("Report for period "
+                + dateFrom + " - " + dateTo);
+        for (String name : names) {
+            int salary = 0;
+            for (String dataInfo : data) {
+                String[] info = dataInfo.split(" ");
+                if (name.equals(info[NAME_FORMATTER])) {
+                    LocalDate recordDate = LocalDate.parse(info[DATE_FORMATTER], DTF);
+                    if (!recordDate.isBefore(from) && !recordDate.isAfter(to)) {
+                        salary += Integer.parseInt(info[INCOME_FORMATTER])
+                                * Integer.parseInt(info[WORKING_HOURS_FORMATTER]);
+                    }
+                }
+            }
+            salaryInfo.append(System.lineSeparator())
+                    .append(name)
+                    .append(" - ")
+                    .append(salary);
+        }
 
         for (String currentName : names) {
             int salaryAmount = calculateSalaryForEmployee(currentName, data, dateFrom, dateTo);
@@ -30,50 +41,6 @@ public class SalaryInfo {
                     .append(salaryAmount);
         }
 
-        return report.toString();
-    }
-
-    private int calculateSalaryForEmployee(String employeeName, String[] data,
-                                           LocalDate dateFrom, LocalDate dateTo) {
-        int totalSalary = 0;
-
-        for (String record : data) {
-            if (record == null || record.isEmpty()) {
-                continue;
-            }
-
-            String[] parsedRecord = record.split(" ");
-            LocalDate workDate = parseDateFromString(parsedRecord[0]);
-            String name = parsedRecord[1];
-            int hoursWorked = parseNumberFromString(parsedRecord[2]);
-            int hourlyRate = parseNumberFromString(parsedRecord[3]);
-
-            if (isWithinDateRange(workDate, dateFrom, dateTo) && employeeName.equals(name)) {
-                totalSalary += hoursWorked * hourlyRate;
-            }
-        }
-
-        return totalSalary;
-    }
-
-    private boolean isWithinDateRange(LocalDate workDate, LocalDate dateFrom, LocalDate dateTo) {
-        return (workDate.isEqual(dateFrom) || workDate.isAfter(dateFrom))
-                && (workDate.isEqual(dateTo) || workDate.isBefore(dateTo));
-    }
-
-    private LocalDate parseDateFromString(String parseValue) {
-        try {
-            return LocalDate.parse(parseValue, DATE_FORMATTER);
-        } catch (Exception e) {
-            throw new RuntimeException("Cannot parse date from the string: " + parseValue, e);
-        }
-    }
-
-    private int parseNumberFromString(String parseValue) {
-        try {
-            return Integer.parseInt(parseValue);
-        } catch (Exception e) {
-            throw new RuntimeException("Cannot parse number from the string: " + parseValue, e);
-        }
+        return salaryInfo.toString();
     }
 }
