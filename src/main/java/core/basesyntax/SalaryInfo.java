@@ -12,6 +12,7 @@ public class SalaryInfo {
     private static final DateTimeFormatter DTF = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
+    
         LocalDate localDateFrom = LocalDate.parse(dateFrom, DTF);
         LocalDate localDateTo = LocalDate.parse(dateTo, DTF);
         
@@ -29,4 +30,13 @@ public class SalaryInfo {
                                 * Integer.parseInt(info[WORKING_HOURS_FORMATTER]);
                     }
                 }
-    
+            }
+            salaryInfo.append(System.lineSeparator())
+                    .append(name)
+                    .append(" - ")
+                    .append(salary);
+        }
+
+        return salaryInfo.toString(); 
+    }
+} 
