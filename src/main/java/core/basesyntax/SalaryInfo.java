@@ -18,8 +18,8 @@ public class SalaryInfo {
             String[] parts = record.split(" ");
             String dateStr = parts[0];
             String name = parts[1];
-            int hours = Integer.parseInt(parts[2]);
-            int rate = Integer.parseInt(parts[3]);
+            final int hours = Integer.parseInt(parts[2]);
+            final int rate = Integer.parseInt(parts[3]);
             LocalDate date = LocalDate.parse(dateStr, formatter);
 
             if (date.isBefore(startDate) || date.isAfter(endDate)) {
