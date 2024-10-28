@@ -55,10 +55,11 @@ public class SalaryInfo {
         StringBuilder allReports = new StringBuilder();
 
         for (int i = 0; i < dates.length; i++) {
-            String report = getSalaryInfo(names, data, dates[0], dates[i]);
-            allReports.append(report);
+            // Используем dates[i] как начальную и конечную дату
+            String report = getSalaryInfo(names, data, dates[i], dates[i]);
+            allReports.append(report).append("\n");
         }
 
-        return allReports.toString();
+        return allReports.toString().trim();
     }
 }
