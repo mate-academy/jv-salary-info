@@ -23,7 +23,7 @@ public class SalaryInfo {
                         && name.equals(nameUser)) {
                     salary += Integer.parseInt(lines[2]) * Integer.parseInt(lines[3]);
                 } else if (date.isEqual(startDate) && name.equals(nameUser)
-                        || date.isEqual(endDate) && name.equals(nameUser))  {
+                        || date.isEqual(endDate) && name.equals(nameUser)) {
                     salary += Integer.parseInt(lines[2]) * Integer.parseInt(lines[3]);
                 }
             }
@@ -32,6 +32,6 @@ public class SalaryInfo {
             salaryInfo.append(" - ");
             salaryInfo.append(salary);
         }
-      return salaryInfo.toString();
+        return salaryInfo.toString();
     }
 }
