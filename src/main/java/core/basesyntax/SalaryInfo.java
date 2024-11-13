@@ -11,18 +11,20 @@ import java.util.List;
 public class SalaryInfo {
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
-    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)  {
+    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder builder = new StringBuilder("Report for period ")
                 .append(dateFrom).append(" - ").append(dateTo).append("\n");
-        LocalDate from = LocalDate.now();
-        LocalDate to = LocalDate.now();
+        LocalDate from = null;
+        LocalDate to = null;
 
         try {
             from = LocalDate.parse(dateFrom, formatter);
             to = LocalDate.parse(dateTo, formatter);
-
         } catch (DateTimeParseException e) {
-            System.out.println("Error parsing date " + e);
+            System.out.println("Error parsing from & to Dates after initialize"
+                    + dateFrom + " "
+                    + dateTo + ". Error: "
+                    + e);
         }
 
         List<String> employeeNameByKey = new ArrayList<>(Arrays.stream(names).toList());
@@ -31,15 +33,19 @@ public class SalaryInfo {
 
         for (int i = 0; i < data.length; i++) {
             String[] splittedString = data[i].split(" ");
-            LocalDate paymentDate = LocalDate.now();
+            LocalDate paymentDate = null;
 
             try {
                 paymentDate = LocalDate.parse(splittedString[0], formatter);
             } catch (DateTimeParseException e) {
-                System.out.println("Error parsing date in names" + e);
+                System.out.println("Error parsing paymentDate by name from splittedString. "
+                        + "Parsed data: "
+                        + splittedString[0]
+                        + ". Error: "
+                        + e);
             }
 
-            boolean isWithinRange = !(paymentDate.isBefore(from) || paymentDate.isAfter(to));
+            boolean isWithinRange = !(paymentDate.isBefore(from) || paymentDate.isAfter(to));;
 
             if (isWithinRange) {
                 String paymentRecipient = splittedString[1];
