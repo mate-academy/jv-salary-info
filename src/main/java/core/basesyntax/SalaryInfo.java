@@ -1,36 +1,27 @@
 package core.basesyntax;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
             throws DataGettingException {
 
         if (names == null || data == null || dateFrom == null
                 || dateTo == null) {
-            throw new DataGettingException("one or more input arguments are null");
+            throw new DataGettingException("One or more input arguments are null");
         }
 
-        int dayFrom = 0;
-        int monthFrom = 0;
-        int yearFrom = 0;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        LocalDate newDateFrom = LocalDate.parse(dateFrom, formatter);
+        LocalDate newDateTo = LocalDate.parse(dateTo, formatter);
 
-        int dayTo = 0;
-        int monthTo = 0;
-        int yearTo = 0;
-
-        try {
-            dayFrom = getNumberOfDay(dateFrom, "day");
-            monthFrom = getNumberOfDay(dateFrom, "month");
-            yearFrom = getNumberOfDay(dateFrom, "year");
-
-            dayTo = getNumberOfDay(dateTo, "day");
-            monthTo = getNumberOfDay(dateTo, "month");
-            yearTo = getNumberOfDay(dateTo, "year");
-        } catch (WrongWordException e) {
-            System.out.println("Input wrong word");
-        }
-
-        if (yearFrom > yearTo || (yearFrom == yearTo && monthFrom > monthTo)
-                || (yearFrom == yearTo && monthFrom == monthTo && dayFrom > dayTo)) {
+        if (newDateFrom.getYear() > newDateTo.getYear()
+                || (newDateFrom.getYear() == newDateTo.getYear()
+                && newDateFrom.getMonthValue() > newDateTo.getMonthValue())
+                || (newDateFrom.getYear() == newDateTo.getYear()
+                && newDateFrom.getMonthValue() == newDateTo.getMonthValue()
+                && newDateFrom.getDayOfMonth() > newDateTo.getDayOfMonth())) {
             throw new DataGettingException("Start date cannot be later than end date");
         }
 
@@ -38,17 +29,10 @@ public class SalaryInfo {
 
         for (int i = 0; i < data.length; i++) {
             String[] dataArrayI = data[i].split(" ");
-            String[] dataPeriod = dataArrayI[0].split("\\.");
 
-            int day = Integer.parseInt(dataPeriod[0]);
-            int month = Integer.parseInt(dataPeriod[1]);
-            int year = Integer.parseInt(dataPeriod[2]);
+            LocalDate date = LocalDate.parse(dataArrayI[0], formatter);
 
-            boolean withinDateRange = (year == yearFrom && (month >= monthFrom
-                    && day >= dayFrom) && (month <= monthTo && day <= dayTo))
-                    || (year == yearTo && (month <= monthTo && day <= dayTo)
-                    && (month >= monthFrom && day >= dayFrom))
-                    || (year > yearFrom && year < yearTo);
+            boolean withinDateRange = date.isAfter(newDateFrom) && date.isBefore(newDateTo);
 
             if (withinDateRange) {
                 String name = dataArrayI[1];
@@ -129,4 +113,5 @@ public class SalaryInfo {
             }
         }
     }
+
 }
