@@ -9,13 +9,25 @@ public class SalaryInfo {
             throw new DataGettingException("one or more input arguments are null");
         }
 
-        int dayFrom = getNumberOfDay(dateFrom, "day");
-        int monthFrom = getNumberOfDay(dateFrom, "month");
-        int yearFrom = getNumberOfDay(dateFrom, "year");
+        int dayFrom = 0;
+        int monthFrom = 0;
+        int yearFrom = 0;
 
-        int dayTo = getNumberOfDay(dateTo, "day");
-        int monthTo = getNumberOfDay(dateTo, "month");
-        int yearTo = getNumberOfDay(dateTo, "year");
+        int dayTo = 0;
+        int monthTo = 0;
+        int yearTo = 0;
+
+        try {
+            dayFrom = getNumberOfDay(dateFrom, "day");
+            monthFrom = getNumberOfDay(dateFrom, "month");
+            yearFrom = getNumberOfDay(dateFrom, "year");
+
+            dayTo = getNumberOfDay(dateTo, "day");
+            monthTo = getNumberOfDay(dateTo, "month");
+            yearTo = getNumberOfDay(dateTo, "year");
+        } catch (WrongWordException e) {
+            System.out.println("Input wrong word");
+        }
 
         if (yearFrom > yearTo || (yearFrom == yearTo && monthFrom > monthTo)
                 || (yearFrom == yearTo && monthFrom == monthTo && dayFrom > dayTo)) {
@@ -32,10 +44,11 @@ public class SalaryInfo {
             int month = Integer.parseInt(dataPeriod[1]);
             int year = Integer.parseInt(dataPeriod[2]);
 
-            boolean withinDateRange = (year == yearFrom && (month >= monthFrom && day >= dayFrom)
-                    && (month <= monthTo && day <= dayTo))
+            boolean withinDateRange = (year == yearFrom && (month >= monthFrom
+                    && day >= dayFrom) && (month <= monthTo && day <= dayTo))
                     || (year == yearTo && (month <= monthTo && day <= dayTo)
-                    && (month >= monthFrom && day >= dayFrom));
+                    && (month >= monthFrom && day >= dayFrom))
+                    || (year > yearFrom && year < yearTo);
 
             if (withinDateRange) {
                 String name = dataArrayI[1];
@@ -50,7 +63,7 @@ public class SalaryInfo {
         return returnInfo(startResult, dateFrom, dateTo);
     }
 
-    public int getNumberOfDay(String date, String period) {
+    public int getNumberOfDay(String date, String period) throws WrongWordException {
         char[] array = date.toCharArray();
         if (period.toLowerCase().equals("day")) {
             if (array[0] == '0') {
@@ -70,8 +83,9 @@ public class SalaryInfo {
             String year = "" + array[6] + array[7] + array[8] + array[9];
             return Integer.parseInt(year);
         } else {
-            return 0;
+            throw new WrongWordException("Input wrong word");
         }
+
     }
 
     public String returnInfo(String[] array, String dataF, String dataT) {
