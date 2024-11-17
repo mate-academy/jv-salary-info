@@ -8,7 +8,8 @@ public class SalaryInfo {
     private static final DateTimeFormatter DATE_FORMATTER
             = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
-    public String getSalaryInfo(String[] names, String[] data, String startDate, String endDate)
+    public String getSalaryInfo(String[] names, String[] data, String startDate,
+                                String endDate)
             throws IllegalDateParametersException {
         LocalDate start = LocalDate.parse(startDate, DATE_FORMATTER);
         LocalDate end = LocalDate.parse(endDate, DATE_FORMATTER);
@@ -18,7 +19,7 @@ public class SalaryInfo {
         }
 
         StringBuilder report = new StringBuilder();
-        report.append("Report for period ")
+        report.append("Отчёт за период ")
                 .append(startDate)
                 .append(" - ")
                 .append(endDate)
