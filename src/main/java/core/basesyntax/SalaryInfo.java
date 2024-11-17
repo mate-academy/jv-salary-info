@@ -19,7 +19,7 @@ public class SalaryInfo {
         }
 
         StringBuilder report = new StringBuilder();
-        report.append("Report for period ")
+        report.append("Отчёт за период ")
                 .append(startDate)
                 .append(" - ")
                 .append(endDate)
