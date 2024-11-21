@@ -17,7 +17,6 @@ public class SalaryInfo {
         LocalDate newDateFrom = parseDate(dateFrom);
         LocalDate newDateTo = parseDate(dateTo);
 
-
         if (newDateFrom.isAfter(newDateTo)) {
             throw new DataGettingException("Start date cannot be later than end date");
         }
@@ -136,7 +135,7 @@ public class SalaryInfo {
     }
 
     public LocalDate parseDate(String date) {
-        try{
+        try {
             return LocalDate.parse(date, FORMATTER);
         } catch (Exception e) {
             throw new DataGettingException("Invalid date format. Excepted format: dd.MM.yyyy");
