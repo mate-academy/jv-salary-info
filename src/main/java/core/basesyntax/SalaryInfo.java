@@ -5,6 +5,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 
 public class SalaryInfo {
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
 
         if (names == null || data == null || dateFrom == null
@@ -12,24 +14,11 @@ public class SalaryInfo {
             throw new DataGettingException("One or more input arguments are null");
         }
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        LocalDate newDateFrom = parseDate(dateFrom);
+        LocalDate newDateTo = parseDate(dateTo);
 
-        LocalDate newDateFrom;
-        LocalDate newDateTo;
 
-        try {
-            newDateFrom = LocalDate.parse(dateFrom, formatter);
-            newDateTo = LocalDate.parse(dateTo, formatter);
-        } catch (Exception e) {
-            throw new DataGettingException("Invalid date format. Excepted format: dd.MM.yyyy");
-        }
-
-        if (newDateFrom.getYear() > newDateTo.getYear()
-                || (newDateFrom.getYear() == newDateTo.getYear()
-                && newDateFrom.getMonthValue() > newDateTo.getMonthValue())
-                || (newDateFrom.getYear() == newDateTo.getYear()
-                && newDateFrom.getMonthValue() == newDateTo.getMonthValue()
-                && newDateFrom.getDayOfMonth() > newDateTo.getDayOfMonth())) {
+        if (newDateFrom.isAfter(newDateTo)) {
             throw new DataGettingException("Start date cannot be later than end date");
         }
 
@@ -42,13 +31,7 @@ public class SalaryInfo {
         for (int i = 0; i < data.length; i++) {
             String[] dataArrayI = data[i].split(" ");
 
-            LocalDate date;
-
-            try {
-                date = LocalDate.parse(dataArrayI[0], formatter);
-            } catch (Exception e) {
-                throw new DataGettingException("Invalid date in data entry: " + data[i]);
-            }
+            LocalDate date = parseDate(dataArrayI[0]);
 
             boolean withinDateRange = date.isAfter(newDateFrom) && date.isBefore(newDateTo)
                     || date.isEqual(newDateFrom) && date.isBefore(newDateTo)
@@ -150,5 +133,13 @@ public class SalaryInfo {
         }
 
         return resultArray;
+    }
+
+    public LocalDate parseDate(String date) {
+        try{
+            return LocalDate.parse(date, FORMATTER);
+        } catch (Exception e) {
+            throw new DataGettingException("Invalid date format. Excepted format: dd.MM.yyyy");
+        }
     }
 }
