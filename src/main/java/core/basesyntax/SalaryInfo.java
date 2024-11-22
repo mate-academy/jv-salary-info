@@ -21,117 +21,41 @@ public class SalaryInfo {
             throw new DataGettingException("Start date cannot be later than end date");
         }
 
-        if (newDateFrom.equals(newDateTo)) {
-            return returnInfo(ifEqual(names), dateFrom, dateTo);
-        }
+        StringBuilder result = new StringBuilder("Report for period " + dateFrom + " - " + dateTo);
 
-        String[] startResult = new String[data.length];
+        for (String name : names) {
+            int salary = 0;
+            for (String line : data) {
+                String[] lineInArray = line.split(" ");
+                LocalDate dateFromArray = parseDate(lineInArray[0]);
 
-        for (int i = 0; i < data.length; i++) {
-            String[] dataArrayI = data[i].split(" ");
-
-            LocalDate date = parseDate(dataArrayI[0]);
-
-            boolean withinDateRange = date.isAfter(newDateFrom) && date.isBefore(newDateTo)
-                    || date.isEqual(newDateFrom) && date.isBefore(newDateTo)
-                    || date.isAfter(newDateFrom) && date.isEqual(newDateTo);
-
-            if (withinDateRange) {
-                String name = dataArrayI[1];
-                int hours = Integer.parseInt(dataArrayI[2]);
-                int money = Integer.parseInt(dataArrayI[3]);
-                int salary = hours * money;
-
-                addPersonToStartResult(startResult, name, salary);
-            }
-        }
-
-        return returnInfo(makeInOrder(startResult, names), dateFrom, dateTo);
-    }
-
-    public String returnInfo(String[] array, String dataF, String dataT) {
-        StringBuilder str = new StringBuilder();
-        str.append("Report for period ").append(dataF).append(" - ").append(dataT)
-                .append(System.lineSeparator());
-
-        for (int i = 0; i < array.length; i++) {
-            str.append(array[i]);
-            if (i < array.length - 1) {
-                str.append(System.lineSeparator());
-            }
-        }
-        return str.toString();
-    }
-
-    public void addPersonToStartResult(String[] array, String name, int salary) {
-        boolean personExist = false;
-
-        if (array[0] != null) {
-            for (int i = 0; i < array.length; i++) {
-                if (array[i] != null) {
-                    String[] parts = array[i].split(" - ");
-                    if (parts[0].equals(name)) {
-                        int currentSalary = Integer.parseInt(parts[1]);
-                        currentSalary += salary;
-                        parts[1] = String.valueOf(currentSalary);
-                        array[i] = String.join(" - ", parts);
-                        personExist = true;
-                        break;
-                    }
-                } else {
-                    break;
+                if (lineInArray[1].equals(name)
+                        && (dateFromArray.isAfter(newDateFrom) && dateFromArray.isBefore(newDateTo)
+                        || dateFromArray.isEqual(newDateFrom) && dateFromArray.isBefore(newDateTo)
+                        || dateFromArray.isAfter(newDateFrom)
+                        && dateFromArray.isEqual(newDateTo))) {
+                    salary += Integer.parseInt(lineInArray[2]) * Integer.parseInt(lineInArray[3]);
                 }
             }
-        }
 
-        if (!personExist) {
-            for (int i = 0; i < array.length; i++) {
-                if (array[i] == null) {
-                    array[i] = name + " - " + salary;
-                    break;
+            if (result.indexOf(name) != -1) {
+                int indexOfName = result.indexOf(name);
+                int numberStart = result.indexOf(" - ", indexOfName) + 3;
+                int numberEnd = result.indexOf("\n", numberStart);
+
+                if (numberEnd == -1) {
+                    numberEnd = result.length();
                 }
+
+                int oldSalary = Integer.parseInt(result.substring(numberStart, numberEnd).trim());
+                int newSalary = oldSalary + salary;
+
+                result.replace(numberStart, numberEnd, String.valueOf(newSalary));
+            } else {
+                result.append(System.lineSeparator()).append(name).append(" - ").append(salary);
             }
         }
-    }
-
-    public String[] makeInOrder(String[] arrayToOrder, String[] names) {
-        String[] orderedArray = new String[names.length];
-        String[] beforeSorting = new String[names.length];
-        int num = 0;
-
-        for (int g = 0; g < arrayToOrder.length; g++) {
-            if (arrayToOrder[g] != null) {
-                beforeSorting[num] = arrayToOrder[g];
-                num++;
-            }
-        }
-
-        beforeSorting = Arrays.copyOf(beforeSorting, num);
-
-        for (int i = 0; i < names.length; i++) {
-            String currentName = names[i];
-
-            for (int j = 0; j < beforeSorting.length; j++) {
-                String[] afterSplit = beforeSorting[j].split(" - ");
-                String searchName = afterSplit[0];
-
-                if (currentName.equals(searchName)) {
-                    orderedArray[i] = beforeSorting[j];
-                    break;
-                }
-            }
-        }
-
-        return orderedArray;
-    }
-
-    public String[] ifEqual(String[] names) {
-        String[] resultArray = new String[names.length];
-        for (int i = 0; i < names.length; i++) {
-            resultArray[i] = names[i] + " - 0";
-        }
-
-        return resultArray;
+        return result.toString();
     }
 
     public LocalDate parseDate(String date) {
