@@ -28,6 +28,6 @@ public class SalaryInfo {
             salaryReport.append(name).append(" - ")
                     .append(salaryTotal).append(System.lineSeparator());
         }
-        return salaryReport.toString();
+        return salaryReport.toString().trim();
     }
 }
