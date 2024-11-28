@@ -14,13 +14,13 @@ public class SalaryInfo {
             LocalDate workDate = LocalDate.parse(parts[0], formatter);
             String employeeName = parts[1];
             int hoursWorked = Integer.parseInt(parts[2]);
-            int hoursLyRate = Integer.parseInt(parts[3]);
+            int hourlyRate = Integer.parseInt(parts[3]);
             if (workDate.isBefore(from) || workDate.isAfter(to)) {
                 continue;
             }
             for (int i = 0; i < names.length; i++) {
                 if (names[i].equals(employeeName)) {
-                    salaries[i] += hoursWorked * hoursLyRate;
+                    salaries[i] += hoursWorked * hourlyRate;
                 }
             }
         }
