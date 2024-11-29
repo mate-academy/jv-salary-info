@@ -6,7 +6,6 @@ import java.time.format.DateTimeFormatter;
 public class SalaryInfo {
     private static String HEADER = "Report for period ";
     private static String SEPARATOR = " - ";
-    private static String LINE_SEPARATOR = "\n";
     private static final DateTimeFormatter DATE_FORMATTER =
             DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
@@ -28,7 +27,7 @@ public class SalaryInfo {
             }
             result[i + 1] = name + SEPARATOR + salary;
         }
-        return String.join(LINE_SEPARATOR, result);
+        return String.join("\n", result);
     }
 
     private boolean isWorkerShouldGetMoney(
