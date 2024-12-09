@@ -10,7 +10,7 @@ public class SalaryInfo {
     public LocalDate parseDate(String date) {
         try {
             return LocalDate.parse(date, DATES);
-        } catch (Exception e) {
+        } catch (InvalidDataException e) {
             throw new InvalidDataException(
                     "Invalid date format. Only dd.MM.yyyy format is accepted"
             );
@@ -18,7 +18,7 @@ public class SalaryInfo {
     }
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        if (names == null || data == null || dateFrom == null || dateTo == null) {
+        if (names.length == 0 || data.length == 0 || dateFrom == null || dateTo == null) {
             throw new InvalidDataException("Invalid data: Please check your input");
         }
 
