@@ -10,7 +10,8 @@ public class SalaryInfo {
     private static final int HOURS = 2;
     private static final int INCOME = 3;
     private static final int DAY = 1;
-    private static final String DATE_FORMAT = "dd.MM.yyyy";
+    private static final String DASH = " - ";
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate dateFromDateFormat = changeDateFormat(dateFrom);
@@ -29,23 +30,20 @@ public class SalaryInfo {
                 }
             }
         }
-
-        StringBuilder stringBuilder = new StringBuilder("Report for period " + dateFrom
+        StringBuilder result = new StringBuilder("Report for period " + dateFrom
                 + " - " + dateTo + System.lineSeparator());
         for (int i = 0; i < names.length; i++) {
             if (i != names.length - 1) {
-                stringBuilder.append(names[i]).append(" - ").append(salary[i])
+                result.append(names[i]).append(DASH).append(salary[i])
                         .append(System.lineSeparator());
             } else {
-                stringBuilder.append(names[i]).append(" - ").append(salary[i]);
+                result.append(names[i]).append(DASH).append(salary[i]);
             }
         }
-
-        return stringBuilder.toString();
+        return result.toString();
     }
 
     public LocalDate changeDateFormat(String stringDate) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
-        return LocalDate.parse(stringDate, formatter);
+        return LocalDate.parse(stringDate, FORMATTER);
     }
 }
