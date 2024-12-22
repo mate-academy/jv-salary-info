@@ -1,6 +1,5 @@
 package core.basesyntax;
 
-import java.time.LocalTime;
 import java.util.Date;
 
 public class SalaryInfo {
@@ -11,7 +10,7 @@ public class SalaryInfo {
 
         for (int i = 0; i < names.length; i++) {
             stringBuilder.append(names[i]).append(" - ");
-            String [] elements = data[i].split( " ");
+            String [] elements = data[i].split(" ");
             Date date = new Date(elements[0]);
             Date date1 = new Date(dateFrom);
             Date date2 = new Date(dateTo);
