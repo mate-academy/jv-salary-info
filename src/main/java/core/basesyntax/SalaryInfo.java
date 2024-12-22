@@ -11,8 +11,8 @@ public class SalaryInfo {
         String [] dateFromAR = dateFrom.split(" ");
         String [] dateToAR = dateTo.split(" ");
         String date1 = dateFromAR[dateFromAR.length - 2].substring(1);
-        String date2 = dateToAR[dateFromAR.length - 2].
-                substring(1,dateToAR[dateFromAR.length - 2].length() - 1);
+        String date2 = dateToAR[dateFromAR.length - 2]
+                .substring(1,dateToAR[dateFromAR.length - 2].length() - 1);
         majorSB.append(date1).append(" - ").append(date2).append(" ").append("\n");
 
         final DateTimeFormatter pattern = DateTimeFormatter.ofPattern("dd-MM-yyyy");
@@ -30,7 +30,7 @@ public class SalaryInfo {
                 workingDay = workingDay.replace(".","-");
                 LocalDate workDayDate = LocalDate.parse(workingDay,pattern);
                 if (workDayDate.compareTo(dateFrom1) >= 0 && workDayDate.compareTo(dateTo1) <= 0) {
-                    if (names[i].equals(elements[1])){
+                    if (names[i].equals(elements[1])) {
                         money += Integer.valueOf(Integer.valueOf(elements[2])
                                 * Integer.valueOf(elements[3]));
                     }
