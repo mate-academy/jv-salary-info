@@ -6,14 +6,14 @@ import java.util.Date;
 import java.util.Locale;
 
 public class SalaryInfo {
-    public String getSalaryInfo(String[] names, String[] data
-            , String dateFrom, String dateTo) throws ParseException {
+    public String getSalaryInfo(String[] names, String[] data,
+                                String dateFrom, String dateTo) throws ParseException {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("Report for period ");
         String [] date1 = dateFrom.split(" ");
 
         String startDate = date1[date1.length - 1]
-                .substring(1, date1[date1.length - 1].length() -1);
+                .substring(1, date1[date1.length - 1].length() - 1);
         startDate = startDate.replace('.','-');
         SimpleDateFormat formatter = new SimpleDateFormat("dd-M-yyyy", Locale.ENGLISH);
         Date startDate1 = formatter.parse(startDate);
@@ -30,7 +30,7 @@ public class SalaryInfo {
 
         for (int i = 0; i < names.length; i++) {
             int money = 0;
-            for (int j = 0; j < data.length; j++){
+            for (int j = 0; j < data.length; j++) {
                 String [] elements = data[j].split(" ");
                 String workDate = elements[0];
                 workDate = workDate.replace('.','-');
