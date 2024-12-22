@@ -10,8 +10,8 @@ public class SalaryInfo {
         StringBuilder majorSB = new StringBuilder("Report for period");
         String [] dateFromAR = dateFrom.split(" ");
         String [] dateToAR = dateTo.split(" ");
-        String date1 = dateFromAR[dateFromAR.length - 2].substring(1);
-        String date2 = dateToAR[dateFromAR.length - 2]
+        String date1 = dateFromAR[3].substring(1);
+        String date2 = dateToAR[3]
                 .substring(1,dateToAR[dateFromAR.length - 2].length() - 1);
         majorSB.append(date1).append(" - ").append(date2).append(" ").append("\n");
 
