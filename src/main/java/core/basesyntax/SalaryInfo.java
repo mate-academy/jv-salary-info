@@ -6,7 +6,7 @@ public class SalaryInfo {
         stringBuilder.append("Report for period").append(dateFrom).append(" - ")
                 .append(dateTo).append("\n");
         for (int i = 0; i < names.length; i++) {
-            stringBuilder.append(names[0]).append(" - ").append(data[0]).append("\n");
+            stringBuilder.append(names[i]).append(" - ").append(data[i]).append("\n");
         }
         return stringBuilder.toString();
     }
