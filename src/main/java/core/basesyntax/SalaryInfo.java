@@ -24,7 +24,9 @@ public class SalaryInfo {
             int hoursWorked = Integer.parseInt(parts[2]);
             int hourlyRate = Integer.parseInt(parts[3]);
 
-            if (!workDate.isBefore(startDate) && !workDate.isAfter(endDate) && salaryMap.containsKey(name)) {
+            if (!workDate.isBefore(startDate)
+                    && !workDate.isAfter(endDate)
+                    && salaryMap.containsKey(name)) {
                 int earned = hoursWorked * hourlyRate;
                 salaryMap.put(name, salaryMap.get(name) + earned);
             }
