@@ -1,43 +1,44 @@
 package core.basesyntax;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.Map;
-
 public class SalaryInfo {
-    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        // Формат дат
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        LocalDate startDate = LocalDate.parse(dateFrom, formatter);
-        LocalDate endDate = LocalDate.parse(dateTo, formatter);
+    private VerifyData verifyData = new VerifyData();
 
-        Map<String, Integer> salaryMap = new HashMap<>();
-        for (String name : names) {
-            salaryMap.put(name, 0);
-        }
+    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
+        SimpleDate startDate = new SimpleDate(dateFrom);
+        SimpleDate endDate = new SimpleDate(dateTo);
+        int[] salaries = new int[names.length];
 
         for (String entry : data) {
+
+            try {
+                verifyData.verification(entry);
+            } catch (FormatDataException e) {
+                System.out.println("[" + entry + "] - bad format");
+                continue;
+            }
+
             String[] parts = entry.split(" ");
-            LocalDate workDate = LocalDate.parse(parts[0], formatter);
+            SimpleDate workDate = new SimpleDate(parts[0]);
             String name = parts[1];
             int hoursWorked = Integer.parseInt(parts[2]);
             int hourlyRate = Integer.parseInt(parts[3]);
 
-            if (!workDate.isBefore(startDate)
-                    && !workDate.isAfter(endDate)
-                    && salaryMap.containsKey(name)) {
-                int earned = hoursWorked * hourlyRate;
-                salaryMap.put(name, salaryMap.get(name) + earned);
+            if (workDate.isWithin(startDate, endDate)) {
+                for (int i = 0; i < names.length; i++) {
+                    if (names[i].equals(name)) {
+                        salaries[i] += hoursWorked * hourlyRate;
+                        break;
+                    }
+                }
             }
         }
 
         StringBuilder report = new StringBuilder("Report for period " + dateFrom + " - " + dateTo);
-        for (String name : names) {
+        for (int i = 0; i < names.length; i++) {
             report.append(System.lineSeparator())
-                    .append(name)
+                    .append(names[i])
                     .append(" - ")
-                    .append(salaryMap.get(name));
+                    .append(salaries[i]);
         }
 
         return report.toString();
