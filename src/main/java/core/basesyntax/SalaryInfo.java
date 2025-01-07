@@ -30,7 +30,7 @@ public class SalaryInfo {
                     || dataFrom.isEqual(dataNow))
                     && (dataTo.isAfter(dataNow)
                     || dataTo.isEqual(dataNow))) {
-                getSalesByName(names, splitData, salariesByName);
+                calculateSalariesByName(names, splitData, salariesByName);
             }
         }
 
@@ -44,7 +44,7 @@ public class SalaryInfo {
         return builder.toString();
     }
 
-    private static void getSalesByName(String[] names,
+    private static void calculateSalariesByName(String[] names,
                                        String[] splitData,
                                        int[] salariesByName) {
         for (int j = 0; j < names.length; j++) {
