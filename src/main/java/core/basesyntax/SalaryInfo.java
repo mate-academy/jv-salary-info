@@ -1,7 +1,55 @@
 package core.basesyntax;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class SalaryInfo {
-    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        return null;
+    public static String getSalaryInfo(String[] names, 
+                                       String[] data, 
+                                       String dateFrom, 
+                                       String dateTo) {
+        final DateTimeFormatter formatter = DateTimeFormatter
+                .ofPattern("dd.MM.yyyy");
+
+        final LocalDate dataFrom = LocalDate
+                .parse(dateFrom, formatter);
+        final LocalDate dataTo = LocalDate
+                .parse(dateTo, formatter);
+        
+        int[] salariesByName = new int[names.length];
+        
+        StringBuilder builder = new StringBuilder("Report for period "
+                + dateFrom 
+                + " - "
+                + dateTo);
+
+        for (String datum : data) {
+            String[] splitData = datum.split(" ");
+            LocalDate dataNow = LocalDate.parse(splitData[0], formatter);
+            if ((dataFrom.isBefore(dataNow) || dataFrom.isEqual(dataNow)) && (dataTo.isAfter(dataNow) || dataTo.isEqual(dataNow))) {
+                getSalesByName(names, splitData, salariesByName);
+            }
+        }
+
+        for (int k = 0; k < names.length; k++) {
+            builder.append(System.lineSeparator())
+                    .append(names[k])
+                    .append(" - ")
+                    .append(salariesByName[k]);
+        }
+
+        return builder.toString();
+    }
+
+    private static void getSalesByName(String[] names,
+                                       String[] splitData,
+                                       int[] salariesByName) {
+        for (int j = 0; j < names.length; j++) {
+            if (splitData[1].equals(names[j])) {
+                int countOfHours = Integer.parseInt(splitData[2]);
+                int hourSalary = Integer.parseInt(splitData[3]);
+                salariesByName[j] += countOfHours * hourSalary;
+            }
+        }
     }
 }
