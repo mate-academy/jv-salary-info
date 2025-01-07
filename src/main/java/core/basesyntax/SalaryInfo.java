@@ -26,7 +26,10 @@ public class SalaryInfo {
         for (String datum : data) {
             String[] splitData = datum.split(" ");
             LocalDate dataNow = LocalDate.parse(splitData[0], formatter);
-            if ((dataFrom.isBefore(dataNow) || dataFrom.isEqual(dataNow)) && (dataTo.isAfter(dataNow) || dataTo.isEqual(dataNow))) {
+            if ((dataFrom.isBefore(dataNow)
+                    || dataFrom.isEqual(dataNow))
+                    && (dataTo.isAfter(dataNow)
+                    || dataTo.isEqual(dataNow))) {
                 getSalesByName(names, splitData, salariesByName);
             }
         }
