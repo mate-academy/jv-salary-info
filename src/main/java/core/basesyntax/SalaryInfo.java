@@ -6,10 +6,10 @@ import java.time.format.DateTimeFormatter;
 public class SalaryInfo {
     private static final DateTimeFormatter formatter = DateTimeFormatter
             .ofPattern("dd.MM.yyyy");
-    private static final int date = 0,
-            name = 1,
-            hours = 2,
-            salary = 3;
+    private static final int date = 0;
+    private static final int name = 1;
+    private static final int hours = 2;
+    private static final int salary = 3;
 
     public static String getSalaryInfo(String[] names, 
                                        String[] data, 
