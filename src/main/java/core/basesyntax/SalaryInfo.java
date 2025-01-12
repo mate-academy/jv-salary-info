@@ -59,9 +59,9 @@ public class SalaryInfo {
     }
 
     public LocalDate parseDate(String date) {
-        String[] parsedDate = date.split("[\\\\.]");
+        String[] parsedDate = date.split("\\.");
         if (parsedDate.length != 3) {
-            throw new ArrayIndexOutOfBoundsException("Wrong date format. Got: "
+            throw new IllegalArgumentException("Wrong date format. Got: "
                     + date + " Should be dd.mm.yyyy format.");
         }
         int day = Integer.parseInt(parsedDate[0]);
