@@ -19,14 +19,14 @@ Different OS handle line separators differently. Instead of using `\n` or `\r\n`
 #### Remember about informative names of the variables and methods.
 Do not use abstract words like `string` or `array` as variable names. Do not use one-letter names. The name of the method should make it clear what it does.
 - Bad example:
-    ```java
+    ``` java
     String[] arr = new String[]{"Alex", "Bob", "Alice"};
     for (String s : arr) {
         System.out.println(s);
     }
     ```
 - Refactored code:
-    ```java
+    ``` java
     String[] usernames = new String[]{"Alex", "Bob", "Alice"};
     for (String username : usernames) {
         System.out.println(username);
