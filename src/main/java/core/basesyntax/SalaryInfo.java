@@ -13,8 +13,8 @@ public class SalaryInfo {
         int[] result = new int[names.length];
         LocalDate fromDate = LocalDate.parse(dateFrom, PATTERN);
         LocalDate toDate = LocalDate.parse(dateTo, PATTERN);
-        int sumOfSalary = 0;
         for (int j = 0; j < names.length; j++) {
+            int sumOfSalary = 0;
             for (int i = 0; i < data.length; i++) {
                 StringBuilder stringBuilderData = new StringBuilder(Arrays
                         .toString(new String[]{data[i]}));
@@ -33,9 +33,9 @@ public class SalaryInfo {
         StringBuilder report = new StringBuilder();
         String reportResult = null;
         for (int y = 0; y < result.length; y++) {
-            reportResult = String.valueOf(report.append(System.lineSeparator()).append(names[y]).append(" - ")
-                    .append(result[y]));
+            reportResult = String.valueOf(report.append(System.lineSeparator())
+                    .append(names[y]).append(" - ").append(result[y]));
         }
-        return "Report for period" + " " + dateFrom + "-" + dateTo + reportResult;
+        return "Report for period" + " " + dateFrom + " " + "-" + " " + dateTo + reportResult;
     }
 }

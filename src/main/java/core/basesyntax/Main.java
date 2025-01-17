@@ -39,14 +39,18 @@ public class Main {
             "10.08.2019",
     };
 
-
     public static void main(String[] args) {
         SalaryInfo salaryInfo = new SalaryInfo();
         System.out.println(salaryInfo.getSalaryInfo(names, data, dates[0], dates[0]));
-        System.out.println(System.lineSeparator() + salaryInfo.getSalaryInfo(names, data, dates[0], dates[1]));
-        System.out.println(System.lineSeparator() + salaryInfo.getSalaryInfo(names, data, dates[0], dates[2]));
-        System.out.println(System.lineSeparator() + salaryInfo.getSalaryInfo(names, data, dates[0], dates[3]));
-        System.out.println(System.lineSeparator() + salaryInfo.getSalaryInfo(names, secondScriptArray, secondDates[0], secondDates[1]));
+        System.out.println(System.lineSeparator()
+                + salaryInfo.getSalaryInfo(names, data, dates[0], dates[1]));
+        System.out.println(System.lineSeparator()
+                + salaryInfo.getSalaryInfo(names, data, dates[0], dates[2]));
+        System.out.println(System.lineSeparator()
+                + salaryInfo.getSalaryInfo(names, data, dates[0], dates[3]));
+        System.out.println(System.lineSeparator()
+                + salaryInfo.getSalaryInfo(names, secondScriptArray,
+                secondDates[0], secondDates[1]));
 
     }
 }
