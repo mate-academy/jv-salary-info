@@ -4,12 +4,18 @@ public class Print {
     public String getPrint(String[] money, String dateFrom, String dateTo) {
 
         StringBuilder results = new StringBuilder();
-        results.append("Report for period " + dateFrom + " - " + dateTo + "\n");
+        results.append("Report for period ").append(dateFrom).append(" - ")
+                .append(dateTo).append(System.lineSeparator());
 
         for (String moneyPerPerson : money) {
-            results.append(moneyPerPerson + "\n");
+            if (moneyPerPerson != null && !moneyPerPerson.trim().isEmpty()) {
+                results.append(moneyPerPerson).append(System.lineSeparator());
+            } else {
+                System.out.println("Invalid data detected: " + moneyPerPerson);
+            }
         }
-
         return results.toString();
     }
 }
+
+

@@ -1,14 +1,13 @@
 package core.basesyntax;
 
-public class DaysInfo {
+import java.util.ArrayList;
+import java.util.List;
 
-    public DaysInfo() {
-    }
+public class DaysInfo {
 
     public String[] getDaysFromTheRange(String[] data, String dateFrom, String dateTo) {
 
-        String[] daysFromTheRange = new String[data.length];
-        int index = 0;
+        List<String> daysFromTheRange = new ArrayList<>();
 
         String[] numberFrom = dateFrom.split("\\.");
         int fromDay = Integer.parseInt(numberFrom[0]);
@@ -21,28 +20,40 @@ public class DaysInfo {
         int toYear = Integer.parseInt(numberTo[2]);
 
         for (String days : data) {
+            if (days.length() < 10) {
+                System.out.println("Invalid date format: " + days);
+                continue;
+            }
+
             String dayData = days.substring(0, 2);
             String monthData = days.substring(3, 5);
             String yearData = days.substring(6, 10);
 
-            int day = Integer.parseInt(dayData);
-            int month = Integer.parseInt(monthData);
-            int year = Integer.parseInt(yearData);
+            int day = 0;
+            int month = 0;
+            int year = 0;
+
+            try {
+                day = Integer.parseInt(dayData);
+                month = Integer.parseInt(monthData);
+                year = Integer.parseInt(yearData);
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid number format: " + dayData + ", "
+                        + monthData + ", " + yearData);
+                continue;
+            }
 
             int fromDate = fromYear * 10000 + fromMonth * 100 + fromDay;
             int toDate = toYear * 10000 + toMonth * 100 + toDay;
             int currentDate = year * 10000 + month * 100 + day;
 
             if (currentDate >= fromDate && currentDate <= toDate) {
-                daysFromTheRange[index] = days;
-                index++;
+                daysFromTheRange.add(days);
             }
         }
 
-        String[] result = new String[index];
-        for (int i = 0; i < index; i++) {
-            result[i] = daysFromTheRange[i];
-        }
+        String[] result = new String[daysFromTheRange.size()];
+        daysFromTheRange.toArray(result);
 
         return result;
     }
