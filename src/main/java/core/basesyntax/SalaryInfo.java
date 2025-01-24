@@ -5,9 +5,7 @@ import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
 
-    // Головний метод, який реалізує логіку підрахунку зарплати
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        // Крок 1: Перетворити строки dateFrom і dateTo у формат LocalDate
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         LocalDate startDate = LocalDate.parse(dateFrom.trim(), formatter);
         LocalDate endDate = LocalDate.parse(dateTo.trim(), formatter);
