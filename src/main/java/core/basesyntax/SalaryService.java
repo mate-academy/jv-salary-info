@@ -1,7 +1,7 @@
+package core.basesyntax;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.Map;
 
 public class SalaryService {
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
@@ -10,10 +10,7 @@ public class SalaryService {
         LocalDate startDate = LocalDate.parse(dateFrom, DATE_FORMATTER);
         LocalDate endDate = LocalDate.parse(dateTo, DATE_FORMATTER);
 
-        Map<String, Integer> salaryMap = new HashMap<>();
-        for (String name : names) {
-            salaryMap.put(name, 0); // Inicjalizujemy zarobki na 0
-        }
+        int[] salaries = new int[names.length];
 
         for (String entry : data) {
             String[] parts = entry.split(" ");
@@ -22,20 +19,22 @@ public class SalaryService {
             int hoursWorked = Integer.parseInt(parts[2]);
             int hourlyRate = Integer.parseInt(parts[3]);
 
-            if (!salaryMap.containsKey(employeeName)) {
-                continue; // Pomijamy osoby spoza listy
-            }
-
             if (!workDate.isBefore(startDate) && !workDate.isAfter(endDate)) {
-                int salary = hoursWorked * hourlyRate;
-                salaryMap.put(employeeName, salaryMap.get(employeeName) + salary);
+                for (int i = 0; i < names.length; i++) {
+                    if (names[i].equals(employeeName)) {
+                        salaries[i] += hoursWorked * hourlyRate;
+                    }
+                }
             }
         }
 
         StringBuilder report = new StringBuilder();
-        report.append("Report for period ").append(dateFrom).append(" - ").append(dateTo).append("\n");
-        for (String name : names) {
-            report.append(name).append(" - ").append(salaryMap.get(name)).append("\n");
+        report.append("Report for period ").append(dateFrom).append(" - ").append(dateTo)
+                .append(System.lineSeparator());
+
+        for (int i = 0; i < names.length; i++) {
+            report.append(names[i]).append(" - ").append(salaries[i])
+                    .append(System.lineSeparator());
         }
 
         return report.toString();
