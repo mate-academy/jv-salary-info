@@ -6,7 +6,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SalaryInfo {
-    public static String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
+    public static String getSalaryInfo(String[] names, String[] data,
+                                       String dateFrom, String dateTo) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
         LocalDate fromDate = LocalDate.parse(dateFrom, formatter);
@@ -26,13 +27,17 @@ public class SalaryInfo {
 
             if (!currentDate.isBefore(fromDate) && !currentDate.isAfter(toDate)) {
                 if (salaryMap.containsKey(employeeName)) {
-                    salaryMap.put(employeeName, salaryMap.get(employeeName) + (hoursWorked * hourlyRate));
+                    salaryMap.put(employeeName, salaryMap.get(employeeName)
+                            + (hoursWorked * hourlyRate));
                 }
             }
         }
 
         StringBuilder result = new StringBuilder();
-        result.append("Report for period ").append(dateFrom).append(" - ").append(dateTo).append("\n");
+        result.append("Report for period ")
+                .append(dateFrom)
+                .append(" - ")
+                .append(dateTo).append("\n");
 
         for (int i = 0; i < names.length; i++) {
             String name = names[i];
