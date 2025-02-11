@@ -1,8 +1,8 @@
-package core.basesyntax; // To musi być na samej górze!
+package core.basesyntax;
 
 public class Main {
     public static void main(String[] args) {
-        SalaryService salaryService = new SalaryService(); // Teraz się znajdzie
+        SalaryService salaryService = new SalaryService();
 
         String[] names = {"John", "Andrew", "Kate"};
         String[] data = {
