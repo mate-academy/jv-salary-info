@@ -2,6 +2,7 @@ package core.basesyntax;
 
 public class Main {
     public static void main(String[] args) {
+
         SalaryService salaryService = new SalaryService();
 
         String[] names = {"John", "Andrew", "Kate"};
