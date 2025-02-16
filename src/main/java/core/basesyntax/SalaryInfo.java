@@ -5,7 +5,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class SalaryInfo {
-    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) throws ParseException {
+    public String getSalaryInfo(
+            String[] names,
+            String[] data,
+            String dateFrom,
+            String dateTo) throws ParseException {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
         Date startDate = dateFormat.parse(dateFrom.trim());
         Date endDate = dateFormat.parse(dateTo.trim());
@@ -30,7 +34,10 @@ public class SalaryInfo {
         }
 
         StringBuilder report = new StringBuilder();
-        report.append("Report for period ").append(dateFrom.trim()).append(" - ").append(dateTo.trim()).append("\n");
+        report.append("Report for period ")
+                .append(dateFrom.trim())
+                .append(" - ")
+                .append(dateTo.trim()).append("\n");
         for (int i = 0; i < names.length; i++) {
             report.append(names[i]).append(" - ").append(salaries[i]).append("\n");
         }
