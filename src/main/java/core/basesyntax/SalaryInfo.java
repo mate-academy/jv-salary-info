@@ -1,45 +1,43 @@
 package core.basesyntax;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     public String getSalaryInfo(
             String[] names,
             String[] data,
             String dateFrom,
-            String dateTo) throws ParseException {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-        Date startDate = dateFormat.parse(dateFrom.trim());
-        Date endDate = dateFormat.parse(dateTo.trim());
+            String dateTo) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        LocalDate startDate = LocalDate.parse(dateFrom, formatter);
+        LocalDate endDate = LocalDate.parse(dateTo, formatter);
 
         int[] salaries = new int[names.length];
 
-        for (String entry : data) {
-            String[] parts = entry.split(" ");
-            Date workDate = dateFormat.parse(parts[0]);
-            String employeeName = parts[1];
-            int hoursWorked = Integer.parseInt(parts[2]);
-            int incomePerHour = Integer.parseInt(parts[3]);
+        for (String record : data) {
+            String[] splitData = record.split(" ");
+            LocalDate workDate = LocalDate.parse(splitData[0], formatter);
+            String employeeName = splitData[1];
+            int hoursWorked = Integer.parseInt(splitData[2]);
+            int hourlyRate = Integer.parseInt(splitData[3]);
 
-            if (workDate.compareTo(startDate) >= 0 && workDate.compareTo(endDate) <= 0) {
+            if (!workDate.isBefore(startDate) && !workDate.isAfter(endDate)) {
                 for (int i = 0; i < names.length; i++) {
                     if (names[i].equals(employeeName)) {
-                        salaries[i] += hoursWorked * incomePerHour;
+                        salaries[i] += hoursWorked * hourlyRate;
                         break;
                     }
                 }
             }
         }
 
-        StringBuilder report = new StringBuilder();
-        report.append("Report for period ")
-                .append(dateFrom.trim())
-                .append(" - ")
-                .append(dateTo.trim()).append("\n");
+        StringBuilder report = new StringBuilder("Report for period " + dateFrom + " - " + dateTo);
         for (int i = 0; i < names.length; i++) {
-            report.append(names[i]).append(" - ").append(salaries[i]).append("\n");
+            report.append(System.lineSeparator())
+                    .append(names[i])
+                    .append(" - ")
+                    .append(salaries[i]);
         }
 
         return report.toString();
