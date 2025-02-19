@@ -27,12 +27,14 @@ public class SalaryInfo {
 
     }
 
-    public Boolean isDateIncluded(String dateFrom, String dateTo, String seachDate) {
+    public Boolean isDateIncluded(String dateFrom, String dateTo, String searchDate) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         LocalDate beginDate = LocalDate.parse(dateFrom, formatter);
         LocalDate endDate = LocalDate.parse(dateTo, formatter);
-        LocalDate targetDate = LocalDate.parse(seachDate, formatter);
+        LocalDate targetDate = LocalDate.parse(searchDate, formatter);
         return targetDate.isEqual(beginDate) || targetDate.isEqual(endDate) || targetDate.isAfter(beginDate) && targetDate.isBefore(endDate);
+
     }
+
 }
 
