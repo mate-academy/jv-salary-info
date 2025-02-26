@@ -26,7 +26,7 @@ public class SalaryInfo {
             int hourlyRate = Integer.parseInt(details[INCOME_PER_HOURS_INDEX]);
 
             if (!workDate.isBefore(start) && !workDate.isAfter(end)) {
-                for (int i = 0; i < data.length; i++) {
+                for (int i = 0; i < names.length; i++) {
                     if (names[i].equals(employee)) {
                         salaries[i] += hoursWorked * hourlyRate;
                         break;
