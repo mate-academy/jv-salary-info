@@ -25,13 +25,23 @@ public class SalaryInfo {
             int rate = Integer.parseInt(parts[3]);
 
             if (!date.isBefore(from) && !date.isAfter(to) && salaries.containsKey(employee)) {
-                salaries.put(employee, salaries.get(employee) + hours * rate);
+                int newSalary = salaries.get(employee) + hours * rate;
+                salaries.put(employee, newSalary);
             }
         }
 
-        StringBuilder report = new StringBuilder("Report for period " + dateFrom + " - " + dateTo + System.lineSeparator());
+        StringBuilder report = new StringBuilder();
+        report.append("Report for period ")
+                .append(dateFrom)
+                .append(" - ")
+                .append(dateTo)
+                .append(System.lineSeparator());
+
         for (String name : names) {
-            report.append(name).append(" - ").append(salaries.get(name)).append(System.lineSeparator());
+            report.append(name)
+                    .append(" - ")
+                    .append(salaries.get(name))
+                    .append(System.lineSeparator());
         }
 
         return report.toString().trim();
