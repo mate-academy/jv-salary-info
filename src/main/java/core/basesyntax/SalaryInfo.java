@@ -16,18 +16,24 @@ public class SalaryInfo {
         try {
             dateBegin = LocalDate.parse(dateFrom, FORMATTER);
         } catch (DateTimeParseException e) {
-            System.out.println(dateFrom + " date is incorrect!");
+            throw new DateTimeParseException("Date is incorrect", dateFrom, e.getErrorIndex());
         }
         LocalDate dateEnd = null;
         try {
             dateEnd = LocalDate.parse(dateTo, FORMATTER);
         } catch (DateTimeParseException e) {
-            System.out.println(dateTo + " date is incorrect!");
+            throw new DateTimeParseException("Date is incorrect", dateTo, e.getErrorIndex());
         }
         int[] salaries = new int[names.length];
         for (String record : data) {
             String[] employeeInfo = record.split(" ");
-            LocalDate currentDate = LocalDate.parse(employeeInfo[DATE_POSITION], FORMATTER);
+            LocalDate currentDate = null;
+            try {
+                currentDate = LocalDate.parse(employeeInfo[DATE_POSITION], FORMATTER);
+            } catch (DateTimeParseException e) {
+                throw new DateTimeParseException("Current date is incorrect",
+                        employeeInfo[DATE_POSITION], e.getErrorIndex());
+            }
             String name = employeeInfo[NAME_POSITION];
             int workHours = Integer.parseInt(employeeInfo[HOURS_POSITION]);
             int rate = Integer.parseInt(employeeInfo[RATE_POSITION]);
