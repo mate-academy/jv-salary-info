@@ -35,8 +35,18 @@ public class SalaryInfo {
                         employeeInfo[DATE_POSITION], e.getErrorIndex());
             }
             String name = employeeInfo[NAME_POSITION];
-            int workHours = Integer.parseInt(employeeInfo[HOURS_POSITION]);
-            int rate = Integer.parseInt(employeeInfo[RATE_POSITION]);
+            int workHours = 0;
+            try {
+                workHours = Integer.parseInt(employeeInfo[HOURS_POSITION]);
+            } catch (NumberFormatException e) {
+                throw new NumberFormatException("Hours is wrong");
+            }
+            int rate = 0;
+            try {
+                rate = Integer.parseInt(employeeInfo[RATE_POSITION]);
+            } catch (NumberFormatException e) {
+                throw new NumberFormatException("Rate is wrong");
+            }
             int salary = workHours * rate;
             for (int i = 0; i < names.length; i++) {
                 if (!currentDate.isBefore(dateBegin) && !currentDate.isAfter(dateEnd)
