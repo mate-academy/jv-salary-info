@@ -11,44 +11,19 @@ public class SalaryInfo {
     private static final int HOURS_POSITION = 2;
     private static final int RATE_POSITION = 3;
     private static final String DELIMITER = " - ";
+    private static final String SPACE = " ";
+    private static final String REPORT_HEADER = "Report for period ";
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        LocalDate dateStart = null;
-        try {
-            dateStart = LocalDate.parse(dateFrom, FORMATTER);
-        } catch (DateTimeParseException e) {
-            throw new RuntimeException("Start date is incorrect: " + dateFrom);
-        }
-        LocalDate dateEnd = null;
-        try {
-            dateEnd = LocalDate.parse(dateTo, FORMATTER);
-        } catch (DateTimeParseException e) {
-            throw new RuntimeException("End date is incorrect: " + dateTo);
-        }
+        LocalDate dateStart = parseLocalDate(dateFrom);
+        LocalDate dateEnd = parseLocalDate(dateTo);
         int[] salaries = new int[names.length];
         for (String record : data) {
-            String[] employeeInfo = record.split(" ");
-            LocalDate currentDate = null;
-            try {
-                currentDate = LocalDate.parse(employeeInfo[DATE_POSITION], FORMATTER);
-            } catch (DateTimeParseException e) {
-                throw new RuntimeException("Current date is incorrect: "
-                        + employeeInfo[DATE_POSITION]);
-            }
+            String[] employeeInfo = record.split(SPACE);
+            LocalDate currentDate = parseLocalDate(employeeInfo[DATE_POSITION]);
             String name = employeeInfo[NAME_POSITION];
-            int workHours = 0;
-            try {
-                workHours = Integer.parseInt(employeeInfo[HOURS_POSITION]);
-            } catch (NumberFormatException e) {
-                throw new RuntimeException("Hours value is wrong: "
-                        + employeeInfo[HOURS_POSITION]);
-            }
-            int rate = 0;
-            try {
-                rate = Integer.parseInt(employeeInfo[RATE_POSITION]);
-            } catch (NumberFormatException e) {
-                throw new RuntimeException("Rate is wrong: " + employeeInfo[RATE_POSITION]);
-            }
+            int workHours = parseInteger(employeeInfo[HOURS_POSITION]);
+            int rate = parseInteger(employeeInfo[RATE_POSITION]);
             int salary = workHours * rate;
             for (int i = 0; i < names.length; i++) {
                 if (!currentDate.isBefore(dateStart) && !currentDate.isAfter(dateEnd)
@@ -58,12 +33,28 @@ public class SalaryInfo {
                 }
             }
         }
-        StringBuilder builder = new StringBuilder("Report for period ");
+        StringBuilder builder = new StringBuilder(REPORT_HEADER);
         builder.append(dateFrom).append(DELIMITER).append(dateTo);
         for (int i = 0; i < names.length; i++) {
             builder.append(System.lineSeparator()).append(names[i]).append(DELIMITER)
                     .append(salaries[i]);
         }
         return builder.toString();
+    }
+
+    private LocalDate parseLocalDate(String date) {
+        try {
+            return LocalDate.parse(date, FORMATTER);
+        } catch (DateTimeParseException e) {
+            throw new RuntimeException("Can't parse date: " + date);
+        }
+    }
+
+    private int parseInteger(String workInfo) {
+        try {
+            return Integer.parseInt(workInfo);
+        } catch (NumberFormatException e) {
+            throw new RuntimeException("Can't parse work info: " + workInfo);
+        }
     }
 }
