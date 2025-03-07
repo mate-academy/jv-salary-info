@@ -10,19 +10,20 @@ public class SalaryInfo {
     private static final int NAME_POSITION = 1;
     private static final int HOURS_POSITION = 2;
     private static final int RATE_POSITION = 3;
+    private static final String DELIMITER = " - ";
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        LocalDate dateBegin = null;
+        LocalDate dateStart = null;
         try {
-            dateBegin = LocalDate.parse(dateFrom, FORMATTER);
+            dateStart = LocalDate.parse(dateFrom, FORMATTER);
         } catch (DateTimeParseException e) {
-            throw new DateTimeParseException("Date is incorrect", dateFrom, e.getErrorIndex());
+            throw new RuntimeException("Start date is incorrect: " + dateFrom);
         }
         LocalDate dateEnd = null;
         try {
             dateEnd = LocalDate.parse(dateTo, FORMATTER);
         } catch (DateTimeParseException e) {
-            throw new DateTimeParseException("Date is incorrect", dateTo, e.getErrorIndex());
+            throw new RuntimeException("End date is incorrect: " + dateTo);
         }
         int[] salaries = new int[names.length];
         for (String record : data) {
@@ -31,25 +32,26 @@ public class SalaryInfo {
             try {
                 currentDate = LocalDate.parse(employeeInfo[DATE_POSITION], FORMATTER);
             } catch (DateTimeParseException e) {
-                throw new DateTimeParseException("Current date is incorrect",
-                        employeeInfo[DATE_POSITION], e.getErrorIndex());
+                throw new RuntimeException("Current date is incorrect: "
+                        + employeeInfo[DATE_POSITION]);
             }
             String name = employeeInfo[NAME_POSITION];
             int workHours = 0;
             try {
                 workHours = Integer.parseInt(employeeInfo[HOURS_POSITION]);
             } catch (NumberFormatException e) {
-                throw new NumberFormatException("Hours is wrong");
+                throw new RuntimeException("Hours value is wrong: "
+                        + employeeInfo[HOURS_POSITION]);
             }
             int rate = 0;
             try {
                 rate = Integer.parseInt(employeeInfo[RATE_POSITION]);
             } catch (NumberFormatException e) {
-                throw new NumberFormatException("Rate is wrong");
+                throw new RuntimeException("Rate is wrong: " + employeeInfo[RATE_POSITION]);
             }
             int salary = workHours * rate;
             for (int i = 0; i < names.length; i++) {
-                if (!currentDate.isBefore(dateBegin) && !currentDate.isAfter(dateEnd)
+                if (!currentDate.isBefore(dateStart) && !currentDate.isAfter(dateEnd)
                         && names[i].equals(name)) {
                     salaries[i] += salary;
                     break;
@@ -57,27 +59,11 @@ public class SalaryInfo {
             }
         }
         StringBuilder builder = new StringBuilder("Report for period ");
-        builder.append(dateFrom).append(" - ").append(dateTo);
+        builder.append(dateFrom).append(DELIMITER).append(dateTo);
         for (int i = 0; i < names.length; i++) {
-            builder.append(System.lineSeparator()).append(names[i]).append(" - ")
+            builder.append(System.lineSeparator()).append(names[i]).append(DELIMITER)
                     .append(salaries[i]);
         }
         return builder.toString();
-    }
-
-    public static void main(String[] args) {
-        SalaryInfo info = new SalaryInfo();
-        String[] names = {"John", "Andrew", "Kate"};
-        String[] data = {
-                "26.04.2019 John 4 50",
-                "05.04.2019 Andrew 3 200",
-                "10.04.2019 John 7 100",
-                "22.04.2019 Kate 9 100",
-                "26.04.2019 Andrew 3 150",
-                "26.04.2019 Kate 9 100"
-        };
-        String dateFrom = "01.04.2019";
-        String dateTo = "30.04.2019";
-        System.out.println(info.getSalaryInfo(names, data, dateFrom, dateTo));
     }
 }
