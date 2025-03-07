@@ -15,27 +15,24 @@ public class SalaryInfo {
     private static final String REPORT_HEADER = "Report for period ";
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
+        StringBuilder builder = new StringBuilder(REPORT_HEADER)
+                .append(dateFrom).append(DELIMITER).append(dateTo);
         LocalDate dateStart = parseLocalDate(dateFrom);
         LocalDate dateEnd = parseLocalDate(dateTo);
         int[] salaries = new int[names.length];
-        for (String record : data) {
-            String[] employeeInfo = record.split(SPACE);
-            LocalDate currentDate = parseLocalDate(employeeInfo[DATE_POSITION]);
-            String name = employeeInfo[NAME_POSITION];
-            int workHours = parseInteger(employeeInfo[HOURS_POSITION]);
-            int rate = parseInteger(employeeInfo[RATE_POSITION]);
-            int salary = workHours * rate;
-            for (int i = 0; i < names.length; i++) {
+        for (int i = 0; i < names.length; i++) {
+            for (String record : data) {
+                String[] employeeInfo = record.split(SPACE);
+                LocalDate currentDate = parseLocalDate(employeeInfo[DATE_POSITION]);
+                String name = employeeInfo[NAME_POSITION];
+                int workHours = parseInteger(employeeInfo[HOURS_POSITION]);
+                int rate = parseInteger(employeeInfo[RATE_POSITION]);
+                int salary = workHours * rate;
                 if (!currentDate.isBefore(dateStart) && !currentDate.isAfter(dateEnd)
                         && names[i].equals(name)) {
                     salaries[i] += salary;
-                    break;
                 }
             }
-        }
-        StringBuilder builder = new StringBuilder(REPORT_HEADER);
-        builder.append(dateFrom).append(DELIMITER).append(dateTo);
-        for (int i = 0; i < names.length; i++) {
             builder.append(System.lineSeparator()).append(names[i]).append(DELIMITER)
                     .append(salaries[i]);
         }
