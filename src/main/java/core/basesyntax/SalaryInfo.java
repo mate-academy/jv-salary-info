@@ -1,33 +1,36 @@
 package core.basesyntax;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-
-        int[] salaries = new int[names.length];
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
         try {
-            long fromDate = dateFormat.parse(dateFrom).getTime();
-            long toDate = dateFormat.parse(dateTo).getTime();
+            LocalDate fromDate = LocalDate.parse(dateFrom, formatter);
+            LocalDate toDate = LocalDate.parse(dateTo, formatter);
+
+            if (fromDate.isAfter(toDate)) {
+                return "Error: fromDate cannot be after toDate.";
+            }
+
+            int[] salaries = new int[names.length];
 
             for (String entry : data) {
                 try {
                     String[] parts = entry.split(" ");
                     if (parts.length != 4) {
-                        throw new IllegalArgumentException("Invalid data format: " + entry);
+                        return "Error: Invalid data format in entry - " + entry;
                     }
 
-                    String workDateStr = parts[0];
+                    LocalDate workDate = LocalDate.parse(parts[0], formatter);
                     String workerName = parts[1];
                     int hoursWorked = Integer.parseInt(parts[2]);
                     int hourlyRate = Integer.parseInt(parts[3]);
 
-                    long workDate = dateFormat.parse(workDateStr).getTime();
-
-                    if (workDate >= fromDate && workDate <= toDate) {
+                    if (!workDate.isBefore(fromDate) && !workDate.isAfter(toDate)) {
                         for (int i = 0; i < names.length; i++) {
                             if (names[i].equals(workerName)) {
                                 salaries[i] += hoursWorked * hourlyRate;
@@ -35,24 +38,26 @@ public class SalaryInfo {
                             }
                         }
                     }
-                } catch (ParseException e) {
-                    System.err.println("Skipping invalid date format: " + entry);
+                } catch (DateTimeParseException e) {
+                    return "Error parsing date in entry - " + entry;
                 } catch (NumberFormatException e) {
-                    System.err.println("Skipping invalid number format: " + entry);
+                    return "Error parsing numbers in entry - " + entry;
                 }
             }
-        } catch (ParseException e) {
+
+            StringBuilder report = new StringBuilder();
+            report.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
+            for (int i = 0; i < names.length; i++) {
+                report.append(System.lineSeparator())
+                        .append(names[i])
+                        .append(" - ")
+                        .append(salaries[i]);
+            }
+
+            return report.toString();
+
+        } catch (DateTimeParseException e) {
             return "Error parsing dates.";
         }
-
-        StringBuilder report = new StringBuilder();
-        report.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
-        for (int i = 0; i < names.length; i++) {
-            report.append(System.lineSeparator())
-                    .append(names[i])
-                    .append(" - ")
-                    .append(salaries[i]);
-        }
-        return report.toString();
     }
 }
