@@ -25,7 +25,7 @@ public class SalaryInfo {
             System.out.println(dateTo + " date is incorrect!");
         }
         int[] salaries = new int[names.length];
-        for (String record : data) {
+        for (String record: data) {
             String[] employeeInfo = record.split(" ");
             LocalDate currentDate = LocalDate.parse(employeeInfo[DATE_POSITION], FORMATTER);
             String name = employeeInfo[NAME_POSITION];
