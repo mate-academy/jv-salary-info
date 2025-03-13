@@ -14,9 +14,9 @@ public class SalaryInfo {
         LocalDate from = LocalDate.parse(dateFrom, Date);
         LocalDate to = LocalDate.parse(dateTo, Date);
         StringBuilder builder = new StringBuilder("Report for period " + dateFrom + " - " + dateTo);
-        for (String name : names) {
+        for (String name: names) {
             int salary = 0;
-            for (String dataInfo : data) {
+            for (String dataInfo: data) {
                 String[] info = dataInfo.split(" ");
                 if (name.equals(info[NAME_POSITION])) {
                     LocalDate recordDate = LocalDate.parse(info[DATE_POSITION], Date);
