@@ -25,9 +25,11 @@ public class SalaryInfo {
                             sumOfSalary[i] += workHours * income;
                         }
                     }
-            builder.append(System.lineSeparator()).append(names[i]).append(" - ").append(sumOfSalary[i]);
                 }
 
+        for (int i = 0; i <names.length ; i++) {
+            builder.append(System.lineSeparator()).append(names[i]).append(" - ").append(sumOfSalary[i]);
+        }
         return builder.toString();
     }
 }
