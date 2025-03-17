@@ -43,11 +43,20 @@ public class SalaryInfo {
     }
 
     private String reportGenerator(String dateFrom, String dateTo) {
-        return "Report for period " + dateFrom + " - " + dateTo;
+        StringBuilder reportBuilder = new StringBuilder();
+        reportBuilder.append("Report for period ")
+                .append(dateFrom)
+                .append(" - ")
+                .append(dateTo);
+        return reportBuilder.toString();
     }
 
     private String salaryLineGenerator(String name, int totalIncome) {
-        return name + " - " + totalIncome;
+        StringBuilder lineBuilder = new StringBuilder();
+        lineBuilder.append(name)
+                .append(" - ")
+                .append(totalIncome);
+        return lineBuilder.toString();
     }
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
