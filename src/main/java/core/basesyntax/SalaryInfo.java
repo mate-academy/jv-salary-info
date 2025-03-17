@@ -23,7 +23,7 @@ public class SalaryInfo {
                 int income = Integer.parseInt(splitData[3]);
                 if (employeeName.equals(names[i]) && !workDate.isBefore(startDate)
                         && !workDate.isAfter(finishDate)) {
-                            sumOfSalary[i] += workHours * income;
+                    sumOfSalary[i] += workHours * income;
                 }
             }
         }
