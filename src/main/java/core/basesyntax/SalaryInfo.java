@@ -14,21 +14,23 @@ public class SalaryInfo {
         builder.append(dateFrom).append(" - ").append(dateTo);
         int [] sumOfSalary = new int [names.length];
 
-        for (int i = 0; i < names.length ; i++) {
+        for (int i = 0; i < names.length; i++) {
             for (String record : data) {
                 String [] splitData = record.split(" ");
                 LocalDate workDate = LocalDate.parse(splitData[0], FORMATTER);
                 String employeeName = splitData[1];
                 int workHours = Integer.parseInt(splitData[2]);
                 int income = Integer.parseInt(splitData[3]);
-                if (employeeName.equals(names[i]) && !workDate.isBefore(startDate) && !workDate.isAfter(finishDate)) {
+                if (employeeName.equals(names[i]) && !workDate.isBefore(startDate)
+                        && !workDate.isAfter(finishDate)) {
                             sumOfSalary[i] += workHours * income;
-                        }
-                    }
                 }
+            }
+        }
 
-        for (int i = 0; i <names.length ; i++) {
-            builder.append(System.lineSeparator()).append(names[i]).append(" - ").append(sumOfSalary[i]);
+        for (int i = 0; i < names.length; i++) {
+            builder.append(System.lineSeparator()).append(names[i])
+                    .append(" - ").append(sumOfSalary[i]);
         }
         return builder.toString();
     }
