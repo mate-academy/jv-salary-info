@@ -22,7 +22,7 @@ public class UserInfo {
             if (i == names.length - 1) {
                 sb.append(name).append(" - ").append(salary);
             } else {
-                sb.append(name).append(" - ").append(salary).append("\r\n");
+                sb.append(name).append(" - ").append(salary).append(System.lineSeparator());
             }
         }
         return sb.toString();

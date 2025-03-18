@@ -42,6 +42,6 @@ public class DataHandler {
         DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         return "Report for period " + dateParser.getFromDate().format(outputFormatter)
                 + " - " + dateParser.getToDate().format(outputFormatter)
-                + "\r\n" + userInfo.getAllUsers(names);
+                + System.lineSeparator() + userInfo.getAllUsers(names);
     }
 }
