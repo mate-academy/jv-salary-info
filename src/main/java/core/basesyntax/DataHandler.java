@@ -8,8 +8,6 @@ import java.util.List;
 
 public class DataHandler {
     private DateParser dateParser;
-    private ArrayList<Integer> salaryArray = new ArrayList<>();
-    private ArrayList<String> nameArray = new ArrayList<>();
     private UserInfo userInfo;
     private String[] names;
 
