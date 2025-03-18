@@ -49,7 +49,7 @@ public class SalaryInfo {
     private int parseInteger(String stringToParse) {
         try {
             return Integer.parseInt(stringToParse);
-        } catch (DateTimeParseException e) {
+        } catch (NumberFormatException e) {
             throw new RuntimeException("Can't parse String: " + stringToParse);
         }
     }
