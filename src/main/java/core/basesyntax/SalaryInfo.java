@@ -17,11 +17,11 @@ public class SalaryInfo {
         Map<String, Integer> salaries = new HashMap<>();
 
         for (String entry : data) {
-            String[] parts = entry.split(" "); // Розділяємо рядок на частини
-            LocalDate date = LocalDate.parse(parts[0], formatter); // Перетворюємо дату
-            String name = parts[1]; // Ім'я працівника
-            int hoursWorked = Integer.parseInt(parts[2]); // Кількість відпрацьованих годин
-            int hourlyRate = Integer.parseInt(parts[3]); // Вартість години
+            String[] parts = entry.split(" ");
+            LocalDate date = LocalDate.parse(parts[0], formatter);
+            String name = parts[1];
+            int hoursWorked = Integer.parseInt(parts[2]);
+            int hourlyRate = Integer.parseInt(parts[3]);
 
             if ((date.isEqual(from) || date.isAfter(from)) && (date.isEqual(to)
                     || date.isBefore(to))) {
@@ -29,7 +29,6 @@ public class SalaryInfo {
             }
         }
 
-        // Формуємо результат
         StringBuilder result = new StringBuilder();
         result.append("Report for period ").append(dateFrom).append(" - ")
                 .append(dateTo).append(System.lineSeparator());
