@@ -19,10 +19,9 @@ public class SalaryInfo {
             resultInfo.append("Report for period ");
             resultInfo.append(dateFrom).append(" - ").append(dateTo)
                     .append(System.lineSeparator());
-        } catch (NullPointerException e) {
-            throw new NullPointerException("Date should be not NULL!");
-        } catch (DateTimeException e) {
-            throw new DateTimeException("Date should be in \"dd.MM.yyyy\" format");
+        } catch (NullPointerException | DateTimeException e) {
+            System.out.println("Date should be not NULL! and be in \"dd.MM.yyyy\" format");
+            System.out.println(e.getMessage());
         }
 
         // data and names not Null
@@ -30,20 +29,10 @@ public class SalaryInfo {
             throw new NullPointerException("Names and data arrays on input must be not null!");
         }
 
-        // creating array of String[] for our input data
-        String [] employeeData;
-
-        int i = 0;
-        employeeData = new String[data.length];
-        for (String dataRecord : data) {
-            employeeData[i] = dataRecord;
-            i++;
-        }
-
         // look for each name in names
         for (String name : names) {
             int salary = 0;
-            for (String employee : employeeData) {
+            for (String employee : data) {
                 // creating array of Strings by each record
                 String [] employeeInfo = employee.split(" ");
                 if (employeeInfo.length != 4) {
@@ -62,10 +51,9 @@ public class SalaryInfo {
                                     * Integer.parseInt(employeeInfo[3]);
                         }
                     }
-                } catch (NullPointerException e) {
-                    throw new NullPointerException("Date should be not NULL!");
-                } catch (DateTimeException e) {
-                    throw new DateTimeException("Date should be in \"dd.MM.yyyy\" format");
+                } catch (NullPointerException | DateTimeException e) {
+                    System.out.println("Date should be not NULL! and be in \"dd.MM.yyyy\" format");
+                    System.out.println(e.getMessage());
                 }
 
             }
@@ -73,20 +61,5 @@ public class SalaryInfo {
         }
         return resultInfo.toString().trim();
     }
-
-    public LocalDate getParsedDateTo() {
-        return parsedDateTo;
-    }
-
-    public void setParsedDateTo(LocalDate parsedDateTo) {
-        this.parsedDateTo = parsedDateTo;
-    }
-
-    public LocalDate getParsedDateFrom() {
-        return parsedDateFrom;
-    }
-
-    public void setParsedDateFrom(LocalDate parsedDateTo) {
-        this.parsedDateFrom = parsedDateTo;
-    }
 }
+
