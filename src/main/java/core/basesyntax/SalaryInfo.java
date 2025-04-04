@@ -7,7 +7,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SalaryInfo {
-    public static String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) throws ParseException {
+    public static String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
+            throws ParseException {
         // Date format used in the input
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
 
@@ -28,7 +29,8 @@ public class SalaryInfo {
             double incomePerHour = Double.parseDouble(parts[3]);
 
             // Check if the date is within the specified range
-            if ((entryDate.equals(from) || entryDate.after(from)) && (entryDate.equals(to) || entryDate.before(to))) {
+            if ((entryDate.equals(from) || entryDate.after(from)) && (entryDate.equals(to)
+                    || entryDate.before(to))) {
                 // Calculate the salary for this entry
                 double earnings = hoursWorked * incomePerHour;
                 // Add the earnings to the employee's total salary
@@ -38,7 +40,9 @@ public class SalaryInfo {
 
         // Build the result string
         StringBuilder result = new StringBuilder();
-        result.append("Report for period ").append(dateFrom).append(" - ").append(dateTo).append("\n");
+        result.append("Report for period ")
+                .append(dateFrom).append(" - ")
+                .append(dateTo).append("\n");
 
         // Add each employee's salary to the result
         for (String name : names) {
