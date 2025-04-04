@@ -7,8 +7,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SalaryInfo {
-    public static String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo)
-            throws ParseException {
+    public static String getSalaryInfo(String[] names, String[] data, String dateFrom,
+                                       String dateTo) throws ParseException {
         // Date format used in the input
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
 
