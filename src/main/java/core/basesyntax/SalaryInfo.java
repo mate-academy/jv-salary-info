@@ -2,7 +2,9 @@ package core.basesyntax;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class SalaryInfo {
     public static String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) throws ParseException {
