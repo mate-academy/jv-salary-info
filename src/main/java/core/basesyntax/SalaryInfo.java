@@ -2,20 +2,17 @@ package core.basesyntax;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.Map;
 
 public class SalaryInfo {
+
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        LocalDate dateFromParsed = LocalDate.parse(dateFrom, DATE_TIME_FORMATTER);
+        LocalDate dateToParsed = LocalDate.parse(dateTo, DATE_TIME_FORMATTER);
 
-        LocalDate dateFromParsed = LocalDate.parse(dateFrom, dateTimeFormatter);
-        LocalDate dateToParsed = LocalDate.parse(dateTo, dateTimeFormatter);
 
-        Map<String, Integer> salaryMap = new HashMap<>();
-        for (String name : names) {
-            salaryMap.put(name, 0);
-        }
+        int[] salaries = new int[names.length];
 
 
         for (String record : data) {
@@ -25,13 +22,17 @@ public class SalaryInfo {
             int hours = Integer.parseInt(parts[2]);
             int rate = Integer.parseInt(parts[3]);
 
-            LocalDate workDate = LocalDate.parse(dateStr, dateTimeFormatter);
+            LocalDate workDate = LocalDate.parse(dateStr, DATE_TIME_FORMATTER);
 
-
+            // Check if the work date is within the specified range
             if (!workDate.isBefore(dateFromParsed) && !workDate.isAfter(dateToParsed)) {
-                if (salaryMap.containsKey(employeeName)) {
-                    int earned = hours * rate;
-                    salaryMap.put(employeeName, salaryMap.get(employeeName) + earned);
+                // Find the index of the employee name in the names array
+                for (int i = 0; i < names.length; i++) {
+                    if (names[i].equals(employeeName)) {
+                        int earned = hours * rate;
+                        salaries[i] += earned;
+                        break;
+                    }
                 }
             }
         }
@@ -44,16 +45,17 @@ public class SalaryInfo {
                 .append(dateTo)
                 .append(System.lineSeparator());
 
-        for (String name : names) {
-            int salary = salaryMap.get(name);
-            report.append(name)
+
+        for (int i = 0; i < names.length; i++) {
+            report.append(names[i])
                     .append(" - ")
-                    .append(salary)
+                    .append(salaries[i])
                     .append(System.lineSeparator());
         }
 
         return report.toString().trim();
     }
 }
+
 
 
