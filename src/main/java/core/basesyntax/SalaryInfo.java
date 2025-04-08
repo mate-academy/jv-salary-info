@@ -1,4 +1,5 @@
 package core.basesyntax;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -16,9 +17,9 @@ public class SalaryInfo {
                 String[] parts = line.trim().split("\\s+"); // podziel po białych znakach
                 String date = parts[0];
                 LocalDate preciseDate = LocalDate.parse(date, formatter);// data: "26.04.2019"
-                String name = parts[1];           // imię: "John"
-                int days = Integer.parseInt(parts[2]); // liczba dni: 4
-                int rate = Integer.parseInt(parts[3]); // stawka: 50
+                String name = parts[1];
+                int days = Integer.parseInt(parts[2]);
+                int rate = Integer.parseInt(parts[3]);
 
                 if (!preciseDate.isBefore(dateFromCheck) && !preciseDate.isAfter(dateToCheck)) {
                     if (names[i].equals(name)) {
