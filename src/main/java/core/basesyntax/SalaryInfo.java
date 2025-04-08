@@ -28,12 +28,13 @@ public class SalaryInfo {
             }
         }
         StringBuilder sb = new StringBuilder();
-        sb.append("Report for period ").append(dateFrom).append(" - ").append(dateTo).append("\n");
+        sb.append("Report for period ").append(dateFrom).append(" - ")
+                .append(dateTo).append(System.lineSeparator());
 
         for (int j = 0; j < names.length; j++) {
             sb.append(names[j]).append(" - ").append(salary[j]);
             if (j < names.length - 1) {
-                sb.append("\n");
+                sb.append(System.lineSeparator());
             }
         }
         return sb.toString();
