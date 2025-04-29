@@ -9,6 +9,7 @@ public class SalaryInfo {
         SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
+
         int salary;
         Date dateFromD;
         Date dateToD;
@@ -20,6 +21,7 @@ public class SalaryInfo {
             throw new RuntimeException(e);
         }
         for (String name : names) {
+            stringBuilder.append(System.lineSeparator());
             salary = 0;
             for (String dateStr : data) {
                 String[] dateArr = dateStr.split(" ");
@@ -33,7 +35,7 @@ public class SalaryInfo {
                     salary += Integer.parseInt(dateArr[2]) * Integer.parseInt(dateArr[3]);
                 }
             }
-            stringBuilder.append(System.lineSeparator()).append(name).append(" - ").append(salary);
+            stringBuilder.append(name).append(" - ").append(salary);
         }
         return stringBuilder.toString();
     }
