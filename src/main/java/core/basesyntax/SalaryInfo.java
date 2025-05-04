@@ -23,8 +23,7 @@ public class SalaryInfo {
             int salaryPerHours = Integer.parseInt(parts[3]);
 
             LocalDate currentDate = LocalDate.parse(date, formatter);
-            if ((currentDate.isEqual(dateFromData) || currentDate.isAfter(dateFromData))
-                    && (currentDate.isEqual(dateToData) || currentDate.isBefore(dateToData))) {
+            if (!currentDate.isBefore(dateFromData) && !currentDate.isAfter(dateToData)) {
                 for (int i = 0; i < names.length; i++) {
                     if (names[i].equals(name)) {
                         salaries[i] += hours * salaryPerHours;
