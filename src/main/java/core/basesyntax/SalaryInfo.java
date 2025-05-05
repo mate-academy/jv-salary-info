@@ -23,10 +23,9 @@ public class SalaryInfo {
             String rawDate = splitDataRow[DATE_INDEX];
             LocalDate date = LocalDate.parse(rawDate, formatter);
 
-            boolean isIncludesInPeriod = (date.isEqual(fromDate)
-                    || date.isAfter(fromDate))
-                    && (date.isEqual(toDate)
-                    || date.isBefore(toDate));
+            boolean isIncludesInPeriod = (
+                    date.isEqual(fromDate) || date.isAfter(fromDate))
+                    && (date.isEqual(toDate) || date.isBefore(toDate));
 
             if (isIncludesInPeriod) {
                 for (int j = 0; j < names.length; j++) {
