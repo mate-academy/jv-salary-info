@@ -3,6 +3,8 @@ package core.basesyntax;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.text.ParseException;
+
 public class SalaryInfoTest {
     private static final String[] sampleNames = {"John", "Andrew", "Kate"};
     private static final String[] scriptArray = {
