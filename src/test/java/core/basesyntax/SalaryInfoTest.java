@@ -109,4 +109,8 @@ public class SalaryInfoTest {
                 expectedResult,
                 actualResult);
     }
+
+    @Test
+    public void getSalaryInfo() {
+    }
 }
