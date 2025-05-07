@@ -38,7 +38,7 @@ data:
 
 Method execution result:
 ```
-   Report for period 01.04.2019  - 30.04.2019  
+   Report for period 01.04.2019 - 30.04.2019  
    John - 900
    Andrew - 1050
    Kate - 1800
