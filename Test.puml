@@ -1,0 +1,13 @@
+@startuml
+class core.basesyntax.SalaryInfoTest {
+- {static} String[] sampleNames
+- {static} String[] scriptArray
+- {static} String[] dates
+- {static} String[] exceptedReports
+- {static} String[] secondScriptArray
+- {static} String[] secondDates
+- {static} String secondExceptedReports
++ void getSalaryInfoByMonth()
++ void getSalaryInfoByTwoMonths()
+}
+@enduml
