@@ -9,7 +9,12 @@ public class SalaryInfo {
             result.append(System.lineSeparator()).append(names[j]);
             int allSalary = 0;
             for (int i = 0; i < data.length; i++) {
-                String[] arrayWithDate = data[i].split(" ");
+                String[] arrayWithDate = new String[4];
+                try {
+                    arrayWithDate = data[i].split(" ");
+                } catch (ArrayIndexOutOfBoundsException e) {
+                    continue;
+                }
                 if (arrayWithDate[1].equals(names[j])) {
                     if (validDate.checkValidDate(arrayWithDate[0], dateFrom, dateTo)) {
                         allSalary += Integer.parseInt(arrayWithDate[2])
