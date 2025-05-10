@@ -9,9 +9,12 @@ public class SalaryInfo {
             result.append(System.lineSeparator()).append(names[j]);
             int allSalary = 0;
             for (int i = 0; i < data.length; i++) {
-                String[] arrayWithDate = new String[4];
+                String[] arrayWithDate;
                 try {
                     arrayWithDate = data[i].split(" ");
+                    if (arrayWithDate.length != 4) {
+                        continue;
+                    }
                 } catch (ArrayIndexOutOfBoundsException e) {
                     continue;
                 }
