@@ -37,7 +37,7 @@ public class SalaryInfo {
                     }
                 }
             } catch (ParseException | NumberFormatException e) {
-                System.out.println("Line skipped due to error: " + entry);
+                System.err.println("Line skipped due to error: " + entry);
             }
         }
 
