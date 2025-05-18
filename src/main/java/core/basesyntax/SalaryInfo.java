@@ -23,11 +23,11 @@ public class SalaryInfo {
             String name = parts[1];
             int hours = Integer.parseInt(parts[2]);
             int salaryPerHour = Integer.parseInt(parts[3]);
-            if((workDate.isEqual(startDate) || workDate.isAfter(startDate))
+            if ((workDate.isEqual(startDate) || workDate.isAfter(startDate))
                     && (workDate.isEqual(endDate) || workDate.isBefore(endDate))) {
-                    for(int i = 0; i < names.length; i++) {
-                        if(names[i].equals(name)) {
-                            salaries[i] += salaryPerHour * hours;
+                   for (int i = 0; i < names.length; i++) {
+                    if (names[i].equals(name)) {
+                        salaries[i] += salaryPerHour * hours;
                     }
                 }
             }
