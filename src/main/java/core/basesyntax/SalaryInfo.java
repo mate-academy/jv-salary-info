@@ -1,4 +1,5 @@
 package core.basesyntax;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -6,8 +7,8 @@ public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
-        LocalDate startDate = LocalDate.parse(dateFrom, formatter); // перетвореня String в формат дати(dateFrom)
-        LocalDate endDate = LocalDate.parse(dateTo, formatter); // перетвореня String в формат дати(dateTo)
+        LocalDate startDate = LocalDate.parse(dateFrom, formatter);
+        LocalDate endDate = LocalDate.parse(dateTo, formatter);
 
         StringBuilder info = new StringBuilder("Report for period ")
                 .append(startDate.format(formatter))
@@ -22,11 +23,10 @@ public class SalaryInfo {
             String name = parts[1];
             int hours = Integer.parseInt(parts[2]);
             int salaryPerHour = Integer.parseInt(parts[3]);
-
-                if ((workDate.isEqual(startDate) || workDate.isAfter(startDate)) &&
-                        (workDate.isEqual(endDate) || workDate.isBefore(endDate))) {
-                    for (int i = 0; i < names.length; i++) {
-                        if (names[i].equals(name)) {
+            if((workDate.isEqual(startDate) || workDate.isAfter(startDate))
+                    && (workDate.isEqual(endDate) || workDate.isBefore(endDate))) {
+                    for(int i = 0; i < names.length; i++) {
+                        if(names[i].equals(name)) {
                             salaries[i] += salaryPerHour * hours;
                     }
                 }
@@ -38,7 +38,7 @@ public class SalaryInfo {
                     .append(" - ")
                     .append(salaries[i]);
         }
-            return info.toString();
-        }
+        return info.toString();
+    }
 }
 
