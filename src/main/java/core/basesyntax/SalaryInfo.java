@@ -1,6 +1,6 @@
 package core.basesyntax;
 
-class SalaryInfo {
+public class SalaryInfo {
     
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         int[] salaries = new int[names.length];
