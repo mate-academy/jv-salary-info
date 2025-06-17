@@ -7,7 +7,7 @@ public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         return "Report for period "
                 + dateFrom + " - " + dateTo
-                + "\r\n" + getSalaryForWorkers(names, data, dateFrom, dateTo);
+                + getSalaryForWorkers(names, data, dateFrom, dateTo);
     }
 
     public String getSalaryForWorkers(String[] names, String[] data,
@@ -35,9 +35,8 @@ public class SalaryInfo {
                 }
             }
 
-            result.append(name).append(" - ").append(total).append("\r\n");
+            result.append("\r\n").append(name).append(" - ").append(total);
         }
-
-        return result.toString().trim();
+        return result.toString();
     }
 }
