@@ -10,7 +10,8 @@ public class SalaryInfo {
                 + "\r\n" + getSalaryForWorkers(names, data, dateFrom, dateTo);
     }
 
-    public String getSalaryForWorkers(String[] names, String[] data, String dateFrom, String dateTo) {
+    public String getSalaryForWorkers(String[] names, String[] data,
+                                      String dateFrom, String dateTo) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         LocalDate startDate = LocalDate.parse(dateFrom, formatter);
         LocalDate endDate = LocalDate.parse(dateTo, formatter);
