@@ -7,7 +7,7 @@ import java.util.Date;
 public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder builder = new StringBuilder();
-        builder.append("Report for period " + dateFrom + "- " + dateTo);
+        builder.append("Report for period " + dateFrom + " - " + dateTo);
         SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
         Date fromDate = null;
         Date toDate = null;
