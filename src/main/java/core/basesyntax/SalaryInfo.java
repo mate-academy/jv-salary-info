@@ -7,13 +7,14 @@ public class SalaryInfo {
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
 
-        StringBuilder finalReport = new StringBuilder("Report for period " + dateFrom + " - " + dateTo + "\n");
+        StringBuilder finalReport = new StringBuilder("Report for period "
+                + dateFrom + " - " + dateTo + "\n");
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         LocalDate dateF = LocalDate.parse(dateFrom, formatter);
         LocalDate dateT = LocalDate.parse(dateTo, formatter);
 
-        for (String name : names ) {
+        for (String name : names) {
             int salary = 0;
 
             for (String employee : data) {
