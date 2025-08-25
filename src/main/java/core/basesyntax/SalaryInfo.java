@@ -1,22 +1,15 @@
 package core.basesyntax;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
 
-    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
-        Date from;
-        Date to;
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
-        try {
-            from = format.parse(dateFrom);
-            to = format.parse(dateTo);
-        } catch (ParseException e) {
-            throw new RuntimeException("Invalid date format");
-        }
+    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
+        LocalDate from = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate to = LocalDate.parse(dateTo, FORMATTER);
 
         int[] salaries = new int[names.length];
 
@@ -25,29 +18,31 @@ public class SalaryInfo {
 
             for (String record : data) {
                 String[] parts = record.split(" ");
-
                 if (parts.length == 4) {
                     try {
-                        Date workDate = format.parse(parts[0]);
+                        LocalDate workDate = LocalDate.parse(parts[0], FORMATTER);
                         String recordName = parts[1];
                         int hours = Integer.parseInt(parts[2]);
                         int rate = Integer.parseInt(parts[3]);
 
-                        if (recordName.equals(employee) &&
-                                !workDate.before(from) && !workDate.after(to)) {
+                        if (recordName.equals(employee)
+                                && (workDate.isEqual(from) || workDate.isAfter(from))
+                                && (workDate.isEqual(to) || workDate.isBefore(to))) {
                             salaries[i] += hours * rate;
                         }
-                    } catch (ParseException | NumberFormatException ignored) {
+                    } catch (Exception ignored) {
+                        // ignorujemy błędne rekordy
                     }
                 }
             }
         }
 
         StringBuilder report = new StringBuilder();
-        report.append("Report for period ").append(dateFrom).append(" - ").append(dateTo).append("\n");
+        String lineSep = System.lineSeparator();
+        report.append("Report for period ").append(dateFrom).append(" - ").append(dateTo).append(lineSep);
 
         for (int i = 0; i < names.length; i++) {
-            report.append(names[i]).append(" - ").append(salaries[i]).append("\n");
+            report.append(names[i]).append(" - ").append(salaries[i]).append(lineSep);
         }
 
         return report.toString().trim();
