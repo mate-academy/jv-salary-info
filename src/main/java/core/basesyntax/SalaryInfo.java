@@ -35,6 +35,7 @@ public class SalaryInfo {
                     } catch (Exception e) {
                         System.err.println("Invalid record skipped: " + record);
                     }
+
                 }
             }
         }
