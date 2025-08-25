@@ -31,7 +31,6 @@ public class SalaryInfo {
                             salaries[i] += hours * rate;
                         }
                     } catch (Exception ignored) {
-                        // ignorujemy błędne rekordy
                     }
                 }
             }
