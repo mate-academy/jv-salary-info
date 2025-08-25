@@ -5,9 +5,11 @@ import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
 
-    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final DateTimeFormatter FORMATTER =
+            DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
-    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
+    public String getSalaryInfo(String[] names, String[] data,
+                                String dateFrom, String dateTo) {
         LocalDate from = LocalDate.parse(dateFrom, FORMATTER);
         LocalDate to = LocalDate.parse(dateTo, FORMATTER);
 
@@ -30,7 +32,8 @@ public class SalaryInfo {
                                 && (workDate.isEqual(to) || workDate.isBefore(to))) {
                             salaries[i] += hours * rate;
                         }
-                    } catch (Exception ignored) {
+                    } catch (Exception e) {
+                        System.err.println("Invalid record skipped: " + record);
                     }
                 }
             }
@@ -38,10 +41,17 @@ public class SalaryInfo {
 
         StringBuilder report = new StringBuilder();
         String lineSep = System.lineSeparator();
-        report.append("Report for period ").append(dateFrom).append(" - ").append(dateTo).append(lineSep);
+        report.append("Report for period ")
+                .append(dateFrom)
+                .append(" - ")
+                .append(dateTo)
+                .append(lineSep);
 
         for (int i = 0; i < names.length; i++) {
-            report.append(names[i]).append(" - ").append(salaries[i]).append(lineSep);
+            report.append(names[i])
+                    .append(" - ")
+                    .append(salaries[i])
+                    .append(lineSep);
         }
 
         return report.toString().trim();
