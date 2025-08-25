@@ -3,6 +3,7 @@ package core.basesyntax;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+// Minor fix to trigger AI review
 public class SalaryInfo {
 
     private static final DateTimeFormatter FORMATTER =
