@@ -1,37 +1,35 @@
 package core.basesyntax;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
+    private static final DateTimeFormatter FORMATTER =
+            DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final int DATE_IDX = 0;
+    private static final int NAME_IDX = 1;
+    private static final int HOURS_IDX = 2;
+    private static final int RATE_IDX = 3;
+
     public String getSalaryInfo(String[] names, String[] data,
                                 String dateFrom, String dateTo) {
         int[] salary = new int[names.length];
-        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
-        Date start = null;
-        Date end = null;
-        try {
-            start = format.parse(dateFrom);
-            end = format.parse(dateTo);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        for (String datum : data) {
-            String[] separator = datum.split("\\s+");
-            try {
-                Date current = format.parse(separator[0]);
 
-                if (!current.before(start) && !current.after(end)) {
-                    for (int j = 0; j < names.length; j++) {
-                        if (separator[1].equals(names[j])) {
-                            salary[j] += Integer.parseInt(separator[2])
-                                    * Integer.parseInt(separator[3]);
-                        }
+        LocalDate start = LocalDate.parse(dateFrom, FORMATTER);
+        LocalDate end = LocalDate.parse(dateTo, FORMATTER);
+
+        for (String record : data) {
+            String[] parts = record.split("\\s+");
+            LocalDate current = LocalDate.parse(parts[DATE_IDX], FORMATTER);
+
+            if (!current.isBefore(start) && !current.isAfter(end)) {
+                for (int i = 0; i < names.length; i++) {
+                    if (parts[NAME_IDX].equals(names[i])) {
+                        int hours = Integer.parseInt(parts[HOURS_IDX]);
+                        int rate = Integer.parseInt(parts[RATE_IDX]);
+                        salary[i] += hours * rate;
                     }
                 }
-            } catch (ParseException e) {
-                e.printStackTrace();
             }
         }
 
