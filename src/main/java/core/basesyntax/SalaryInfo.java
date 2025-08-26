@@ -36,14 +36,13 @@ public class SalaryInfo {
         }
 
         StringBuilder report = new StringBuilder();
-        report.append("\n")
-                .append("Report for period ")
+        report.append("Report for period ")
                 .append(dateFrom)
                 .append(" - ")
                 .append(dateTo);
 
         for (int i = 0; i < names.length; i++) {
-            report.append("\n")
+            report.append(System.lineSeparator())
                     .append(names[i])
                     .append(" - ")
                     .append(salary[i]);
