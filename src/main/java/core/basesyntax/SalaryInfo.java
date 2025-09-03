@@ -1,8 +1,6 @@
 package core.basesyntax;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-
 public class SalaryInfo {
     private static final int NUMBER_OF_ELEMENTS_IN_INPUT = 4;
     private static final int INDEX_OF_DATE = 0;
@@ -24,12 +22,10 @@ public class SalaryInfo {
                 if (inputData[INDEX_OF_NAME].equals(name) && ((date.isEqual(from) || date.isAfter(from)) &&
                         (date.isEqual(to) || date.isBefore(to)))) {
                     salary += Integer.parseInt(inputData[INDEX_OF_PRICE]) * Integer.parseInt(inputData[INDEX_OF_HOURS]);
-
                 }
             }
             answer.append(salary);
         }
         return answer.toString();
     }
-
 }
