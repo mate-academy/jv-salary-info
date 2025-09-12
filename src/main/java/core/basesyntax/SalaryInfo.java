@@ -29,9 +29,9 @@ public class SalaryInfo {
                         salaries[i] += recordHour * recordRate;
                     }
                 }
-
             }
         }
+
         StringBuilder result = new StringBuilder();
         result.append("Report for period ")
                 .append(dateFrom)
