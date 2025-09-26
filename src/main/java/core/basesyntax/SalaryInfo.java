@@ -37,10 +37,10 @@ public class SalaryInfo {
     }
 
     public LocalDate getLocalDate(String date) {
-        String[] d = date.split("\\.");
-        int year = Integer.parseInt(d[YEAR_INDEX]);
-        int month = Integer.parseInt(d[MONTH_INDEX]);
-        int day = Integer.parseInt(d[DATE_INDEX]);
+        String[] datePiece = date.split("\\.");
+        int year = Integer.parseInt(datePiece[YEAR_INDEX]);
+        int month = Integer.parseInt(datePiece[MONTH_INDEX]);
+        int day = Integer.parseInt(datePiece[DAY_INDEX]);
         return LocalDate.of(year, month, day);
     }
 }
