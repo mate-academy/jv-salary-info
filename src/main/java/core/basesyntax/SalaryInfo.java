@@ -10,6 +10,7 @@ public class SalaryInfo {
     static final int DAY_INDEX = 0;
     static final int MONTH_INDEX = 1;
     static final int YEAR_INDEX = 2;
+    static final int PARTS_NUMBER = 4;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder sb = new StringBuilder("Report for period ")
@@ -22,13 +23,16 @@ public class SalaryInfo {
             sb.append(System.lineSeparator());
             int total = 0;
             for (String piece : data) {
-                String currentDate = piece.split(" ")[DATE_INDEX];
-                LocalDate loc = getLocalDate(currentDate);
-                String currentName = piece.split(" ")[NAME_INDEX];
-                int hours = Integer.parseInt(piece.split(" ")[HOURS_INDEX]);
-                int perHour = Integer.parseInt(piece.split(" ")[RATE_INDEX]);
-                if (currentName.equals(name) && !loc.isBefore(locFrom) && !loc.isAfter(locTo)) {
-                    total += hours * perHour;
+                String[] parts = piece.trim().split(" ");
+                if (parts.length == PARTS_NUMBER) {
+                    String currentDate = piece.split(" ")[DATE_INDEX];
+                    LocalDate loc = getLocalDate(currentDate);
+                    String currentName = piece.split(" ")[NAME_INDEX];
+                    int hours = Integer.parseInt(piece.split(" ")[HOURS_INDEX]);
+                    int perHour = Integer.parseInt(piece.split(" ")[RATE_INDEX]);
+                    if (currentName.equals(name) && !loc.isBefore(locFrom) && !loc.isAfter(locTo)) {
+                        total += hours * perHour;
+                    }
                 }
             }
             sb.append(name).append(" - ").append(total);
