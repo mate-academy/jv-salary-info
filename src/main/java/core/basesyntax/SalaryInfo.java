@@ -1,6 +1,7 @@
 package core.basesyntax;
 
 import java.time.LocalDate;
+
 public class SalaryInfo {
     static final int DATE_INDEX = 0;
     static final int NAME_INDEX = 1;
@@ -9,6 +10,7 @@ public class SalaryInfo {
     static final int DAY_INDEX = 0;
     static final int MONTH_INDEX = 1;
     static final int YEAR_INDEX = 2;
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder sb = new StringBuilder("Report for period ")
                 .append(dateFrom)
