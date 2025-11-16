@@ -4,53 +4,45 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final int DATE_IND = 0;
+    private static final int NAME_IND = 1;
+    private static final int HOURS_IND = 2;
+    private static final int HOUR_RATE_IND = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        LocalDate localDateFrom = LocalDate.parse(dateFrom, dateFormatter);
-        LocalDate localDateTo = LocalDate.parse(dateTo, dateFormatter);
+        LocalDate localDateFrom = LocalDate.parse(dateFrom, DATE_FORMAT);
+        LocalDate localDateTo = LocalDate.parse(dateTo, DATE_FORMAT);
 
-        String[] reportData = new String[names.length];
+        StringBuilder resultReportData = new StringBuilder();
 
-        for (int i = 0; i < names.length; i++) {
-            reportData[i] = getPersonInfo(names[i], data, localDateFrom, localDateTo);
+        for (String name : names) {
+            resultReportData.append(System.lineSeparator());
+            resultReportData.append(getPersonInfo(name, data, localDateFrom, localDateTo));
         }
-
-        String resultReportData = convertAndFormatReportData(reportData);
 
         return "Report for period " + dateFrom + " - " + dateTo + resultReportData;
     }
 
-    public String getPersonInfo(String name, String[] data,
-                                LocalDate localDateFrom, LocalDate localDateTo) {
+    public StringBuilder getPersonInfo(String name, String[] data,
+                                       LocalDate localDateFrom, LocalDate localDateTo) {
         int moneyEarned = 0;
 
         for (String personInfo : data) {
             String[] splitPersonInfo = personInfo.split(" ");
-            LocalDate dateForPerson = LocalDate.parse(splitPersonInfo[0], dateFormatter);
+            LocalDate dateForPerson = LocalDate.parse(splitPersonInfo[DATE_IND], DATE_FORMAT);
 
-            if (!name.equals(splitPersonInfo[1])) {
+            if (!name.equals(splitPersonInfo[NAME_IND])) {
                 continue;
             }
 
             if (dateForPerson.isAfter(localDateFrom) && dateForPerson.isBefore(localDateTo)
                     || dateForPerson.isEqual(localDateFrom) || dateForPerson.isEqual(localDateTo)) {
-                moneyEarned += Integer.parseInt(splitPersonInfo[2])
-                        * Integer.parseInt(splitPersonInfo[3]);
+                moneyEarned += Integer.parseInt(splitPersonInfo[HOURS_IND])
+                        * Integer.parseInt(splitPersonInfo[HOUR_RATE_IND]);
             }
         }
 
-        return name + " - " + moneyEarned;
-    }
-
-    public String convertAndFormatReportData(String[] reportData) {
-        StringBuilder result = new StringBuilder();
-
-        for (String personInReport: reportData) {
-            result.append(System.lineSeparator());
-            result.append(personInReport);
-        }
-
-        return result.toString();
+        return new StringBuilder(name).append(" - ").append(moneyEarned);
     }
 }
