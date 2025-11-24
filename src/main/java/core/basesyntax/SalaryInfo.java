@@ -25,7 +25,7 @@ public class SalaryInfo {
             startDate = dateFormat.parse(dateFrom);
             endDate = dateFormat.parse(dateTo);
         } catch (ParseException e) {
-            return "Error: Invalid date format in dateFrom or dateTo.";
+            throw new RuntimeException("Error parsing date: " + e.getMessage(), e);
         }
 
         for (String record : data) {
@@ -59,18 +59,18 @@ public class SalaryInfo {
                 .append(dateFrom)
                 .append(" - ")
                 .append(dateTo)
-                .append(" \n");
+                .append("\n");
 
-        for (String name : names) {
+        for (int i = 0; i < names.length; i++) {
+            String name = names[i];
             int totalSalary = salaries.getOrDefault(name, 0);
-            report.append(name).append(" - ").append(totalSalary).append("\n");
+            report.append(name).append(" - ").append(totalSalary);
+
+            if (i < names.length - 1) {
+                report.append("\n");
+            }
         }
 
-        String finalReport = report.toString();
-        if (finalReport.endsWith("\n")) {
-            finalReport = finalReport.substring(0, finalReport.length() - 1);
-        }
-
-        return finalReport;
+        return report.toString();
     }
 }
