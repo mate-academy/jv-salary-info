@@ -4,21 +4,28 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
+    private static final DateTimeFormatter DATE_FORMATTER =
+            DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
+    private static final int DATE_INDEX = 0;
+    private static final int NAME_INDEX = 1;
+    private static final int HOURS_INDEX = 2;
+    private static final int RATE_INDEX = 3;
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        LocalDate from = LocalDate.parse(dateFrom.trim(), formatter);
-        LocalDate to = LocalDate.parse(dateTo.trim(), formatter);
+        LocalDate from = LocalDate.parse(dateFrom.trim(), DATE_FORMATTER);
+        LocalDate to = LocalDate.parse(dateTo.trim(), DATE_FORMATTER);
 
         int[] salaries = new int[names.length];
 
         for (int i = 0;i < data.length;i++) {
             String[] parts = data[i].split(" ");
 
-            LocalDate recordDate = LocalDate.parse(parts[0], formatter);
-            String name = parts[1];
+            LocalDate recordDate = LocalDate.parse(parts[DATE_INDEX], DATE_FORMATTER);
+            String name = parts[NAME_INDEX];
 
-            int hours = Integer.parseInt(parts[2]);
-            int rate = Integer.parseInt(parts[3]);
+            int hours = Integer.parseInt(parts[HOURS_INDEX]);
+            int rate = Integer.parseInt(parts[RATE_INDEX]);
 
             if (recordDate.isBefore(from) || recordDate.isAfter(to)) {
                 continue;
