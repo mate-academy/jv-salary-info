@@ -20,7 +20,6 @@ public class SalaryInfo {
                 .append(dateFrom)
                 .append(NAME_SALARY_SEPARATOR)
                 .append(dateTo);
-
         for (String name: names) {
             int salary = 0;
             for (String info: data) {
@@ -28,12 +27,8 @@ public class SalaryInfo {
                 String currentDate = parts[DATE_INDEX];
                 if (name.equals(parts[NAME_INDEX]) && isDateInRange(parsedStartDate, parsedEndDate, currentDate)) {
                     if (this.isDateInRange(parsedStartDate, parsedEndDate, currentDate)) {
-                        System.out.println("salary" + salary);
-                        System.out.println("nteger.parseInt(parts[HOURS_INDEX])" + Integer.parseInt(parts[HOURS_INDEX]));
-                        System.out.println("Integer.parseInt(parts[RATE_INDEX])" + Integer.parseInt(parts[RATE_INDEX]));
                         salary += Integer.parseInt(parts[HOURS_INDEX])
                                 * Integer.parseInt(parts[RATE_INDEX]);
-                        System.out.println("salary" + salary);
                     }
                 }
             }
@@ -41,8 +36,6 @@ public class SalaryInfo {
                     .append(name)
                     .append(NAME_SALARY_SEPARATOR)
                     .append(salary);
-            System.out.println("salary" + salary);
-            System.out.println("//////////////////////////////////////");
         }
         return result.toString();
     }
