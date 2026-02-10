@@ -1,7 +1,9 @@
 package core.basesyntax;
+
 public class Employee {
     private String name;
     private int salary = 0;
+
     public String getName() {
         return name;
     }
