@@ -13,12 +13,6 @@ public class SalaryInfo {
     private static final String NAME_SALARY_SEPARATOR = " - ";
     private static final String LINE_SEPARATOR = System.lineSeparator();
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        StringBuilder result = new StringBuilder();
-        result.append(REPORT_HEADER)
-                .append(dateFrom)
-                .append(NAME_SALARY_SEPARATOR)
-                .append(dateTo);
-
         LocalDate parsedStartDate = LocalDate.parse(dateFrom, DATE_FORMATTER);
         LocalDate parsedEndDate = LocalDate.parse(dateTo, DATE_FORMATTER);
 
@@ -42,13 +36,22 @@ public class SalaryInfo {
             }
         }
 
+        return prepareResult(employees, dateFrom, dateTo);
+    }
+
+    private String prepareResult(Employee[] employees, String dateFrom, String dateTo) {
+        StringBuilder result = new StringBuilder();
+        result.append(REPORT_HEADER)
+                .append(dateFrom)
+                .append(NAME_SALARY_SEPARATOR)
+                .append(dateTo);
+
         for (Employee employee: employees) {
             result.append(LINE_SEPARATOR)
                     .append(employee.getName())
                     .append(NAME_SALARY_SEPARATOR)
                     .append(employee.getSalary());
         }
-
         return result.toString();
     }
 
