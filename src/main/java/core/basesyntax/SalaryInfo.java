@@ -2,7 +2,6 @@ package core.basesyntax;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-
 public class SalaryInfo {
     private static final int DATE_INDEX = 0;
     private static final int NAME_INDEX = 1;
@@ -10,12 +9,14 @@ public class SalaryInfo {
     private static final int RATE_INDEX = 3;
     private static final DateTimeFormatter DATE_FORMATTER =
             DateTimeFormatter.ofPattern("dd.MM.yyyy");
-
+    private static final String REPORT_HEADER = "Report for period ";
+    private static final String NAME_SALARY_SEPARATOR = " - ";
+    private static final String LINE_SEPARATOR = System.lineSeparator();
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder result = new StringBuilder();
-        result.append("Report for period ")
+        result.append(REPORT_HEADER)
                 .append(dateFrom)
-                .append(" - ")
+                .append(NAME_SALARY_SEPARATOR)
                 .append(dateTo);
 
         LocalDate parsedStartDate = LocalDate.parse(dateFrom, DATE_FORMATTER);
@@ -42,9 +43,9 @@ public class SalaryInfo {
         }
 
         for (Employee employee: employees) {
-            result.append(System.lineSeparator())
+            result.append(LINE_SEPARATOR)
                     .append(employee.getName())
-                    .append(" - ")
+                    .append(NAME_SALARY_SEPARATOR)
                     .append(employee.getSalary());
         }
 

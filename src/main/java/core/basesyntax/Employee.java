@@ -1,9 +1,7 @@
 package core.basesyntax;
-
 public class Employee {
     private String name;
     private int salary = 0;
-
     public String getName() {
         return name;
     }
@@ -24,5 +22,13 @@ public class Employee {
             return;
         }
         this.salary += salary;
+    }
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "name='" + name + '\'' +
+                ", salary=" + salary +
+                '}';
     }
 }
