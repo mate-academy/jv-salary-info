@@ -5,7 +5,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
-
 public class SalaryInfo {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
@@ -35,8 +34,8 @@ public class SalaryInfo {
             int pay = Integer.parseInt(parts[3]);
             LocalDate workedDay = LocalDate.parse(parts[0], FORMATTER);
 
-            if ((workedDay.isAfter(dateFrom1) || workedDay.isEqual(dateFrom1)) &&
-                    (workedDay.isEqual(dateTo1) || workedDay.isBefore(dateTo1))) {
+            if ((workedDay.isAfter(dateFrom1) || workedDay.isEqual(dateFrom1))
+                    && (workedDay.isEqual(dateTo1) || workedDay.isBefore(dateTo1))) {
                 int amount = hours * pay;
                 if (salaries.containsKey(nameS)) {
                     salaries.merge(nameS, amount, Integer::sum);
@@ -55,7 +54,7 @@ public class SalaryInfo {
                     .append(" - ")
                     .append(salaries.get(name));
             }
-        return result.toString();
+    return result.toString();
     }
 }
 
