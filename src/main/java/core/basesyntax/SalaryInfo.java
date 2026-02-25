@@ -1,32 +1,1 @@
-package core.basesyntax;
-
-public class SalaryInfo {
-    public int dateToInt(String date) {
-        String[] date1 = date.split("\\.");
-        int day = Integer.parseInt(date1[0]);
-        int month = Integer.parseInt(date1[1]);
-        int year = Integer.parseInt(date1[2]);
-        return year * 10000 + month * 100 + day;
-    }
-
-    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        StringBuilder builder = new StringBuilder();
-        builder.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
-        for (int i = 0; i < names.length; i++) {
-            int finalIncome = 0;
-            for (int j = 0; j < data.length; j++) {
-                String[] splitData = data[j].split(" ");
-                String date = splitData[0];
-                String name = splitData[1];
-                String hours = splitData[2];
-                String incomePerHour = splitData[3];
-                if (names[i].equals(name) && dateToInt(date) >= dateToInt(dateFrom)
-                        && dateToInt(date) <= dateToInt(dateTo)) {
-                    finalIncome += Integer.parseInt(hours) * Integer.parseInt(incomePerHour);
-                }
-            }
-            builder.append("\n").append(names[i]).append(" - ").append(finalIncome);
-        }
-        return builder.toString();
-    }
-}
+package core.basesyntax;public class SalaryInfo {    public int dateToInt(String date) {        String[] date1 = date.split("\\.");        int day = Integer.parseInt(date1[0]);        int month = Integer.parseInt(date1[1]);        int year = Integer.parseInt(date1[2]);        return year * 10000 + month * 100 + day;    }    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {        StringBuilder builder = new StringBuilder();        builder.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);        for (int i = 0; i < names.length; i++) {            int finalIncome = 0;            for (int j = 0; j < data.length; j++) {                String[] splitData = data[j].split(" ");                String date = splitData[0];                String name = splitData[1];                String hours = splitData[2];                String incomePerHour = splitData[3];                if (names[i].equals(name) && dateToInt(date) >= dateToInt(dateFrom)                        && dateToInt(date) <= dateToInt(dateTo)) {                    finalIncome += Integer.parseInt(hours) * Integer.parseInt(incomePerHour);                }            }            builder.append(System.lineSeparator()).append(names[i]).append(" - ").append(finalIncome);        }        return builder.toString();    }}
