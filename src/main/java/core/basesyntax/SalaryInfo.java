@@ -31,7 +31,7 @@ public class SalaryInfo {
 
             salaries[namesList.indexOf(name)] +=
                     Integer.parseInt(line[MULTIPLIER_INDEX])
-                            * Integer.parseInt(line[MONEY_INDEX]);g
+                            * Integer.parseInt(line[MONEY_INDEX]);
         }
 
         sb.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
