@@ -19,8 +19,8 @@ public class SalaryInfo {
             for (String datum : data) {
                 String[] part = datum.split(" ");
                 LocalDate localDate = LocalDate.parse(part[0], formatter);
-                String result = part[1];
-                if (result.equals(name)
+                String employeeName = part[1];
+                if (employeeName.equals(name)
                         && !localDate.isBefore(localDateFrom)
                         && !localDate.isAfter(localDateTo)) {
                     salary += Integer.parseInt(part[3])
