@@ -12,7 +12,25 @@ public class SalaryInfo {
     private static final int RATE_INDEX = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
+        LocalDate fromDate = LocalDate.parse(dateFrom, DATE_TIME_FORMATTER);
+        LocalDate toDate = LocalDate.parse(dateTo, DATE_TIME_FORMATTER);
+        StringBuilder builder = new StringBuilder("Report for period ")
+                .append(dateFrom).append(" - ").append(dateTo).append(System.lineSeparator());
 
+        for (String name : names) {
+            int salaryAmount = 0;
+            for (String record : data) {
+                String[] salaryInfo = record.split(" ");
+                if (name.equals(extractName(salaryInfo))
+                        && isDateInRange(extractDate(salaryInfo), fromDate, toDate)) {
+                    salaryAmount += calculateSalary(salaryInfo[HOURS_INDEX],
+                            salaryInfo[RATE_INDEX]);
+                }
+            }
+            builder.append(name).append(" - ").append(salaryAmount)
+                    .append(System.lineSeparator());
+        }
+        return builder.toString().trim();
     }
 
     private String extractName(String[] parseData) {
