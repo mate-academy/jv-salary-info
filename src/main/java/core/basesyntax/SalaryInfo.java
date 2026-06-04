@@ -1,59 +1,57 @@
 package core.basesyntax;
 
 import java.time.LocalDate;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
+    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final String REPORT_HEADER = "Report for period ";
+    private static final String DATE_SEPARATOR = " - ";
+    private static final String NAME_SALARY_SEPARATOR = " - ";
+    private static final String DATA_SEPARATOR = " ";
+    private static final int DATE_INDEX = 0;
+    private static final int NAME_INDEX = 1;
+    private static final int HOURS_INDEX = 2;
+    private static final int RATE_INDEX = 3;
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        Map<String, Integer> dataMap = new LinkedHashMap<>();
+        LocalDate from = LocalDate.parse(dateFrom, DATE_FORMAT);
+        LocalDate to = LocalDate.parse(dateTo, DATE_FORMAT);
+
+        StringBuilder report = new StringBuilder(REPORT_HEADER)
+                .append(dateFrom)
+                .append(DATE_SEPARATOR)
+                .append(dateTo);
 
         for (String name : names) {
-            dataMap.put(name, 0);
+            int salary = calculateSalaryForName(name, data, from, to);
+
+            report.append(System.lineSeparator())
+                    .append(name)
+                    .append(NAME_SALARY_SEPARATOR)
+                    .append(salary);
         }
 
-        LocalDate from = formatDate(dateFrom);
-        LocalDate to = formatDate(dateTo);
+        return report.toString();
+    }
+
+    private int calculateSalaryForName(String name, String[] data, LocalDate from, LocalDate to) {
+        int salary = 0;
 
         for (String record : data) {
-            String[] fields = record.split(" ");
+            String[] fields = record.split(DATA_SEPARATOR);
+            LocalDate currentDate = LocalDate.parse(fields[DATE_INDEX], DATE_FORMAT);
 
-            String name = fields[1];
-            LocalDate currentDate = formatDate(fields[0]);
+            if (name.equals(fields[NAME_INDEX])
+                    && !currentDate.isBefore(from)
+                    && !currentDate.isAfter(to)) {
+                int hours = Integer.parseInt(fields[HOURS_INDEX]);
+                int rate = Integer.parseInt(fields[RATE_INDEX]);
 
-            if (!currentDate.isBefore(from)
-                    && !currentDate.isAfter(to)
-                    && dataMap.containsKey(name)) {
-                int hours = Integer.parseInt(fields[2]);
-                int rate = Integer.parseInt(fields[3]);
-
-                dataMap.put(name, dataMap.get(name) + hours * rate);
+                salary += hours * rate;
             }
         }
 
-        return createReport(dataMap, dateFrom, dateTo);
-    }
-
-    private LocalDate formatDate(String date) {
-        String[] parts = date.split("\\.");
-
-        return LocalDate.of(
-                Integer.parseInt(parts[2]),
-                Integer.parseInt(parts[1]),
-                Integer.parseInt(parts[0])
-        );
-    }
-
-    private String createReport(Map<String, Integer> map, String start, String end) {
-        StringBuilder sb = new StringBuilder("Report for period " + start + " - " + end);
-
-        for (Map.Entry<String, Integer> entry : map.entrySet()) {
-            sb.append(System.lineSeparator())
-                    .append(entry.getKey())
-                    .append(" - ")
-                    .append(entry.getValue());
-        }
-
-        return sb.toString();
+        return salary;
     }
 }
