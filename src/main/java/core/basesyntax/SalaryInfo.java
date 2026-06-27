@@ -24,7 +24,8 @@ public class SalaryInfo {
 
             for (int i = 0; i < names.length; i++) {
                 if (isBetween && lines[PARSED_NAME].equals(names[i])) {
-                    salary[i] += Integer.parseInt(lines[PARSED_HOURS]) * Integer.parseInt(lines[PARSED_HOURLY_RATE]);
+                    salary[i] += Integer.parseInt(lines[PARSED_HOURS])
+                            * Integer.parseInt(lines[PARSED_HOURLY_RATE]);
                 }
             }
         }
