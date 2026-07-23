@@ -15,7 +15,6 @@ public class SalaryInfo {
         for (String name : names) {
             int totalSalary = 0;
 
-
             for (String records : data) {
                 String[] dataParts = records.split(" ");
                 LocalDate currentDate = LocalDate.parse(dataParts[0], formatter);
