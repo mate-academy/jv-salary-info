@@ -5,7 +5,8 @@ import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     private static final String DATE_FORMAT_PATTERN = "dd.MM.yyyy";
-    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT_PATTERN);
+    private static final DateTimeFormatter formatter
+            = DateTimeFormatter.ofPattern(DATE_FORMAT_PATTERN);
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder result = new StringBuilder();
