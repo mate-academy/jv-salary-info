@@ -8,7 +8,10 @@ public class SalaryInfo {
     private static final DateTimeFormatter formatter
             = DateTimeFormatter.ofPattern(DATE_FORMAT_PATTERN);
 
-    public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
+    public String getSalaryInfo(String[] names,
+                                String[] data,
+                                String dateFrom,
+                                String dateTo) {
         StringBuilder result = new StringBuilder();
         LocalDate from = LocalDate.parse(dateFrom, formatter);
         LocalDate to = LocalDate.parse(dateTo, formatter);
