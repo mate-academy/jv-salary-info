@@ -10,7 +10,6 @@ public class SalaryInfo {
     private static final int NAME_INDEX = 1;
     private static final int HOURS_INDEX = 2;
     private static final int RATE_INDEX = 3;
-    private static final String LINE_PREFIX = "   ";
 
     public String getSalaryInfo(String[] names,
                                 String[] data,
@@ -18,10 +17,9 @@ public class SalaryInfo {
                                 String dateTo) {
         LocalDate startDate = LocalDate.parse(dateFrom.trim(), DATE_FORMATTER);
         LocalDate endDate = LocalDate.parse(dateTo.trim(), DATE_FORMATTER);
-        StringBuilder report = new StringBuilder(LINE_PREFIX)
-                .append("Report for period ")
+        StringBuilder report = new StringBuilder("Report for period ")
                 .append(dateFrom)
-                .append("  - ")
+                .append(" - ")
                 .append(dateTo);
 
         for (String name : names) {
@@ -38,7 +36,6 @@ public class SalaryInfo {
                 }
             }
             report.append(System.lineSeparator())
-                    .append(LINE_PREFIX)
                     .append(name)
                     .append(" - ")
                     .append(salary);
