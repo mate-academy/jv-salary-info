@@ -16,8 +16,8 @@ public class SalaryInfo {
                                 String[] data,
                                 String dateFrom,
                                 String dateTo) {
-        LocalDate startDate = LocalDate.parse(dateFrom, DATE_FORMATTER);
-        LocalDate endDate = LocalDate.parse(dateTo, DATE_FORMATTER);
+        LocalDate startDate = LocalDate.parse(dateFrom.trim(), DATE_FORMATTER);
+        LocalDate endDate = LocalDate.parse(dateTo.trim(), DATE_FORMATTER);
         StringBuilder report = new StringBuilder(LINE_PREFIX)
                 .append("Report for period ")
                 .append(dateFrom)
