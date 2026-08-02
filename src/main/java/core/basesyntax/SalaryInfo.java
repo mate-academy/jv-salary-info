@@ -4,7 +4,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final int ONE_DAY = 1;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder stringBuilder = new StringBuilder("Report for period ");
@@ -20,7 +21,8 @@ public class SalaryInfo {
                 String[] splitData = data[j].split(" ");
 
                 LocalDate thisDate = LocalDate.parse(splitData[0], formatter);
-                boolean hasDate = (thisDate.isAfter(startDate) && thisDate.isBefore(endDate.plusDays(1)));
+                boolean hasDate = (thisDate.isAfter(startDate)
+                        && thisDate.isBefore(endDate.plusDays(ONE_DAY)));
                 boolean hasName = splitData[1].equals(names[i]);
 
                 if (hasDate && hasName) {
@@ -29,7 +31,8 @@ public class SalaryInfo {
                 }
             }
 
-            stringBuilder.append("\n").append(names[i]).append(" - ").append(sum);
+            stringBuilder.append(System.lineSeparator())
+                    .append(names[i]).append(" - ").append(sum);
         }
 
         return stringBuilder.toString();
