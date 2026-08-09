@@ -4,19 +4,20 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
+    private static final String europeanDatePattern = "dd.MM.yyyy";
+    private static final DateTimeFormatter europeanDateFormatter = DateTimeFormatter
+            .ofPattern(europeanDatePattern);
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         StringBuilder namesData = new StringBuilder("Report for period "
                 + dateFrom + " - " + dateTo)
                 .append(System.lineSeparator());
-        String europeanDatePattern = "dd.MM.yyyy";
-        DateTimeFormatter europeanDateFormatter = DateTimeFormatter
-                .ofPattern(europeanDatePattern);
         LocalDate from = LocalDate.parse(dateFrom,europeanDateFormatter);
         LocalDate to = LocalDate.parse(dateTo,europeanDateFormatter);
         for (int i = 0; i < names.length; i++) {
             int salary = 0;
-            for (String datas : data) {
-                String[] parts = datas.split(" ");
+            for (String workRecord : data) {
+                String[] parts = workRecord.split(" ");
                 LocalDate date = LocalDate.parse(parts[0], europeanDateFormatter);
                 if (names[i].equals(parts[1])
                         && !date.isBefore(from)
