@@ -12,8 +12,8 @@ public class SalaryInfo {
         StringBuilder builder = new StringBuilder("Report for period ");
         LocalDate startDate = getLocalDate(dateFrom);
         LocalDate endDate = getLocalDate(dateTo);
-        
-        builder.append(dateFrom).append(" - ")
+        builder.append(dateFrom)
+                .append(" - ")
                 .append(dateTo);
         
         for (String name : names) {
@@ -23,8 +23,8 @@ public class SalaryInfo {
                 if (record.contains(name)) {
                     LocalDate recordDate = getLocalDate(record.substring(0, FORMATTER_LENGTH));
                     
-                    if ((recordDate.isAfter(startDate) && recordDate.isBefore(endDate)
-                            || (recordDate.isEqual(startDate) || recordDate.isEqual(endDate)))) {
+                    if ((recordDate.isAfter(startDate) && recordDate.isBefore(endDate))
+                            || (recordDate.isEqual(startDate) || recordDate.isEqual(endDate))) {
                         int salaryPerPeriod = getSalaryPerPeriod(record);
                         
                         totalSalary += salaryPerPeriod;
@@ -37,7 +37,6 @@ public class SalaryInfo {
                     .append(" - ")
                     .append(totalSalary);
         }
-        
         return builder.toString();
     }
     
