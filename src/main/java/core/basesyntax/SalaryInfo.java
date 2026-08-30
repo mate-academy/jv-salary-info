@@ -22,7 +22,8 @@ public class SalaryInfo {
             if (!localDate.isBefore(from) && !localDate.isAfter(to)) {
                 for (int k = 0; k < names.length; k++) {
                     if (names[k].equals(dataArray[1])) {
-                        salary[k] += Integer.parseInt(dataArray[2]) * Integer.parseInt(dataArray[3]);
+                        salary[k] += Integer.parseInt(dataArray[2])
+                                * Integer.parseInt(dataArray[3]);
                         break;
                     }
                 }
