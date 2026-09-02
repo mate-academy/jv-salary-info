@@ -5,6 +5,8 @@ import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final int INDEX_HOURS = 2;
+    private static final int INDEX_RATE = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate beginningDate = LocalDate.parse(dateFrom, FORMATTER);
@@ -16,15 +18,16 @@ public class SalaryInfo {
                 .append(endingDate.format(FORMATTER))
                 .append(System.lineSeparator());
 
-        for (int i = 0; i < data.length; i++) {
-            String[] parts = data[i].split(" ");
+        for (String entry : data) {
+            String[] parts = entry.split(" ");
             LocalDate dataDate = LocalDate.parse(parts[0], FORMATTER);
             if (dataDate.isEqual(beginningDate)
                     || (dataDate.isAfter(beginningDate) && dataDate.isBefore(endingDate))
                     || dataDate.isEqual(endingDate)) {
                 for (int j = 0; j < names.length; j++) {
                     if (names[j].equals(parts[1])) {
-                        salaries[j] += Integer.parseInt(parts[2]) * Integer.parseInt(parts[3]);
+                        salaries[j] += Integer.parseInt(parts[INDEX_HOURS])
+                                * Integer.parseInt(parts[INDEX_RATE]);
                     }
                 }
             }
