@@ -10,25 +10,31 @@ public class SalaryInfo {
         LocalDate beginningDate = LocalDate.parse(dateFrom, FORMATTER);
         LocalDate endingDate = LocalDate.parse(dateTo, FORMATTER);
         int[] salaries = new int[names.length];
+        StringBuilder salaryInfo = new StringBuilder().append("Report for period ")
+                .append(beginningDate.format(FORMATTER))
+                .append(" - ")
+                .append(endingDate.format(FORMATTER))
+                .append(System.lineSeparator());
 
-        StringBuilder dataFilter = new StringBuilder();
         for (int i = 0; i < data.length; i++) {
             String[] parts = data[i].split(" ");
-            LocalDate dataDate = LocalDate.parse(parts[0]);
+            LocalDate dataDate = LocalDate.parse(parts[0], FORMATTER);
             if (dataDate.isEqual(beginningDate)
                     || (dataDate.isAfter(beginningDate) && dataDate.isBefore(endingDate))
                     || dataDate.isEqual(endingDate)) {
-                dataFilter.append(parts[1])
-                        .append(" ")
-                        .append(Integer.parseInt(parts[2]) * Integer.parseInt(parts[3]))
-                        .append(System.lineSeparator());
+                for (int j = 0; j < names.length; j++) {
+                    if (names[j].equals(parts[1])) {
+                        salaries[j] += Integer.parseInt(parts[2]) * Integer.parseInt(parts[3]);
+                    }
+                }
             }
         }
-
-        StringBuilder salaryInfo = new StringBuilder();
-        String[] filtered = new String[]{dataFilter.toString()}; // NAME SALARY
         for (int i = 0; i < names.length; i++) {
-            if ()
+            salaryInfo.append(names[i])
+                    .append(" - ")
+                    .append(salaries[i])
+                    .append(System.lineSeparator());
         }
+        return salaryInfo.toString().trim();
     }
 }
