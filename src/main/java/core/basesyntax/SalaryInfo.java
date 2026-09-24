@@ -10,7 +10,6 @@ public class SalaryInfo {
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate dateFromLD = LocalDate.parse(dateFrom, DATE_FORMATTER);
         LocalDate dateToLD = LocalDate.parse(dateTo, DATE_FORMATTER);
-        String[][] array = new String[data.length][];
         StringBuilder builder = new StringBuilder();
         builder.append("Report for period ").append(dateFrom)
                 .append(" - ").append(dateTo);
