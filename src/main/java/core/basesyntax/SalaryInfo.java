@@ -4,30 +4,30 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern(
+            "dd.MM.yyyy");
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        String[] infoSalary = new String[names.length];
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
         int salary = 0;
 
         for (int i = 0; i < names.length; i++) {
             for (int j = 0; j < data.length; j++) {
                 String[] infoToday = data[j].split(" ");
                 if (infoToday[1].equals(names[i])) {
-                    LocalDate currentDate = LocalDate.parse(infoToday[0], dateTimeFormatter);
-                    if (LocalDate.parse(dateFrom, dateTimeFormatter).isAfter(currentDate)
-                            || LocalDate.parse(dateTo, dateTimeFormatter).isBefore(currentDate)) {
+                    LocalDate currentDate = LocalDate.parse(infoToday[0], DATE_TIME_FORMATTER);
+                    if (LocalDate.parse(dateFrom, DATE_TIME_FORMATTER).isAfter(currentDate)
+                            || LocalDate.parse(dateTo, DATE_TIME_FORMATTER).isBefore(currentDate)) {
                         continue;
                     }
                     salary += Integer.parseInt(infoToday[2]) * Integer.parseInt(infoToday[3]);
                 }
             }
-            infoSalary[i] = names[i] + " - " + salary;
+            stringBuilder.append(System.lineSeparator()).append(names[i]).append(" - ")
+                    .append(salary);
             salary = 0;
         }
-
-        String lineSeparator = System.lineSeparator();
-        return "Report for period " + dateFrom + " - " + dateTo + lineSeparator + String.join(
-                lineSeparator, infoSalary);
+        return stringBuilder.toString();
     }
 }
